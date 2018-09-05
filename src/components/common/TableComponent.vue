@@ -101,10 +101,6 @@
       </template>
       </template>
         
-      <template v-if="tableOption.header_slot ? true : false">
-        <slot v-for="item in tableOption.header_slot" :name="item"></slot>
-      </template>
-
       <el-button
         class="table-header-btn"
         v-if="tableOption.is_list_filter && tableOption.list_type" 
@@ -114,6 +110,10 @@
         @click="filterVisible = true">
         筛选
       </el-button>
+      <template v-if="tableOption.header_slot ? true : false">
+        <slot v-for="item in tableOption.header_slot" :name="item"></slot>
+      </template>
+
 
       </div>
       <div class="table-header-right">
@@ -214,7 +214,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'tableComponent',
-  props: ['tableOption', 'data', 'tableStyle', 'refreshProxy', 'filter', 'refreshTableData','feeBonus'],
+  props: ['tableOption', 'data', 'tableStyle', 'refreshProxy', 'filter', 'refreshTableData','feePath'],
   data () {    
     const data = {
       testDate: [],
@@ -428,8 +428,12 @@ export default {
       //     console.log(...this.tableOption.certificate_columns);
       //     cols.push(...this.tableOption.certificate_columns);
       // }
-      if(this.feeBonus) {
-         cols =  cols.filter(_=>!_.is_bonus);
+      if(/bonus/.test(this.feePath)) {
+         cols =  cols.filter(_=>_.is_bonus);
+      }else if(/subsidy/.test(this.feePath)){
+        cols = cols.filter(_=>_.is_subsidy);
+      }else if(/oa/.test(this.feePath)){
+        cols = cols.filter(_=>_.is_oa);
       }
       //获取控制器
       let control = [[],[]];

@@ -323,6 +323,16 @@ const feeMenu = [
 	},
 	{
 		type: 'submenu',
+		text: '官费&代理费',
+		path: '/fee/oa',
+		icon: 'iconfont el-icon-my-receipt',
+		children: [
+			{ type: 'item', text: '官费', path: '/fee/oa/official', icon: '' },
+			{ type: 'item', text: '代理费', path: '/fee/oa/agency', icon: '' },
+		]
+	},	
+	{
+		type: 'submenu',
 		text: '付款账单',
 		path: '/fee/invoice',
 		icon: 'iconfont el-icon-my-receipt',
@@ -336,24 +346,12 @@ const feeMenu = [
 	},
 	{
 		type: 'submenu',
-		text: '广州市资助',
-		path: '/fee/guangzhou',
+		text: '资助',
+		path: '/fee/subsidy',
 		icon: 'iconfont el-icon-my-receipt',
 		children: [
-			{ type: 'item', text: '专利', path: '/fee/guangzhou/patent', icon: '' },
-			// { type: 'item', text: '商标', path: '/fee/guangzhou/trademark', icon: '' },
-			// { type: 'item', text: '著作权', path: '/fee/guangzhou/copyright', icon: '' },
-		]
-	},
-	{	
-		type: 'submenu',
-		text: '黄埔区资助',
-		path: '/fee/huangpu',
-		icon: 'iconfont el-icon-my-receipt',
-		children: [
-			{ type: 'item', text: '专利', path: '/fee/huangpu/patent', icon: '' },
-			// { type: 'item', text: '商标', path: '/fee/huangpu/trademark', icon: '' },
-			// { type: 'item', text: '著作权', path: '/fee/huangpu/copyright', icon: '' },
+			{ type: 'item', text: '广州市专利资助', path: '/fee/subsidy/guangzhou', icon: '' },
+			{ type: 'item', text: '黄埔区专利资助', path: '/fee/subsidy/huangpu', icon: '' },
 		]
 	},
 	{

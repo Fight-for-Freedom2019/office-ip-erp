@@ -930,6 +930,40 @@ const router = new Router({
       }
     },
     {
+      path: '/fee/oa/official',
+      name: 'FeeCommonOfficial',
+      component: FeeCommon,
+      props: {
+        debit: 0,
+        defaultParams: {
+          fee_type: 3
+        }
+      }
+    },
+    {
+      path: '/fee/oa/agency',
+      name: 'FeeCommonAgency',
+      component: FeeCommon,
+      props: {
+        debit: 0,
+        defaultParams: {
+          fee_type: 2
+        }
+      }
+    },
+    {
+      path: '/fee/subsidy/huangpu',
+      name: 'FeeCommonsubH',
+      component: FeeCommon,
+      props: {
+        debit: 1,
+        defaultParams: {
+          category: 1,
+          gov: 'dis',
+        }
+      }
+    },    
+    {
       path: '/fee/huangpu/patent',
       name: 'FeeCommonNP',
       component: FeeCommon,
@@ -965,6 +999,18 @@ const router = new Router({
         }
       }
     },
+    {
+      path: '/fee/subsidy/guangzhou',
+      name: 'FeeCommonsubG',
+      component: FeeCommon,
+      props: {
+        debit: 1,
+        defaultParams: {
+          category: 1,
+          gov: 'city',
+        }
+      }
+    },    
     {
       path: '/fee/guangzhou/patent',
       name: 'FeeCommonSP',
