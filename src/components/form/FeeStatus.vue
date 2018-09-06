@@ -49,7 +49,6 @@ export default {
 				arr[0].label = '待申请'
 				arr.push(arrType[0]);
 				arr.push(arrType[3])
-				console.log(this.$axiosPut());
       }else if(this.feeType == 0) {
 				arr[0].label = '未发放'
 				arr.push(arrType[1])
