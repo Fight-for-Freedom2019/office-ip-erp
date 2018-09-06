@@ -1109,7 +1109,8 @@ const router = new Router({
       props: {
         debit: 0,
         defaultParams: {
-          voucher: 0
+          voucher: 0,
+          status: 2
         }
       }
     },
