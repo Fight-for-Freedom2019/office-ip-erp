@@ -294,7 +294,7 @@ export default {
       }
 
       const url = URL_INVOICE;
-      const data = { debit: this.feeType, scope, fees };
+      const data = { debit: this.debit, scope, fees };
       const success = ()=>{
         this.$message({message: `新建${this.feeTypeName}成功`, type: 'success'});
         this.dialogVisible = false;
