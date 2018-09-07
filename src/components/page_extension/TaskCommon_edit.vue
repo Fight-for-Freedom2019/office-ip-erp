@@ -131,10 +131,10 @@ export default {
       await this.checkeForm()
       const url = `${URL}/${this.row.id}`;
       const data = this.$tool.shallowCopy(this.form, {'date': true});
-      data.person_in_charge = data.person_in_charge.id;
       const success = _=>{ this.$emit('editSuccess') };
       const complete = _=>{ this.btn_disabled = false };
       this.btn_disabled = true;
+
       await this.$axiosPut({url, data, success, complete });
     },
     clear () {
