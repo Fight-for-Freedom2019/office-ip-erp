@@ -207,7 +207,7 @@ export default {
   computed: {
     feeType () {
       const path = this.$route.path;
-      return /bill/.test(path) ? 1 : 0; 
+      return /income/.test(path) ? 1 : 0; 
     }
   },
   methods: {
