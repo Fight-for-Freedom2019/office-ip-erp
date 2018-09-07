@@ -1054,7 +1054,7 @@ const router = new Router({
       props: {
         debit: 1,
         defaultParams: {
-          status:11
+          status:1
         }
       }
     },
@@ -1065,7 +1065,7 @@ const router = new Router({
       props: {
         debit: 1,
         defaultParams: {
-          status:12
+          status:5
         }
       }
     },
@@ -1076,7 +1076,7 @@ const router = new Router({
       props: {
         debit: 1,
         defaultParams: {
-          status:13
+          status:4
         }
       }
     },
@@ -1087,7 +1087,7 @@ const router = new Router({
       props: {
         debit: 1,
         defaultParams: {
-          status:14
+          status:3
         }
       }
     },

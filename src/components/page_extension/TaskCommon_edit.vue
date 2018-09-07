@@ -42,8 +42,8 @@
         <remote-select type="member" v-model="form.person_in_charge"></remote-select>
   		</el-form-item>
 
-      <el-form-item label="流程节点" prop="flow_id" v-if="type == 'edit'" :rules="rules.editFlow_id">
-        <el-select v-model="form.flow_id" placeholder="请选择流程节点">
+      <el-form-item label="流程节点" prop="flow_node_id" v-if="type == 'edit'" :rules="rules.editFlow_id">
+        <el-select v-model="form.flow_node_id" placeholder="请选择流程节点">
           <el-option
             v-for="item in flownodeEditOptions"
             :key="item.value"
