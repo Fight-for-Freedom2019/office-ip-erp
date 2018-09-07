@@ -54,8 +54,8 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="承办人" prop="person_charge" v-if="type == 'edit'" :rules="rules.person_charge">
-        <remote-select type="member" v-model="form.person_charge"></remote-select>
+      <el-form-item label="承办人" prop="person_in_charge" v-if="type == 'edit'" :rules="rules.person_in_charge">
+        <remote-select type="member" v-model="form.person_in_charge"></remote-select>
   		</el-form-item>
 
       <el-row> 
@@ -131,7 +131,6 @@ export default {
       await this.checkeForm()
       const url = `${URL}/${this.row.id}`;
       const data = this.$tool.shallowCopy(this.form, {'date': true});
-      console.log(data);
       data.person_in_charge = data.person_in_charge.id;
       const success = _=>{ this.$emit('editSuccess') };
       const complete = _=>{ this.btn_disabled = false };

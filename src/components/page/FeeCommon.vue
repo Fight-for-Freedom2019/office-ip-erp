@@ -150,7 +150,7 @@ export default {
           { type: 'text', label: '创建日期', prop: 'create_time', width: '175' ,is_oa: true},
           { type: 'text', label: '费用期限', prop: 'due_time', is_import: true, width: '175',},
           { type: 'text', label: '官方绝限', prop: 'deadline', width: '175',},
-          { type: 'text', label: '发放时间', prop: 'pay_time', width: '175' ,is_bonus: true,is_oa:true,is_subsidy: true,},
+          { type: 'text', label: '发放时间', prop: 'pay_time', width: '175' ,is_bonus: true,is_oa: true,is_subsidy: true,},
           { type: 'text', label: '审核意见', prop: 'remark_enterprise', width: '160',is_oa: true,},
           { type: 'text', label: '备注', prop: 'remark', is_import: true, width: '160',is_subsidy: true, },
           { 
