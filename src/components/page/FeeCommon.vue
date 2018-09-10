@@ -200,6 +200,7 @@ export default {
         if(optionData[i].label == '发放时间' && /oa/.test(path)){
 
           optionData[i].label = '付款时间';
+          cibsike,log(hid.option)
 
         }else if(optionData[i].label == '发放时间' && /subsidy/.test(path)){
 
