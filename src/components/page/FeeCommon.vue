@@ -190,11 +190,23 @@ export default {
       const o = this.option.header_btn[1];
       o.label = k;
       o.items.forEach(d=>{d.text = d.text.replace('{key}', k)});
-
       this.option.import_type = type ? 'feesIncome' : 'feesPayable';
     
       this.option.header_btn.splice(1, 1, o);
       
+      const optionData = this.option.columns;
+      for(let i = 0; i < optionData.length; i ++) {
+
+        if(optionData[i].label == '发放时间' && /oa/.test(path)){
+
+          optionData[i].label = '付款时间';
+
+        }else if(optionData[i].label == '发放时间' && /subsidy/.test(path)){
+
+          optionData[i].label = '到账时间';
+        }
+      }
+
       return type;  
     },
     feeTypeName () {
