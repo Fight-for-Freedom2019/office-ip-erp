@@ -41,11 +41,11 @@ export default {
 			{value: 100, label: '已到账'},
 			{value: 100, label: '已付款'},
   		];
-  		const arrAnnual = [
-  			{value: 10, label: '年费监控中'},
-  			{value: 11, label: '年费评估单'},
-  			{value: 12, label: '年费不再缴纳'},
-			];
+  		// const arrAnnual = [
+  		// 	{value: 10, label: '年费监控中'},
+  		// 	{value: 11, label: '年费评估单'},
+  		// 	{value: 12, label: '年费不再缴纳'},
+			// ];
 		const path = this.$route.path;
 		const flge = path.slice(5,6);
       if(flge == 'b') {
@@ -61,7 +61,7 @@ export default {
 		arr.push(arrType[3])
 	  }
 			
-  		this.feeAnnual ? arr.push(...arrAnnual) : '';
+  		// this.feeAnnual ? arr.push(...arrAnnual) : '';
 			
   		return arr;
   	}
