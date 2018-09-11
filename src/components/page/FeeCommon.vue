@@ -77,7 +77,9 @@ export default {
           { type: 'text', label: '请款单号', prop: 'invoice_id', width: '150', is_bonus: true, },
           { type: 'text', label: '事务所案号', prop: 'agency_serial', width: '140',is_oa: true},          
           { type: 'text', label: '代理机构', prop: 'agency', width: '140', render_simple: 'name', is_oa: true},
-          { type: 'text', label: '费用对象', prop: 'target', render_simple: 'name', width: '140', is_bonus: true, },
+          { type: 'text', label: '费用对象', prop: 'target', width: '140', is_bonus: true, render: (h,item)=>{
+            return h('span',`${item.name}(${item.share}%)`);
+          }},
           { type: 'text', label: '费用名称', prop: 'code', render_simple: 'name', width: '140', is_subsidy: true, is_bonus: true,is_oa: true},
           //{ type: 'text', label: '费用类型', prop: 'type_name', width: '190' },
           { 

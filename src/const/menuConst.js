@@ -363,7 +363,7 @@ const feeMenu = [
 			{ type: 'item', text: '待提交', path: '/fee/income/submit', icon: '' },
 			{ type: 'item', text: '待收款', path: '/fee/income/wating_for_payment', icon: '' },
 			{ type: 'item', text: '已收款', path: '/fee/income/confirmed', icon: '' },
-			{ type: 'item', text: '已作废', path: '/fee/income/cancelled', icon: '' },
+			{ type: 'item', text: '已删除', path: '/fee/income/cancelled', icon: '' },
 		]
 	},
 	{

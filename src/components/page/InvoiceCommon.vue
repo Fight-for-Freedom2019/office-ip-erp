@@ -5,12 +5,12 @@
       <el-tag v-if="curTotal !== ''" slot="cur_total" style="margin-left: 15px;">当前页费用：{{ curTotal }}</el-tag>
       <el-tag v-if="allTotal !== ''" slot="all_total" style="margin-left: 10px;">所有费用：{{ allTotal }}</el-tag>
       <div slot="row_action" slot-scope="scope" class="invoice-action">
-        <el-button :disabled="scope.row.status.id != 1" v-if="scope.row.fee_type != 5" size="mini" type="text" @click="checkClick(scope.row)">审核账单</el-button>
-        <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5" style="font-size: 12px;" ></i>
-        <el-button :disabled="scope.row.status.id != 2" v-if="scope.row.fee_type != 5" size="mini" type="text" @click="uploadClick(scope.row)">上传凭证</el-button>
+        <el-button :disabled="scope.row.status.id != 1" v-if="scope.row.fee_type != 5" size="mini" type="text" @click="checkClick(scope.row)">{{feeType == 0 ? '审核账单' : '确认请款'}}</el-button>
+        <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5 && feeType == 0 " style="font-size: 12px;" ></i>
+        <el-button :disabled="scope.row.status.id != 2" v-if="scope.row.fee_type != 5 && feeType == 0" size="mini" type="text" @click="uploadClick(scope.row)">上传凭证</el-button>
         <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5" style="font-size: 12px;"></i>
-        <el-button :disabled="scope.row.status.id != 5" size="mini" type="text" @click="payClick(scope.row)">确认付款</el-button>
-      </div>
+        <el-button :disabled="scope.row.status.id != 5" size="mini" type="text" @click="payClick(scope.row)">{{feeType == 0 ? '确认付款' : '确认收款' }}</el-button>
+      </div> 
     </table-component>
     
     <pop :feeType="feeType" :popType="popType" ref="pop" @refresh="handleEdit"></pop>
@@ -20,7 +20,7 @@
       <invoice-detail :id="currentId" ref="detail"></invoice-detail>
     </app-shrink>
 
-    <app-shrink v-if="feeType == 0" :visible.sync="checkVisible" title="审核帐单" :modal="true">
+    <app-shrink  :visible.sync="checkVisible" title="审核帐单" :modal="true">
       <template slot="header">
         <span style="float: right; line-height: 40px;">
           <el-button type="primary" size="small" @click="checkSave">暂存</el-button>
@@ -29,10 +29,10 @@
       <check-invoice style="margin-top: 10px;" @callback="checkCallBack" ref="checkInvoice"></check-invoice>
     </app-shrink>
 
-    <el-dialog v-if="feeType == 0" :visible.sync="payVisible" title="确认付款" @close="payTime = ''" class="dialog-mini">
-      <el-date-picker type="date" v-model="payTime" placeholder="请选择付款时间"></el-date-picker>
+    <el-dialog  :visible.sync="payVisible" :title="`确认${payTitle}`" @close="payTime = ''" class="dialog-mini">
+      <el-date-picker type="date" v-model="payTime" :placeholder="`请选择${payTitle}时间`"></el-date-picker>
       <div style="margin-top: 10px;">
-        <el-button :loading="payLoading" @click="confirmPay" type="primary">{{ payLoading ? '确认中...' : '确认付款' }}</el-button>
+        <el-button :loading="payLoading" @click="confirmPay" type="primary">{{ payLoading ? '确认中...' : `确认${payTitle}` }}</el-button>
       </div>
     </el-dialog>
 
@@ -109,34 +109,34 @@ export default {
           { type: 'text', label: '创建时间', prop: 'create_time',width: '175' },
           { type: 'text', label: '付款期限', prop: 'due_time', width: '175' },
           { type: 'text', label: '付款时间', prop: 'pay_time',width: '175' },
-          { 
-            type: 'text', 
-            label: '外币金额', 
-            prop: 'amount', 
-            width: '100',
-            align: 'right',
-            render:(h,item,row)=>{
-              if( row.roe == 1 ){
-                return h('span','N/A');
-              }else{
-                return h('span',`${item}${row.currency}`);
-              }
-            } 
-          },
-          { 
-            type: 'text', 
-            label: '汇率', 
-            prop: 'roe', 
-            width: '80',
-            align: 'right',
-            render:(h,item)=>{
-              if( item == 1 ){
-                return h('span','N/A');
-              }else{
-                return h('span',item);
-              } 
-            }
-          },
+          // { 
+          //   type: 'text', 
+          //   label: '外币金额', 
+          //   prop: 'amount', 
+          //   width: '100',
+          //   align: 'right',
+          //   render:(h,item,row)=>{
+          //     if( row.roe == 1 ){
+          //       return h('span','N/A');
+          //     }else{
+          //       return h('span',`${item}${row.currency}`);
+          //     }
+          //   } 
+          // },
+          // { 
+          //   type: 'text', 
+          //   label: '汇率', 
+          //   prop: 'roe', 
+          //   width: '80',
+          //   align: 'right',
+          //   render:(h,item)=>{
+          //     if( item == 1 ){
+          //       return h('span','N/A');
+          //     }else{
+          //       return h('span',item);
+          //     } 
+          //   }
+          // },
           { 
             type: 'text', 
             label: '人民币金额', 
@@ -208,7 +208,10 @@ export default {
     feeType () {
       const path = this.$route.path;
       return /income/.test(path) ? 1 : 0; 
-    }
+    },
+    payTitle () {
+      return this.feeType == 0 ? '付款' : '收款'
+    },
   },
   methods: {
     checkSave () {
@@ -252,8 +255,10 @@ export default {
       if(this.payTime == '') return this.$message({type: 'warning', message: '付款时间不能为空'});
       const url = `/invoices/${this.payId}`;
       const pay_time = this.$tool.getDate(this.payTime);
+      const is_mail = !this.feeType;
       const data = {
         pay_time,
+        is_mail,
       };
       const success = () => {
         this.$message({ type: 'success', message: '确认付款成功' });
@@ -329,11 +334,11 @@ export default {
     }
   },
   created () {
-    if(!this.feeType) {
+    // if(!this.feeType) {
       this.option.header_btn.splice(2,1,{'type': 'import'});
       this.option.import_type = 'invoicePayable';
       this.option.columns = [...this.option.columns, this.option_action]; 
-    }
+    // }
   },
   mounted () {
     // this.refresh();
