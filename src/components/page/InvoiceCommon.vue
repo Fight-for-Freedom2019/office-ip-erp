@@ -99,7 +99,7 @@ export default {
           // { type: 'report', click: this.handleReport },
           { type: 'control' },
         ],
-        'header_slot': ['invoice_template'],//['cur_total', 'all_total'],
+        'header_slot': [],//['cur_total', 'all_total'],
         'import_columns':[
           { type: 'text', label: '案号', prop: 'serial'},
           { type: 'text', label: '案件名称', prop: 'title'},
