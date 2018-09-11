@@ -2,15 +2,6 @@
 <div class="invoice-upload">
 	<app-table :columns="columns" :data="data" v-loading="tableLoading" element-loading-text="加载中..."></app-table>
 	<div style="position: relative;">
-		<el-upload
-			style="margin-top: 10px;"
-			:show-file-list="false"
-			:on-success="uploadSuccess"
-			:on-error="uploadError"
-			:before-upload="beforeUpload"
-			:action="action">
-			<el-button size="small" type="primary">点击上传</el-button>
-		</el-upload>
 		<el-dialog :visible.sync="dialogVisible" class="dialog-small" title="附件详情" :modal="false">
 			<app-table :columns="uploadColumns" :data="uploadData"></app-table>
 		</el-dialog>
@@ -21,7 +12,7 @@
 <script>
 import AppTable from '@/components/common/AppTable'
 import Upload from '@/components/form/Upload'
-import {mapMutations} from 'vuex'
+
 export default {
 	name: 'uploadInvoice',
 	data () {
@@ -71,34 +62,9 @@ export default {
 		};
 	},
 	computed: {
-		action () {
-			return `/api/tempfile?action=getEvidence&invoice_id=${this.id}`;
-		}
+		
 	},
 	methods: {
-		...mapMutations([
-			'onLoading',
-			'cancelLoading',
-		]),
-		beforeUpload () {
-			this.onLoading('解析中...');
-		},
-		uploadSuccess (response) {
-			const func = () => {
-				this.cancelLoading();
-				if(response.status) {
-					this.$message({type: 'success', message: '解析成功'});
-					this.refresh();
-				}else {
-					this.$message({type: 'warning', message: '解析失败'});
-				}
-			}
-			window.setTimeout(func, 1500);
-		},
-		uploadError () {
-			this.cancelLoading();
-			this.$message({type: 'warning', message: '上传文件失败'})
-		},
 		finish () {
 			const url = `/invoices/${this.id}/complete`;
 			const success = () => {
@@ -160,7 +126,8 @@ export default {
 				body = [];
 				const obj = {
 					attrs: { href: item[0]['downloadUrl'] },
-					style: { width: '120px', display: 'inline-block' },
+					style: { width: '120px', display: 'inline-block',overflow: 'hidden',textOverflow:'ellipsis',
+					whiteSpace : 'nowrap' },
 				};
 
 				body.push(h('a', obj, item[0].name ));
@@ -178,7 +145,7 @@ export default {
 				}, '更多'));
 			}
 
-			return h('span', body);
+			return h('span',{style:{display: 'flex',justifyContent:'flex-start',}}, body);
 		}
 	},
 	components: {

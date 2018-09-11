@@ -36,10 +36,19 @@
       </div>
     </el-dialog>
 
-    <app-shrink v-if="feeType == 0" :visible.sync="uploadVisible" title="上传凭证" :modal="true">
+    <app-shrink v-if="feeType == 0" :visible.sync="uploadVisible" title="上传凭证(凭证只支持zip压缩包，压缩包内的凭证文件需要为jpg、pdf、png格式，凭证文件名称里需要包括视源案号)" :modal="true">
       <template slot="header">
-        <span style="float: right; line-height: 40px;">
-          <el-button type="primary" size="small" @click="uploadFinish">完成上传</el-button>
+        <span style="float: right; line-height: 40px;display: inline-block">   
+              <el-upload
+                :show-file-list="false"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :before-upload="beforeUpload"
+                style="display: inline-block"
+                :action="action">
+                <el-button size="small" type="primary">上传</el-button>
+              </el-upload>     
+          <el-button type="primary" size="small" @click="uploadFinish"  style="display: inline-block">提交</el-button>
         </span>
       </template>
       <upload-invoice style="margin-top: 10px;" ref="uploadInvoice"></upload-invoice>
@@ -56,7 +65,7 @@ import AppShrink from '@/components/common/AppShrink'
 import InvoiceDetail from '@/components/page_extension/InvoiceCommon_detail'
 import CheckInvoice from '@/components/page_extension/InvoiceCommon_check'
 import UploadInvoice from '@/components/page_extension/InvoiceCommon_upload'
-
+import {mapMutations} from 'vuex'
 const URL = '/invoices';
 
 export default {
@@ -95,10 +104,9 @@ export default {
           { type: 'text', label: '案号', prop: 'serial'},
           { type: 'text', label: '案件名称', prop: 'title'},
           { type: 'text', label: '费用名称', prop: 'name'},
-          { type: 'text', label: '金额', prop: 'amount'},
-					{ type: 'text', label: '货币', prop: 'currency'},
-          { type: 'text', label: '金额', prop: 'amount'},
-          { type: 'text', label: '汇率', prop: 'roe'},
+					// { type: 'text', label: '货币', prop: 'currency'},
+     //      { type: 'text', label: '金额', prop: 'amount'},
+     //      { type: 'text', label: '汇率', prop: 'roe'},
           { type: 'text', label: '人民币', prop: 'rmb'},
           { type: 'text', label: '备注', prop: 'remark'},
 				],
@@ -199,6 +207,7 @@ export default {
       uploadVisible: false,
       payVisible: false,
       currentId: '',
+      id: '',
       payId: '',
       payTime: '',
       payLoading: false,
@@ -212,8 +221,34 @@ export default {
     payTitle () {
       return this.feeType == 0 ? '付款' : '收款'
     },
+    action () {
+      return `/api/tempfile?action=getEvidence&invoice_id=${this.id}`;
+    }
   },
   methods: {
+    ...mapMutations([
+      'onLoading',
+      'cancelLoading',
+    ]),    
+    beforeUpload () {
+      this.onLoading('解析中...');
+    },
+    uploadSuccess (response) {
+      const func = () => {
+        this.cancelLoading();
+        if(response.status) {
+          this.$message({type: 'success', message: '解析成功'});
+          this.$refs.uploadInvoice.refresh();
+        }else {
+          this.$message({type: 'warning', message: '解析失败,凭证只支持zip压缩包，压缩包内的凭证文件需要为jpg、pdf、png格式，凭证文件名称里需要包括视源案号'});
+        }
+      }
+      window.setTimeout(func, 1500);
+    },
+    uploadError () {
+      this.cancelLoading();
+      this.$message({type: 'warning', message: '上传文件失败,凭证只支持zip压缩包，压缩包内的凭证文件需要为jpg、pdf、png格式，凭证文件名称里需要包括视源案号'})
+    },    
     checkSave () {
       this.$refs.checkInvoice.save();
     },
@@ -236,6 +271,7 @@ export default {
       this.payVisible = true;
     },
     uploadClick ({id}) {
+      this.id = id;
       this.uploadVisible = true;
       this.$nextTick(() => {
         this.$refs.uploadInvoice.render(id);
