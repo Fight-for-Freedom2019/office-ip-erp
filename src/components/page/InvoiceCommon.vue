@@ -114,8 +114,8 @@ export default {
         'list_type': 'invoice',
         'rowClick': this.handleRowClick,
         'header_btn': [
-          { type: 'export' },
           {},
+          { type: 'export' },
           { type: 'delete', click: this.handleDelete },
           // { type: 'report', click: this.handleReport },
           { type: 'control' },
@@ -440,7 +440,7 @@ export default {
   },
   created () {
     // if(!this.feeType) {
-      this.option.header_btn.splice(1
+      this.option.header_btn.splice(0
         ,1,{'type': 'import'});
       this.option.import_type = 'invoicePayable';
       this.option.columns = [...this.option.columns, this.option_action]; 
