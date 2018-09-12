@@ -32,14 +32,14 @@ export default {
   computed: {
   	options () {
   		const arr = [
-			{value: 0, label: '未付款'},
+				{value: 0, label: '未付款'},
   		];
   		const arrType = [
   			{value: 1, label: '已加入请款单'},
-			{value: 2, label: '已加入付款单'},
-			{value: 100, label: '已发放'},
-			{value: 100, label: '已到账'},
-			{value: 100, label: '已付款'},
+				{value: 1, label: '已加入付款单'},
+				{value: 2, label: '已发放'},
+				{value: 2, label: '已到账'},
+				{value: 2, label: '已付款'},
   		];
   		// const arrAnnual = [
   		// 	{value: 10, label: '年费监控中'},
@@ -48,18 +48,18 @@ export default {
 			// ];
 		const path = this.$route.path;
 		const flge = path.slice(5,6);
-      if(flge == 'b') {
+		if(flge == 'b') {
 			arr[0].label = '未发放'
 			arr.push(arrType[1])
 			arr.push(arrType[2])
-      }else if(flge == 'o') {
+		} else if (flge == 'o') {
 			arr.push(arrType[1])
 			arr.push(arrType[4])
-	  }else if(flge == 's') {
-		arr[0].label = '待申请'
-		arr.push(arrType[0])
-		arr.push(arrType[3])
-	  }
+		}	else if (flge == 's') {
+			arr[0].label = '待申请'
+			arr.push(arrType[0])
+			arr.push(arrType[3])
+		}
 			
   		// this.feeAnnual ? arr.push(...arrAnnual) : '';
 			

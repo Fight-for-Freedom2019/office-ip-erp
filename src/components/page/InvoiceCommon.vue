@@ -5,11 +5,16 @@
       <el-tag v-if="curTotal !== ''" slot="cur_total" style="margin-left: 15px;">当前页费用：{{ curTotal }}</el-tag>
       <el-tag v-if="allTotal !== ''" slot="all_total" style="margin-left: 10px;">所有费用：{{ allTotal }}</el-tag>
       <div slot="row_action" slot-scope="scope" class="invoice-action">
-        <el-button :disabled="scope.row.status.id != 1" v-if="scope.row.fee_type != 5" size="mini" type="text" @click="checkClick(scope.row)">{{feeType == 0 ? '审核账单' : '确认请款'}}</el-button>
+        <!-- <el-button :disabled="scope.row.status.id != 1" v-if="scope.row.fee_type != 5" size="mini" type="text" @click="checkClick(scope.row)">{{feeType == 0 ? '审核账单' : '确认请款'}}</el-button>
         <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5 && feeType == 0 " style="font-size: 12px;" ></i>
         <el-button :disabled="scope.row.status.id != 2" v-if="scope.row.fee_type != 5 && feeType == 0" size="mini" type="text" @click="uploadClick(scope.row)">上传凭证</el-button>
         <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5" style="font-size: 12px;"></i>
-        <el-button :disabled="scope.row.status.id != 5" size="mini" type="text" @click="payClick(scope.row)">{{feeType == 0 ? '确认付款' : '确认收款' }}</el-button>
+        <el-button :disabled="scope.row.status.id != 5" size="mini" type="text" @click="payClick(scope.row)">{{feeType == 0 ? '确认付款' : '确认收款' }}</el-button> -->
+        <el-button v-if="scope.row.status.id == 1" size="mini" type="text" @click="checkClick(scope.row)">{{feeType == 0 ? '审核账单' : '确认请款'}}</el-button>
+        <!-- <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5 && feeType == 0 " style="font-size: 12px;" ></i> -->
+        <el-button v-if="scope.row.status.id == 2" size="mini" type="text" @click="uploadClick(scope.row)">上传凭证</el-button>
+        <!-- <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5" style="font-size: 12px;"></i> -->
+        <el-button v-if="scope.row.status.id == 5" size="mini" type="text" @click="payClick(scope.row)">{{feeType == 0 ? '确认付款' : '确认收款' }}</el-button>
       </div> 
     </table-component>
     
@@ -93,30 +98,32 @@ export default {
         'list_type': 'invoice',
         'rowClick': this.handleRowClick,
         'header_btn': [
-          {},
           { type: 'export' },
+          {},
           { type: 'delete' },
           // { type: 'report', click: this.handleReport },
           { type: 'control' },
         ],
         'header_slot': [],//['cur_total', 'all_total'],
         'import_columns':[
-          { type: 'text', label: '案号', prop: 'serial'},
-          { type: 'text', label: '案件名称', prop: 'title'},
-          { type: 'text', label: '费用名称', prop: 'name'},
+          // { type: 'text', label: '案号', prop: 'serial'},
+          { type: 'text', label: '账单号', prop: 'agency_invoice'},
+          { type: 'text', label: '案件名称', prop: 'project', render_simple: 'name',},
+          { type: 'text', label: '费用名称', prop: 'code', render_simple: 'name',},
 					// { type: 'text', label: '货币', prop: 'currency'},
      //      { type: 'text', label: '金额', prop: 'amount'},
      //      { type: 'text', label: '汇率', prop: 'roe'},
-          { type: 'text', label: '人民币', prop: 'rmb'},
+          { type: 'text', label: '金额', prop: 'rmb'},
           { type: 'text', label: '备注', prop: 'remark'},
 				],
         'columns': [
           { type: 'selection' },
-          { type: 'text', label: '账单编号', prop: 'serial', width: '200' },
-          { type: 'text', label: '账单对象', prop: 'target', render_simple: 'name', width: '200' },
-          { type: 'text', label: '创建时间', prop: 'create_time',width: '175' },
-          { type: 'text', label: '付款期限', prop: 'due_time', width: '175' },
-          { type: 'text', label: '付款时间', prop: 'pay_time',width: '175' },
+          { type: 'text', label: '账单编号', prop: 'serial', width: '130' },
+          { type: 'text', label: '账单对象', prop: 'target', render_simple: 'name', width: '150' },
+          { type: 'text', label: '对方账单号', prop: 'invoice_no', width: '150' },
+          { type: 'text', label: '创建时间', prop: 'create_time',width: '115' },
+          { type: 'text', label: '付款期限', prop: 'due_time', width: '115' },
+          { type: 'text', label: '付款时间', prop: 'pay_time',width: '115' },
           // { 
           //   type: 'text', 
           //   label: '外币金额', 
@@ -149,20 +156,20 @@ export default {
             type: 'text', 
             label: '人民币金额', 
             prop: 'rmb', 
-            width: '120',
+            width: '150',
             align: 'right',
             render:(h,item)=>{
               return h('span',`${item}CNY`)
             }
           },
-          { type: 'text', label: '状态', prop: 'status', render_simple: 'name', width: '200' },
-          { type: 'text', label: '备注', prop: 'remark',min_width: '200' },
+          { type: 'text', label: '状态', prop: 'status', render_simple: 'name', width: '120' },
+          { type: 'text', label: '备注', prop: 'remark',min_width: '150' },
         ],
       },
       option_action: { 
         type: 'action',
         align: 'center',
-        width: '240',
+        width: '80',
         btns_render: true,
         // btns: [
         //   {
