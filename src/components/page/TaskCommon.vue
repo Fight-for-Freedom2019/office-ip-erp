@@ -638,6 +638,7 @@ export default {
       const data = Object.assign({},{'task_id': this.currentRow.id,'project_id': this.currentRow.project_id, 'create_user': this.userid,'remark': this.remark,days:this.days});
       const success = _=>{
         this.dialogDelayVisible = false;
+        this.dialogShrinkVisible = false;
         this.$message({ message: '延期成功', type: 'success'});
         this.update();
         this.refreshTaskDelay(this.currentRow.id);

@@ -116,7 +116,7 @@ export default {
         'header_btn': [
           {},
           { type: 'export' },
-          { type: 'delete', click: this.handleDelete },
+          { type: 'delete' },
           // { type: 'report', click: this.handleReport },
           { type: 'control' },
         ],
@@ -296,7 +296,9 @@ export default {
         this.$refs.checkInvoice.render(id);
       });
     },
-    handleRequestPay({id}) {
+    handleRequestPay({id,target}) {
+    this.$confirm(`确认发起${target.name}的请款`,{type: 'info'})
+        .then(()=>{ 
       const url = '/feecomment';
       const data = {
         invoice_id: id,
@@ -307,25 +309,7 @@ export default {
         this.$message({type: 'success',message: '确认请款成功'});
       };
       this.$axiosPost({url,data, success});
-    },
-    handleDelete() {
-      const s = this.$refs.table.getSelect();
-      if(s) {
-        this.$confirm('删除后不可恢复, 确认删除账单',{type: 'warning'})
-          .then(()=>{
-            const url = '/feecomment';
-            const data = {
-              invoice_id: this.$tool.splitObj(s, 'id'),
-              handle: 'refuse',
-            };
-            const success = ()=>{ 
-              this.$message({message: '删除账单成功', type: 'success'});
-              this.update() 
-            };
-            this.$axiosDelete({url,data, success});
-          })
-          .catch(()=>{});
-      }
+    }).catch(()=>{});
     },
     payClick ({id}) {
       this.payId = id;
