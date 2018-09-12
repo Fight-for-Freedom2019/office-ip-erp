@@ -1,5 +1,8 @@
 <template>
 <div class="invoice-upload">
+	<template>
+		<slot name="fee_tips"></slot>
+	</template>
 	<app-table :columns="columns" :data="data" v-loading="tableLoading" element-loading-text="加载中..."></app-table>
 	<div style="position: relative;">
 		<el-dialog :visible.sync="dialogVisible" class="dialog-small" title="附件详情" :modal="false">
@@ -30,7 +33,8 @@ export default {
 				fixed: false,
 				min_width: '120',
 				btns: [
-					{ type: 'download', click: ({downloadUrl})=>{window.open(downloadUrl)}},  
+					{ type: 'download', click: ({downloadUrl})=>{window.open(downloadUrl)}},
+					{ type: 'view', click:({viewUrl})=>{window.open(viewUrl)}}    
 				]
 				}
 			],
@@ -40,11 +44,11 @@ export default {
 				{ type: 'text', label: '案件名称', prop: 'title' },
 				{ type: 'text', label: '费用类型', prop: 'code', render_simple: 'name' },
 				{ type: 'text', label: '费用', prop: 'amount' },
-				{ type: 'text', label: '审核意见', prop: 'remark_enterprise', width: '200' },
+				{ type: 'text', label: '审核意见', prop: 'remark_enterprise', width: '188' },
 				{ 
 					type: 'text', 
 					label: '附件',
-					width: '200', 
+					width: '178', 
 					prop: 'attachments',
 					render: this.attachmentsRender,
 				},

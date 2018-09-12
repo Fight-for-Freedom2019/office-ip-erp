@@ -10,28 +10,33 @@
         <el-button :disabled="scope.row.status.id != 2" v-if="scope.row.fee_type != 5 && feeType == 0" size="mini" type="text" @click="uploadClick(scope.row)">上传凭证</el-button>
         <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5" style="font-size: 12px;"></i>
         <el-button :disabled="scope.row.status.id != 5" size="mini" type="text" @click="payClick(scope.row)">{{feeType == 0 ? '确认付款' : '确认收款' }}</el-button> -->
-        <el-button v-if="scope.row.status.id == 1" size="mini" type="text" @click="checkClick(scope.row)">{{feeType == 0 ? '审核账单' : '确认请款'}}</el-button>
+        <el-button v-if="scope.row.status.id == 1 && feeType == 0" size="mini" type="text" @click="checkClick(scope.row)">审核账单</el-button>      
+        <el-button v-if="scope.row.status.id == 1 && feeType == 1" size="mini" type="text" @click="handleRequestPay(scope.row)">确认请款</el-button>
         <!-- <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5 && feeType == 0 " style="font-size: 12px;" ></i> -->
         <el-button v-if="scope.row.status.id == 2" size="mini" type="text" @click="uploadClick(scope.row)">上传凭证</el-button>
         <!-- <i class="el-icon-arrow-right" v-if="scope.row.fee_type != 5" style="font-size: 12px;"></i> -->
         <el-button v-if="scope.row.status.id == 5" size="mini" type="text" @click="payClick(scope.row)">{{feeType == 0 ? '确认付款' : '确认收款' }}</el-button>
+        <el-button type="text" size="mini" @click="editPop(scope.row)">编辑</el-button>
       </div> 
     </table-component>
     
     <pop :feeType="feeType" :popType="popType" ref="pop" @refresh="handleEdit"></pop>
     
     <app-shrink :visible.sync="shrinkVisible" title="详细信息">
-      <el-button type="primary" slot="header" @click="editPop" size="small" style="float: right; margin-top: 6px;">编辑</el-button>
-      <invoice-detail :id="currentId" ref="detail"></invoice-detail>
+      <!-- <el-button type="primary" slot="header" @click="editPop" size="small" style="float: right; margin-top: 6px;">编辑</el-button> -->
+      <!-- <invoice-detail :id="currentId" ref="detail"></invoice-detail> -->
+        <upload-invoice style="margin-top: 10px;" ref="uploadInvoices"></upload-invoice>
     </app-shrink>
 
     <app-shrink  :visible.sync="checkVisible" title="审核帐单" :modal="true">
       <template slot="header">
         <span style="float: right; line-height: 40px;">
-          <el-button type="primary" size="small" @click="checkSave">暂存</el-button>
+          <el-button @click="handlePass" type="primary" :disabled="disabled" size="small">通过</el-button>
+          <el-button @click="handleRefuse" type="danger" :disabled="disabled" size="small">拒绝</el-button>
+          <el-button  size="small" @click="checkSave">暂存</el-button>
         </span>
       </template>
-      <check-invoice style="margin-top: 10px;" @callback="checkCallBack" ref="checkInvoice"></check-invoice>
+      <check-invoice style="margin-top: 10px;" @callback="checkCallBack" @disabled="(val)=>{this.disabled = val}" ref="checkInvoice"></check-invoice>
     </app-shrink>
 
     <el-dialog  :visible.sync="payVisible" :title="`确认${payTitle}`" @close="payTime = ''" class="dialog-mini">
@@ -41,7 +46,7 @@
       </div>
     </el-dialog>
 
-    <app-shrink v-if="feeType == 0" :visible.sync="uploadVisible" title="上传凭证(凭证只支持zip压缩包，压缩包内的凭证文件需要为jpg、pdf、png格式，凭证文件名称里需要包括视源案号)" :modal="true">
+    <app-shrink v-if="feeType == 0" :visible.sync="uploadVisible" title="上传凭证" :modal="true">
       <template slot="header">
         <span style="float: right; line-height: 40px;display: inline-block">   
               <el-upload
@@ -56,7 +61,11 @@
           <el-button type="primary" size="small" @click="uploadFinish"  style="display: inline-block">提交</el-button>
         </span>
       </template>
-      <upload-invoice style="margin-top: 10px;" ref="uploadInvoice"></upload-invoice>
+      <upload-invoice style="margin-top: 10px;" ref="uploadInvoice">
+        <template slot="fee_tips">
+          <span style="font-size: 14px; color: #bbb;">凭证只支持zip压缩包，压缩包内的凭证文件需要为jpg、pdf、png格式，凭证文件名称里需要包括视源案号</span>
+        </template>
+      </upload-invoice>
     </app-shrink>
 
   </div>
@@ -72,7 +81,14 @@ import CheckInvoice from '@/components/page_extension/InvoiceCommon_check'
 import UploadInvoice from '@/components/page_extension/InvoiceCommon_upload'
 import {mapMutations} from 'vuex'
 const URL = '/invoices';
-
+const pathMap = new Map([
+  ['/fee/invoice/rejected', true],
+  ['/fee/account/paid', true],  
+  ['/fee/income/submit', true],  
+  ['/fee/income/wating_for_payment', true],  
+  ['/fee/income/confirmed', true],  
+  ['/fee/income/cancelled', true],
+]);
 export default {
   name: 'invoiceCommon',
   props: {
@@ -98,13 +114,13 @@ export default {
         'list_type': 'invoice',
         'rowClick': this.handleRowClick,
         'header_btn': [
-          { type: 'export' },
           {},
+          { type: 'export' },
           { type: 'delete' },
           // { type: 'report', click: this.handleReport },
           { type: 'control' },
         ],
-        'header_slot': [],//['cur_total', 'all_total'],
+        // 'header_slot': [],//['cur_total', 'all_total'],
         'import_columns':[
           // { type: 'text', label: '案号', prop: 'serial'},
           { type: 'text', label: '账单号', prop: 'agency_invoice'},
@@ -169,7 +185,7 @@ export default {
       option_action: { 
         type: 'action',
         align: 'center',
-        width: '80',
+        width: '130',
         btns_render: true,
         // btns: [
         //   {
@@ -214,6 +230,7 @@ export default {
       uploadVisible: false,
       payVisible: false,
       currentId: '',
+      disabled: false,
       id: '',
       payId: '',
       payTime: '',
@@ -236,7 +253,13 @@ export default {
     ...mapMutations([
       'onLoading',
       'cancelLoading',
-    ]),    
+    ]), 
+    handlePass () {
+      this.$refs.checkInvoice.pass();
+    },
+    handleRefuse() {
+      this.$refs.checkInvoice.refuse();
+    },      
     beforeUpload () {
       this.onLoading('解析中...');
     },
@@ -272,6 +295,21 @@ export default {
       this.$nextTick(() => {
         this.$refs.checkInvoice.render(id);
       });
+    },
+    handleRequestPay({id,target}) {
+    this.$confirm(`确认发起${target.name}的请款`,{type: 'info'})
+        .then(()=>{ 
+      const url = '/feecomment';
+      const data = {
+        invoice_id: id,
+        handle: 'pass',
+      };
+      const success = _=>{
+        this.update();
+        this.$message({type: 'success',message: '确认请款成功'});
+      };
+      this.$axiosPost({url,data, success});
+    }).catch(()=>{});
     },
     payClick ({id}) {
       this.payId = id;
@@ -326,8 +364,16 @@ export default {
       this.$refs.detail.refresh();
     },
     handleRowClick (row) {
-      this.currentId = row.id;
-      this.shrinkVisible = true;
+      const path = this.$route.path;
+      if(pathMap.get(path)) {
+        // this.currentId = row.id;
+        this.shrinkVisible = true;
+        this.$nextTick(() => {
+        this.$refs.uploadInvoices.render(row.id);
+        });
+      }else {
+        return false;
+      } 
     },
     refreshTableData (option) {
       const url = URL;
@@ -361,7 +407,7 @@ export default {
     },
     editPop (row) {
       this.popType='edit';
-      this.$refs.pop.show(Object.assign({id: this.currentId}, this.$refs.detail.row));
+      this.$refs.pop.show(row);
     },
     invoiceDelete ({id, target}) {
       this.$confirm(`删除后不可恢复, 确认删除‘${target.name}’的账单？`)
@@ -378,7 +424,8 @@ export default {
   },
   created () {
     // if(!this.feeType) {
-      this.option.header_btn.splice(2,1,{'type': 'import'});
+      this.option.header_btn.splice(0
+        ,1,{'type': 'import'});
       this.option.import_type = 'invoicePayable';
       this.option.columns = [...this.option.columns, this.option_action]; 
     // }
