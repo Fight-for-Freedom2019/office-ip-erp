@@ -14,11 +14,11 @@
 			</template>
 
 		</app-table>
-		<div style="margin-top: 10px;">
+<!-- 		<div style="margin-top: 10px;">
 			<el-button @click="pass" type="primary" :disabled="disabled">通过</el-button>
 			<el-button @click="refuse" type="danger" :disabled="disabled">拒绝</el-button>
 			<el-button @click="cancel" :disabled="disabled">取消</el-button>
-		</div>
+		</div> -->
 <!-- 		<el-dialog :visible.sync="dialogVisible" :modal="false" title="审核意见" class="dialog-small" @close="dialogClose">
 			<el-form :model="form" ref="form" label-position="top">
 				<el-form-item label="审核结果" prop="check_type">

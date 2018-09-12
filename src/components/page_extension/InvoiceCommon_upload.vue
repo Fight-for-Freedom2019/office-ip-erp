@@ -1,5 +1,8 @@
 <template>
 <div class="invoice-upload">
+	<template>
+		<slot name="fee_tips"></slot>
+	</template>
 	<app-table :columns="columns" :data="data" v-loading="tableLoading" element-loading-text="加载中..."></app-table>
 	<div style="position: relative;">
 		<el-dialog :visible.sync="dialogVisible" class="dialog-small" title="附件详情" :modal="false">
@@ -28,9 +31,10 @@ export default {
           type: 'action',
           label: '操作',
           fixed: false,
-          min_width: '120',
+          min_width: '130',
           btns: [
-            { type: 'download', click: ({downloadUrl})=>{window.open(downloadUrl)}},  
+            { type: 'download', click: ({downloadUrl})=>{window.open(downloadUrl)}},
+            { type: 'view', click:({viewUrl})=>{window.open(viewUrl)}}  
           ]
         }
 			],
