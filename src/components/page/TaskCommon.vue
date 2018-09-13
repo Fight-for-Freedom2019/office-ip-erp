@@ -647,7 +647,7 @@ export default {
       const complete = _=>{
         this.btn_disabled = false;
       };
-      this.$axiosPost({url, data, success.complete });
+      this.$axiosPost({url, data, success,complete });
     },
     rejectTask() {
         const url = `/tasks/${this.currentRow.id}/reject`;
