@@ -26,7 +26,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="流程节点" prop="flow_node_id" v-if="type == 'add' && category != ''" :rules="rules.flow_node_id">
+      <el-form-item label="流程节点" prop="flow_node_id" v-if=" category != ''" :rules="rules.flow_node_id">
         <el-select v-model="form.flow_node_id" placeholder="请选择流程节点">
           <el-option
             v-for="item in flownodeOptions"
@@ -156,6 +156,7 @@ export default {
       }, 0);
     }, 
     refreshRow () {
+      console.log(this.row);
       if(this.type == 'edit') {
         
         for( let k in this.form) {
@@ -166,6 +167,8 @@ export default {
             this.attachments = d;
           }else if(k == 'inner_deadline') {
             this.form[k] = new Date(d);
+          }else if(k == 'flow_node_id') {
+            this.form[k] = this.row['flownode']['id'];
           }else if(k == 'person_in_charge') {
             this.form[k] = {id: d, name: this.row['person_in_charge_name']};
             // console.log(this.form[k]);
