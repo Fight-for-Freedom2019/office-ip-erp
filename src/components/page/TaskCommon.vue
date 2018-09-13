@@ -72,7 +72,7 @@
           </ul> -->
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="delayTask">提交</el-button>
+          <el-button type="primary" @click="delayTask" :disabled="btn_disabled">提交</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -639,11 +639,15 @@ export default {
       const success = _=>{
         this.dialogDelayVisible = false;
         this.dialogShrinkVisible = false;
+        this.btn_disabled = true;
         this.$message({ message: '延期成功', type: 'success'});
         this.update();
         this.refreshTaskDelay(this.currentRow.id);
       };
-      this.$axiosPost({url, data, success });
+      const complete = _=>{
+        this.btn_disabled = false;
+      };
+      this.$axiosPost({url, data, success.complete });
     },
     rejectTask() {
         const url = `/tasks/${this.currentRow.id}/reject`;
