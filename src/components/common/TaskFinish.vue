@@ -10,20 +10,31 @@
       </template>
       <el-form label-width="70px" label-position="left" class="form-information">
         <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="节点名称"><span class="form-item-text">{{ row.flownode.name }}</span></el-form-item>
-            <el-form-item label="内部期限"><span class="form-item-text">{{ row.due_time }}</span></el-form-item>
+          <el-col :span="6">
+            <el-form-item label="节点名称" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="row.flownode.name">{{ row.flownode.name }}</span></el-form-item>
+            <el-form-item label="节点期限"><span class="form-item-text">{{ row.due_time }}</span></el-form-item>
+            <el-form-item label="代理机构" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="row.agency.name">{{ row.agency.name }}</span></el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="承办人"><span class="form-item-text">{{ row.person_in_charge.name }}</span></el-form-item>
+          <el-col :span="6">
+            <el-form-item label="承办人" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="row.person_in_charge.name">{{ row.person_in_charge.name }}</span></el-form-item>
+            <el-form-item label="管制期限"><span class="form-item-text">{{ row.process_inner_deadline }}</span></el-form-item>
+            <el-form-item label="代理人" style="height:36px;"><span class="form-item-text"  style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="row.agent.name">{{ row.agent.name }}</span></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="IPR"><span class="form-item-text">{{ row.ipr.name }}</span></el-form-item>
             <el-form-item label="官方绝限"><span class="form-item-text">{{ row.deadline }}</span></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="申请日"><span class="form-item-text">{{ row.apd }}</span></el-form-item>
+            <el-form-item label="申请号"><span class="form-item-text">{{ row.apn }}</span></el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-form-item label="备注"><span class="form-item-text">{{ row.remark }}</span></el-form-item>
         </el-row>
         <el-form-item label="附件">
-            <app-table :columns="columns" :data="row.attachments"></app-table>
+            <app-table v-if="row.attachments.length > 0" :columns="columns" :data="row.attachments"></app-table>
+            <span v-if="row.attachments.length == 0">无附件</span>
         </el-form-item>
       </el-form>
     </el-collapse-item>
@@ -69,6 +80,7 @@
           :key="item.id"
           :label="item.name"
           @change="nextRadio"
+          style="cursor:pointer"
           >
           {{ item.name}}
           </app-radio>
