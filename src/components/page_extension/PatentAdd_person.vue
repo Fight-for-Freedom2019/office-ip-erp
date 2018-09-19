@@ -62,6 +62,11 @@
             <el-form-item label="公告日">
               <el-date-picker size="small"  v-model="form.issue_date" type="date" placeholder="公告日" class="input-min-width"></el-date-picker>
             </el-form-item>
+          </el-col>          
+          <el-col :span="8">
+            <el-form-item label="优先权日">
+              <el-date-picker size="small"  v-model="form.priority_date" type="date" placeholder="优先权日" class="input-min-width"></el-date-picker>
+            </el-form-item>
           </el-col>
           
         </el-row>
@@ -273,6 +278,7 @@ export default {
         ipr_review_times: '',
         certificate_no: '',
         priority_number: '',
+        priority_date: '',
       },
       ipr_name: '',
       branchName: '',
