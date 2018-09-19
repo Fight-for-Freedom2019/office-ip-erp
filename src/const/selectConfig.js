@@ -95,6 +95,7 @@ const config = [
       { name: '实用新型', id: 2 },
       { name: '外观设计', id: 3 },
       { name: '发明+新型', id: 4 },
+      { name: 'PCT申请', id: 8 },
     ]
   }],
   ['trademark_type',{
@@ -165,9 +166,9 @@ const config = [
   ['technical_field', {
     placeholder: '请选择技术领域',
     options: [
-      { id: '1', name: '机械' },
-      { id: '2', name: '电子' },
-      { id: '3', name: '软件' },
+      { id: 1, name: '机械' },
+      { id: 2, name: '电子' },
+      { id: 3, name: '软件' },
     ]
   }],
   ['get_stage',{

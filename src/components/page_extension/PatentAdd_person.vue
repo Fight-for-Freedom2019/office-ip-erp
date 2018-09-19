@@ -47,8 +47,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="进入实审日">
-              <el-date-picker size="small"  v-model="form.sub_exam_start_date" type="date" placeholder="进入实审日" class="input-min-width"></el-date-picker>
+            <el-form-item label="优先权号">
+              <el-input size="small"  v-model="form.priority_number" placeholder="优先权号" class="input-min-width"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -63,11 +63,7 @@
               <el-date-picker size="small"  v-model="form.issue_date" type="date" placeholder="公告日" class="input-min-width"></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="复审委内编号">
-              <el-input size="small"  v-model="form.board_number" placeholder="复审委内编号" class="input-min-width"></el-input>
-            </el-form-item>
-          </el-col>
+          
         </el-row>
         <el-row>
           <el-col :span="8">
@@ -124,6 +120,23 @@
           <el-col :span="8">
             <el-form-item label="PCT检索日">
               <el-date-picker size="small"  v-model="form.pct_search_date" placeholder="PCT检索日" class="input-min-width"></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="PCT新颖性">
+              <el-input size="small"  v-model="form.pct_novelty"  placeholder="PCT新颖性" :disabled="true" class="input-min-width"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="PCT创造性">
+              <el-input size="small"  v-model="form.pct_innovation"  placeholder="PCT创造性" :disabled="true" class="input-min-width"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="进入实审日">
+              <el-date-picker size="small"  v-model="form.sub_exam_start_date" type="date" placeholder="进入实审日" class="input-min-width"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -191,7 +204,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="IPR审核次数">
-              <el-date-picker  size="small" v-model="form.ipr_review_times" placeholder="IPR审核次数" :disabled="true" class="input-min-width"></el-date-picker>
+              <el-input  size="small" v-model="form.ipr_review_times" placeholder="IPR审核次数" :disabled="true" class="input-min-width"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -200,7 +213,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            
+            <el-form-item label="复审委内编号">
+              <el-input size="small"  v-model="form.board_number" placeholder="复审委内编号" class="input-min-width"></el-input>
+            </el-form-item>
           </el-col>
         </el-row>
       </el-form>
@@ -257,6 +272,7 @@ export default {
         agent_amending_period: '',
         ipr_review_times: '',
         certificate_no: '',
+        priority_number: '',
       },
       ipr_name: '',
       branchName: '',
