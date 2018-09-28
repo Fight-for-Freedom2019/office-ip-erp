@@ -356,7 +356,7 @@ export default {
     },
     handleHeaderClose(key) {
       console.log(this.$refs);
-      this.$refs.table.$refs.fixedTableHeader.$refs[`popover-${key}`].doClose();
+      this.$refs.table.$refs.tableHeader.$refs[`popover-${key}`].doClose();
     },
     handleBtnBoolean (btn, row, key) {
       return btn[key] ? btn[key](row) : false; 
@@ -429,7 +429,7 @@ export default {
               e.stopPropagation();
               // console.log(self.filters);
               // self.filters[column.property] = !self.filters[column.property];
-              self.$refs.table.$refs.fixedTableHeader.$refs[`popover-${column.property}`].doToggle();
+              self.$refs.table.$refs.tableHeader.$refs[`popover-${column.property}`].doToggle();
             }
           },
         }
