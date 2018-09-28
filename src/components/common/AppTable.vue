@@ -33,7 +33,7 @@
     <template v-else-if="col.type == 'text'">
       
       <template v-if="col.render ? true : false">
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''" :sortable="col.sortable ? 'custom' : false" :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :align="col.align !== undefined ? col.align :'left'" :header-align="col.header_align !== undefined ? col.header_align :'left'" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined  && filterVisible ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :align="col.align !== undefined ? col.align :'left'" :header-align="col.header_align !== undefined ? col.header_align :'left'" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined  && filterVisible ?handleRenderHeader:null">
           <template slot-scope="scope">
             <table-render :render="col.render" :scope="scope" :prop="col.prop"></table-render>
           </template>
@@ -41,7 +41,7 @@
       </template>
 
       <template v-else-if="col.render_text ? true : false ">
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''" :sortable="col.sortable ? 'custom' : false" :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
           <template slot-scope="scope">
             <span class="table-column-render">{{ col.render_text(scope.row[col.prop]) }}</span>
           </template>
@@ -49,7 +49,7 @@
       </template>
 
       <template v-else-if="col.render_simple ? true : false ">
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''" :sortable="col.sortable ? 'custom' : false" :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
           <template slot-scope="scope">
             <span class="table-column-render">{{ handleSimple(scope.row, col) }}</span>
           </template>
@@ -57,7 +57,7 @@
       </template>
 
       <template v-else>
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''" :sortable="col.sortable ? 'custom' : false" :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
           <!-- <template v-if="col.default !== undefined" scope="scope">{{ scope.row[col.prop] ? scope.row[col.prop] : col.default }}</template> -->
         </el-table-column>
       </template>
@@ -65,7 +65,7 @@
     </template>
 
     <template v-else-if="col.type == 'array'">
-      <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''" :sortable="col.sortable ? 'custom' : false" :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+      <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
         <template slot-scope="scope">
 
           <el-tag v-for="(item, i) in scope.row[scope.column.property]" style="margin-left: 5px;" close-transition :key="i">{{ item }}</el-tag>
@@ -356,6 +356,7 @@ export default {
     },
     handleHeaderClose(key) {
       console.log(this.$refs);
+      /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
       this.$refs.table.$refs.tableHeader.$refs[`popover-${key}`].doClose();
     },
     handleBtnBoolean (btn, row, key) {
@@ -427,21 +428,27 @@ export default {
             click(e) {
               // 阻止表头默认点击事件
               e.stopPropagation();
-              // console.log(self.filters);
-              // self.filters[column.property] = !self.filters[column.property];
+            /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
+              const refObj =  self.$refs.table.$refs.tableHeader.$refs;
+              for(let k in refObj) {
+                if( k !== `popover-${column.property}`) {
+                  self.$refs.table.$refs.tableHeader.$refs[k].doClose();
+                }
+              }
               self.$refs.table.$refs.tableHeader.$refs[`popover-${column.property}`].doToggle();
+
             }
           },
         }
         return (
 
-            source!=null?<span>
+            source!=null?<span style={{width: '100%',display: 'inline-block'}}>
               <span>{item}</span>
               <el-popover  width='100%' placement='bottom'  trigger="manual"  ref={`popover-${column.property}`} >
               <div style={{width: '100%',}}>
                   <ListsFilter {...data}></ListsFilter>
               </div> 
-              <el-button type="text" icon="el-icon-setting" slot="reference" {...btnClick}></el-button>
+              <el-button style={{float: 'right',paddingTop: '0',paddingBottom: '0',lineHeight: '23px',height: '23px'}} type="text" icon="el-icon-my-filter-btn" slot="reference" {...btnClick}></el-button>
               </el-popover>
             </span>:<span>{item}</span>
 

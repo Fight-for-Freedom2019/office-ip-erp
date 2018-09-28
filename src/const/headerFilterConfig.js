@@ -9,7 +9,7 @@ const map = new Map([
         // { type: 'text',         id: 'apn',                           name: '申请号'},
         { type: 'date',          id: 'apd',                           name: '申请日',},
         // { type: 'date',          id: 'entrusting_time',               name: '委案时间'},
-        { type: 'static_select',       id: 'type',                          name: '专利类型', map_type: 'patent_type'},
+        { type: 'static_select',       id: 'type',                          name: '专利类型', map_type: 'patent_type_strainer'},
         // { type: 'select',        id: 'area',                           name: '申请地区',},
         // { type: 'select',        id: 'technical_field',                name: '技术领域',},
         // { type: 'text',         id: 'title',                          name: '标题'},

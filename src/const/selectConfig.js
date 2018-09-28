@@ -1,6 +1,6 @@
 const config = [
   ['text_filter_relate',{
-    placeholder: '请选择文本筛选',
+    placeholder: '请选择操作符',
     options: [
         { name: '等于', id: 1 },
         { name: '不等于', id: 2 },

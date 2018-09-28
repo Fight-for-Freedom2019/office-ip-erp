@@ -2,8 +2,8 @@
   <div>
 		<el-row class="filter-sort">
 			<el-col :span="24">
-			  	<span style="display: block; width: 100%;height: 30px;line-height: 30px;font-size: 14px;" @click="handleSort('asc')">升序</span>
-			  	<span style="display: block; width: 100%;height: 30px;line-height: 30px;font-size: 14px;" @click="handleSort('desc')">降序</span>
+			  	<span style="display: block; width: 100%;height: 30px;line-height: 30px;font-size: 14px;" @click="handleSort('asc')"><i class="iconfont">&#xe63c;</i>升序</span>
+			  	<span style="display: block; width: 100%;height: 30px;line-height: 30px;font-size: 14px;" @click="handleSort('desc')"><i class="iconfont">&#xe639;</i>降序</span>
 			</el-col>
 		</el-row>
 		<el-row class="common" v-if="source.type!='date'">
@@ -13,13 +13,13 @@
 		</el-row>				
 		<el-row class="common">
 			<el-col :span="24">
-				<filter-condition  :source="source" v-model="filters[source.id]" ref="filterCondition"></filter-condition>
+				<filter-condition  :source="source" :value="filters[source.id]" @input="handleInput" ref="filterCondition"></filter-condition>
 	  	 	</el-col>
 		</el-row>
 		<el-row>
 			<el-col :span="24">
-				<el-button type="primary" @click="handleFilter">确定</el-button>
-				<el-button @click="cancle">取消</el-button>
+				<el-button type="primary" size="small" @click="handleFilter">确定</el-button>
+				<el-button @click="cancle" size="small">取消</el-button>
 			</el-col>
 		</el-row>
   </div>	
@@ -48,7 +48,7 @@ export default {
   },
   data () {
   	return {
-  	  	contain_relate: '', 
+  	  	contain_relate: 1, 
   	  	value:'',
   	  	filters:{},
   	}
@@ -91,8 +91,10 @@ export default {
   		this.$emit('order',sort);
   	},
   	handleInput (val) {
+  		console.log('最外面');
   		console.log(val);
-  		this.value = val;
+  		const key = this.source.id;
+  		this.filters[key] = val;
   	},
     clearRenderHeaderField (key) {
       console.log('调用我')
