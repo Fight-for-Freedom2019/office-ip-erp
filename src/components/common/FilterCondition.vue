@@ -95,7 +95,7 @@ export default {
         return this.$refs.date.getLabel();
       }
       if(t == 'text') {
-        console.log(this.value);
+        // console.log(this.value);
         return this.value;
       }
     },       
