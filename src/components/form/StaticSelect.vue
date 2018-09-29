@@ -80,6 +80,7 @@ export default {
     ...mapGetters([
       'staticSelectorMap',
       'staticSelectorCache',
+      
     ]),
     cacheData () {
       return this.staticSelectorCache[this.type];
@@ -198,7 +199,6 @@ export default {
     }
   },
   created () {
-    console.log('staticselect_create')
     this.setOptions();
   },
   watch: {

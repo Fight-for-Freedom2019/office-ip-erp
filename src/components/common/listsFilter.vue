@@ -83,7 +83,7 @@ export default {
         const item = this.getDefaultValue(_.id);
         this.$set(this.filters,_.id,item);
       });
-      console.log(this.filters);
+      // console.log(this.filters);
       return this.filters;
     },  	
   	handleSort (order) {
@@ -91,15 +91,11 @@ export default {
   		this.$emit('order',sort);
   	},
   	handleInput (val) {
-  		console.log('最外面');
-  		console.log(val);
   		const key = this.source.id;
   		this.filters[key] = val;
   	},
     clearRenderHeaderField (key) {
-      console.log('调用我')
       this.filters[key] = this.getDefaultValue(key); 
-      console.log(this.filters[key]);
     },   	
   	handleFilter () {
   		const obj = {};
@@ -136,8 +132,6 @@ export default {
     },		
 	cancle() {
 		this.$emit('popover');
-		// console.log(this.$refs);
-		
 	},
   },
   created () {

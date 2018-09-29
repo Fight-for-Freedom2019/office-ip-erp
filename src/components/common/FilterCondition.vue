@@ -55,12 +55,12 @@ export default {
     value: {
       type: [String, Number, Date, Array],
       required: true,
-    },       
+    },      
   },
   data () {
     return {
       filterText: '',
-      defaultKeys: [],
+      defaultKeys: [], 
       initVal: '',
       'currentNodeKey': '',
       'props': {
@@ -118,46 +118,67 @@ export default {
     //   set(val) {
     //     this.initVal = val;
     //   }
-    // },
+    // },  
     staticConfig () {
-      if(this.source && this.source.map_type) {
+      // if(this.source && this.source.map_type) {
         const config = this.staticFilterMap.get(this.source.map_type);
         return config? config : this.source.map_type;
-      }
+      // }
     },
     staticCacheData () {
       if(this.source && this.source.map_type && this.source.url != undefined) {
         return this.staticSelectorCache[this.source.map_type];
       }
     },
+    options_vuex () {
+      let op = null;
+      if( typeof this.staticConfig.options === 'string') {
+        op = this.$store.getters[this.staticConfig.options];
+      }
+
+      return op;
+    },      
     filterUrl () {
       const source = this.source;
       return source!=null && source.url? source.url : '';
     },
     filterDataKey () {
       const source = this.source;
-      // console.log(this.source);
       return source!=null && source.data_key? source.data_key : '';
     },
     cacheData () {
-      console.log(this.filterData);
-      console.log(this.source.id)
-      console.log(this.filterData[this.source.id]);
       if(this.source.type == 'remote_select' && this.source.url) {
         return this.filterData[this.source.id];
       }else if(this.source.type == 'static_select' && this.source.url == undefined) {
-        return this.staticConfig.options;
+        if(this.staticConfig.options instanceof Array) {
+        
+               //存储在配置项的下拉框数据直接使用
+          return this.staticConfig.options 
+        }else if(typeof this.staticConfig.options === 'string') {
+          let op = this.staticConfig.options;
+          return op = this.options_vuex
+
+        //存储在vuex中的数据,op代表getters的名字,
+        //当数据不止在Select而是在全局中有多处被使用,或者数据在使用过程中需要保持动态更新,使用vuex存储
+          if(this.staticConfig.options === undefined) {
+            if(this.staticConfig.refresh) {
+              this.$store.dispatch(this.staticConfig.refresh);  
+            }
+          }else {
+            return this.staticConfig.options
+          }
+        }
       }else if(this.source.type == 'static_select' && this.source.url != undefined) {
-        return this.staticCacheData;
+         return this.staticCacheData
       }
     },
   },
   created() {
-    console.log(this.staticConfig);
     if(this.filterDataKey){
       this.setDataKey({key:this.source.id,data_key:this.filterDataKey});
     }
     if(this.filterUrl) {
+      
       this.setUrl({key:this.source.id,url:this.filterUrl});
     }
     if(this.filterDataKey && this.filterUrl) {
@@ -170,11 +191,7 @@ export default {
    watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
-    },
-    value(val) {
-      console.log('测试智')
-      console.log(val);
-    },
+    },   
   }, 
   components: {
     AppDate,

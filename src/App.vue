@@ -53,7 +53,7 @@
       
     <div class="nav-left" :style="`height: ${innerHeight}px; left: ${navLeft}`" v-if="!noMenu">
       <span class="nav-left-btn" :style="`left: ${navLeftBtn};`" @click="navToggle" v-if="!noMenu"><span :class="navLeftBtnClass"></span></span>
-      <el-menu v-if="menusMap != null"  router unique-opened :default-active="leftMenuActive" mode="vertical">
+      <el-menu v-if="menusMap != null"  router unique-opened :default-active="leftMenuActive" mode="vertical" background-color="#324157" text-color="#bfcbd9" active-text-color="#20a0ff">
         <app-menu-item v-for="item in menuData" :dd="item" :key="item.path"></app-menu-item>
       </el-menu>
     </div>
@@ -532,6 +532,12 @@ nav {
 }
 /*这里放入重写element-ui样式的内容*/
 #app {
+  .el-menu--horizontal {
+    border: none;
+  } 
+  .el-menu {
+    border-right: none;
+  }   
   .el-table__header-wrapper thead div {
     background-color: transparent;
   }  

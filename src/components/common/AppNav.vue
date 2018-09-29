@@ -1,5 +1,5 @@
 <template>
-<el-menu theme="dark" :default-active="menuType" class="app-nav" mode="horizontal" @select="handleSelect">
+<el-menu theme="dark" :default-active="menuType" text-color="#bfcbd9" active-text-color="#20a0ff" class="app-nav" mode="horizontal" @select="handleSelect">
 	<el-menu-item v-for="(item, index) in source" :index="item.key" :key="item.key" v-show="itemShow(index)">{{ item.text }}</el-menu-item>
   <el-submenu index="show_more" v-show="moreShow">
     <template slot="title">更多</template>
@@ -122,7 +122,10 @@ export default{
 		height: 50px;
 		line-height: 50px;
 	}
-	>.el-menu-item:hover,.el-submenu__title:hover {
+	>.el-menu-item:hover,.el-submenu__title:hover{
+		background-color: transparent;
+	}
+	>.el-menu-item.is-active{
 		background-color: transparent;
 	}
 }

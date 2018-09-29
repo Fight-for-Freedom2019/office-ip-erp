@@ -7,7 +7,6 @@
   :row-key="rowKey" 
   :default-sort="defaultSort"
   :highlight-current-row="highlightCurrentRow"
-  :height="tableHeight"
 
   @selection-change="handleSelectionChange" 
   @sort-change="_=>{$emit('sort-change', _)}"

@@ -29,7 +29,7 @@ const mutations = {
 
 const actions = {
   refreshFilterData ({commit, rootState, state,getters},{success,key}={}) {
-    console.log(getters.data_key);
+    // console.log(getters.data_key);
     if(key == undefined) return;
     // if(getters.getUrl === '' && getters.data_key === '') return false; 
     const url = rootState.status ? getters.getUrl[key].replace(/\/api/, '') : getters.getUrl[key];
