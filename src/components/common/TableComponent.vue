@@ -111,7 +111,7 @@
         style="margin-left: 5px;"
         type="primary"
         @click="filterVisible = true">
-        筛选
+        高级筛选
       </el-button>
       <template v-if="tableOption.header_slot ? true : false">
         <slot v-for="item in tableOption.header_slot" :name="item"></slot>
@@ -147,6 +147,7 @@
       :columns="columns"
       :table-selected.sync="selected"
       @sort-change="handleSortChange"
+      @update.once="update"
       @row-click="handleRowClick"
       @cell-click="handleCellClick"
       @order="handleSort"
@@ -778,6 +779,9 @@ export default {
     // this.clearFilter();
   },
   created () {
+    window.setTimeout(()=>{
+      this.filterValueVisible = true;
+    },0);
     this.initOptionColumns();
     this.initControl();
   },

@@ -98,11 +98,11 @@ export default {
         'header_btn': [
           { type: 'add', click: this.add, map_if: '/patent/add', },
           { type: 'delete', map_if: '/patent/delete' }, 
-          { type: 'import', map_if: '/patent/import' },
+          // { type: 'import', map_if: '/patent/import' },
           { type: 'export2', map_if: '/patent/export' },
-          { type: 'batch_upload', map_if: '/patent/upload' },
-          { type: 'control', label: '字段' },
-          { type: 'test', label: '测试'}
+          // { type: 'batch_upload', map_if: '/patent/upload' },
+          // { type: 'control', label: '字段' },
+          // { type: 'test', label: '测试'}
         ],
         'header_slot': ['download',],
         'columns': [

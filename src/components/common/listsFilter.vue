@@ -9,12 +9,12 @@
 		<el-row class="common" v-if="source.type!='date'">
 			<el-col :span="24">
 	  	 		<static-select type="text_filter_relate" v-model="contain_relate"></static-select>
-	  	 	</el-col>
+	  	</el-col>
 		</el-row>				
 		<el-row class="common">
 			<el-col :span="24">
 				<filter-condition  :source="source" :value="filters[source.id]" @input="handleInput" ref="filterCondition"></filter-condition>
-	  	 	</el-col>
+	  	 </el-col>
 		</el-row>
 		<el-row>
 			<el-col :span="24">
@@ -99,34 +99,37 @@ export default {
     },   	
   	handleFilter () {
   		const obj = {};
-		const name = this.source.name;
-		const key =  this.field;
-		let [label,value]= [null,null];
-		if(this.source.type == "date" || this.source.type == "text") {
-			value = this.filters[this.source.id];
-			label = this.$refs.filterCondition.getLabel();
-		}else if(this.source.type == 'static_select' || this.source.type == 'remote_select') {
-  			const nodeArr =	this.$refs.filterCondition.getCheckedNodes();
-			value = this.$tool.splitObj(nodeArr,'id');
-			label = this.$tool.splitObj(nodeArr,'name');
-		}
-		if(this.source.type != 'date'){
-			const extraOption = {comparsion:this.contain_relate};
-			obj[key] = { name, key, label, value,extraOption };
-		}else {
-		    obj[key] = { name, key, label, value};
-		}
-		this.fillListFilter(obj);
+  		const name = this.source.name;
+  		const key =  this.field;
+  		let [label,value]= [null,null];
+  		if(this.source.type == "date" || this.source.type == "text") {
+  			value = this.filters[this.source.id];
+  			label = this.$refs.filterCondition.getLabel();
+  		}else if(this.source.type == 'static_select' || this.source.type == 'remote_select') {
+    		const nodeArr =	this.$refs.filterCondition.getCheckedNodes();
+  			value = this.$tool.splitObj(nodeArr,'id');
+  			label = this.$tool.splitObj(nodeArr,'name');
+  		}
+  		if(this.source.type != 'date'){
+  			const extraOption = {operation:this.contain_relate};
+  			obj[key] = { name, key, label, value,extraOption };
+  		}else {
+  		  obj[key] = { name, key, label, value};
+  		}
+  		this.fillListFilter(obj);
+      this.$nextTick(()=>{
+        this.cancle();
+      })
 	},
     getDefaultValue (key) {
       const item = this.filterSettingMap.get(key)
       let val = ''
-	  if(item.type == 'date' ) {
-        val = ['','']
+  	  if(item.type == 'date' ) {
+          val = ['','']
       } else if(item.type == 'text') {
-        val = ''
+          val = ''
       } else if(item.type == 'static_select' || item.type == 'remote_select') {
-        val = []
+          val = []
       }
       return val
     },		
