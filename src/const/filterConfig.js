@@ -61,33 +61,32 @@ const map = new Map([
         { components: 'date',          id: 'public_date',                    name: '公开日'},
         { components: 'input',         id: 'public_number',                  name: '公开号'}, 
         { components: 'input',         id: 'proposal_serial',                name: '提案号'},
-        { components: 'static_select', id: 'progress',                       name: '详细状态', type: 'progress'},
-        { components: 'static_select', id: 'flownode',                       name: '详细状态', type: 'flow_node'},
+        { components: 'static_select', id: 'progress',                       name: '详细状态', type: 'patents_status'},
+        // { components: 'static_select', id: 'flownode',                       name: '详细状态', type: 'flow_node'},
         { components: 'static_select', id: 'legal_status',                   name: '法律状态', type: 'legal_status'},
         { components: 'remote_select', id: 'inventors',                      name: '发明人', type: 'inventor'},
         { components: 'remote_select', id: 'alias_inventors',                name: '送件发明人', type: 'inventor'},
         { components: 'static_select', id: 'tags',                           name: '标签', type: 'tag'},
         { components: 'static_select', id: 'branch',                         name: '部门', type: 'branch'},
         { components: 'static_select', id: 'classification',                 name: '技术分类', type: 'classification'},
-        { components: 'static_select', id: 'products',                       name: '产品', type: 'product'},
+        // { components: 'static_select', id: 'products',                       name: '产品', type: 'product'},
         { components: 'static_select', id: 'product_relevance',              name: '产品相关', type: 'product_relevance'},
         { components: 'static_select', id: 'level',                          name: '案件等级', type: 'case_level'},
         { components: 'static_select', id: 'agency_type',                    name: '案件类型', type: 'agency_type'},
         { components: 'static_select', id: 'ipr',                            name: '负责IPR', type: 'ipr', used: true},
         { components: 'remote_select', id: 'proposer',                       name: '技术联系人', type: 'member'},
-        { components: 'input',         id: 'priorities',                     name: '优先权'},
+        // { components: 'input',         id: 'priorities',                     name: '优先权'},
         { components: 'input',         id: 'das',                            name: 'DAS码'},
         { components: 'input',         id: 'tech_rank',                      name: '技术理解评分'},
         { components: 'input',         id: 'draft_rank',                     name: '撰写质量评分'},
         { components: 'input',         id: 'service_rank',                   name: '服务态度评分'},
         { components: 'input',         id: 'negative_flag',                  name: '特别评价'},
         { components: 'input',         id: 'negative_comment',               name: '评价详情'},
-        { components: 'patent',        id: 'relates',                       name: '相关专利'},
+        // { components: 'patent',        id: 'relates',                       name: '相关专利'},
         { components: 'static_select', id: 'is_support',                     name: '是否已申请资助', type: 'bool', multiple: false}, //是否已申请资助
         { components: 'remote_select', id: 'agency',                         name: '代理机构', type: 'agency', used: true}, //代理机构
         { components: 'remote_select', id: 'agent',                          name: '代理人', type: 'agent'}, //代理人
         { components: 'date',          id: 'pre_exam_ok_date',               name: '初审合格日'},
-        { components: 'date',          id: 'sub_exam_start_date',            name: '进入实审日'},
         { components: 'date',          id: 'sub_exam_start_date',            name: '进入实审日'},
         { components: 'date',          id: 'issue_date',                       name: '公告日'},
         { components: 'input',         id: 'issue_number',                     name: '公告号'},
@@ -122,12 +121,12 @@ const map = new Map([
         // { components: 'date',          id: 'inventor_review_times',         name: '发明人审核次数'},//发明人审核次数
         // { components: '', id: 'inventor_rank',                 name: '发明人技术评分'},//发明人技术评分
         // { components: 'date',          id: 'first_edition_to_ipr_tig',      name: '返IPR初稿时间', date: true },//返IPR初稿时间
-        { components: 'date',          id: 'ipr_final_edition_time',         name: 'IPR定稿时间'}, //IPR定稿时间
+        // { components: 'date',          id: 'ipr_final_edition_time',         name: 'IPR定稿时间'}, //IPR定稿时间
         { components: 'date',          id: 'active_supplement_expire_date',  name: '主动修改期限'}, 
 
         // { components: '', id: 'ipr_review_times',              name: 'IPR审核次数'}, //IPR审核次数
         // { components: '', id: 'first_ipr_rank',                name: 'IPR初稿评分'},//IPR初稿评分
-        { components: 'input',         id: 'final_ipr_rank',                 name: 'IPR定稿评分'},//IPR定稿评分
+        // { components: 'input',         id: 'final_ipr_rank',                 name: 'IPR定稿评分'},//IPR定稿评分
         // { components: 'date',          id: 'agent_drafting_period',         name: '代理撰稿时间', date: true },//代理撰稿时间
         // { components: 'date',          id: 'inventor_review_period',        name: '发明人审核时间', date: true },//发明人审核时间
         // { components: 'date',          id: 'ipr_review_period',             name: 'IPR审核时间', date: true },//IPR审核时间
@@ -185,7 +184,9 @@ const map = new Map([
         { components: 'date',          id: 'create_time', name: '费用生成日期' },
         { components: 'date',          id: 'due_time', name: '账单期限' },
         { components: 'date',          id: 'deadline', name: '官方绝限' },
-        { components: 'date',          id: 'pay_time', name: '付款时间' },
+        { components: 'date',          id: 'pay_time', name: '发放时间', path: 'bonus', used: true },        
+        { components: 'date',          id: 'pay_time', name: '付款时间', path: 'oa', used: true},        
+        { components: 'date',          id: 'pay_time', name: '到账时间', path: 'subsidy', used: true },
         { components: 'static_select', id: 'category', name: '案件类型', type: 'case_type' },
         { components: 'static_select', id: 'patent_type', name: '专利类型', type: 'patent_type' },
         { components: 'date',          id: 'apd', name: '申请日' },

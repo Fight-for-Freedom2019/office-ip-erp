@@ -112,8 +112,12 @@ export default {
 			'listFilter',
 			'innerHeight',
 		]),
+		path() {
+			return this.$route.path;
+		},
 		filterSetting () { //自定义筛选配置项
 			const data = filterConfig.get(this.type)
+			console.log(data);
 			return data ? data : []
 		},
 		filterSettingMap () { //自定义筛选配置项映射
@@ -153,11 +157,25 @@ export default {
 		selectType () {
 			return {
 				placeholder: '请选择筛选属性',
-				options: this.filterSetting.filter(item => !item.used)
+				options: this.filterSetting.filter(item =>{
+					const reg = new RegExp(item.path);
+					if(!item.used && item.path && reg.test(this.path)){
+						return item;
+					}else if(!item.used && !item.path ) {
+						return item;
+					}						
+				})
 			}
 		},
 		usedOptions () {
-			return this.filterSetting.filter(item => item.used)
+			return this.filterSetting.filter(item =>{
+					const reg = new RegExp(item.path);
+					if(item.used && item.path && reg.test(this.path)){
+						return item;
+					}else if(item.used && !item.path ) {
+						return item;
+					}						
+				})
 		},
 		usedFlag () {
 			return this.usedOptions.length === 0 ? false : true
@@ -408,6 +426,7 @@ export default {
 		if (this.usedFlag) {
  		//初始化使用过得字段的值 相当于在data初次声明
 			const obj = {}
+			console.log(this.usedOptions);
 			this.usedOptions.forEach(item => {
 				let val = this.getDefaultValue(item.id)
 				if (val !== null) {
