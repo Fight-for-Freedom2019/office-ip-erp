@@ -90,7 +90,8 @@ export default {
         const success = _=>{ 
           this.$message({message: '新建专利成功', type: 'success'});
           this.refreshUser();
-          this.$router.push('/patent/list'); 
+          // this.$router.push('/patent/list');
+          this.$emit('addSuccess'); 
         };
         const complete = _=>{
           this.btn_disabled = false;

@@ -16,6 +16,13 @@
         @editSuccess="refresh"
         @sendEmail="handleSendMail">
       </common-detail>
+
+    <app-shrink :visible.sync="patentAddVisible" :modal='true' title="新增专利">
+      <span slot="header" style="float: right;">
+        <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
+      </span>
+      <patent-add ref="patentAdd" @addSuccess="()=>{this.patentAddVisible = false}"></patent-add>
+    </app-shrink>  
     
     <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">
       <mail-edit style="margin-top: 10px; " ref="mailEdit" @sendSuccess="mailCallBack" @cancelSending="mailCallBack"></mail-edit>
@@ -56,6 +63,7 @@ import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import MailEdit from '@/components/common/MailEditForm'
 import AppDate from '@/components/common/AppDate'
+import PatentAdd from '@/components/page/PatentAdd'
 import { mapGetters,mapActions } from 'vuex'
 
 const URL = '/patents';
@@ -82,6 +90,7 @@ export default {
       downloadIds: [],
       downloadFileType: [],
       downloadLoading: false,
+      patentAddVisible: false,
       mailVisible: false,
       tableOption: {
         'name': 'patentList',
@@ -281,8 +290,12 @@ export default {
       if (this.selectData.length != 0) {
         this.caseVisible = true;
       }else {
-        this.$router.push('/patent/add');
+        // this.$router.push('/patent/add');
+        this.patentAddVisible = true;
       }
+    },
+    saveAdd () {
+      this.$refs.patentAdd.add();
     },
     ifAgency () {
       const r = this.userrole;
@@ -422,6 +435,7 @@ export default {
     RemoteSelect,
     MailEdit,
     AppDate,
+    PatentAdd,
   },
 }
 </script>
