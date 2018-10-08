@@ -32,7 +32,7 @@
       </el-form>
     </el-dialog>
 
-    <el-dialog title="案件类型" :visible.sync="caseVisible" size="tiny">
+    <el-dialog title="案件类型" :visible.sync="caseVisible">
       <el-form ref="caseForm" :model="caseForm">
         <el-form-item label="案件类型" prop="caseType" :rules="{type: 'number',required: true, message: '案件类型不能为空', trigger: 'change'}">
           <static-select type="relative_projects_type" v-model="caseForm.caseType"></static-select>

@@ -7,6 +7,8 @@
   :row-key="rowKey" 
   :default-sort="defaultSort"
   :highlight-current-row="highlightCurrentRow"
+  :height="tableHeight"
+  :max-height="maxHeight"
 
   @selection-change="handleSelectionChange" 
   @sort-change="_=>{$emit('sort-change', _)}"
@@ -173,7 +175,6 @@ export default {
     },
     maxHeight: {
       type: [String, Number],
-      default: '',
     },
     type: {
       type: String,
@@ -230,7 +231,6 @@ export default {
     tableHeight () {
       let height = '';
       const hk = this.height;
-
       if(hk !== undefined) {
         if(hk == 'default') {
           height = this.innerHeight - 150;
@@ -263,8 +263,7 @@ export default {
           height = hk;
         }
       }
-
-      return height;
+      return height-0;
     },
   },
   mounted() {

@@ -44,7 +44,7 @@
           :src="sysmesg.length != 0 ? '/static/static_img/news_in.png' : '/static/static_img/news.png'"
         />   -->      
           <el-badge :value="pendingTaskCount" class="task-pending-top">
-            <el-button size="mini" icon="warning" type="primary" @click="$router.push('/task/pending')" title="待办任务"></el-button>
+            <el-button size="mini" icon="el-icon-warning" type="primary" @click="$router.push('/task/pending')" title="待办任务"></el-button>
           </el-badge>
         <a target="_blank" href="http://help.hongjianguo.com" style="margin-right:20px;
     font-size: 14px;">帮助</a>       
@@ -535,6 +535,9 @@ nav {
   .el-menu--horizontal {
     border: none;
   } 
+  .el-checkbox__label {
+    line-height: 32px;
+  }  
   .el-menu {
     border-right: none;
   }   

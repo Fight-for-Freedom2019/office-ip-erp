@@ -5,7 +5,7 @@
         <el-input
           :placeholder="placeholder"
           v-model="search"
-          icon="search"
+          suffix-icon="el-icon-search"
           size="small"
           class="app-transfer-panel__filter"
         >

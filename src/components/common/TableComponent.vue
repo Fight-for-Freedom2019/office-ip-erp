@@ -25,7 +25,7 @@
 
         <template v-else-if="btn.type == 'control'">
           <!-- <el-dropdown trigger="click" :hide-on-click="false" menu-align="start" > -->
-            <el-button class="table-header-btn" type="primary" :icon="btn.icon ? btn.icon : 'menu'" @click="dialogControl = true">
+            <el-button class="table-header-btn" type="primary" :icon="btn.icon ? btn.icon : 'el-icon-menu'" @click="dialogControl = true">
               {{ btn.label ? btn.label : '字段'}}
             </el-button>
 <!--             <el-dropdown-menu slot="dropdown" style="max-height: 500px; overflow-y: auto; overflow-x:  hidden;">
@@ -59,39 +59,39 @@
         </template>
 
         <template v-else-if="btn.type == 'add'">
-          <el-button class="table-header-btn" type="primary" icon="plus" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '添加' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-plus" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '添加' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'edit'">
-          <el-button class="table-header-btn" type="primary" icon="edit" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '编辑' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-edit" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '编辑' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'delete'">
-          <el-button class="table-header-btn" type="primary" icon="delete" @click="handleDelete(btn.click, $event, btn.callback)">{{ btn.label ? btn.label : '删除' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-delete" @click="handleDelete(btn.click, $event, btn.callback)">{{ btn.label ? btn.label : '删除' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'filter'">
-          <el-button class="table-header-btn" type="primary" icon="search" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '筛选' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-search" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '筛选' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'export'">
-          <el-button class="table-header-btn" type="primary" icon="upload2" :loading="exportLoading" @click="handelExport(btn.click, $event)">{{ exportLoading ? '导出中...' : '导出' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-upload2" :loading="exportLoading" @click="handelExport(btn.click, $event)">{{ exportLoading ? '导出中...' : '导出' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'export2'">
-          <el-button class="table-header-btn" type="primary" icon="upload2" @click="dialogExport = true">导出</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-upload2" @click="dialogExport = true">导出</el-button>
         </template>
 
         <template v-else-if="btn.type == 'import'">
-          <el-button class="table-header-btn" type="primary" icon="document"  @click="handleImport(btn.click, $event)">{{ btn.label ? btn.label : '导入' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-document"  @click="handleImport(btn.click, $event)">{{ btn.label ? btn.label : '导入' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'batch_upload'">
-          <el-button class="table-header-btn" type="primary" icon="upload" @click="handleBatchUpload(btn.click, $event)">{{ btn.label ? btn.label : '文件上传' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-upload" @click="handleBatchUpload(btn.click, $event)">{{ btn.label ? btn.label : '文件上传' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'batch_update'">
-          <el-button class="table-header-btn" type="primary" icon="edit" @click="handleBatchUpdate(btn.click, $event)">批量更新</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-edit" @click="handleBatchUpdate(btn.click, $event)">批量更新</el-button>
         </template>
 
         <template v-else-if="btn.type == 'report'">
@@ -180,7 +180,7 @@
     
     <file-upload v-if="tableOption.upload_type !== undefined" :type="tableOption.upload_type" @uploadSuccess="refresh" ref="file_upload"></file-upload>
   
-    <el-dialog class="dialog-control" :visible.sync="dialogControl" title="字段控制" @close="transferValue = control; $refs.transfer.clear();">
+    <el-dialog width="600px" :visible.sync="dialogControl" title="字段控制" @close="transferValue = control; $refs.transfer.clear();">
         <div style="margin-bottom: 10px;
     padding-left: 50px;
     color: rgb(132, 146, 166);">提示：可拖动字段调整顺序</div>
