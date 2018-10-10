@@ -69,7 +69,7 @@ const getters = {
 			arr.push(form);
 		})
 		console.log(arr);
-		return {conditon:arr};
+		return {query:arr};
 	},	
 	filterLock: state => state.lock, //刷新数据锁,在watch函数中使用(TableComponent)
 	navLabel: (state,getters) => { //合并显示

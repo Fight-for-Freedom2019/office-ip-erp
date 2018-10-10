@@ -7,6 +7,8 @@
   :row-key="rowKey" 
   :default-sort="defaultSort"
   :highlight-current-row="highlightCurrentRow"
+  :height="tableHeight"
+  :max-height="maxHeight"
 
   @selection-change="handleSelectionChange" 
   @sort-change="_=>{$emit('sort-change', _)}"
@@ -17,7 +19,7 @@
   <template v-for="(col, index) in columns">
     
     <template v-if="col.type == 'selection'">
-      <el-table-column type="selection" :fixed="col.fixed === false ? false : 'left'"></el-table-column>
+      <el-table-column type="selection" ></el-table-column>
     </template>
 
 <!--         <template v-else-if="col.type == 'expand'">
@@ -40,7 +42,7 @@
       </template>
 
       <template v-else-if="col.render_text ? true : false ">
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined  ?handleRenderHeader:null">
           <template slot-scope="scope">
             <span class="table-column-render">{{ col.render_text(scope.row[col.prop]) }}</span>
           </template>
@@ -64,7 +66,7 @@
     </template>
 
     <template v-else-if="col.type == 'array'">
-      <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+      <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
         <template slot-scope="scope">
 
           <el-tag v-for="(item, i) in scope.row[scope.column.property]" style="margin-left: 5px;" close-transition :key="i">{{ item }}</el-tag>
@@ -173,7 +175,6 @@ export default {
     },
     maxHeight: {
       type: [String, Number],
-      default: '',
     },
     type: {
       type: String,
@@ -219,7 +220,7 @@ export default {
         if(_.type == 'array' && _.render) {
           r.forEach(d_c=>{
             const p = _.prop;
-            d_c[p] = _.render(d_c[p]);
+            d_c[`${p}__render`] = _.render(d_c[p]);
           })
         }
       })
@@ -230,7 +231,6 @@ export default {
     tableHeight () {
       let height = '';
       const hk = this.height;
-
       if(hk !== undefined) {
         if(hk == 'default') {
           height = this.innerHeight - 150;
@@ -263,8 +263,7 @@ export default {
           height = hk;
         }
       }
-
-      return height;
+      return height-0;
     },
   },
   mounted() {
@@ -363,8 +362,15 @@ export default {
     },
     handleRenderHeader (h,{column,$index},func) {
       console.log('aaa');
-        let self = this;
-        let item = column.label;
+      let self = this;
+      let item = column.label;
+      let property = '';
+      const sindex =column.property.indexOf('__');
+      if(sindex!== -1) {
+         property = column.property.substring(0,sindex);
+      }else {
+         property = column.property;
+      }        
       if(func){
         func();
       }else if(column.type == 'action'){
@@ -394,21 +400,17 @@ export default {
           },
         },'')])
       }else{
-        // const sindex =column.property.indexOf('__');
-        // if(sindex!== -1) {
-        //   column.property = column.property.substring(0,sindex);
-        // }
-        const source = this.filterSettingMap.get(column.property) !== undefined ?
-        this.filterSettingMap.get(column.property) : null;
+        const source = this.filterSettingMap.get(property) !== undefined ?
+        this.filterSettingMap.get(property) : null;
         const data = {  
           props:{
-            field: column.property,
+            field: property,
             listType: self.listType,
             filterConditionVisible: self.filterConditionVisible,
           },
           on: {
             popover(val) {
-               self.handleHeaderClose(column.property);
+               self.handleHeaderClose(property);
             },
             order(val) {
               console.log(val)
@@ -430,11 +432,11 @@ export default {
             /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
               const refObj =  self.$refs.table.$refs.tableHeader.$refs;
               for(let k in refObj) {
-                if( k !== `popover-${column.property}`) {
+                if( k !== `popover-${property}`) {
                   self.$refs.table.$refs.tableHeader.$refs[k].doClose();
                 }
               }
-              self.$refs.table.$refs.tableHeader.$refs[`popover-${column.property}`].doToggle();
+              self.$refs.table.$refs.tableHeader.$refs[`popover-${property}`].doToggle();
 
             }
           },
@@ -443,7 +445,7 @@ export default {
 
             source!=null?<span style={{width: '100%',display: 'inline-block'}}>
               <span>{item}</span>
-              <el-popover  width='100%' placement='bottom'  trigger="manual"  ref={`popover-${column.property}`} >
+              <el-popover  width='100%' placement='bottom'  trigger="manual"  ref={`popover-${property}`} >
               <div style={{width: '100%',}}>
                   <ListsFilter {...data}></ListsFilter>
               </div> 
@@ -456,7 +458,6 @@ export default {
     },
   },
   watch:{
-
   },
   components: {
     'TableRender': {

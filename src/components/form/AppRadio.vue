@@ -56,6 +56,7 @@
   display: inline-block;
   position: relative;
   margin-right: 10px;
+  cursor: pointer;
 }
 .ui-radio.disabled{
   border-color: #d1dbe5;

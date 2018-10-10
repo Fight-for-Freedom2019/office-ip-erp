@@ -954,6 +954,40 @@ const router = new Router({
       }
     },
     {
+      path: '/fee/oa/official',
+      name: 'FeeCommonOfficial',
+      component: FeeCommon,
+      props: {
+        debit: 0,
+        defaultParams: {
+          fee_type: 3
+        }
+      }
+    },
+    {
+      path: '/fee/oa/agency',
+      name: 'FeeCommonAgency',
+      component: FeeCommon,
+      props: {
+        debit: 0,
+        defaultParams: {
+          fee_type: 2
+        }
+      }
+    },
+    {
+      path: '/fee/subsidy/huangpu',
+      name: 'FeeCommonsubH',
+      component: FeeCommon,
+      props: {
+        debit: 1,
+        defaultParams: {
+          category: 1,
+          gov: 'dis',
+        }
+      }
+    },    
+    {
       path: '/fee/huangpu/patent',
       name: 'FeeCommonNP',
       component: FeeCommon,
@@ -989,6 +1023,18 @@ const router = new Router({
         }
       }
     },
+    {
+      path: '/fee/subsidy/guangzhou',
+      name: 'FeeCommonsubG',
+      component: FeeCommon,
+      props: {
+        debit: 1,
+        defaultParams: {
+          category: 1,
+          gov: 'city',
+        }
+      }
+    },    
     {
       path: '/fee/guangzhou/patent',
       name: 'FeeCommonSP',
@@ -1032,7 +1078,7 @@ const router = new Router({
       props: {
         debit: 1,
         defaultParams: {
-          status:11
+          status:1
         }
       }
     },
@@ -1043,7 +1089,7 @@ const router = new Router({
       props: {
         debit: 1,
         defaultParams: {
-          status:12
+          status:5
         }
       }
     },
@@ -1054,7 +1100,7 @@ const router = new Router({
       props: {
         debit: 1,
         defaultParams: {
-          status:13
+          status:4
         }
       }
     },
@@ -1065,7 +1111,7 @@ const router = new Router({
       props: {
         debit: 1,
         defaultParams: {
-          status:14
+          status:3
         }
       }
     },
@@ -1087,7 +1133,8 @@ const router = new Router({
       props: {
         debit: 0,
         defaultParams: {
-          voucher: 0
+          voucher: 0,
+          status: 2
         }
       }
     },

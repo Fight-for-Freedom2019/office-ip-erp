@@ -26,7 +26,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="流程节点" prop="flow_node_id" v-if="type == 'add' && category != ''" :rules="rules.flow_node_id">
+      <el-form-item label="流程节点" prop="flow_node_id" v-if=" category != ''" :rules="rules.flow_node_id">
         <el-select v-model="form.flow_node_id" placeholder="请选择流程节点">
           <el-option
             v-for="item in flownodeOptions"
@@ -42,8 +42,8 @@
         <remote-select type="member" v-model="form.person_in_charge"></remote-select>
   		</el-form-item>
 
-      <el-form-item label="流程节点" prop="flow_id" v-if="type == 'edit'" :rules="rules.editFlow_id">
-        <el-select v-model="form.flow_id" placeholder="请选择流程节点">
+      <el-form-item label="流程节点" prop="flow_node_id" v-if="type == 'edit'" :rules="rules.editFlow_id">
+        <el-select v-model="form.flow_node_id" placeholder="请选择流程节点">
           <el-option
             v-for="item in flownodeEditOptions"
             :key="item.value"
@@ -54,8 +54,8 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="承办人" prop="person_charge" v-if="type == 'edit'" :rules="rules.person_charge">
-        <remote-select type="member" v-model="form.person_charge"></remote-select>
+      <el-form-item label="承办人" prop="person_in_charge" v-if="type == 'edit'" :rules="rules.person_in_charge">
+        <remote-select type="member" v-model="form.person_in_charge"></remote-select>
   		</el-form-item>
 
       <el-row> 
@@ -131,11 +131,10 @@ export default {
       await this.checkeForm()
       const url = `${URL}/${this.row.id}`;
       const data = this.$tool.shallowCopy(this.form, {'date': true});
-      console.log(data);
-      data.person_in_charge = data.person_in_charge.id;
       const success = _=>{ this.$emit('editSuccess') };
       const complete = _=>{ this.btn_disabled = false };
       this.btn_disabled = true;
+
       await this.$axiosPut({url, data, success, complete });
     },
     clear () {
@@ -157,6 +156,7 @@ export default {
       }, 0);
     }, 
     refreshRow () {
+      console.log(this.row);
       if(this.type == 'edit') {
         
         for( let k in this.form) {
@@ -167,6 +167,8 @@ export default {
             this.attachments = d;
           }else if(k == 'inner_deadline') {
             this.form[k] = new Date(d);
+          }else if(k == 'flow_node_id') {
+            this.form[k] = this.row['flownode']['id'];
           }else if(k == 'person_in_charge') {
             this.form[k] = {id: d, name: this.row['person_in_charge_name']};
             // console.log(this.form[k]);

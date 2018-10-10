@@ -25,7 +25,7 @@
 
         <template v-else-if="btn.type == 'control'">
           <!-- <el-dropdown trigger="click" :hide-on-click="false" menu-align="start" > -->
-            <el-button class="table-header-btn" type="primary" :icon="btn.icon ? btn.icon : 'menu'" @click="dialogControl = true">
+            <el-button class="table-header-btn" type="primary" :icon="btn.icon ? btn.icon : 'el-icon-menu'" @click="dialogControl = true">
               {{ btn.label ? btn.label : '字段'}}
             </el-button>
 <!--             <el-dropdown-menu slot="dropdown" style="max-height: 500px; overflow-y: auto; overflow-x:  hidden;">
@@ -59,39 +59,39 @@
         </template>
 
         <template v-else-if="btn.type == 'add'">
-          <el-button class="table-header-btn" type="primary" icon="plus" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '添加' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-plus" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '添加' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'edit'">
-          <el-button class="table-header-btn" type="primary" icon="edit" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '编辑' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-edit" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '编辑' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'delete'">
-          <el-button class="table-header-btn" type="primary" icon="delete" @click="handleDelete(btn.click, $event, btn.callback)">{{ btn.label ? btn.label : '删除' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-delete" @click="handleDelete(btn.click, $event, btn.callback)">{{ btn.label ? btn.label : '删除' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'filter'">
-          <el-button class="table-header-btn" type="primary" icon="search" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '筛选' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-search" @click="handleCommand(btn.click, $event)">{{ btn.label ? btn.label : '筛选' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'export'">
-          <el-button class="table-header-btn" type="primary" icon="upload2" :loading="exportLoading" @click="handelExport(btn.click, $event)">{{ exportLoading ? '导出中...' : '导出' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-upload2" :loading="exportLoading" @click="handelExport(btn.click, $event)">{{ exportLoading ? '导出中...' : '导出' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'export2'">
-          <el-button class="table-header-btn" type="primary" icon="upload2" @click="dialogExport = true">导出</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-upload2" @click="dialogExport = true">导出</el-button>
         </template>
 
         <template v-else-if="btn.type == 'import'">
-          <el-button class="table-header-btn" type="primary" icon="document"  @click="handleImport(btn.click, $event)">{{ btn.label ? btn.label : '导入' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-document"  @click="handleImport(btn.click, $event)">{{ btn.label ? btn.label : '导入' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'batch_upload'">
-          <el-button class="table-header-btn" type="primary" icon="upload" @click="handleBatchUpload(btn.click, $event)">{{ btn.label ? btn.label : '文件上传' }}</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-upload" @click="handleBatchUpload(btn.click, $event)">{{ btn.label ? btn.label : '文件上传' }}</el-button>
         </template>
 
         <template v-else-if="btn.type == 'batch_update'">
-          <el-button class="table-header-btn" type="primary" icon="edit" @click="handleBatchUpdate(btn.click, $event)">批量更新</el-button>
+          <el-button class="table-header-btn" type="primary" icon="el-icon-edit" @click="handleBatchUpdate(btn.click, $event)">批量更新</el-button>
         </template>
 
         <template v-else-if="btn.type == 'report'">
@@ -104,10 +104,6 @@
       </template>
       </template>
         
-      <template v-if="tableOption.header_slot ? true : false">
-        <slot v-for="item in tableOption.header_slot" :name="item"></slot>
-      </template>
-
       <el-button
         class="table-header-btn"
         v-if="tableOption.is_list_filter && tableOption.list_type" 
@@ -115,8 +111,12 @@
         style="margin-left: 5px;"
         type="primary"
         @click="filterVisible = true">
-        筛选
+        高级筛选
       </el-button>
+      <template v-if="tableOption.header_slot ? true : false">
+        <slot v-for="item in tableOption.header_slot" :name="item"></slot>
+      </template>
+
 
       </div>
       <div class="table-header-right">
@@ -147,6 +147,7 @@
       :columns="columns"
       :table-selected.sync="selected"
       @sort-change="handleSortChange"
+      @update.once="update"
       @row-click="handleRowClick"
       @cell-click="handleCellClick"
       @order="handleSort"
@@ -179,7 +180,7 @@
     
     <file-upload v-if="tableOption.upload_type !== undefined" :type="tableOption.upload_type" @uploadSuccess="refresh" ref="file_upload"></file-upload>
   
-    <el-dialog class="dialog-control" :visible.sync="dialogControl" title="字段控制" @close="transferValue = control; $refs.transfer.clear();">
+    <el-dialog width="600px" :visible.sync="dialogControl" title="字段控制" @close="transferValue = control; $refs.transfer.clear();">
         <div style="margin-bottom: 10px;
     padding-left: 50px;
     color: rgb(132, 146, 166);">提示：可拖动字段调整顺序</div>
@@ -437,8 +438,12 @@ export default {
       //     console.log(...this.tableOption.certificate_columns);
       //     cols.push(...this.tableOption.certificate_columns);
       // }
-      if(this.feeBonus) {
-         cols =  cols.filter(_=>!_.is_bonus);
+      if(/bonus/.test(this.feePath)) {
+         cols =  cols.filter(_=>_.is_bonus);
+      }else if(/subsidy/.test(this.feePath)){
+        cols = cols.filter(_=>_.is_subsidy);
+      }else if(/oa/.test(this.feePath)){
+        cols = cols.filter(_=>_.is_oa);
       }
       //获取控制器
       let control = [[],[]];
@@ -774,6 +779,9 @@ export default {
     // this.clearFilter();
   },
   created () {
+    window.setTimeout(()=>{
+      this.filterValueVisible = true;
+    },0);
     this.initOptionColumns();
     this.initControl();
   },

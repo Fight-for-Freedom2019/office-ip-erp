@@ -72,7 +72,7 @@ const mutations = {
 			}
 		}
 	},
-	setDetailData: (state, data)=>{ state.data = data },
+	setDetailData: (state, data)=>{ state.data = data},
 	setLoading(state, boolean) { state.loading = boolean },
 	setId(state, id) { state.id = id },
 	refreshTrueType(state) { state.true_type = state.type },
@@ -104,7 +104,7 @@ const actions = {
       if( d.status ) {
         commit('setDetailData', JSON.parse(JSON.stringify(d[state.type])));
       }else {
-      	commit('setDetailData', null);
+      	// commit('setDetailData', null);
       	if(error) error(response);
         // alert(d.info);
       }

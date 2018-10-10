@@ -16,6 +16,13 @@
         @editSuccess="refresh"
         @sendEmail="handleSendMail">
       </common-detail>
+
+    <app-shrink :visible.sync="patentAddVisible" :modal='true' title="新增专利">
+      <span slot="header" style="float: right;">
+        <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
+      </span>
+      <patent-add ref="patentAdd" @addSuccess="()=>{this.patentAddVisible = false}"></patent-add>
+    </app-shrink>  
     
     <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">
       <mail-edit style="margin-top: 10px; " ref="mailEdit" @sendSuccess="mailCallBack" @cancelSending="mailCallBack"></mail-edit>
@@ -32,7 +39,7 @@
       </el-form>
     </el-dialog>
 
-    <el-dialog title="案件类型" :visible.sync="caseVisible" size="tiny">
+    <el-dialog title="案件类型" :visible.sync="caseVisible">
       <el-form ref="caseForm" :model="caseForm">
         <el-form-item label="案件类型" prop="caseType" :rules="{type: 'number',required: true, message: '案件类型不能为空', trigger: 'change'}">
           <static-select type="relative_projects_type" v-model="caseForm.caseType"></static-select>
@@ -56,6 +63,7 @@ import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import MailEdit from '@/components/common/MailEditForm'
 import AppDate from '@/components/common/AppDate'
+import PatentAdd from '@/components/page/PatentAdd'
 import { mapGetters,mapActions } from 'vuex'
 
 const URL = '/patents';
@@ -82,6 +90,7 @@ export default {
       downloadIds: [],
       downloadFileType: [],
       downloadLoading: false,
+      patentAddVisible: false,
       mailVisible: false,
       tableOption: {
         'name': 'patentList',
@@ -98,11 +107,11 @@ export default {
         'header_btn': [
           { type: 'add', click: this.add, map_if: '/patent/add', },
           { type: 'delete', map_if: '/patent/delete' }, 
-          { type: 'import', map_if: '/patent/import' },
+          // { type: 'import', map_if: '/patent/import' },
           { type: 'export2', map_if: '/patent/export' },
-          { type: 'batch_upload', map_if: '/patent/upload' },
-          { type: 'control', label: '字段' },
-          { type: 'test', label: '测试'}
+          // { type: 'batch_upload', map_if: '/patent/upload' },
+          // { type: 'control', label: '字段' },
+          // { type: 'test', label: '测试'}
         ],
         'header_slot': ['download',],
         'columns': [
@@ -124,8 +133,8 @@ export default {
           // { type: 'array', label: '提案标题', prop: 'proposals', width: '200', render: _=>_.map(_=>_.title),},
           { type: 'text', label: '产品相关', prop: 'product_relevance', render_simple:'name', width: '115', sortable: true,render_header: true},
           { type: 'text', label: '技术联系人', prop: 'proposer', sortable: true, width: '130', is_import: true, is_agency: true, render_simple: 'name',render_header: true},
-          { type: 'array', label: '发明人', width: '238', prop: 'inventors', is_import: true, is_agency: true, render: _=>_.map(_=>`${_.name}_${_.email}:${_.share}%`),render_header: true},          
-          { type: 'array', label: '送件发明人', width: '238', prop: 'alias_inventors', is_import: true, is_agency: true, render: _=>_.map(_=>`${_.name}_${_.email}`),render_header: true},
+          { type: 'array', label: '发明人', width: '238', prop: 'inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>`${_.name}_${_.email}:${_.share}%`)},render_header: true},          
+          { type: 'array', label: '送件发明人', width: '238', prop: 'alias_inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>`${_.name}_${_.email}`)},render_header: true},
           { type: 'text', label: '代理机构', width: '130', prop: 'agency', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '代理人', width: '90', prop: 'agent', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '技术理解评分', prop: 'tech_rank', is_import: true,  width: '130', show: true, render_header: true},
@@ -281,8 +290,12 @@ export default {
       if (this.selectData.length != 0) {
         this.caseVisible = true;
       }else {
-        this.$router.push('/patent/add');
+        // this.$router.push('/patent/add');
+        this.patentAddVisible = true;
       }
+    },
+    saveAdd () {
+      this.$refs.patentAdd.add();
     },
     ifAgency () {
       const r = this.userrole;
@@ -422,6 +435,7 @@ export default {
     RemoteSelect,
     MailEdit,
     AppDate,
+    PatentAdd,
   },
 }
 </script>

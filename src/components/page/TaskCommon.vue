@@ -73,7 +73,7 @@
           </ul> -->
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="delayTask">提交</el-button>
+          <el-button type="primary" @click="delayTask" :disabled="btn_disabled">提交</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -150,7 +150,7 @@
       </span>
       <span slot="header" style="float: right">
         <el-button size="small" @click="dialogDelayVisible= true" v-if="menusMap && !menusMap.get('/iprs')">延期</el-button>
-        <el-button size="small" type="primary" @click="dialogEditVisible = true" v-if="menusMap && !menusMap.get('/tasks/update')" style="margin-left: 0px;">编辑</el-button>
+        <el-button size="small" type="primary" @click="dialogEditVisible = true" v-if="menusMap && !menusMap.get('/iprs')" style="margin-left: 0px;">编辑</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="!currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogCloseVisible = true;">完结</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogActivationVisible = true;">激活</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="menusMap && !menusMap.get('/tasks/transfer')" @click="dialogTranserVisible = true; transfer_person = {id: currentRow.person_in_charge, name: currentRow.person_in_charge_name }">移交</el-button>
@@ -640,11 +640,16 @@ export default {
       const data = Object.assign({},{'task_id': this.currentRow.id,'project_id': this.currentRow.project_id, 'create_user': this.userid,'remark': this.remark,days:this.days});
       const success = _=>{
         this.dialogDelayVisible = false;
+        this.dialogShrinkVisible = false;
+        this.btn_disabled = true;
         this.$message({ message: '延期成功', type: 'success'});
         this.update();
         this.refreshTaskDelay(this.currentRow.id);
       };
-      this.$axiosPost({url, data, success });
+      const complete = _=>{
+        this.btn_disabled = false;
+      };
+      this.$axiosPost({url, data, success,complete });
     },
     rejectTask() {
         const url = `/tasks/${this.currentRow.id}/reject`;

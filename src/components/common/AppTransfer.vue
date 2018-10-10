@@ -3,8 +3,8 @@
 		<app-transfer-panel :title="title1" :placeholder="placeholder" :data.sync="valueInner1" v-model="check1">
 		</app-transfer-panel>
 		<div class="app-transfer__buttons">
-			<el-button icon="arrow-left" type="primary" size="small" @click="transfer('left')" :disabled="check2.length == 0"></el-button>
-			<el-button icon="arrow-right" type="primary" size="small" @click="transfer('right')" :disabled="check1.length == 0"></el-button>
+			<el-button icon="el-icon-arrow-left" type="primary" size="small" @click="transfer('left')" :disabled="check2.length == 0"></el-button>
+			<el-button icon="el-icon-arrow-right" type="primary" size="small" @click="transfer('right')" :disabled="check1.length == 0"></el-button>
 		</div>
 		<app-transfer-panel :title="title2" :placeholder="placeholder" :data.sync="valueInner2" v-model="check2">
 		</app-transfer-panel>

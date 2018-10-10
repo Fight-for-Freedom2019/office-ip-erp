@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <table-component @refreshTableData="refreshTableData" :tableOption="option" :data="tableData" ref="table" :feeBonus="feeBonus">
+    <table-component @refreshTableData="refreshTableData" :tableOption="option" :data="tableData" ref="table" :feePath="feePath">
       <fee-status slot="status" v-model="fee_status" style="width: 150px; margin-left: 5px;" :feeType="feeType"></fee-status>
       <remote-select v-if="fee_invoice_if" slot='invoice' v-model="fee_invoice" style="width: 220px; margin-left: 10px; display: inline-block;" class="pay_search" :type="feeType ? 'bill' : 'pay'"></remote-select>
     </table-component>
@@ -65,19 +65,23 @@ export default {
             ],
           },
           { type: 'delete' },
-          { type: 'export' },
           { type: 'import' },
+          { type: 'export' },
           { type: 'control' },
         ],
         'import_type': '',
         'header_slot': [ 'status', 'invoice' ],
         'columns': [
           { type: 'selection' },
-          // { type: 'text', label: '案号', prop: 'serial', width: '140' },
-          { type: 'text', label: '请款单号', prop: 'serial', width: '150' },
-          { type: 'text', label: '事务所案号', prop: 'agency_serial', width: '140',is_bonus: true, },
-          { type: 'text', label: '费用对象', prop: 'target', render_simple: 'name', width: '140' },
-          { type: 'text', label: '费用名称', prop: 'code', render_simple: 'name', width: '140' },
+          { type: 'text', label: '案号', prop: 'serial', width: '140', is_subsidy: true,is_oa: true},
+          { type: 'text', label: '请款单号', prop: 'invoice_id', width: '150', is_bonus: true, },
+          { type: 'text', label: '事务所案号', prop: 'agency_serial', width: '140',is_oa: true},          
+          { type: 'text', label: '代理机构', prop: 'agency', width: '140', render_simple: 'name', is_oa: true},
+          { type: 'text', label: '费用对象', prop: 'target', width: '140', is_bonus: true, is_oa: true,is_subsidy: true,render: (h,item)=>{
+            const data = /bonus/.test(this.feePath)?`${item.name}(${item.share}%)`:item.name;
+            return h('span',data);
+          }},
+          { type: 'text', label: '费用名称', prop: 'code', render_simple: 'name', width: '140', is_subsidy: true, is_bonus: true,is_oa: true},
           //{ type: 'text', label: '费用类型', prop: 'type_name', width: '190' },
           { 
             type: 'text', 
@@ -85,7 +89,6 @@ export default {
             prop: 'amount', 
             width: '100',
             align: 'right',
-            is_bonus: true,
             render:(h,item,row)=>{
               if( row.roe == 1 ){
                 return h('span','N/A');
@@ -99,7 +102,6 @@ export default {
             label: '汇率', 
             prop: 'roe', 
             width: '80',
-            is_bonus: true,
             align: 'right',
             render:(h,item)=>{
               if( item == 1 ){
@@ -115,38 +117,45 @@ export default {
             prop: 'rmb', 
             width: '120',
             align: 'right',
+            is_subsidy: true,
+            is_bonus: true,
+            is_oa: true,
             render:(h,item)=>{
               return h('span',`${item}CNY`)
             }
           },
-          { type: 'text', label: '费用状态', prop: 'status', render_simple: 'name', width: '180'},
-          { type: 'text', label: '案件类型', prop: 'category', width: '145', is_bonus: true, },
-          { type: 'text', label: '专利类型', prop: 'patent_type', width: '145' },
-          { type: 'text', label: '案件名称', prop: 'title', width: '189' },
-          { type: 'text', label: '申请号', prop: 'apn', width: '200' },
+          { type: 'text', label: '费用状态', prop: 'status', render_simple: 'name', width: '180', is_subsidy:true, is_bonus: true,is_oa: true,},
+          { type: 'text', label: '案件类型', prop: 'category', width: '145',},
+          { type: 'text', label: '专利类型', prop: 'patent_type', width: '145',is_bonus: true, },
+          { type: 'text', label: '案件名称', prop: 'title', width: '189', is_subsidy: true,is_bonus: true, is_oa: true,},
+          { type: 'text', label: '申请号', prop: 'apn', width: '200', is_subsidy: true,is_bonus: true,is_oa: true, },
           { 
             type: 'text', 
             label: '申请日', 
             prop: 'apd',  
             width: '175',
+            is_subsidy: true,
+            is_bonus: true,
+            is_oa: true,
             render_text: item=>item ? this.$tool.getDate(new Date(item*1000)) : '',
           },
           { 
             type: 'text', 
             label: '地区', 
             prop: 'area', 
+            is_bonus: true,
             render_text: item=>{
               return item.id ? this.areaMap.get(item.id) : '';
             }, 
             width: '210' 
           },
-          { type: 'text', label: '发文日', prop: 'mail_date', width: '175', is_bonus: true, },
-          { type: 'text', label: '创建日期', prop: 'create_time', width: '175' , is_bonus: true,},
-          { type: 'text', label: '费用期限', prop: 'due_time', is_import: true, width: '175', is_bonus: true, },
-          { type: 'text', label: '官方绝限', prop: 'deadline', width: '175', is_bonus: true, },
-          { type: 'text', label: '发放时间', prop: 'pay_time', width: '175' },
-          { type: 'text', label: '审核意见', prop: 'remark_enterprise', width: '160', is_bonus: true, },
-          { type: 'text', label: '备注', prop: 'remark', is_import: true, width: '160', is_bonus: true, },
+          { type: 'text', label: '发文日', prop: 'mail_date', width: '175',},
+          { type: 'text', label: '创建日期', prop: 'create_time', width: '175' ,is_oa: true},
+          { type: 'text', label: '费用期限', prop: 'due_time', is_import: true, width: '175',},
+          { type: 'text', label: '官方绝限', prop: 'deadline', width: '175',},
+          { type: 'text', label: '发放时间', prop: 'pay_time', width: '175' ,is_bonus: true,is_oa: true,is_subsidy: true,},
+          { type: 'text', label: '审核意见', prop: 'remark_enterprise', width: '160',is_oa: true,},
+          { type: 'text', label: '备注', prop: 'remark', is_import: true, width: '160',is_subsidy: true, },
           { 
             type: 'action',
             width: '80',
@@ -179,23 +188,35 @@ export default {
     ]),
     feeType () {      
       const path = this.$route.path;
-      const type = !/bonus/.test(path) ? 1 : 0;
+      const type = !(/bonus/.test(path) || /oa/.test(path))? 1 : 0;
       const k = type ? '请款单' : '付款单';
       const o = this.option.header_btn[1];
       o.label = k;
       o.items.forEach(d=>{d.text = d.text.replace('{key}', k)});
-
       this.option.import_type = type ? 'feesIncome' : 'feesPayable';
     
       this.option.header_btn.splice(1, 1, o);
       
+      const optionData = this.option.columns;
+      for(let i = 0; i < optionData.length; i ++) {
+
+        if(optionData[i].label == '发放时间' && /oa/.test(path)){
+
+          optionData[i].label = '付款时间';
+
+        }else if(optionData[i].label == '发放时间' && /subsidy/.test(path)){
+
+          optionData[i].label = '到账时间';
+        }
+      }
+
       return type;  
     },
     feeTypeName () {
       return this.feeType ? '请款单' : '付款单';
     },
-    feeBonus () {
-     return  this.defaultParams.hasOwnProperty('bonus') && Object.keys(this.defaultParams).length !== 0 ? true : false ;
+    feePath () {
+     return  this.$route.path;
     },
     dialogTitle () { 
       const str = this.invoicePopType == 'add' ? '新建为' : '添加到已有';
@@ -212,7 +233,7 @@ export default {
       if(this.fee_invoice instanceof Object) return;
 
       const url = URL;
-      const debit = this.feeType;
+      const debit = this.debit;
       const status = this.fee_status === '' ? {} : {status: this.fee_status};
       const invoice = this.fee_invoice_if && this.fee_invoice != '' ? {fee_invoice: this.fee_invoice} : {};
       const data = Object.assign({}, option, { debit }, invoice, status, this.defaultParams);
@@ -262,7 +283,7 @@ export default {
         // if(row.status.id != 0) return this.$message({type: 'warning', message: '请不要选择未付款状态以外的费用'});
         o[row.target.id] = true;
       }
-      if(this.$tool.getObjLength(o) != 1) {
+      if(this.$tool.getObjLength(o) != 1 && !/bonus/.test(this.feePath)) {
         return this.$message({type: 'warning', message: '请选择具有相同费用对象的费用'});
       }
       
