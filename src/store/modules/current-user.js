@@ -8,10 +8,10 @@ const state = {
 const getters = {
 	getUser: state=>state.data,
 	menusMap: state=>{
-
-		if(state.data == null) return null;
-
 		let map = new Map();
+		if(state.data == null) return map;
+
+	
 		const menus = state.data.menus ? state.data.menus : [];
 		menus.forEach(_=>{map.set(_, true)});
 

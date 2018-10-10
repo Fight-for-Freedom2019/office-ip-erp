@@ -204,7 +204,14 @@ const patentMenu = [
 	// 	children: [],
 	// }
 ];
-
+const clientMenu = [
+	{ type: 'item', text: '客户管理', path: '/client/list', icon: 'iconfont icon-personel'},
+	{ type: 'item', text: '合同管理', path: '/client/contract', icon: 'iconfont icon-contract'},
+	{ type: 'item', text: '报价管理', path: '/client/offer', icon: 'iconfont icon-contract'},
+	{ type: 'item', text: '申请人管理', path: '/client/applicant', icon: 'iconfont icon-proposer'},
+	{ type: 'item', text: '发明人管理', path: '/client/inventor', icon: 'iconfont icon-proposer'},
+	{ type: 'item', text: '接口人管理', path: '/client/contact', icon: 'iconfont icon-proposer'},
+];
 const trademarkMenu = [
 	{ type: 'item', text: '全部商标', path: '/trademark/list', icon : 'iconfont el-icon-my-trademark' },
 	{ 
@@ -461,6 +468,13 @@ menu.source = [
 		path: '/patent',
 		icon: 'iconfont el-icon-my-patent',
 		menu: patentMenu,
+	},
+	{
+		text: '客户',
+		key: 'client',
+		path: '/client',
+		icon: 'iconfont icon-client',
+		menu: clientMenu,
 	},
 	// {
 	// 	text: '版权',

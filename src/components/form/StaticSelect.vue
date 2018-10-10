@@ -80,7 +80,6 @@ export default {
     ...mapGetters([
       'staticSelectorMap',
       'staticSelectorCache',
-      
     ]),
     cacheData () {
       return this.staticSelectorCache[this.type];
@@ -302,7 +301,7 @@ export default {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-     height: 16px; 
+    height: 16px; 
     background-color: transparent;
 }
 </style>

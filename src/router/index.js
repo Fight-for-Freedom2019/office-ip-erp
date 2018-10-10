@@ -10,6 +10,7 @@ const TaskCommon               = () => import('@/components/page/TaskCommon')
 const TaskExpiring             = () => import('@/components/page/TaskExpiring')
 const TaskExpiringControl      = () => import('@/components/page/TaskExpiringControl')
 const PatentList               = () => import('@/components/page/PatentList')
+const ClientList               = () => import('@/components/page/ClientList')
 const PatentCertificate        = () => import('@/components/page/PatentCertificate')
 const PatentAward              = () => import('@/components/page/PatentAward')
 const ApplyingPatent           = () => import('@/components/page/ApplyingPatent')
@@ -83,6 +84,7 @@ const router = new Router({
     { path: '/task', redirect: '/task/pending' },
     { path: '/patent', redirect: '/patent/list' },
     { path: '/trademark', redirect: '/trademark/list' },
+    { path: '/client', redirect: '/client/list' },
     { path: '/copyright', redirect: '/copyright/list' },
     { path: '/news', redirect: '/news/mailList' },
     { path: '/dispatch', redirect: '/dispatch/administration' },
@@ -98,6 +100,17 @@ const router = new Router({
       path: '/statistics',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/client/list',
+      name: 'ClientList',
+      component:  ClientList,
+    },
+  
+    {
+      path: '/client/applicant',
+      name: 'ApplicantLists',
+      component: ApplicantList
     },
     {
       path: '/setting/inventorList',
@@ -338,6 +351,17 @@ const router = new Router({
         custom: true,
       },
     },
+    
+    // {
+    //   path: '/client/contract',
+    //   name: 'ContractList',
+    //   component: ContractList
+    // },
+    // {
+    //   path: '/client/offer',
+    //   name: 'Offer',
+    //   component: Offer,
+    // },
 //################### 任务路由 end #####################
 
 //################### 提案路由 begin ###################
