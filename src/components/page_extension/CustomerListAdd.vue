@@ -1,9 +1,27 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" :modal="false" class="dialog-small">
+  <div class="main" style="margin-top:10px;">
   	<el-form label-width="100px" ref="form" :model="form" :rules="rules">
   		
   		<el-form-item label="客户名称" prop="name">
   			<el-input v-model="form.name" ></el-input>
+  		</el-form-item>
+      <el-form-item label="客户代码" prop="code">
+  			<el-input v-model="form.code" ></el-input>
+  		</el-form-item>
+      <el-form-item label="邮箱" prop="email_address">
+  			<el-input v-model="form.email_address" ></el-input>
+  		</el-form-item>
+      <el-form-item label="电话" prop="phone_number">
+  			<el-input v-model="form.phone_number" ></el-input>
+  		</el-form-item>
+      <el-form-item label="所属销售" prop="sales">
+  			<static-select type="skip" v-model="form.sales"></static-select>
+  		</el-form-item>
+      <el-form-item label="所属顾问" prop="consultant">
+  			<static-select type="skip" v-model="form.consultant"></static-select>
+  		</el-form-item>
+      <el-form-item label="联系人" prop="contact">
+  			<static-select type="skip" v-model="form.contact"></static-select>
   		</el-form-item>
       <el-form-item label="地区">
   			<provincial-linkage v-model="cityInfo"  class="select-city" @input="chooseAddress"></provincial-linkage>
@@ -11,30 +29,15 @@
       <el-form-item label="地址" prop="address">
   			<el-input v-model="form.address" ></el-input>
   		</el-form-item>
-      <el-form-item label="邮件" prop="email_address">
-  			<el-input v-model="form.email_address" ></el-input>
+      <el-form-item label="备注" prop="remark">
+  			<el-input v-model="form.remark" ></el-input>
   		</el-form-item>
-      <el-form-item label="电话" prop="phone_number">
-  			<el-input v-model="form.phone_number" ></el-input>
-  		</el-form-item>
-      <el-form-item label="销售" prop="sales_id">
-  			<static-select type="skip" v-model="form.sales_id"></static-select>
-  		</el-form-item>
-      <el-form-item label="顾问" prop="consultant_id">
-  			<static-select type="skip" v-model="form.consultant_id"></static-select>
-  		</el-form-item>
-      <el-form-item label="联系人" prop="contact_id">
-  			<static-select type="skip" v-model="form.contact_id"></static-select>
-  		</el-form-item>
-      
-    <el-form-item style="margin-bottom: 0px;">
-        <el-button type="primary" @click="add" v-if="type === 'add'" :disabled="btn_disabled">添加</el-button>
-        <el-button type="primary" @click="edit" v-if="type === 'edit'" :disabled="btn_disabled">编辑</el-button>
-        <el-button type="button" @click="cancel" :disabled="btn_disabled">取消</el-button>
-    </el-form-item>
-
+      <el-form-item style="margin-bottom: 0px;">
+          <el-button type="primary" @click="add" v-if="type === 'add'" :disabled="btn_disabled">添加</el-button>
+          <el-button type="primary" @click="edit" v-if="type === 'edit'" :disabled="btn_disabled">编辑</el-button>
+      </el-form-item>
   	</el-form>
-  </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -45,12 +48,12 @@ import StaticSelect from '@/components/form/StaticSelect'
 import ProvincialLinkage from '@/components/form/City'
 const URL = '/api/customers'
 export default {
-  name: 'RequireListPop',
+  name: 'CustomerListAdd',
   mixins: [ PopMixins ],
   props: [ 'customer', 'row' ],
   data () {
 		return {
-      cityInfo:'',
+      cityInfo:[],
       form: {
         name: '',
         sales_id: '',
@@ -61,6 +64,9 @@ export default {
         address:'',
         province_code:'',
         city_code:'',
+        code:'',
+        remark:'',
+        
       },
       'rules': {
         'name': [{ required: true, message: '申请人名称不能为空', trigger: 'blur'},
@@ -142,6 +148,13 @@ export default {
     StaticSelect,
     ProvincialLinkage
   },
+
+  created () {
+		this.$tool.coverObj(this.form, this.customer, {
+      obj: [ 'consultant', 'contact', 'sales'], 
+      skip:[],
+    });
+	},
   URL: '/api/requirements',
   REMINDER_TEXT: '申请人要求',
 }

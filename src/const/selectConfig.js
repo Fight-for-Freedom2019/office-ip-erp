@@ -534,7 +534,24 @@ const config = [
       {id: 1, name: '是'},  
       {id: 2, name: '预研阶段'},
     ]
-  }]
+  }],
+  ['applicant_type', {
+    placeholder: '申请人类型',
+    options: [
+      {id: 3, name: '工矿企业'},
+      {id: 5, name: '个人'},
+      {id: 1, name: '大专院校'}, 
+      {id: 2, name: '科研单位'},  
+      {id: 4, name: '事业单位'},
+    ]
+  }],
+  ['fee_discount', {
+    placeholder: '费减备案',
+    options: [
+      {id: 0, name: '未完成'},
+      {id: 1, name: '已完成'},
+    ]
+  }],
 ];
 
 export default config;

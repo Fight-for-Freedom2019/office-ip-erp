@@ -11,7 +11,7 @@ import {mapGetters} from 'vuex'
 import {mapActions} from 'vuex'
 const URL = '/api/customers';
 export default {
-	name: 'requirementList',
+	name: 'CustomerListApplicant',
 	props: ['customer', 'itemData'],
 	data () {
 		return {
@@ -19,7 +19,7 @@ export default {
 				name: 'requirementList',
 				url: URL,
 				header_btn: [
-					{ type: 'add', click: this.addPop }, 
+					{ type: 'add', click: this.addPop, size: 'small' }, 
 				],
 				columns: [
 					{ type: 'selection' },

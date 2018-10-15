@@ -10,7 +10,7 @@ import Pop from '@/components/page_extension/RequirementListPop'
 import {mapGetters} from 'vuex'
 const URL = '/api/requirements';
 export default {
-	name: 'ClientListQuotation',
+	name: 'CustomerListRemark',
 	props: ['customerId'],
 	data () {
 		return {
@@ -25,13 +25,12 @@ export default {
 					{ 
 						type: 'text', 
 						prop: 'type', 
-                        label: '报价单号',
+                        label: '备注类型',
 						// render_text: _=>this.caseMap.get(Number.parseInt(_)),
 					},
-					{ type: 'text', prop: 'proposer_name', label: '报价人' },
-                    { type: 'text', prop: 'proposer_type', label: '报价日期' },
-                    { type: 'text', prop: 'proposer_name', label: '过期日期' },
-                    { type: 'text', prop: 'proposer_type', label: '备注' },
+					{ type: 'text', prop: 'proposer_name', label: '备注内容' },
+                    { type: 'text', prop: 'proposer_type', label: '备注人' },
+                    { type: 'text', prop: 'proposer_name', label: '备注时间' },
 					{ 
 						type: 'action',
 						width: '100',

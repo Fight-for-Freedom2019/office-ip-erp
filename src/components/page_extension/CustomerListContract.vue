@@ -10,7 +10,7 @@ import Pop from '@/components/page_extension/RequirementListPop'
 import {mapGetters} from 'vuex'
 const URL = '/api/requirements';
 export default {
-	name: 'ClientListContract',
+	name: 'CustomerListContract',
 	props: ['customer','itemData'],
 	data () {
 		return {

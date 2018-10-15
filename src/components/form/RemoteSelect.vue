@@ -117,6 +117,11 @@ const map = new Map([
     DATA_KEY: 'awards',
     PLACEHOLDER: '请输入奖项名称',
   }],
+  ['customer', {
+    URL: '/api/customers',
+    DATA_KEY: 'data.data',
+    PLACEHOLDER: '请选择客户',
+  }],
 ]);
 
 export default {
@@ -221,7 +226,17 @@ export default {
       const url = this.URL;
       const data = os ? Object.assign({}, s, os) : s;
       const success = d=>{
-        const list = d[key];
+        const paths = key.split('.');
+        let list = [];
+        let i = 0;
+        if (paths.length > 1) {
+          while (i < paths.length - 1) {
+            d = d[paths[i]];
+            i++
+          } 
+        }
+        list = d[paths[i]];
+
         if(!list) return this.options = [];
         if(list[0] && list[0]['label'] && list[0]['value'] ) {
           list.forEach(_=>{
