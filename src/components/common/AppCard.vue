@@ -43,7 +43,7 @@
 		        closable
 		        disable-transitions
 		        @close="handleCloseTag(index)"
-		        style="margin-right: 5px;cursor: pointer;" 
+		        style="margin-right: 5px; cursor: pointer;" 
 		        slot="reference"
 	    	>
 	    		<span v-if="type == 'inventor' && tag.share!=undefined">{{ `${tag.name};贡献率：${tag.share}%` }}</span>

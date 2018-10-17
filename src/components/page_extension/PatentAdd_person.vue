@@ -304,6 +304,7 @@ export default {
       for(let k in this.form) {
         if(data[k] == undefined) continue;
         if( k == 'branch' ) {
+          
           if(data[k]) {
             this.form[k] = data[k]['id'];  
             this.branchName = data[k]['name'];
