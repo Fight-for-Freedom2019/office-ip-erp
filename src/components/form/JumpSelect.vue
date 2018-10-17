@@ -1,44 +1,35 @@
 <template>
-  <div class="select_list">
-    <app-card :value="selectedValue" :type="type" @handleCloseTag="handleCloseTag"></app-card>
-    <el-button type="text" @click="selectVisible = true" style="line-height: 16px;" :class="[selectedValue.length!=0? 'btn' : '']">{{ pageType == 'add' ? '添加' : '修改' }}</el-button>
-    <el-dialog :visible.sync="selectVisible" :modal="false" title="编辑">
-    	<el-select
-    	  :value="value2"
-    	  @input="handleInput"
-    	  filterable
-    	  remote
-    	  :placeholder="PLACEHOLDER"
-    	  :disabled="disabled"
-    	  :remote-method="remoteMethod"
-    	  :loading="loading"
-        :allow-create="allowCreate"
-        :default-first-option="choose.defaultFirstOption !== undefined ? choose.defaultFirstOption : false"
-    	  :multiple="!single"
-    	  ref="select"
-        @change="handleChange"
-    	  @visible-change.once="initialization"
-    	>
-    		<el-option
-    			v-for="item in option_in"
-    			:key="item.id"
-    			:label="item.name"
-    			:value="item.id"
-    		>
-    		</el-option>
-    	</el-select>
-      <el-row style="margin-top: 10px;">
-        <el-button type="primary" @click="handleAddTag">确认</el-button>
-        <el-button @click="selectVisible = false">取消</el-button>
-      </el-row>
-    </el-dialog>    
+  <div class="select_jump_list">
+  	<el-select
+  	  :value="value2"
+  	  @input="handleInput"
+  	  filterable
+  	  remote
+  	  :placeholder="PLACEHOLDER"
+  	  :disabled="disabled"
+  	  :remote-method="remoteMethod"
+  	  :loading="loading"
+      :value-key="valueKey"
+      :allow-create="allowCreate"
+      :default-first-option="choose.defaultFirstOption !== undefined ? choose.defaultFirstOption : false"
+  	  :multiple="!single"
+  	  ref="select"
+      @change="handleChange"
+  	  @visible-change.once="initialization"
+  	>
+  		<el-option
+  			v-for="item in option_in"
+  			:key="item.id"
+  			:label="item.name"
+  			:value="item.id"
+  		>
+  		</el-option>
+  	</el-select>
   </div>
 </template>
 
 <script>
 import AxiosMixins from '@/mixins/axios-mixins'
-import AppCard from '@/components/common/AppCard'
-
 const map = new Map([
 	['member', {
 		URL: '/api/members',
@@ -71,11 +62,6 @@ const map = new Map([
     PLACEHOLDER: '请输入代理机构关键词',
     PARAMS: { poa: 1 },
 	}],
-  ['ipr',{
-    URL: '/api/iprs',
-    DATA_KEY: 'members',
-    PLACEHOLDER: '请输入IPR关键词',
-  }],
 	['project', {
 		URL: '/api/projects',
 		DATA_KEY: 'projects',
@@ -160,16 +146,16 @@ export default {
       type: Array,
       default () { return [] },
     },
-    'pageType':String,
+    'valueKey': {
+      type: String,
+    }
   },
   data () {
   	return {
       options: [],
       loading: false,
       keyword: '',
-      selectVisible: false,
   		selected: [],
-      selectedValue: [],
   		static_map: [],
       numberHandle: ['member', 'applicant', 'inventor', 'agent', 'agency', 'project', 'proposal', 'patent', 'copyright', 'bill', 'pay'],//需要做number类型处理的数据集合
   	};
@@ -191,20 +177,6 @@ export default {
     },
     handleChange (val) {
       this.$emit('change', this.map.get(val));
-    },
-    handleAddTag () {
-      this.selectedValue = this.$tool.deepCopy(this.selected);
-      this.selectVisible = false;
-    },
-    handleCloseTag (index) {
-      if(this.value instanceof Array && this.value.length != 0){
-        this.value.splice(index,1);
-      }else {
-        let arr = [];
-        arr.push(this.value)
-        arr.splice(index,1)
-        return this.value2 = arr
-      }
     },    
   	initialization () {
       this.remoteMethod('');
@@ -349,39 +321,33 @@ export default {
   		this.options.forEach(_=>map.set(_.id, _));
   		return map;
   	},
-    value2: {
-      get() {
-        let val;
-        //将单项统一处理为数组 single时保留原状
-        if(!this.multiple && !this.single) {
-          // console.log(this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]);
-          val = this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]; //空字符串 空对象处理
-        }else {
-          val = this.value;
-        }
-
-        //数字化处理
-        if(this.digitalHandle) {
-          if(val instanceof Array && typeof val[0] == 'string') {
-            val = val.map(_=>{
-              return typeof _ == 'string' && _ ? val - 0 : val;
-            })
-          }else if(typeof val == 'string' && val){
-            val = val - 0;
-          }
-        }
-
-        return val;
-        
-      },
-      set(v) {
-        console.log(v);
-        this.$emit('input', v); 
+    value2 () {
+      let val;
+      //将单项统一处理为数组 single时保留原状
+      if(!this.multiple && !this.single) {
+        // console.log(this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]);
+        val = this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]; //空字符串 空对象处理
+      }else {
+        val = this.value;
       }
+
+      //数字化处理
+      if(this.digitalHandle) {
+        if(val instanceof Array && typeof val[0] == 'string') {
+          val = val.map(_=>{
+            return typeof _ == 'string' && _ ? val - 0 : val;
+          })
+        }else if(typeof val == 'string' && val){
+          val = val - 0;
+        }
+      }
+
+      return val;
+      
     }
   },
   watch: {
-  	value2 :{
+  	value2 (val) {
       // 通过监听value2的变化来对remote-select因tag文字超出input变大样式的hack
       // var aEle=document.getElementsByTagName('input');
       // for(var i=0;i<aEle.length;i++){
@@ -395,26 +361,19 @@ export default {
       // }
 
       //value类型为对象时，添加静态映射，并将其值转为id
-      handler(val){
-        // 多选时调的element底层的属性来关闭下拉框
-        if( !this.single && this.selectVisible ) {
-          this.$refs.select.visible = false;
-        }
-        this.refreshSelected(val);   
-      },
-      deep:true,
+      if( !this.single ) {
+      // if( !this.multiple && !this.single && this.$refs.select) {
+        this.$refs.select.visible = false;
+      }
+      this.refreshSelected(val);   
   	},
     para () {
       this.remoteMethod('');
-    },
-    selected (val) {
-      this.selectedValue = val;
     }
   },
   created () {
     this.refreshSelected(this.value2);
-  },
-  components: { AppCard },
+  }
 }
 </script>
 
@@ -422,50 +381,37 @@ export default {
 <style scoped lang="scss">
 </style>
 <style>
- .header_wrap .select_list   .el-select__tags {
+ .header_wrap .select_jump_list   .el-select__tags {
     max-height: 36px;
     overflow-x: hidden;
     overflow-y: auto;
   } 
-.select_list .el-select__tags::-webkit-scrollbar{
+.select_jump_list .el-select__tags::-webkit-scrollbar{
   width:4px;
   height:4px;
 }
-.select_list .el-select__tags::-webkit-scrollbar-track{
+.select_jump_list .el-select__tags::-webkit-scrollbar-track{
   background: #f6f6f6;
   border-radius:2px;
   display: none;
 }
-.select_list .el-select__tags::-webkit-scrollbar-thumb{
+.select_jump_list .el-select__tags::-webkit-scrollbar-thumb{
   background-color: #EEF1F6;
   border-radius:2px;
 }
-.select_list .el-select__tags::-webkit-scrollbar-thumb:hover{
+.select_jump_list .el-select__tags::-webkit-scrollbar-thumb:hover{
   background: #BEC8D7;
 }
-.select_list .el-select__tags::-webkit-scrollbar-corner{
+.select_jump_list .el-select__tags::-webkit-scrollbar-corner{
   background: #f6f6f6;
 }
-.select_list {
-  display: table;
-/*  display: -webkit-flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;*/
-}
-.select_list .btn{
-  position: relative;
-  top: -10px;
-}
-.select_list .el-tag{
-    min-height: 30px; 
+/*.select_jump_list .el-tag{
+    min-height: 24px; 
     text-overflow: ellipsis;
     overflow: hidden;
     padding: 0 20px 0 5px;
-    position: relative;
-    max-width: 78%;
-  }
-.select_list .el-select .el-tag{
+  }*/
+.select_jump_list .el-select .el-tag{
   height: auto;
   min-height: 24px;
   line-height: 24px;
@@ -476,7 +422,7 @@ export default {
   /*word-break: break-all;*/
   position: relative;
 }
-.select_list .el-tag .el-icon-close {
+/*.select_jump_list .el-tag .el-icon-close {
     border-radius: 50%;
     text-align: center;
     position: absolute;
@@ -490,8 +436,8 @@ export default {
     vertical-align: middle;
     top: 5px;
     right: 0px;
-}
-.select_list .el-select__input {
+}*/
+.select_jump_list .el-select__input {
     border: none;
     outline: 0;
     padding: 0;

@@ -1,6 +1,7 @@
 export default {
 	props: {
 		'value': Array,
+    'pageType': String,
     'disabled': {
       type: Boolean,
       default: false,

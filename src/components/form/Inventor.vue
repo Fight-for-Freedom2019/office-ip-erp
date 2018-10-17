@@ -1,7 +1,7 @@
 <template>
 	<el-row>
     <el-col :span="16" style="padding-right:5px">
-      <remote-select type="member" :value="id" ref="member" :static-map="inventorInstall" @input="handleInventor" :disabled="disabled"></remote-select>
+      <jump-select type="member" :value="id" ref="member" :static-map="inventorInstall" @input="handleInventor" :disabled="disabled"></jump-select>
     </el-col>
     <el-col :span="6" style="padding:0 5px">
       <el-autocomplete placeholder="贡献率" :fetch-suggestions="handleFetch"  style="width: 100%" readonly :value="share + ''" @input="handlePercent" :disabled="disabled">
@@ -18,6 +18,7 @@
 import InventorSelect from '@/components/form/InventorSelect'
 import AxiosMixins from '@/mixins/axios-mixins'
 import RemoteSelect from '@/components/form/RemoteSelect'
+import JumpSelect from '@/components/form/JumpSelect'
 export default {
   name: 'inventor',
   mixins: [ AxiosMixins ], 
@@ -30,7 +31,7 @@ export default {
     'disabled': {
       type: Boolean,
       default: false,
-    }
+    },
   },
   data () {
 		return {
@@ -47,7 +48,10 @@ export default {
   	},
   	share () {
   		return this.value.share;
-  	}
+  	},
+    name () {
+      return this.value.name;
+    }
   },
   methods: {
   	handleFetch (val, cb) {
@@ -72,15 +76,17 @@ export default {
       console.log(selected);
       const id = selected && selected.id ? selected.id : '';
       const identity = selected && selected.identity ? selected.identity : '';
+      const name = selected && selected.name ? selected.name : '';
     	const share = this.share;
         
-    	this.$emit('input', { id, share, identity });
+    	this.$emit('input', { id, share, identity , name });
     },
     handlePercent (val) {
     	const id = this.id;
     	const identity = this.identity;
       const share = val;
-    	this.$emit('input', { id, share, identity });
+      const name = this.name
+    	this.$emit('input', { id, share, identity , name });
     },
   },
   created () {
@@ -96,7 +102,7 @@ export default {
       }
     }
   },
-  components: { InventorSelect, RemoteSelect }
+  components: { InventorSelect, RemoteSelect, JumpSelect }
 }
 </script>
 

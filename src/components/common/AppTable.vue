@@ -69,7 +69,7 @@
       <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
         <template slot-scope="scope">
 
-          <el-tag v-for="(item, i) in scope.row[scope.column.property]" style="margin-left: 5px;" close-transition :key="i">{{ item }}</el-tag>
+          <el-tag v-for="(item, i) in scope.row[scope.column.property]" style="margin-left: 5px;" disable-transitions size="small" :key="i">{{ item }}</el-tag>
 
         </template>
       </el-table-column>
@@ -445,7 +445,7 @@ export default {
 
             source!=null?<span style={{width: '100%',display: 'inline-block'}}>
               <span>{item}</span>
-              <el-popover  width='100%' placement='bottom'  trigger="manual"  ref={`popover-${property}`} >
+              <el-popover  width='100%' placement='bottom-end'  trigger="manual"  ref={`popover-${property}`} >
               <div style={{width: '100%',}}>
                   <ListsFilter {...data}></ListsFilter>
               </div> 

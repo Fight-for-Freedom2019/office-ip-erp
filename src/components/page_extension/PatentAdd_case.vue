@@ -5,7 +5,7 @@
           <remote-select type="proposal" v-model="form.proposals" multiple></remote-select>
         </el-form-item>
         <el-form-item label="相关案件">
-          <relative-projects v-model="form.relates"></relative-projects>
+          <relative-projects v-model="form.relates" :page-type="type"></relative-projects>
         </el-form-item>
       </el-form>
     <!-- </app-collapse> -->
@@ -20,6 +20,9 @@ import RemoteSelect from '@/components/form/RemoteSelect'
 
 export default {
   name: 'patentAddCase',
+  props:{
+    'type':String,
+  },
   data () {
     return {
       form: {

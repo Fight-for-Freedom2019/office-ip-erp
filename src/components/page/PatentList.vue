@@ -21,7 +21,7 @@
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
       </span>
-      <patent-add ref="patentAdd" @addSuccess="()=>{this.patentAddVisible = false}"></patent-add>
+      <patent-add page-type="add" ref="patentAdd" @addSuccess="()=>{this.patentAddVisible = false}"></patent-add>
     </app-shrink>  
     
     <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">

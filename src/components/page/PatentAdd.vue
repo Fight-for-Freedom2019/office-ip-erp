@@ -19,7 +19,7 @@
       </el-tab-pane>
       <el-tab-pane>
         <span slot="label"><i class="el-icon-share"></i> 相关案件</span>
-        <case ref="case"></case>
+        <case ref="case" :type="pageType"></case>
       </el-tab-pane>
       <el-tab-pane>
         <span slot="label"><i class="el-icon-more"></i> 其它信息</span>

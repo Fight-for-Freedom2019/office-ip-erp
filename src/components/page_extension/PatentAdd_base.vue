@@ -31,12 +31,12 @@
         <el-col :span="8">
           <el-form-item label="IPR" prop="ipr" :rules="{type: 'number', required: true, message: 'IPR不能为空', trigger: 'change'}">
             <!-- <span class="form-item-text" v-if="type == 'add'">{{ user ? user.name : '暂未取得当前用户信息' }}</span> -->
-            <static-select type="ipr" v-model="form.ipr"></static-select>
+            <remote-select type="ipr" :page-type="type" v-model="form.ipr"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="技术联系人">
-              <remote-select type="member" v-model="form.proposer"></remote-select>
+              <remote-select type="member" :page-type="type" v-model="form.proposer"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -66,15 +66,15 @@
         </el-col>
       </el-row>
       <el-form-item label="申请人">
-        <remote-select type="applicant" v-model="form.applicants" multiple></remote-select>
+        <remote-select type="applicant" :page-type="type" v-model="form.applicants" multiple></remote-select>
       </el-form-item >
 
       <el-form-item label="发明人" prop="inventors" v-if="!menusMap.get('/iprs')">
-        <inventors v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors>
+        <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors>
       </el-form-item>
 
       <el-form-item label="送件发明人">
-        <remote-select type="inventor" v-model="form.alias_inventors" multiple></remote-select>
+        <remote-select type="inventor" :page-type="type" v-model="form.alias_inventors" multiple></remote-select>
       </el-form-item>
       <el-form-item label="优先权">
         <priorities v-model="form.priorities"></priorities>

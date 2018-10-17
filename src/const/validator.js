@@ -47,8 +47,8 @@ export function checkInventors (a, b, c, required=false) {
   }
 
   if( !msg ) {
-    if(number > 100) {
-      msg = '各发明人的贡献率之和应小于等于100';
+    if(number != 100 ) {
+      msg = '各发明人的贡献率之和应等于100';
     }
   }
 

@@ -117,7 +117,6 @@ export default {
 		},
 		filterSetting () { //自定义筛选配置项
 			const data = filterConfig.get(this.type)
-			console.log(data);
 			return data ? data : []
 		},
 		filterSettingMap () { //自定义筛选配置项映射
@@ -400,7 +399,6 @@ export default {
 			// 处理默认使用的字段选择直接筛选
 			deep: true,
 			handler (form) {
-				console.log(form);
 				window.setTimeout(() => {
 					const obj = {}
 					for (let key in form) {
@@ -426,7 +424,6 @@ export default {
 		if (this.usedFlag) {
  		//初始化使用过得字段的值 相当于在data初次声明
 			const obj = {}
-			console.log(this.usedOptions);
 			this.usedOptions.forEach(item => {
 				let val = this.getDefaultValue(item.id)
 				if (val !== null) {
