@@ -1,0 +1,179 @@
+<template>
+	<div class="main" style="margin-top:10px;">	
+		<el-form label-width="120px" :model="form" :rules="rules" ref="form">	
+			<el-form-item label="所属客户" prop="customer">
+				<remote-select type="customer" v-model="form.customer"></remote-select>
+			</el-form-item>
+
+			<el-form-item label="申请人名称" prop="name">
+				<el-input v-model="form.name"  placeholder="请填写申请人名称（必填）"></el-input>
+			</el-form-item>
+
+			<el-form-item label="申请人类型" prop="type">
+				<static-select type="applicant_type" v-model="form.type"></static-select>
+			</el-form-item>
+
+			<el-form-item label="证件号码" prop="identity">
+				<el-input v-model="form.identity" placeholder="请填写申请人证件号码（可选）"></el-input>
+			</el-form-item>
+			
+			<el-row>
+				<el-col :span="8">
+					<el-form-item label="申请人地区" prop="citizenship">
+						<static-select v-model="form.citizenship" type="area"></static-select>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8">
+					<el-form-item label="申请人城市" prop="province_city">
+						<city v-model="form.province_city"></city>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8">
+					<el-form-item label="邮编" prop="postcode">
+						<el-input v-model="form.postcode" placeholder="请填写邮编（可选）"></el-input>
+					</el-form-item>
+				</el-col>
+			</el-row>
+
+
+			<el-form-item label="详细地址" prop="address">
+				<el-input v-model="form.address" placeholder="请填写申请人详细地址（可选）"></el-input>
+			</el-form-item>
+
+			<el-row>
+				<el-col :span="8">
+					<el-form-item label="是否费减备案" prop="is_fee_discount">
+						<el-switch
+							style="display: block; margin-top:9px;"
+							v-model="form.is_fee_discount"
+							active-color="#13ce66"
+							inactive-color="#ff4949">
+						</el-switch>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8">
+					<el-form-item label="是否默认申请人" prop="is_default">
+						<el-switch
+							style="display: block; margin-top:9px;"
+							v-model="form.is_default"
+							active-color="#13ce66"
+							inactive-color="#ff4949">
+						</el-switch>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8">
+					
+				</el-col>
+			</el-row>
+			
+
+			<el-form-item label="英文姓名" prop="english_name">
+				<el-input v-model="form.english_name" placeholder="请填写申请人英文姓名（可选）"></el-input>
+			</el-form-item>
+
+			<el-form-item label="英文地址" prop="english_address">
+				<el-input v-model="form.english_address" placeholder="请填写申请人英文地址（可选）"></el-input>
+			</el-form-item>
+
+			<el-form-item label="备注" prop="remark">
+				<el-input v-model="form.remark" placeholder="请填写申请人备注（可选）"></el-input>
+			</el-form-item>
+		</el-form>
+	</div>
+</template>
+
+<script>
+import StaticSelect from '@/components/form/StaticSelect'
+import RemoteSelect from '@/components/form/RemoteSelect'
+import City from '@/components/form/City'
+import AppSwitch from '@/components/form/AppSwitch'
+const URL = '/api/applicants'
+
+export default {
+  name: 'ApplicantListAdd',
+  props: {
+	'applicant': {
+		type: Object,
+		default() {
+			return {};
+		}
+	},
+	'type': String,
+  },
+  data () {
+	return {
+		form: {
+			type: 3,
+			name: '',
+			identity: '',
+			citizenship: 'CN',
+			address: '',
+			postcode: '',
+			is_fee_discount: false,
+			is_default:false,
+			english_name: '',
+			english_address: '',
+			province_city: [],
+			remark:'',
+		},
+		formType: 'add',		
+		rules : {
+			customer: {required: true, message: '请选择申请人所属客户', trigger: 'change' },
+			name: { required: true, message: '请填写申请人名称', trigger: 'change' },
+			type: { required: true, message: '请选择申请人类型', trigger: 'change' },
+		}
+	}
+  },
+  methods: {
+  	async save (type) {
+  		const data = this.submitForm()
+  		let response
+  		if (type === 'add') {
+  			response = await this.$axiosPost({URL, data, success: () => {
+  				this.$message({type: 'success', message: '添加申请人成功'})
+  				this.$emit('addSuccess')
+  			}})
+  		} else {
+			let url = '/api/applicants/' + this.applicant.id;
+  			data.id = this.applicant.id;
+  			response = await this.$axiosPut({url, data, success: () => {
+  				this.$message({type: 'success', message: '编辑申请人成功'})
+  				this.$emit('editSuccess')
+  			}})
+  		}
+  		return response
+  	},
+  	submitForm () {
+  		const o = {};
+  		for(let k in this.form) {
+  			const d = this.form[k];
+  			if(k == 'province_city') {
+  				o.province_code = d[0] ? d[0] : '';
+  				o.city_code = d[1] ? d[1] : '';
+  			}else {
+  				o[k] = d;
+  			}
+  		}
+
+  		return o;
+  	}
+  },
+  created() {
+		this.$tool.coverObj(this.form, this.applicant, {
+			obj: [ 'customer'], 
+			skip:[],
+		});
+		this.form.province_city = [this.applicant.province_code - 0,this.applicant.city_code + ""];
+  },
+  components: { 
+		StaticSelect,
+		RemoteSelect, 
+	    City, 
+	    AppSwitch,
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+</style>

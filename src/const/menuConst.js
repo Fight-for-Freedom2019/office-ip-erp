@@ -204,7 +204,14 @@ const patentMenu = [
 	// 	children: [],
 	// }
 ];
-
+const crmMenu = [
+	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont icon-personel'},
+	{ type: 'item', text: '申请人管理', path: '/crm/applicants', icon: 'iconfont icon-proposer'},
+	{ type: 'item', text: '发明人管理', path: '/crm/inventors', icon: 'iconfont icon-proposer'},
+	{ type: 'item', text: '联系人管理', path: '/crm/contacts', icon: 'iconfont icon-proposer'},
+	{ type: 'item', text: '合同管理', path: '/crm/contracts', icon: 'iconfont icon-contract'},
+	// { type: 'item', text: '报价管理', path: '/crm/quotations', icon: 'iconfont icon-contract'},
+];
 const trademarkMenu = [
 	{ type: 'item', text: '全部商标', path: '/trademark/list', icon : 'iconfont el-icon-my-trademark' },
 	{ 
@@ -393,6 +400,14 @@ const reportMenu = [
 	{ type: 'item', text: '账单报表', path: '/report/invoice', icon: 'el-icon-my-report' },
 ]
 
+const projectMenu = [
+	{ type: 'item', text: '项目', path: '/projects/all', icon: 'el-icon-my-report' },
+]
+
+const dataInsiderMenu = [
+	{ type: 'item', text: '摘要', path: '/datainsider/summary', icon: 'el-icon-my-report' },
+]
+
 const newsMenu = [
 	{ type: 'item', text: '通知邮件', path: '/news/mailList', icon: 'iconfont el-icon-my-email' },
 	// {
@@ -433,54 +448,64 @@ const testMenu = [
 	{ type: 'item', text: '自定义表单', path: '/test/form', icon: '' },
 ]
 
+const homeMenu = []
+
 menu.source = [
-	// {
-	// 	text: '个人中心',
-	// 	key: 'statistics',
-	// 	path: '/home',
-	// },
 	{
-		text: '任务',
+		text: '首页',
+		key: 'statistics',
+		path: '/home',
+		menu: homeMenu,
+	},
+	{
+		text: '工作流',
 		key: 'task',
 		path: '/task',
 		icon: 'iconfont el-icon-my-task',
 		menu: taskMenu,
 	},
 	{
-		text: '提案',
-		key: 'proposal',
-		path: '/proposal',
-		icon: 'iconfont el-icon-my-proposal',
-		menu: proposalMenu,
-	},
-	{
 		text: '专利',
-		key: 'patent',
-		path: '/patent',
+		key: 'patents',
+		path: '/patents',
 		icon: 'iconfont el-icon-my-patent',
 		menu: patentMenu,
 	},
-	// {
-	// 	text: '版权',
-	// 	key: 'copyright',
-	// 	path: '/copyright',
-	// 	icon: 'iconfont el-icon-my-copyright',
-	// 	menu: copyrightMenu,
-	// },
 	{
-		text: '费用',
-		key: 'fee',
-		path: '/fee',
+		text: '商标',
+		key: 'trademarks',
+		path: '/trademarks',
+		icon: 'iconfont el-icon-my-patent',
+		menu: trademarkMenu,
+	},
+	{
+		text: '版权',
+		key: 'copyrights',
+		path: '/copyrights',
+		icon: 'iconfont el-icon-my-copyright',
+		menu: copyrightMenu,
+	},
+	{
+		text: '项目',
+		key: 'projects',
+		path: '/projects',
+		icon: 'iconfont el-icon-my-copyright',
+		menu: projectMenu,
+	},
+	{
+		text: 'CRM',
+		key: 'crm',
+		path: '/crm',
+		icon: 'iconfont icon-client',
+		menu: crmMenu,
+	},
+	{
+		text: '财务',
+		key: 'fees',
+		path: '/fees',
 		icon: 'iconfont el-icon-my-fee',
 		menu: feeMenu,
 	},
-	// {
-	// 	text: '年费',
-	// 	key: 'renewal',
-	// 	path: '/renewal',
-	// 	icon: 'iconfont el-icon-my-renewal',
-	// 	menu: renewalMenu,
-	// },
 	{
 		text: '报表',
 		key: 'report',
@@ -489,11 +514,11 @@ menu.source = [
 		menu: reportMenu,
 	},
 	{
-		text: '邮件',
-		key: 'news',
-		path: '/news',
+		text: 'Data Insider',
+		key: 'datainsider',
+		path: '/datainsider',
 		icon: 'iconfont el-icon-my-email',
-		menu: newsMenu,
+		menu: dataInsiderMenu,
 	},
 	{
 		text: '设置',

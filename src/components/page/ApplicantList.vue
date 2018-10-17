@@ -1,7 +1,16 @@
 <template>
   <div class="main">
 		<table-component :tableOption="option" :data="tableData" ref="table" @refreshTableData="refreshTableData"></table-component>
-		<pop @addSuccess="update" @editSuccess="update" ref="pop"></pop>
+
+		<!-- 新建申请人 -->
+		<app-shrink :visible.sync="isApplicantAddPanelVisible" :modal='true' :title="this.appPanelTitle">
+      <span slot="header" style="float: right;">
+        <el-button type="primary" @click="saveAdd" v-if="formType == 'add'" size="small">新建</el-button>
+				<el-button type="primary" @click="saveAdd" v-if="formType == 'edit'" size="small">保存</el-button>
+      </span>
+      <applicant-list-add ref="applicantAdd" :type='formType' :applicant='applicant' @addSuccess="()=>{this.isApplicantAddPanelVisible = false}"></applicant-list-add>
+    </app-shrink>
+
   </div>
 </template>
 
@@ -9,7 +18,8 @@
 
 import AxiosMixins from '@/mixins/axios-mixins'
 import TableComponent from '@/components/common/TableComponent'
-import Pop from '@/components/page_extension/ApplicantList_pop'
+import ApplicantListAdd from '@/components/page_extension/ApplicantListAdd'
+import AppShrink from '@/components/common/AppShrink'
 
 const URL = '/api/applicants';
 
@@ -18,15 +28,20 @@ export default {
   mixins: [ AxiosMixins ],
   data () {
 		return {
+			isApplicantAddPanelVisible: false,
+			appPanelTitle: '新建申请人',
+			formType: 'add',
+			applicant: {},
 		  option: {
         'name': 'applicant',
         'url': '/api/applicants',
         'height': 'default',
 		  	'header_btn': [
-		  		{ type: 'add', click: this.addPopUp },
+		  		{ type: 'add', click: this.add },
           { type: 'delete' },
 		  		{ type: 'control' },
-		  	],
+				],
+				'rowClick': this.handleRowClick,
 		  	'columns': [
 		  		{ type: 'selection' },
 		  		{ type: 'text', label: '申请人姓名', prop: 'name', sortable: true, width: '250' },
@@ -59,7 +74,7 @@ export default {
 		  			type: 'action',
             width: '150',
 		  			btns: [
-		  				{ type: 'edit', click: this.editPopUp },
+		  				{ type: 'edit', click: this.handleRowClick },
 		  				{ type: 'delete', click: this.applicantDelete },
 		  			] 
 		  		}
@@ -81,11 +96,19 @@ export default {
     } 
   },
   methods: {
-  	addPopUp () {
-  		this.$refs.pop.show('add');
-  	},
-  	editPopUp (row) {
-  		this.$refs.pop.show('edit',row);
+  	add () {
+			this.formType = 'add';
+			this.appPanelTitle =  '新建申请人';
+  		this.isApplicantAddPanelVisible = true;
+		},
+		saveAdd () {
+      this.$refs.applicantAdd.save();
+    },
+  	handleRowClick (row) {
+			this.applicant = row;
+			this.formType = 'edit';
+			this.appPanelTitle =  '编辑申请人>' + row.name;
+			this.isApplicantAddPanelVisible = true;
   	},
   	applicantDelete ({id, name} ) {
   		this.$confirm(`删除后不可恢复，确认删除‘${name}’？`, {type: 'warning'})
@@ -102,7 +125,7 @@ export default {
   	refreshTableData (option) {
   		const url = URL;
   		const data = Object.assign({}, option);
-			const success = _=>{ this.tableData = _.applicants };
+			const success = _=>{ this.tableData = _.data };
   		this.axiosGet({url, data, success});
   	},
     refresh () {
@@ -115,7 +138,11 @@ export default {
   mounted () {
     this.refresh();
   },
-  components: { TableComponent, Pop }
+	components: { 
+		TableComponent, 
+		ApplicantListAdd, 
+		AppShrink 
+	}
 }
 </script>
 

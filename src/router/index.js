@@ -10,6 +10,7 @@ const TaskCommon               = () => import('@/components/page/TaskCommon')
 const TaskExpiring             = () => import('@/components/page/TaskExpiring')
 const TaskExpiringControl      = () => import('@/components/page/TaskExpiringControl')
 const PatentList               = () => import('@/components/page/PatentList')
+const CustomerList             = () => import('@/components/page/CustomerList')
 const PatentCertificate        = () => import('@/components/page/PatentCertificate')
 const PatentAward              = () => import('@/components/page/PatentAward')
 const ApplyingPatent           = () => import('@/components/page/ApplyingPatent')
@@ -81,9 +82,10 @@ const router = new Router({
     { path: '/', redirect: '/task/pending' },
     { path: '/proposal', redirect: '/proposal/list' },
     { path: '/task', redirect: '/task/pending' },
-    { path: '/patent', redirect: '/patent/list' },
-    { path: '/trademark', redirect: '/trademark/list' },
-    { path: '/copyright', redirect: '/copyright/list' },
+    { path: '/patents', redirect: '/patent/list' },
+    { path: '/trademarks', redirect: '/trademark/list' },
+    { path: '/copyrights', redirect: '/copyright/list' },
+    { path: '/crm', redirect: '/crm/customers' },
     { path: '/news', redirect: '/news/mailList' },
     { path: '/dispatch', redirect: '/dispatch/administration' },
     { path: '/fee', redirect: '/fee/bonus/all' },
@@ -98,6 +100,17 @@ const router = new Router({
       path: '/statistics',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/crm/customers',
+      name: 'CustomerList',
+      component:  CustomerList,
+    },
+  
+    {
+      path: '/crm/applicants',
+      name: 'ApplicantLists',
+      component: ApplicantList
     },
     {
       path: '/setting/inventorList',
@@ -338,6 +351,7 @@ const router = new Router({
         custom: true,
       },
     },
+    
 //################### 任务路由 end #####################
 
 //################### 提案路由 begin ###################

@@ -45,6 +45,7 @@ const actions = {
       const url = config.url;
       const params = config.params ? config.params : {};
       const success = _=>{
+		  console.log(_)
         const handle = config.handle;
         const value = handle ? handle(_) : _.list;
 
