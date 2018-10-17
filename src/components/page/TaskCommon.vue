@@ -835,17 +835,17 @@ export default {
     //   this.refresh();
     // }
 
-    if(this.$store.getters.flowsData === undefined) {
-      this.$store.dispatch('refreshFlows');  
-    }
+    // if(this.$store.getters.flowsData === undefined) {
+    //   this.$store.dispatch('refreshFlows');  
+    // }
     
-    if(this.$store.getters.taskDefsData === undefined) {
-      this.$store.dispatch('refreshTaskDefs');
-    }
+    // if(this.$store.getters.taskDefsData === undefined) {
+    //   this.$store.dispatch('refreshTaskDefs');
+    // }
 
-    if(this.$store.getters.flownodeData === undefined) {
-      this.$store.dispatch('refreshFlownodes');
-    }
+    // if(this.$store.getters.flownodeData === undefined) {
+    //   this.$store.dispatch('refreshFlownodes');
+    // }
 
     if(this.task_status == 1 || this.task_status == -1) {
       this.activeName = 'relative_tasks';

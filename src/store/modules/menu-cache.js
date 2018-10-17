@@ -116,10 +116,10 @@ const actions = {
 	changeMenuType ({commit, dispatch}, type = '') {
 		if(types.indexOf(type) < 0) return;
 		commit('setMenuType', type);
-		dispatch('getCustomData', {type});
+		// dispatch('getCustomData', {type});
 	},
 	refreshCustomData ({dispatch, state}) {
-		dispatch('getCustomData', {type: state.type, flag: true});
+		// dispatch('getCustomData', {type: state.type, flag: true});
 	}
 }
 

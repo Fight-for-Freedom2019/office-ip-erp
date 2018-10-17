@@ -285,9 +285,9 @@ export default {
       //避免每次F5都发送请求的方法：
       //  1.每次使用相关数据的位置添加一个尝试初始化的函数
       //  2.localStorage动态关联 
-      this.refreshProduct();
-      this.refreshBranch();
-      this.refreshClassification();
+      // this.refreshProduct();
+      // this.refreshBranch();
+      // this.refreshClassification();
       // this.$store.dispatch('refreshIpr');
       
       //使用localStorage进行本地缓存

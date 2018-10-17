@@ -38,7 +38,7 @@ axios.interceptors.request.use(config => {
   //判断是否存在token，如果存在将每个页面header都添加token
   
   if(window.localStorage.getItem("token")){
-    config.headers.common['Authorization'] = window.localStorage.getItem("token");
+    config.headers.common['Authorization'] = window.localStorage.getItem("token");console.log(config.headers);
   }
    
     return config;
