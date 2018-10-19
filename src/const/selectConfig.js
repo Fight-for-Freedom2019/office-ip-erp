@@ -7,6 +7,21 @@ const config = [
         { name: '包含', id: 3 },
         { name: '不包含', id: 4 },
       ]
+  }],
+  ['contract_mode',{
+    placeholder: '请选择合同类型',
+    options: [
+        { name: '总框架协议', id: 1 },
+        { name: '单独合同', id: 2 },
+      ]
+  }], 
+  ['fee_mode',{
+    placeholder: '请选择费用类型',
+    options: [
+        { name: '后付费', id: 1 },
+        { name: '全额预付费', id: 2 },
+        { name: '部分预付费', id: 3 },
+      ]
   }],    
   ['date_filter_relate',{
     placeholder: '请选择日期筛选',
@@ -323,6 +338,10 @@ const config = [
   ['area', {
     placeholder: '请选择地区',
     options: 'areaData',
+  }],
+  ['service', {
+    placeholder: '请选择服务类型',
+    url: '/service',
   }],
   ['flow_node', {
     placeholder: '请选择流程节点',

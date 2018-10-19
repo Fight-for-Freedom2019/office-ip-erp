@@ -12,10 +12,10 @@
     <app-collapse :col-title="`代理费及撰写奖励(总计：${detailAgency.sum?detailAgency.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailAgency.list ? detailAgency.list : []"></app-table>
     </app-collapse>
-
+<!-- 
     <app-collapse :col-title="`发明人奖励(总计：${detailInventorBonus.sum?detailInventorBonus.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailInventorBonus.list ? detailInventorBonus.list : []"></app-table>
-    </app-collapse>
+    </app-collapse> -->
    
     <app-collapse :col-title="`政府资助及专利奖(总计：${detailFundings.sum?detailFundings.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailFundings.list ? detailFundings.list : []"></app-table>
@@ -24,14 +24,18 @@
     <app-collapse :col-title="`监控中的年费(总计：${detailAnnual.sum?detailAnnual.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailAnnual.list ? detailAnnual.list : []"></app-table>
     </app-collapse>
-    
+    <pop ref="pop" :feeType="1" @refresh="refresh"></pop>
+    <renewal-pop ref="renewalPop" @refresh="refresh"></renewal-pop>
   </div>
 </template>
 
 <script>
 import AppTable from '@/components/common/AppTable'
 import AppCollapse from '@/components/common/AppCollapse'
+import Pop from '@/components/page_extension/FeeCommon_pop'
+import RenewalPop from '@/components/page_extension/RenewalFee_pop'
 import { mapGetters } from 'vuex'
+const URL = '';
 
 export default {
   name: 'commonDetailFee',
@@ -66,6 +70,16 @@ export default {
         { type: 'text', label: '付款日期', prop: 'pay_date', width: '120'},
         { type: 'text', label: '状态', prop: 'status', width: '90'},
         { type: 'text', label: '备注', prop: 'remark', min_width: '90'},
+        { 
+          type: 'action',
+          label: '操作',
+          width: '150',
+          fixed: false,
+          btns: [
+            {type: 'edit', click: this.editFee},
+            {type: 'delete', click: this.deleteFee},
+          ]
+        }
       ],
 		};
   },
@@ -75,7 +89,7 @@ export default {
   		'detailOfficial',
   		'detailAgency',
   		'detailAnnual',
-  		'detailInventorBonus',
+  		// 'detailInventorBonus',
   	]),
   	expend () {
   		return this.detailOfficial && this.detailAgency ? (this.detailOfficial.sum + this.detailAgency.sum) : '0';
@@ -87,9 +101,36 @@ export default {
   		return this.$store.getters.detailFees;
   	}*/
   },
+  methods: {
+    editFee (row) {
+      if(row.type == 1) {
+        this.$refs.renewalPop.show(row);
+      }else {
+        this.$refs.pop.show(row);        
+      }
+    },
+    refresh () {
+      this.refreshDetailData();
+    },
+    deleteFee ({id,name}) {
+      const url = `${URL}/${id}`;
+      const success = _=>{ 
+        this.$message({message: `删除${name}成功！`, type: 'success'});
+        this.refreshDetailData();
+      };
+
+      this.$confirm(`删除后不可恢复，确认删除用户‘${name}’？`,'删除确认',{type: 'warning'})
+        .then(_=>{
+          this.$axiosDelete({url, success});
+        })
+        .catch(_=>{});    
+    },
+  },
   components: { 
   	AppCollapse,
   	AppTable,
+    Pop,
+    RenewalPop,
   }
 }
 </script>

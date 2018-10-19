@@ -9,8 +9,7 @@ import MyAxios from '@/const/MyAxios'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import './fonts/iconfont.css'
-import axios from 'axios'
-
+import axios from '@/const/axios'
 import tool from './const/tool'
 
 
@@ -30,15 +29,13 @@ Vue.use(ElementUI);
 Vue.use(VueQuillEditor);
 Vue.use(MyAxios);
 axios.defaults.headers.common['Authorization'] = window.localStorage.getItem("token");
-
-console.log(window.localStorage.getItem("token"))
 // 添加请求拦截器
 axios.interceptors.request.use(config => {
   // 在发送请求之前做些什么
   //判断是否存在token，如果存在将每个页面header都添加token
   
   if(window.localStorage.getItem("token")){
-    config.headers.common['Authorization'] = window.localStorage.getItem("token");console.log(config.headers);
+    config.headers.common['Authorization'] = window.localStorage.getItem("token");
   }
    
     return config;

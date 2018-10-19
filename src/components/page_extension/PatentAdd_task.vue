@@ -1,0 +1,192 @@
+<template>  
+  	<el-form label-width="100px" :model="form" ref="taskForm" :rules="rules">
+      <el-form-item label="任务流程" prop="flow_id" v-if="type == 'add'">
+        <el-select v-model="form.flow_id" placeholder="请选择任务流程">
+          <el-option
+            v-for="item in flowOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="任务类型" prop="task_def_id" v-if="type == 'add'">
+        <el-select v-model="form.task_def_id" placeholder="请选择任务类型">
+          <el-option
+            v-for="item in defOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="流程节点" prop="flow_node_id" v-if="type == 'add'">
+        <el-select v-model="form.flow_node_id" placeholder="请选择流程节点">
+          <el-option
+            v-for="item in flownodeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+
+  		<el-form-item label="承办人" prop="person_in_charge" v-if="type == 'add'">
+        <remote-select type="member" v-model="form.person_in_charge"></remote-select>
+  		</el-form-item>
+
+      <el-form-item label="承办期限" prop="due_time">
+        <el-date-picker type="date" v-model="form.due_time" placeholder="请选择承办期限"></el-date-picker>
+      </el-form-item>
+ 
+  	</el-form>  
+</template>
+
+<script>
+import Member from '@/components/form/Member'
+import AxiosMixins from '@/mixins/axios-mixins'
+import RemoteSelect from '@/components/form/RemoteSelect'
+import {mapActions} from 'vuex'
+
+export default {
+  name: 'taskEdit',
+  mixins: [ AxiosMixins ],
+  props: [ 'type', 'row','category' ],
+  methods: {
+    ...mapActions([
+      'refreshUser',
+    ]),
+ 	setForm (data) {
+      this.$tool.coverObj(this.form, data);
+    },
+    submitForm () {
+    	if(this.form.is_task==='1') {
+      		 return this.$tool.shallowCopy(this.form, { 'date': true });
+ 		}else {
+ 			 return this.$tool.shallowCopy(this.form, { 'date': true ,
+ 			 	skip:['flow_id','task_def_id','person_in_charge','due_time','deadline','flow_node_id'],
+ 			});
+ 		}		
+    
+    },
+  	checkForm (callback) {
+      let flag = true;
+      this.$refs.taskForm.validate(_=>{
+        flag = _;
+        callback(flag);
+      });
+  	},
+    clear () {
+      this.$refs.form.resetFields();
+    }, 
+    refreshRow () {
+      if(this.type == 'edit') {
+        
+        for( let k in this.form) {
+          const d = this.row[k];
+          
+          if(k == 'attachments') {
+            this.form[k] = d.map(_=>_.id);
+            this.attachments = d;
+          }else if(k == 'person_in_charge') {
+            this.form[k] = {id: d, name: this.row['person_in_charge_name']};
+            console.log(this.form[k]);
+          }else {
+            if(d) {
+              this.form[k] = d;  
+            }else {
+              this.form[k] = "";
+            }
+          }
+        }
+      }
+    }
+    // handleProductChange (d) {
+    //   this.category = d.category;
+    // }
+  },
+  data () {
+  	return {
+  	  form: {
+  	  	is_task: 0,
+        // project_id: '',
+        flow_id: '',
+        task_def_id: '',
+        person_in_charge: '',
+        due_time: '',
+        flow_node_id: '',
+        deadline: '',
+      },
+      rules:{
+      	// 'flow_id': [{type: 'number', required: true, message: '请选择任务流程', trigger:' blur,change'}],
+      	// 'task_def_id': [{required: true, message: '请选择任务类型', trigger:' blur,change'}],
+      	// 'flow_node_id': [{type: 'number',required: true, message: '请选择流程节点', trigger:' blur,change'}],
+      	// 'person_in_charge': [{type: 'number', required: true, message: '请选择承办人', trigger:' blur,change'}],
+      	// 'due_time': [{type: 'date', required: true, message: '请选择承办期限', trigger:' change'}],
+      	// 'deadline': [{type: 'date', required: true, message: '请选择官方绝限', trigger:' change'}],
+      },
+  	}
+  },
+  computed: {
+    flowsData () {
+      return this.$store.getters.flowsData;
+    },
+    taskDefsData () {
+      return this.$store.getters.taskDefsData;
+    },
+    flownodeData () {
+      return this.$store.getters.flownodeData;
+    },    
+    flowOptions () {
+      const c = this.category;
+      this.form.flow_id = '';
+      if( !this.flowsData[c] ) {
+        return [];
+      }else {
+        return this.flowsData[c]['flows'].map(_=>{
+          return {label: _.name, value: _.id};
+        })  
+      }     
+    },
+    defOptions () {
+      const f = this.form.flow_id;
+      this.form.task_def_id = '';
+      const arr = [];
+
+      this.taskDefsData.forEach(_=>{
+        if(_.flow_id == f) arr.push({label: _.label, value: _.value});
+      });
+
+      return arr;
+    },
+    flownodeOptions () {
+      const f = this.form.flow_id;
+      this.form.flow_node_id = '';
+      const arr = [];
+      this.flownodeData.forEach(_=>{
+        if (_.flow_id == f) arr.push({label: _.name, value: _.id});
+      })
+      return arr;
+    },    
+  },
+  watch: {
+    'row.id': {
+      handler () {
+        this.refreshRow();
+      }
+    }
+  },
+  mounted () {
+    this.refreshRow();
+  },
+  components: { Member, RemoteSelect }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+</style>

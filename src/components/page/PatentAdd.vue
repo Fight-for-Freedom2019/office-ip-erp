@@ -2,8 +2,12 @@
   <div class="main">
     <el-tabs type="border-card">
       <el-tab-pane>
-        <span slot="label"><i class="el-icon-information"></i> 基本信息</span>
+        <span slot="label"><i class="el-icon-information"></i> 案件信息</span>
         <pa-base ref="base" :type="pageType" @uploadSuccess="handleUploadSuccess"></pa-base>
+      </el-tab-pane>
+      <el-tab-pane>
+        <span slot="label"><i class="el-icon-information"></i>商务信息</span>
+        <business ref="business" :type="pageType"></business>
       </el-tab-pane>
       <el-tab-pane>
         <span slot="label"><i class="el-icon-date"></i> 日期&号码</span>
@@ -13,18 +17,22 @@
         <span slot="label"><i class="el-icon-menu"></i> 分类信息</span>
         <classification ref="classification"></classification>
       </el-tab-pane>
-      <el-tab-pane>
+<!--       <el-tab-pane>
         <span slot="label"><i class="el-icon-arrow-right"></i> 代理机构</span>
         <agent ref="agent"></agent>
-      </el-tab-pane>
-      <el-tab-pane>
+      </el-tab-pane> -->
+<!--       <el-tab-pane>
         <span slot="label"><i class="el-icon-share"></i> 相关案件</span>
         <case ref="case" :type="pageType"></case>
-      </el-tab-pane>
+      </el-tab-pane> -->
       <el-tab-pane>
         <span slot="label"><i class="el-icon-more"></i> 其它信息</span>
         <other ref="other" :type="pageType" ></other>
       </el-tab-pane>
+<!--       <el-tab-pane>
+        <span slot="label"><i class="el-icon-document"></i>任务</span>
+        <task ref="task" :type="pageType" ></task>
+      </el-tab-pane> -->
     </el-tabs>
     <!-- <pa-base ref="base" :type="pageType" @uploadSuccess="handleUploadSuccess"></pa-base>
     <person ref="person" :type="pageType"></person>
@@ -32,27 +40,29 @@
     <agent ref="agent"></agent>
     <case ref="case"></case>
     <other ref="other" :type="pageType" ></other> -->
-    <div style="margin-bottom: 20px;margin-top: 20px;">
-      <el-button @click="add" type="primary" v-if="pageType == 'add'" :disabled="btn_disabled">保存</el-button>
+    <!-- <div style="margin-bottom: 20px;margin-top: 20px;"> -->
+      <!-- <el-button @click="add" type="primary" v-if="pageType == 'add'" :disabled="btn_disabled">保存</el-button> -->
       <!-- <el-button @click="edit" type="primary" v-if="type == 'edit'" :disabled="btn_disabled">编辑</el-button> -->
       <!-- <el-button @click="cancel" v-if="pageType == 'add'" :disabled="btn_disabled">取消</el-button> -->
-    </div>
+    <!-- </div> -->
 
   </div>
 </template>
 
 <script>
 const map = new Map([
+  ['business', '请正确填写商务信息'],  
   ['base', '请正确填写基本信息'],
   ['person', '请正确填写扩展信息'],
   ['classification', '请正确填写分类信息'],
   ['agent', '请正确填写委案信息'],
   ['case', '请正确填写相关案件信息'],
   ['other', '请正确填写其他信息'],
+  ['task', '请正确填写任务信息'],  
 ]);
 
-const getKeys = ['base', 'person', 'classification', 'agent', 'case', 'other'];
-const setKeys = ['base', 'person', 'classification', 'agent', 'case', 'other'];
+const getKeys = ['base', 'person', 'classification', 'other', 'business'];
+const setKeys = ['base', 'person', 'classification', 'other', 'business'];
 
 const URL = '/patents';
 
@@ -64,6 +74,8 @@ import Classification from '@/components/page_extension/PatentAdd_classification
 import Agent from '@/components/page_extension/PatentAdd_agent'
 import Case from '@/components/page_extension/PatentAdd_case'
 import Other from '@/components/page_extension/PatentAdd_other'
+import Task from '@/components/page_extension/PatentAdd_task'
+import Business from '@/components/page_extension/PatentAdd_business'
 import {mapActions} from 'vuex'
 export default {
   name: 'patentAdd',
@@ -90,7 +102,7 @@ export default {
         const success = _=>{ 
           this.$message({message: '新建专利成功', type: 'success'});
           this.refreshUser();
-          // this.$router.push('/patent/list');
+          this.$router.push('/patent/draftbox');
           this.$emit('addSuccess'); 
         };
         const complete = _=>{
@@ -129,6 +141,7 @@ export default {
         //递归检测
         const check = (index) => {
           const key = getKeys[index];
+          console.log(key);
           if(key) {
             this.$refs[key].checkForm(_=>{
               if(_) {
@@ -266,6 +279,8 @@ export default {
     Case, 
     Other, 
     AppCollapse,
+    Task,
+    Business,
   }
 }
 </script>

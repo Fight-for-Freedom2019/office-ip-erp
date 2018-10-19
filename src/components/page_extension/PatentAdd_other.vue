@@ -8,13 +8,13 @@
           <el-input type="textarea" placeholder="请填写专利实施情况" v-model="form.application"></el-input>
         </el-form-item> -->
         <el-form-item label="详细状态" v-if="type == 'edit'">
-          <static-select type="patents_status" v-model="form.flownode"></static-select>
+          <static-select type="patents_status" v-model="form.official_status"></static-select>
         </el-form-item>
         <el-form-item label="权利要求/附图数">
           <el-input v-model="form.claims_count" placeholder="请填写权利要求项数或者附图数量"></el-input>
         </el-form-item>
         <el-form-item label="说明书字数">
-          <el-input v-model="form.words" placeholder="请填写说明书字数"></el-input>
+          <el-input v-model="form.words_count" placeholder="请填写说明书字数"></el-input>
         </el-form-item>
         <el-form-item label="首次年费年度">
           <el-input v-model="form.start_year" placeholder="请填写首次年费年度"></el-input>
@@ -22,13 +22,9 @@
         <el-form-item label="案件摘要">
           <el-input v-model="form.abstract" type="textarea" placeholder="请填写案件摘要"></el-input>
         </el-form-item>
-        <el-form-item label="获奖标签">
-          <static-select type="award" v-model="form.awards" multiple></static-select>
-          <span style="color:#bbb">如果列表里没有奖项，可以直接输入按【回车键】保存</span>
-				</el-form-item>
-        <el-form-item label="备注">
+<!--         <el-form-item label="备注">
           <el-input v-model="form.remark" type="textarea" placeholder="请填写备注信息"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         
       </el-form>
     <!-- </app-collapse> -->
@@ -46,15 +42,14 @@ export default {
     return {
       form: {
         // progress: '',
-        words: '',
-        remark: '',
+        words_count: '',
+        // remark: '',
         claims_count: '',
-        flownode: '',
+        official_status: '',
         // is_supported: '',
         // application:'',
         start_year:'',
         abstract: '',
-        awards:[],
       },
     }
   },
@@ -62,7 +57,7 @@ export default {
     setForm (data) {
       this.$tool.coverObj(this.form, data, {
         obj: [ 'flownode'], 
-        skip:[ 'claims_count', 'words','start_year','abstract','remark','rewards' ],
+        skip:[ 'claims_count', 'words_count','start_year','abstract', ],
       });
     },
     submitForm () {

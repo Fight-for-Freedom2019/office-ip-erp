@@ -120,7 +120,7 @@ import SearchInput from '@/components/common/SearchInput'
 
 import { mapActions } from 'vuex'
 import { mapGetters } from 'vuex'
-
+const URL = '';
 const config = [
   ['patent', {
     action: 'getPatentDocuments',
@@ -185,11 +185,11 @@ export default {
         {
           type: 'action',
           fixed: false,
-          width: '150',
+          width: '175',
           btns: [
             { type: 'download', click: ({downloadUrl})=>{ window.location.href = downloadUrl } },
-            // { type: 'delete',  click: ({notice_name})=>{ this.$message({message: `暂时不可删除${notice_name}`, type: 'warning'}) } },
             { type: 'view', click: ({viewUrl})=>{ window.open(viewUrl) } },
+            { type: 'delete',  click: this.handleDelete},
           ]
         }
       ],
@@ -202,12 +202,12 @@ export default {
         { type: 'text', label: '上传时间', prop: 'create_time' ,width:'145'},
         {
           type: 'action',
-          width: '150',
+          width: '175',
           fixed: false,
           btns: [
             { type: 'download', click: ({downloadUrl})=>{ window.location.href = downloadUrl } },
-            // { type: 'delete',  click: ({notice_name})=>{ this.$message({message: `暂时不可删除${notice_name}`, type: 'warning'}) } },
             { type: 'view', click: ({viewUrl})=>{ window.open(viewUrl) } },
+            { type: 'delete',  click: this.handleDelete },
           ]
         }        
       ],
@@ -388,6 +388,19 @@ export default {
             this.$message({message: p.info, type: 'warning'});
           }
     },
+    handleDelete ({id, name}) {
+      const url = `${URL}/${id}`;
+      const success = _=>{ 
+        this.$message({message: `删除${name}成功！`, type: 'success'});
+        this.refreshDetailData();
+      };
+
+      this.$confirm(`删除后不可恢复，确认删除用户‘${name}’？`,'删除确认',{type: 'warning'})
+        .then(_=>{
+          this.$axiosDelete({url, success});
+        })
+        .catch(_=>{});
+    }, 
     importData () {
       const url = '/notices/import';
 

@@ -22,8 +22,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="专利类型" prop="type">
-            <static-select type="patent_type" v-model="form.type"></static-select>
+          <el-form-item label="专利类型" prop="subtype">
+            <static-select type="patent_type" v-model="form.subtype"></static-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -36,7 +36,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="技术联系人">
-              <remote-select type="member" :page-type="type" v-model="form.proposer"></remote-select>
+              <remote-select type="member" :page-type="type" v-model="form.contact"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -46,7 +46,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="8">
+<!--         <el-col :span="8">
           <el-form-item label="群组号">
               <static-select  type="group_number" v-model="form.group_number" placeholder="请填写群组号" @visible-change="handleVisibleChange"></static-select>
           </el-form-item>
@@ -55,14 +55,19 @@
           <el-form-item label="专利族号">
               <static-select type="family_number" v-model="form.family_number" placeholder="请填写专利族号" @visible-change="handleVisibleChange"></static-select>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="8">
           <!-- <el-form-item label="状态" v-if="type == 'edit'">
               <static-select type="patents_status" v-model="form.flownode"></static-select>
           </el-form-item> -->
-          <el-form-item label="法律状态" v-if="type == 'edit'">
-              <static-select type="legal_status" v-model="form.legal_status"></static-select>
+          <el-form-item label="法律状态">
+              <static-select type="legal_status" v-model="form.official_status"></static-select>
           </el-form-item>
+        </el-col>
+         <el-col :span="8"> 
+            <el-form-item label="客户案号" prop="customer_serial">
+              <el-input v-model="form.customer_serial" placeholder="请填写客户案号"></el-input>
+            </el-form-item>
         </el-col>
       </el-row>
       <el-form-item label="申请人">
@@ -73,12 +78,15 @@
         <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors>
       </el-form-item>
 
-      <el-form-item label="送件发明人">
+<!--       <el-form-item label="送件发明人">
         <remote-select type="inventor" :page-type="type" v-model="form.alias_inventors" multiple></remote-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="优先权">
         <priorities v-model="form.priorities"></priorities>
       </el-form-item>
+      <el-form-item label="相关案件">
+        <relative-projects v-model="form.relates" :page-type="type"></relative-projects>
+      </el-form-item>    
       <el-form-item label="案件标记">
         <el-checkbox-group v-model="form.extension" v-if="extensionSet.length != 0" id="extension">
           <el-checkbox 
@@ -96,7 +104,10 @@
       </el-form-item> -->
       <el-form-item label="附件" prop="attachments">
           <upload action="/api/files" :data="uploadPara" @uploadSuccess="handleUploadSuccess" v-model="form.attachments" :file-list="attachments"></upload>
-      </el-form-item>   
+      </el-form-item>  
+      <el-form-item label="备注">
+          <el-input v-model="form.remark" type="textarea" placeholder="请填写备注信息"></el-input>
+      </el-form-item> 
     </el-form>
   <!-- </app-collapse> -->
 </template>
@@ -111,6 +122,7 @@ import RemoteSelect from '@/components/form/RemoteSelect'
 import Priorities from '@/components/form/Priorities'
 import Inventors from '@/components/form/Inventors'
 import Upload from '@/components/form/Upload'
+import RelativeProjects from '@/components/form/RelativeProjects'
 import {mapGetters,mapActions} from 'vuex'
 import { checkInventors } from '@/const/validator.js'
 
@@ -136,10 +148,11 @@ export default {
     return {
       form: {
         serial: '',
+        customer_serial: '',
         title: '',
         english_title:'',
         area: this.type == 'add' ? [] : '',
-        type: '',
+        subtype: '',
         ipr: '',
         level: '',
         applicants: [],
@@ -148,12 +161,14 @@ export default {
         priorities: [],
         extension: [], 
         attachments: [],
-        proposer:[],
-        group_number:'',
-        family_number:'',
+        contact:[],
+        // group_number:'',
+        // family_number:'',
+        remark: '',
         // abstract:'',
         // flownode:'',
-        legal_status: '',
+        official_status: '',
+        relates: [],
       },
       titleLock: false, //标题锁 当评审表被上传且标题自动填充后 不再自动填充 
       attachments: [],
@@ -228,8 +243,8 @@ export default {
     setForm (form, upload=false, disclosureType='') {
       const t = this.type;
       this.$tool.coverObj(this.form, form, {
-        obj: [ 'attachments', 'area', 'type', 'ipr', 'case_level', 'legal_status','group_number', 'family_number','agency_type'], 
-        skip:[ 'extension', 'title' ],
+        obj: [ 'attachments', 'area', 'subtype', 'ipr', 'case_level', 'legal_status','agency_type'], 
+        skip:[ 'extension', 'title','remark'],
       });
 
       if(form['title'] != undefined && !this.titleLock) {
@@ -286,7 +301,8 @@ export default {
     RemoteSelect,
     Priorities,
     Inventors,
-    Upload, 
+    Upload,
+    RelativeProjects, 
   }
 }
 </script>

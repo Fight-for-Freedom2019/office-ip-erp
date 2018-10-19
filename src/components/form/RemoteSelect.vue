@@ -40,7 +40,12 @@ import AxiosMixins from '@/mixins/axios-mixins'
 import AppCard from '@/components/common/AppCard'
 
 const map = new Map([
-	['member', {
+  ['contracts', {
+    URL: '/api/contracts',
+    DATA_KEY: 'contracts',
+    PLACEHOLDER: '请输入合同关键词',
+  }],	
+  ['member', {
 		URL: '/api/members',
 		DATA_KEY: 'members',
 		PLACEHOLDER: '请输入用户关键词',
@@ -252,38 +257,42 @@ export default {
     },
     remoteMethod (keyword) {
       this.keyword = keyword;
-      const s = { keyword, listOnly: '1' };
+      const s = { keyword, 
+        // listOnly: '1' 
+      };
       const os = this.PARAMS;
       const key = this.DATA_KEY;
-      const url = this.URL;
-      const data = os ? Object.assign({}, s, os) : s;
+      // const url = this.URL; //暂时注释掉
+      const url = '/users'
+      // const data = os ? Object.assign({}, s, os) : s;
+      const data = s;
       const success = d=>{
-        const paths = key.split('.');
+        // const paths = key.split('.');
         let list = [];
-        let i = 0;
-        if (paths.length > 1) {
-          while (i < paths.length - 1) {
-            d = d[paths[i]];
-            i++
-          } 
-        }
-        list = d[paths[i]];
+        // let i = 0;
+        // if (paths.length > 1) {
+        //   while (i < paths.length - 1) {
+        //     d = d[paths[i]];
+        //     i++
+        //   } 
+        // }
+        // list = d[paths[i]];
 
-        if(!list) return this.options = [];
-        if(list[0] && list[0]['label'] && list[0]['value'] ) {
-          list.forEach(_=>{
-            _.name = _.label;
-            _.id = _.value;
-          });  
-        }
+        // if(!list) return this.options = [];
+        // if(list[0] && list[0]['label'] && list[0]['value'] ) {
+        //   list.forEach(_=>{
+        //     _.name = _.label;
+        //     _.id = _.value;
+        //   });  
+        // }
         
 
-        if( this.digitalHandle  ) {
-          list.forEach(_=>{
-            _.id = _.id - 0;
-          })
-        } 
-        
+        // if( this.digitalHandle  ) {
+        //   list.forEach(_=>{
+        //     _.id = _.id - 0;
+        //   })
+        // } 
+        list = d.data.data;
         this.options = list;
       }
       const complete = _=>{

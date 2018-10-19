@@ -1,33 +1,15 @@
 <template>
   <!-- <app-collapse col-title="分类信息"> -->
       <el-form label-width="120px">
-        <el-form-item label="技术领域">
-					<static-select type="technical_field" v-model="form.technical_field"></static-select>
-				</el-form-item>
         <el-form-item label="部门">
-          <branch v-model="form.branch" count-type="patent" ></branch>
+          <branch v-model="form.organization_unit" count-type="patent" ></branch>
           <!-- <span v-else>{{ branchName ? branchName : '暂未归属某个部门' }}</span> -->
         </el-form-item>
 				<el-form-item label="产品分类">
 					<product v-model="form.products" count-type="patent" multiple></product>
 				</el-form-item>
-        <el-form-item label="产品相关性" prop="product_relevance">
-          <static-select type="product_relevance" v-model="form.product_relevance"></static-select>
-        </el-form-item>
 				<el-form-item label="技术分类">
 					<classification v-model="form.classification" count-type="patent"></classification>
-				</el-form-item>
-				<el-form-item label="标签">
-          <static-select type="tag" v-model="form.tags" multiple></static-select>
-				</el-form-item>
-        <el-form-item label="项目名称" prop="project_name">
-          <el-input v-model="form.project_name" placeholder="请填写项目名称"></el-input>
-        </el-form-item>
-        <el-form-item label="项目代号" prop="project_serial">
-          <el-input v-model="form.project_serial" placeholder="请填写项目编号"></el-input>
-        </el-form-item>
-				<el-form-item label="主国际分类号">
-					<el-input v-model="form.main_ipc" placeholder="请填写主国际分类号"></el-input>
 				</el-form-item>
       </el-form>
     <!-- </app-collapse> -->
@@ -45,21 +27,15 @@ export default {
   data () {
 		return {
 			form: {
-        branch: '',
+        organization_unit: '',
 				products: [],
 				classification: '',
-				tags: [],
-				main_ipc: '',
-        project_name: '',
-        project_serial: '',
-        product_relevance: '',
-        technical_field: '',
 			}
     }
   },
   methods: {
   	setForm (data) {
-      this.$tool.coverObj(this.form, data, {obj: ['branch', 'products', 'classification','product_relevance','tags','technical_field']});
+      this.$tool.coverObj(this.form, data, {obj: ['organization_unit', 'products', 'classification',]});
   	},
     submitForm () {
       return this.form;

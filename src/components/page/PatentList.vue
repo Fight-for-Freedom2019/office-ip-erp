@@ -13,6 +13,7 @@
         type="patent" 
         :id="currentRow.id" 
         ref="detail"
+        :status="defaultStatus"
         @editSuccess="refresh"
         @sendEmail="handleSendMail">
       </common-detail>
@@ -21,7 +22,7 @@
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
       </span>
-      <patent-add page-type="add" ref="patentAdd" @addSuccess="()=>{this.patentAddVisible = false}"></patent-add>
+      <patent-add page-type="add" ref="patentAdd" @addSuccess="handleAddSuccess"></patent-add>
     </app-shrink>  
     
     <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">
@@ -105,12 +106,12 @@ export default {
         'import_type': 'patent',
         'upload_type': 'patent',
         'header_btn': [
-          { type: 'add', click: this.add, map_if: '/patent/add', },
+          { type: 'add', click: this.add, map_if: '/patent/add', btn_if: 'draftbox'},
           { type: 'delete', map_if: '/patent/delete' }, 
           // { type: 'import', map_if: '/patent/import' },
           { type: 'export2', map_if: '/patent/export' },
           // { type: 'batch_upload', map_if: '/patent/upload' },
-          // { type: 'control', label: '字段' },
+          { type: 'control', label: '字段' },
           // { type: 'test', label: '测试'}
         ],
         'header_slot': ['download',],
@@ -124,7 +125,7 @@ export default {
           { type: 'text', label: '英文名称', prop: 'english_title', sortable: true, is_import: true, width: '200', is_agency: true, render_header: true },
           { type: 'text', label: '专利类型', prop: 'type', render_simple: 'name', sortable: true,is_agency: true,  is_import: true, width: '120',render_header:true},
           { type: 'text', label: '申请国家', prop: 'area',  is_import: true, width: '120', is_agency: true, render_header: true },
-          { type: 'array', label: '申请人', prop: 'applicants', sortable: true,width: '200', is_import: true,render: _=>{ return _.map(_=>_.name);},render_header: true},
+          // { type: 'array', label: '申请人', prop: 'applicants', sortable: true,width: '200', is_import: true,render: _=>{ return _.map(_=>_.name);},render_header: true},
           { type: 'text', label: '申请号', prop: 'apn', sortable: true, is_import: true, width: '140', is_agency: true, render_header: true},
           { type: 'text', label: '申请日', prop: 'apd', sortable: true, is_import: true, width: '123', is_agency: true,render_header: true},
           { type: 'text', label: '提案号', prop: 'proposal_serial', sortable: true, width: '140', render_header: true },
@@ -133,8 +134,8 @@ export default {
           // { type: 'array', label: '提案标题', prop: 'proposals', width: '200', render: _=>_.map(_=>_.title),},
           { type: 'text', label: '产品相关', prop: 'product_relevance', render_simple:'name', width: '115', sortable: true,render_header: true},
           { type: 'text', label: '技术联系人', prop: 'proposer', sortable: true, width: '130', is_import: true, is_agency: true, render_simple: 'name',render_header: true},
-          { type: 'array', label: '发明人', width: '238', prop: 'inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>`${_.name}_${_.email}:${_.share}%`)},render_header: true},          
-          { type: 'array', label: '送件发明人', width: '238', prop: 'alias_inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>`${_.name}_${_.email}`)},render_header: true},
+          // { type: 'array', label: '发明人', width: '238', prop: 'inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>`${_.name}_${_.email}:${_.share}%`)},render_header: true},          
+          // { type: 'array', label: '送件发明人', width: '238', prop: 'alias_inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>`${_.name}_${_.email}`)},render_header: true},
           { type: 'text', label: '代理机构', width: '130', prop: 'agency', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '代理人', width: '90', prop: 'agent', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '技术理解评分', prop: 'tech_rank', is_import: true,  width: '130', show: true, render_header: true},
@@ -159,7 +160,7 @@ export default {
           { type: 'text', label: '复审委内编号', prop: 'board_number', sortable: true, width: '160', show: false, render_header: true},
           { type: 'text', label: '证书编号', prop: 'certificate_no', sortable: true, width: '160', show: false, render_header: true},
           { type: 'text', label: '说明书字数', prop: 'words', sortable: true, width: '140', show: false, render_header: true},
-          { type: 'array', label: '标签', prop: 'tags', render: _=>_.map(_=>_.name), is_import: true, width: '123',render_header: true},
+          // { type: 'array', label: '标签', prop: 'tags', render: _=>_.map(_=>_.name), is_import: true, width: '123',render_header: true},
           { type: 'text', label: '案件等级', prop: 'level',width: '100', render_header: true},
           { type: 'text', label: '部门全名', prop: 'branch', sortable: true, render:  (h,item)=>h('span', item.name), width: '123' , render_header: true},
           { type: 'text', label: '部门简称', prop: 'abbr', sortable: true, render_simple: 'abbr', width:'123', render_header: true},
@@ -191,7 +192,7 @@ export default {
           { type: 'text', label: '代理人修改耗时', prop: 'amending_period', is_import: true, width: '170', show: false , render_header: true},
           { type: 'text', label: '详细状态', prop: 'flownode', sortable: true, width: '180', is_agency: true, render_simple: 'name' , render_header: true},
           { type: 'text', label: '备注', prop: 'remark', sortable: true, width: '123'  , render_header: true},
-          { type: 'array', label: '项目/奖项名称', prop: 'awards',  render: _=>{ return _.map(_=>_.name);}, width: '200' , render_header: true},
+          // { type: 'array', label: '项目/奖项名称', prop: 'awards',  render: _=>{ return _.map(_=>_.name);}, width: '200' , render_header: true},
           { type: 'text', label: '主动修改期限', prop: 'active_supplement_expire_date', sortable: true, width: '145'  , render_header: true},
           { type: 'text', label: '委案类型', prop: 'agency_type', sortable: true, width: '145' , render_simple: 'name' , render_header: true},
           { type: 'text', label: '代理人修改时间', prop: 'agent_amending_period', sortable: true, width: '160' , render_header: true },
@@ -243,6 +244,9 @@ export default {
       const params = this.$route.meta.params;
       return params ? params : {};
     },
+    defaultStatus () {
+      return  this.defaultParams.status;
+    },
     custom () {
       const custom = this.$route.meta.custom;
       return custom !== undefined ? custom : false;
@@ -270,6 +274,10 @@ export default {
       this.$nextTick(() => {
         this.$refs.mailEdit.initForm(id);
       });
+    },
+    handleAddSuccess(val) {
+      this.patentAddVisible = false;
+      this.refresh();
     },
     mailCallBack() {
       this.mailVisible = false;

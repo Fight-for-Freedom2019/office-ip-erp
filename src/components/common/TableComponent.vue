@@ -264,6 +264,9 @@ export default {
     default_choose () {
       return this.control[1].map(_=>_.key);
     },
+    path () {
+      return this.$route.path;
+    },
     tableData () {
       const d = this.data;
       let r;
@@ -523,8 +526,16 @@ export default {
       return this.$refs.table.selected;
     },
     headerBtnIf (_) {
+        console.log(this.path)
       if( _.map_if ) {
         if(this.menusMap && !this.menusMap.get(_.map_if)) {
+          if(_.btn_if) {
+          if(/draftbox/.test(this.path)) {
+            return true
+          }else {
+           return false;
+          }
+         }
           return true;
         }else {
           return false;

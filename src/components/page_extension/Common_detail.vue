@@ -57,7 +57,7 @@
 <!--         <el-tab-pane label="文档" name="documents">
           <detail-documents></detail-documents>
         </el-tab-pane> -->
-        <el-tab-pane label="群组/专利族" name="group_family" v-if="!menusMap.get('/iprs')">
+        <el-tab-pane label="群组/专利族" name="group_family" v-if="!menusMap.get('/iprs') && status">
           <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
             <group-family></group-family>
           </div>
@@ -68,7 +68,7 @@
         <el-tab-pane label="评审记录" name="review" v-if="type == 'patent'">
           <review></review>
         </el-tab-pane> -->
-        <el-tab-pane label="审查" name="review_records" v-if="!menusMap.get('/iprs')">
+        <el-tab-pane label="审查" name="review_records" v-if="!menusMap.get('/iprs') && status">
           <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
           <defence></defence>
         </div>
@@ -79,17 +79,17 @@
           <detail-amendments></detail-amendments>
         </div>
         </el-tab-pane>
-        <el-tab-pane label="提醒" name="remind" v-if="type == 'patent' && !menusMap.get('/iprs')">
+        <el-tab-pane label="提醒" name="remind" v-if="type == 'patent' && !menusMap.get('/iprs') && status">
           <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
           <remind></remind>
         </div>
         </el-tab-pane> 
-        <el-tab-pane label="评审" name="judge" v-if="type == 'patent' && !menusMap.get('/iprs')">
+        <el-tab-pane label="评审" name="judge" v-if="type == 'patent' && !menusMap.get('/iprs') && status">
           <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
           <judge :id="id"></judge>
         </div>
         </el-tab-pane>
-        <el-tab-pane label="委案记录" name="history" v-if=" !menusMap.get('/iprs')">
+        <el-tab-pane label="委案记录" name="history" v-if=" !menusMap.get('/iprs') && status">
           <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
           <agencies></agencies>
           </div>
@@ -172,6 +172,7 @@ export default {
       type: Boolean,
       default: true,
     },
+    'status': [Number,Boolean]
   },
   data () {
     return {
