@@ -571,6 +571,15 @@ const config = [
       {id: 1, name: '已完成'},
     ]
   }],
+  ['contacts_type', {
+    placeholder: '联系人类型',
+    options: [
+        {id: 1, name: '发明人'},
+        {id: 2, name: 'IPR 3'},
+        {id: 3, name: '财务'},
+        {id: 4, name: '流程接口人'},
+    ]
+  }],
 ];
 
 export default config;
