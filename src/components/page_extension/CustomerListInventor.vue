@@ -1,3 +1,4 @@
+<!-- 客户列表中的发明人列表 -->
 <template>
 	<div>
 		<table-component :data="inventorData" :tableOption="option" ref="table" @refreshTableData='refreshTableData'></table-component>
@@ -49,7 +50,8 @@ export default {
 					},
 				],
 				is_pagination: true,
-				is_border: false,			
+				is_border: false,
+                height:"default",
 			},
 			inventorData: [],
 			currentId:{}

@@ -8,7 +8,7 @@
 			</span>
 			<el-tabs v-model="activeName" @tab-click="onTabPageClicked">
 				<el-tab-pane label="基本信息" name="base">
-					<customer-add  popType="edit" :customer="row" @refresh="handleRefresh"></customer-add>
+					<customer-add ref="basicInfo"  popType="edit" :customer="row" @refresh="handleRefresh"></customer-add>
 				</el-tab-pane>
 				<el-tab-pane label="申请人" name="applicants">
 					<detail-applicant :customer="row" :itemData="appData"></detail-applicant>
@@ -34,162 +34,164 @@
 </template>
 
 <script>
-import AppShrink from '@/components/common/AppShrink'
-import DetailApplicant from '@/components/page_extension/CustomerListApplicant'
-import DetailInventor from '@/components/page_extension/CustomerListInventor'
-import DetailContact from '@/components/page_extension/CustomerListContact'
-import DetailContract from '@/components/page_extension/CustomerListContract'
-import DetailQuotation from '@/components/page_extension/CustomerListQuotation'
-import DetailRemark from '@/components/page_extension/CustomerListRemark'
-import CustomerAdd from '@/components/page_extension/CustomerListAdd'
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import AppShrink from "@/components/common/AppShrink";
+import DetailApplicant from "@/components/page_extension/CustomerListApplicant";
+import DetailInventor from "@/components/page_extension/CustomerListInventor";
+import DetailContact from "@/components/page_extension/CustomerListContact";
+import DetailContract from "@/components/page_extension/CustomerListContract";
+import DetailQuotation from "@/components/page_extension/CustomerListQuotation";
+import DetailRemark from "@/components/page_extension/CustomerListRemark";
+import CustomerAdd from "@/components/page_extension/CustomerListAdd";
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
-	name: 'customerListDetail',
-	props: {
-		'row': {
-			type: Object,
-			default() {
-				return {};
-			}
-		},
-		'type': String,
-    	'id': Number,
-		'visible': {
-			type: Boolean,
-			default: true,
-		},
-		'title': String,
-	},
-	data () {
-		return {
-			activeName: 'base',
-			map: {},
-			appData:[],
-			inventorsData:[],
-			contactsData:[],
-			contractsData:[],
-			saveLoading: false,
-		}
-	},
-	computed: {
-		...mapGetters([
-		'shrinkHeight',
-		'detailLoading',
-		'menusMap',
-		'innerHeight',
-		'detailBase',
-		]),
-		isPanelVisible () {
-			if( this.menusMap && !this.menusMap.get('Pages.Customers.Read') ) {
-				return this.visible;
-			}
-			return false;
-		}
-	},
-	methods: {
-		refreshData() {
-			// if(this.activeName == 'first') {
-			// 	this.$refs.first.show('edit', this.row);
-			// 	this.map['first'] = true;
-			// }else if(this.activeName == 'second') {
-			// 	this.$nextTick(_=>{
-			// 		this.$refs.second.refresh();
-			// 	})
-			// 	this.map['second'] = true;
-			// }else if(this.activeName == 'third') {
-			// 	this.$nextTick(_=>{
-			// 		this.$refs.third.refresh();
-			// 	})
-			// 	this.map['third'] = true;
-			// }
-		},
-		handleRefresh () {
-			this.$emit('refresh');
-		},
-		handleVisible (val) {
-			this.$emit('update:visible', val);
-		},
-		async edit () {
-			this.saveLoading = true;
-			try {
-				await this.$refs.customer.edit();
-			}catch (e) {}
-			this.saveLoading = false;
-		},
-		onTabPageClicked(tab, event){
-			if(tab.name != 'base'){
-				const url = `/api/customers/${this.row.id}/${tab.name}`;
-				
-				const success = _=>{
-					if(this.appData.length == 0) {
-						if(tab.name == 'applicants') {
-							let initialData = _.data.data;
-							for(let i = 0; i < initialData.length; i++) {
-								this.appData.push(initialData[i]);
-							}
-						}
-					}
-					if(this.inventorsData.length == 0) {
-						if(tab.name == 'inventors') {
-							let initialData = _.inventors.data;
-							console.log(initialData);
-							for(let i = 0; i < initialData.length; i++) {
-								this.inventorsData.push(initialData[i]);
-							}
-						}
-					}
-					if(this.contactsData.length == 0) {
-						if(tab.name == 'contacts') {
-							let initialData = _.Contacts.data;
-							for(let i = 0; i < initialData.length; i++) {
-								this.contactsData.push(initialData[i]);
-							}
-						}
-					}
-					if(this.contactsData.length == 0) {
-						if(tab.name == 'orders') {
-							let initialData = _.Contacts.data;
-							for(let i = 0; i < initialData.length; i++) {
-								this.contractsData.push(initialData[i]);
-							}
-						}
-					}								
-				}
-				this.$axiosGet({
-					url: url,
-					data: Object.assign({}),
-					success,
-				})	
-			}
-		}
-	},
-	watch: {
-		row (val) {
-			console.log(val)
-			this.map = {};
-			this.refreshData();
-		},
-		activeName (val) {
-			if(this.map[val]) return;
-			this.refreshData();
-		},
-		
-	},
-	mounted () {
-		this.refreshData();
-	},
-	components: {
-		AppShrink,
-		CustomerAdd,
-		DetailApplicant,
-		DetailInventor,
-		DetailContact,
-		DetailContract,
-		DetailQuotation,
-		DetailRemark,
-	}
-
-}
+  name: "customerListDetail",
+  props: {
+    row: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    type: String,
+    id: Number,
+    visible: {
+      type: Boolean,
+      default: true
+    },
+    title: String
+  },
+  data() {
+    return {
+      activeName: "base",
+      map: {},
+      appData: [],
+      inventorsData: [],
+      contactsData: [],
+      contractsData: [],
+      saveLoading: false
+    };
+  },
+  computed: {
+    ...mapGetters([
+      "shrinkHeight",
+      "detailLoading",
+      "menusMap",
+      "innerHeight",
+      "detailBase"
+    ]),
+    isPanelVisible() {
+      if (this.menusMap && !this.menusMap.get("Pages.Customers.Read")) {
+        return this.visible;
+      }
+      return false;
+    }
+  },
+  methods: {
+    refreshData() {
+      // if(this.activeName == 'first') {
+      // 	this.$refs.first.show('edit', this.row);
+      // 	this.map['first'] = true;
+      // }else if(this.activeName == 'second') {
+      // 	this.$nextTick(_=>{
+      // 		this.$refs.second.refresh();
+      // 	})
+      // 	this.map['second'] = true;
+      // }else if(this.activeName == 'third') {
+      // 	this.$nextTick(_=>{
+      // 		this.$refs.third.refresh();
+      // 	})
+      // 	this.map['third'] = true;
+      // }
+    },
+    handleRefresh() {
+      this.$emit("refresh");
+    },
+    handleVisible(val) {
+      this.$emit("update:visible", val);
+    },
+    async edit() {
+      this.saveLoading = true;
+      console.log(this);
+      try {
+        await this.$refs.basicInfo.edit();
+      } catch (e) {}
+      this.saveLoading = false;
+    },
+    onTabPageClicked() {
+      this.$nextTick(_ => {		// 父组件传参改变数据之后执行，这样没有bug
+        if (this.activeName !== "base") {
+          const url = `/api/customers/${this.row.id}/${this.activeName}`;
+          // TODO 这里的用户发明人列表请求出错了
+          const success = _ => {
+            //if (this.appData.length == 0) {
+              if (this.activeName == "applicants") {
+                this.appData = _.data.data;
+                // let initialData = _.data.data;
+                // for (let i = 0; i < initialData.length; i++) {
+                //   this.appData.push(initialData[i]);
+                // }
+              }
+            //}
+            //if (this.inventorsData.length == 0) {
+              if (this.activeName == "inventors") {
+                let initialData = _.inventors.data;
+                console.log(initialData);
+                for (let i = 0; i < initialData.length; i++) {
+                  this.inventorsData.push(initialData[i]);
+                }
+              }
+            //}
+            if (this.contactsData.length === 0) {
+              if (this.activeName === "contacts") {
+                let initialData = _.data.data;
+                for (let i = 0; i < initialData.length; i++) {
+                  this.contactsData.push(initialData[i]);
+                }
+              }
+            }
+            if (this.contactsData.length == 0) {
+              if (this.activeName == "orders") {
+                let initialData = _.Contacts.data;
+                for (let i = 0; i < initialData.length; i++) {
+                  this.contractsData.push(initialData[i]);
+                }
+              }
+            }
+          };
+          this.$axiosGet({
+            url: url,
+            data: Object.assign({}),
+            success
+          });
+        }
+      });
+    }
+  },
+  watch: {
+    row(val) {
+      console.log(val);
+      this.map = {};
+      this.refreshData();
+    },
+    activeName(val) {
+      if (this.map[val]) return;
+      this.refreshData();
+    }
+  },
+  mounted() {
+    this.refreshData();
+  },
+  components: {
+    AppShrink,
+    CustomerAdd,
+    DetailApplicant,
+    DetailInventor,
+    DetailContact,
+    DetailContract,
+    DetailQuotation,
+    DetailRemark
+  }
+};
 </script>

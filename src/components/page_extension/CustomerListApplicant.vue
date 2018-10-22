@@ -22,23 +22,31 @@ export default {
 					{ type: 'add', click: this.addPop, size: 'small' }, 
 				],
 				columns: [
-					{ type: 'selection' },
+					{ type: 'text', prop: 'name', label: '名称', width: '160',},
 					{ 
 						type: 'text', 
 						prop: 'citizenship', 
-						label: '国家',
+						label: '国籍',
 						// render_text: _=>this.caseMap.get(Number.parseInt(_)),
 					},
-					{ type: 'text', prop: 'province', label: '省份' },
-					{ type: 'text', prop: 'city', label: '城市' },
-					{ type: 'text', prop: 'name', label: '申请人名称', width: '160' },
-					{ type: 'text', prop: 'customer_type', label: '申请人类型', width: '160' },
+					{ type: 'text', prop: 'applicant_type', label: '申请人类型', width: '160' ,render:this.renderApplicantType},
 					{ type: 'text', prop: 'identity', label: '证件号码' },
+					{ type: 'text', prop: 'province_code', label: '省份' ,
+						render: (h, item)=>{ 
+              				const d = this.provinceMap.get(Number.parseInt(item));
+              				return h('span', d ? d : '');
+            			} 
+					},
+					{ type: 'text', prop: 'city_code', label: '城市' ,
+						render: (h, item)=>{ 
+              				const d = this.cityMap.get(item+"");
+              				return h('span', d ? d : '');
+            			}
+					},
 					{ type: 'text', prop: 'address', label: '地址' },
-					{ type: 'text', prop: 'postcode', label: '邮编' },
+					{ type: 'text', prop: 'is_fee_discount', label: '费减备案' ,render: (h, item)=>h('span', item ? '已完成' : '未完成') },
 					{ type: 'text', prop: 'english_name', label: '英文名称' },
 					{ type: 'text', prop: 'english_address', label: '英文地址' },
-					{ type: 'text', prop: 'reduction', label: '费减备案' },
 					{ 
 						type: 'action',
 						width: '100',
@@ -49,20 +57,23 @@ export default {
 						]
 					},
 				],
-				is_pagination: false,
-				is_border: false,
-				is_search: false,			
+				is_pagination: true,
+				is_border: true,
+				is_search: true,
+				is_header: true,
+				height:"default2",
 			},
 			tableData: [],
 			currentId :{}
 		};
 	},
-	// computed: {
-	// 	...mapGetters([
-	// 		'applicantData',
-	// 		'caseMap',
-	// 	]),	
-	// },
+	computed: {
+		...mapGetters([
+      		'areaMap',
+      		'cityMap',
+      		'provinceMap',
+		]),
+	},
 	mounted(){
 	},
 	methods: {
@@ -75,16 +86,40 @@ export default {
 				data: Object.assign({}, option),
 				success,
 				})
-  	    },
+		  },
 		addPop () {
-			this.$refs.pop.show();
+			this.$refs.pop.show("add",{});
 		},
 		refresh () {
 			this.$refs.table.refresh();
 		},
 		editPop (row) {
 			this.$refs.pop.show('edit', row);
-			this.currentId = row.id
+			this.currentId = row.id;
+			row.province_city = [row.province_code - 0, row.city_code + ""];	// 添加province_city属性，在弹窗中准确显示省市
+		},
+		renderApplicantType(h,text,row){
+			let str = "";
+			switch (row.applicant_type) {
+				case 1:
+					str = "大专院校"
+					break;
+				case 2:
+					str = "科研单位"
+					break;
+				case 3:
+					str = "工矿企业"
+					break;
+				case 4:
+					str = "事业单位"
+					break;
+				case 5:
+					str = "个人"
+					break;
+				default:
+					break;
+			}
+			return h("span",str);
 		},
 		update () {
 			this.$refs.table.update();

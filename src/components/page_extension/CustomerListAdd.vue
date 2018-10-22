@@ -5,9 +5,9 @@
   		<el-form-item label="客户名称" prop="name">
   			<el-input v-model="form.name" ></el-input>
   		</el-form-item>
-      <el-form-item label="客户代码" prop="code">
+      <!-- <el-form-item label="客户代码" prop="code">
   			<el-input v-model="form.code" ></el-input>
-  		</el-form-item>
+  		</el-form-item> -->
       <el-form-item label="邮箱" prop="email_address">
   			<el-input v-model="form.email_address" ></el-input>
   		</el-form-item>
@@ -24,14 +24,14 @@
   			<static-select type="skip" v-model="form.contact"></static-select>
   		</el-form-item>
       <el-form-item label="地区">
-  			<provincial-linkage v-model="cityInfo"  class="select-city" @input="chooseAddress"></provincial-linkage>
+  			<provincial-linkage :value="cityInfo"  class="select-city" @input="chooseAddress"></provincial-linkage>
   		</el-form-item>
       <el-form-item label="地址" prop="address">
   			<el-input v-model="form.address" ></el-input>
   		</el-form-item>
-      <el-form-item label="备注" prop="remark">
+      <!-- <el-form-item label="备注" prop="remark">
   			<el-input v-model="form.remark" ></el-input>
-  		</el-form-item>
+  		</el-form-item> -->
       <el-form-item style="margin-bottom: 0px;">
           <el-button type="primary" @click="add" v-if="type === 'add'" :disabled="btn_disabled">添加</el-button>
           <el-button type="primary" @click="edit" v-if="type === 'edit'" :disabled="btn_disabled">编辑</el-button>
@@ -64,8 +64,8 @@ export default {
         address:'',
         province_code:'',
         city_code:'',
-        code:'',
-        remark:'',
+        // code:'',
+        // remark:'',
         
       },
       'rules': {
@@ -99,8 +99,14 @@ export default {
       this.cityInfo.province && names.push(this.cityInfo.province.name + ' ')
       this.cityInfo.city     && names.push(this.cityInfo.city.name + ' ')
       this.cityInfo.block    && names.push(this.cityInfo.block.name + ' ')
+      console.log("cityName",name);
       return names.join('')
-    }
+    },
+    ...mapGetters([
+      'areaMap',
+      'cityMap',
+      'provinceMap',
+		]),
   },
   methods: {
 
@@ -113,7 +119,7 @@ export default {
     add(){
       console.log(this.row)
       if(this.form.name !='' && this.form.address !=''){
-          const url = `${URL}/${this.row.id}/customers`;
+          const url = URL;
           const data = Object.assign({},this.form);
           const success = _=>{
             this.dialogVisible = false;
@@ -127,7 +133,7 @@ export default {
       
     },
     edit(){
-      const url = `${URL}/${this.customer.id}/applicants/${this.presentId}`;
+      const url = `${URL}/${this.customer.id}/applicants/`;
       const data = Object.assign({},this.form);
       const success = _=>{
         this.dialogVisible = false;
@@ -140,20 +146,33 @@ export default {
       this.dialogVisible = false;
     },
     chooseAddress (info) {
-        this.form.province_code = info.province.code;
-        this.form.city_code = info.city.code;
-    }
+        this.form.province_code = info[0];
+        this.form.city_code = info[1];
+    },
+    coverObj(val){
+      if(val){
+        this.cityInfo = [val.province_code - 0,val.city_code];
+        this.$tool.coverObj(this.form, val, {
+          obj: [ 'consultant', 'contact', 'sales'], 
+          skip:[],
+        });
+	    }
+    },
   },
   components: { 
     StaticSelect,
     ProvincialLinkage
   },
 
+  watch:{
+    customer:function(val,oldVal){
+      this.coverObj(val);
+    },
+  },
+
   created () {
-		this.$tool.coverObj(this.form, this.customer, {
-      obj: [ 'consultant', 'contact', 'sales'], 
-      skip:[],
-    });
+    this.coverObj(this.customer);
+
 	},
   URL: '/api/requirements',
   REMINDER_TEXT: '申请人要求',

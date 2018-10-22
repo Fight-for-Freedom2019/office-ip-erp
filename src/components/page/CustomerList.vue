@@ -1,159 +1,169 @@
 <!--客户管理-->
 <template>
-	<div class="customerList">
-		<table-component :tableOption="tableOption" :data="tableData" ref="table" @refreshTableData="refreshTableData"></table-component>
-		
-		<!-- 新建客户 -->
-		<app-shrink :visible.sync="isCustomerAddPanelVisible" :modal='true' title="新建客户">
-      <span slot="header" style="float: right;">
-        <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
-      </span>
-      <customer-list-add ref="customerAdd" @addSuccess="()=>{this.isCustomerAddPanelVisible = false}"></customer-list-add>
-    </app-shrink>
+    <div class="customerList">
+        <table-component :tableOption="tableOption" :data="tableData" ref="table"
+                         @refreshTableData="refreshTableData"></table-component>
 
-		<!-- 客户详情面板 -->
-		<customer-list-detail
-			:title="currentRow.name"
-			:visible.sync="isDetailPanelVisible" 
-			type="customer" 
-			:id="currentRow.id"
-			:row="currentRow"
-			ref="detail"
-			@editSuccess="refresh">
-		</customer-list-detail>
+        <!-- 新建客户 -->
+        <app-shrink :visible.sync="isCustomerAddPanelVisible" :modal='true' title="新建客户">
+          <span slot="header" style="float: right;">
+            <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
+          </span>
+            <customer-list-add ref="customerAdd" @refresh="addSuccess"></customer-list-add>
+        </app-shrink>
 
-	</div>
+        <!-- 客户详情面板 -->
+        <customer-list-detail
+                :title="currentRow.name"
+                :visible.sync="isDetailPanelVisible"
+                type="customer"
+                :id="currentRow.id"
+                :row="currentRow"
+                ref="detail"
+                @editSuccess="refresh">
+        </customer-list-detail>
+
+    </div>
 </template>
 <script>
-import TableComponent from '@/components/common/TableComponent'
-import AppShrink from '@/components/common/AppShrink'
-import CustomerListDetail from '@/components/page_extension/CustomerListDetail'
-import CustomerListAdd from '@/components/page_extension/CustomerListAdd'
-import {mapGetters} from 'vuex'
+    import TableComponent from '@/components/common/TableComponent'
+    import AppShrink from '@/components/common/AppShrink'
+    import CustomerListDetail from '@/components/page_extension/CustomerListDetail'
+    import CustomerListAdd from '@/components/page_extension/CustomerListAdd'
+    import {mapGetters} from 'vuex'
 
-const URL = '/api/customers';
-export default {
-  name: 'customerList',
-  data () {
-		return {
-			popType: '',	
-			isCustomerAddPanelVisible: false,
-		  tableOption: {
-		  	'name': 'customerList',
-		  	'url': URL,
-		  	'height': 'default',
-				'highlightCurrentRow': true,
-				'is_search': true,
-				'is_list_filter': true,
-		  	'search_placeholder': '客户名称、联系人',
-		  	'rowClick': this.handleRowClick,
-		  	'header_btn': [
-					{ type: 'add', click: this.add },
-					{ type: 'delete', map_if: 'Pages.Customers.Delete' },
-					{ type: 'import' },
-		  	  { type: 'export' },
-					{ type: 'control' },
-          { type: 'filter', click: ()=>{ this.filterPopUp } },
-          
-		  	],
-		  	'columns': [
-		  	  { type: 'selection' },
-		  	  { type: 'text', label: '客户名称', prop: 'name', min_width: '178'},
-		  	  { 
-            type: 'text', 
-            label: '客户代码', 
-            prop: 'code', 
-            width: '120',
-          },
-					{ type: 'text', label: '邮箱', prop: 'email_address', width: '178'},
-					{ type: 'text', label: '电话', prop: 'phone_number', width: '220'},
-					{ type: 'text', label: '所属顾问', prop: 'consultant', render_simple:'name', width: '150'},
-					{ type: 'text', label: '所属销售', prop: 'sales', render_simple:'name', width: '150'},
-					{ type: 'text', label: '联系人', prop: 'contact', render_simple:'name', width: '150'},
-					{ type: 'text', label: '省份', prop: 'province', min_width: '120'},
-					{ type: 'text', label: '城市', prop: 'city', min_width: '120'},
-		  	  { 
-            type: 'text', 
-            label: '地址', 
-            prop: 'address', 
-            width: '200',
-          },
-          { type: 'text', label: '备注', prop: 'remark', width: '200' },
-		  	],
-		  },
-			tableData: [],
-			client_status:'',
-			client_invoice:'',
-		  currentRow: {},
-		  isDetailPanelVisible: false,
-		  dialogVisible: false,
-		  filter: {},
-		}	
-  },
-  computed: {
-    ...mapGetters([
-      'areaMap',
-      'cityMap',
-      'provinceMap',
-		]),
-  },
-  methods: {
-		// handleShrinkClose () {
-    //   this.$refs.table.setCurrentRow();
-    // },
-  	refreshTableData(option) {
-  		const success = _=>{
-				console.log(_);
-				this.tableData = _.data;  
-			}
-  		this.$axiosGet({
-  			url: URL,
-  			data: Object.assign({}, option),
-  			success,
-			})
-  	},
-  	add (row) {
-  		this.selectData = this.$refs.table.getSelection();
-      if (this.selectData.length != 0) {
-        this.caseVisible = true;
-      }else {
-        // this.$router.push('/patent/add');
-        this.isCustomerAddPanelVisible = true;
-      }
-		},
-		saveAdd () {
-      this.$refs.customerAdd.add();
-    },
-  	addRefresh (row) {
-			this.currentRow = row;
-  		this.dialogVisible = false;
-  		this.refresh();
-  	},
-    editRefresh () {
-      this.update();
-    },
-  	handleRowClick (row) {
-  		this.currentRow = row;
-  		if(!this.isDetailPanelVisible) {
-  			this.isDetailPanelVisible = true;	
-  		}
-  	},
-  	refresh () {
-  		this.$refs.table.refresh();
-  	},
-  	update () {
-  		this.$refs.table.update();
-  	},
-  },
-  mounted() {
-  	this.refresh();
-  },
-  components:{
-		TableComponent,
-		AppShrink,
-		CustomerListAdd,
-    CustomerListDetail,
-  }
-}
+    const URL = '/api/customers';
+    export default {
+        name: 'customerList',
+        data() {
+            return {
+                popType: '',
+                isCustomerAddPanelVisible: false,
+                tableOption: {
+                    'name': 'customerList',
+                    'url': URL,
+                    'height': 'default',
+                    'highlightCurrentRow': true,
+                    'is_search': true,
+                    'is_list_filter': true,
+                    'search_placeholder': '客户名称、联系人',
+                    'rowClick': this.handleRowClick,
+                    'header_btn': [
+                        {type: 'add', click: this.add},
+                        {type: 'delete', map_if: 'Pages.Customers.Delete'},
+                        {type: 'import'},
+                        {type: 'export'},
+                        {type: 'control'},
+                        {
+                            type: 'filter', click: () => {
+                                this.filterPopUp
+                            }
+                        },
+
+                    ],
+                    'columns': [
+                        {type: 'selection'},
+                        {type: 'text', label: '客户名称', prop: 'name', min_width: '178'},
+                        {
+                            type: 'text', label: '省份', prop: 'province_code', min_width: '120',
+                            render: (h, item) => {
+                                const d = this.provinceMap.get(Number.parseInt(item));
+                                return h('span', d ? d : '');
+                            }
+                        },
+                        {
+                            type: 'text', label: '城市', prop: 'city_code', min_width: '120',
+                            render: (h, item) => {
+                                const d = this.cityMap.get(item);
+                                return h('span', d ? d : '');
+                            }
+                        },
+                        {type: 'text', label: '地址', prop: 'address', width: '200'},
+                        {type: 'text', label: '邮箱', prop: 'email_address', width: '178'},
+                        {type: 'text', label: '电话', prop: 'phone_number', width: '220'},
+                        {type: 'text', label: '所属销售', prop: 'sales', render_simple: 'name', width: '150'},
+                        {type: 'text', label: '所属顾问', prop: 'consultant', render_simple: 'name', width: '150'},
+                        {type: 'text', label: '联系人', prop: 'contact', render_simple: 'name', width: '150'},
+                    ],
+                },
+                tableData: [],
+                client_status: '',
+                client_invoice: '',
+                currentRow: {},
+                isDetailPanelVisible: false,
+                dialogVisible: false,
+                filter: {},
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'areaMap',
+                'cityMap',
+                'provinceMap',
+            ]),
+        },
+        methods: {
+            // handleShrinkClose () {
+            //   this.$refs.table.setCurrentRow();
+            // },
+            refreshTableData(option) {
+                const success = _ => {
+                    this.isCustomerAddPanelVisible = false
+                    this.tableData = _.data;
+                }
+                this.$axiosGet({
+                    url: URL,
+                    data: Object.assign({}, option),
+                    success,
+                })
+            },
+            addSuccess() {
+                this.refreshTableData();
+            },
+            add(row) {
+                this.selectData = this.$refs.table.getSelection();
+                if (this.selectData.length != 0) {
+                    this.caseVisible = true;
+                } else {
+                    // this.$router.push('/patent/add');
+                    this.isCustomerAddPanelVisible = true;
+                }
+            },
+            saveAdd() {
+                this.$refs.customerAdd.add();
+            },
+            addRefresh(row) {
+                this.currentRow = row;
+                this.dialogVisible = false;
+                this.refresh();
+            },
+            editRefresh() {
+                this.update();
+            },
+            handleRowClick(row) {
+                this.currentRow = row;
+                console.log(row.id);
+                this.$refs.detail.onTabPageClicked();		// 点击table-row之后执行详情面板中的onTabPageClicked方法刷新内容
+                if (!this.isDetailPanelVisible) {
+                    this.isDetailPanelVisible = true;
+                }
+            },
+            refresh() {
+                this.$refs.table.refresh();
+            },
+            update() {
+                this.$refs.table.update();
+            },
+        },
+        mounted() {
+            this.refresh();
+        },
+        components: {
+            TableComponent,
+            AppShrink,
+            CustomerListAdd,
+            CustomerListDetail,
+        }
+    }
 </script>
 <style scoped lang="scss"></style>

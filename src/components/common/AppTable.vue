@@ -225,7 +225,7 @@ export default {
         }
       })
       // console.log('------------------------table-data------------------------');
-      // console.log(r);
+      console.log(r);
       return r;
     },
     tableHeight () {
