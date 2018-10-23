@@ -590,6 +590,13 @@ const config = [
             {id: 5, name: '发文'},
         ]
   }],
+  ['contract_type', {
+        placeholder: '合同类型',
+        options: [
+            {id: 1, name: '框架协议'},
+            {id: 2, name: '订单合同'}
+        ]
+  }],
 ];
 
 export default config;
