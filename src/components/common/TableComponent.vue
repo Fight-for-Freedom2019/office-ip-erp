@@ -13,7 +13,7 @@
         v-if="tableOption.is_filter ? true : false"
       >
         <app-filter :data="filters" v-if="tableOption.is_filter === undefined ? true : tableOption.is_filter"></app-filter>
-        <el-button slot="reference" type="primary" class="table-header-btn" style="margin-right: 5px;">快速筛选</el-button>
+        <el-button slot="reference" type="primary" class="table-header-btn" style="margin-right: 5px;" size="small">快速筛选</el-button>
       </el-popover>
 
       <template v-for="btn in tableOption.header_btn">
@@ -110,6 +110,7 @@
         title="筛选"
         style="margin-left: 5px;"
         type="primary"
+        size="small"
         @click="filterVisible = true">
         高级筛选
       </el-button>

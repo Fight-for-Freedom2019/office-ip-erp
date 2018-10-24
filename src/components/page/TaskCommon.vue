@@ -286,7 +286,7 @@ export default {
         'is_list_filter': true,
         'list_type': 'task',
         'search_placeholder': '搜索案号、标题、申请号、代理人、备注',
-        'is_filter': true,
+        'is_filter': false,
         'row_class': ({due_time}, index)=> {
           return ;
         },
@@ -298,7 +298,7 @@ export default {
           { type: 'export' },
           // { type: 'custom', label: '转出', icon: '', click: ()=>{ this.dialogTurnoutVisible = true; } },
           { type: 'control', label: '字段'},
-          { type: 'test'}
+          // { type: 'test'}
           // { type: 'custom', label: '设定', icon: '', click: ()=>{ this.dialogSettingVisible = true; } }
         ],
         'header_slot': [ 'toggle', ],
@@ -687,14 +687,14 @@ export default {
       const h = this.tableOption;
       const menusMap = this.menusMap;
 
-      if( t === 0 ) {
-        menusMap && !menusMap.get('/tasks/pause_btn') ? h.header_btn.splice(3,1,{type: 'custom', label: '暂停处理', click: _=>{ this.handleTask('/api/tasks/pause') }}) : false;
-      }else if( t === -1 ) {
-        menusMap && !menusMap.get('/tasks/resume_btn') ? h.header_btn.splice(3,1,{type: 'custom', label: '恢复处理', click: _=>{ this.handleTask('/api/tasks/resume') }}) : false;
-      }
+      // if( t === 0 ) {
+      //   menusMap && !menusMap.get('/tasks/pause_btn') ? h.header_btn.splice(3,1,{type: 'custom', label: '暂停处理', click: _=>{ this.handleTask('/api/tasks/pause') }}) : false;
+      // }else if( t === -1 ) {
+      //   menusMap && !menusMap.get('/tasks/resume_btn') ? h.header_btn.splice(3,1,{type: 'custom', label: '恢复处理', click: _=>{ this.handleTask('/api/tasks/resume') }}) : false;
+      // }
       menusMap && !menusMap.get('/tasks/add_btn') ? h.header_btn.splice(0,1,{ type: 'add', click: this.addPop }) : h.header_btn.splice(0,1,{}); 
       menusMap && !menusMap.get('/tasks/delete_btn') ? h.header_btn.splice(1,1,{ type: 'delete', callback: this.refreshUser }) : h.header_btn.splice(1,1,{});
-      menusMap && !menusMap.get('/tasks/agency_btn') && t != 1 ? h.header_btn.splice(2,1,{type: 'custom', label: '申请委案', click: this.agenPop}) : h.header_btn.splice(2,1,{});
+      // menusMap && !menusMap.get('/tasks/agency_btn') && t != 1 ? h.header_btn.splice(2,1,{type: 'custom', label: '申请委案', click: this.agenPop}) : h.header_btn.splice(2,1,{});
 
       this.$forceUpdate();
     },
