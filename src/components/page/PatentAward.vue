@@ -27,7 +27,7 @@ export default {
 				'is_list_filter': false,
 				'list_type': 'patent_award',			
 				'columns': [
-					{ type: 'text', label: '视源案号', prop: 'serial', width: '200' },
+					{ type: 'text', label: '案号', prop: 'serial', width: '200' },
 					{ type: 'text', label: '案件名称', prop: 'title', width: '200'},
 					{ type: 'text', label: '申请日', prop: 'apd', width: '200'},
 					{ type: 'text', label: '专利号', prop: 'apn', width: '200'},

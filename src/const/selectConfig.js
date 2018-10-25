@@ -574,11 +574,28 @@ const config = [
   ['contacts_type', {
     placeholder: '联系人类型',
     options: [
-        {id: 1, name: '发明人'},
         {id: 2, name: 'IPR 3'},
         {id: 3, name: '财务'},
         {id: 4, name: '流程接口人'},
+        {id: 5, name: '其它'},
     ]
+  }],
+  ['remark_type', {
+        placeholder: '客户备注类型',
+        options: [
+            {id: 1, name: '权利要求'},
+            {id: 2, name: '说明书'},
+            {id: 3, name: '流程'},
+            {id: 4, name: '请款'},
+            {id: 5, name: '发文'},
+        ]
+  }],
+  ['contract_type', {
+        placeholder: '合同类型',
+        options: [
+            {id: 1, name: '框架协议'},
+            {id: 2, name: '订单合同'}
+        ]
   }],
 ];
 

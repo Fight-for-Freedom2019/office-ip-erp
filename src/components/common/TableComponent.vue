@@ -108,6 +108,7 @@
         size="small"
         style="margin-left: 5px;"
         type="primary"
+        size="small"
         @click="filterVisible = true">
         高级筛选
       </el-button>
