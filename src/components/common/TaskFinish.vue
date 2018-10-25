@@ -40,7 +40,7 @@
     </el-collapse-item>
     <el-collapse-item title="任务处理" name="2">
       <el-form :model="form" label-width="100px" ref="form" style="min-height: 150px;" :key="`${id}-${next}`"><!--这里需要给form加key 保证每个form的验证规则互不影响-->
-      	<el-form-item :label="data.procedure.label" v-if="data.fields && data.fields.procedure">
+        <el-form-item :label="data.procedure.label" v-if="data.fields && data.fields.procedure">
           <!-- <el-select v-model="next">
             <el-option
               v-for="item in data.procedure.items"
@@ -62,15 +62,15 @@
           </app-radio>
         </el-form-item>
         <el-form-item label="下一节点" v-if="ifNext">
-<!--       		<el-select v-model="next" :disabled="data.fields.procedure ? true : false">
-      		 <el-option
-    				v-for="item in data.next"
-    				:key="item.id"
-    				:label="item.name"
-    				:value="item.id"
-      		 >
-      		 </el-option>
-      		</el-select> -->
+<!--          <el-select v-model="next" :disabled="data.fields.procedure ? true : false">
+           <el-option
+            v-for="item in data.next"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+           >
+           </el-option>
+          </el-select> -->
           
           <app-radio 
           :disabled="data.fields.procedure ? true : false"
@@ -84,14 +84,14 @@
           >
           {{ item.name}}
           </app-radio>
-      	</el-form-item>
-      	<el-form-item prop="person_in_charge" label="承办人" v-if="fields.person_in_charge">
-      		<remote-select type="member" v-model="form.person_in_charge" v-if="defaultVal == 'sender' || defaultVal =='proposer' || defaultVal == 'reviewer' || defaultVal == 'previous' || !defaultVal "></remote-select>
-      		<remote-select type="agency" v-model="form.person_in_charge" v-else-if="defaultVal == 'agency'"></remote-select>
+        </el-form-item>
+        <el-form-item prop="person_in_charge" label="承办人" v-if="fields.person_in_charge">
+          <remote-select type="member" v-model="form.person_in_charge" v-if="defaultVal == 'sender' || defaultVal =='proposer' || defaultVal == 'reviewer' || defaultVal == 'previous' || !defaultVal "></remote-select>
+          <remote-select type="agency" v-model="form.person_in_charge" v-else-if="defaultVal == 'agency'"></remote-select>
           <remote-select type="agent" v-model="form.person_in_charge" v-else-if="defaultVal == 'agent'"></remote-select>
-      		<static-select type="ipr" v-model="form.person_in_charge" v-else-if="defaultVal == 'ipr'"></static-select>
-      		<!-- <span v-else>{{ data[defaultVal]['name'] }}</span> -->
-      	</el-form-item>
+          <static-select type="ipr" v-model="form.person_in_charge" v-else-if="defaultVal == 'ipr'"></static-select>
+          <!-- <span v-else>{{ data[defaultVal]['name'] }}</span> -->
+        </el-form-item>
         <el-form-item prop="agency" label="代理机构" v-if="fields.agency" :rules="{ required: true, type: 'number', message: '代理机构不能为空', trigger: 'change'}">
           <div v-if="fields.agency == 1">
             <remote-select type="agency_poa" v-model="form.agency" :static-map="agencyMap"></remote-select>
@@ -113,15 +113,15 @@
         >
           <static-select type="agency_type" key="patent_type" v-model="form.agency_type"></static-select>
         </el-form-item>
-      	<el-form-item prop="due_time" label="内部期限" v-if="fields.due_time">
-    			<el-date-picker v-model="form.due_time" type="date" placeholder="选择内部期限"></el-date-picker>
-      	</el-form-item>
+        <el-form-item prop="due_time" label="内部期限" v-if="fields.due_time">
+          <el-date-picker v-model="form.due_time" type="date" placeholder="选择内部期限"></el-date-picker>
+        </el-form-item>
         <el-form-item prop="pay_time" label="支付时间" v-if="fields.pay_time">
           <el-date-picker v-model="form.pay_time" type="date" placeholder="选择支付时间"></el-date-picker>
         </el-form-item>
-      	<el-form-item prop="dealine" label="法限" v-if="fields.deadline">
-    			<el-date-picker v-model="form.dealine" type="date" placeholder="选择法限"></el-date-picker>
-      	</el-form-item>
+        <el-form-item prop="dealine" label="法限" v-if="fields.deadline">
+          <el-date-picker v-model="form.dealine" type="date" placeholder="选择法限"></el-date-picker>
+        </el-form-item>
         <el-form-item prop="area" label="申请地区" v-if="fields.area" :rules="{type: 'array', required: true, message: '申请地区不能为空'}">
           <static-select type="area" v-model="form.area"  multiple></static-select>
         </el-form-item>
@@ -258,8 +258,8 @@
         </el-form-item>
         
         <el-form-item style="margin-bottom: 0px;">
-      		<el-button type="primary" @click="submitFunc" :loading="btn_disabled">{{ btn_disabled ? '提交中...' : '提交' }}</el-button>
-      	</el-form-item>
+          <el-button type="primary" @click="submitFunc" :loading="btn_disabled">{{ btn_disabled ? '提交中...' : '提交' }}</el-button>
+        </el-form-item>
       </el-form>
   </el-collapse-item>
   </el-collapse>
@@ -289,23 +289,23 @@ export default {
   props: ['id','row'],
   mixins: [axiosMixins],
   data () {
-		return {
+    return {
       allNext: '',
       activeName:['1', '2'],
-			'data': {},
-			'next': '',
+      'data': {},
+      'next': '',
       'description': '',
       'level': '',
-			'form': {
+      'form': {
         agency_serial: '',
-				person_in_charge: '',
-				agency: '',
-				agent: '',
+        person_in_charge: '',
+        agency: '',
+        agent: '',
         agency_type: '',
-				due_time: '',
-				deadline: '',
-				remark: '',
-				attachments: [],
+        due_time: '',
+        deadline: '',
+        remark: '',
+        attachments: [],
         rank: 5,
         area: [],
         type: '',
@@ -329,7 +329,7 @@ export default {
         technical_field: '',
         reexam: 0,
         reexam_opinion: '',
-			},
+      },
       'columns':[
         { type: 'text', label: '附件名称', prop: 'name' },
         { type: 'text', label: '附件格式', prop: 'ext' },
@@ -343,10 +343,10 @@ export default {
           ],
         }
       ],
-			'defaultVal': '',
+      'defaultVal': '',
       'agencyMap': [],
       'agentMap': [],
-			'fields': {},
+      'fields': {},
       'loading': false,
       'btn_disabled': false,
       'attachments': [],
@@ -364,15 +364,15 @@ export default {
           },
         },
       
-		}
+    }
   },
-	created () {
-		this.refreshData(); 
+  created () {
+    this.refreshData(); 
     if(this.row) {
       this.refreshDetail();
     }
-	},
-	methods: {
+  },
+  methods: {
     ...mapMutations([
       'showAgencyLoad',
     ]),
@@ -389,13 +389,13 @@ export default {
       this.data.next = arr.filter(_ => _.id == val);
      
     },
-  	refreshData () {
+    refreshData () {
       this.loading = true; 
       this.next = "";
-  		const url = `${URL}/${this.id}/form`;
-  		const success = d=>{
+      const url = `${URL}/${this.id}/form`;
+      const success = d=>{
         this.$emit('refreshNext',d.data.next);
-  			this.data = d.data;
+        this.data = d.data;
         this.allNext = d.data.next;
         this.fields = d.data.fields;
         if(d.data.level){
@@ -411,13 +411,13 @@ export default {
           this.next = "";
           this.form.agent = this.data.agent;
         }
-  		};
+      };
       const complete = _=>{ 
         this.loading = false; 
       }
-  		this.axiosGet({url, success, complete});
-  	},
-  	submitFunc () {
+      this.axiosGet({url, success, complete});
+    },
+    submitFunc () {
       this.$refs.form.validate(_=>{
         if(_) {
           this.btn_disabled = true;
@@ -437,16 +437,16 @@ export default {
           this.$message({message: '请正确填写任务完成字段', type: 'warning'})
         }
       })
-  	},
-  	cancel () {
-  		this.$emit('cancel');
-  	},
+    },
+    cancel () {
+      this.$emit('cancel');
+    },
     handleMore (type) {
       this.$emit('more',type);
     },
-  	clear () {
-  		this.$refs.form.resetFields();
-  	},
+    clear () {
+      this.$refs.form.resetFields();
+    },
     proposalFinish ({remark, attachments}) {
       this.form.remark = remark;
       this.form.attachments = attachments.map(_=>_.id);
@@ -470,17 +470,17 @@ export default {
       }
       })
     },
-	},
-	watch: {
+  },
+  watch: {
     row() {
       this.refreshDetail();
     },
-		id () {
-			this.clear();
+    id () {
+      this.clear();
       this.refreshData();
-		},
-		'next': {
-			handler: function (val) {
+    },
+    'next': {
+      handler: function (val) {
         // if(val == "") return;
         // console.log('----------------start--------------')
         // console.log(val);
@@ -531,14 +531,14 @@ export default {
               })
             })
             
-						break;
-					}else{
+            break;
+          }else{
             // console.log('空数组');
             this.description = this.data.description;
           }
         }
-				this.$refs.form.resetFields();
-			}
+        this.$refs.form.resetFields();
+      }
     },
     'form.pconfirm': {
       handler () {
@@ -574,8 +574,8 @@ export default {
         this.form.negative_comment = '';
       }
     },
-	},
-	computed: {
+  },
+  computed: {
     ...mapGetters([
       'menusMap',
     ]),
@@ -600,8 +600,8 @@ export default {
     agentControl () {
       return {'agency': this.form.agency};
     },
-	},
-	components: { Member, Agent, Agency, Upload, RemoteSelect, StaticSelect, AppSwitch, AppTable, AppRadio}
+  },
+  components: { Member, Agent, Agency, Upload, RemoteSelect, StaticSelect, AppSwitch, AppTable, AppRadio}
 }
 </script>
 

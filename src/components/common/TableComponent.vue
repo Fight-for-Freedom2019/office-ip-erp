@@ -13,7 +13,7 @@
         v-if="tableOption.is_filter ? true : false"
       >
         <app-filter :data="filters" v-if="tableOption.is_filter === undefined ? true : tableOption.is_filter"></app-filter>
-        <el-button slot="reference" type="primary" class="table-header-btn" style="margin-right: 5px;">快速筛选</el-button>
+        <el-button slot="reference" size="small" type="primary" class="table-header-btn" style="margin-right: 5px;">快速筛选</el-button>
       </el-popover>
 
       <template v-for="btn in tableOption.header_btn">
@@ -97,9 +97,6 @@
         <template v-else-if="btn.type == 'report'">
           <el-button class="table-header-btn" type="primary" icon="el-icon-my-report" @click="handleBatchUpdate(btn.click, $event)">报表</el-button>
         </template>        
-        <template v-else-if="btn.type == 'test'">
-          <el-button class="table-header-btn" size="small" type="primary" icon="" @click="handleFilterValue(btn.click, $event)">测试</el-button>
-        </template>
 
       </template>
       </template>
@@ -108,6 +105,7 @@
         class="table-header-btn"
         v-if="tableOption.is_list_filter && tableOption.list_type" 
         title="筛选"
+        size="small"
         style="margin-left: 5px;"
         type="primary"
         @click="filterVisible = true">
@@ -526,15 +524,14 @@ export default {
       return this.$refs.table.selected;
     },
     headerBtnIf (_) {
-        console.log(this.path)
       if( _.map_if ) {
         if(this.menusMap && !this.menusMap.get(_.map_if)) {
           if(_.btn_if) {
-          if(/draftbox/.test(this.path)) {
-            return true
-          }else {
-           return false;
-          }
+            if(/draftbox/.test(this.path)) {
+              return true
+            }else {
+             return false;
+            }
          }
           return true;
         }else {
@@ -604,13 +601,6 @@ export default {
         func(e)
       }else {
         this.dialogUpdateVisible = true;
-      }
-    },
-    handleFilterValue (func,e) {
-      if(func) {
-        func(e)
-      }else {
-        this.filterValueVisible = !this.filterValueVisible;
       }
     },
     handleBatchUpdateSuccess () {

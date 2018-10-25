@@ -565,6 +565,9 @@ nav {
     right: 15px;
     top: 2px;
 }
+.el-button--mini {
+  padding: 7px;
+}
   .el-tree-node__expand-icon.expanded {
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);

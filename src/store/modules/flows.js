@@ -1,16 +1,16 @@
-let url = '/api/flows';
+let url = '/flows';
 const state = {
-	data: undefined,
+	flows: undefined,
 }
 
 const getters = {
-	flowsData: state=>state.data,
+	flowsData: state => state.flows,
 }
 
 const mutations = {
 	setFlows (state, d) {
-		state.data = d;
-	}
+		state.flows = d;
+	},
 }
 
 const actions = {
@@ -21,7 +21,7 @@ const actions = {
 			.then(response=>{
 				const d = response.data;
 				if(d.status) {
-					commit('setFlows', d.flows);	
+					commit('setFlows', d.data);	
 				}
 			})
 			.catch(error=>{console.log(error)});

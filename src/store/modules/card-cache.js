@@ -40,27 +40,32 @@ const actions = {
 		// 	if(func) func(data);
 		// 	return;
 		// }
-		//若存在请求地址 请求数据 执行回掉函数 并缓存数据 		
-    if(config.URL) {
-      const url = rootState.status ?`${config.URL.replace(/\/api/, '')}/${id}` : `${config.URL}/${id}`;
-      const params = config.PARAMS ? config.PARAMS : {};
-      const data_key = config.DATA_KEY ? config.DATA_KEY : 'data'; 
-      const success = _=>{
-        const value = _[data_key];
-        if(func) func(value);
-        commit('setCardCache',{type, value});
-      }
-      rootState.axios.get(url, {params})
-				.then(response=>{
-					const d = response.data;
-					if(d.status){
-						success(d);
-					}else {
-						console.log(response);
-					}
-				})
-				.catch(error=>{console.log(error)});
-    }
+		//若存在请求地址 请求数据 执行回掉函数 并缓存数据
+		const promise = new Promise((resolve)=>{
+			 resolve();
+		})
+		return promise.then(()=>{
+		    if(config.URL) {
+		      const url = rootState.status ?`${config.URL.replace(/\/api/, '')}/${id}` : `${config.URL}/${id}`;
+		      const params = config.PARAMS ? config.PARAMS : {};
+		      const data_key = config.DATA_KEY ? config.DATA_KEY : 'data'; 
+		      const success = _=>{
+		        const value = _[data_key];
+		        if(func) func(value);
+		        commit('setCardCache',{type, value});
+		      }
+		      rootState.axios.get(url, {params})
+						.then(response=>{
+							const d = response.data;
+							if(d.status){
+								success(d);
+							}else {
+								console.log(response);
+							}
+						})
+						.catch(error=>{console.log(error)});
+		    }
+		}); 		
         
 	},
 

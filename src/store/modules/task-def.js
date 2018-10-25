@@ -1,4 +1,4 @@
-let url = '/api/taskDefs';
+let url = '/definitions';
 const state = {
 	data: undefined,
 }
@@ -21,7 +21,7 @@ const actions = {
 			.then(response=>{
 				const d = response.data;
 				if(d.status) {
-					commit('setTaskDefs', d.list);
+					commit('setTaskDefs', d.data);
 				}
 			})
 			.catch(error=>{console.log(error)});

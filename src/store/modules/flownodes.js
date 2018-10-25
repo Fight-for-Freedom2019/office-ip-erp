@@ -1,4 +1,4 @@
-let url = '/api/flownodes';
+let url = '/actions';
 const state = {
 	data: undefined,
 }
@@ -21,7 +21,7 @@ const actions = {
 			.then(response=>{
 				const d = response.data;
 				if(d.status) {
-					commit('setFlownodes', d.flownodes);	
+					commit('setFlownodes', d.data);	
 				}
 			})
 			.catch(error=>{console.log(error)});

@@ -41,106 +41,111 @@ import AppCard from '@/components/common/AppCard'
 
 const map = new Map([
   ['contracts', {
-    URL: '/api/contracts',
+    URL: '/contracts',
     DATA_KEY: 'contracts',
     PLACEHOLDER: '请输入合同关键词',
   }],	
   ['member', {
-		URL: '/api/members',
+		URL: '/members',
 		DATA_KEY: 'members',
 		PLACEHOLDER: '请输入用户关键词',
 	}],
 	['applicant', {
-		URL: '/api/applicants',
+		URL: '/applicants',
 		DATA_KEY: 'applicants',
 		PLACEHOLDER: '请输入申请人关键词',
 	}],
 	['inventor', {
-		URL: '/api/inventors',
+		URL: '/inventors',
 		DATA_KEY: 'data',
 		PLACEHOLDER: '请输入发明人关键词',
 	}],
 	['agent', {
-		URL: '/api/agents',
+		URL: '/agents',
 		DATA_KEY: 'members',
 		PLACEHOLDER: '请输入代理人关键词',
 	}],
 	['agency', {
-		URL: '/api/agencies',
+		URL: '/agencies',
 		DATA_KEY: 'agencies',
 		PLACEHOLDER: '请输入代理机构关键词',
   }],
   ['agency_poa', {
-		URL: '/api/agencies',
+		URL: '/agencies',
 		DATA_KEY: 'agencies',
     PLACEHOLDER: '请输入代理机构关键词',
     PARAMS: { poa: 1 },
 	}],
   ['ipr',{
-    URL: '/api/iprs',
+    URL: '/iprs',
     DATA_KEY: 'members',
     PLACEHOLDER: '请输入IPR关键词',
   }],
 	['project', {
-		URL: '/api/projects',
+		URL: '/projects',
 		DATA_KEY: 'projects',
 		PLACEHOLDER: '请输入案件关键词',
 	}],
 	['proposal', {
-		URL: '/api/proposals',
+		URL: '/proposals',
 		DATA_KEY: 'proposals',
 		PLACEHOLDER: '请输入提案关键词',
 	}],
 	['patent', {
-		URL: '/api/projects',
+		URL: '/projects',
 		DATA_KEY: 'projects',
 		PLACEHOLDER: '请输入专利关键词',
-		PARAMS: { category: 1 },
+		PARAMS: { project_type: 'Patent' },
 	}],
 	['copyright', {
-		URL: '/api/projects',
+		URL: '/projects',
 		DATA_KEY: 'projects',
 		PLACEHOLDER: '请输入版权关键词',
 		PARAMS: { category: 3 },
 	}],
   ['bill', {
-    URL: '/api/invoices',
+    URL: '/invoices',
     DATA_KEY: 'invoices',
     PLACEHOLDER: '请输入请款单关键词',
     PARAMS: { debit: 1 },
   }],
   ['pay', {
-    URL: '/api/invoices',
+    URL: '/invoices',
     DATA_KEY: 'invoices',
     PLACEHOLDER: '请输入付款单关键词',
     PARAMS: { debit: 0 },
   }],
   ['mail', {
-    URL: '/api/mailAddress',
+    URL: '/mailAddress',
     DATA_KEY: 'list',
     PLACEHOLDER: '请输入邮箱',
     dynamicCreate: true,
     defaultFirstOption: true,
   }],
   ['group_number', {
-    URL: '/api/gnumbers',
+    URL: '/gnumbers',
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入群组号',
   }],
   ['family_number', {
-    URL: '/api/fnumbers',
+    URL: '/fnumbers',
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入专利族号',
   }],
   ['award', {
-    URL: '/api/award',
+    URL: '/award',
     DATA_KEY: 'awards',
     PLACEHOLDER: '请输入奖项名称',
   }],
   ['customer', {
-    URL: '/api/customers',
-    DATA_KEY: 'data.data',
+    URL: '/customers',
+    DATA_KEY: 'data',
     PLACEHOLDER: '请选择客户',
+  }],  
+  ['user', {
+    URL: '/users',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择人员',
   }],
 ]);
 
@@ -257,42 +262,28 @@ export default {
     },
     remoteMethod (keyword) {
       this.keyword = keyword;
-      const s = { keyword, 
-        // listOnly: '1' 
-      };
+      const s = { keyword, listOnly: '1' };
       const os = this.PARAMS;
       const key = this.DATA_KEY;
-      // const url = this.URL; //暂时注释掉
-      const url = '/users'
-      // const data = os ? Object.assign({}, s, os) : s;
-      const data = s;
+      const url = this.URL;
+      const data = os ? Object.assign({}, s, os) : s;
       const success = d=>{
-        // const paths = key.split('.');
-        let list = [];
-        // let i = 0;
-        // if (paths.length > 1) {
-        //   while (i < paths.length - 1) {
-        //     d = d[paths[i]];
-        //     i++
-        //   } 
-        // }
-        // list = d[paths[i]];
-
-        // if(!list) return this.options = [];
-        // if(list[0] && list[0]['label'] && list[0]['value'] ) {
-        //   list.forEach(_=>{
-        //     _.name = _.label;
-        //     _.id = _.value;
-        //   });  
-        // }
+        const list = d['data'][key];
+        if(!list) return this.options = [];
+        if(list[0] && list[0]['label'] && list[0]['value'] ) {
+          list.forEach(_=>{
+            _.name = _.label;
+            _.id = _.value;
+          });  
+        }
         
 
-        // if( this.digitalHandle  ) {
-        //   list.forEach(_=>{
-        //     _.id = _.id - 0;
-        //   })
-        // } 
-        list = d.data.data;
+        if( this.digitalHandle  ) {
+          list.forEach(_=>{
+            _.id = _.id - 0;
+          })
+        } 
+        
         this.options = list;
       }
       const complete = _=>{

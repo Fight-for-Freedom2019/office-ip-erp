@@ -8,9 +8,9 @@
             <span style="font-size: 15px; font-weight: bold;">部门</span>
             <el-tag v-if="!!branchUpdate" style="margin-left: 15px;">最后更新时间：{{ branchUpdate }}</el-tag>
             <div style="float: right;">
-              <!-- <el-button icon="plus" size="mini" title="添加部门" @click="addPop"></el-button> -->
-              <el-button icon="edit" size="mini" title="编辑部门" style="margin-left: 0;" @click="editPop"></el-button>
-              <!-- <el-button icon="delete" size="mini" title="删除部门" style="margin-left: 0;" @click="branchDelete"></el-button> -->
+              <!-- <el-button icon="el-icon-plus" size="mini" title="添加部门" @click="addPop"></el-button> -->
+              <el-button icon="el-icon-edit" size="mini" title="编辑部门" style="margin-left: 0;" @click="editPop"></el-button>
+              <!-- <el-button icon="el-icon-delete" size="mini" title="删除部门" style="margin-left: 0;" @click="branchDelete"></el-button> -->
             </div>
           </div>
           <el-input

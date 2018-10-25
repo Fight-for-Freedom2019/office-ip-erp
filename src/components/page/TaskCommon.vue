@@ -43,10 +43,6 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-
-    <el-dialog title="新增任务" :visible.sync="dialogAddVisible" class="dialog-medium">
-      <edit type="add" @addSuccess="addSuccess" ref="add"></edit>
-    </el-dialog>
     <el-dialog title="任务延期" :visible.sync="dialogDelayVisible" class="dialog-medium">
       <el-form label-width="80px">
         <el-form-item label="延期天数">
@@ -76,9 +72,6 @@
           <el-button type="primary" @click="delayTask" :disabled="btn_disabled">提交</el-button>
         </el-form-item>
       </el-form>
-    </el-dialog>
-    <el-dialog title="编辑任务" :visible.sync="dialogEditVisible" class="dialog-medium">
-      <edit type="edit" :row="currentRow" @editSuccess="editSuccess"></edit>
     </el-dialog>
     <el-dialog title="移交任务" :visible.sync="dialogTranserVisible" class="dialog-medium">
       <el-form label-width="80px">
@@ -150,7 +143,7 @@
       </span>
       <span slot="header" style="float: right">
         <el-button size="small" @click="dialogDelayVisible= true" v-if="menusMap && !menusMap.get('/iprs')">延期</el-button>
-        <el-button size="small" type="primary" @click="dialogEditVisible = true" v-if="menusMap && !menusMap.get('/iprs')" style="margin-left: 0px;">编辑</el-button>
+        <el-button size="small" type="primary" @click="addPop('edit')" v-if="menusMap && !menusMap.get('/iprs')" style="margin-left: 0px;">编辑</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="!currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogCloseVisible = true;">完结</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogActivationVisible = true;">激活</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="menusMap && !menusMap.get('/tasks/transfer')" @click="dialogTranserVisible = true; transfer_person = {id: currentRow.person_in_charge, name: currentRow.person_in_charge_name }">移交</el-button>
@@ -158,9 +151,9 @@
       </span>
       <el-tabs v-model="activeName">   
         <el-tab-pane label="前往处理" name="finish" v-if="task_status == 0">
-          <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">  
+    <!--       <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">  
             <task-finish :id="currentRow.id" :row="currentRow" @submitSuccess="finishSuccess" @more="handleMore" @refreshNext="handleNext" v-show="!nextValue"></task-finish>
-          </div>   
+          </div>   --> 
         </el-tab-pane>
 <!--         <el-tab-pane label="详细信息" name="edit">   
           <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">         
@@ -180,7 +173,13 @@
       </el-tabs>
     </app-shrink>
 
-    
+    <app-shrink :visible.sync="dialogAddVisible" :title="pageType == 'add'?'新增任务':'编辑任务'">
+      <span slot="header" style="float: right;">
+        <el-button type="primary" size="small" v-if="pageType == 'add'" @click="handleTasks('add')">新增</el-button>
+        <el-button type="primary" size="small" v-if="pageType == 'edit'" @click="handleTasks('edit')">保存</el-button>
+      </span>
+      <edit :type="pageType" @addSuccess="addSuccess" ref="processes_task" :row="currentRow" @editSuccess="editSuccess"></edit>
+    </app-shrink>
     <common-detail 
       :type="categoryType" 
       :id="currentRow.project_id" 
@@ -227,7 +226,7 @@ import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
 // import $ from 'jquery'
 
-const URL = '/api/tasks';
+const URL = '/processes';
 const colorMap = new Map([
   [-2, '#339'],
   [-1, '#09C'],
@@ -291,14 +290,13 @@ export default {
           return ;
         },
         'header_btn': [
-          {},//部分顶部按钮在refreshOption中渲染
+          { type: 'add', click: ()=>{this.addPop()}, map_if: '/tasks/add_btn'},//部分顶部按钮在refreshOption中渲染
           {},
           {},
           {},
           { type: 'export' },
           // { type: 'custom', label: '转出', icon: '', click: ()=>{ this.dialogTurnoutVisible = true; } },
           { type: 'control', label: '字段'},
-          { type: 'test'}
           // { type: 'custom', label: '设定', icon: '', click: ()=>{ this.dialogSettingVisible = true; } }
         ],
         'header_slot': [ 'toggle', ],
@@ -317,54 +315,40 @@ export default {
         'columns': [
           // { type: 'expand' },
           { type: 'selection' },
-          { type: 'text', label: '案号', prop: 'serial', sortable: true, width: '210',  render: this.titleRender,render_header: true },
-          { type: 'text', label: '事务所案号', prop: 'agency_serial', sortable: true, width: '150', render_header: true },
-          { type: 'text', label: '案件类型', prop: 'category', sortable: true, width: '120', show_option: true,render:this.categoryRender,render_header: true,},
-          { type: 'text', label: '专利类型', prop: 'type_name', sortable: true, width: '120', overflow: true ,render_header: true},
-          { type: 'text', label: '案件名称', prop: 'title', sortable: true, width: '180', overflow: true ,render_header: true},
-          { type: 'text', label: '管制事项', prop: 'taskdef', render_simple: 'name', sortable: true, width: '134' ,render_header: true},
-          { type: 'text', label: '任务来源', prop: 'sender', render_simple: 'name', show: true,sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '流程节点', prop: 'flownode', render_simple: 'name', show:true, sortable: true, width: '120', render_header: true},
-          { type: 'text', label: '提案标题', prop: 'proposal_title', sortable: true, width: '200', overflow: true , render_header: true},
-          { type: 'text', label: 'IPR', prop: 'ipr', render_simple: 'name', sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '部门', prop: 'branch',render_simple: 'abbr', sortable: true, width: '160', render_header: true},
-          { type: 'text', label: '技术联系人', prop: 'proposer', render_simple: 'name', sortable: true, width: '130', render_header: true},
-          { type: 'text', label: '承办人', prop: 'person_in_charge', render_simple: 'name', show: true, sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '代理机构', prop: 'agency', render_simple: 'name', show: false, sortable: true, width: '130', render_header: true},
-          { type: 'text', label: '代理人', prop: 'agent', render_simple: 'name', sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '申请日', prop: 'apd', sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '申请号', prop: 'apn', sortable: true, width: '130', render_header: true},
-          { type: 'text', label: '管制事项开始', prop: 'process_start_time', show: true, sortable: true, width: '150',render_header: true},
-          { type: 'text', label: '管制事项期限', prop: 'process_inner_deadline', show: true, sortable: true, width: '150',render_header: true},
-          { type: 'text', label: '官方绝限', prop: 'deadline', show: true, sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '节点开始时间', prop: 'start_time', show: true, sortable: true, width: '150', render_header: true},
-          { type: 'text', label: '节点期限', prop: 'due_time', show: true, sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '返稿日', prop: 'first_edition_time', show: true, sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '节点超期天数', prop: 'duetime_days', show: true, sortable: true, width: '150', render_header: true},
-          { type: 'text', label: '管制事项超期天数', prop: 'process_duetime_days', show: true, sortable: true, width: '170', render_header: true},
-          { type: 'text', label: '完成时间', prop: 'end_time', sortable: true, width: '118', render_header: true},
-          { type: 'text', label: '备注', prop: 'remark', sortable: true, width: '150',overflow: true, render_header: true},
-          // { 
-          //   type: 'action',
-          //   fixed: false,
-          //   label: '操作',
-          //   min_width: '150',
-          //   align: 'left',
-          //   btns: [
-          //     // { 
-          //     //   type: 'dropdown', 
-          //     //   label: '发送邮件',
-          //     //   items: [
-          //     //     { text: '立案通知' },
-          //     //     { text: '发明人看稿' },
-          //     //     { text: 'IPR看稿' },
-          //     //     { text: '委案处理' },
-          //     //   ],
-          //     // },
-          //     { btn_type: 'text', label: '编辑提案', click: this.proposalEdit, btn_if: _=>_.action == 'proposals/edit' },
-          //     { btn_type: 'text', label: '编辑专利', click: this.patentEdit, btn_if: _=>_.action == 'patents/edit'},
-          //   ],
-          // }
+          { type: 'text', prop: 'model', label: '模块',},
+          { type: 'text', prop: 'serial', label: '案号',},
+          { type: 'text', prop: 'title', label: '案件名称',},
+          { type: 'text', prop: 'processDefinition', label: '工作流名称', render_simple: 'name'},
+          { type: 'text', prop: 'processFlow', label: '当前节点', render_simple: 'name'},
+          { type: 'text', prop: 'user', label: '承办人', render_simple: 'name',},
+          { type: 'text', prop: 'agent', label: '代理人', render_simple: 'name'},
+          { type: 'text', prop: 'assistant', label: '代理人助理', render_simple: 'name'},
+          { type: 'text', prop: 'firstReviewer', label: '内部初审', render_simple: 'name'},
+          { type: 'text', prop: 'finalReviewer', label: '内部复审', render_simple: 'name'},
+          { type: 'text', prop: 'first_edition_deadline', label: '初稿期限',},
+          { type: 'text', prop: 'filing_deadline', label: '递交期限',},
+          { type: 'text', prop: 'legal_deadline', label: '官方绝限',},
+          { type: 'text', prop: 'first_edition_time', label: '初稿日',},
+          { type: 'text', prop: 'internal_final_edition_time', label: '内部定稿日',},
+          { type: 'text', prop: 'customer_edition_time', label: '返稿日',},
+          { type: 'text', prop: 'customer_final_edition_time', label: '客户定稿日',},
+          { type: 'text', prop: 'filing_time', label: '递交日',},
+          { type: 'text', prop: 'internal_drafting_period', label: '内部撰写时间',},
+          { type: 'text', prop: 'internal_amending_period', label: '内部修改时间',},
+          { type: 'text', prop: 'internal_reviewing_period', label: '内部审核时间',},
+          { type: 'text', prop: 'customer_first_edition_period', label: '返客户稿时间',},
+          { type: 'text', prop: 'customer_reviewing_period', label: '客户审核时间',},
+          { type: 'text', prop: 'customer_amending_period', label: '客户审核修改时间',},
+          { type: 'text', prop: 'internal_reviewing_times', label: '内部审核次数',},
+          { type: 'text', prop: 'customer_reviewing_times', label: '客户审核次数',},
+          { type: 'text', prop: 'technical_rank', label: '技术评分',},
+          { type: 'text', prop: 'claims_rank', label: '权利要求评分',},
+          { type: 'text', prop: 'spec_rank', label: '说明书评分',},
+          { type: 'text', prop: 'communication_rank', label: '沟通交流评分',},
+          { type: 'text', prop: 'attachments', label: '附件',},
+          { type: 'text', prop: 'remark', label: '备注',},
+          { type: 'text', prop: 'ipr', label: '案件IPR', render_simple: 'name'},
+          { type: 'text', prop: 'processStage', label: '当前状态', render_simple: 'name'},
         ],
       },
       tableData: [],
@@ -379,6 +363,7 @@ export default {
       btn_disabled: false,
       install: '',
       mailVisible: false,
+      pageType: '',
     };
   },
   computed: {
@@ -454,6 +439,14 @@ export default {
       'refreshTaskDelay',
       'addListFilter'
     ]),   
+    handleTasks (type) {
+      if(type == 'add') {
+        this.$refs.processes_task.add();
+      }
+      if(type == 'edit' ){
+        this.$refs.processes_task.edit();  
+      }
+    }, 
     appointSuccess() {
       this.dialogAgenVisible = false;
       this.update();
@@ -492,10 +485,11 @@ export default {
     handleShrinkClose () {
       this.$refs.table.setCurrentRow();
     },
-    addPop () {
-      if(this.$refs.add) {
-        this.$refs.add.clear();
+    addPop (type = 'add') {
+      if(this.$refs.processes_task) {
+        this.$refs.processes_task.clear();
       }
+      this.pageType = type;
       this.dialogAddVisible = true;
     },
     agenPop () {
@@ -569,8 +563,8 @@ export default {
         if( data['format'] == 'excel' ) {
           window.location.href = d.tasks.downloadUrl;
         }else {
-          this.tableData = d.tasks;
-          this.filters = d.tasks.filters; 
+          this.tableData = d.processes;
+          // this.filters = d.tasks.filters; 
         }
 
         //初始化接口
@@ -692,7 +686,7 @@ export default {
       }else if( t === -1 ) {
         menusMap && !menusMap.get('/tasks/resume_btn') ? h.header_btn.splice(3,1,{type: 'custom', label: '恢复处理', click: _=>{ this.handleTask('/api/tasks/resume') }}) : false;
       }
-      menusMap && !menusMap.get('/tasks/add_btn') ? h.header_btn.splice(0,1,{ type: 'add', click: this.addPop }) : h.header_btn.splice(0,1,{}); 
+      // menusMap && !menusMap.get('/tasks/add_btn') ? h.header_btn.splice(0,1,{ type: 'add', click: this.addPop }) : h.header_btn.splice(0,1,{}); 
       menusMap && !menusMap.get('/tasks/delete_btn') ? h.header_btn.splice(1,1,{ type: 'delete', callback: this.refreshUser }) : h.header_btn.splice(1,1,{});
       menusMap && !menusMap.get('/tasks/agency_btn') && t != 1 ? h.header_btn.splice(2,1,{type: 'custom', label: '申请委案', click: this.agenPop}) : h.header_btn.splice(2,1,{});
 
@@ -783,6 +777,7 @@ export default {
       }
     },
     handleRowClick (row) {
+      console.log(row)
       this.shrinkTitle = row.title; 
       this.currentRow = row;
       if( !this.dialogShrinkVisible ) this.dialogShrinkVisible = true;
@@ -797,14 +792,6 @@ export default {
   watch: {
     filter () {
       this.refresh();
-    },
-     filterVisible () {
-      this.$forceUpdate();
-      console.log('afa')
-      this.re_render = false;
-      this.$nextTick(_=>{
-        this.re_render = true;
-      })
     },
     task_toggle () {
       this.refresh();
@@ -835,18 +822,9 @@ export default {
     //   this.refresh();
     // }
 
-    // if(this.$store.getters.flowsData === undefined) {
-    //   this.$store.dispatch('refreshFlows');  
-    // }
-    
-    // if(this.$store.getters.taskDefsData === undefined) {
-    //   this.$store.dispatch('refreshTaskDefs');
-    // }
-
-    // if(this.$store.getters.flownodeData === undefined) {
-    //   this.$store.dispatch('refreshFlownodes');
-    // }
-
+    if(this.$store.getters.flowsData === undefined) {
+      this.$store.dispatch('refreshFlows');  
+    }
     if(this.task_status == 1 || this.task_status == -1) {
       this.activeName = 'relative_tasks';
     }

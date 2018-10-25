@@ -64,7 +64,7 @@ export default {
   methods: {
     refreshData () {
       this.loading = true;
-      const url = `/api/tasks/${this.id}`;
+      const url = `/processes/${this.id}`;
       const success = _=>{this.collapse = _.task.siblings; this.$emit('refreshSiblings',this.collapse);};
       const complete = _=>{setTimeout(_=>this.loading = false, 500)};
 
@@ -73,7 +73,7 @@ export default {
     handleDelete ({id}) {
       this.$confirm('此操作将删除当前附件，是否继续？', '提示',{type: 'warning'})
       .then(_=>{
-        const url = `/tasks/${this.id}/files/${id}`;
+        const url = `/processes/${this.id}/files/${id}`;
         const success = _=>{
           this.$message({type: 'success', message: _.info});
           this.refreshData();

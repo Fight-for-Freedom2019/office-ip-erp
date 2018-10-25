@@ -1,9 +1,9 @@
 <template>
 <div class="main">
 	<el-steps slot="header" style="width: 100%;box-sizing: border-box;padding-left: 30px;" align-center center :active="active">
-		  <el-step title="选择报表类型" icon="edit"></el-step>
-		  <el-step title="定制数据" icon="upload"></el-step>
-		  <el-step title="生成报表" icon="picture"></el-step>
+		  <el-step title="选择报表类型" icon="el-icon-edit"></el-step>
+		  <el-step title="定制数据" icon="el-icon-upload"></el-step>
+		  <el-step title="生成报表" icon="el-icon-picture"></el-step>
 		</el-steps>
 	<el-card class="report-card">
 		

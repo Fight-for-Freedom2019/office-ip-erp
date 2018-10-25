@@ -1,4 +1,4 @@
-let url = '/api/userinfo'
+let url = '/userinfo'
 
 const state = {
 	data: null,
