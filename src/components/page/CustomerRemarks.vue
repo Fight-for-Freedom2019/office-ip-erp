@@ -1,64 +1,53 @@
 <!-- 客户备注 -->
-<!--TODO copy的新建联系人-->
 <template>
     <div class="main">
-        <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table"></table-component>
-        <!-- 新建联系人 -->
-        <app-shrink :visible.sync="isContactsAddPanelVisible" :modal='false' :title="this.appPanelTitle">
+        <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData"
+                         ref="table"></table-component>
+        <!-- 新建客户备注 -->
+        <app-shrink :visible.sync="isRemarkAddPanelVisible" :modal='false' :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
-            <contacts-list-add ref="contactsAdd" :type='formType' :contacts='contacts' @editSuccess="refreshTableData" @addSuccess="refreshTableData"></contacts-list-add>
+            <remark-list-add ref="remarkAdd" :type='formType' :contacts='contacts' @editSuccess="refreshTableData"
+                             @addSuccess="refreshTableData"></remark-list-add>
         </app-shrink>
     </div>
 </template>
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
-    import ContactsListAdd from '@/components/page_extension/ContactsListAdd'
+    import RemarkListAdd from '@/components/page_extension/RemarkListAdd'
     import AxiosMixins from '@/mixins/axios-mixins'
     import AppShrink from '@/components/common/AppShrink'
 
-    const URL = '/api/contracts'
+    const URL = '/remarks'
 
     export default {
-        name: 'customerRemarks',
-        mixins: [ AxiosMixins ],
-        data () {
+        name: 'CustomerRemarks',
+        mixins: [AxiosMixins],
+        data() {
             return {
-                isContactsAddPanelVisible: false,
-                appPanelTitle: '新建联系人',
+                isRemarkAddPanelVisible: false,
+                appPanelTitle: '新建客户备注',
                 formType: 'add',
-                contacts:{},
+                contacts: {},
                 option: {
                     'name': 'contactsList',
                     'url': URL,
                     'rowClick': this.handleRowClick,
                     'height': 'default',
                     'header_btn': [
-                        { type: 'add', click: this.addPop },
-                        { type: 'delete' },
-                        { type: 'control' },
+                        {type: 'add', click: this.addPop},
+                        {type: 'delete'},
+                        {type: 'control'},
                     ],
                     'columns': [
-                        { type: 'selection' },
-                        { type: 'text', label: '客户', prop: 'name', width: '150' },
-                        { type: 'text', label: '联系人', prop: 'type', width: '240' },
-                        { type: 'text', label: '合同编号', prop: 'email_address', width: '145' },
-                        { type: 'text', label: '合同类型', prop: 'phone_number'},
-                        { type: 'text', label: '状态', prop: 'identity', width:'123'},
-                        { type: 'text', label: '签订日期', prop: 'is_publish_name', sortable: true, width: '175' },
-                        { type: 'text', label: '届满日期', prop: 'first_name', min_width: '200' },
-                        { type: 'text', label: '英文姓', prop: 'last_name',width: '200' },
-                        // 	{
-                        // 		type: 'action',
-                        // width: '200',
-                        // 		btns: [
-                        // 			{ type: 'edit', click: this.editPop },
-                        // 			{ type: 'delete', click: this.deleteSingle },
-                        // 		]
-                        // 	}
+                        {type: 'selection'},
+                        {type: 'text', label: '类型', prop: 'type', width: '150'},
+                        {type: 'text', label: '备注人', prop: 'user.name', width: '145'},
+                        {type: 'text', label: '备注时间', prop: 'email_address', width: '240'},
+                        {type: 'text', label: '备注内容', prop: 'content'},
                     ]
                 },
                 tableData: [],
@@ -66,58 +55,61 @@
             }
         },
         methods: {
-            addPop () {
+            addPop() {
                 this.formType = 'add';
-                this.appPanelTitle =  '新建联系人';
+                this.appPanelTitle = '新建客户备注';
                 this.applicant = {};
-                this.isContactsAddPanelVisible = true;
+                this.isRemarkAddPanelVisible = true;
             },
-            editPop (col) {
+            editPop(col) {
                 this.$refs.pop.show('edit', col);
             },
-            deleteSingle ({id, name}) {
-                this.$confirm(`删除后不可恢复，确认删除联系人‘${name}’？`)
-                    .then(_=>{
+            deleteSingle({id, name}) {
+                this.$confirm(`删除后不可恢复，确认删除备注‘${name}’？`)
+                    .then(_ => {
                         const url = `${URL}/${id}`;
-                        const success = _=>{
-                            this.$message({message: '删除联系人成功', type: 'success'});
+                        const success = _ => {
+                            this.$message({message: '删除备注成功', type: 'success'});
                             this.update();
                         };
 
                         this.axiosDelete({url, success});
                     })
-                    .catch(_=>{});
+                    .catch(_ => {
+                    });
             },
-            saveAdd () {
-                this.$refs.contactsAdd.save(this.formType);
+            saveAdd() {
+                this.$refs.remarkAdd.save(this.formType);
             },
-            refreshTableData (option) {
+            refreshTableData(option) {
                 const url = URL;
                 const data = Object.assign({}, option);
-                const success = _=>{this.tableData = _.data };
+                const success = _ => {
+                    this.tableData = _.data
+                };
 
                 this.axiosGet({url, data, success});
             },
-            handleRowClick (row) {
+            handleRowClick(row) {
                 this.contacts = row;
                 this.formType = 'edit';
-                this.appPanelTitle =  '编辑联系人>' + row.name;
-                this.isContactsAddPanelVisible = true;
+                this.appPanelTitle = '编辑备注';
+                this.isRemarkAddPanelVisible = true;
             },
-            refresh () {
+            refresh() {
                 this.$refs.table.refresh();
             },
-            update () {
+            update() {
                 this.$refs.table.update();
             },
-            handlePopRefresh (key) {
+            handlePopRefresh(key) {
                 this.refresh();
             }
         },
-        mounted () {
+        mounted() {
             this.refresh();
         },
-        components: { TableComponent, ContactsListAdd, AppShrink }
+        components: {TableComponent, RemarkListAdd, AppShrink}
     }
 </script>
 

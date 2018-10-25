@@ -9,7 +9,7 @@ import TableComponent from '@/components/common/TableComponent'
 import Pop from '@/components/page_extension/RequirementListPop'
 import {mapGetters} from 'vuex'
 import {mapActions} from 'vuex'
-const URL = '/api/customers';
+const URL = '/customers';
 export default {
 	name: 'CustomerListApplicant',
 	props: ['customer', 'itemData'],
@@ -61,7 +61,7 @@ export default {
 				is_border: true,
 				is_search: true,
 				is_header: true,
-				height:"default2",
+				height:"customerList",
 			},
 			tableData: [],
 			currentId :{}
@@ -94,9 +94,11 @@ export default {
 			this.$refs.table.refresh();
 		},
 		editPop (row) {
-			this.$refs.pop.show('edit', row);
-			this.currentId = row.id;
-			row.province_city = [row.province_code - 0, row.city_code + ""];	// 添加province_city属性，在弹窗中准确显示省市
+            let copy = this.$tool.deepCopy(row);
+            copy.applicant_type === 0 ? copy.applicant_type = "" : ""
+			this.currentId = copy.id;
+            copy.province_city = [copy.province_code - 0, copy.city_code + ""];	// 添加province_city属性，在弹窗中准确显示省市
+            this.$refs.pop.show('edit', copy);
 		},
 		renderApplicantType(h,text,row){
 			let str = "";

@@ -32,7 +32,7 @@
     import CustomerListAdd from '@/components/page_extension/CustomerListAdd'
     import {mapGetters} from 'vuex'
 
-    const URL = '/api/customers';
+    const URL = '/customers';
     export default {
         name: 'customerList',
         data() {

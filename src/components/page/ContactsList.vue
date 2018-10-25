@@ -19,8 +19,8 @@ import ContactsListAdd from '@/components/page_extension/ContactsListAdd'
 import AxiosMixins from '@/mixins/axios-mixins'
 import AppShrink from '@/components/common/AppShrink'
 
-const URL = '/api/contacts'
-
+const URL = '/contacts'
+// const URL = '/api/contacts'
 export default {
   name: 'contactsList',
   mixins: [ AxiosMixins ],
@@ -42,15 +42,15 @@ export default {
                 ],
                 'columns': [
                     { type: 'selection' },
-                    { type: 'text', label: '姓名', prop: 'name', sortable: true, width: '150' },
-                    { type: 'text', label: '类型', prop: 'type', sortable: true, width: '240' },
-                    { type: 'text', label: '邮箱', prop: 'email_address', width: '145' },
-                    { type: 'text', label: '电话', prop: 'phone_number'},
-                    { type: 'text', label: '证件号码', prop: 'identity', width:'123'},
-                    { type: 'text', label: '是否公开姓名', prop: 'is_publish_name', sortable: true, width: '175' },
-                    { type: 'text', label: '英文名', prop: 'first_name', min_width: '200' }, 
-                    { type: 'text', label: '英文姓', prop: 'last_name',width: '200' },
-                // 	{ 
+                    { type: 'text', label: '姓名', prop: 'name', width: '150' },
+                    { type: 'text', label: '尊称', prop: 'title', width: '150' },
+                    { type: 'text', label: '所属客户', prop: 'customer.name', width: '150' },
+                    { type: 'text', label: '类型', prop: 'type', width: '100' },
+                    { type: 'text', label: '邮件地址', prop: 'email_address', width: '145' },
+                    { type: 'text', label: '电话号码', prop: 'phone_number'},
+                    { type: 'text', label: '地址', prop: 'address',width: '240' },
+                    { type: 'text', label: '备注', prop: 'remark',width: '200' },
+                // 	{
                 // 		type: 'action',
                 // width: '200',
                 // 		btns: [
@@ -98,9 +98,10 @@ export default {
       this.axiosGet({url, data, success});
       },
     handleRowClick (row) {
-        this.contacts = row;
+        let copy = this.$tool.deepCopy(row);
+        this.contacts = copy;
         this.formType = 'edit';
-        this.appPanelTitle =  '编辑联系人>' + row.name;
+        this.appPanelTitle =  '编辑联系人>' + copy.name;
         this.isContactsAddPanelVisible = true;
     },
     refresh () {

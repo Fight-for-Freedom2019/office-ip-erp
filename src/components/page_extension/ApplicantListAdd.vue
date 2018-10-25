@@ -103,7 +103,7 @@ import StaticSelect from "@/components/form/StaticSelect";
 import RemoteSelect from "@/components/form/RemoteSelect";
 import City from "@/components/form/City";
 import AppSwitch from "@/components/form/AppSwitch";
-const URL = "/api/applicants";
+const URL = "/applicants";
 
 export default {
   name: "ApplicantListAdd",
@@ -166,7 +166,6 @@ export default {
     async save(type) {
 	  const data = this.submitForm();
 	  let response;
-	  console.log("这里是类型哦",type);
       if (type === "add") {
         response = await this.$axiosPost({
           url:URL,
@@ -177,7 +176,7 @@ export default {
           }
         });
       } else {
-        let url = "/api/applicants/" + this.applicant.id;
+        let url = "/applicants/" + this.applicant.id;
         data.id = this.applicant.id;
         response = await this.$axiosPut({
           url,
@@ -209,11 +208,7 @@ export default {
     },
     coverObj(val) {
       if (val) {
-        this.form.province_city = [val.province_code - 0, val.city_code + ""];
-        this.$tool.coverObj(this.form, val, {
-          obj: ["consultant"],
-          skip: []
-        });
+        this.$tool.coverObj(this.form, val);
       }
     }
   },

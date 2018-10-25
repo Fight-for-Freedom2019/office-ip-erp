@@ -1,17 +1,20 @@
 <template>
 	<div>
 		<table-component :data="tableData" :tableOption="option" ref="table" @refreshTableData="refreshTableData"></table-component>
-		<pop @refresh="refresh" ref="pop" :customer-id="customerId"></pop>
+		<pop @refresh="refresh" ref="pop" :customer="customer" :popType="popType"></pop>
 	</div>
 </template>
 <script>
 import TableComponent from '@/components/common/TableComponent'
-import Pop from '@/components/page_extension/RequirementListPop'
+import Pop from '@/components/page_extension/RemarkListPop'
+import Config from "@/const/selectConfig";
+const map = new Map(Config);
+
 import {mapGetters} from 'vuex'
-const URL = '/api/requirements';
+const URL = '/customers';
 export default {
 	name: 'CustomerListRemark',
-	props: ['customerId'],
+	props: ['customer','itemData'],
 	data () {
 		return {
 			option: {
@@ -21,16 +24,10 @@ export default {
 					{ type: 'add', click: this.addPop }, 
 				],
 				columns: [
-					{ type: 'selection' },
-					{ 
-						type: 'text', 
-						prop: 'type', 
-                        label: '备注类型',
-						// render_text: _=>this.caseMap.get(Number.parseInt(_)),
-					},
-					{ type: 'text', prop: 'proposer_name', label: '备注内容' },
-                    { type: 'text', prop: 'proposer_type', label: '备注人' },
-                    { type: 'text', prop: 'proposer_name', label: '备注时间' },
+                    {type: 'text', label: '类型', prop: 'type', width: '150'},
+                    {type: 'text', label: '备注人', prop: 'user.name', width: '145'},
+                    {type: 'text', label: '备注时间', prop: 'email_address', width: '240'},
+                    {type: 'text', label: '备注内容', prop: 'content'},
 					{ 
 						type: 'action',
 						width: '100',
@@ -42,9 +39,11 @@ export default {
 					
 					},
 				],
-				is_pagination: false,
-				is_border: false,			
+				is_pagination: true,
+				is_border: true,
+                height:"customerList",
 			},
+            popType:"add",
 			tableData: [
 				{
 					id:0,
@@ -60,22 +59,34 @@ export default {
 	},
 	methods: {
 		refreshTableData () {
+		    let url = `${URL}${this.customer.id}/remarks`
 			this.$axiosGet({
-				url: URL,
+				url: url,
 				data: {
-					'customer_id': this.customerId,
+					'customer_id': this.customer.id,
 				},
 				success:  _=>{
-					this.tableData = _.requirements;
+					this.tableData = _.data;
 				}
 			})
 		},
 		addPop () {
+		    this.popType = "add"
 			this.$refs.pop.show();
 		},
 		refresh () {
 			this.$refs.table.refresh();
 		},
+        editPop(row){
+		    this.popType = "edit";
+            let copy = this.$tool.deepCopy(row);
+            map.get("remark_type").options.forEach((_) => {
+                if (_.name === copy.type) {
+                    copy.type = _.id;
+                }
+            });
+		    this.$refs.pop.show("edit",copy);
+        },
 		clientDelete ({id}) {
 			const url = `${URL}/${id}`;
 			this.$confirm(
@@ -98,6 +109,11 @@ export default {
 			})
 		},
 	},
+    watch:{
+        itemData(val,oldVal) {
+            this.tableData = val;
+        }
+    },
 	components: {
 		TableComponent,
 		Pop,

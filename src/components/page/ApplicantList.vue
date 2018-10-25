@@ -4,7 +4,7 @@
                          @refreshTableData="refreshTableData"></table-component>
 
         <!-- 新建申请人 -->
-        <app-shrink :visible.sync="isApplicantAddPanelVisible" :modal='false' :title="this.appPanelTitle">
+        <app-shrink :visible.sync="isApplicantAddPanelVisible" :modal='hasMask' :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" v-if="formType == 'add'" size="small">新建</el-button>
 				<el-button type="primary" @click="saveAdd" v-if="formType == 'edit'" size="small">保存</el-button>
@@ -23,7 +23,7 @@
     import ApplicantListAdd from '@/components/page_extension/ApplicantListAdd'
     import AppShrink from '@/components/common/AppShrink'
 
-    const URL = '/api/applicants';
+    const URL = '/applicants';
 
     export default {
         name: 'applicantList',
@@ -77,7 +77,7 @@
                         {
                             type: 'text', label: '城市', prop: 'city_code', sortable: true, width: '175',
                             render: (h, item) => {
-                                const d = this.cityMap.get(item);
+                                const d = this.cityMap.get(item+"");
                                 return h('span', d ? d : '');
                             }
                         },
@@ -110,13 +110,8 @@
                         // }
                     ],
                 },
-                tableData: [
-                    {
-                        name: "",
-                        citizenship: "",
-                        applicant_type: "",
-                    }
-                ],
+                hasMask:true,
+                tableData: [],
                 filter: {}
             }
         },
@@ -131,6 +126,11 @@
                 return this.$store.getters.areaMap;
             }
         },
+        watch:{
+            formType(val){
+                val==="add"?this.hasMask = true:this.hasMask = false;
+            }
+        },
         methods: {
             add() {
                 this.formType = 'add';
@@ -142,9 +142,12 @@
                 this.$refs.applicantAdd.save(this.formType);
             },
             handleRowClick(row) {
-                this.applicant = row;
+                let copy = this.$tool.deepCopy(row);
+                copy.applicant_type === 0 ? copy.applicant_type = "" : ""
+                this.applicant = copy;
                 this.formType = 'edit';
-                this.appPanelTitle = '编辑申请人>' + row.name;
+                copy.province_city = [copy.province_code - 0, copy.city_code + ""];
+                this.appPanelTitle = '编辑申请人>' + copy.name;
                 this.isApplicantAddPanelVisible = true;
             },
             // applicantDelete ({id, name} ) {
@@ -188,10 +191,10 @@
                 const data = Object.assign({}, option);
                 // TODO 申请人applicant_type保存不成功
                 const success = _ => {
+                    if (this.formType === "add") this.isApplicantAddPanelVisible = false
                     this.tableData = _.data
                 };
                 this.axiosGet({url, data, success});
-                if (this.formType === "add") this.isApplicantAddPanelVisible = false
             },
             refresh() {
                 this.$refs.table.refresh();

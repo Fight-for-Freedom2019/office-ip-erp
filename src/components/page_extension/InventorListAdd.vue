@@ -1,33 +1,63 @@
-<!-- 添加联系人表单 -->
+<!-- 添加发明人表单 -->
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-form-item label="所属客户" prop="customer">
-                <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
+                <jump-select type="customer" :pageType="type" v-model="form.customer"></jump-select>
             </el-form-item>
-            <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name" placeholder="请填写联系人姓名（必填）"></el-input>
-            </el-form-item>
-            <el-form-item label="尊称" prop="title">
-                <el-input v-model="form.title" placeholder=""></el-input>
-            </el-form-item>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="姓名" prop="name">
+                        <el-input v-model="form.name" placeholder="请填写发明人姓名（必填）"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="尊称" prop="title">
+                        <el-input v-model="form.title" placeholder=""></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="国籍" prop="citizenship">
+                        <static-select type="area" v-model="form.citizenship"></static-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="邮件地址" prop="email_address">
+                        <el-input v-model="form.email_address" placeholder=""></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="英文名" prop="first_name">
+                        <el-input v-model="form.first_name" placeholder=""></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="英文姓" prop="last_name">
+                        <el-input v-model="form.last_name" placeholder=""></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
 
-            <el-form-item label="类型" prop="type">
-                <static-select type="contacts_type" v-model="form.type"></static-select>
-            </el-form-item>
 
-            <el-form-item label="邮件地址 " prop="email_address">
-                <el-input v-model="form.email_address" placeholder=""></el-input>
-            </el-form-item>
+
             <el-form-item label="电话号码" prop="phone_number">
                 <el-input v-model="form.phone_number" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item label="地址" prop="address">
-                <el-input v-model="form.address" placeholder=""></el-input>
+            <el-form-item label="证件号码" prop="identity">
+                <el-input v-model="form.identity" placeholder=""></el-input>
             </el-form-item>
+
             <el-form-item label="备注" prop="remark">
-                <el-input v-model="form.remark" placeholder=""></el-input>
+                <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
             </el-form-item>
+            <el-form-item label="是否公开姓名" prop="is_publish_name">
+                <app-switch :type="switch_type" v-model="form.is_publish_name" @input="getIsPublishName"></app-switch>
+            </el-form-item>
+
         </el-form>
     </div>
 </template>
@@ -37,13 +67,14 @@
     import AppSwitch from "@/components/form/AppSwitch";
     import Config from "@/const/selectConfig";
     import RemoteSelect from "@/components/form/RemoteSelect";
+    import JumpSelect from "@/components/form/JumpSelect";
 
-    const URL = "/contacts";
+    const URL = "/inventors";
     const map = new Map(Config);
     export default {
         name: "ContactsListAdd",
         props: {
-            contacts: {
+            inventors: {
                 type: Object,
                 default() {
                     return {};
@@ -55,16 +86,19 @@
             return {
                 switch_type: "is",
                 form: {
+                    customer:{},
                     customer_id:"",
-                    customer:"",
                     name: "",
-                    title:"",
                     type: "",
                     email_address: "",
                     phone_number: "",
-                    address: "",
-                    remark:"",
+                    identity: "",
+                    first_name: "",
+                    last_name: "",
+                    citizenship:"",
+                    is_publish_name: 1,
                 },
+                formType: "add",
                 rules: {
                     name: {
                         required: true,
@@ -78,6 +112,10 @@
                             trigger: "blur"
                         }
                     ],
+                    citizenship:{
+                        required: true,
+                        message: "请选择国籍",
+                    },
                     phone_number: {
                         pattern: /^1[345678]\d{9}$/,
                         message: "手机号码或者座机号码格式错误",
@@ -107,8 +145,8 @@
                             data.type = _.id;
                         }
                     });
-                    let url = "/contacts/" + this.contacts.id;
-                    data.id = this.contacts.id;
+                    let url = "/inventors/" + this.inventors.id;
+                    data.id = this.inventors.id;
                     response = await this.$axiosPut({
                         url,
                         data,
@@ -133,17 +171,17 @@
             }
         },
         created() {
-            this.coverObj(this.contacts);
+            this.coverObj(this.inventors);
         },
         watch: {
-            contacts: function (val, oldVal) {
+            inventors: function (val, oldVal) {
                 this.coverObj(val);
             },
             type: function (val, oldVal) {
                 if (val === "add") {
                     this.form = {}
                 } else {
-                    this.form = this.$tool.deepCopy(this.contacts);
+                    this.form = this.$tool.deepCopy(this.inventors);
                 }
             }
         },
@@ -151,6 +189,7 @@
             StaticSelect,
             AppSwitch,
             RemoteSelect,
+            JumpSelect
         }
     };
 </script>

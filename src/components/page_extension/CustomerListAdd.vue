@@ -21,7 +21,8 @@
   			<static-select type="skip" v-model="form.consultant"></static-select>
   		</el-form-item>
       <el-form-item label="联系人" prop="contact">
-  			<static-select type="skip" v-model="form.contact"></static-select>
+  			<!--<remote-select :single="single" type="contacts" v-model="form.contact"></remote-select>-->
+          <static-select type="skip" v-model="form.contact"></static-select>
   		</el-form-item>
       <el-form-item label="地区">
   			<provincial-linkage :value="cityInfo"  class="select-city" @input="chooseAddress"></provincial-linkage>
@@ -45,8 +46,9 @@ import {mapGetters} from 'vuex'
 import {mapActions} from 'vuex'
 import PopMixins from '@/mixins/pop-mixins'
 import StaticSelect from '@/components/form/StaticSelect'
+import RemoteSelect from "@/components/form/RemoteSelect";
 import ProvincialLinkage from '@/components/form/City'
-const URL = '/api/customers'
+const URL = '/customers'
 export default {
   name: 'CustomerListAdd',
   mixins: [ PopMixins ],
@@ -54,11 +56,12 @@ export default {
   data () {
 		return {
       cityInfo:[],
+      single:true,
       form: {
         name: '',
         sales_id: '',
-        consultant_id:'',
-        contact_id:'',
+        consultant_id:0,
+        contact_id:0,
         email_address:'',
         phone_number:'',
         address:'',
@@ -133,7 +136,7 @@ export default {
       
     },
     edit(){
-      const url = `${URL}/${this.customer.id}/applicants/`;
+      const url = `${URL}/${this.customer.id}`;
       const data = Object.assign({},this.form);
       const success = _=>{
         this.dialogVisible = false;
@@ -161,7 +164,8 @@ export default {
   },
   components: { 
     StaticSelect,
-    ProvincialLinkage
+    ProvincialLinkage,
+    RemoteSelect
   },
 
   watch:{

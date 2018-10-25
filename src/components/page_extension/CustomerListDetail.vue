@@ -2,9 +2,9 @@
 	<div>
 		<app-shrink :title="title" :visible="isPanelVisible" @update:visible="handleVisible">
 			<span slot="header" style="float: right">
-				<el-button size="small" type="primary" class="table-header-btn" @click="edit" :loading="saveLoading" >{{ saveLoading ? '保存中...' : '保存' }}</el-button>
+				<el-button size="small" type="primary" class="table-header-btn" @click="edit" v-if="activeName==='base'" :loading="saveLoading" >{{ saveLoading ? '保存中...' : '保存' }}</el-button>
 				
-				<el-button style="margin-left: 5px;" size="small" type="danger" @click="dialogClosed=true" v-if="!menusMap.get('Pages.Customers.Delete')">删除</el-button>
+				<!--<el-button style="margin-left: 5px;" size="small" type="danger" @click="dialogClosed=true" v-if="!menusMap.get('Pages.Customers.Delete')">删除</el-button>-->
 			</span>
 			<el-tabs v-model="activeName" @tab-click="onTabPageClicked">
 				<el-tab-pane label="基本信息" name="base">
@@ -26,7 +26,7 @@
 					<detail-quotation  :customer="row"></detail-quotation>
 				</el-tab-pane> -->
 				<el-tab-pane label="客户备注" name="remarks">
-					<detail-remark  :customer="row"></detail-remark>
+					<detail-remark  :customer="row" :itemData="remarksData"></detail-remark>
 				</el-tab-pane>
 			</el-tabs>
 		</app-shrink>
@@ -70,6 +70,7 @@ export default {
       inventorsData: [],
       contactsData: [],
       contractsData: [],
+      remarksData: [],
       saveLoading: false
     };
   },
@@ -122,11 +123,10 @@ export default {
     onTabPageClicked() {
       this.$nextTick(_ => {		// 父组件传参改变数据之后执行，这样没有bug
         if (this.activeName !== "base") {
-          const url = `/api/customers/${this.row.id}/${this.activeName}`;
-          // TODO 这里的用户发明人列表请求出错了
+          const url = `/customers/${this.row.id}/${this.activeName}`;
           const success = _ => {
             //if (this.appData.length == 0) {
-              if (this.activeName == "applicants") {
+              if (this.activeName === "applicants") {
                 this.appData = _.data.data;
                 // let initialData = _.data.data;
                 // for (let i = 0; i < initialData.length; i++) {
@@ -135,14 +135,23 @@ export default {
               }
             //}
             //if (this.inventorsData.length == 0) {
-              if (this.activeName == "inventors") {
-                let initialData = _.inventors.data;
-                console.log(initialData);
-                for (let i = 0; i < initialData.length; i++) {
-                  this.inventorsData.push(initialData[i]);
-                }
+              if (this.activeName === "inventors") {
+                this.inventorsData = _.data.data;
+                // let initialData = _.data.data;
+                // console.log(initialData);
+                // for (let i = 0; i < initialData.length; i++) {
+                //   this.inventorsData.push(initialData[i]);
+                // }
               }
             //}
+              //contracts
+            if (this.activeName === "contracts") {
+              this.contractsData = _.data.data;
+            }
+            //remarks
+            if (this.activeName === "remarks") {
+              this.remarksData = _.data.data;
+            }
             if (this.contactsData.length === 0) {
               if (this.activeName === "contacts") {
                 let initialData = _.data.data;
@@ -151,14 +160,14 @@ export default {
                 }
               }
             }
-            if (this.contactsData.length == 0) {
-              if (this.activeName == "orders") {
-                let initialData = _.Contacts.data;
-                for (let i = 0; i < initialData.length; i++) {
-                  this.contractsData.push(initialData[i]);
-                }
-              }
-            }
+            // if (this.contactsData.length == 0) {
+            //   if (this.activeName == "orders") {
+            //     let initialData = _.Contacts.data;
+            //     for (let i = 0; i < initialData.length; i++) {
+            //       this.contractsData.push(initialData[i]);
+            //     }
+            //   }
+            // }
           };
           this.$axiosGet({
             url: url,

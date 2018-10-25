@@ -1,77 +1,63 @@
-<!-- 发明人列表 -->
+<!-- 联系人管理 -->
 <template>
     <div class="main">
-        <!-- <strainer v-model="filter" @refresh="refresh"></strainer> -->
-        <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData"
-                         ref="table"></table-component>
-        <pop-panel ref="pop" @refresh="handlePopRefresh"></pop-panel>
+        <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table"></table-component>
+        <!-- 新建联系人 -->
+        <app-shrink :visible.sync="isInventorsAddPanelVisible" :modal='false' :title="this.appPanelTitle">
+      <span slot="header" style="float: right;">
+        <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
+        <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
+      </span>
+            <inventor-list-add ref="inventorsAdd" :type='formType' :inventors='inventors' @editSuccess="refreshTableData" @addSuccess="refreshTableData"></inventor-list-add>
+        </app-shrink>
     </div>
 </template>
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
-    // import Strainer from '@/components/page_extension/strainer'
-    import PopPanel from '@/components/page_extension/InventorList_pop'
-    import AxiosMixins from '@/mixins/axios-mixins'
+    import InventorListAdd from '@/components/page_extension/InventorListAdd'
+    import AppShrink from '@/components/common/AppShrink'
 
-    const URL = '/api/inventors'
-
+    const URL = '/inventors'
     export default {
-        name: 'inventorList',
-        mixins: [AxiosMixins],
-        data() {
+        name: 'InventorList',
+        data () {
             return {
+                isInventorsAddPanelVisible: false,
+                appPanelTitle: '新建发明人',
+                formType: 'add',
+                inventors:{},
                 option: {
                     'name': 'inventorList',
                     'url': URL,
+                    'rowClick': this.handleRowClick,
                     'height': 'default',
                     'header_btn': [
-                        {type: 'add', click: this.addPop},
-                        {type: 'delete'},
-                        {type: 'control'},
+                        { type: 'add', click: this.addPop },
+                        { type: 'delete' },     // TODO 删除联系人接口报错
+                        { type: 'control' },
                     ],
-                    //  TODO 发明人table字段修改
                     'columns': [
-                        {type: 'selection'},
-                        {type: 'text', label: '发明人姓名', prop: 'name', sortable: true, width: '150'},
-                        {type: 'text', label: '证件号码', prop: 'identity', sortable: true, width: '240'},
-                        {type: 'text', label: '地区', prop: 'citizenship', sortable: true, width: '145'},
-                        {
-                            type: 'text',
-                            label: '部门简称',
-                            prop: 'abbr',
-                            sortable: true,
-                            render_simple: 'abbr',
-                            width: '123'
-                        },
-                        {type: 'text', label: '手机', prop: 'mobile', sortable: true, width: '175'},
-                        {type: 'text', label: '邮箱', prop: 'email', sortable: true, min_width: '200'},
-                        {
-                            type: 'text',
-                            label: '不公开姓名',
-                            prop: 'not_disclose_name',
-                            sortable: true,
-                            width: '200',
-                            render: (h, item) => {
-                                item === '是' ? item = '不公开' : item = '公开';
-                                return h('span', item);
-                            }
-                        },
-                        {
-                            type: 'text',
-                            label: '英文姓名',
-                            prop: 'name_en',
-                            render: (h, item, row) => h('span', `${row.given_name} ${row.family_name}`),
-                            width: '200'
-                        },
-                        {
-                            type: 'action',
-                            width: '200',
-                            btns: [
-                                {type: 'edit', click: this.editPop},
-                                {type: 'delete', click: this.deleteSingle},
-                            ]
-                        }
+                        { type: 'selection' },
+                        { type: 'text', label: '姓名', prop: 'name', width: '150' },
+                        { type: 'text', label: '尊称', prop: 'title', width: '150' },
+                        { type: 'text', label: '所属客户', prop: 'customer.name', width: '150' },
+                        { type: 'text', label: '国籍', prop: 'citizenship', sortable: true, width: '80' },
+                        { type: 'text', label: '邮件地址', prop: 'email_address', width: '145' },
+                        { type: 'text', label: '电话号码', prop: 'phone_number',width: '120' },
+                        { type: 'text', label: '证件号码', prop: 'identity', width:'150'},
+                        { type: 'text', label: '是否公开姓名', prop: 'is_publish_name', width: '130' },
+                        { type: 'text', label: '英文名', prop: 'first_name', min_width: '120' },
+                        { type: 'text', label: '英文姓', prop: 'last_name',width: '120' },
+                        { type: 'text', label: '备注', prop: 'remark',width: '200' },
+                        // 	{
+                        // 		type: 'action',
+                        // width: '200',
+                        // 		btns: [
+                        // 			{ type: 'edit', click: this.editPop },
+                        // 			{ type: 'delete', click: this.deleteSingle },
+                        // 		]
+                        // 	}
                     ]
                 },
                 tableData: [],
@@ -79,49 +65,60 @@
             }
         },
         methods: {
-            addPop() {
-                this.$refs.pop.show();
+            addPop () {
+                this.formType = 'add';
+                this.appPanelTitle =  '新建发明人';
+                this.inventors = {};
+                this.isInventorsAddPanelVisible = true;
             },
-            editPop(col) {
+            editPop (col) {
                 this.$refs.pop.show('edit', col);
             },
-            deleteSingle({id, name}) {
+            deleteSingle ({id, name}) {
                 this.$confirm(`删除后不可恢复，确认删除发明人‘${name}’？`)
-                    .then(_ => {
+                    .then(_=>{
                         const url = `${URL}/${id}`;
-                        const success = _ => {
-                            this.$message({message: '删除发明人成功', type: 'success'});
+                        const success = _=>{
+                            this.$message({message: '删除联发明人成功', type: 'success'});
                             this.update();
                         };
 
                         this.axiosDelete({url, success});
                     })
-                    .catch(_ => {
-                    });
+                    .catch(_=>{});
             },
-            refreshTableData(option) {
+            saveAdd () {
+                this.$refs.inventorsAdd.save(this.formType);
+            },
+            refreshTableData (option) {
                 const url = URL;
                 const data = Object.assign({}, option);
-                const success = _ => {
-                    this.tableData = _.data
-                };
+                const success = _=>{this.tableData = _.data };
 
-                this.axiosGet({url, data, success});
+                this.$axiosGet({url, data, success});
             },
-            refresh() {
+            handleRowClick (row) {
+                let copy = this.$tool.deepCopy(row);
+                !Number.isNaN(copy.is_publish_name)?copy.is_publish_name === "是"?copy.is_publish_name = 1 :copy.is_publish_name = 0 : "";
+                this.inventors = copy;
+                this.formType = 'edit';
+                this.appPanelTitle =  '编辑发明人>' + copy.name;
+                this.isInventorsAddPanelVisible = true;
+            },
+            refresh () {
                 this.$refs.table.refresh();
             },
-            update() {
+            update () {
                 this.$refs.table.update();
             },
-            handlePopRefresh(key) {
+            handlePopRefresh (key) {
                 this.refresh();
             }
         },
-        mounted() {
+        mounted () {
             this.refresh();
         },
-        components: {TableComponent, PopPanel}
+        components: { TableComponent, InventorListAdd, AppShrink }
     }
 </script>
 
