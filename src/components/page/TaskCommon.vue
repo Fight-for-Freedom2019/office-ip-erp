@@ -297,10 +297,6 @@ export default {
           { type: 'export' },
           // { type: 'custom', label: '转出', icon: '', click: ()=>{ this.dialogTurnoutVisible = true; } },
           { type: 'control', label: '字段'},
-<<<<<<< HEAD
-=======
-          // { type: 'test'}
->>>>>>> bc82c4426c778fa57d5f86e069aafc71d2c25138
           // { type: 'custom', label: '设定', icon: '', click: ()=>{ this.dialogSettingVisible = true; } }
         ],
         'header_slot': [ 'toggle', ],

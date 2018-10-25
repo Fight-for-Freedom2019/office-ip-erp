@@ -105,7 +105,6 @@
         class="table-header-btn"
         v-if="tableOption.is_list_filter && tableOption.list_type" 
         title="筛选"
-        size="small"
         style="margin-left: 5px;"
         type="primary"
         size="small"
