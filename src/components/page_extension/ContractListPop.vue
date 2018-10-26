@@ -48,16 +48,8 @@
             <el-form-item label="状态" prop="status">
                 <app-switch :type="switch_type" v-model="form.status" @input="getStatus"></app-switch>
             </el-form-item>
-            <el-form-item label="附件" prop="is_publish_name">
-                <el-upload
-                        class="upload-demo"
-                        drag
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        multiple>
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-                </el-upload>
+            <el-form-item label="附件" prop="contract_file">
+                <upload v-model="form.contract_file" :file-list="contract_file"></upload>
             </el-form-item>
             <el-form-item style="margin-bottom: 0;">
                 <el-button type="primary" @click="add" v-if="popType === 'add'" :disabled="btn_disabled">添加</el-button>
@@ -71,13 +63,12 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-    import {mapActions} from 'vuex'
     import PopMixins from '@/mixins/pop-mixins'
     import StaticSelect from '@/components/form/StaticSelect'
     import AppSwitch from "@/components/form/AppSwitch";
     import Config from "@/const/selectConfig";
     import RemoteSelect from "@/components/form/RemoteSelect";
+    import Upload from '@/components/form/Upload'
 
     const map = new Map(Config);
 
@@ -98,7 +89,8 @@
                 default() {
                     return "add"
                 }
-            }
+            },
+            contractsID:Number,
         },
         data() {
             return {
@@ -117,6 +109,7 @@
                     expire_date: "",
                     status: 0,
                     serial: "",
+                    is_effective:1,
                     contact_id: "",
                     customer_id: "",
                     remark: "",
@@ -128,7 +121,9 @@
                         name: "",
                         id: "",
                     },
+                    contract_file:[],
                 },
+                contract_file:[],
                 'rules': {
                     'name': [{required: true, message: '申请人名称不能为空', trigger: 'blur'},
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
@@ -171,6 +166,7 @@
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 data.contact_id = data.contact;
+                delete data.customer;
                 const success = _ => {
                     this.dialogVisible = false;
                     this.refresh();
@@ -187,10 +183,11 @@
                 this.form.status = val;
             },
             edit() {
-                const url = `${URL}/${this.customer.id}/contracts/${this.contracts.id}`;
+                const url = `${URL}/${this.customer.id}/contracts/${this.contractsID}`;
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 data.contact_id = data.contact;
+                delete data.customer;
                 map.get("contract_type").options.forEach((_) => {
                     if (_.name === data.type) {
                         data.type = _.id;
@@ -207,21 +204,22 @@
                 this.dialogVisible = false;
             },
         },
-        created() {
-            this.form = Object.assign({}, this.contracts);
-        },
-        watch: {
-            contracts: function (val, oldVal) {
-                this.form = Object.assign({}, val);
-            },
-            popType: function (val, oldVal) {
-                val === "add" ? this.form = {} : "";
-            }
-        },
+        // created() {
+        //     this.$tool.coverObj(this.form,this.contracts)
+        // },
+        // watch: {
+        //     contracts: function (val, oldVal) {
+        //         this.$tool.coverObj(this.form,val)
+        //     },
+        //     popType: function (val, oldVal) {
+        //         val === "add" ? this.form = {} : this.$tool.coverObj(this.form,this.contracts);
+        //     }
+        // },
         components: {
             StaticSelect,
             AppSwitch,
-            RemoteSelect
+            RemoteSelect,
+            Upload
         },
         REMINDER_TEXT: '合同',
     }

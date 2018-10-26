@@ -4,7 +4,7 @@
         <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData"
                          ref="table"></table-component>
         <!-- 新建客户备注 -->
-        <app-shrink :visible.sync="isRemarkAddPanelVisible" :modal='false' :title="this.appPanelTitle">
+        <app-shrink :visible.sync="isRemarkAddPanelVisible" :modal='formType === "add"' :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
@@ -18,14 +18,12 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import RemarkListAdd from '@/components/page_extension/RemarkListAdd'
-    import AxiosMixins from '@/mixins/axios-mixins'
     import AppShrink from '@/components/common/AppShrink'
 
     const URL = '/remarks'
 
     export default {
         name: 'CustomerRemarks',
-        mixins: [AxiosMixins],
         data() {
             return {
                 isRemarkAddPanelVisible: false,
@@ -46,7 +44,7 @@
                         {type: 'selection'},
                         {type: 'text', label: '类型', prop: 'type', width: '150'},
                         {type: 'text', label: '备注人', prop: 'user.name', width: '145'},
-                        {type: 'text', label: '备注时间', prop: 'email_address', width: '240'},
+                        {type: 'text', label: '备注时间', prop: 'creation_time', width: '240'},
                         {type: 'text', label: '备注内容', prop: 'content'},
                     ]
                 },
@@ -73,7 +71,7 @@
                             this.update();
                         };
 
-                        this.axiosDelete({url, success});
+                        this.$axiosDelete({url, success});
                     })
                     .catch(_ => {
                     });
@@ -85,10 +83,11 @@
                 const url = URL;
                 const data = Object.assign({}, option);
                 const success = _ => {
-                    this.tableData = _.data
+                    this.tableData = _.data;
+                    this.formType === "add"?this.isRemarkAddPanelVisible = false:"";
                 };
 
-                this.axiosGet({url, data, success});
+                this.$axiosGet({url, data, success});
             },
             handleRowClick(row) {
                 this.contacts = row;

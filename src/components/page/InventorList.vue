@@ -1,9 +1,9 @@
-<!-- 联系人管理 -->
+<!-- 发明人管理 -->
 <template>
     <div class="main">
         <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table"></table-component>
-        <!-- 新建联系人 -->
-        <app-shrink :visible.sync="isInventorsAddPanelVisible" :modal='false' :title="this.appPanelTitle">
+        <!-- 新建发明人 -->
+        <app-shrink :visible.sync="isInventorsAddPanelVisible" :modal='formType === "add"' :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
@@ -34,7 +34,7 @@
                     'height': 'default',
                     'header_btn': [
                         { type: 'add', click: this.addPop },
-                        { type: 'delete' },     // TODO 删除联系人接口报错
+                        { type: 'delete' },
                         { type: 'control' },
                     ],
                     'columns': [
@@ -83,7 +83,7 @@
                             this.update();
                         };
 
-                        this.axiosDelete({url, success});
+                        this.$axiosDelete({url, success});
                     })
                     .catch(_=>{});
             },
@@ -93,7 +93,10 @@
             refreshTableData (option) {
                 const url = URL;
                 const data = Object.assign({}, option);
-                const success = _=>{this.tableData = _.data };
+                const success = _=>{
+                    this.tableData = _.data;
+                    this.formType === "add"?this.isInventorsAddPanelVisible = false:"";
+                };
 
                 this.$axiosGet({url, data, success});
             },

@@ -127,7 +127,7 @@ export default {
 			this.$refs.table.update();
 		},
 		clientDelete (row) {
-			const url = `${URL}/${this.customer.id}/applicants/${row.id}`;
+			const url = `applicants?id[]=${row.id}`;
 			this.$confirm(
 				'此操作将永久删除该邮件, 是否继续?', '提示', {
 				confirmButtonText: '确定',

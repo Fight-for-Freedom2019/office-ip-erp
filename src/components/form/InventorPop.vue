@@ -96,7 +96,7 @@
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
                     ],
                     'subtype': {required: true, message: '发明人类型不能为空', trigger: 'change'},
-                    'identity': [{required: false, message: '证件号码不能为空', trigger: 'blur'},
+                    'identity': [{required: true, message: '证件号码不能为空', trigger: 'blur'},
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
                     ],
                     'citizenship':{
@@ -139,9 +139,10 @@
                 this.$emit('refresh');
             },
             add() {
-                if (this.form.name !== '' && this.form.citizenship !== '' ) {
+                if (this.form.name !== '' && this.form.citizenship !== '' && this.form.identity !== '') {
                     const url = `${URL}/${this.customer.id}/inventors`;
                     const data = Object.assign({}, this.form);
+                    delete data.customer;
                     const success = _ => {
                         this.dialogVisible = false;
                         this.refresh();
@@ -156,6 +157,7 @@
             edit() {
                 const url = `${URL}/${this.customer.id}/inventors/${this.presentId}`;
                 const data = Object.assign({}, this.form);
+                delete data.customer;
                 const success = _ => {
                     this.dialogVisible = false;
                     this.refresh();

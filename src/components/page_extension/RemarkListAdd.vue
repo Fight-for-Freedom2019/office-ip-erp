@@ -3,7 +3,9 @@
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
 
-
+            <el-form-item label="客户" prop="customer">
+                <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
+            </el-form-item>
             <el-form-item label="类型" prop="type">
                 <static-select type="remark_type" v-model="form.type"></static-select>
             </el-form-item>
@@ -19,6 +21,7 @@
     import StaticSelect from "@/components/form/StaticSelect";
     import AppSwitch from "@/components/form/AppSwitch";
     import Config from "@/const/selectConfig";
+    import RemoteSelect from "@/components/form/RemoteSelect";
 
     const URL = "/remarks";
     const map = new Map(Config);
@@ -38,6 +41,7 @@
                 form: {
                     content:"",
                     type: "",
+                    customer:{}
                 },
                 formType: "add",
                 rules: {
@@ -64,7 +68,7 @@
         methods: {
             async save(type) {
                 const data = this.form;
-                data.id = 1;
+                data.customer_id = this.form.customer;
                 let response;
                 if (type === "add") {
                     response = await this.$axiosPost({
@@ -125,6 +129,7 @@
         components: {
             StaticSelect,
             AppSwitch,
+            RemoteSelect,
         }
     };
 </script>

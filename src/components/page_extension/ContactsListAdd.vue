@@ -13,7 +13,7 @@
             </el-form-item>
 
             <el-form-item label="类型" prop="type">
-                <static-select type="contacts_type" v-model="form.type"></static-select>
+                <static-select type="contacts_type" v-model="form.contact_type"></static-select>
             </el-form-item>
 
             <el-form-item label="邮件地址 " prop="email_address">
@@ -59,7 +59,7 @@
                     customer:"",
                     name: "",
                     title:"",
-                    type: "",
+                    contact_type: "",
                     email_address: "",
                     phone_number: "",
                     address: "",
@@ -103,8 +103,8 @@
                 } else {
                     // 由于后端返回的是联系人类型的字符串,修改时需要将其转换成Number类型，不然后端报错，新增时不需要修改
                     map.get("contacts_type").options.forEach((_) => {
-                        if (_.name === data.type) {
-                            data.type = _.id;
+                        if (_.name === data.contact_type) {
+                            data.contact_type = _.id;
                         }
                     });
                     let url = "/contacts/" + this.contacts.id;

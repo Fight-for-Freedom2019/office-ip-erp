@@ -1,7 +1,8 @@
 <template>
     <div>
-        <table-component :data="tableData" :tableOption="option" ref="table" @refreshTableData='refreshTableData'></table-component>
-        <pop @refresh="refresh" ref="pop" :contracts="contracts" :customer="customer" :popType="popType"></pop>
+        <table-component :data="tableData" :tableOption="option" ref="table"
+                         @refreshTableData='refreshTableData'></table-component>
+        <pop @refresh="refresh" ref="pop" :customer="customer" :contractsID="contractsID" :popType="popType"></pop>
     </div>
 </template>
 <script>
@@ -50,9 +51,9 @@
                     is_border: true,
                     height: "customerList",
                 },
-                popType:"add",
+                popType: "add",
                 tableData: [],
-                contracts:{},   // 点击修改的该行合同数据
+                contractsID:null,
             };
         },
         computed: {
@@ -79,7 +80,8 @@
                 })
             },
             clientDelete({id}) {
-                const url = `${URL}/${id}`;
+                const url = `/contracts?id[]=${id}`;
+                console.log(url);
                 this.$confirm(
                     '此操作将永久删除该信息, 是否继续?', '提示', {
                         confirmButtonText: '确定',
@@ -87,11 +89,11 @@
                         type: 'warning'
                     }).then(() => {
                     const success = _ => {
-                        this.update();
+                        this.refreshTableData();
                         this.$message({message: '删除成功', type: 'success'})
                     };
 
-                    this.axiosDelete({url, success});
+                    this.$axiosDelete({url, success});
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -99,14 +101,15 @@
                     })
                 })
             },
-            editPop(row){
+            editPop(row) {
                 this.popType = "edit";
-                this.contracts = this.$tool.deepCopy(row);
-                this.$refs.pop.show();
+                let copy = this.$tool.deepCopy(row);
+                this.contractsID = copy.id;
+                this.$refs.pop.show("edit", copy);
             },
         },
         watch: {
-            itemData(val,oldVal) {
+            itemData(val, oldVal) {
                 this.tableData = val;
             }
         },

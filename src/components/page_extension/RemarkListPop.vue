@@ -46,7 +46,8 @@
                 default(){
                     return "add"
                 }
-            }
+            },
+            remarkID:Number,
         },
         data() {
             return {
@@ -102,7 +103,7 @@
                 //if (this.form.name !== '') {
                 const url = `${URL}/${this.customer.id}/remarks`;
                 const data = Object.assign({}, this.form);
-                data.id = this.customer.id;
+                data.customer_id = this.customer.id;
                 const success = _ => {
                     this.dialogVisible = false;
                     this.refresh();
@@ -119,9 +120,9 @@
                 this.form.is_publish_name = val;
             },
             edit() {
-                const url = `${URL}/${this.customer.id}/remarks/${this.contracts.id}`;
+                const url = `${URL}/${this.customer.id}/remarks/${this.remarkID}`;
                 const data = Object.assign({}, this.form);
-                data.id = this.customer.id;
+                data.customer_id = this.customer.id;
                 map.get("remark_type").options.forEach((_) => {
                     if (_.name === data.type) {
                         data.type = _.id;
