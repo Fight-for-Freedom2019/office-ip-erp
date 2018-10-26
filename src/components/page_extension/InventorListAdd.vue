@@ -132,6 +132,7 @@
             async save(type) {
                 const data = this.form;
                 data.customer_id = data.customer;
+                if(!data.name && !data.citizenship && !data.identity){this.$message({type: "warning", message: "必选项不能为空"});return;}
                 let response;
                 if (type === "add") {
                     response = await this.$axiosPost({
