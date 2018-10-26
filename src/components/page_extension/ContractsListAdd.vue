@@ -91,7 +91,7 @@
                     onColor: '#13ce66',
                     offColor: '#ff4949',
                     onText: '生效中',
-                    offText: '已失败',
+                    offText: '',
                     onValue: 1,
                     offValue: 0,
                 },
@@ -116,9 +116,9 @@
                 },
                 contract_file:[],
                 rules: {
-                    name: {
+                    customer: {
                         required: true,
-                        message: "请填写联系人姓名",
+                        message: "请选择客户",
                         trigger: "change"
                     },
                     email_address: [
@@ -141,7 +141,7 @@
                 const data = this.form;
                 data.customer_id = data.customer;
                 data.contact_id = data.contact;     // 在获取remote-select数据时把id保存在了contact和customer这两个字段上，实际上后端需要的是contact_id和customer_id
-                // console.log("这个是保存的data",data);
+                if(data.customer_id === null && data.customer === null){this.$message({type: "warn", message: "必选项不能为空"});return;}
                 let response;
                 if (type === "add") {
                     response = await this.$axiosPost({
@@ -167,26 +167,25 @@
                 return response;
             },
             getStatus(val) {
+                val?this.switch_type.onText = "生效中":this.switch_type.onText = "已失效";
                 this.form.is_effective  = val;
             },
             coverObj(val) {
                 if (val) {
-                    this.$tool.coverObj(this.form, val, {
-                        obj: ["consultant"],
-                        skip: []
-                    });
+                    val.is_effective?this.switch_type.onText = "生效中":this.switch_type.onText = "已失效";
+                    this.$tool.coverObj(this.form, val);
                 }
             }
         },
         created() {
-            this.$tool.coverObj(this.form,this.contracts);
+            this.coverObj(this.contracts);
             // if (this.type !== "add"){
             //     this.form = Object.assign({},this.contracts);
             // }
         },
         watch: {
             contracts: function (val, oldVal) {
-                this.$tool.coverObj(this.form,val);
+                this.coverObj(val);
             },
             type: function (val, oldVal) {
                 if (val === "add") {
