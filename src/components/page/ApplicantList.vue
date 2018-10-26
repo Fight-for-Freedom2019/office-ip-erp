@@ -4,7 +4,7 @@
                          @refreshTableData="refreshTableData"></table-component>
 
         <!-- 新建申请人 -->
-        <app-shrink :visible.sync="isApplicantAddPanelVisible" :modal='hasMask' :title="this.appPanelTitle">
+        <app-shrink :visible.sync="isApplicantAddPanelVisible" :modal='formType==="add"' :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" v-if="formType == 'add'" size="small">新建</el-button>
 				<el-button type="primary" @click="saveAdd" v-if="formType == 'edit'" size="small">保存</el-button>
@@ -36,7 +36,7 @@
                 applicant: {},
                 option: {
                     'name': 'applicant',
-                    'url': '/api/applicants',
+                    'url': '/applicants',
                     'height': 'default',
                     'header_btn': [
                         {type: 'add', click: this.add},
@@ -110,7 +110,6 @@
                         // }
                     ],
                 },
-                hasMask:true,
                 tableData: [],
                 filter: {}
             }
@@ -124,11 +123,6 @@
             },
             areaMap() {
                 return this.$store.getters.areaMap;
-            }
-        },
-        watch:{
-            formType(val){
-                val==="add"?this.hasMask = true:this.hasMask = false;
             }
         },
         methods: {
@@ -189,7 +183,6 @@
             refreshTableData(option) {
                 const url = URL;
                 const data = Object.assign({}, option);
-                // TODO 申请人applicant_type保存不成功
                 const success = _ => {
                     if (this.formType === "add") this.isApplicantAddPanelVisible = false
                     this.tableData = _.data

@@ -3,7 +3,7 @@
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-form-item label="所属客户" prop="customer">
-                <jump-select type="customer" :pageType="type" v-model="form.customer"></jump-select>
+                <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
             </el-form-item>
             <el-row>
                 <el-col :span="12">
@@ -116,6 +116,10 @@
                         required: true,
                         message: "请选择国籍",
                     },
+                    identity:{
+                        required:true,
+                        message:"请填写证件号码"
+                    },
                     phone_number: {
                         pattern: /^1[345678]\d{9}$/,
                         message: "手机号码或者座机号码格式错误",
@@ -140,11 +144,7 @@
                     });
                 } else {
                     // 由于后端返回的是联系人类型的字符串,修改时需要将其转换成Number类型，不然后端报错，新增时不需要修改
-                    map.get("contacts_type").options.forEach((_) => {
-                        if (_.name === data.type) {
-                            data.type = _.id;
-                        }
-                    });
+                    map.get("contacts_type").options.forEach((_) => {_.name === data.type?data.type = _.id:"";});
                     let url = "/inventors/" + this.inventors.id;
                     data.id = this.inventors.id;
                     response = await this.$axiosPut({
@@ -163,10 +163,7 @@
             },
             coverObj(val) {
                 if (val) {
-                    this.$tool.coverObj(this.form, val, {
-                        obj: ["consultant"],
-                        skip: []
-                    });
+                    this.$tool.coverObj(this.form, val);
                 }
             }
         },
@@ -175,11 +172,12 @@
         },
         watch: {
             inventors: function (val, oldVal) {
-                this.coverObj(val);
+                this.$tool.coverObj(this.form,val);
             },
             type: function (val, oldVal) {
                 if (val === "add") {
-                    this.form = {}
+                    this.form = {};
+                    this.form.is_publish_name = 1;
                 } else {
                     this.form = this.$tool.deepCopy(this.inventors);
                 }

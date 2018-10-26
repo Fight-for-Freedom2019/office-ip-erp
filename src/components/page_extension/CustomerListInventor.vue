@@ -9,7 +9,7 @@
 import TableComponent from '@/components/common/TableComponent'
 import Pop from '@/components/form/InventorPop'
 import {mapGetters} from 'vuex'
-const URL = '/api/customers';
+const URL = '/customers';
 export default {
 	name: 'ClientlistInventor',
 	props: ['customer','itemData'],

@@ -216,10 +216,10 @@
                 if (this.form.name != "") {
                     const url = `${URL}/${this.customer.id}/applicants`;
                     const data = Object.assign({}, this.submitForm());
+                    data.type = data.applicant_type;
                     const success = _ => {
                         this.dialogVisible = false;
                         this.refresh();
-                        // this.$message({message: '添加成功！', type: 'success'})
                     };
                     this.$axiosPost({url, data, success});
                 } else {
@@ -229,6 +229,7 @@
             edit() {
                 const url = `${URL}/${this.customer.id}/applicants/${this.presentId}`;
                 const data = Object.assign({}, this.submitForm());
+                data.type = data.applicant_type;
                 const success = _ => {
                     this.dialogVisible = false;
                     this.refresh();

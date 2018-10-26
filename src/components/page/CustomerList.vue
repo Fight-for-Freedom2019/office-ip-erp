@@ -9,7 +9,7 @@
           <span slot="header" style="float: right;">
             <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
           </span>
-            <customer-list-add ref="customerAdd" @refresh="addSuccess"></customer-list-add>
+            <customer-list-add ref="customerAdd" @refresh="addSuccess" popType="add"></customer-list-add>
         </app-shrink>
 
         <!-- 客户详情面板 -->
@@ -142,7 +142,6 @@
             },
             handleRowClick(row) {
                 this.currentRow = row;
-                console.log(row.id);
                 this.$refs.detail.onTabPageClicked();		// 点击table-row之后执行详情面板中的onTabPageClicked方法刷新内容
                 if (!this.isDetailPanelVisible) {
                     this.isDetailPanelVisible = true;

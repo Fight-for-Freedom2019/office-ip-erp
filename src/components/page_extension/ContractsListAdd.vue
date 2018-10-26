@@ -51,10 +51,10 @@
                 <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
             </el-form-item>
             <el-form-item label="状态" prop="status">
-                <app-switch :type="switch_type" v-model="form.status" @input="getStatus"></app-switch>
+                <app-switch :type="switch_type" v-model="form.is_effective" @input="getStatus"></app-switch>
             </el-form-item>
-            <el-form-item label="附件" prop="attachments">
-                <upload v-model="form.attachments" :file-list="attachments"></upload>
+            <el-form-item label="附件" prop="contract_file">
+                <upload v-model="form.contract_file" :file-list="contract_file"></upload>
             </el-form-item>
 
         </el-form>
@@ -96,16 +96,15 @@
                     offValue: 0,
                 },
                 form: {
-                    name: "",
                     type: "",
                     signing_date: "",
                     expire_date: "",
-                    status: 1,
+                    is_effective : 1,
                     serial: "",
                     contact_id: "",
                     customer_id: "",
                     remark:"",
-                    attachments:[],
+                    contract_file:[],
                     contact: {
                         name:"",
                         id:""
@@ -115,7 +114,7 @@
                         id:"",
                     },
                 },
-                attachments:[],
+                contract_file:[],
                 rules: {
                     name: {
                         required: true,
@@ -140,7 +139,6 @@
         methods: {
             async save(type) {
                 const data = this.form;
-                console.log("提交的是这里的data",data);
                 data.customer_id = data.customer;
                 data.contact_id = data.contact;     // 在获取remote-select数据时把id保存在了contact和customer这两个字段上，实际上后端需要的是contact_id和customer_id
                 // console.log("这个是保存的data",data);
@@ -169,7 +167,7 @@
                 return response;
             },
             getStatus(val) {
-                this.form.status = val;
+                this.form.is_effective  = val;
             },
             coverObj(val) {
                 if (val) {

@@ -3,7 +3,7 @@
     <div class="main">
         <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table"></table-component>
         <!-- 新建合同 -->
-        <app-shrink :visible.sync="isContractsAddPanelVisible" :modal='false' :title="this.appPanelTitle">
+        <app-shrink :visible.sync="isContractsAddPanelVisible" :modal="formType==='add'" :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
@@ -16,14 +16,12 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import ContractsListAdd from '@/components/page_extension/ContractsListAdd'
-    import AxiosMixins from '@/mixins/axios-mixins'
     import AppShrink from '@/components/common/AppShrink'
 
     const URL = '/contracts'
 
     export default {
         name: 'ContractsList',
-        mixins: [ AxiosMixins ],
         data () {
             return {
                 isContractsAddPanelVisible: false,
@@ -43,13 +41,13 @@
                     'columns': [
                         { type: 'selection' },
                         { type: 'text', label: '客户', prop: 'customer.name', width: '150' },
-                        { type: 'text', label: '联系人', prop: 'contact.name', width: '240' },
+                        { type: 'text', label: '联系人', prop: 'contact.name', width: '170' },
                         { type: 'text', label: '合同编号', prop: 'serial', width: '145' },
-                        { type: 'text', label: '合同类型', prop: 'type'},
+                        { type: 'text', label: '合同类型', prop: 'type',width: '145'},
                         { type: 'text', label: '状态', prop: 'identity', width:'123'},
-                        { type: 'text', label: '签订日期', prop: 'signing_date', sortable: true, width: '175' },
-                        { type: 'text', label: '届满日期', prop: 'expire_date', min_width: '200' },
-                        { type: 'text', label: '备注', prop: 'remark',width: '200' },
+                        { type: 'text', label: '签订日期', prop: 'signing_date', width: '175' },
+                        { type: 'text', label: '届满日期', prop: 'expire_date', width: '175' },
+                        { type: 'text', label: '备注', prop: 'remark' },
                         // 	{
                         // 		type: 'action',
                         // width: '200',
@@ -83,7 +81,7 @@
                             this.update();
                         };
 
-                        this.axiosDelete({url, success});
+                        this.$axiosDelete({url, success});
                     })
                     .catch(_=>{});
             },
@@ -93,9 +91,12 @@
             refreshTableData (option) {
                 const url = URL;
                 const data = Object.assign({}, option);
-                const success = _=>{this.tableData = _.data };
+                const success = _=>{
+                    this.tableData = _.data;
+                    this.formType === "add"?this.isContractsAddPanelVisible = false:"";
+                };
 
-                this.axiosGet({url, data, success});
+                this.$axiosGet({url, data, success});
             },
             handleRowClick (row) {
                 this.contracts = row;

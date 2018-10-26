@@ -7,7 +7,7 @@
             </el-form-item>
 
             <el-form-item label="类型" prop="type">
-                <static-select type="contacts_type" v-model="form.type"></static-select>
+                <static-select type="contacts_type" v-model="form.contact_type"></static-select>
             </el-form-item>
 
             <el-form-item label="邮箱" prop="identity">
@@ -51,14 +51,14 @@
     export default {
         name: 'RequireListPop',
         mixins: [PopMixins],
-        props: ['customer', 'contact_id'],
+        props: ['customer', 'contact_id','isDefaultContacts'],
         data() {
             return {
                 switch_type:"is",
                 cityInfo: '',
                 form: {
                     name: "",
-                    type: "",
+                    contact_type: "",
                     email_address: "",
                     phone_number: "",
                     identity: "",
@@ -103,6 +103,11 @@
                 this.$emit('refresh');
             },
             add() {
+                if(this.isDefaultContacts){
+                    this.$emit('getDefaultContacts',this.form);     // 因为新增客户时会用到这个组件来新建默认联系人，所以先判断是否是isDefaultContacts
+                    this.dialogVisible = false;
+                    return
+                }
                 if (this.form.name !== '') {
                     const url = `${URL}/${this.customer.id}/contacts`;
                     const data = Object.assign({}, this.form);
