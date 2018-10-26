@@ -11,7 +11,7 @@ import Pop from '@/components/form/InventorPop'
 import {mapGetters} from 'vuex'
 const URL = '/customers';
 export default {
-	name: 'ClientlistInventor',
+	name: 'CustomerListInventor',
 	props: ['customer','itemData'],
 	data () {
 		return {
@@ -63,7 +63,7 @@ export default {
 		},
 		refreshTableData(option) {
 			const success = _=>{
-					this.inventorData = _.inventors.data;  
+					this.inventorData = _.data.data;
 				}
 			this.$axiosGet({
 				url: `${URL}/${this.customer.id}/inventors`,
@@ -72,17 +72,19 @@ export default {
 				})
   	    },
 		refresh () {
-			this.$refs.table.refresh();
+			this.refreshTableData();
 		},
 		update () {
-			this.$refs.table.update();
+			this.refreshTableData();
 		},
 		editPop (row) {
-			this.$refs.pop.show('edit', row);
-			this.currentId = row.id
+		    let copy = this.$tool.deepCopy(row);
+            copy.is_publish_name === "是"?copy.is_publish_name = 1 : 0;
+			this.$refs.pop.show('edit', copy);
+			this.currentId = copy.id
 		},
 		clientDelete (row) {
-			const url = `${URL}/${this.customer.id}/inventors/${row.id}`;
+			const url = `/inventors?id[]=${row.id}`;
 			this.$confirm(
 				'此操作将永久删除该邮件, 是否继续?', '提示', {
 				confirmButtonText: '确定',
