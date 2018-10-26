@@ -89,7 +89,8 @@
                 default() {
                     return "add"
                 }
-            }
+            },
+            contractsID:Number,
         },
         data() {
             return {
@@ -108,6 +109,7 @@
                     expire_date: "",
                     status: 0,
                     serial: "",
+                    is_effective:1,
                     contact_id: "",
                     customer_id: "",
                     remark: "",
@@ -164,6 +166,7 @@
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 data.contact_id = data.contact;
+                delete data.customer;
                 const success = _ => {
                     this.dialogVisible = false;
                     this.refresh();
@@ -180,10 +183,11 @@
                 this.form.status = val;
             },
             edit() {
-                const url = `${URL}/${this.customer.id}/contracts/${this.contracts.id}`;
+                const url = `${URL}/${this.customer.id}/contracts/${this.contractsID}`;
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 data.contact_id = data.contact;
+                delete data.customer;
                 map.get("contract_type").options.forEach((_) => {
                     if (_.name === data.type) {
                         data.type = _.id;
@@ -200,17 +204,17 @@
                 this.dialogVisible = false;
             },
         },
-        created() {
-            this.$tool.coverObj(this.form,this.contracts)
-        },
-        watch: {
-            contracts: function (val, oldVal) {
-                this.$tool.coverObj(this.form,val)
-            },
-            popType: function (val, oldVal) {
-                val === "add" ? this.form = {} : "";
-            }
-        },
+        // created() {
+        //     this.$tool.coverObj(this.form,this.contracts)
+        // },
+        // watch: {
+        //     contracts: function (val, oldVal) {
+        //         this.$tool.coverObj(this.form,val)
+        //     },
+        //     popType: function (val, oldVal) {
+        //         val === "add" ? this.form = {} : this.$tool.coverObj(this.form,this.contracts);
+        //     }
+        // },
         components: {
             StaticSelect,
             AppSwitch,
