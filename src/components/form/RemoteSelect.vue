@@ -148,6 +148,11 @@ const map = new Map([
     DATA_KEY: 'data',
     PLACEHOLDER: '请选择人员',
   }],
+  ['contacts', {
+    URL: '/contacts',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择联系人',
+  }],
 ]);
 
 export default {
@@ -371,7 +376,7 @@ export default {
         //将单项统一处理为数组 single时保留原状
         if(!this.multiple && !this.single) {
           // console.log(this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]);
-          val = this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]; //空字符串 空对象处理
+            val = this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : !this.value?[]:[this.value] ; //空字符串 空对象处理
         }else {
           val = this.value;
         }

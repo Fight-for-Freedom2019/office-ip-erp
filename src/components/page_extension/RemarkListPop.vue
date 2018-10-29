@@ -2,35 +2,16 @@
     <el-dialog :title="title" :visible.sync="dialogVisible" :modal="false" class="dialog-small">
         <el-form label-width="100px" ref="form" :model="form" :rules="rules">
 
-            <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name" placeholder="请填写联系人姓名（必填）"></el-input>
-            </el-form-item>
-
             <el-form-item label="类型" prop="type">
-                <static-select type="contacts_type" v-model="form.contact_type"></static-select>
+                <static-select type="remark_type" v-model="form.type"></static-select>
             </el-form-item>
 
-            <el-form-item label="邮箱" prop="identity">
-                <el-input v-model="form.email_address" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="电话" prop="phone_number">
-                <el-input v-model="form.phone_number" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="证件号码" prop="identity">
-                <el-input v-model="form.identity" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="英文名" prop="first_name">
-                <el-input v-model="form.first_name" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="英文姓" prop="last_name">
-                <el-input v-model="form.last_name" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="是否公开姓名" prop="is_publish_name">
-                <app-switch :type="switch_type" v-model="form.is_publish_name" @input="getIsPublishName"></app-switch>
+            <el-form-item label="备注" prop="content">
+                <el-input type="textarea" v-model="form.content" placeholder=""></el-input>
             </el-form-item>
             <el-form-item style="margin-bottom: 0;">
-                <el-button type="primary" @click="add" v-if="type === 'add'" :disabled="btn_disabled">添加</el-button>
-                <el-button type="primary" @click="edit" v-if="type === 'edit'" :disabled="btn_disabled">编辑</el-button>
+                <el-button type="primary" @click="add" v-if="popType === 'add'" :disabled="btn_disabled">添加</el-button>
+                <el-button type="primary" @click="edit" v-if="popType === 'edit'" :disabled="btn_disabled">编辑</el-button>
                 <el-button type="button" @click="cancel" :disabled="btn_disabled">取消</el-button>
             </el-form-item>
 
@@ -45,26 +26,42 @@
     import StaticSelect from '@/components/form/StaticSelect'
     import AppSwitch from "@/components/form/AppSwitch";
     import Config from "@/const/selectConfig";
+    import RemoteSelect from "@/components/form/RemoteSelect";
     const map = new Map(Config);
 
     const URL = '/customers'
     export default {
-        name: 'RequireListPop',
+        name: 'ContractListPop',
         mixins: [PopMixins],
-        props: ['customer', 'contact_id','isDefaultContacts'],
+        props: {
+            customer: Object,
+            contracts: {
+                type: Object,
+                default() {
+                    return {};
+                }
+            },
+            popType: {
+                type:String,
+                default(){
+                    return "add"
+                }
+            },
+            remarkID:Number,
+        },
         data() {
             return {
-                switch_type:"is",
-                cityInfo: '',
+                switch_type: {
+                    onColor: '#13ce66',
+                    offColor: '#ff4949',
+                    onText: '生效中',
+                    offText: '已失败',
+                    onValue: 1,
+                    offValue: 0,
+                },
                 form: {
-                    name: "",
-                    contact_type: "",
-                    email_address: "",
-                    phone_number: "",
-                    identity: "",
-                    first_name: "",
-                    last_name: "",
-                    is_publish_name: "",
+                    content:"",
+                    type: "",
                 },
                 'rules': {
                     'name': [{required: true, message: '申请人名称不能为空', trigger: 'blur'},
@@ -103,32 +100,30 @@
                 this.$emit('refresh');
             },
             add() {
-                if(this.isDefaultContacts){
-                    this.$emit('getDefaultContacts',this.form);     // 因为新增客户时会用到这个组件来新建默认联系人，所以先判断是否是isDefaultContacts
+                //if (this.form.name !== '') {
+                const url = `${URL}/${this.customer.id}/remarks`;
+                const data = Object.assign({}, this.form);
+                data.customer_id = this.customer.id;
+                const success = _ => {
                     this.dialogVisible = false;
-                    return
+                    this.refresh();
+                    this.$message({message: '添加成功！', type: 'success'})
                 }
-                if (this.form.name !== '') {
-                    const url = `${URL}/${this.customer.id}/contacts`;
-                    const data = Object.assign({}, this.form);
-                    const success = _ => {
-                        this.dialogVisible = false;
-                        this.refresh();
-                        this.$message({message: '添加成功！', type: 'success'})
-                    }
-                    this.$axiosPost({url, data, success});
-                } else {
-                    this.$message({type: 'warning', message: '必选项不能为空！'});
-                }
+                this.$axiosPost({url, data, success});
+                //} else {
+                //     this.$message({type: 'warning', message: '必选项不能为空！'});
+                //}
+                // TODO 需要确认必选项
 
             },
             getIsPublishName(val){
                 this.form.is_publish_name = val;
             },
             edit() {
-                const url = `${URL}/${this.customer.id}/contacts/${this.contact_id}`;
+                const url = `${URL}/${this.customer.id}/remarks/${this.remarkID}`;
                 const data = Object.assign({}, this.form);
-                map.get("contacts_type").options.forEach((_) => {
+                data.customer_id = this.customer.id;
+                map.get("remark_type").options.forEach((_) => {
                     if (_.name === data.type) {
                         data.type = _.id;
                     }
@@ -145,6 +140,9 @@
             },
         },
         watch:{
+            contracts:function (val,oldVal) {
+                this.form = val;
+            }
             // form:function (val,oldVal) {
             //     console.log("每次都会经过这吗?")
             //     val.is_publish_name = val.is_publish_name=== "是"?1:0;
@@ -152,9 +150,10 @@
         },
         components: {
             StaticSelect,
-            AppSwitch
+            AppSwitch,
+            RemoteSelect
         },
-        REMINDER_TEXT: '联系人',
+        REMINDER_TEXT: '合同',
     }
 </script>
 

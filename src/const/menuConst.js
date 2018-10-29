@@ -15,12 +15,7 @@ const taskMenu = [
 const patentMenu = [
 	{ type: 'item', text: '专利管理', path: '/patent/list', icon: 'iconfont el-icon-my-patent' },
 	{ type: 'item', text: '立案管理', path: '/patent/draftbox', icon: 'iconfont el-icon-my-patent' },
-	{ 
-		type: 'item', 
-		text: '通知书管理', 
-		path: '/patent/notice',
-		icon: 'iconfont el-icon-my-patent',
-	},
+	{ type: 'item', text: '通知书管理', path: '/patent/notice', icon: 'iconfont el-icon-my-patent' },
 ];
 const trademarkMenu = [
 	{ type: 'item', text: '商标管理', path: '/trademark/list', icon: 'iconfont el-icon-my-trademark' },
@@ -50,9 +45,9 @@ const projectMenu = [
 ]
 
 const crmMenu = [
-	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont icon-personel'},
-	{ type: 'item', text: '项目需求', path: '/crm/project', icon: 'iconfont icon-personel'},
-	{ type: 'submenu', text: '基础数据', path: '/crm/data', icon: 'iconfont el-icon-my-task', children:[
+	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont el-icon-my-task'},
+	{ type: 'item', text: '订单管理', path: '/crm/project', icon: 'iconfont el-icon-my-task'},
+	{ type: 'submenu', text: '客户数据', path: '/crm/data', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '申请人管理', path: '/crm/data/applicants', icon: 'iconfont icon-proposer' },
 		{ type: 'item', text: '发明人管理', path: '/crm/data/inventors', icon: 'iconfont icon-proposer' },
 		{ type: 'item', text: '联系人管理', path: '/crm/data/contacts', icon: 'iconfont icon-proposer'},
@@ -67,24 +62,46 @@ const crmMenu = [
 		{ type: 'item', text: '报价管理', path: '/crm/finance/quotations', icon: 'iconfont icon-contract'},
 	] },
 	{ type: 'submenu', text: '通知发文', path: '/crm/notice', icon: 'iconfont el-icon-my-task', children:[
-		{ type: 'item', text: '发文管理', path: '/crm/notice/notice', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '快递管理', path: '/crm/notice/express', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '官文', path: '/crm/notice/notice', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '报表', path: '/crm/notice/express', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '年费', path: '/crm/notice/renewal', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '快递', path: '/crm/notice/express', icon: 'iconfont icon-contract'},
 	] },
+	{ type: 'submenu', text: '供应商管理', path: '/crm/suppliers', icon: 'iconfont el-icon-my-task', children:[
+		{ type: 'item', text: '供应商管理', path: '/crm/suppliers/list', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '待付费用', path: '/crm/suppliers/fee', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '付款管理', path: '/crm/suppliers/payment', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '报价管理', path: '/crm/suppliers/quotations', icon: 'iconfont icon-contract'},
+	]},
 ];
 
 const financeMenu = [
 	{ type: 'item', text: '应收费用', path: '/finance/income', icon: 'iconfont icon-fee-income'},
 	{ type: 'item', text: '应付费用', path: '/finance/cost', icon: 'iconfont icon-personel'},
 	{ type: 'item', text: '年费管理', path: '/finance/renewal', icon: 'iconfont icon-personel'},
-	{ type: 'item', text: '付款管理', path: '/finance/payment', icon: 'iconfont icon-personel'},
 ];
 
 
 const reportMenu = [
 	{ type: 'item', text: '点数报表', path: '/report/task', icon: 'el-icon-my-report' },
+	{ type: 'item', text: '财务报表', path: '/report/finance', icon: 'el-icon-my-report' },
 ]
 
-
+const exchangeMenu = [
+	{ type: 'item', text: '邮件', path: '/exchange/mail', icon: 'el-icon-my-patent' },
+	{ type: 'item', text: '文档上传', path: '/exchange/document', icon: 'el-icon-my-patent' },
+	{ type: 'item', text: 'CPC通知书手动上传', path: '/exchange/cpc', icon: 'el-icon-my-patent' },
+	{ 
+		type: 'submenu', 
+		text: '客户端同步', 
+		path: '/exchange/client',
+		icon: 'iconfont el-icon-my-patent',
+		children: [
+			{ type: 'item', text: '通知书', path: '/exchange/client/notice', icon: '' },
+			{ type: 'item', text: '递交包', path: '/exchange/client/filing', icon: '' },
+		],
+	},
+];
 
 const dataInsiderMenu = [
 	{ type: 'item', text: '摘要', path: '/datainsider/summary', icon: 'el-icon-my-report' },
@@ -171,6 +188,13 @@ menu.source = [
 		path: '/report',
 		icon: 'el-icon-my-report',
 		menu: reportMenu,
+	},
+	{
+		text: '交互',
+		key: 'exchange',
+		path: '/exchange',
+		icon: 'el-icon-my-report',
+		menu: exchangeMenu,
 	},
 	// {
 	// 	text: 'Data Insider',

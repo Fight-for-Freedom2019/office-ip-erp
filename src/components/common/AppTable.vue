@@ -254,8 +254,11 @@ export default {
           height = (this.innerHeight - 256)/2;
           height = height < 300 ? 300 : height;
         }else if(hk === 'default8') {
-          height = (this.innerHeight - 100)/2;
-          height = height < 300 ? 300 : height;
+            height = (this.innerHeight - 100)/2;
+            height = height < 300 ? 300 : height;
+        }else if(hk === 'customerList') {   // 客户管理详情模块
+            height = this.innerHeight - 232;
+            height = height < 300 ? 300 : height;
         }else if(hk === 'userList') {
           height = this.innerHeight - 200;
           height = height < 300 ? 300 : height;

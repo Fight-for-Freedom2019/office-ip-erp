@@ -2,31 +2,16 @@
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-            <el-form-item label="所属客户" prop="customer">
+
+            <el-form-item label="客户" prop="customer">
                 <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
             </el-form-item>
-            <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name" placeholder="请填写联系人姓名（必填）"></el-input>
-            </el-form-item>
-            <el-form-item label="尊称" prop="title">
-                <el-input v-model="form.title" placeholder=""></el-input>
-            </el-form-item>
-
             <el-form-item label="类型" prop="type">
-                <static-select type="contacts_type" v-model="form.contact_type"></static-select>
+                <static-select type="remark_type" v-model="form.type"></static-select>
             </el-form-item>
 
-            <el-form-item label="邮件地址 " prop="email_address">
-                <el-input v-model="form.email_address" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="电话号码" prop="phone_number">
-                <el-input v-model="form.phone_number" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="地址" prop="address">
-                <el-input v-model="form.address" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="备注" prop="remark">
-                <el-input v-model="form.remark" placeholder=""></el-input>
+            <el-form-item label="备注" prop="identity">
+                <el-input type="textarea" v-model="form.content" placeholder=""></el-input>
             </el-form-item>
         </el-form>
     </div>
@@ -38,10 +23,10 @@
     import Config from "@/const/selectConfig";
     import RemoteSelect from "@/components/form/RemoteSelect";
 
-    const URL = "/contacts";
+    const URL = "/remarks";
     const map = new Map(Config);
     export default {
-        name: "ContactsListAdd",
+        name: "RemarkListAdd",
         props: {
             contacts: {
                 type: Object,
@@ -53,18 +38,12 @@
         },
         data() {
             return {
-                switch_type: "is",
                 form: {
-                    customer_id:"",
-                    customer:"",
-                    name: "",
-                    title:"",
-                    contact_type: "",
-                    email_address: "",
-                    phone_number: "",
-                    address: "",
-                    remark:"",
+                    content:"",
+                    type: "",
+                    customer:{}
                 },
+                formType: "add",
                 rules: {
                     name: {
                         required: true,
@@ -89,7 +68,7 @@
         methods: {
             async save(type) {
                 const data = this.form;
-                data.customer_id = data.customer;
+                data.customer_id = this.form.customer;
                 let response;
                 if (type === "add") {
                     response = await this.$axiosPost({
@@ -102,12 +81,12 @@
                     });
                 } else {
                     // 由于后端返回的是联系人类型的字符串,修改时需要将其转换成Number类型，不然后端报错，新增时不需要修改
-                    map.get("contacts_type").options.forEach((_) => {
-                        if (_.name === data.contact_type) {
-                            data.contact_type = _.id;
+                    map.get("remark_type").options.forEach((_) => {
+                        if (_.name === data.type) {
+                            data.type = _.id;
                         }
                     });
-                    let url = "/contacts/" + this.contacts.id;
+                    let url = "/remarks/" + this.contacts.id;
                     data.id = this.contacts.id;
                     response = await this.$axiosPut({
                         url,

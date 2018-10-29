@@ -2,36 +2,34 @@
 <template>
     <div class="main">
         <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table"></table-component>
-        <!-- 新建联系人 -->
-        <app-shrink :visible.sync="isContactsAddPanelVisible" :modal='false' :title="this.appPanelTitle">
+        <!-- 新建合同 -->
+        <app-shrink :visible.sync="isContractsAddPanelVisible" :modal="formType==='add'" :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
-            <contacts-list-add ref="contactsAdd" :type='formType' :contacts='contacts' @editSuccess="refreshTableData" @addSuccess="refreshTableData"></contacts-list-add>
+            <contracts-list-add ref="contractsAdd" :type='formType' :contracts='contracts' @editSuccess="refreshTableData" @addSuccess="refreshTableData"></contracts-list-add>
         </app-shrink>
     </div>
 </template>
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
-    import ContactsListAdd from '@/components/page_extension/ContactsListAdd'
-    import AxiosMixins from '@/mixins/axios-mixins'
+    import ContractsListAdd from '@/components/page_extension/ContractsListAdd'
     import AppShrink from '@/components/common/AppShrink'
 
-    const URL = '/api/contracts'
+    const URL = '/contracts'
 
     export default {
         name: 'ContractsList',
-        mixins: [ AxiosMixins ],
         data () {
             return {
-                isContactsAddPanelVisible: false,
-                appPanelTitle: '新建联系人',
+                isContractsAddPanelVisible: false,
+                appPanelTitle: '新建合同',
                 formType: 'add',
-                contacts:{},
+                contracts:{},
                 option: {
-                    'name': 'contactsList',
+                    'name': 'ContractsList',
                     'url': URL,
                     'rowClick': this.handleRowClick,
                     'height': 'default',
@@ -42,14 +40,14 @@
                     ],
                     'columns': [
                         { type: 'selection' },
-                        { type: 'text', label: '客户', prop: 'name', width: '150' },
-                        { type: 'text', label: '联系人', prop: 'type', width: '240' },
-                        { type: 'text', label: '合同编号', prop: 'email_address', width: '145' },
-                        { type: 'text', label: '合同类型', prop: 'phone_number'},
+                        { type: 'text', label: '客户', prop: 'customer.name', width: '150' },
+                        { type: 'text', label: '联系人', prop: 'contact.name', width: '170' },
+                        { type: 'text', label: '合同编号', prop: 'serial', width: '145' },
+                        { type: 'text', label: '合同类型', prop: 'type',width: '145'},
                         { type: 'text', label: '状态', prop: 'identity', width:'123'},
-                        { type: 'text', label: '签订日期', prop: 'is_publish_name', sortable: true, width: '175' },
-                        { type: 'text', label: '届满日期', prop: 'first_name', min_width: '200' },
-                        { type: 'text', label: '英文姓', prop: 'last_name',width: '200' },
+                        { type: 'text', label: '签订日期', prop: 'signing_date', width: '175' },
+                        { type: 'text', label: '届满日期', prop: 'expire_date', width: '175' },
+                        { type: 'text', label: '备注', prop: 'remark' },
                         // 	{
                         // 		type: 'action',
                         // width: '200',
@@ -67,41 +65,44 @@
         methods: {
             addPop () {
                 this.formType = 'add';
-                this.appPanelTitle =  '新建联系人';
-                this.applicant = {};
-                this.isContactsAddPanelVisible = true;
+                this.appPanelTitle =  '新建合同';
+                this.contracts = {};
+                this.isContractsAddPanelVisible = true;
             },
             editPop (col) {
                 this.$refs.pop.show('edit', col);
             },
             deleteSingle ({id, name}) {
-                this.$confirm(`删除后不可恢复，确认删除联系人‘${name}’？`)
+                this.$confirm(`删除后不可恢复，确认删除合同‘${name}’？`)
                     .then(_=>{
                         const url = `${URL}/${id}`;
                         const success = _=>{
-                            this.$message({message: '删除联系人成功', type: 'success'});
+                            this.$message({message: '删除合同成功', type: 'success'});
                             this.update();
                         };
 
-                        this.axiosDelete({url, success});
+                        this.$axiosDelete({url, success});
                     })
                     .catch(_=>{});
             },
             saveAdd () {
-                this.$refs.contactsAdd.save(this.formType);
+                this.$refs.contractsAdd.save(this.formType);
             },
             refreshTableData (option) {
                 const url = URL;
                 const data = Object.assign({}, option);
-                const success = _=>{this.tableData = _.data };
+                const success = _=>{
+                    this.tableData = _.data;
+                    this.formType === "add"?this.isContractsAddPanelVisible = false:"";
+                };
 
-                this.axiosGet({url, data, success});
+                this.$axiosGet({url, data, success});
             },
             handleRowClick (row) {
-                this.contacts = row;
+                this.contracts = row;
                 this.formType = 'edit';
-                this.appPanelTitle =  '编辑联系人>' + row.name;
-                this.isContactsAddPanelVisible = true;
+                this.appPanelTitle =  '编辑合同>' + row.serial;
+                this.isContractsAddPanelVisible = true;
             },
             refresh () {
                 this.$refs.table.refresh();
@@ -116,7 +117,7 @@
         mounted () {
             this.refresh();
         },
-        components: { TableComponent, ContactsListAdd, AppShrink }
+        components: { TableComponent, ContractsListAdd, AppShrink }
     }
 </script>
 
