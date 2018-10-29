@@ -47,7 +47,7 @@
                         {type: 'text', label: '姓名', prop: 'name', width: '150'},
                         {type: 'text', label: '尊称', prop: 'title', width: '150'},
                         {type: 'text', label: '所属客户', prop: 'customer.name', width: '150'},
-                        {type: 'text', label: '类型', prop: 'contact_type', width: '100', render: this.renderType},
+                        {type: 'text', label: '类型', prop: 'contact_type', width: '100'},
                         {type: 'text', label: '邮件地址', prop: 'email_address', width: '145'},
                         {type: 'text', label: '电话号码', prop: 'phone_number'},
                         {type: 'text', label: '地址', prop: 'address', width: '240'},
@@ -92,13 +92,6 @@
             },
             saveAdd() {
                 this.$refs.contactsAdd.save(this.formType);
-            },
-            renderType(h,d) {
-                let temp = "";
-                map.get("contacts_type").options.forEach(_=>{
-                    _.id === d ? temp = _.name:"";
-                })
-                return h("span",temp)
             },
             refreshTableData(option) {
                 const url = URL;

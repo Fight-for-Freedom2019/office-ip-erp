@@ -25,7 +25,7 @@
                     ],
                     columns: [
                         {type: 'text', label: '姓名', prop: 'name', sortable: true, width: '150'},
-                        {type: 'text', label: '类型', prop: 'type', width: '240'},
+                        {type: 'text', label: '类型', prop: 'contact_type', width: '240'},
                         {type: 'text', label: '邮箱', prop: 'email_address', width: '145'},
                         {type: 'text', label: '电话', prop: 'phone_number'},
                         {type: 'text', label: '证件号码', prop: 'identity', width: '123'},
