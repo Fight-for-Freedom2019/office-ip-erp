@@ -35,11 +35,11 @@ export default {
 		]),
 	},
 	created () {
-		this.refreshTaskDelay(this.taskId);
+		// this.refreshTaskDelay(this.taskId);
 	},
 	watch:{
 		taskId () {
-			this.refreshTaskDelay(this.taskId);
+			// this.refreshTaskDelay(this.taskId);
 		},
 	},
 	components: {

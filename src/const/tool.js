@@ -79,7 +79,7 @@ export default {
 		for (let key in a1) {
 			const v = a2[key];
 
-			if(v === undefined || skipMap.get(key)) continue;
+			if(v === null || v === undefined || skipMap.get(key)) continue;
 
 			if( obj && typeof v == 'object' && objMap.get(key) ) {
 				if( Array.isArray(v) ) {

@@ -1,5 +1,8 @@
 const map = new Map([
-	['patent', [
+	['task', [
+        { type: 'text',             id: 'serial',                name: '案号'},
+    ]],
+    ['patent', [
         { type: 'text',         	id: 'serial',                name: '案号'},
         { type: 'text',         	id: 'agency_serial',         name: '事务所案号'},
         { type: 'text',         	id: 'english_title',         name: '英文名称'},

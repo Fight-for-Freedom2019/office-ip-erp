@@ -16,8 +16,9 @@ const mutations = {
 const actions = {
 	refreshFlows ({commit, rootState, state}) {		
 		url = rootState.status ? url.replace(/\/api/, '') : url;
+		const params ={project_type: 'Patent'};
 		rootState.axios
-			.get(url)
+			.get(url,{params})
 			.then(response=>{
 				const d = response.data;
 				if(d.status) {

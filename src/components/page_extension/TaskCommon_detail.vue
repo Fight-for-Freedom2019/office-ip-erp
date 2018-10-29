@@ -2,15 +2,15 @@
   <div class="task-detail" style="min-height: 44px;" v-loading="loading">
     
   	<el-collapse accordion v-if="collapse.length != 0">
-      <el-collapse-item v-for="item in collapse" :key="item.id" :title="`流程节点：${item.flownode.name} | 承办人：${item.person_in_charge.name} | 完成时间：${item.end_time ? item.end_time : '正在处理中'}`">
+      <el-collapse-item v-for="item in collapse" :key="item.id" :title="`流程节点：${item.process_action.name} | 承办人：${item.user.name} | 完成时间：${item.completion_time ? item.completion_time : '正在处理中'}`">
         <el-form label-width="100px">
-          <el-form-item label="流程节点：" style="margin-bottom: 0;">{{ item.flownode.name }}</el-form-item>
+          <el-form-item label="流程节点：" style="margin-bottom: 0;">{{ item.process_action.name }}</el-form-item>
           <el-form-item label="开始时间：" style="margin-bottom: 0;">{{ item.start_time }}</el-form-item>
-          <el-form-item label="结束时间：" style="margin-bottom: 0;">{{ item.end_time ? item.end_time : '正在处理中' }}</el-form-item>
-          <el-form-item label="承办人：" style="margin-bottom: 0;">{{ item.person_in_charge.name }}</el-form-item>
+          <el-form-item label="结束时间：" style="margin-bottom: 0;">{{ item.completion_time ? item.completion_time : '正在处理中' }}</el-form-item>
+          <el-form-item label="承办人：" style="margin-bottom: 0;">{{ item.user.name }}</el-form-item>
           <el-form-item label="备注：" style="margin-bottom: 0;">{{ item.remark }}</el-form-item>
           <el-form-item label="附件：" style="margin-bottom: 0;">
-            <table-component :data=item.attachments :tableOption="tableOption"></table-component>
+            <table-component :data="item.attachments" :tableOption="tableOption"></table-component>
           </el-form-item>
         </el-form>
       </el-collapse-item>
@@ -64,8 +64,8 @@ export default {
   methods: {
     refreshData () {
       this.loading = true;
-      const url = `/processes/${this.id}`;
-      const success = _=>{this.collapse = _.task.siblings; this.$emit('refreshSiblings',this.collapse);};
+      const url = `/processes/${this.id}/tasks`;
+      const success = _=>{this.collapse = _.tasks.data; this.$emit('refreshSiblings',this.collapse);};
       const complete = _=>{setTimeout(_=>this.loading = false, 500)};
 
       this.axiosGet({url, success, complete});

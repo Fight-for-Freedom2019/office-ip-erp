@@ -1,3 +1,4 @@
+
 <template>
   <div class="select_list">
     <app-card :value="selectedValue" :type="type" @handleCloseTag="handleCloseTag"></app-card>
@@ -268,7 +269,7 @@ export default {
       const url = this.URL;
       const data = os ? Object.assign({}, s, os) : s;
       const success = d=>{
-        const list = d['data'][key];
+        const list = d[key]['data'];
         if(!list) return this.options = [];
         if(list[0] && list[0]['label'] && list[0]['value'] ) {
           list.forEach(_=>{

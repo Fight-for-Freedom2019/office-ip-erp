@@ -151,9 +151,9 @@
       </span>
       <el-tabs v-model="activeName">   
         <el-tab-pane label="前往处理" name="finish" v-if="task_status == 0">
-    <!--       <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">  
+          <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">  
             <task-finish :id="currentRow.id" :row="currentRow" @submitSuccess="finishSuccess" @more="handleMore" @refreshNext="handleNext" v-show="!nextValue"></task-finish>
-          </div>   --> 
+          </div>   
         </el-tab-pane>
 <!--         <el-tab-pane label="详细信息" name="edit">   
           <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">         
@@ -316,7 +316,7 @@ export default {
           // { type: 'expand' },
           { type: 'selection' },
           { type: 'text', prop: 'model', label: '模块',},
-          { type: 'text', prop: 'serial', label: '案号',},
+          { type: 'text', prop: 'serial', label: '案号', render_header: true},
           { type: 'text', prop: 'title', label: '案件名称',},
           { type: 'text', prop: 'processDefinition', label: '工作流名称', render_simple: 'name'},
           { type: 'text', prop: 'processFlow', label: '当前节点', render_simple: 'name'},
@@ -410,23 +410,23 @@ export default {
       return custom !== undefined ? custom : false;
     },
     selectSibling () {
-      const arr = [];
-      if(this.historyTasks && this.historyTasks.length !=0 ) {
-        this.historyTasks.forEach( v =>{
-          if(v['id'] !== this.currentRow.id) {
-            arr.push({'id': v['id'], 'name': `${v['flownode']['name']}_${v['person_in_charge']['name']}`});
-          }
-        });
-        return {
-          placeholder: '请选择退回到的历史流程节点',
-          options: arr
-        }
-      }else {
-        return {
-          placeholder: '请选择退回到的历史流程节点',
-          options: arr
-        }
-      }
+      // const arr = [];
+      // if(this.historyTasks && this.historyTasks.length !=0 ) {
+      //   this.historyTasks.forEach( v =>{
+      //     if(v['id'] !== this.currentRow.id) {
+      //       arr.push({'id': v['id'], 'name': `${v['flownode']['name']}_${v['person_in_charge']['name']}`});
+      //     }
+      //   });
+      //   return {
+      //     placeholder: '请选择退回到的历史流程节点',
+      //     options: arr
+      //   }
+      // }else {
+      //   return {
+      //     placeholder: '请选择退回到的历史流程节点',
+      //     options: arr
+      //   }
+      // }
     },
   },
   methods: {
@@ -437,7 +437,8 @@ export default {
     ...mapActions([
       'refreshUser',
       'refreshTaskDelay',
-      'addListFilter'
+      'addListFilter',
+      'refreshProcessDetail'
     ]),   
     handleTasks (type) {
       if(type == 'add') {
@@ -783,6 +784,7 @@ export default {
       console.log(row)
       this.shrinkTitle = row.title; 
       this.currentRow = row;
+      this.refreshProcessDetail({id: row.id});
       if( !this.dialogShrinkVisible ) this.dialogShrinkVisible = true;
     },
     save () {

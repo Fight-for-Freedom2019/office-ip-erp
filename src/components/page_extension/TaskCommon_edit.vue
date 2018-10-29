@@ -261,7 +261,7 @@ export default {
       console.log(this.row);
       if(this.type == 'edit') {
         this.$tool.coverObj(this.form,this.row,{
-          obj: ['project_id','process_flow','process_definition','process_action','user','agent','assistant','first_reviewer',
+          obj: ['process_flow','process_definition','process_action','user','agent','assistant','first_reviewer',
           'final_reviewer','attachments'],
           date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline','internal_reviewing_times','internal_drafting_period',
           'internal_amending_period','internal_final_edition_time','customer_amending_period','customer_reviewing_period','customer_edition_time','filing_time','customer_first_edition_period','customer_final_edition_time'],
@@ -350,35 +350,47 @@ export default {
   	}
   },
   computed: {
-
     flowsData () {
       return this.$store.getters.flowsData;
     },
     flowOptions () {
-      const c = this.category;
-      this.form.process_flow_id = '';
-      if( !this.flowsData[c] ) {
+      this.form.process_flow = '';
+      if( this.flowsData == undefined) {
         return [];
       }else {
-        return this.flowsData[c]['flows'].map(_=>{
-          return {name: _.name, id: _.id};
-        })  
+        return this.flowsData;
       }  
     },
     defOptions () {
-      const c = this.category;
-      if( !this.flowsData[c] && !this.form.process_flow_id ) {
+      let arr =[];
+      this.form.process_definition = '';
+      const f = this.form.process_flow;
+      if( !this.flowsData && !this.form.process_flow ) {
         return [];
       }else {
-        return this.flowsData[c]['flow'][0].processDefinition;
+       for (let i = 0; i < this.flowsData.length; i++) {
+           if(this.flowsData[i].id == f ) {
+            console.log(this.flowsData[i].Process_definition);
+            return arr = this.flowsData[i].Process_definition;
+            break;
+          }
+        }
       }
     },
     actionOptions () {
-      const c = this.category;
-      if( !this.flowsData[c] && !this.form.process_flow_id ) {
+     let arr =[];
+     this.form.process_action = '';
+      const f = this.form.process_flow;
+      if( !this.flowsData && !this.form.process_flow ) {
         return [];
       }else {
-        return this.flowsData[c]['flow'][0].processAction;
+       for (let i = 0; i < this.flowsData.length; i++) {
+           if(this.flowsData[i].id == f ) {
+            console.log(this.flowsData[i].process_action);
+            return arr = this.flowsData[i].process_action;
+            break;
+          }
+        }
       }
     },
   },
@@ -388,10 +400,17 @@ export default {
         if(this.type == 'add') {
           this.$nextTick(_=>{
             const select = this.$refs.project.getSelected()[0];
+            console.log(select)
             this.category = select ? select['project_type'] : ''; 
           })
         }
       }
+    },
+    'form.process_flow': {
+      handler(val) {
+        console.log(val);
+        console.log(this.defOptions)
+      },
     },
     'row.id': {
       handler () {
