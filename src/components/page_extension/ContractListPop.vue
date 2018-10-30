@@ -46,7 +46,7 @@
                 <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
             </el-form-item>
             <el-form-item label="状态" prop="status">
-                <app-switch :type="switch_type" v-model="form.status" @input="getStatus"></app-switch>
+                <app-switch :type="switch_type" simple="true" v-model="form.is_effective" @input="getStatus"></app-switch>
             </el-form-item>
             <el-form-item label="附件" prop="contract_file">
                 <upload v-model="form.contract_file" :file-list="contract_file"></upload>

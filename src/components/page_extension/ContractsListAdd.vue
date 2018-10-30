@@ -51,7 +51,7 @@
                 <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
             </el-form-item>
             <el-form-item label="状态" prop="status">
-                <app-switch :type="switch_type" v-model="form.is_effective" @input="getStatus"></app-switch>
+                <app-switch :type="switch_type" simple="true" v-model="form.is_effective" @input="getStatus"></app-switch>
             </el-form-item>
             <el-form-item label="附件" prop="contract_file">
                 <upload v-model="form.contract_file" :file-list="contract_file"></upload>
@@ -91,7 +91,7 @@
                     onColor: '#13ce66',
                     offColor: '#ff4949',
                     onText: '生效中',
-                    offText: '',
+                    offText: '已失效',
                     onValue: 1,
                     offValue: 0,
                 },
@@ -167,12 +167,10 @@
                 return response;
             },
             getStatus(val) {
-                val?this.switch_type.onText = "生效中":this.switch_type.onText = "已失效";
                 this.form.is_effective  = val;
             },
             coverObj(val) {
                 if (val) {
-                    val.is_effective?this.switch_type.onText = "生效中":this.switch_type.onText = "已失效";
                     this.$tool.coverObj(this.form, val);
                 }
             }
