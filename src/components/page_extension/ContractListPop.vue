@@ -98,7 +98,7 @@
                     onColor: '#13ce66',
                     offColor: '#ff4949',
                     onText: '生效中',
-                    offText: '已失败',
+                    offText: '已失效',
                     onValue: 1,
                     offValue: 0,
                 },
