@@ -62,11 +62,11 @@
             ]),
         },
         methods: {
-            refreshTableData() {
+            refreshTableData(option) {
                 let url = `${URL}/${this.customer.id}/remarks`
                 this.$axiosGet({
                     url: url,
-                    data: {},
+                    data: Object.assign({}, option),
                     success: _ => {
                         this.tableData = _.data;
                     }

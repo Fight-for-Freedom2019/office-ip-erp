@@ -153,7 +153,7 @@
             AppSwitch,
             RemoteSelect
         },
-        REMINDER_TEXT: '合同',
+        REMINDER_TEXT: '客户备注',
     }
 </script>
 

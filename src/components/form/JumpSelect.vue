@@ -63,7 +63,7 @@ const map = new Map([
     PARAMS: { poa: 1 },
 	}],
 	['project', {
-		URL: '/api/projects',
+		URL: '/projects',
 		DATA_KEY: 'projects',
 		PLACEHOLDER: '请输入案件关键词',
 	}],
@@ -85,7 +85,7 @@ const map = new Map([
 		PARAMS: { category: 3 },
 	}],
   ['bill', {
-    URL: '/api/invoices',
+    URL: '/invoices',
     DATA_KEY: 'invoices',
     PLACEHOLDER: '请输入请款单关键词',
     PARAMS: { debit: 1 },
