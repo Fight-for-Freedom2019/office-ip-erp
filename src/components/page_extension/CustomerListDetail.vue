@@ -78,6 +78,7 @@
         },
         computed: {
             ...mapGetters([
+                "pagesize",
                 "shrinkHeight",
                 "detailLoading",
                 "menusMap",
@@ -129,25 +130,25 @@
                         const success = _ => {
                             switch (this.activeName) {
                                 case "applicants":
-                                    this.appData = _.data.data;
+                                    this.appData = _.data;
                                     break;
                                 case "inventors":
-                                    this.inventorsData = _.data.data;
+                                    this.inventorsData = _.data;
                                     break;
                                 case "contracts":
-                                    this.contractsData = _.data.data;
+                                    this.contractsData = _.data;
                                     break;
                                 case "remarks":
-                                    this.remarksData = _.data.data;
+                                    this.remarksData = _.data;
                                     break;
                                 case "contacts":
-                                    this.contactsData = _.data.data;
+                                    this.contactsData = _.data;
                                     break;
                             }
                         };
                         this.$axiosGet({
                             url: url,
-                            data: Object.assign({}),
+                            data: {page:1,listRows:this.pagesize},      // 需要查询参数
                             success
                         });
                     }
