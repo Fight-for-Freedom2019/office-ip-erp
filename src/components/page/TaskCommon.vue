@@ -150,7 +150,7 @@
         <el-button size="small" @click="handleReject" style="margin-left: 0px;" type="danger" v-if="menusMap && !menusMap.get('/iprs')">退回</el-button>
       </span>
       <el-tabs v-model="activeName">   
-        <el-tab-pane label="前往处理" name="finish" v-if="task_status == 0">
+        <el-tab-pane label="前往处理" name="finish">
           <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">  
             <task-finish :id="currentRow.id" :row="currentRow" @submitSuccess="finishSuccess" @more="handleMore" @refreshNext="handleNext" v-show="!nextValue"></task-finish>
           </div>   
@@ -193,7 +193,17 @@
 
     <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">
       <mail-edit style="margin-top: 10px; " ref="mailEdit" @sendSuccess="mailCallBack" @cancelSending="mailCallBack"></mail-edit>
-    </app-shrink> 
+    </app-shrink>
+    <el-dialog :visible.sync="dialogDeleteVisible" title="删除确认" width="25%">
+      <el-radio-group v-model="deleteStatus">
+        <el-radio :label="0">仅删除当前节点</el-radio>
+        <el-radio :label="1">删除整个管制事项</el-radio>
+      </el-radio-group>
+      <template slot="footer">
+        <el-button @click="dialogDeleteVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitDelete">确定</el-button>
+      </template>
+    </el-dialog> 
 
   </div>
 </template>
@@ -249,6 +259,7 @@ export default {
     data () {
 
     return {
+      dialogDeleteVisible: false,
       dialogRejectVisible: false,
       dialogScreenVisible: false,
       dialogTurnoutVisible: false,
@@ -278,6 +289,9 @@ export default {
       close_reason:'',
       activation_reason:'',
       days:'5',
+      deleteStatus: '',
+      key: 1,
+      deleteId: '',
       tableOption: {
         'name': 'taskList',
         'url': URL,
@@ -315,40 +329,42 @@ export default {
         'columns': [
           // { type: 'expand' },
           { type: 'selection' },
-          { type: 'text', prop: 'model', label: '模块',},
-          { type: 'text', prop: 'serial', label: '案号', render_header: true},
-          { type: 'text', prop: 'title', label: '案件名称',},
-          { type: 'text', prop: 'processDefinition', label: '工作流名称', render_simple: 'name'},
-          { type: 'text', prop: 'processFlow', label: '当前节点', render_simple: 'name'},
-          { type: 'text', prop: 'user', label: '承办人', render_simple: 'name',},
-          { type: 'text', prop: 'agent', label: '代理人', render_simple: 'name'},
-          { type: 'text', prop: 'assistant', label: '代理人助理', render_simple: 'name'},
-          { type: 'text', prop: 'firstReviewer', label: '内部初审', render_simple: 'name'},
-          { type: 'text', prop: 'finalReviewer', label: '内部复审', render_simple: 'name'},
-          { type: 'text', prop: 'first_edition_deadline', label: '初稿期限',},
-          { type: 'text', prop: 'filing_deadline', label: '递交期限',},
-          { type: 'text', prop: 'legal_deadline', label: '官方绝限',},
-          { type: 'text', prop: 'first_edition_time', label: '初稿日',},
-          { type: 'text', prop: 'internal_final_edition_time', label: '内部定稿日',},
-          { type: 'text', prop: 'customer_edition_time', label: '返稿日',},
-          { type: 'text', prop: 'customer_final_edition_time', label: '客户定稿日',},
-          { type: 'text', prop: 'filing_time', label: '递交日',},
-          { type: 'text', prop: 'internal_drafting_period', label: '内部撰写时间',},
-          { type: 'text', prop: 'internal_amending_period', label: '内部修改时间',},
-          { type: 'text', prop: 'internal_reviewing_period', label: '内部审核时间',},
-          { type: 'text', prop: 'customer_first_edition_period', label: '返客户稿时间',},
-          { type: 'text', prop: 'customer_reviewing_period', label: '客户审核时间',},
-          { type: 'text', prop: 'customer_amending_period', label: '客户审核修改时间',},
-          { type: 'text', prop: 'internal_reviewing_times', label: '内部审核次数',},
-          { type: 'text', prop: 'customer_reviewing_times', label: '客户审核次数',},
-          { type: 'text', prop: 'technical_rank', label: '技术评分',},
-          { type: 'text', prop: 'claims_rank', label: '权利要求评分',},
-          { type: 'text', prop: 'spec_rank', label: '说明书评分',},
-          { type: 'text', prop: 'communication_rank', label: '沟通交流评分',},
-          { type: 'text', prop: 'attachments', label: '附件',},
-          { type: 'text', prop: 'remark', label: '备注',},
-          { type: 'text', prop: 'ipr', label: '案件IPR', render_simple: 'name'},
-          { type: 'text', prop: 'processStage', label: '当前状态', render_simple: 'name'},
+          { type: 'text', prop: 'model', label: '模块', render_header: true, width: '145',},
+          { type: 'text', prop: 'serial', label: '案号', render_header: true, width: '160',},
+          { type: 'text', prop: 'title', label: '标题', render_header: true, width: '160'},
+          { type: 'text', prop: 'processDefinition', label: '管制事项', render_simple: 'name', render_header: true, width: '150',},
+          { type: 'text', prop: 'processFlow', label: '当前节点', render_simple: 'name', render_header: true, width: '150',},
+          { type: 'text', prop: 'user', label: '承办人', render_simple: 'name', render_header: true, width: '145',},
+          { type: 'text', prop: 'agent', label: '代理人', render_simple: 'name', render_header: true, width: '145',},
+          { type: 'text', prop: 'assistant', label: '代理人助理', render_simple: 'name', render_header: true, width: '145',},
+          { type: 'text', prop: 'firstReviewer', label: '初审核人', render_simple: 'name', render_header: true, width: '145',},
+          { type: 'text', prop: 'finalReviewer', label: '复审人', render_simple: 'name', render_header: true, width: '145',},
+          { type: 'text', prop: 'organization_unit', label: '所属部门', render_simple: 'name', render_header: true, width: '160',},
+          { type: 'text', prop: 'customer', label: '客户', render_simple: 'name', render_header: true, width: '145',},
+          { type: 'text', prop: 'ipr', label: 'IPR', render_simple: 'name', render_header: true, width: '145',},
+          { type: 'text', prop: 'contact', label: '联系人', render_simple: 'name', render_header: true, width: '145',},          
+          { type: 'text', prop: 'first_edition_deadline', label: '初稿期限', render_header: true, width: '145',},
+          { type: 'text', prop: 'filing_deadline', label: '递交期限', render_header: true, width: '145',},
+          { type: 'text', prop: 'legal_deadline', label: '官方绝限', render_header: true, width: '145',},
+          { type: 'text', prop: 'first_edition_time', label: '初稿日', render_header: true, width: '145',},
+          { type: 'text', prop: 'internal_final_edition_time', label: '内部定稿日', render_header: true, width: '175',},
+          { type: 'text', prop: 'customer_edition_time', label: '返稿日', render_header: true, width: '145',},
+          { type: 'text', prop: 'customer_final_edition_time', label: '客户定稿日', render_header: true, width: '175',},
+          { type: 'text', prop: 'filing_time', label: '递交日', render_header: true, width: '145',},
+          { type: 'text', prop: 'internal_drafting_period', label: '内部撰写时间', render_header: true, width: '175',},
+          { type: 'text', prop: 'internal_amending_period', label: '内部修改时间', render_header: true, width: '175',},
+          { type: 'text', prop: 'internal_reviewing_period', label: '内部审核时间', render_header: true, width: '175',},
+          { type: 'text', prop: 'customer_first_edition_period', label: '返稿时间', render_header: true, width: '175',},
+          { type: 'text', prop: 'customer_reviewing_period', label: '客户审核时间', render_header: true, width: '175',},
+          { type: 'text', prop: 'customer_amending_period', label: '客户审核修改时间', render_header: true, width: '178',},
+          { type: 'text', prop: 'internal_reviewing_times', label: '内部审核次数', render_header: true, width: '175',},
+          { type: 'text', prop: 'customer_reviewing_times', label: '客户审核次数', render_header: true, width: '175',},
+          { type: 'text', prop: 'technical_rank', label: '技术评分', render_header: true, width: '145',},
+          { type: 'text', prop: 'claims_rank', label: '权利要求评分', render_header: true, width: '145',},
+          { type: 'text', prop: 'spec_rank', label: '说明书评分', render_header: true, width: '145',},
+          { type: 'text', prop: 'communication_rank', label: '沟通交流评分', render_header: true, width: '150',},
+          { type: 'text', prop: 'application_number', label: '申请号', render_header: true, width: '145',},
+          { type: 'text', prop: 'application_date', label: '申请日', render_header: true, width: '145',},
         ],
       },
       tableData: [],
@@ -373,6 +389,18 @@ export default {
       'innerHeight',
       'userid',
     ]),
+    model:{
+      get () {
+        return this.deleteStatus;
+      },
+      set (val) {
+        this.$nextTick(_=>{
+          this.deleteStatus = val;
+          console.log(val)
+          this.$emit('input',val);
+        })
+      },
+    },
     expringControl () {
       return this.$route.params.item;
     },
@@ -547,15 +575,63 @@ export default {
     //     $(element.target).parents("tr").find(".el-table__expand-icon").click();  
     //   }
     // },
-    taskDelete ({title, id}) {
-      this.$confirm(`此操作将永久删除任务‘${title}’, 是否继续？`)
-        .then(()=>{
-          const url = `${URL}/${id}`;
-          const success = _=>{ this.update() };
+    taskDelete ({id}) {
+        const s = this.$refs.table.getSelect(true);
+        if(s.length == 0) {
+          this.$message({message: '请选择需要删除的列表项', type: 'warning'});
+        }else {
+          this.dialogDeleteVisible = true;
+          this.deleteId = this.$tool.splitObj(s,'id');
+        }
+        // 通过$msgbox实现有个bug,vNode没有及时更新
+     // const h = this.$createElement; 
+     // const _self = this; 
+     // this.$msgbox({
+     //  title: '删除',
+     //  showCancelButton: true,
+     //  message: h('span',null,[
+     //    h('el-radio-group',{
+     //      props: {
+     //        value: _self.model,
+     //      },
+     //      key: _self.key++,
+     //      on: {
+     //        input(val) {
+     //            _self.$nextTick(()=>{
+     //              _self.model = val;
+     //              _self.$emit('input', val);
+     //              console.log(val);
+     //            })
+     //        },
+     //      }
+     //    }, [h('el-radio',{
+     //      props: {
+     //        label: 1,
+     //      }
+     //    },'仅删除当前节点'),
+     //    h('el-radio',{
+     //      props: {
+     //        label: 2,
+     //      }
+     //    },'删除整个管制事项'),
+     //    ])
+     //  ]),
+     // })
+     // .then((v)=>{
 
-          this.axiosDelete({url, success});
-        })
-        .catch(()=>{});
+     // }).catch((e)=>{
+
+     // })
+    },
+    submitDelete () {
+      const url = URL;
+      const data = { id: this.deleteId , is_delete_process: this.deleteStatus };
+      const success = _=>{
+        this.$message({type: 'success', message: '删除成功'});
+        this.update();
+        this.dialogDeleteVisible = false;
+      };
+      this.$axiosDelete({url, data, success});
     },
     refreshTableData (option) {
       const url = URL;
@@ -691,7 +767,7 @@ export default {
       // }
       // menusMap && !menusMap.get('/tasks/add_btn') ? h.header_btn.splice(0,1,{ type: 'add', click: this.addPop }) : h.header_btn.splice(0,1,{}); 
 
-      menusMap && !menusMap.get('/tasks/delete_btn') ? h.header_btn.splice(1,1,{ type: 'delete', callback: this.refreshUser }) : h.header_btn.splice(1,1,{});
+      menusMap && !menusMap.get('/tasks/delete_btn') ? h.header_btn.splice(1,1,{ type: 'delete', click: this.taskDelete, callback: this.refreshUser }) : h.header_btn.splice(1,1,{});
       // menusMap && !menusMap.get('/tasks/agency_btn') && t != 1 ? h.header_btn.splice(2,1,{type: 'custom', label: '申请委案', click: this.agenPop}) : h.header_btn.splice(2,1,{});
 
       this.$forceUpdate();
@@ -795,6 +871,12 @@ export default {
     },
   },  
   watch: {
+    deleteStatus(val) {
+      console.log(val)
+      if(val) {
+        this.$forceUpdate();
+      }
+    },
     filter () {
       this.refresh();
     },
