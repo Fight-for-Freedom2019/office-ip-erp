@@ -1,19 +1,13 @@
 <template>  
   	<el-form label-width="110px" :model="form" ref="form" :rules="rules">
-      <el-form-item label="相关案件" prop="project_id" v-if="type == 'add'">
-        <remote-select type="patent" v-model="form.project_id" ref="project"></remote-select>
-   <!--      <el-select v-model="form.project_id" placeholder="请选择绑定流程">
-          <el-option
-            v-for="item in projects"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select> -->
+      <el-form-item label="案件类型" prop="case_type" v-if="type == 'add'">
+        <static-select type="case_type" v-model="form.case_type"></static-select>
+      </el-form-item>
+      <el-form-item label="相关案件" prop="project_id" v-if="type == 'add' && form.case_type != ''">
+        <remote-select :type="projectType" v-model="form.project_id" ref="project"></remote-select>
       </el-form-item>  
-      <el-form-item label="绑定流程" prop="process_flow" v-if="category != ''">
-        <el-select v-model="form.process_flow" placeholder="请选择绑定流程">
+      <el-form-item label="绑定流程" prop="process_flow" v-if="form.project_id != ''">
+        <el-select v-model="form.process_flow" placeholder="请选择绑定流程" @visible-change.once="initFlows">
           <el-option
             v-for="item in flowOptions"
             :key="item.id"
@@ -23,7 +17,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="事件名称" prop="process_definition" v-if="category != ''">
+      <el-form-item label="事件名称" prop="process_definition" v-if="form.project_id != ''">
         <el-select v-model="form.process_definition" placeholder="请选择事件名称">
           <el-option
             v-for="item in defOptions"
@@ -34,7 +28,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="开始节点" prop="process_action" v-if="category != ''">
+      <el-form-item label="开始节点" prop="process_action" v-if="form.project_id != ''">
         <el-select v-model="form.process_action" placeholder="请选择开始">
           <el-option
             v-for="item in actionOptions"
@@ -46,7 +40,7 @@
         </el-select>
       </el-form-item> 
       <el-row>
-        <el-col :span="8" v-if="category != ''">
+        <el-col :span="8" v-if="form.project_id != ''">
           <el-form-item  label="承办人" prop="user">
             <remote-select type="user" v-model="form.user"></remote-select>
           </el-form-item>
@@ -189,12 +183,17 @@
 import Member from '@/components/form/Member'
 import Upload from '@/components/form/Upload'
 import AxiosMixins from '@/mixins/axios-mixins'
+import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import JumpSelect from '@/components/form/JumpSelect'
 import {mapActions} from 'vuex'
 
 const URL = '/processes';
-
+const typeMap = new Map([
+  [1, 'patent'],
+  [2, 'trademark'],
+  [3, 'copyright']
+]);
 export default {
   name: 'taskEdit',
   mixins: [ AxiosMixins ],
@@ -203,7 +202,11 @@ export default {
   methods: {
     ...mapActions([
       'refreshUser',
+      'refreshFlows'
     ]),
+    initFlows () {
+      this.refreshFlows({type:this.projectType});
+    },
     checkeForm () {
       return new Promise((reject) => {
         this.$refs.form.validate(flag => {
@@ -218,7 +221,7 @@ export default {
     async add () {
       await this.checkeForm()
       const url = URL;
-      const data = this.$tool.shallowCopy(this.form, {'date': true});
+      const data = this.$tool.shallowCopy(this.form, {'date': true,'skip':['case_type']});
       const success = _=>{ 
         // this.dialogVisible  = false;
         this.$emit('addSuccess');
@@ -294,7 +297,8 @@ export default {
       }
     };
   	return {
-  	  form: {
+      form: {
+        case_type: '',
         project_id: '',
         process_definition: '',
         process_flow: '',
@@ -327,13 +331,11 @@ export default {
         attachments: [],
         remark: '',
       },
-      projects:[
-        {label: '专利测试',value: 1},
-      ],
       attachments: [],
       category: '',
       btn_disabled: false,
       rules: {
+        case_type: getRules('案件类型不能为空', 'number'),
         project_id: getRules('相关案件不能为空', 'number'),
         process_definition: getRules('管制事项不能为空', 'number'),
         process_flow: getRules('流程不能为空', 'number'),
@@ -350,6 +352,10 @@ export default {
   	}
   },
   computed: {
+    projectType () {
+      const config = typeMap.get(this.form.case_type);
+      return config;
+    },
     flowsData () {
       return this.$store.getters.flowsData;
     },
@@ -395,17 +401,6 @@ export default {
     },
   },
   watch: {
-    'form.project_id': {
-      handler () {
-        if(this.type == 'add') {
-          this.$nextTick(_=>{
-            const select = this.$refs.project.getSelected()[0];
-            console.log(select)
-            this.category = select ? select['project_type'] : ''; 
-          })
-        }
-      }
-    },
     'form.process_flow': {
       handler(val) {
         console.log(val);
@@ -422,7 +417,7 @@ export default {
   mounted () {
     this.refreshRow();
   },
-  components: { Member, Upload, RemoteSelect, JumpSelect }
+  components: { Member, Upload, RemoteSelect, JumpSelect, StaticSelect, }
 }
 </script>
 

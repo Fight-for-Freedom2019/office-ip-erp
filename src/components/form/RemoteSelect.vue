@@ -92,17 +92,23 @@ const map = new Map([
 		DATA_KEY: 'proposals',
 		PLACEHOLDER: '请输入提案关键词',
 	}],
-	['patent', {
+  ['patent', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入专利关键词',
+    PARAMS: { category: 'Patent' },
+  }],	
+  ['trademark', {
 		URL: '/projects',
 		DATA_KEY: 'projects',
-		PLACEHOLDER: '请输入专利关键词',
-		PARAMS: { project_type: 'Patent' },
+		PLACEHOLDER: '请输入商标关键词',
+		PARAMS: { category: 'Trademark' },
 	}],
 	['copyright', {
 		URL: '/projects',
 		DATA_KEY: 'projects',
 		PLACEHOLDER: '请输入版权关键词',
-		PARAMS: { category: 3 },
+		PARAMS: { category: 'Copyright' },
 	}],
   ['bill', {
     URL: '/invoices',
@@ -274,7 +280,12 @@ export default {
       const url = this.URL;
       const data = os ? Object.assign({}, s, os) : s;
       const success = d=>{
-        const list = d[key]['data'];
+        let list = null;
+        if(d[key] instanceof Array) {
+          list = d[key];
+        }else {
+          list = d[key]['data'];
+        }
         if(!list) return this.options = [];
         if(list[0] && list[0]['label'] && list[0]['value'] ) {
           list.forEach(_=>{
@@ -425,6 +436,11 @@ export default {
       },
       deep:true,
   	},
+    type (val) {
+      if(val) {
+        this.remoteMethod('');
+      }
+    },
     para () {
       this.remoteMethod('');
     },

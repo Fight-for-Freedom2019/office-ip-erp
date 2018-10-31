@@ -194,16 +194,6 @@
     <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">
       <mail-edit style="margin-top: 10px; " ref="mailEdit" @sendSuccess="mailCallBack" @cancelSending="mailCallBack"></mail-edit>
     </app-shrink>
-    <el-dialog :visible.sync="dialogDeleteVisible" title="删除确认" width="25%">
-      <el-radio-group v-model="deleteStatus">
-        <el-radio :label="0">仅删除当前节点</el-radio>
-        <el-radio :label="1">删除整个管制事项</el-radio>
-      </el-radio-group>
-      <template slot="footer">
-        <el-button @click="dialogDeleteVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitDelete">确定</el-button>
-      </template>
-    </el-dialog> 
 
   </div>
 </template>
@@ -253,13 +243,40 @@ const typeMap = new Map([
   [5, '账单'],
   [6, '发文'],
 ]);
+// messageBox组件，单独提出来，vue监测不到value的改变导致radio无法即时更新
+ const MessageContent = {
+  render (h) {
+    
+    const model = {
+      props: {
+        value: this.deleteType
+      },
+      on: {
+        input: (v) => {
+          this.deleteType = v; 
+        } 
+      }
+    }
+
+    const createLabel = (label) => ({ props: { label } })
+    
+    return h('el-radio-group', model, [
+      h('el-radio', createLabel(0), '仅删除当前节点'),
+      h('el-radio', createLabel(1), '删除整个管制事项')
+    ])
+  },
+  data () {
+    return {
+      deleteType: 0,
+    }
+  }
+}
 export default {
   name: 'taskList',
   mixins: [ AxiosMixins ],
     data () {
 
     return {
-      dialogDeleteVisible: false,
       dialogRejectVisible: false,
       dialogScreenVisible: false,
       dialogTurnoutVisible: false,
@@ -289,8 +306,6 @@ export default {
       close_reason:'',
       activation_reason:'',
       days:'5',
-      deleteStatus: '',
-      key: 1,
       deleteId: '',
       tableOption: {
         'name': 'taskList',
@@ -576,60 +591,31 @@ export default {
     //   }
     // },
     taskDelete ({id}) {
-        const s = this.$refs.table.getSelect(true);
-        if(s.length == 0) {
-          this.$message({message: '请选择需要删除的列表项', type: 'warning'});
-        }else {
-          this.dialogDeleteVisible = true;
-          this.deleteId = this.$tool.splitObj(s,'id');
-        }
-        // 通过$msgbox实现有个bug,vNode没有及时更新
-     // const h = this.$createElement; 
-     // const _self = this; 
-     // this.$msgbox({
-     //  title: '删除',
-     //  showCancelButton: true,
-     //  message: h('span',null,[
-     //    h('el-radio-group',{
-     //      props: {
-     //        value: _self.model,
-     //      },
-     //      key: _self.key++,
-     //      on: {
-     //        input(val) {
-     //            _self.$nextTick(()=>{
-     //              _self.model = val;
-     //              _self.$emit('input', val);
-     //              console.log(val);
-     //            })
-     //        },
-     //      }
-     //    }, [h('el-radio',{
-     //      props: {
-     //        label: 1,
-     //      }
-     //    },'仅删除当前节点'),
-     //    h('el-radio',{
-     //      props: {
-     //        label: 2,
-     //      }
-     //    },'删除整个管制事项'),
-     //    ])
-     //  ]),
-     // })
-     // .then((v)=>{
+      const s = this.$refs.table.getSelect(true);
+      if(s.length == 0) {
+        return  this.$message({message: '请选择需要删除的列表项', type: 'warning'});
+      }
+      this.deleteId = this.$tool.splitObj(s,'id');
+      const h = this.$createElement;      
+      this.$msgbox({
+        title: '消息',
+        message: h('message-content', {
+          ref: 'messageContent'
+        }),
+        confirmButtonText: '确定',
+        showCancelButton: true,
+      }).then(action => {
+        this.submitDelete();
+      }).catch(action =>{
 
-     // }).catch((e)=>{
-
-     // })
+      });
     },
     submitDelete () {
       const url = URL;
-      const data = { id: this.deleteId , is_delete_process: this.deleteStatus };
+      const data = { id: this.deleteId , is_delete_process: this.$refs.messageContent.deleteType };
       const success = _=>{
         this.$message({type: 'success', message: '删除成功'});
         this.update();
-        this.dialogDeleteVisible = false;
       };
       this.$axiosDelete({url, data, success});
     },
@@ -909,9 +895,7 @@ export default {
     //   this.refresh();
     // }
 
-    if(this.$store.getters.flowsData === undefined) {
-      this.$store.dispatch('refreshFlows');  
-    }
+
     if(this.task_status == 1 || this.task_status == -1) {
       this.activeName = 'relative_tasks';
     }
@@ -934,6 +918,7 @@ export default {
     Delay,
     MailEdit,
     AppointCase,
+    MessageContent,
   },
 } 
 </script>

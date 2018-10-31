@@ -190,7 +190,6 @@ const config = [
   ['case_type', {
     placeholder: '请选择案件类型',
     options: [
-      { id: 0, name: '提案' },
       { id: 1, name: '专利' },
       { id: 2, name: '商标' },
       { id: 3, name: '版权' },

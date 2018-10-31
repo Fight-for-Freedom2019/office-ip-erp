@@ -152,7 +152,7 @@ const router = new Router({
       name: 'TaskPending',
       component: TaskCommon,
       meta: { 
-        params: { is_review_action: 1 }, 
+        params: { is_review_action: 0 }, 
       },
     },
     {
@@ -160,7 +160,7 @@ const router = new Router({
       name: 'TaskReview',
       component: TaskCommon,
       meta: {
-        params: { is_review_action: 0 },
+        params: { is_review_action: 1 },
       },
     },
     {

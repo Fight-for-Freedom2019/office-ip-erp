@@ -14,15 +14,15 @@ const mutations = {
 }
 
 const actions = {
-	refreshFlows ({commit, rootState, state}) {		
+	refreshFlows ({commit, rootState, state},{type}={}) {		
 		url = rootState.status ? url.replace(/\/api/, '') : url;
-		const params ={project_type: 'Patent'};
+		const params ={project_type: type};
 		rootState.axios
 			.get(url,{params})
 			.then(response=>{
 				const d = response.data;
 				if(d.status) {
-					commit('setFlows', d.data);	
+					commit('setFlows', d.data.data);	
 				}
 			})
 			.catch(error=>{console.log(error)});
