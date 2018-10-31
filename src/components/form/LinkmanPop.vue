@@ -6,7 +6,7 @@
                 <el-input v-model="form.name" placeholder="请填写联系人姓名（必填）"></el-input>
             </el-form-item>
 
-            <el-form-item label="类型" prop="type">
+            <el-form-item label="类型" prop="contact_type">
                 <static-select type="contacts_type" v-model="form.contact_type"></static-select>
             </el-form-item>
 
@@ -64,7 +64,7 @@
                     identity: "",
                     first_name: "",
                     last_name: "",
-                    is_publish_name: "",
+                    is_publish_name: 0,
                 },
                 'rules': {
                     'name': [{required: true, message: '申请人名称不能为空', trigger: 'blur'},
