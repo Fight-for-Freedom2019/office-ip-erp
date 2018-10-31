@@ -20,6 +20,12 @@ const ApplyingPatent           = () => import('@/components/page/ApplyingPatent'
 const PatentAdd                = () => import('@/components/page/PatentAdd')
 const NoticeCommon             = () => import('@/components/page/NoticeCommon')
 
+//CRM模块账款管理
+const WaitForPayment             = () => import('@/components/page/WaitForPayment')     //待请费用
+const PaymentManage             = () => import('@/components/page/PaymentManage')     //请款管理
+const InvoiceManage             = () => import('@/components/page/InvoiceManage')     //发票管理
+const PaymentRecevied             = () => import('@/components/page/PaymentRecevied')     //回款管理
+
 // const TrademarkNotice          = () => import('@/components/page/NoticeCommon')
 const TrademarkStatistics      = () => import('@/components/page/TrademarkStatistics')
 const CopyrightList            = () => import('@/components/page/CopyrightList')
@@ -129,6 +135,26 @@ const router = new Router({
       path: '/crm/data/contacts',
       name: 'ContactsList',
       component: ContactsList
+    },
+    {
+      path: '/crm/finance/payment_request',
+      name: 'PaymentManage',
+      component: PaymentManage
+    },
+    {
+      path: '/crm/finance/invoice',
+      name: 'InvoiceManage',
+      component: InvoiceManage
+    },
+    {
+      path: '/crm/finance/fee',
+      name: 'WaitForPayment',
+      component: WaitForPayment
+    },
+    {
+      path: '/crm/finance/payment_recevied',
+      name: 'PaymentRecevied',
+      component: PaymentRecevied
     },
     {
       path: '/crm/contracts',

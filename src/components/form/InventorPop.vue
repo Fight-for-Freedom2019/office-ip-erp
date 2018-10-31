@@ -138,6 +138,9 @@
             refresh() {
                 this.$emit('refresh');
             },
+            update() {
+                this.$emit('update');
+            },
             add() {
                 if (this.form.name !== '' && this.form.citizenship !== '' && this.form.identity !== '') {
                     const url = `${URL}/${this.customer.id}/inventors`;
@@ -158,9 +161,10 @@
                 const url = `${URL}/${this.customer.id}/inventors/${this.presentId}`;
                 const data = Object.assign({}, this.form);
                 delete data.customer;
+                !Number.isNaN(data.is_publish_name)?data.is_publish_name === "是"?data.is_publish_name = 1:data.is_publish_name=0:"";
                 const success = _ => {
                     this.dialogVisible = false;
-                    this.refresh();
+                    this.update();
                     this.$message({message: '编辑成功！', type: 'success'})
                 }
                 this.$axiosPut({url, data, success});
@@ -176,7 +180,7 @@
             StaticSelect,
             AppSwitch
         },
-        REMINDER_TEXT: '发明人',
+        REMINDER_TEXT: '',
     }
 </script>
 

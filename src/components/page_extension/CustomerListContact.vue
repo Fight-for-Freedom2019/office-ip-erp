@@ -2,7 +2,7 @@
     <div>
         <table-component :data="tableData" :tableOption="option" ref="table"
                          @refreshTableData='refreshTableData'></table-component>
-        <pop @refresh="refresh" ref="pop" :customer="customer" :contact_id="contact_id"></pop>
+        <pop @refresh="refresh" @update="update" ref="pop" :customer="customer" :contact_id="contact_id"></pop>
     </div>
 </template>
 <script>

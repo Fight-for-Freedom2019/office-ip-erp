@@ -134,6 +134,7 @@
       v-if="refreshRender"
       :class="tableOption.empty_text_position == 'topLeft' ? 'empty-top-left' : ''"
       :style="tableStyle"
+      :isMerge="tableOption.is_merge === undefined?{}:tableOption.is_merge"
       :data="tableData"
       :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
       :filterVisible="filterValueVisible"
@@ -719,16 +720,16 @@ export default {
       this.$emit('refreshTableData', Object.assign({}, this.getRequestOption(), this.filterForm ) );
     },
     search (val) {
-      // this.page = 1;     // TODO 在修改table数据后保持当前页码,可能有问题
+      this.page = 1;     // TODO 在修改table数据后保持当前页码,可能有问题
       this.search_value = val;
       this.update();
     },
     reset () {
-      // this.page = 1;
+      this.page = 1;
       this.update();
     },
     refresh () {
-      // this.page = 1;
+      this.page = 1;
       this.search_value = "";
       this.update();
     },

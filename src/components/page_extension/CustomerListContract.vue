@@ -2,7 +2,7 @@
     <div>
         <table-component :data="tableData" :tableOption="option" ref="table"
                          @refreshTableData='refreshTableData'></table-component>
-        <pop @refresh="refresh" ref="pop" :customer="customer" :contractsID="contractsID" :popType="popType"></pop>
+        <pop @refresh="refresh" @update="update" ref="pop" :customer="customer" :contractsID="contractsID" :popType="popType"></pop>
     </div>
 </template>
 <script>
@@ -32,7 +32,6 @@
                         {type: 'text', prop: 'type', label: '合同类型'},
                         {type: 'text', prop: 'status', label: '状态'},
                         {type: 'text', prop: 'signing_date', label: '签订日期'},
-                        {type: 'text', prop: 'date', label: '合同期限'},
                         {type: 'text', prop: 'expire_date', label: '届满日期'},
                         {type: 'text', prop: 'accessory', label: '附件'},
                         {type: 'text', prop: 'remark', label: '备注'},
@@ -68,6 +67,9 @@
             },
             refresh() {
                 this.$refs.table.refresh();
+            },
+            update() {
+                this.$refs.table.update();
             },
             refreshTableData(option) {
                 const success = _ => {

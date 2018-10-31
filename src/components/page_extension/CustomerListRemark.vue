@@ -2,7 +2,7 @@
     <div>
         <table-component :data="tableData" :tableOption="option" ref="table"
                          @refreshTableData="refreshTableData"></table-component>
-        <pop @refresh="refresh" ref="pop" :customer="customer" :remarkID = "remarkID" :popType="popType"></pop>
+        <pop @refresh="refresh" @update="update" ref="pop" :customer="customer" :remarkID = "remarkID" :popType="popType"></pop>
     </div>
 </template>
 <script>
@@ -77,7 +77,10 @@
                 this.$refs.pop.show();
             },
             refresh() {
-                this.refreshTableData();
+                this.$refs.table.refresh();
+            },
+            update() {
+                this.$refs.table.update();
             },
             editPop(row) {
                 this.popType = "edit";
@@ -99,7 +102,7 @@
                         type: 'warning'
                     }).then(() => {
                     const success = _ => {
-                        this.refreshTableData();
+                        this.update();
                         this.$message({message: '删除成功', type: 'success'})
                     };
 

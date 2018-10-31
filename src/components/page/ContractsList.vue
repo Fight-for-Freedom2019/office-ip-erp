@@ -44,7 +44,7 @@
                         { type: 'text', label: '联系人', prop: 'contact.name', width: '170' },
                         { type: 'text', label: '合同编号', prop: 'serial', width: '145' },
                         { type: 'text', label: '合同类型', prop: 'type',width: '145'},
-                        { type: 'text', label: '状态', prop: 'identity', width:'123'},
+                        { type: 'text', label: '状态', prop: 'status', width:'123'},
                         { type: 'text', label: '签订日期', prop: 'signing_date', width: '175' },
                         { type: 'text', label: '届满日期', prop: 'expire_date', width: '175' },
                         { type: 'text', label: '备注', prop: 'remark' },
