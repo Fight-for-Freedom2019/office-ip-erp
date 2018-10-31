@@ -212,6 +212,9 @@
             refresh() {
                 this.$emit("refresh");
             },
+            update() {
+                this.$emit("update");
+            },
             add() {
                 if (this.form.name != "") {
                     const url = `${URL}/${this.customer.id}/applicants`;
@@ -232,7 +235,7 @@
                 data.type = data.applicant_type;
                 const success = _ => {
                     this.dialogVisible = false;
-                    this.refresh();
+                    this.update();
                     this.$message({message: "编辑成功！", type: "success"});
                 };
                 this.$axiosPut({url, data, success});
@@ -262,8 +265,8 @@
             StaticSelect,
             City
         },
-        URL: "/api/requirements",
-        REMINDER_TEXT: "申请人"
+        // URL: "/api/requirements",
+        REMINDER_TEXT: ""
     };
 </script>
 

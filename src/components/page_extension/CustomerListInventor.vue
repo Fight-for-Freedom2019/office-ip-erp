@@ -3,7 +3,7 @@
     <div>
         <table-component :data="inventorData" :tableOption="option" ref="table"
                          @refreshTableData='refreshTableData'></table-component>
-        <pop @refresh="refresh" ref="pop" :customer="customer" :presentId=currentId></pop>
+        <pop @refresh="refresh" @update="update" ref="pop" :customer="customer" :presentId=currentId></pop>
     </div>
 </template>
 <script>
@@ -74,10 +74,10 @@
                 })
             },
             refresh() {
-                this.refreshTableData();
+                this.$refs.table.refresh();
             },
             update() {
-                this.refreshTableData();
+                this.$refs.table.update();
             },
             editPop(row) {
                 let copy = this.$tool.deepCopy(row);
@@ -95,7 +95,7 @@
                     }).then(() => {
                     const success = _ => {
                         this.update();
-                        this.$message({message: '删除发明人成功！', type: 'success'})
+                        this.$message({message: '删除成功！', type: 'success'})
                     };
 
                     this.$axiosDelete({url, success});

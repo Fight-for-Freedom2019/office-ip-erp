@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<table-component :data="tableData" :tableOption="option" ref="table" @refreshTableData="refreshTableData"></table-component>
-		<pop @refresh="refresh" ref="pop" :customer="customer" :presentId = currentId></pop>
+		<pop @refresh="refresh" @update="update" ref="pop" :customer="customer" :presentId = currentId></pop>
 	</div>
 </template>
 <script>
@@ -136,7 +136,7 @@ export default {
 				}).then(()=>{
 					const success = _=>{ 
 					this.update();
-					this.$message({message: '删除申请人成功！', type: 'success'}) 
+					this.$message({message: '删除成功！', type: 'success'})
 				};
 
 				this.$axiosDelete({url, success});

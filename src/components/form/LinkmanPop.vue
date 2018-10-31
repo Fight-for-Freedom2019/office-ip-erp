@@ -102,6 +102,9 @@
             refresh() {
                 this.$emit('refresh');
             },
+            update() {
+                this.$emit('update');
+            },
             add() {
                 if(this.isDefaultContacts){
                     this.$emit('getDefaultContacts',this.form);     // 因为新增客户时会用到这个组件来新建默认联系人，所以先判断是否是isDefaultContacts
@@ -129,13 +132,13 @@
                 const url = `${URL}/${this.customer.id}/contacts/${this.contact_id}`;
                 const data = Object.assign({}, this.form);
                 map.get("contacts_type").options.forEach((_) => {
-                    if (_.name === data.type) {
-                        data.type = _.id;
+                    if (_.name === data.contact_type) {
+                        data.contact_type = _.id;
                     }
                 });
                 const success = _ => {
                     this.dialogVisible = false;
-                    this.refresh();
+                    this.$emit("update");
                     this.$message({message: '编辑成功！', type: 'success'})
                 }
                 this.$axiosPut({url, data, success});
