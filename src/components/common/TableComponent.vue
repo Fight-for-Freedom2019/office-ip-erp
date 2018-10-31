@@ -134,6 +134,7 @@
       v-if="refreshRender"
       :class="tableOption.empty_text_position == 'topLeft' ? 'empty-top-left' : ''"
       :style="tableStyle"
+      :isMerge="tableOption.is_merge === undefined?{}:tableOption.is_merge"
       :data="tableData"
       :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
       :filterVisible="filterValueVisible"

@@ -9,6 +9,7 @@
   :highlight-current-row="highlightCurrentRow"
   :height="tableHeight"
   :max-height="maxHeight"
+  :span-method="spanMethod"
 
   @selection-change="handleSelectionChange" 
   @sort-change="_=>{$emit('sort-change', _)}"
@@ -145,6 +146,12 @@ export default {
       type: null,
       default: 'id',
     },
+    isMerge:{
+      type:Object,
+      default(){
+        return {}
+      }
+    },
     defaultSort: {
       type: Object,
       default () {
@@ -188,6 +195,7 @@ export default {
       headerClass: 'header_wrap',
       filterComponentVisible: false,
       filterConditionVisible: false,
+      spanArr:[],   // 合并行策略数组
       // re_render: true,
     };
   },
@@ -226,6 +234,9 @@ export default {
       })
       // console.log('------------------------table-data------------------------');
       console.log(r);
+      if(Object.keys(this.isMerge).length !== 0) {
+        this.getSpanArr(r);
+      };
       return r;
     },
     tableHeight () {
@@ -458,6 +469,47 @@ export default {
 
         )
       }
+    },
+      getDescendantantProp(obj, desc) {     // 深层遍历对象属性获取属性值
+          var arr = desc.split('.');
+          while(arr.length) {
+              obj = obj[arr.shift()];
+          }
+          return obj;
+      },
+      getSpanArr(data){     // 根据isMerge.KEY获取spanArr
+          let fun = this.getDescendantantProp;
+          let key = this.isMerge.KEY?this.isMerge.KEY:"";
+          if(!key)return;
+          data.sort(function (a,b) {    // 获取spanArr之前先要按id排序，因为渲染表格的时候并没有按照预定的规则渲染
+              return fun(a,key)-fun(b,key)
+          });
+          let pos = 0;
+          for (let i = 0;i < data.length;i++) {
+              if (i === 0) {
+                  this.spanArr.push(1);
+                  pos = 0
+              } else {
+                  if (fun(data[i],key) === fun(data[i-1],key)) {
+                      this.spanArr[pos] += 1;
+                      this.spanArr.push(0);
+                  } else {
+                      this.spanArr.push(1);
+                      pos = i;
+                  }
+              }
+          }
+      },
+    spanMethod({row, column, rowIndex, columnIndex}){   // 官方合并方法稍加改造
+        if(Object.keys(this.isMerge).length === 0) return;
+        if (this.isMerge.COL.includes(columnIndex)) {
+            const _row = this.spanArr[rowIndex];
+            const _col = _row > 0 ? 1 : 0;
+            return {
+                rowspan: _row,
+                colspan: _col
+            }
+        }
     },
   },
   watch:{
