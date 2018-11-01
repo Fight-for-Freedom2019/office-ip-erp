@@ -106,7 +106,7 @@
                         data,
                         success: () => {
                             this.$message({type: "success", message: "添加联系人成功"});
-                            this.$emit("editSuccess");
+                            this.$emit("refresh");
                         }
                     });
                 } else {
@@ -123,7 +123,7 @@
                         data,
                         success: () => {
                             this.$message({type: "success", message: "编辑联系人成功"});
-                            this.$emit("editSuccess");
+                            this.$emit("update");
                         }
                     });
                 }
@@ -134,10 +134,7 @@
             },
             coverObj(val) {
                 if (val) {
-                    this.$tool.coverObj(this.form, val, {
-                        obj: ["consultant"],
-                        skip: []
-                    });
+                    this.$tool.coverObj(this.form, val);
                 }
             }
         },
