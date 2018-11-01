@@ -129,33 +129,39 @@
       </div>
         
     </div>
-    
-    <app-table
-      v-if="refreshRender"
-      :class="tableOption.empty_text_position == 'topLeft' ? 'empty-top-left' : ''"
-      :style="tableStyle"
-      :isMerge="tableOption.is_merge === undefined?{}:tableOption.is_merge"
-      :data="tableData"
-      :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
-      :filterVisible="filterValueVisible"
-      :type="tableOption.list_type"
-      :border="tableOption.is_border != undefined ? tableOption.is_border : true"
-      :default-sort="tableOption.default_sort ? tableOption.default_sort : {}"
-      :height="tableOption.height"
-      :highlight-current-row="tableOption.highlightCurrentRow !== undefined ? tableOption.highlightCurrentRow : false"
-      :columns="columns"
-      :table-selected.sync="selected"
-      @sort-change="handleSortChange"
-      @update.once="update"
-      @row-click="handleRowClick"
-      @cell-click="handleCellClick"
-      @order="handleSort"
-      ref="table"
-    >
-      <template slot="row_action" slot-scope="scope">
-        <slot name="row_action" :row="scope.row"></slot>
+    <div class="table-body">
+      <template class="table-body-left" v-if="tableOption.treeFilter != undefined">
+        <app-tree-filter :type="tableOption.treeFilter" @refresh="handleRefreshTree" ref="appTreeFilter"></app-tree-filter>
       </template>
-    </app-table>
+      <template class="table-body-right">
+        <app-table
+          v-if="refreshRender"
+          :class="tableOption.empty_text_position == 'topLeft' ? 'empty-top-left' : ''"
+          :style="tableStyle"
+          :isMerge="tableOption.is_merge === undefined?{}:tableOption.is_merge"
+          :data="tableData"
+          :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
+          :filterVisible="filterValueVisible"
+          :type="tableOption.list_type"
+          :border="tableOption.is_border != undefined ? tableOption.is_border : true"
+          :default-sort="tableOption.default_sort ? tableOption.default_sort : {}"
+          :height="tableOption.height"
+          :highlight-current-row="tableOption.highlightCurrentRow !== undefined ? tableOption.highlightCurrentRow : false"
+          :columns="columns"
+          :table-selected.sync="selected"
+          @sort-change="handleSortChange"
+          @update.once="update"
+          @row-click="handleRowClick"
+          @cell-click="handleCellClick"
+          @order="handleSort"
+          ref="table"
+        >
+          <template slot="row_action" slot-scope="scope">
+            <slot name="row_action" :row="scope.row"></slot>
+          </template>
+        </app-table>
+      </template>
+    </div>
     
     <!--v-if="totalNumber > pageSize"-->
     <el-pagination
@@ -210,6 +216,7 @@ import BatchUpdate from '@/components/common/BatchUpdate'
 import AppTable from '@/components/common/AppTable'
 import AppExport from '@/components/common/AppExport'
 import ListFilter from '@/components/common/AppListFilter'
+import AppTreeFilter from '@/components/common/AppTreeFilter'
 // import {fieldExceptMap} from '@/const/fieldConfig'
 import { mapGetters } from 'vuex'
 import { mapMutations } from 'vuex'
@@ -248,6 +255,7 @@ export default {
       selected: [],
       filterVisible: false,
       filterValueVisible: false,
+      strainerParams: {},
     };
 
     return data;
@@ -410,6 +418,9 @@ export default {
     ...mapActions([
       'clearFilter',
     ]),
+    handleRefreshTree (val) {
+      this.strainerParams = val;
+    },
     handleInput(val) {
       console.log(val);
     },
@@ -714,7 +725,7 @@ export default {
     },
     update () {
       if(this.refreshTableData) {
-        this.refreshTableData(Object.assign({}, this.getRequestOption(), this.filterForm ));
+        this.refreshTableData(Object.assign({}, this.getRequestOption(), this.filterForm ,this.strainerParams));
       }
 
       this.$emit('refreshTableData', Object.assign({}, this.getRequestOption(), this.filterForm ) );
@@ -757,6 +768,9 @@ export default {
     requesOption: {
       handler: function () {},
       deep: true,
+    },
+    strainerParams () {
+      this.update();
     },
     filterForm (val) {
       if(this.filterLock) return;
@@ -814,6 +828,7 @@ export default {
     AppTable,
     AppExport,
     ListFilter,
+    AppTreeFilter,
   },
 }
 </script>
@@ -863,5 +878,10 @@ export default {
 .el-dropdown+.el-dropdown {
   margin-left: 10px;
 }
-
+.table-body {
+  display: flex;
+}
+.table-body-left,.table-body-right {
+  flex: 1;
+}
 </style>

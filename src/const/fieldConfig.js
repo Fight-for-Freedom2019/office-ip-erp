@@ -9,4 +9,31 @@ const fieldExceptMap = new Map([
 	['patentList', 'userPatentFieldExcept'],
 ])
 
-export {config, fieldExceptMap}
+const strainerConfig = [
+	['process',[
+		{ "name": "模块", "id": "model", },
+		{ "name": "案件类型", "id": "category", "default": true},
+		{ "name": "案件子类型", "id": "type",},
+		{ "name": "管制事项", "id": "process_definition",},
+		{ "name": "当前节点", "id": "process_flow",},
+		{ "name": "承办人", "id": "user",},
+		{ "name": "代理人", "id": "agent",},
+		{ "name": "代理人助理", "id": "assistant",},
+		{ "name": "初审核人", "id": "first_reviewer",},
+		{ "name": "复审人", "id": "final_reviewer",},
+		{ "name": "所属部门", "id": "organization_unit",},
+		{ "name": "客户", "id": "customer",},
+		{ "name": "IPR", "id": "ipr",},
+		{ "name": "联系人", "id": "contact",},
+		{ "name": "初稿期限", "id": "first_edition_deadline",},
+		{ "name": "递交期限", "id": "filling_deadline",},
+		{ "name": "官方绝限", "id": "legal_deadline",},
+		{ "name": "初稿日", "id": "first_edition_time",},
+		{ "name": "内部定稿日", "id": "internal_final_edtion_time",},
+		{ "name": "返稿日", "id": "customer_edition_time",},
+		{ "name": "客户定稿日", "id": "customer_final_edition_time",},
+		{ "name": "递交日", "id": "filling_time",},
+		{ "name": "申请日", "id": "application_date",},
+	]]
+]
+export {config, fieldExceptMap, strainerConfig}

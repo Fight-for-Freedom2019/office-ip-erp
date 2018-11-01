@@ -112,7 +112,7 @@ export default {
       sourceForm: [],
       activeName:['1', '2'],
       'data': {},
-      'point': '',
+      'review_opinion': '',
       'appFormRules': {},
       'description': '',
       'tasksData': '',
@@ -170,8 +170,8 @@ export default {
       const success = d=>{
         const response = d.data;
         this.data = response;
-        if(response.point && response.point.length != 0) {
-          this.point = response.point[0];
+        if(response.review_opinion && response.review_opinion.length != 0) {
+          this.review_opinion = response.review_opinion[0];
         }
         if(response.forms && response.forms.length != 0) {
           response.forms.forEach(_=>{
@@ -195,7 +195,7 @@ export default {
         if(_) {
           this.btn_disabled = true;
           const url = `${URL}/${this.taskId}/nexttask`;
-          const data = Object.assign({}, {'point': this.point}, this.form);
+          const data = Object.assign({}, {'review_opinion': this.review_opinion}, this.form);
 
           const success = ()=>{ 
             this.$message({type: 'success', message: '完成任务成功'});
@@ -300,7 +300,7 @@ export default {
     },
     pointData () {
       const ol = this.$tool.getObjLength(this.data);
-      return ol && this.data.point ? this.data.point : [];
+      return ol && this.data.review_opinion ? this.data.review_opinion : [];
     },
     checkArr () {
       let arr = [];
