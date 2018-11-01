@@ -1,7 +1,7 @@
 <!-- 联系人管理 -->
 <template>
     <div class="main">
-        <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData"
+        <table-component :tableOption="option" :data="tableData" @refresh="refresh" @update="update" @refreshTableData="refreshTableData"
                          ref="table"></table-component>
         <!-- 新建联系人 -->
         <app-shrink :visible.sync="isContactsAddPanelVisible" :modal='formType === "add"' :title="this.appPanelTitle">
@@ -9,7 +9,7 @@
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
-            <contacts-list-add ref="contactsAdd" :type='formType' :contacts='contacts' @editSuccess="refreshTableData"
+            <contacts-list-add ref="contactsAdd" :type='formType' :contacts='contacts' @refresh="refresh" @update="update" @editSuccess="refreshTableData"
                                @addSuccess="refreshTableData"></contacts-list-add>
         </app-shrink>
     </div>
@@ -94,6 +94,7 @@
                 this.$refs.contactsAdd.save(this.formType);
             },
             refreshTableData(option) {
+                console.log("没有到这");
                 const url = URL;
                 const data = Object.assign({}, option);
                 const success = _ => {
@@ -102,25 +103,22 @@
                 };
 
                 this.$axiosGet({url, data, success});
-            }
-            ,
+            },
             handleRowClick(row) {
                 let copy = this.$tool.deepCopy(row);
-                copy.contact_type === 1 ? copy.contact_type = "":"";
+                copy.contact_type === 1 || copy.contact_type=== "未知身份" ? copy.contact_type = "" : "";  // 因为定义的类型里面没有1
                 this.contacts = copy;
+                copy.customer === null?copy.customer={name:"",id:""}:"";
                 this.formType = 'edit';
                 this.appPanelTitle = '编辑联系人>' + copy.name;
                 this.isContactsAddPanelVisible = true;
-            }
-            ,
+            },
             refresh() {
                 this.$refs.table.refresh();
-            }
-            ,
+            },
             update() {
                 this.$refs.table.update();
-            }
-            ,
+            },
             handlePopRefresh(key) {
                 this.refresh();
             }

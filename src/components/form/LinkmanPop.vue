@@ -67,10 +67,10 @@
                     is_publish_name: 0,
                 },
                 'rules': {
-                    'name': [{required: true, message: '申请人名称不能为空', trigger: 'blur'},
+                    'name': [{required: true, message: '联系人名称不能为空', trigger: 'blur'},
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
                     ],
-                    'type': {required: false, message: '申请人类型不能为空', trigger: 'change'},
+                    'contact_type': {required: true, message: '联系人类型不能为空', trigger: 'change'},
                     'identity': [{required: false, message: '证件号码不能为空', trigger: 'blur'},
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
                     ],
@@ -111,7 +111,7 @@
                     this.dialogVisible = false;
                     return
                 }
-                if (this.form.name !== '') {
+                if (this.form.name !== ''&&this.form.contact_type!=="") {
                     const url = `${URL}/${this.customer.id}/contacts`;
                     const data = Object.assign({}, this.form);
                     const success = _ => {
@@ -131,6 +131,11 @@
             edit() {
                 const url = `${URL}/${this.customer.id}/contacts/${this.contact_id}`;
                 const data = Object.assign({}, this.form);
+                console.log("提交的data",data);
+                if (data.name === '' || data.contact_type==="") {
+                    this.$message({type: 'warning', message: '必选项不能为空！'});
+                    return
+                }
                 map.get("contacts_type").options.forEach((_) => {
                     if (_.name === data.contact_type) {
                         data.contact_type = _.id;
