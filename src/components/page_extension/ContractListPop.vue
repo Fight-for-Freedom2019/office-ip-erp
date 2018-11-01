@@ -191,6 +191,7 @@
                 data.customer_id = this.customer.id;
                 data.contact_id = data.contact;
                 delete data.customer;
+                delete data.status;
                 map.get("contract_type").options.forEach((_) => {
                     if (_.name === data.type) {
                         data.type = _.id;

@@ -573,7 +573,7 @@ const config = [
   ['contacts_type', {
     placeholder: '联系人类型',
     options: [
-        {id: 2, name: 'IPR 3'},
+        {id: 2, name: 'ipr'},
         {id: 3, name: '财务'},
         {id: 4, name: '流程接口人'},
         {id: 5, name: '其它'},
@@ -593,7 +593,7 @@ const config = [
         placeholder: '合同类型',
         options: [
             {id: 1, name: '框架协议'},
-            {id: 2, name: '订单合同'}
+            {id: 2, name: '订单协议'}
         ]
   }],
 ];
