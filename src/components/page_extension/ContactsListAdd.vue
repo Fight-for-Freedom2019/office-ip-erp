@@ -12,7 +12,7 @@
                 <el-input v-model="form.title" placeholder=""></el-input>
             </el-form-item>
 
-            <el-form-item label="类型" prop="type">
+            <el-form-item label="类型" prop="contact_type">
                 <static-select type="contacts_type" v-model="form.contact_type"></static-select>
             </el-form-item>
 
@@ -82,13 +82,22 @@
                         pattern: /^1[345678]\d{9}$/,
                         message: "手机号码或者座机号码格式错误",
                         trigger: "blur"
-                    }
+                    },
+                    contact_type:[
+                        {
+                            required:true,message:"请选择联系人", trigger: "blur"
+                        }
+                    ],
                 }
             };
         },
         methods: {
             async save(type) {
                 const data = this.form;
+                if (data.name === '' || data.contact_type==="") {
+                    this.$message({type: 'warning', message: '必选项不能为空！'});
+                    return
+                }
                 data.customer_id = data.customer;
                 let response;
                 if (type === "add") {
@@ -96,7 +105,7 @@
                         url: URL,
                         data,
                         success: () => {
-                            this.$message({type: "success", message: "添加申请人成功"});
+                            this.$message({type: "success", message: "添加联系人成功"});
                             this.$emit("editSuccess");
                         }
                     });
@@ -113,7 +122,7 @@
                         url,
                         data,
                         success: () => {
-                            this.$message({type: "success", message: "编辑申请人成功"});
+                            this.$message({type: "success", message: "编辑联系人成功"});
                             this.$emit("editSuccess");
                         }
                     });
