@@ -15,7 +15,7 @@ const strainerConfig = [
 		{ "name": "案件类型", "id": "category", "default": true},
 		{ "name": "案件子类型", "id": "type",},
 		{ "name": "管制事项", "id": "process_definition",},
-		{ "name": "当前节点", "id": "process_flow",},
+		{ "name": "当前节点", "id": "process_action",},
 		{ "name": "承办人", "id": "user",},
 		{ "name": "代理人", "id": "agent",},
 		{ "name": "代理人助理", "id": "assistant",},

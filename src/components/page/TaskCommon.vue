@@ -349,7 +349,9 @@ export default {
           { type: 'text', prop: 'serial', label: '案号', render_header: true, width: '160',},
           { type: 'text', prop: 'title', label: '标题', render_header: true, width: '160'},
           { type: 'text', prop: 'process_definition', label: '管制事项', render_simple: 'name', render_header: true, width: '150',},
-          { type: 'text', prop: 'process_flow', label: '当前节点', render_simple: 'name', render_header: true, width: '150',},
+          { type: 'text', prop: 'task', label: '当前节点', render_header: true, width: '150', render: function(h,item){
+            return h('span',item.process_action.name);
+          }},
           { type: 'text', prop: 'user', label: '承办人', render_simple: 'name', render_header: true, width: '145',},
           { type: 'text', prop: 'agent', label: '代理人', render_simple: 'name', render_header: true, width: '145',},
           { type: 'text', prop: 'assistant', label: '代理人助理', render_simple: 'name', render_header: true, width: '145',},
