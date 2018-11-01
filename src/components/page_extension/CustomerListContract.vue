@@ -2,7 +2,8 @@
     <div>
         <table-component :data="tableData" :tableOption="option" ref="table"
                          @refreshTableData='refreshTableData'></table-component>
-        <pop @refresh="refresh" @update="update" ref="pop" :customer="customer" :contractsID="contractsID" :popType="popType"></pop>
+        <pop @refresh="refresh" @update="update" ref="pop" :customer="customer" :contractsID="contractsID"
+             :popType="popType"></pop>
     </div>
 </template>
 <script>
@@ -30,7 +31,12 @@
                             // render_text: _=>this.caseMap.get(Number.parseInt(_)),
                         },
                         {type: 'text', prop: 'type', label: '合同类型'},
-                        {type: 'text', prop: 'status', label: '状态'},
+                        {
+                            type: 'text', prop: 'is_effective', label: '状态', render: (h, item) => {
+                                item = item === 1 ? "生效中" : "已失效";
+                                return h("span", item);
+                            }
+                        },
                         {type: 'text', prop: 'signing_date', label: '签订日期'},
                         {type: 'text', prop: 'expire_date', label: '届满日期'},
                         {type: 'text', prop: 'accessory', label: '附件'},
@@ -52,7 +58,7 @@
                 },
                 popType: "add",
                 tableData: [],
-                contractsID:null,
+                contractsID: null,
             };
         },
         computed: {
