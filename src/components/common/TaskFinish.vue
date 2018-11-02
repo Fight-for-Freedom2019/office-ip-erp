@@ -62,7 +62,7 @@
         <app-form :source="sourceForm" :rules="appFormRules" @formData="handleForm" ref="appForm">
             <el-form-item label='审核意见' v-if="is_review">
               <app-radio
-                v-model="point" 
+                v-model="review_opinion" 
                 v-for="item in checkArr"
                 :value="item.value"
                 :key="item.value"
@@ -101,7 +101,7 @@ import {mapGetters} from 'vuex'
 const URL = `/tasks`;
 const pointMap = new Map([
   ['pass', {value: 'pass', label: '通过'}],
-  ['amend', {value: 'amend', label: '退回'}],
+  ['amend', {value: 'amend', label: '退回修改'}],
   ['reject', {value: 'reject', label: '拒绝'}],
 ]);
 export default {

@@ -3,16 +3,16 @@ const map = new Map([
 		components: 'remote_select',
 		type: 'user',
 		key: 'agent',
-		label: '',
-		placeholder: '',
 		rules:{ type: 'number', required: true, message: '代理人不能为空', trigger: 'change'},
 	}],	
 	['remark',{
 		components: 'input',
 		type: 'textarea',
 		key: 'remark',
-		label: '',
-		placeholder: '',
 	}],
+	['upload',{
+		components: 'upload',
+		key: 'attachments'
+	}]
 ]);
 export { map };
