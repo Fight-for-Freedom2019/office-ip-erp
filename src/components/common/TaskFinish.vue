@@ -195,8 +195,8 @@ export default {
         if(_) {
           this.btn_disabled = true;
           const url = `${URL}/${this.taskId}/nexttask`;
-          const data = Object.assign({}, {'review_opinion': this.review_opinion}, this.form);
-
+          const reviewObj= this.is_review ? {'review_opinion': this.review_opinion} : {};
+          const data = Object.assign({}, reviewObj , this.form);
           const success = ()=>{ 
             this.$message({type: 'success', message: '完成任务成功'});
             this.refreshUser();          
@@ -250,13 +250,14 @@ export default {
     },
   },
   watch: {
-    row() {
+    row(val) {
       this.refreshDetail();
+      this.refreshProcessDetail({id: val.id});
     },
-    id (val) {
-      // this.clear();
-      this.refreshProcessDetail({id: val});
-    },
+    // id (val) {
+    //   // this.clear();
+    //   this.refreshProcessDetail({id: val});
+    // },
     taskId () {
       this.refreshData(); 
     }
