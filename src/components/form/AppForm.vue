@@ -7,6 +7,7 @@
 					<static-select 
 						ref="static-select"
 						:type="item.type"
+						:multiple="item.multiple"
 						v-model="form[item.field_type]"
 						@input="handleInput"
 					>
@@ -17,6 +18,7 @@
 				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
 					<remote-select 
 						ref="remote-select"
+						:multiple="item.multiple"
 						v-model="form[item.field_type]"
 						@input="handleInput"
 						:type="item.type"
@@ -70,6 +72,16 @@
 					</el-slider>
 				</el-form-item>
 			</template>
+			<template v-else-if="item.components == 'upload'">
+				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
+					<upload 
+						ref="upload"
+						v-model="form[item.field_type]"
+						@input="handleInput"
+					>
+					</upload>
+				</el-form-item>
+			</template>
 		</template>
 		<slot name="app-button"></slot>
 	</el-form>
@@ -79,6 +91,7 @@ import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import JumpSelect from '@/components/form/JumpSelect'
 import AppSwitch from '@/components/form/AppSwitch'
+import Upload from '@/components/form/Upload'
 
 export default {
 	name: 'appForm',
@@ -124,8 +137,16 @@ export default {
 			this.$emit('formData',this.form);
 		},
 		initializeForm () {
-			this.allKeys.forEach(v =>{
-				this.$set(this.form, v, '');
+			let val = null;
+			this.source.forEach((_)=>{
+				if(_.components == 'remote_select' || _.components == 'static_select') {
+					val = _.multiple ? [] : '';
+				}else if (_.components == 'upload'){
+					val = [];
+				}else {
+					val = '';
+				}
+				this.$set(this.form, _.field_type, val);
 			});
 		},
 	},
@@ -137,7 +158,7 @@ export default {
 			this.initializeForm();
 		},
 	},
-	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch,}
+	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload, }
 }
 </script>
 <style lang="scss" scoped>
