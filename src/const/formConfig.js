@@ -1,7 +1,7 @@
 const map = new Map([
 	['agent',{
 		components: 'remote_select',
-		type: 'agent',
+		type: 'user',
 		key: 'agent',
 		label: '',
 		placeholder: '',

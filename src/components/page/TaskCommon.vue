@@ -601,7 +601,7 @@ export default {
       this.deleteId = this.$tool.splitObj(s,'id');
       const h = this.$createElement;      
       this.$msgbox({
-        title: '消息',
+        title: '删除确认',
         message: h('message-content', {
           ref: 'messageContent'
         }),
