@@ -6,8 +6,8 @@
       <el-form-item label="相关案件" prop="project_id" v-if="type == 'add' && form.case_type != ''">
         <remote-select :type="projectType" v-model="form.project_id" ref="project"></remote-select>
       </el-form-item>  
-      <el-form-item label="绑定流程" prop="process_flow" v-if="form.project_id != ''">
-        <el-select v-model="form.process_flow" placeholder="请选择绑定流程" @visible-change.once="initFlows">
+      <el-form-item label="绑定流程" prop="process_flow_id" v-if="form.project_id != ''">
+        <el-select v-model="form.process_flow_id" placeholder="请选择绑定流程" @visible-change.once="initFlows">
           <el-option
             v-for="item in flowOptions"
             :key="item.id"
@@ -17,8 +17,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="事件名称" prop="process_definition" v-if="form.project_id != ''">
-        <el-select v-model="form.process_definition" placeholder="请选择事件名称">
+      <el-form-item label="事件名称" prop="process_definition_id" v-if="form.project_id != ''">
+        <el-select v-model="form.process_definition_id" placeholder="请选择事件名称">
           <el-option
             v-for="item in defOptions"
             :key="item.id"
@@ -28,8 +28,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="开始节点" prop="process_action" v-if="form.project_id != ''">
-        <el-select v-model="form.process_action" placeholder="请选择开始">
+      <el-form-item label="开始节点" prop="process_action_id" v-if="form.project_id != ''">
+        <el-select v-model="form.process_action_id" placeholder="请选择开始">
           <el-option
             v-for="item in actionOptions"
             :key="item.id"
@@ -42,29 +42,29 @@
       <el-row>
         <el-col :span="8" v-if="form.project_id != ''">
           <el-form-item  label="承办人" prop="user">
-            <remote-select type="user" v-model="form.user"></remote-select>
+            <remote-select type="user" v-model="form.user_id"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item  label="代理人" prop="agent">
-            <remote-select type="user" v-model="form.agent"></remote-select>
+            <remote-select type="user" v-model="form.agent_id"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item  label="代理人助理" prop="assistant">
-            <remote-select type="user" v-model="form.assistant"></remote-select>
+            <remote-select type="user" v-model="form.assistant_id"></remote-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <el-form-item  label="初审人" prop="first_reviewer">
-            <remote-select type="user" v-model="form.first_reviewer"></remote-select>
+            <remote-select type="user" v-model="form.first_reviewer_id"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item  label="复审人" prop="final_reviewer">
-            <remote-select type="user" v-model="form.final_reviewer"></remote-select>
+            <remote-select type="user" v-model="form.final_reviewer_id"></remote-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -264,8 +264,8 @@ export default {
       console.log(this.row);
       if(this.type == 'edit') {
         this.$tool.coverObj(this.form,this.row,{
-          obj: ['process_flow','process_definition','process_action','user','agent','assistant','first_reviewer',
-          'final_reviewer','attachments'],
+          obj: ['process_flow_id','process_definition_id','process_actiond_id','user_id','agent_id','assistant_id','first_reviewer_id',
+          'final_reviewer_id','attachments'],
           date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline','internal_reviewing_times','internal_drafting_period',
           'internal_amending_period','internal_final_edition_time','customer_amending_period','customer_reviewing_period','customer_edition_time','filing_time','customer_first_edition_period','customer_final_edition_time'],
           skip: ['remark','internal_reviewing_times','customer_reviewing_times','technical_rank','communication_rank','claims_rank','spec_rank']
@@ -300,14 +300,14 @@ export default {
       form: {
         case_type: '',
         project_id: '',
-        process_definition: '',
-        process_flow: '',
-        process_action: '',
-        user: '',
-        agent: '',
-        assistant: '',
-        first_reviewer: '',
-        final_reviewer: '',
+        process_definition_id: '',
+        process_flow_id: '',
+        process_action_id: '',
+        user_id: '',
+        agent_id: '',
+        assistant_id: '',
+        first_reviewer_id: '',
+        final_reviewer_id: '',
         first_edition_deadline: '',
         filing_deadline: '',
         legal_deadline: '',
@@ -337,12 +337,12 @@ export default {
       rules: {
         case_type: getRules('案件类型不能为空', 'number'),
         project_id: getRules('相关案件不能为空', 'number'),
-        process_definition: getRules('管制事项不能为空', 'number'),
-        process_flow: getRules('流程不能为空', 'number'),
-        process_action: getRules('开始节点不能为空', 'number'),
-        user: getRules('承办人不能为空', 'number'),
-        agent: getRules('代理人不能为空', 'number'),
-        first_reviewer: getRules('初审人不能为空', 'number'),
+        process_definition_id: getRules('管制事项不能为空', 'number'),
+        process_flowd_id: getRules('流程不能为空', 'number'),
+        process_actiond_id: getRules('开始节点不能为空', 'number'),
+        user_id: getRules('承办人不能为空', 'number'),
+        agent_id: getRules('代理人不能为空', 'number'),
+        first_reviewer_id: getRules('初审人不能为空', 'number'),
         first_edition_deadline: getRules('初稿时间不能为空', 'date'),
         filing_deadline: getRules('递交期限不能为空', 'date'),
       }
@@ -357,7 +357,7 @@ export default {
       return this.$store.getters.flowsData;
     },
     flowOptions () {
-      this.form.process_flow = '';
+      this.form.process_flow_id = '';
       if( this.flowsData == undefined) {
         return [];
       }else {
@@ -366,9 +366,9 @@ export default {
     },
     defOptions () {
       let arr =[];
-      this.form.process_definition = '';
-      const f = this.form.process_flow;
-      if( !this.flowsData && !this.form.process_flow ) {
+      this.form.process_definition_id = '';
+      const f = this.form.process_flow_id;
+      if( !this.flowsData && !this.form.process_flow_id ) {
         return [];
       }else {
        for (let i = 0; i < this.flowsData.length; i++) {
@@ -382,9 +382,9 @@ export default {
     },
     actionOptions () {
      let arr =[];
-     this.form.process_action = '';
-      const f = this.form.process_flow;
-      if( !this.flowsData && !this.form.process_flow ) {
+     this.form.process_action_id = '';
+      const f = this.form.process_flow_id;
+      if( !this.flowsData && !this.form.process_flow_id ) {
         return [];
       }else {
        for (let i = 0; i < this.flowsData.length; i++) {
@@ -398,7 +398,7 @@ export default {
     },
   },
   watch: {
-    'form.process_flow': {
+    'form.process_flow_id': {
       handler(val) {
         console.log(val);
         console.log(this.defOptions)
