@@ -180,13 +180,27 @@ const router = new Router({
       meta: { 
         params: { is_review_action: 0 }, 
       },
-    },
+    },   
     {
-      path: '/task/review',
-      name: 'TaskReview',
+      path: '/task/review/send',
+      name: 'TaskReviewSend',
       component: TaskCommon,
       meta: {
-        params: { is_review_action: 1 },
+        params: { 
+          is_review_action: 1,
+          is_sender: 1,
+        },
+      },
+    },    
+    {
+      path: '/task/review/check',
+      name: 'TaskReviewCheck',
+      component: TaskCommon,
+      meta: {
+        params: { 
+          is_review_action: 1,
+          is_sender: 0,
+        },
       },
     },
     {

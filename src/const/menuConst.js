@@ -4,7 +4,10 @@ const menu = {};
 
 const taskMenu = [
 	{ type: 'item', text: '我的待办', path: '/task/pending', icon: 'iconfont el-icon-my-task'},
-	{ type: 'item', text: '我的审核', path: '/task/review', icon: 'iconfont el-icon-my-task'},
+	{ type: 'submenu', text: '我的审核', path: '/task/review', icon: 'iconfont el-icon-my-task', children:[
+		{ type: 'item', text: '我发送的', path: '/task/review/send', icon: ''},
+		{ type: 'item', text: '待我审核', path: '/task/review/check', icon: ''},
+	]},
 	{ type: 'submenu', text: '期限管控', path: '/task/monitor', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '新申请', path: '/task/monitor/application', icon: '' },
 		{ type: 'item', text: '法限案件', path: '/task/monitor/oa', icon: '' },
