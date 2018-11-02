@@ -41,29 +41,29 @@
       </el-form-item> 
       <el-row>
         <el-col :span="8" v-if="form.project_id != ''">
-          <el-form-item  label="承办人" prop="user">
+          <el-form-item  label="承办人" prop="user_id">
             <remote-select type="user" v-model="form.user_id"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item  label="代理人" prop="agent">
+          <el-form-item  label="代理人" prop="agent_id">
             <remote-select type="user" v-model="form.agent_id"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item  label="代理人助理" prop="assistant">
+          <el-form-item  label="代理人助理" prop="assistant_id">
             <remote-select type="user" v-model="form.assistant_id"></remote-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item  label="初审人" prop="first_reviewer">
+          <el-form-item  label="初审人" prop="first_reviewer_id">
             <remote-select type="user" v-model="form.first_reviewer_id"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item  label="复审人" prop="final_reviewer">
+          <el-form-item  label="复审人" prop="final_reviewer_id">
             <remote-select type="user" v-model="form.final_reviewer_id"></remote-select>
           </el-form-item>
         </el-col>
@@ -338,8 +338,8 @@ export default {
         case_type: getRules('案件类型不能为空', 'number'),
         project_id: getRules('相关案件不能为空', 'number'),
         process_definition_id: getRules('管制事项不能为空', 'number'),
-        process_flowd_id: getRules('流程不能为空', 'number'),
-        process_actiond_id: getRules('开始节点不能为空', 'number'),
+        process_flow_id: getRules('流程不能为空', 'number'),
+        process_action_id: getRules('开始节点不能为空', 'number'),
         user_id: getRules('承办人不能为空', 'number'),
         agent_id: getRules('代理人不能为空', 'number'),
         first_reviewer_id: getRules('初审人不能为空', 'number'),
