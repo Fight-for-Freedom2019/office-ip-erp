@@ -162,7 +162,7 @@
         </el-tab-pane> -->
         <el-tab-pane label="相关任务" name="relative_tasks"> 
           <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">           
-            <detail :row="currentRow" style="margin: 10px 0;" @refreshSiblings="handleSiblings"></detail> 
+            <detail :row="currentRow" style="margin: 10px 0;" @refreshSiblings="handleSiblings" ref="taskDetail"></detail> 
           </div>           
         </el-tab-pane>
         <el-tab-pane label="延期历史" name="delay">
@@ -780,6 +780,7 @@ export default {
     finishSuccess (data) {
       this.dialogShrinkVisible = false;
       this.refresh();
+      this.$refs.taskDetail.refreshData();
       // if(data.is_send_mail) {
       //   this.mailVisible = true;
       //   this.$nextTick( () => {
