@@ -342,12 +342,9 @@ export default {
         process_action: getRules('开始节点不能为空', 'number'),
         user: getRules('承办人不能为空', 'number'),
         agent: getRules('代理人不能为空', 'number'),
-        assistant: getRules('代理人助理不能为空', 'number'),
         first_reviewer: getRules('初审人不能为空', 'number'),
-        final_reviewer: getRules('复审人不能为空', 'number'),
         first_edition_deadline: getRules('初稿时间不能为空', 'date'),
         filing_deadline: getRules('递交期限不能为空', 'date'),
-        legal_deadline: getRules('官方绝限不能为空', 'date'),
       }
   	}
   },
