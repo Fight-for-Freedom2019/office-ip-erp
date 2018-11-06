@@ -47,7 +47,15 @@
                         {type: 'text', label: '姓名', prop: 'name', width: '150'},
                         {type: 'text', label: '尊称', prop: 'title', width: '150'},
                         {type: 'text', label: '所属客户', prop: 'customer.name', width: '150'},
-                        {type: 'text', label: '类型', prop: 'contact_type', width: '100'},
+                        {type: 'text', label: '类型', prop: 'contact_type', width: '100', render: (h, item) => {
+                                let options = map.get("contacts_type").options;
+                                let name = "";
+                                options.map(function (o) {
+                                    o.id === item ? name = o.name:"";
+                                });
+                                return h("span",name);
+                            }
+                        },
                         {type: 'text', label: '邮件地址', prop: 'email_address', width: '145'},
                         {type: 'text', label: '电话号码', prop: 'phone_number'},
                         {type: 'text', label: '地址', prop: 'address', width: '240'},

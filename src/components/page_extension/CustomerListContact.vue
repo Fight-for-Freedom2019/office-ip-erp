@@ -8,8 +8,10 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import Pop from '@/components/form/LinkmanPop'
+    import Config from '@/const/selectConfig'
     import {mapGetters} from 'vuex'
 
+    const config = new Map(Config);
     const URL = '/customers';
     export default {
         name: 'ClientlistLinkman',
@@ -25,7 +27,16 @@
                     ],
                     columns: [
                         {type: 'text', label: '姓名', prop: 'name', sortable: true, width: '150'},
-                        {type: 'text', label: '类型', prop: 'contact_type', width: '240'},
+                        {
+                            type: 'text', label: '类型', prop: 'contact_type', width: '240', render: (h, item) => {
+                                let options = config.get("contacts_type").options;
+                                let name = "";
+                                options.map(function (o) {
+                                    o.id === item? name = o.name :"";
+                                });
+                                return h("span",name);
+                            }
+                        },
                         {type: 'text', label: '邮箱', prop: 'email_address', width: '145'},
                         {type: 'text', label: '电话', prop: 'phone_number'},
                         {type: 'text', label: '证件号码', prop: 'identity', width: '123'},
@@ -48,7 +59,7 @@
                     height: "customerList",
                 },
                 tableData: [],
-                contact_id:null,
+                contact_id: null,
             };
         },
         computed: {
@@ -58,7 +69,7 @@
         },
         methods: {
             addPop() {
-                this.$refs.pop.show("add",{});
+                this.$refs.pop.show("add", {});
             },
             refreshTableData(option) {
                 const success = _ => {
@@ -79,7 +90,7 @@
             editPop(row) {
                 this.contact_id = row.id;
                 let copy = this.$tool.deepCopy(row);
-                !Number.isNaN(copy.is_publish_name)?copy.is_publish_name === "是"?copy.is_publish_name = 1 :copy.is_publish_name = 0 : "";
+                !Number.isNaN(copy.is_publish_name) ? copy.is_publish_name === "是" ? copy.is_publish_name = 1 : copy.is_publish_name = 0 : "";
                 this.$refs.pop.show('edit', copy);
             },
             clientDelete(row) {

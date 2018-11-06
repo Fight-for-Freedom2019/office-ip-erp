@@ -42,19 +42,19 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="付款时间" prop="payment_time">
-                        <el-date-picker type="date" placeholder="请选择时间" v-model="form.payment_time"></el-date-picker>
+                        <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" v-model="form.payment_time"></el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="最后期限" prop="deadline">
-                        <el-date-picker type="date" placeholder="请选择时间" v-model="form.deadline"></el-date-picker>
+                        <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" v-model="form.deadline"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="官方绝限" prop="due_time">
-                        <el-date-picker type="date" placeholder="请选择时间" v-model="form.due_time"></el-date-picker>
+                        <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" v-model="form.due_time"></el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
