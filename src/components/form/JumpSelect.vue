@@ -86,9 +86,9 @@ const map = new Map([
 	}],
   ['bill', {
     URL: '/invoices',
-    DATA_KEY: 'invoices',
+    DATA_KEY: 'invoice',
     PLACEHOLDER: '请输入请款单关键词',
-    PARAMS: { debit: 1 },
+    PARAMS: { is_debit: 1 },
   }],
   ['pay', {
     URL: '/api/invoices',
@@ -230,7 +230,13 @@ export default {
       const url = this.URL;
       const data = os ? Object.assign({}, s, os) : s;
       const success = d=>{
-        const list = d[key]['data'];
+        // const list = d[key]?data[key]:data[key]['data'];    // 不知道为啥又改了
+          let list = [];
+          if(d[key] instanceof Array){
+              list = d[key];
+          }else {
+              list = d[key]['data'];
+          }
         if(!list) return this.options = [];
         if(list[0] && list[0]['label'] && list[0]['value'] ) {
           list.forEach(_=>{

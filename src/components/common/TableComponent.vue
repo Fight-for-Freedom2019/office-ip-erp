@@ -37,16 +37,18 @@
         </template>
         <!-- 下拉列表配置 -->
         <template v-else-if="btn.type == 'dropdown'">
-          <el-dropdown trigger="click" menu-align="start">
+          <el-dropdown trigger="click" placement="bottom-start" @visible-change="handleDropdown(btn.click,$event)">
             <el-button class="table-header-btn"  size="small" type="primary" :icon="btn.icon ? btn.icon : ''">
-              {{ btn.label }}<i class="el-icon-caret-bottom el-icon--right"></i>            
+              {{ btn.label }}<i class="el-icon-caret-bottom el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu v-if="btn.items">
-              <el-dropdown-item v-for="(item,index) in btn.items" :key="index" :divided="item.divided">
-                <div @click="handleDelete(item.click, $event)" style="margin: 0 -20px; padding: 0 20px;" v-if="item.type == 'delete'">删除</div>
-                <div @click="handleCommand(item.click, $event)" style="margin: 0 -20px; padding: 0 20px; font-size: 14px; line-height: 28px;" v-else><i v-if="!!item.icon" :class="`el-icon-${item.icon}`" style="margin-right: 5px; font-size: 12px; color: #8492A6;"></i>{{ item.text }}</div>
-              </el-dropdown-item>
-            </el-dropdown-menu>
+            <template v-if="btn.items">
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="(item,index) in btn.items" :key="index" :divided="item.divided">
+                  <div @click="handleDelete(item.click, $event)" style="margin: 0 -20px; padding: 0 20px;" v-if="item.type == 'delete'">删除</div>
+                  <div @click="handleCommand(item.click, $event)" style="margin: 0 -20px; padding: 0 20px; font-size: 14px; line-height: 28px;" v-else><i v-if="!!item.icon" :class="`el-icon-${item.icon}`" style="margin-right: 5px; font-size: 12px; color: #8492A6;"></i>{{ item.text }}</div>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
         </template>
 
@@ -162,7 +164,14 @@
         </app-table>
       </template>
     </div>
-    
+      <div class="table-footer" v-if="tableOption.is_footer === undefined ? false : tableOption.is_footer">
+          <template v-for="btn in tableOption.footer_btn">
+              <template v-if="btn.type == 'verify'">
+                  <el-button class="table-header-btn" size="medium" type="primary" @click="handleVerify(btn.click, $event, btn.callback)">{{ btn.label ? btn.label : '确定' }}</el-button>
+              </template>
+          </template>
+      </div>
+
     <!--v-if="totalNumber > pageSize"-->
     <el-pagination
       v-if="tableOption.is_pagination == undefined ? true : tableOption.is_pagination"
@@ -462,7 +471,7 @@ export default {
       for(let c of cols) {
         let show = c.show == undefined ? true : c.show;
         let show_option = c.show_option !== undefined ? c.show_option : true;
-        if(show_option && (c.type == 'text' || c.type == 'array') ) {
+        if(show_option && (c.type == 'text' || c.type == 'array' || c.type == 'text-btn') ) {
           const item = { key: c.prop, value: c.prop, label: c.label };
           if(show) {
             control[1].push(item);
@@ -619,6 +628,14 @@ export default {
       this.dialogUpdateVisible = false;
       this.update();
     },
+      handleVerify(func, e, callback){
+          if(func) {
+              func(e)
+          }else {
+              const s = this.getSelect(true);
+              this.$emit("getRowData",s);
+          }
+      },
     handleDelete (func, e, callback) {
       if(func) {
         func(e)
@@ -650,6 +667,12 @@ export default {
       if(func) {
         func(event);
       }
+    },
+
+    handleDropdown(func,event){
+        if(func) {
+            func(event);
+        }
     },
     
     arrayRender (row, col) {
@@ -731,7 +754,7 @@ export default {
       this.$emit('refreshTableData', Object.assign({}, this.getRequestOption(), this.filterForm ) );
     },
     search (val) {
-      this.page = 1;     // TODO 在修改table数据后保持当前页码,可能有问题
+      this.page = 1;
       this.search_value = val;
       this.update();
     },
@@ -858,6 +881,11 @@ export default {
 .table-header {
   margin-bottom: 10px;
   display: flex;
+}
+.table-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
 }
 .table-header-left {
   flex: 1;

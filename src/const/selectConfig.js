@@ -22,7 +22,15 @@ const config = [
         { name: '全额预付费', id: 2 },
         { name: '部分预付费', id: 3 },
       ]
-  }],    
+  }],
+  ['fee_status',{
+    placeholder: '请选择费用状态',
+    options: [
+        { name: '待请款', id: 1 },
+        { name: '已请款', id: 2 },
+        { name: '已回款', id: 5 },
+    ]
+  }],
   ['date_filter_relate',{
     placeholder: '请选择日期筛选',
     options: [

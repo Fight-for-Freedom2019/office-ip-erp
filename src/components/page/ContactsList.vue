@@ -94,7 +94,6 @@
                 this.$refs.contactsAdd.save(this.formType);
             },
             refreshTableData(option) {
-                console.log("没有到这");
                 const url = URL;
                 const data = Object.assign({}, option);
                 const success = _ => {

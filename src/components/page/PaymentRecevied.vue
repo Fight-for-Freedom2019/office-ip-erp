@@ -1,14 +1,14 @@
 <!-- 回款管理 -->
 <template>
     <div class="PaymentRecevied">
-        <table-component :tableOption="tableOption" :data="tableData" ref="table"
+        <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" @click="save">保存</el-button>
-                <el-button type="danger" size="small">删除</el-button>
+                <el-button type="primary" size="small" v-if="compileType === 'edit'" @click="save('edit')">保存</el-button>
+                <el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>
             </span>
-            <payment-recevied-detail ref="detail" :rowData="row"></payment-recevied-detail>
+            <payment-recevied-detail ref="detail" @update="update" @refresh="refresh" :rowData="rowData"></payment-recevied-detail>
         </app-shrink>
     </div>
 </template>
@@ -27,7 +27,7 @@
                 tableData: [],
                 tableOption: {
                     'name': 'PaymentReceviedList',
-                    'url': "",
+                    'url': "/received_payments",
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
@@ -43,7 +43,7 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer.name', width: '178'},
+                        {type: 'text', label: '客户', prop: 'invoice.customer.name', width: '178'},
                         {type: 'text', label: '请款单号', prop: 'invoice.serial', width: '150'},
                         {type: 'text', label: '回款账户', prop: 'payment_account.name', width: '150'},
                         {type: 'text', label: '回款时间', prop: 'received_date', width: '120'},
@@ -53,12 +53,14 @@
                 },
                 isPanelVisible: false,
                 title: "新增",
-                row:{
+                compileType:"add",
+                rowData:{
                     invoices:{
                         name:'测试',
                         id:1
                     }
                 },
+                rowID:null,
             }
         },
         mounted(){
@@ -68,18 +70,31 @@
             refreshTableData(option) {
                 const url = URL;
                 const success = _ =>{
-                    console.log(_);
-                }
+                    this.tableData = _.data;
+                };
                 this.$axiosGet({url,option,success})
             },
+            update(){
+                this.$refs.table.update();
+            },
+            refresh(){
+                this.$refs.table.refresh();
+            },
             handleRowClick(row) {
-
+                this.isPanelVisible = true;
+                row.invoice.name = row.invoice.serial;
+                this.rowData = row;
+                this.compileType = "edit";
+                this.rowID = row.id;
+                this.title = "修改";
             },
             add() {
                 this.isPanelVisible = true;
+                this.compileType = "add";
+                this.title = "新增";
             },
-            save(){
-                this.$refs.detail.submitForm();
+            save(type){
+                this.$refs.detail.submitForm(type,this.rowID);
             },
         },
         components: {

@@ -66,6 +66,14 @@
 
     </template>
 
+      <template v-else-if="col.type == 'text-btn'">
+          <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+              <template slot-scope="scope">
+                  <el-button type="text" style="padding: 0;" @click="handleActionCommand(col.click, scope, $event)">{{scope.row[col.prop]}}</el-button>
+              </template>
+          </el-table-column>
+      </template>
+
     <template v-else-if="col.type == 'array'">
       <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
         <template slot-scope="scope">
@@ -340,7 +348,7 @@ export default {
     handleActionCommand (func, scope, event) {
       event.stopPropagation();
       if(func) {
-        func(scope.row, event);
+        func(scope.row, event ,scope.column);
       }
     },
     getDefaultValue (key) {
