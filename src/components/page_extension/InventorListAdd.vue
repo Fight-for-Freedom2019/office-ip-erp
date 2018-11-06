@@ -138,7 +138,7 @@
                         url: URL,
                         data,
                         success: () => {
-                            this.$message({type: "success", message: "添加申请人成功"});
+                            this.$message({type: "success", message: "添加成功"});
                             this.$emit("editSuccess");
                         }
                     });
@@ -151,7 +151,7 @@
                         url,
                         data,
                         success: () => {
-                            this.$message({type: "success", message: "编辑申请人成功"});
+                            this.$message({type: "success", message: "编辑成功"});
                             this.$emit("editSuccess");
                         }
                     });
