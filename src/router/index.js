@@ -7,6 +7,7 @@ const ContactsList             = () => import('@/components/page/ContactsList')
 const CustomerRemarks             = () => import('@/components/page/CustomerRemarks')
 const ContractsList             = () => import('@/components/page/ContractsList')
 const ApplicantList            = () => import('@/components/page/ApplicantList')
+const BillingInfo            = () => import('@/components/page/BillingInfo')
 const ProposalCommon           = () => import('@/components/page/ProposalCommon')
 const CheckProposal            = () => import('@/components/page/CheckProposal')
 const TaskCommon               = () => import('@/components/page/TaskCommon')
@@ -25,6 +26,9 @@ const WaitForPayment             = () => import('@/components/page/WaitForPaymen
 const PaymentManage             = () => import('@/components/page/PaymentManage')     //请款管理
 const InvoiceManage             = () => import('@/components/page/InvoiceManage')     //发票管理
 const PaymentRecevied             = () => import('@/components/page/PaymentRecevied')     //回款管理
+
+// CRM模块通知发文
+const ExpressManage             = () => import('@/components/page/ExpressManage')     //快递
 
 // const TrademarkNotice          = () => import('@/components/page/NoticeCommon')
 const TrademarkStatistics      = () => import('@/components/page/TrademarkStatistics')
@@ -137,6 +141,11 @@ const router = new Router({
       component: ContactsList
     },
     {
+      path: '/crm/data/bill_info',
+      name: 'BillingInfo',
+      component: BillingInfo
+    },
+    {
       path: '/crm/finance/payment_request',
       name: 'PaymentManage',
       component: PaymentManage
@@ -160,6 +169,11 @@ const router = new Router({
       path: '/crm/contracts',
       name: 'ContractsList',
       component: ContractsList
+    },
+    {
+      path: '/crm/notice/express',
+      name: 'ExpressManage',
+      component: ExpressManage
     },
     {
       path: '/setting/applicantList',

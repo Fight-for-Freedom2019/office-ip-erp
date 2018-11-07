@@ -56,6 +56,7 @@ const crmMenu = [
 		{ type: 'item', text: '联系人管理', path: '/crm/data/contacts', icon: 'iconfont icon-proposer'},
 		{ type: 'item', text: '客户备注', path: '/crm/data/remarks', icon: 'iconfont icon-contract'},
 		{ type: 'item', text: '合同管理', path: '/crm/contracts', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '开票信息', path: '/crm/data/bill_info', icon: 'iconfont icon-contract'},
 	] },
 	{ type: 'submenu', text: '账款管理', path: '/crm/finance', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '待请费用', path: '/crm/finance/fee', icon: 'iconfont icon-contract'},

@@ -604,6 +604,13 @@ const config = [
             {id: 2, name: '订单协议'}
         ]
   }],
+  ['target_type', {
+    placeholder: '主体类型',
+    options: [
+      {id: 1, name: '个人'},
+      {id: 2, name: '单位'}
+    ]
+  }],
 ];
 
 export default config;
