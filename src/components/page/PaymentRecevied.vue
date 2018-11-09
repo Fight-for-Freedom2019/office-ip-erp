@@ -54,12 +54,7 @@
                 isPanelVisible: false,
                 title: "新增",
                 compileType:"add",
-                rowData:{
-                    invoices:{
-                        name:'测试',
-                        id:1
-                    }
-                },
+                rowData:{},
                 rowID:null,
             }
         },
@@ -82,7 +77,6 @@
             },
             handleRowClick(row) {
                 this.isPanelVisible = true;
-                row.invoice.name = row.invoice.serial;
                 this.rowData = row;
                 this.compileType = "edit";
                 this.rowID = row.id;
@@ -92,6 +86,7 @@
                 this.isPanelVisible = true;
                 this.compileType = "add";
                 this.title = "新增";
+                this.$refs.detail?this.$refs.detail.clear():"";
             },
             save(type){
                 this.$refs.detail.submitForm(type,this.rowID);

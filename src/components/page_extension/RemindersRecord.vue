@@ -30,12 +30,14 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import StaticSelect from '@/components/form/StaticSelect'
+    import TableMixins from '@/mixins/table-mixins'
 
     export default {
         name: "RemindersRecord",
         props:{
             data:Array,
         },
+        mixins:[TableMixins],
         data() {
             return {
                 tableOption: {
@@ -46,7 +48,7 @@
                     'is_search': false,
                     // 'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'add',click:this.addRecord},
+                        {type: 'add',click:this.openVisible("dialogFormVisible")},
                     ],
                     'columns': [
                         // {type: 'selection'},
@@ -69,18 +71,9 @@
         methods: {
             refreshTableData(option) {
             },
-            addRecord(){
-                this.dialogFormVisible = true;
-            },
-            update(){
-                this.$refs.table.update();
-            },
-            refresh(){
-                this.$refs.table.refresh();
-            },
             save(){
                 const data = this.form;
-                const url = "";
+                const url = "/reminders";
                 const success = _ => {
                     this.$message({type:"success",messages:"添加成功!"});
                     this.update();
@@ -88,7 +81,7 @@
                 this.$axiosPost({url,data,success});
             },
             cancel() {
-                this.dialogFormVisible = false;
+                this.closeVisible("dialogFormVisible");
             },
         },
         components: {

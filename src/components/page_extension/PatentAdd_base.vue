@@ -103,7 +103,7 @@
         <el-input type="textarea" v-model="form.abstract" placeholder="请填写专利摘要" :rows="6" class="custom-textarea"></el-input>
       </el-form-item> -->
       <el-form-item label="附件" prop="attachments">
-          <upload action="/api/files" :data="uploadPara" @uploadSuccess="handleUploadSuccess" v-model="form.attachments" :file-list="attachments"></upload>
+          <upload action="/api/files"  @uploadSuccess="handleUploadSuccess" v-model="form.attachments" :file-list="attachments"></upload>
       </el-form-item>  
       <el-form-item label="备注">
           <el-input v-model="form.remark" type="textarea" placeholder="请填写备注信息"></el-input>

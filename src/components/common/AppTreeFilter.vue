@@ -17,7 +17,7 @@
 import StaticSelect from '@/components/form/StaticSelect'
 import { strainerConfig } from '@/const/fieldConfig' 
 const urlMap = new Map([
-  ['process',{ URL: '/process/filters' }],
+  ['process',{ URL: '/processes/filters' }],
 ]);
 export default {
   name: 'filterTree',

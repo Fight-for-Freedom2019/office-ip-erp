@@ -177,13 +177,13 @@
                     ],
                     english_name: [
                         {
-                            pattern: /^[a-zA-Z]+$/,
+                            pattern: /^[a-zA-Z][\.a-zA-Z\s]*?[a-zA-Z]+$/,
                             message: "英文名称应为英文字符",
                             trigger: "blur"
                         }
                     ],
                     english_address: {
-                        pattern: /^[a-zA-Z 0-9]+$/,
+                        pattern: /^[a-zA-Z][\.a-zA-Z\s,0-9]*?[a-zA-Z]+$/,
                         message: "英文地址为英文字母、数字和空格",
                         trigger: "blur"
                     },

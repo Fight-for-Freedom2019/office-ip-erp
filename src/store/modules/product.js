@@ -1,4 +1,4 @@
-let url = '/products';
+let url = '/productclassifies';
 const state = {
 	data: [],
 }
@@ -45,7 +45,7 @@ const actions = {
 			.then(response=>{
 				const d = response.data;
 				if(d.status){
-					commit('setProduct', d.products);
+					commit('setProduct', d.Products);
 					if (success) {success(d)};
 				}else {
 					// alert('请求产品分类数据失败');

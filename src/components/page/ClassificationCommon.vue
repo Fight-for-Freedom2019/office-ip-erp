@@ -92,13 +92,11 @@ export default {
     renderContent (h, {node, data}) {
       // console.log(data);
       return (
-          <span>
-            <span>
-            
-              <span>{node.label}</span>
+          <span style="flex: 1;display: flex;align-items: center;justify-content: space-between;">
+              <span>{node.label}
               <em style="color: #20a0ff; font-style: normal;"> ({ data.projects_count })</em>
-            </span>
-            <span style="float: right; margin-right: 20px">
+              </span>
+            <span style="margin-right: 20px;">
               <el-button size="mini" on-click={ () => this.addPop(data.id) }>新建</el-button>
               <el-button size="mini" on-click={ () => this.treeDelete(data.id) }>删除</el-button>
             </span>
@@ -122,7 +120,7 @@ export default {
     },
     add () {
       const url = this.url;
-      const data = Object.assign({}, this.pop_form, {parent: this.add_id});
+      const data = Object.assign({}, this.pop_form, {parent_id: this.add_id});
       const success = _=>{
         if(this.pageType == 'classification'){
 
@@ -233,7 +231,7 @@ export default {
     },
     url () {
       const t = this.pageType;
-      return t == 'classification' ? '/classifications' : '/products';
+      return t == 'classification' ? '/classifications' : '/productclassifies';
     },
     dialogTitle () {
       const t = this.pageType;
