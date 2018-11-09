@@ -105,7 +105,7 @@
                         url: URL,
                         data,
                         success: () => {
-                            this.$message({type: "success", message: "添加联系人成功"});
+                            this.$message({type: "success", message: "添加成功"});
                             this.$emit("refresh");
                         }
                     });
@@ -122,7 +122,7 @@
                         url,
                         data,
                         success: () => {
-                            this.$message({type: "success", message: "编辑联系人成功"});
+                            this.$message({type: "success", message: "编辑成功"});
                             this.$emit("update");
                         }
                     });

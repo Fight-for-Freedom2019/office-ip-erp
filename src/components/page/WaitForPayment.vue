@@ -1,26 +1,41 @@
 <!-- 待请费用 -->
 <template>
     <div class="WaitForPayment">
-        <table-component :tableOption="tableOption" :data="tableData" ref="table"
+        <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" size="small">保存</el-button>
-                <el-button type="danger" size="small">删除</el-button>
-                <el-button type="primary" size="small">提交审核</el-button>
-                <el-button type="primary" size="small">同意</el-button>
-                <el-button type="" size="small">退回修改</el-button>
+                <el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>
+                <el-button type="primary" size="small" v-if="compileType === 'edit'"
+                           @click="save('edit')">保存</el-button>
             </span>
-            <wait-for-payment-add :rowData="row"></wait-for-payment-add>
+            <wait-for-payment-add ref="waitForPayment" :rowData="row" @update="update"
+                                  @refresh="refresh"></wait-for-payment-add>
         </app-shrink>
+        <el-dialog :visible.sync="dialogCreateNewOrder" :modal="true" width="600px" size="mini" title="将费用新建为请款单">
+            <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
+                <span>从选取的费用创建一个新的付款单，用于批量追踪请款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
+            </div>
+            <el-button type="primary" @click="saveOrder('new')">确认新建</el-button>
+        </el-dialog>
+        <el-dialog :visible.sync="dialogAddToOrder" :modal="true" width="600px" size="mini" title="将费用新建为请款单">
+            <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
+                <span>从选取的费用创建一个新的付款单，用于批量追踪请款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
+            </div>
+            <jump-select style="margin-bottom: 10px;" type="bill" v-model="bill"></jump-select>
+            <el-button type="primary" @click="saveOrder('add')">确认添加</el-button>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
-    import PaymentRequestDetail from '@/components/page_extension/WaitForPaymentAdd'
-    import WaitForPaymentAdd from "../page_extension/WaitForPaymentAdd";
+    import WaitForPaymentAdd from '@/components/page_extension/WaitForPaymentAdd'
+    import JumpSelect from '@/components/form/JumpSelect'
+    import Config from "@/const/selectConfig"
+
+    const config = new Map(Config);
 
     const URL = '/fees';
     const DefaultParam = {
@@ -33,189 +48,7 @@
         name: "WaitForPayment",
         data() {
             return {
-                /*tableData: [
-                    {
-                        "id": 100,
-                        "amount": 233,
-                        "currency": "CN",
-                        "rmb_amount": 233,
-                        "deadline": "2018-10-26",
-                        "payment_time": null,
-                        "status": "待请款",
-                        "project_id": 1,
-                        "policy": "代缴代垫",
-                        "customer": {
-                            "id": 1,
-                            "name": "深圳市红坚果科技有限公司"
-                        },
-                        "project": {
-                            "id": 1,
-                            "serial": "ZQ0231",
-                            "area": "CN",
-                            "title": "测试案件",
-                            "application_number": "20181234567890",
-                            "application_date": "2018-08-17",
-                            "customer": {
-                                "id": 1,
-                                "name": "深圳市红坚果科技有限公司"
-                            }
-                        },
-                        "invoice": {
-                            "id": 1,
-                            "serial": "test",
-                            "deadline": "2018-10-24 14:58:09",
-                            "request_time": "2018-10-24 14:58:09",
-                            "payment_time": "2018-10-24 14:58:09",
-                            "remark": "测试帐单"
-                        },
-                        "user": null
-                    },
-                    {
-                        "id": 99,
-                        "amount": 233,
-                        "currency": "CN",
-                        "rmb_amount": 233,
-                        "deadline": "2018-10-26",
-                        "payment_time": null,
-                        "status": "待请款",
-                        "project_id": 1,
-                        "policy": "代缴代垫",
-                        "customer": {
-                            "id": 1,
-                            "name": "深圳市红坚果科技有限公司"
-                        },
-                        "project": {
-                            "id": 1,
-                            "serial": "ZQ0021",
-                            "area": "CN",
-                            "title": "测试案件",
-                            "application_number": "20181234567890",
-                            "application_date": "2018-08-17",
-                            "customer": {
-                                "id": 1,
-                                "name": "深圳市红坚果科技有限公司"
-                            }
-                        },
-                        "invoice": {
-                            "id": 1,
-                            "serial": "test",
-                            "deadline": "2018-10-24 14:58:09",
-                            "request_time": "2018-10-24 14:58:09",
-                            "payment_time": "2018-10-24 14:58:09",
-                            "remark": "测试帐单"
-                        },
-                        "user": null
-                    },
-                    {
-                        "id": 98,
-                        "amount": 233,
-                        "currency": "CN",
-                        "rmb_amount": 233,
-                        "deadline": "2018-10-26",
-                        "payment_time": null,
-                        "status": "待请款",
-                        "project_id": 1,
-                        "policy": "代缴代垫",
-                        "customer": {
-                            "id": 2,
-                            "name": "红坚果科技有限公司"
-                        },
-                        "project": {
-                            "id": 1,
-                            "serial": "ZQ0353",
-                            "area": "CN",
-                            "title": "测试案件",
-                            "application_number": "20181234567890",
-                            "application_date": "2018-08-17",
-                            "customer": {
-                                "id": 1,
-                                "name": "深圳市红坚果科技有限公司"
-                            }
-                        },
-                        "invoice": {
-                            "id": 1,
-                            "serial": "test",
-                            "deadline": "2018-10-24 14:58:09",
-                            "request_time": "2018-10-24 14:58:09",
-                            "payment_time": "2018-10-24 14:58:09",
-                            "remark": "测试帐单"
-                        },
-                        "user": null
-                    },
-                    {
-                        "id": 97,
-                        "amount": 233,
-                        "currency": "CN",
-                        "rmb_amount": 233,
-                        "deadline": "2018-10-26",
-                        "payment_time": null,
-                        "status": "待请款",
-                        "project_id": 1,
-                        "policy": "代缴代垫",
-                        "customer": {
-                            "id": 3,
-                            "name": "腾讯视频"
-                        },
-                        "project": {
-                            "id": 1,
-                            "serial": "ZQ0001",
-                            "area": "CN",
-                            "title": "测试案件",
-                            "application_number": "20181234567890",
-                            "application_date": "2018-08-17",
-                            "customer": {
-                                "id": 1,
-                                "name": "深圳市红坚果科技有限公司"
-                            }
-                        },
-                        "invoice": {
-                            "id": 1,
-                            "serial": "test",
-                            "deadline": "2018-10-24 14:58:09",
-                            "request_time": "2018-10-24 14:58:09",
-                            "payment_time": "2018-10-24 14:58:09",
-                            "remark": "测试帐单"
-                        },
-                        "user": null
-                    },
-                    {
-                        "id": 96,
-                        "amount": 233,
-                        "currency": "CN",
-                        "rmb_amount": 233,
-                        "deadline": "2018-10-26",
-                        "payment_time": null,
-                        "status": "待请款",
-                        "project_id": 1,
-                        "policy": "代缴代垫",
-                        "customer": {
-                            "id": 1,
-                            "name": "深圳市红坚果科技有限公司"
-                        },
-                        "project": {
-                            "id": 1,
-                            "serial": "ZQ0001",
-                            "area": "CN",
-                            "title": "测试案件",
-                            "application_number": "20181234567890",
-                            "application_date": "2018-08-17",
-                            "customer": {
-                                "id": 1,
-                                "name": "深圳市红坚果科技有限公司"
-                            }
-                        },
-                        "invoice": {
-                            "id": 1,
-                            "serial": "test",
-                            "deadline": "2018-10-24 14:58:09",
-                            "request_time": "2018-10-24 14:58:09",
-                            "payment_time": "2018-10-24 14:58:09",
-                            "remark": "测试帐单"
-                        },
-                        "user": null
-                    },
-                ],*/
-                tableData:[],
+                tableData: [],
                 tableOption: {
                     'name': 'WaitForPaymentList',
                     'url': "/fees",
@@ -224,11 +57,17 @@
                     'is_search': true,
                     'is_list_filter': true,
                     'list_type': 'serial',
-                    'is_merge': {KEY: "customer.id", COL: [0,1,3,6,7,17]},
+                    'is_merge': {KEY: "customer.id", COL: [1, 2, 3, 4, 5]},
                     'search_placeholder': '客户名称、联系人',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
                         {type: 'add', click: this.add},
+                        {
+                            type: 'dropdown', label: "请款单", click: this.getSelected, items: [
+                                {text: "创建新的请款单", click: this.createNewOrder, divided: false, icon: "plus"},
+                                {text: "将费用添加至现有的请款单内", click: this.addToOrder, divided: true, icon: "d-arrow-right"},
+                            ]
+                        },
                         {type: 'delete'},
                         {type: 'export'},
                         {type: 'control'},
@@ -236,12 +75,13 @@
                     'columns': [
                         {type: 'selection'},
                         {type: 'text', label: '客户', prop: 'customer.name', min_width: '178'},
-                        {type: 'text', label: '案号', prop: 'project.serial', width: '120'},
                         {type: 'text', label: '标题', prop: 'project.title', width: '150'},
-                        {type: 'text', label: '申请国家', prop: 'project.area', width: '180'},
-                        {type: 'text', label: '订单号', prop: 'order.serial', width: '120'},
                         {type: 'text', label: '申请号', prop: 'project.application_number', width: '150'},
                         {type: 'text', label: '申请日', prop: 'project.application_date', width: '100'},
+                        {type: 'text', label: '请款单号', prop: 'invoice.serial', width: '150'},
+                        {type: 'text', label: '案号', prop: 'project.serial', width: '120'},
+                        {type: 'text', label: '申请国家', prop: 'project.area', width: '180'},
+                        {type: 'text', label: '订单号', prop: 'order.serial', width: '120'},
                         {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '100'},
                         {type: 'text', label: '费用类型', prop: 'fee_code.fee_type', width: '100'},
                         {type: 'text', label: '金额', prop: 'amount', width: '100'},
@@ -249,51 +89,143 @@
                         {type: 'text', label: '汇率', prop: 'roe', width: '150'},
                         {type: 'text', label: '人民币', prop: 'rmb_amount', width: '150'},
                         {type: 'text', label: '费用期限', prop: 'deadline', width: '150'},
-                        {type: 'text', label: '费用状态', prop: 'status', width: '150'},
+                        {
+                            type: 'text', label: '费用状态', prop: 'status', width: '150', render: (h, item) => {
+                                let options = config.get("fee_status").options;
+                                let name = "";
+                                options.map(function (o) {
+                                    if (o.id === item) {
+                                        name = o.name;
+                                    }
+                                });
+                                return h("span", name);
+                            }
+                        },
                         {type: 'text', label: '请款时机', prop: 'payment_request_timing', width: '150'},
-                        {type: 'text', label: '请款单号', prop: 'invoice.serial', width: '150'},
-                        {type: 'text', label: '请款时间', prop: 'invoice.request_time', width: '150'},
+                        {type: 'text', label: '请款时间', prop: 'invoice.payment_time', width: '150'},
                         {type: 'text', label: '请款单状态', prop: 'invoice.status', width: '150'},
                         {type: 'text', label: '付款时间', prop: 'invoice.payment_time', width: '150'},
                         {type: 'text', label: '备注', prop: 'remark', width: '150'},
                     ],
                 },
+                compileType: "add",
                 isPanelVisible: false,
                 title: "",
                 row: null,
+                dialogCreateNewOrder: false,
+                dialogAddToOrder: false,
+                bill: {},
+                ids: [],
             }
         },
         methods: {
             add() {
                 this.isPanelVisible = true;
+                this.compileType = "add";
+                this.$refs.waitForPayment?this.$refs.waitForPayment.clear():"";
             },
             handleRowClick(row) {
-                console.log(row);
+                this.compileType = "edit";
+                row.fee_code_name = row.feecode?row.feecode.name:"";
                 this.row = row;
-                this.title = `订单编号: ${row.serial}`;
+                this.title = `订单编号: ${row.project.serial}`;
                 this.isPanelVisible = true;
             },
-            refreshTableData() {
+            refreshTableData(option) {
                 const success = _ => {
                     this.isPanelVisible = false;
-                    //this.tableData.push(_[API]['1']);
-                    //console.log("费用的tableData", this.tableData);
+                    this.tableData = _.data;
                 };
+                const data = Object.assign({}, option, DefaultParam);
                 this.$axiosGet({
                     url: URL,
-                    data: DefaultParam,
+                    data: data,
                     success,
                 })
             },
+            createNewOrder() {   // 创建新的请款单
+                if (this.ids.length !== 0) {
+                    console.log("createNewOrder", this.ids);
+                    this.dialogCreateNewOrder = true;
+                } else {
+                    this.$message({type: "warning", message: "请至少选择一项！"});
+                }
+            },
+            addToOrder() {   //将费用添加至现有的请款单内
+                if (this.ids.length !== 0) {
+                    this.dialogAddToOrder = true;
+                } else {
+                    this.$message({type: "warning", message: "请至少选择一项！"});
+                }
+            },
+            saveOrder(type) {
+                let url = "";
+                let data = "";
+                let message = "";
+                let dialog = "";
+                if (type === "new") {
+                    url = "/invoices";
+                    data = {
+                        is_debit: 1,
+                        fees: this.ids
+                    };
+                    message = "创建";
+                    dialog = "dialogCreateNewOrder";
+                } else {
+                    url = `/invoices/${this.bill}/fees`;
+                    data = {
+                        is_debit: 1,
+                        fees: this.ids
+                    };
+                    message = "添加";
+                    dialog = "dialogAddToOrder";
+                }
+                const success = _ => {
+                    this.$message({type: "success", message: `${message}成功!`});
+                    this.closeDialog(dialog);
+                };
+                const error = _ => {
+                    this.$message({type: "warning", message: `${_.info}`});
+                    this.closeDialog(dialog);
+                };
+                type === "new" ? this.$axiosPost({url, data, success, error}) : this.$axiosPut({
+                    url,
+                    data,
+                    success,
+                    error
+                })
+            },
+            closeDialog(name) {
+                this[name] = false;
+            },
+            getSelected(flag) {      // 获取选中行的id
+                let _this = this;
+                if (flag) {
+                    _this.ids = [];
+                    _this.$refs.table.getSelect(true).map(function (item) {
+                        _this.ids.push(item.id);
+                    });
+                }
+            },
+            save(type) {
+                this.$refs.waitForPayment.save(type, this.row?this.row.id:"");
+            },
+            update() {
+                this.$refs.table.update();
+            },
+            refresh() {
+                this.$refs.table.refresh();
+            },
         },
         mounted() {
-            this.refreshTableData();
+            this.refresh();
         },
         components: {
             WaitForPaymentAdd,
             TableComponent,
             AppShrink,
-            PaymentRequestDetail,
+            JumpSelect,
+            Config
         }
     }
 </script>

@@ -62,7 +62,7 @@ function axiosDelete({ url=URLDEFAULT, data=dd, success=_=>{successFunc(_, this)
   res
     .then(response=>{
       const d = response.data;
-      d.status ? success(d) : error(d);
+      d.status > 0 ? success(d) : error(d);
 
       complete(d);
     })
@@ -81,7 +81,7 @@ function axiosPost ({ url=URLDEFAULT, data=dd, success=_=>{successFunc(_, this)}
   res
     .then(response=>{
       const d = response.data;
-      d.status ? success(d) : error(d);
+      d.status > 0 ? success(d) : error(d);
 
       complete(d);
     })
@@ -100,7 +100,7 @@ function axiosPut ({ url=URLDEFAULT, data=dd, success=_=>{successFunc(_, this)},
   res
     .then(response=>{
       const d = response.data;
-      d.status ? success(d) : error(d);
+      d.status > 0 ? success(d) : error(d);
       
       complete(d);
     })

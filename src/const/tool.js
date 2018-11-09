@@ -79,13 +79,13 @@ export default {
 		for (let key in a1) {
 			const v = a2[key];
 
-			if(v === null || v === undefined || skipMap.get(key)) continue;
+			if(v === undefined || skipMap.get(key)) continue;
 
 			if( obj && typeof v == 'object' && objMap.get(key) ) {
 				if( Array.isArray(v) ) {
 					a1[key] = v.map(_=>_.id !== undefined ? _.id : '');
 				}else {
-					a1[key] = v.id !== undefined ? v.id : '';	
+					a1[key] = v?v.id !== undefined ? v.id : '':'';
 				}
 			}else if(date && dateMap.get(key)) {
 				a1[key] = v ? new Date(v) : v;

@@ -28,6 +28,7 @@
                 <el-col :span="12">
                     <el-form-item label="签订日期" prop="signing_date">
                         <el-date-picker
+                                value-format="yyyy-MM-dd"
                                 v-model="form.signing_date"
                                 type="date"
                                 placeholder="选择日期">
@@ -37,6 +38,7 @@
                 <el-col :span="12">
                     <el-form-item label="届满日期" prop="expire_date">
                         <el-date-picker
+                                value-format="yyyy-MM-dd"
                                 v-model="form.expire_date"
                                 type="date"
                                 placeholder="选择日期">

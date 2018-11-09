@@ -1,9 +1,9 @@
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-            <!-- <el-form-item label="所属客户" prop="customer">
+            <el-form-item label="所属客户" prop="customer">
                 <remote-select type="customer" v-model="form.customer"></remote-select>
-            </el-form-item> -->
+            </el-form-item>
 
             <el-form-item label="申请人名称" prop="name">
                 <el-input v-model="form.name" placeholder="请填写申请人名称（必填）"></el-input>
@@ -120,6 +120,7 @@
         data() {
             return {
                 form: {
+                    customer:"",
                     applicant_type: "",
                     name: "",
                     identity: "",
@@ -159,37 +160,54 @@
                         pattern: /^1[345678]\d{9}$/,
                         message: "手机号码或者座机号码格式错误",
                         trigger: "blur"
-                    }
+                    },
+                    english_name: [
+                        {
+                            pattern: /^[a-zA-Z][\.a-zA-Z\s]*?[a-zA-Z]+$/,
+                            message: "英文名称应为英文字符和空格",
+                            trigger: "blur"
+                        }
+                    ],
+                    english_address: {
+                        pattern: /^[a-zA-Z][\.a-zA-Z\s,0-9]*?[a-zA-Z]+$/,
+                        message: "英文地址为英文字符、数字和空格",
+                        trigger: "blur"
+                    },
                 }
             };
         },
         methods: {
-            async save(type) {
-                const data = this.submitForm();
-                data.type = data.applicant_type;
-                let response;
-                if (type === "add") {
-                    response = await this.$axiosPost({
-                        url: URL,
-                        data,
-                        success: () => {
-                            this.$message({type: "success", message: "添加申请人成功"});
-                            this.$emit("editSuccess");
+            save(type) {
+                this.$refs.form.validate((valid) => {
+                    if(valid){
+                        const data = this.submitForm();
+                        data.type = data.applicant_type;
+                        if (type === "add") {
+                            this.$axiosPost({
+                                url: URL,
+                                data,
+                                success: () => {
+                                    this.$message({type: "success", message: "添加申请人成功"});
+                                    this.$emit("editSuccess");
+                                }
+                            });
+                        } else {
+                            let url = "/applicants/" + this.applicant.id;
+                            data.id = this.applicant.id;
+                            this.$axiosPut({
+                                url,
+                                data,
+                                success: () => {
+                                    this.$message({type: "success", message: "编辑申请人成功"});
+                                    this.$emit("editSuccess");
+                                }
+                            });
                         }
-                    });
-                } else {
-                    let url = "/applicants/" + this.applicant.id;
-                    data.id = this.applicant.id;
-                    response = await this.$axiosPut({
-                        url,
-                        data,
-                        success: () => {
-                            this.$message({type: "success", message: "编辑申请人成功"});
-                            this.$emit("editSuccess");
-                        }
-                    });
-                }
-                return response;
+                    }else {
+                        this.$message({type: "warning", message: "请正确填写"});
+                    }
+                });
+
             },
             submitForm() {
                 const o = {};
@@ -212,22 +230,18 @@
                 if (val) {
                     this.$tool.coverObj(this.form, val);
                 }
+            },
+            clear(){
+                this.$refs.form.resetFields();
             }
         },
-        created() {
+        mounted() {
             this.coverObj(this.applicant);
         },
         watch: {
             applicant: function (val, oldVal) {
                 this.coverObj(val);
             },
-            type: function (val, oldVal) {
-                if (val === "add") {
-                    this.form = {}
-                } else {
-                    this.form = this.$tool.deepCopy(this.applicant);
-                }
-            }
         },
         components: {
             StaticSelect,

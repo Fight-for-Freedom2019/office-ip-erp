@@ -116,7 +116,6 @@
                 //} else {
                 //     this.$message({type: 'warning', message: '必选项不能为空！'});
                 //}
-                // TODO 需要确认必选项
 
             },
             getIsPublishName(val){

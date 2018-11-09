@@ -86,9 +86,9 @@ const map = new Map([
 	}],
   ['bill', {
     URL: '/invoices',
-    DATA_KEY: 'invoices',
+    DATA_KEY: 'invoice',
     PLACEHOLDER: '请输入请款单关键词',
-    PARAMS: { debit: 1 },
+    PARAMS: { is_debit: 1 },
   }],
   ['pay', {
     URL: '/api/invoices',
@@ -122,6 +122,16 @@ const map = new Map([
     URL: '/customers',
     DATA_KEY: 'data',
     PLACEHOLDER: '请选择客户',
+  }],
+  ['payment_accounts', {
+    URL: '/payment_accounts',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择回款账户',
+  }],
+  ['user', {
+    URL: '/users',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择人员',
   }],
 ]);
 
@@ -230,7 +240,13 @@ export default {
       const url = this.URL;
       const data = os ? Object.assign({}, s, os) : s;
       const success = d=>{
-        const list = d[key]['data'];
+        // const list = d[key]?data[key]:data[key]['data'];    // 不知道为啥又改了
+          let list = [];
+          if(d[key] instanceof Array){
+              list = d[key];
+          }else {
+              list = d[key]['data'];
+          }
         if(!list) return this.options = [];
         if(list[0] && list[0]['label'] && list[0]['value'] ) {
           list.forEach(_=>{
@@ -331,7 +347,7 @@ export default {
       //将单项统一处理为数组 single时保留原状
       if(!this.multiple && !this.single) {
         // console.log(this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]);
-        val = this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]; //空字符串 空对象处理
+        val = this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : !this.value?[]:[this.value]; //空字符串 空对象处理
       }else {
         val = this.value;
       }

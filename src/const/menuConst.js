@@ -12,7 +12,7 @@ const taskMenu = [
 		{ type: 'item', text: '新申请', path: '/task/monitor/application', icon: '' },
 		{ type: 'item', text: '法限案件', path: '/task/monitor/oa', icon: '' },
 	] },
-	
+
 ];
 
 const patentMenu = [
@@ -23,9 +23,9 @@ const patentMenu = [
 const trademarkMenu = [
 	{ type: 'item', text: '商标管理', path: '/trademark/list', icon: 'iconfont el-icon-my-trademark' },
 	{ type: 'item', text: '立案管理', path: '/trademark/draftbox', icon: 'iconfont el-icon-my-trademark' },
-	{ 
-		type: 'item', 
-		text: '通知书管理', 
+	{
+		type: 'item',
+		text: '通知书管理',
 		path: '/trademark/notice',
 		icon: 'iconfont el-icon-my-trademark',
 	},
@@ -34,9 +34,9 @@ const trademarkMenu = [
 const copyrightMenu = [
 	{ type: 'item', text: '版权管理', path: '/copyright/list', icon: 'iconfont el-icon-my-copyright' },
 	{ type: 'item', text: '版权立案', path: '/copyright/draftbox', icon: 'iconfont el-icon-my-copyright' },
-	{ 
-		type: 'item', 
-		text: '通知书管理', 
+	{
+		type: 'item',
+		text: '通知书管理',
 		path: '/copyright/notice',
 		icon: 'iconfont el-icon-my-copyright',
 	},
@@ -56,6 +56,7 @@ const crmMenu = [
 		{ type: 'item', text: '联系人管理', path: '/crm/data/contacts', icon: 'iconfont icon-proposer'},
 		{ type: 'item', text: '客户备注', path: '/crm/data/remarks', icon: 'iconfont icon-contract'},
 		{ type: 'item', text: '合同管理', path: '/crm/contracts', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '开票信息', path: '/crm/data/bill_info', icon: 'iconfont icon-contract'},
 	] },
 	{ type: 'submenu', text: '账款管理', path: '/crm/finance', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '待请费用', path: '/crm/finance/fee', icon: 'iconfont icon-contract'},
@@ -124,6 +125,11 @@ const settingMenu = [
 		icon: 'iconfont el-icon-my-set-copy',
 		type: 'item',
 	},
+	{ type: 'submenu', text: '基础设置', path: '/setting/basics', icon: 'iconfont el-icon-my-system',
+    children:[
+        {type: 'item', text: '收款账户', path: '/setting/basics/payment_account', icon: 'iconfont el-icon-my-system'}
+    ]
+    },
 	{ type: 'item', text: '系统设置', path: '/setting/system', icon: 'iconfont el-icon-my-system' },
 ];
 
@@ -242,10 +248,10 @@ menu.map = {
 	'/trademark/add': {text: '新建商标', icon: '', path: '/trademark/add'},
 	'/copyright/add': {text: '新建版权', icon: '', path: '/copyright/add'},
 
-	'/report/task/add': {text: '新建报表', icon: '', path: '/report/task/add'},	
-	'/report/proposal/add': {text: '新建报表', icon: '', path: '/report/proposal/add'},	
-	'/report/patent/add': {text: '新建报表', icon: '', path: '/report/patent/add'},	
-	'/report/trademark/add': {text: '新建报表', icon: '', path: '/report/trademark/add'},	
+	'/report/task/add': {text: '新建报表', icon: '', path: '/report/task/add'},
+	'/report/proposal/add': {text: '新建报表', icon: '', path: '/report/proposal/add'},
+	'/report/patent/add': {text: '新建报表', icon: '', path: '/report/patent/add'},
+	'/report/trademark/add': {text: '新建报表', icon: '', path: '/report/trademark/add'},
 	'/report/copyright/add': {text: '新建报表', icon: '', path: '/report/copyright/add'},
 	'/report/fee/add': {text: '新建报表', icon: '', path: '/report/fee/add'},
 	'/report/invoice/add': {text: '新建报表', icon: '', path: '/report/invoice/add'},
@@ -267,11 +273,11 @@ for(let k in menu.source) {
 	const item = menu.source[k];
 	const text = item["text"] ? item["text"] : '';
 	const icon = item["icon"] ? item["icon"] : '';
-	const path = item["path"]; 
+	const path = item["path"];
 	const parent = '/';
 	menu["map"][item["path"]] = { text, icon, path, parent };
 	if(item['menu'] && item['menu']['length'] != 0) {
-		tailRecursion(item['menu']);		
+		tailRecursion(item['menu']);
 	}
 }
 

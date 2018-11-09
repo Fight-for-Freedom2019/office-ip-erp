@@ -22,7 +22,8 @@
     import TableComponent from '@/components/common/TableComponent'
     import ApplicantListAdd from '@/components/page_extension/ApplicantListAdd'
     import AppShrink from '@/components/common/AppShrink'
-
+    import Config from '@/const/selectConfig'
+    const config = new Map(Config);
     const URL = '/applicants';
 
     export default {
@@ -54,7 +55,15 @@
                             prop: 'applicant_type',
                             sortable: true,
                             width: '200',
-                            render: this.renderApplicantType
+                            render_text:(item)=>{
+                                let name;
+                                config.get("applicant_type").options.map(function (o) {
+                                    if(o.id === item){
+                                        name = o.name;
+                                    }
+                                })
+                                return name
+                            }
                         },
                         {type: 'text', label: '证件号码', prop: 'identity', sortable: true, width: '240'},
                         {type: 'text', label: '邮编', prop: 'postcode', sortable: true, width: '145'},
@@ -100,14 +109,6 @@
                             width: '145',
                             render: (h, item) => h('span', item ? '是' : '否')
                         },
-                        // {
-                        // 	type: 'action',
-                        //   width: '150',
-                        // 	btns: [
-                        // 		{ type: 'edit', click: this.handleRowClick },
-                        // 		{ type: 'delete', click: this.applicantDelete },
-                        // 	]
-                        // }
                     ],
                 },
                 tableData: [],
@@ -129,8 +130,8 @@
             add() {
                 this.formType = 'add';
                 this.appPanelTitle = '新建申请人';
-                this.applicant = {};
                 this.isApplicantAddPanelVisible = true;
+                this.$refs.applicantAdd?this.$refs.applicantAdd.clear():"";
             },
             saveAdd() {
                 this.$refs.applicantAdd.save(this.formType);
@@ -143,42 +144,6 @@
                 copy.province_city = [copy.province_code - 0, copy.city_code + ""];
                 this.appPanelTitle = '编辑申请人>' + copy.name;
                 this.isApplicantAddPanelVisible = true;
-            },
-            // applicantDelete ({id, name} ) {
-            // 	console.log("这个删除的id",id)
-            // 	this.$confirm(`删除后不可恢复，确认删除‘${name}’？`, {type: 'warning'})
-            // 		.then(_=>{
-            // 			const url = `${URL}/${id}`;
-            // 			const success = _=>{
-            // 				this.$message({message: '删除申请人成功', type: 'success'});
-            // 				this.update();
-            // 			}
-            // 			this.axiosDelete({url, success});
-            // 		})
-            // 		.catch(_=>{});
-            // },
-            renderApplicantType(h, text, row) {
-                let str = "";
-                switch (row.applicant_type) {
-                    case 1:
-                        str = "大专院校"
-                        break;
-                    case 2:
-                        str = "科研单位"
-                        break;
-                    case 3:
-                        str = "工矿企业"
-                        break;
-                    case 4:
-                        str = "事业单位"
-                        break;
-                    case 5:
-                        str = "个人"
-                        break;
-                    default:
-                        break;
-                }
-                return h("span", str);
             },
             refreshTableData(option) {
                 const url = URL;

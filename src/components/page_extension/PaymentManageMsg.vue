@@ -5,11 +5,11 @@
             <el-row :gutter="20">
                 <el-col :span="6">
                     <el-form-item label="请款对象">
-                        <remote-select type="customer" v-model="form.creator_user"></remote-select>
+                        <span class="form-item-text">{{form.creator_user_name}}</span>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="创建人"><span class="form-item-text">{{form.creator_user.name}}</span>
+                    <el-form-item label="创建人"><span class="form-item-text">{{form.creator_user_name}}</span>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -17,7 +17,9 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="请款单状态"><span class="form-item-text">{{form.status}}</span>
+                    <el-form-item label="请款单状态">
+                        <static-select type="invoice_status" class="custom-input" v-model="form.status"></static-select>
+                        <!--<span class="form-item-text">{{form.status}}</span>-->
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -45,11 +47,13 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="回款期限"><span class="form-item-text">{{form.deadline}}</span>
+                    <el-form-item label="回款期限">
+                        <el-date-picker placeholder="请选择回款期限" class="custom-picker-input" type="datetime" value-format="yyyy-MM-dd HH-mm-ss" v-model="form.deadline"></el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="回款时间"><span class="form-item-text">{{form.payment_time}}</span>
+                        <!--<span class="form-item-text">{{form.payment_time}}</span>-->
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -57,29 +61,49 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item class="break-form" label="快递" prop="remark">
-                <el-input v-model="rowData.remark"></el-input>
+            <el-form-item class="break-form" label="快递" prop="express_id">
+                <up-load></up-load>
             </el-form-item>
             <el-form-item class="break-form" label="备注" prop="remark">
-                <el-input type="textarea" :rows="2" v-model="rowData.remark"></el-input>
+                <el-input type="textarea" :rows="2" v-model="form.remark"></el-input>
             </el-form-item>
             <el-form-item class="break-form" label="附件">
                 <up-load></up-load>
             </el-form-item>
         </el-form>
-        <payment-request-detail></payment-request-detail>
+        <div class="PaymentRequestDetail">
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane label="费用清单" name="first">
+                    <payment-cost-detail :data="costDetail"></payment-cost-detail>
+                </el-tab-pane>
+                <el-tab-pane label="跟催记录" name="reminders">
+                    <reminders-record :data="remindersData"></reminders-record>
+                </el-tab-pane>
+                <el-tab-pane label="回款记录" name="received_payments">
+                    <received-record ref="received" :id="id" :data="receivedData"></received-record>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
     </div>
 </template>
 
 <script>
     import RemoteSelect from "@/components/form/RemoteSelect";
+    import StaticSelect from "@/components/form/StaticSelect";
     import UpLoad from "@/components/form/Upload";
-    import PaymentRequestDetail from '@/components/page_extension/PaymentRequestDetail'
+    import PaymentCostDetail from '@/components/page_extension/PaymentCostDetail'
+    import RemindersRecord from '@/components/page_extension/RemindersRecord'
+    import ReceivedRecord from '@/components/page_extension/ReceivedRecord'
+
     export default {
         name: "PaymentRequestMsg",
-        data(){
+        data() {
             return {
-                form:{}
+                activeName: "first",
+                form: {},
+                costDetail: [],
+                remindersData: [],
+                receivedData: [],
             }
         },
         props: {
@@ -88,20 +112,92 @@
                 default() {
                     return {}
                 }
+            },
+            id: {
+                type: [String, Number],
+                default() {
+                    return ""
+                },
             }
         },
-        created(){
+        methods: {
+            handleClick(tab) {
+                if (tab.name === "received_payments") {
+                    this.$nextTick(function () {
+                        this.$refs.received.refreshData();
+                    })
+
+                }
+            },
+            submitAudit(id) {
+                this.$confirm('是否提交审核', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let url = `/inovices/${id}/submit`;
+                    const success = _ => {
+                        this.$message({type: "success", message: "操作成功"});
+                    };
+                    const error = _ => {
+                        this.$message({type: "success", message: "操作失败"});
+                    };
+                    this.$axiosPost({url, success, error});
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消操作'
+                    });
+                });
+            },
+            save(id) {
+                let data = {
+                    express_id: 1,
+                    remark: this.form.remark,
+                    status:this.form.status,
+                    deadline:this.form.deadline,
+                };  // TODO 参数为form表单中的快递信息、备注、附件
+                let url = `/invoices/${id}`;
+                const success = _ => {
+                    this.$message({type: "success", message: "操作成功!"});
+                    this.$emit("update");
+                };
+                this.$axiosPut({url, data, success});
+            },
+            getDetail(id) {
+                const url = `/invoices/${id}`;
+                const data = {
+                    page: 1,
+                    listRows: 20
+                };
+                const success = _ => {
+                    console.log("账单的详情", _);
+                    this.receivedData = _.data.data[0].received_payment;
+                    this.remindersData = _.data.data[0].reminder;
+                    this.costDetail = _.data.data[0].fee_list ? _.data.data[0].fee_list : [];
+                };
+                this.$axiosGet({url, data, success});
+            },
+        },
+        created() {
             this.form = this.$tool.deepCopy(this.rowData);
+            this.getDetail(this.id);
         },
-        watch:{
-            rowData:function (val,oldVal) {
-                this.$tool.coverObj(this.form,val);
+        watch: {
+            rowData: function (val, oldVal) {
+                this.$tool.coverObj(this.form, val);
+            },
+            id: function (val, oldVal) {
+                this.getDetail(val);
             }
         },
-        components:{
+        components: {
             RemoteSelect,
             UpLoad,
-            PaymentRequestDetail,
+            PaymentCostDetail,
+            RemindersRecord,
+            ReceivedRecord,
+            StaticSelect
         },
     }
 </script>
@@ -118,6 +214,7 @@
     .PaymentRequestMsg .el-form-item {
         height: 36px;
     }
+
     #app .form-information .break-form {
         margin-top: 22px;
         border-bottom: none;
@@ -128,9 +225,27 @@
         color: #606266;
     }
 
+    .PaymentRequestDetail {
+        margin-top: 10px;
+    }
+
 </style>
 <style>
     #app .PaymentRequestMsg .break-form textarea {
         height: auto;
+    }
+    .PaymentRequestMsg .custom-input .el-input__inner,.PaymentRequestMsg .custom-picker-input .el-input__inner{
+        height:28px;
+        line-height: 28px;
+        font-size: 12px;
+    }
+    .PaymentRequestMsg .custom-picker-input .el-input__inner {
+        padding: 0 14px;
+    }
+    .PaymentRequestMsg .custom-input .el-input__icon,.PaymentRequestMsg .custom-picker-input .el-input__icon{
+        line-height: 28px;
+    }
+    .PaymentRequestMsg .custom-picker-input .el-input__prefix {
+        display: none;
     }
 </style>

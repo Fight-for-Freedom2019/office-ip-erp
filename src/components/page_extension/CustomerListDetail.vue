@@ -13,22 +13,22 @@
                                   @refresh="handleRefresh"></customer-add>
                 </el-tab-pane>
                 <el-tab-pane label="申请人" name="applicants">
-                    <detail-applicant :customer="row" :itemData="appData"></detail-applicant>
+                    <detail-applicant ref="applicants" :customer="row" :itemData="appData"></detail-applicant>
                 </el-tab-pane>
                 <el-tab-pane label="发明人" name="inventors">
-                    <detail-inventor :customer="row" :itemData="inventorsData"></detail-inventor>
+                    <detail-inventor ref="inventors" :customer="row" :itemData="inventorsData"></detail-inventor>
                 </el-tab-pane>
                 <el-tab-pane label="联系人" name="contacts">
-                    <detail-contact :customer="row" :itemData="contactsData"></detail-contact>
+                    <detail-contact ref="contacts" :customer="row" :itemData="contactsData"></detail-contact>
                 </el-tab-pane>
                 <el-tab-pane label="合同" name="contracts">
-                    <detail-contract :customer="row" :itemData="contractsData"></detail-contract>
+                    <detail-contract ref="contracts" :customer="row" :itemData="contractsData"></detail-contract>
                 </el-tab-pane>
                 <!-- <el-tab-pane label="报价单" name="quotation">
                     <detail-quotation  :customer="row"></detail-quotation>
                 </el-tab-pane> -->
                 <el-tab-pane label="客户备注" name="remarks">
-                    <detail-remark :customer="row" :itemData="remarksData"></detail-remark>
+                    <detail-remark ref="remarks" :customer="row" :itemData="remarksData"></detail-remark>
                 </el-tab-pane>
             </el-tabs>
         </app-shrink>
@@ -126,31 +126,7 @@
             onTabPageClicked() {
                 this.$nextTick(_ => {		// 父组件传参改变数据之后执行，这样没有bug
                     if (this.activeName !== "base") {
-                        const url = `/customers/${this.row.id}/${this.activeName}`;
-                        const success = _ => {
-                            switch (this.activeName) {
-                                case "applicants":
-                                    this.appData = _.data;
-                                    break;
-                                case "inventors":
-                                    this.inventorsData = _.data;
-                                    break;
-                                case "contracts":
-                                    this.contractsData = _.data;
-                                    break;
-                                case "remarks":
-                                    this.remarksData = _.data;
-                                    break;
-                                case "contacts":
-                                    this.contactsData = _.data;
-                                    break;
-                            }
-                        };
-                        this.$axiosGet({
-                            url: url,
-                            data: {page:1,listRows:this.pagesize},      // 需要查询参数
-                            success
-                        });
+                        this.$refs[this.activeName].refresh();
                     }
                 });
             }

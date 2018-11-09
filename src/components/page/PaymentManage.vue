@@ -1,17 +1,18 @@
 <!-- 请款管理 -->
 <template>
     <div class="PaymentManage">
-        <table-component :tableOption="tableOption" :data="tableData" ref="table"
+        <table-component :tableOption="tableOption" :data="tableData" ref="table" @refresh="refresh" @update="update"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" size="small">保存</el-button>
-                <el-button type="danger" size="small">删除</el-button>
-                <el-button type="primary" size="small" v-if="bill_status === 'audit'">提交审核</el-button>
+                <el-button type="primary" size="small" @click="save">保存</el-button>
+                <el-button type="danger" size="small" @click="deleteBill">删除</el-button>
+                <el-button type="primary" size="small" v-if="bill_status === 'audit'"
+                           @click="submitAudit">提交审核</el-button>
                 <el-button type="primary" size="small" v-if="bill_status === 'remind'">邮件提醒</el-button>
                 <!--<el-button type="" size="small">退回修改</el-button>-->
             </span>
-            <payment-manage-msg :rowData = "row"></payment-manage-msg>
+            <payment-manage-msg ref="detail" :id="rowID" @update="update" :rowData="row"></payment-manage-msg>
         </app-shrink>
     </div>
 </template>
@@ -21,76 +22,16 @@
     import AppShrink from '@/components/common/AppShrink'
     import PaymentManageMsg from '@/components/page_extension/PaymentManageMsg'
 
+    const URL = "/invoices";
     export default {
         name: "PaymentManage",
         data() {
             return {
-                tableData: [
-                    {
-                        serial: "B18001",
-                        creator_user: {
-                            name: "lx",
-                            id:1
-                        },
-                        creation_time: "2018-10-29",
-                        user: {
-                            name: "lx"
-                        },
-                        amount: "20",
-                        currency: "￥",
-                        roe: "0.82",
-                        rmb_amount: "2000",
-                        request_time: "2018-11-03",
-                        deadline: "2018-11-20",
-                        payment_time: "2018-12-20",
-                        received_amount: "6000",
-                        confirmation_user: {
-                            name: "hongjianguo"
-                        },
-                        confirmation_time: "2018-12-01",
-                        status: 1,  // 1表示待审核
-                        is_voucher_uploaded: "是",
-                        express: {
-                            serial: "156478653213415",
-                            date: "2018-11-01",
-                        },
-                        remark: "已备注",
-                    },
-                    {
-                        serial: "C19021",
-                        creator_user: {
-                            id:2,
-                            name: "hongjianguo"
-                        },
-                        creation_time: "2018-10-29",
-                        user: {
-                            name: "hongjianguo"
-                        },
-                        amount: "20000",
-                        currency: "$",
-                        roe: "0.63",
-                        rmb_amount: "5000",
-                        request_time: "2018-11-03",
-                        deadline: "2018-11-20",
-                        payment_time: "2018-12-20",
-                        received_amount: "6000",
-                        confirmation_user: {
-                            name: "hongjianguo"
-                        },
-                        confirmation_time: "2018-12-01",
-                        status: 2,  //2 表示待回款
-                        is_voucher_uploaded: "是",
-                        express: {
-                            serial: "156478653213415",
-                            date: "2018-11-01",
-                        },
-                        remark: "已备注",
-                    }
-                ],
-                bill_status:"add",
+                tableData: [],
+                bill_status: "add",
                 tableOption: {
                     'name': 'PaymentManageList',
-                    'url': "",
+                    'url': URL,
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
@@ -106,7 +47,7 @@
                     'columns': [
                         {type: 'selection'},
                         {type: 'text', label: '请款单号', prop: 'serial', min_width: '178'},
-                        {type: 'text', label: '创建人', prop: 'creator_user.name', width: '120'},
+                        {type: 'text', label: '创建人', prop: 'user_name', width: '120'},
                         {type: 'text', label: '创建时间', prop: 'creation_time', width: '150'},
                         {type: 'text', label: '请款对象', prop: 'user.name', width: '180'},
                         {type: 'text', label: '金额', prop: 'amount', width: '120'},
@@ -117,36 +58,110 @@
                         {type: 'text', label: '回款期限', prop: 'deadline', width: '150'},
                         {type: 'text', label: '回款时间', prop: 'payment_time', width: '150'},
                         {type: 'text', label: '回款金额', prop: 'received_amount', width: '150'},
-                        {type: 'text', label: '回款确认用户', prop: 'confirmation_user.name', width: '150'},
+                        {type: 'text', label: '回款确认用户', prop: 'creator_user_name', width: '150'},
                         {type: 'text', label: '回款确认时间', prop: 'confirmation_time', width: '150'},
                         {type: 'text', label: '请款单状态', prop: 'status', width: '150'},
-                        {type: 'text', label: '票据已上传', prop: 'is_voucher_uploaded', width: '150'},
+                        {
+                            type: 'text',
+                            label: '票据已上传',
+                            prop: 'is_voucher_uploaded',
+                            width: '150',
+                            render: (h, item) => {
+                                return h("span", item ? "是" : "否")
+                            }
+                        },
                         {type: 'text', label: '快递单号', prop: 'express.serial', width: '150'},
                         {type: 'text', label: '寄件时间', prop: 'express.date', width: '150'},
                         {type: 'text', label: '备注', prop: 'remark', width: '150'},
                     ],
                 },
-                isPanelVisible:false,
-                title:"订单编号:B18001",
-                row:null,
+                isPanelVisible: false,
+                title: "",
+                row: null,
+                rowID: null,
+                is_deleted: 0,
             }
         },
         methods: {
-            handleRowClick(row){
+            handleRowClick(row) {
                 console.log(row);
                 this.row = row;
-                if(row.status === 1){
+                this.rowID = row.id;
+                if (row.status === 1) {
                     this.bill_status = 'audit';
-                }else if(row.status === 2){
+                } else if (row.status === 0) {
                     this.bill_status = 'remind';
-                }else {
+                } else {
                     this.bill_status = 'add';
                 }
                 this.title = `订单编号: ${row.serial}`;
                 this.isPanelVisible = true;
             },
-            refreshTableData() {
+            refreshTableData(data) {
+                const url = URL;
+                const success = _ => {
+                    this.tableData = _.invoice;
+                };
+                this.$axiosGet({url, data, success})
             },
+            update() {
+                this.$refs.table.update();
+            },
+            refresh() {
+                this.$refs.table.refresh();
+            },
+            submitAudit() {  // 提交审核
+                // this.$refs.detail.submitAudit(this.rowID);
+                const url = "/hashmap";
+                let data = {
+                    key: "account_type"
+                }
+                const success = _ => {
+                    this.$message({type: "success", message: "暂时改为获取hashmap!获取hashmap成功!"})
+                    console.log(_);
+                }
+                this.$axiosGet({url, data, success});
+            },
+            save() {     // 保存修改的账单
+                this.$refs.detail.save(this.rowID);
+            },
+            change(val) {
+                val ? this.is_deleted = 1 : this.is_deleted = 0;
+            },
+
+            deleteBill() {
+                const h = this.$createElement;
+                this.$msgbox({
+                    title: "提示",
+                    message: h("el-checkbox", {
+                        on: {
+                            change: this.change
+                        }
+                    }, "是否删除订单下的所有费用"),
+                    showCancelButton: true,
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    beforeClose: (action, instance, done) => {
+                        if (action === 'confirm') {
+                            const url = `${URL}?id[]=${this.rowID}`;
+                            const data = {
+                                is_deleted: this.is_deleted
+                            };
+                            const success = _ => {
+                                this.$message({type: "success", message: "删除成功!"});
+                                this.update();
+                                done();
+                            };
+                            this.$axiosDelete({url, data, success});
+                        } else {
+                            done();
+                        }
+                    }
+                })
+            }
+        },
+        mounted() {
+            this.$refs.table.refresh();
         },
         components: {
             TableComponent,

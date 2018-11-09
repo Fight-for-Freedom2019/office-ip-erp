@@ -72,7 +72,7 @@
     const URL = "/inventors";
     const map = new Map(Config);
     export default {
-        name: "ContactsListAdd",
+        name: "InventorListAdd",
         props: {
             inventors: {
                 type: Object,
@@ -84,7 +84,7 @@
         },
         data() {
             return {
-                switch_type: "is",
+                switch_type: "is_boolean",
                 form: {
                     customer:{},
                     customer_id:"",
@@ -138,7 +138,7 @@
                         url: URL,
                         data,
                         success: () => {
-                            this.$message({type: "success", message: "添加申请人成功"});
+                            this.$message({type: "success", message: "添加成功"});
                             this.$emit("editSuccess");
                         }
                     });
@@ -151,7 +151,7 @@
                         url,
                         data,
                         success: () => {
-                            this.$message({type: "success", message: "编辑申请人成功"});
+                            this.$message({type: "success", message: "编辑成功"});
                             this.$emit("editSuccess");
                         }
                     });
@@ -161,26 +161,19 @@
             getIsPublishName(val) {
                 this.form.is_publish_name = val;
             },
-            coverObj(val) {
-                if (val) {
-                    this.$tool.coverObj(this.form, val);
-                }
-            }
+            clear () {
+                this.$refs['form'].resetFields();
+            },
         },
-        created() {
-            this.coverObj(this.inventors);
+        mounted() {
+            this.$tool.coverObj(this.form,this.inventors);
         },
         watch: {
             inventors: function (val, oldVal) {
                 this.$tool.coverObj(this.form,val);
             },
             type: function (val, oldVal) {
-                if (val === "add") {
-                    this.form = {};
-                    this.form.is_publish_name = 1;
-                } else {
-                    this.form = this.$tool.deepCopy(this.inventors);
-                }
+                val === "add"?this.clear():"";
             }
         },
         components: {
