@@ -1,9 +1,9 @@
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-            <!-- <el-form-item label="所属客户" prop="customer">
+            <el-form-item label="所属客户" prop="customer">
                 <remote-select type="customer" v-model="form.customer"></remote-select>
-            </el-form-item> -->
+            </el-form-item>
 
             <el-form-item label="申请人名称" prop="name">
                 <el-input v-model="form.name" placeholder="请填写申请人名称（必填）"></el-input>
@@ -120,6 +120,7 @@
         data() {
             return {
                 form: {
+                    customer:"",
                     applicant_type: "",
                     name: "",
                     identity: "",
@@ -165,6 +166,10 @@
         },
         methods: {
             async save(type) {
+                if(this.form.name === "" || !this.form.customer){
+                    this.$message({type:"warning",message:"请正确填写"});
+                    return
+                }
                 const data = this.submitForm();
                 data.type = data.applicant_type;
                 let response;
@@ -212,22 +217,18 @@
                 if (val) {
                     this.$tool.coverObj(this.form, val);
                 }
+            },
+            clear(){
+                this.$refs.form.resetFields();
             }
         },
-        created() {
+        mounted() {
             this.coverObj(this.applicant);
         },
         watch: {
             applicant: function (val, oldVal) {
                 this.coverObj(val);
             },
-            type: function (val, oldVal) {
-                if (val === "add") {
-                    this.form = {}
-                } else {
-                    this.form = this.$tool.deepCopy(this.applicant);
-                }
-            }
         },
         components: {
             StaticSelect,
