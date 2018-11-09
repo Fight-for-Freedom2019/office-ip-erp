@@ -16,18 +16,21 @@
             <el-form-item label="电话" prop="phone_number">
                 <el-input v-model="form.phone_number" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item label="证件号码" prop="identity">
-                <el-input v-model="form.identity" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="英文名" prop="first_name">
-                <el-input v-model="form.first_name" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="英文姓" prop="last_name">
-                <el-input v-model="form.last_name" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="是否公开姓名" prop="is_publish_name">
-                <app-switch :type="switch_type" v-model="form.is_publish_name" @input="getIsPublishName"></app-switch>
-            </el-form-item>
+            <template v-if="!isDefaultContacts">
+                <el-form-item label="证件号码" prop="identity">
+                    <el-input v-model="form.identity" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="英文名" prop="first_name">
+                    <el-input v-model="form.first_name" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="英文姓" prop="last_name">
+                    <el-input v-model="form.last_name" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="是否公开姓名" prop="is_publish_name">
+                    <app-switch :type="switch_type" v-model="form.is_publish_name" @input="getIsPublishName"></app-switch>
+                </el-form-item>
+            </template>
+
             <el-form-item style="margin-bottom: 0;">
                 <el-button type="primary" @click="add" v-if="type === 'add'" :disabled="btn_disabled">添加</el-button>
                 <el-button type="primary" @click="edit" v-if="type === 'edit'" :disabled="btn_disabled">编辑</el-button>

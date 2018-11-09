@@ -3,19 +3,19 @@
     <div class="ReceivedRecord">
         <table-component :tableOption="tableOption" :data="tableData" ref="table"
                          @refreshTableData="refreshTableData"></table-component>
-        <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false" size="mini">
+        <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false" size="small" width="600px">
             <el-form ref="form" :model="form" label-width="100px">
                 <el-form-item label="回款确认用户" prop="creator_user">
-                    <el-input type="text" v-model="form.creator_user"></el-input>
+                    <jump-select type="user" v-model="form.creator_user"></jump-select>
                 </el-form-item>
                 <el-form-item label="回款时间" prop="received_date">
                     <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="请选择时间" v-model="form.received_date"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="回款金额" prop="amount">
-                    <el-input type="number" v-model="form.amount" aria-placeholder="请输入汇款金额"></el-input>
+                    <el-input type="number" v-model="form.amount" placeholder="请输入汇款金额"></el-input>
                 </el-form-item>
                 <el-form-item label="回款账户" prop="account_id">
-                    <el-input type="text" v-model="form.account_id"></el-input>
+                    <jump-select type="payment_accounts" v-model="form.account_id"></jump-select>
                 </el-form-item>
                 <el-form-item label="备注" prop="remark">
                     <el-input type="textarea" v-model="form.remark"></el-input>
@@ -34,6 +34,7 @@
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
+    import JumpSelect from '@/components/form/JumpSelect'
 
     export default {
         name: "ReceivedRecord",
@@ -73,7 +74,7 @@
                         {required:true,message:"请选择所属账单"},
                     ],
                     account_id:[
-                        {required:false,message:"请选择回款账户"},
+                        {required:true,message:"请选择回款账户"},
                     ],
                     amount:[
                         {required:true,message:"请输入回款金额",trigger:"blur"},
@@ -143,6 +144,7 @@
         },
         components: {
             TableComponent,
+            JumpSelect
         },
     }
 </script>

@@ -99,15 +99,7 @@
                 this.title = "新增收款账户";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");
-                this.rowData = {
-                    account_type:"",
-                    abbr:"",
-                    bank:"",
-                    receipt:"",
-                    account:"",
-                    sort:"",
-                    payment_info:"",
-                }
+                this.$refs.PaymentAccountAdd?this.$refs.PaymentAccountAdd.clear():"";
             },
             save(type) {
                 this.$refs.PaymentAccountAdd.submitForm(type,this.rowID)

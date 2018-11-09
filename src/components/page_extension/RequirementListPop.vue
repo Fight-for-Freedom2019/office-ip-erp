@@ -216,18 +216,20 @@
                 this.$emit("update");
             },
             add() {
-                if (this.form.name != "") {
-                    const url = `${URL}/${this.customer.id}/applicants`;
-                    const data = Object.assign({}, this.submitForm());
-                    data.type = data.applicant_type;
-                    const success = _ => {
-                        this.dialogVisible = false;
-                        this.refresh();
-                    };
-                    this.$axiosPost({url, data, success});
-                } else {
-                    this.$message({type: "warning", message: "必选项不能为空！"});
-                }
+                this.$refs.form.validate((valid) => {
+                    if(valid){
+                        const url = `${URL}/${this.customer.id}/applicants`;
+                        const data = Object.assign({}, this.submitForm());
+                        data.type = data.applicant_type;
+                        const success = _ => {
+                            this.dialogVisible = false;
+                            this.refresh();
+                        };
+                        this.$axiosPost({url, data, success});
+                    }else {
+                        this.$message({type: "warning", message: "必选项不能为空！"});
+                    }
+                });
             },
             edit() {
                 const url = `${URL}/${this.customer.id}/applicants/${this.presentId}`;

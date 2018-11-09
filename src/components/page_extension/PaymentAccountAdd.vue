@@ -95,14 +95,12 @@
             data: Object,
             type: String,
         },
-        created() {
-            if (Object.keys(this.data).length !== 0) {
-                this.$tool.coverObj(this.form, this.data);
-            }
+        mounted() {
+            this.coverObj(this.data);
         },
         watch: {
             data: function (val, oldVal) {
-                this.$tool.coverObj(this.form, val);
+                this.coverObj(val);
             },
             "form.account_type": function (val, oldVal) {
                 val === 1 ? this.rules.bank[0].required = true : this.rules.bank[0].required = false;
@@ -136,7 +134,13 @@
                         this.$message({type: "warning", message: "请正确填写"});
                     }
                 })
-            }
+            },
+            clear(){
+                this.$refs.form.resetFields();
+            },
+            coverObj(val){
+                val?this.$tool.coverObj(this.form,val):"";
+            },
         },
         components: {
             RemoteSelect,

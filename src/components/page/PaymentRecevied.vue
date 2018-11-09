@@ -45,7 +45,7 @@
                         {type: 'selection'},
                         {type: 'text', label: '客户', prop: 'invoice.customer.name', width: '178'},
                         {type: 'text', label: '请款单号', prop: 'invoice.serial', width: '150'},
-                        {type: 'text', label: '回款账户', prop: 'payment_account.name', width: '150'},
+                        {type: 'text', label: '回款账户', prop: 'payment_account.bank', width: '150'},
                         {type: 'text', label: '回款时间', prop: 'received_date', width: '120'},
                         {type: 'text', label: '回款金额', prop: 'amount', width: '120'},
                         {type: 'text', label: '备注', prop: 'remark', min_width: '180'},
