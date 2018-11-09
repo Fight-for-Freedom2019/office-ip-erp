@@ -1,0 +1,113 @@
+<template>
+  <div>
+	<app-shrink :visible.sync="dialogVisible" :title="title" size="small">
+	  <el-form :model="form" :rules="rules" ref="form">
+	    <el-form-item label="用户组" prop="roles">
+	      <remote-select type="user" v-model="form.roles" multiple></remote-select>
+	    </el-form-item>
+	    <el-form-item label="所属部门" prop="organization_units">
+	      <remote-select type="user" v-model="form.organization_units" multiple></remote-select>
+	    </el-form-item>
+	    <el-form-item label="用户名" prop="user_name">
+	      <el-input v-model="form.user_name" placeholder="请输入用户名"></el-input>
+	    </el-form-item>
+	    <el-form-item label="密码" prop="password">
+	      <el-input v-model="form.password" placeholder="请输入密码" type="password"></el-input>
+	    </el-form-item>   
+	    <el-form-item label="名称" prop="name">
+	      <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+	    </el-form-item>   
+	    <el-form-item label="邮箱" prop="email_address">
+	      <el-input v-model="form.email_address" placeholder="请输入邮箱"></el-input>
+	    </el-form-item>   
+	    <el-form-item label="电话" prop="phone_number">
+	      <el-input v-model="form.phone_number" placeholder="请输入电话"></el-input>
+	    </el-form-item>   
+   		<el-form-item label="POP服务器" prop="pop_server">
+		  <el-input v-model="form.pop_server" placeholder="请输入POP服务器地址"></el-input>
+		</el-form-item>
+		<el-form-item label="POP端口" prop="pop_port">
+		  <el-input v-model="form.pop_port" placeholder="请输入POP端口"></el-input>
+		</el-form-item>
+		<el-form-item label="SMTP服务器" prop="smtp_server">
+		  <el-input v-model="form.smtp_server" placeholder="请输入SMTP服务器地址"></el-input>
+		</el-form-item>
+		<el-form-item label="SMTP端口" prop="smtp_port">
+		  <el-input v-model="form.smtp_port" placeholder="请输入SMTP端口"></el-input>
+		</el-form-item>
+		<el-form-item label="是否使用SLS" prop="is_ssl">
+    	  <app-switch v-model="form.is_ssl" type="is"></app-switch>
+		</el-form-item>
+		<el-form-item style="margin-bottom: 0px;">
+			<el-button v-if="type == 'add'" type="primary" :disabled="btn_disabled" @click="add">添加</el-button>
+			<el-button v-if="type == 'edit'" type="primary" :disabled="btn_disabled" @click="edit">编辑</el-button>
+			</el-form-item>
+	  </el-form>  
+	</app-shrink>	
+  </div>	
+</template>
+<script>
+import AppShrink from '@/components/common/AppShrink'
+import RemoteSelect from '@/components/form/RemoteSelect'
+import AppSwitch from '@/components/form/AppSwitch'	
+import PopMixins from '@/mixins/pop-mixins'
+export default {
+  URL: '/users',
+  REMINDER_TEXT: '用户',
+  name: 'usermanageedit',
+  mixins: [PopMixins],
+  data () {
+  	return {
+ 	  form: {
+ 	  	roles: [],
+ 	  	organization_units: [],
+ 	  	user_name: '',
+ 	  	password: '',
+ 	  	name: '',
+ 	  	email_address: '',
+ 	  	phone_number: '',
+ 	  	pop_server: '',
+ 	  	pop_port: '',
+ 	  	smtp_server: '',
+ 	  	smtp_port: '',
+ 	  	is_ssl: 0,
+ 	  },
+ 	  rules:{
+ 	  	'roles': { type: 'array', required: true, message: '用户组不能为空', trigger: 'change'},
+ 	  	'organization_units': { type: 'array', required: true, message: '用户组不能为空', trigger: 'change'},
+		'user_name': [{required: true, message: '用户名称不能为空', trigger: 'blur'},],
+		'password': [{required: true, message: '密码不能为空', trigger: 'blur'},],
+		'name': [{required: true, message: '名称不能为空', trigger: 'blur'},],
+		'pop_server': [{required: true, message: 'POP服务器不能为空', trigger: 'blur'},],
+		'pop_port': [{required: true, message: 'POP端口不能为空', trigger: 'blur'},],
+		'smtp_server': [{required: true, message: 'SMTP服务器不能为空', trigger: 'blur'},],
+		'smtp_port': [{required: true, message: 'SMTP端口不能为空', trigger: 'blur'},],
+		'is_ssl': [{required: true, message: 'SSL不能为空', trigger: 'blur'},],
+        'email_address': [
+            {
+                pattern: /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
+                message: '邮件地址格式不正确',
+                trigger: 'blur',
+                required: true,
+            }],
+        'phone_number': {required: true,pattern: /^1[345678]\d{9}$/, message: '手机号码或者座机号码格式错误', trigger: 'blur'}, 	  	
+ 	  },
+  	}
+  },
+  methods: {
+  	setForm (d) {
+  		this.$tool.coverObj(this.form, d);
+  	},
+  },
+  created () {
+
+  },
+  components: {
+  	AppShrink,
+  	RemoteSelect,
+  	AppSwitch,
+  },	
+}	
+</script>
+<style lang="scss" scoped>
+</style>

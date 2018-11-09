@@ -31,6 +31,7 @@ const TrademarkStatistics      = () => import('@/components/page/TrademarkStatis
 const CopyrightList            = () => import('@/components/page/CopyrightList')
 const CopyrightAdd             = () => import('@/components/page/CopyrightAdd')
 const UserList                 = () => import('@/components/page/UserList')
+const UserManage               = () => import('@/components/page/UserManage')
 const Technology               = () => import('@/components/page/Technology')
 const Branch                   = () => import('@/components/page/Branch')
 const FeeCommon                = () => import('@/components/page/FeeCommon')
@@ -1164,6 +1165,11 @@ const router = new Router({
       path: '/setting/userList',
       name: 'UserList',
       component: UserList,
+    },
+    {
+      path: '/setting/userManage',
+      name: 'UserManage',
+      component: UserManage,
     },
     {
       path: '/setting/offer',

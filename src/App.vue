@@ -285,9 +285,9 @@ export default {
       //避免每次F5都发送请求的方法：
       //  1.每次使用相关数据的位置添加一个尝试初始化的函数
       //  2.localStorage动态关联 
-      // this.refreshProduct();
+      this.refreshProduct();
       // this.refreshBranch();
-      // this.refreshClassification();
+      this.refreshClassification();
       // this.$store.dispatch('refreshIpr');
       
       //使用localStorage进行本地缓存
@@ -565,26 +565,32 @@ nav {
     right: 15px;
     top: 2px;
 }
-  .el-tree-node__expand-icon.expanded {
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
-  }
-  .el-tree-node__expand-icon {
-    cursor: pointer;
-    height: 0;
-    margin-left: 12px;
-    border: 8px solid transparent;
-    border-right-width: 0;
-    border-left-color: #97a8be;
-    border-left-width: 12px;
-    transition: transform .3s ease-in-out;
-  }
+  // .el-tree-node__expand-icon.expanded {
+  //   -ms-transform: rotate(90deg);
+  //   transform: rotate(90deg);
+  // }
+  // .el-tree-node__expand-icon {
+  //   cursor: pointer;
+  //   height: 0;
+  //   margin-left: 12px;
+  //   border: 8px solid transparent;
+  //   border-right-width: 0;
+  //   border-left-color: #97a8be;
+  //   border-left-width: 12px;
+  //   transition: transform .3s ease-in-out;
+  // }
   .el-tree-node__content>.el-checkbox, .el-tree-node__content>.el-tree-node__expand-icon {
     margin-right: 10px;
   }
   .el-tree-node__content {
     line-height: 36px;
     height: 36px;
+  }
+  .tree_btn {
+    display: none;
+  }
+  .el-tree-node__content:hover .tree_btn {
+    display: inline-block;
   }
   .el-tree-node__expand-icon.is-leaf {
     border-color: transparent;

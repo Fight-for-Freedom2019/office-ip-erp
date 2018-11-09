@@ -113,8 +113,8 @@ const dataInsiderMenu = [
 
 const settingMenu = [
 	{ type: 'item', text: '个人设置', path: '/setting/individual', icon: 'iconfont el-icon-my-set-copy' },
-	{ type: 'item', text: '用户管理', path: '/setting/userList', icon: 'iconfont el-icon-my-users' },
-	{ type: 'item', text: '组织架构', path: '/setting/branch', icon: 'iconfont el-icon-my-department' },
+	{ type: 'item', text: '用户管理', path: '/setting/userManage', icon: 'iconfont el-icon-my-users' },
+	// { type: 'item', text: '组织架构', path: '/setting/branch', icon: 'iconfont el-icon-my-department' },
 	{ type: 'item', text: '技术分类管理', path: '/setting/classification', icon: 'iconfont el-icon-my-techonology' },
 	{ type: 'item', text: '产品分类管理', path: '/setting/product', icon: 'iconfont el-icon-my-products' },
 	// { type: 'item', text: '报价管理', path: '/setting/offer', icon: 'iconfont el-icon-my-organization' },

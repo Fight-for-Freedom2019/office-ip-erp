@@ -1,0 +1,262 @@
+<template>
+  <div class="user-tree">
+    <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
+    <div style="margin-top: 10px; text-align: center;">
+      <el-radio-group v-model="radio" size="small">
+        <el-radio-button label="organization">组织架构</el-radio-button>
+        <el-radio-button label="rolegroups">角色</el-radio-button>
+      </el-radio-group>
+    </div>
+    <div style="text-align: center; margin-top: 10px;" v-if="radio==='rolegroups'">
+      <el-button size="mini" icon="el-icon-plus" @click="addRoleGroups">新增角色组</el-button>
+    </div>
+    <el-tree
+      v-if="switchTree"
+      :props="defaultProps"
+      :data="filterData"
+      node-key="id" 
+      highlight-current
+      :expand-on-click-node="false"
+      :load="handleLoadNode"
+      lazy
+      :render-content="renderContent"
+      :filter-node-method="filterNode"
+      @node-click="refreshUserListData"
+      ref="userTree"
+    >
+    </el-tree>
+    <organization-shrink :role-type="type" :current-id="currentId" ref="organization" @refresh="(str,form,val)=>{refreshTreeData(parentNode,str,form,val.data)}" @close="_=>{setType = ''}"></organization-shrink>
+  </div>
+</template>
+
+<script>
+import OrganizationShrink from '@/components/page_extension/Organization_shrink'
+const urlMap = new Map([
+  ['organization',{
+    URL: '/organization_units',
+    DATA_KEY: 'branches'
+  }],
+  ['rolegroups',{
+    URL: '/role_groups',
+    DATA_KEY: 'data',
+  }],
+  ['roles',{
+    URL: '/roles',
+    DATA_KEY: 'data',
+  }]
+]);
+export default {
+  name: 'userTree',
+  computed: {
+    URL () {
+      return this.radio ? urlMap.get(this.radio)['URL'] : '';
+    },
+    DATA_KEY () {
+      return this.radio ? urlMap.get(this.radio)['DATA_KEY'] : '';
+    },
+    type: {
+      get () {
+        let val = '';
+        if(!this.setType) {
+          if(this.radio === 'organization') {
+            return val = 'organization'
+          }else if (this.radio === 'rolegroups' && this.parentNode.level == 1) {
+            return val = 'rolegroups'
+          }else if (this.radio === 'rolegroups' && this.parentNode.level == 2) {
+            return val = 'roles'
+          }
+        }else {
+           return this.setType; 
+        }
+      },
+      set (v) {
+        return this.setType = v;
+      }
+    },
+  },
+  methods: {
+    addRoleGroups () {
+      this.$refs.organization.show('add');
+      this.type = 'rolegroups';
+    },
+    filterNode (value, d, n) { 
+      const keyword = value;
+
+      if(!keyword) {
+        n.store.lazy = true;
+        n.store.defaultExpandAll = false;
+        return true;
+      }else{
+        const url = this.radio === 'rolegroups' && n.level == 2 ? '/roles' : this.URL;
+        const data_key = this.radio === 'rolegroups' && n.level == 2 ? 'data' : this.DATA_KEY;
+        const data = { keyword };
+        const success = _=>{
+          n.store.lazy = false;
+          n.store.defaultExpandAll = true;
+          this.filterData = _[data_key];
+        };
+        this.$axiosGet({ url, data, success });
+      }
+    },
+    refreshTreeData (node,str,form,children) {
+      console.log('调用了');
+      console.log(node);
+      console.log(this.$refs.userTree);
+
+      if(str == 'add') {
+        const oldChildren = node.childNodes;
+        oldChildren.splice(0,oldChildren.length);
+
+        if(!node.isLeaf) {
+          console.log('非')
+          this.$refs.userTree.updateKeyChildren(node.data.id,children)
+        }else{
+          console.log('叶子')
+          node.doCreateChildren(children);
+          node.isLeaf = false;
+        }
+
+      }else if (str == 'edit') {
+        node.data.name = children.name
+      }
+    },
+    handleLoadNode (node, resolve) {
+      console.log(node);
+      this.parentNode = node;
+      if(node.level === 0) return this.loadRootNode(resolve);
+      if(node.level >= 1) {
+        this.loadChildrenNode(node, resolve);
+      }
+    },
+    loadRootNode (resolve) {
+      const data_key = this.DATA_KEY;
+      const url = this.URL;
+      const data = this.radio == 'organization'? { parent_id: 0 } : {};
+
+      const success = _=>{
+        const data = _[data_key]['data'];
+        resolve(data);
+      };
+
+      this.$axiosGet({ url, data, success });
+    },
+    loadChildrenNode (node,resolve) {
+      console.log(node)
+      const url = this.radio == 'organization' ? this.URL : urlMap.get('roles')['URL'];
+      const data_key =this.radio == 'organization' ? this.DATA_KEY : urlMap.get('roles')['DATA_KEY'];
+      const data =this.radio == 'organization' ? { parent_id: node.data.id } : { role_group_id: node.data.id };
+
+      const success = _=>{
+        const data = _[data_key]['data'];
+        resolve(data);
+      };
+
+      this.$axiosGet({ url, data, success });
+    },
+    renderContent (h,{node, data, store}) {
+      return (
+          <span style="flex: 1;display: flex;align-items: center;justify-content: space-between;">
+            <span>{node.label}</span>
+            <span class={this.treeBtn}>
+           {this.radio == 'rolegroups'&& node.level == 2 ? <span></span> : <el-button type="text" icon="el-icon-plus" size="mini" onClick={(e)=>{e.stopPropagation();this.addChildTree(node,data,store)}}></el-button>}
+              <el-button type="text" icon="el-icon-edit" size="mini" onClick={(e)=>{e.stopPropagation();this.editChildTree(node,data,store)}}></el-button>
+              <el-button type="text" icon="el-icon-delete" size="mini" onClick={(e)=>{e.stopPropagation();this.deleteChildTree(node,data,store)}}></el-button>
+            </span>
+          </span>
+        )
+    },
+    refreshUserListData (data) {
+      this.$emit('refresh', data, this.radio);
+    },
+    addChildTree (n,d,s) {
+      this.currentId = d.id;
+      this.parentNode = n;
+      if(this.radio === 'rolegroups' && n.level == 1) {
+        this.type = 'roles'
+      }
+      this.$refs.organization.show('add');
+    },
+    editChildTree (n,d,s) {
+      console.log(d);
+      this.parentNode = n;
+      if(this.radio === 'rolegroups' && n.level == 1) {
+        this.setType = ''
+      }
+      this.$refs.organization.show('edit',d);
+    },
+    remove (node,data) {
+      console.log(node)
+      const children = node.parent.childNodes;
+
+      for(var i=0;i< children.length;i++) {
+          var td = children[i];
+          if(td.data.id == data.id) {
+            children.splice(i, 1);
+            if(children.length==0) {
+              node.parent.isLeaf = true;
+            }
+            return
+          }
+      }
+    },
+    deleteChildTree (n,d,s) {
+      this.$confirm('确定要删除当前节点?','删除确认',{
+        type: 'warning',
+      }).then(()=>{
+
+        const url = this.radio ==='rolegroups' && n.level == 2 ? `/roles/${d.id}` : `${this.URL}/${d.id}`;
+        const success = _=>{
+          this.remove(n,d);
+        };
+
+        this.$axiosDelete({ url, success });
+      }).catch(()=>{
+
+      });
+    },
+  },
+  data () {
+		return {
+		  filterText: '',
+      radio: 'organization',
+      filterData: [],
+      treeBtn: 'tree_btn',
+      currentId: '',
+      parentNode: '',
+      switchTree: true,
+      isLazy: true,
+      setType: '',
+      defaultProps: {
+        children: 'children',
+        label: 'name', 
+        isLeaf: 'isLeaf' 
+      },
+		}
+  },
+  watch: {
+    radio (val) {
+      this.switchTree = false;
+      this.$nextTick(_=>{
+        this.switchTree = true;
+      })
+    },
+    filterText (val) {
+      // this.$refs.userTree.filter(val);
+      this.filterNode(val,null,this.parentNode);
+    },
+  },
+  components: {
+    OrganizationShrink,
+  },
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+.user-tree {
+  background: #fff;
+  border: 1px solid #ebeef5;
+  margin-right: 6px;
+  flex: 0 0 300px; 
+}
+</style>
