@@ -160,41 +160,54 @@
                         pattern: /^1[345678]\d{9}$/,
                         message: "手机号码或者座机号码格式错误",
                         trigger: "blur"
-                    }
+                    },
+                    english_name: [
+                        {
+                            pattern: /^[a-zA-Z][\.a-zA-Z\s]*?[a-zA-Z]+$/,
+                            message: "英文名称应为英文字符和空格",
+                            trigger: "blur"
+                        }
+                    ],
+                    english_address: {
+                        pattern: /^[a-zA-Z][\.a-zA-Z\s,0-9]*?[a-zA-Z]+$/,
+                        message: "英文地址为英文字符、数字和空格",
+                        trigger: "blur"
+                    },
                 }
             };
         },
         methods: {
-            async save(type) {
-                if(this.form.name === "" || !this.form.customer){
-                    this.$message({type:"warning",message:"请正确填写"});
-                    return
-                }
-                const data = this.submitForm();
-                data.type = data.applicant_type;
-                let response;
-                if (type === "add") {
-                    response = await this.$axiosPost({
-                        url: URL,
-                        data,
-                        success: () => {
-                            this.$message({type: "success", message: "添加申请人成功"});
-                            this.$emit("editSuccess");
+            save(type) {
+                this.$refs.form.validate((valid) => {
+                    if(valid){
+                        const data = this.submitForm();
+                        data.type = data.applicant_type;
+                        if (type === "add") {
+                            this.$axiosPost({
+                                url: URL,
+                                data,
+                                success: () => {
+                                    this.$message({type: "success", message: "添加申请人成功"});
+                                    this.$emit("editSuccess");
+                                }
+                            });
+                        } else {
+                            let url = "/applicants/" + this.applicant.id;
+                            data.id = this.applicant.id;
+                            this.$axiosPut({
+                                url,
+                                data,
+                                success: () => {
+                                    this.$message({type: "success", message: "编辑申请人成功"});
+                                    this.$emit("editSuccess");
+                                }
+                            });
                         }
-                    });
-                } else {
-                    let url = "/applicants/" + this.applicant.id;
-                    data.id = this.applicant.id;
-                    response = await this.$axiosPut({
-                        url,
-                        data,
-                        success: () => {
-                            this.$message({type: "success", message: "编辑申请人成功"});
-                            this.$emit("editSuccess");
-                        }
-                    });
-                }
-                return response;
+                    }else {
+                        this.$message({type: "warning", message: "请正确填写"});
+                    }
+                });
+
             },
             submitForm() {
                 const o = {};

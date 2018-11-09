@@ -4,13 +4,13 @@
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="账单" prop="invoices">
+                    <el-form-item label="账单" prop="invoice">
                         <jump-select type="bill" v-model="form.invoice"></jump-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="回款账户" prop="account_id">
-                        <jump-select type="payment_accounts" v-model="form.account_id"></jump-select>
+                    <el-form-item label="回款账户" prop="payment_account">
+                        <jump-select type="payment_accounts" v-model="form.payment_account"></jump-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -42,11 +42,11 @@
             return {
                 URL:"/received_payments",
                 rules:{
-                    invoice_id:[
-                        {required:true,message:"请选择所属账单"},
+                    invoice:[
+                        {required:true,message:"请选择所属账单",trigger:"blur"},
                     ],
-                    account_id:[
-                        {required:true,message:"请选择回款账户"},
+                    payment_account:[
+                        {required:true,message:"请选择回款账户",trigger:"blur"},
                     ],
                     amount:[
                         {required:true,message:"请输入回款金额",trigger:"blur"},
@@ -61,7 +61,7 @@
                     PLACEHOLDER: '请选择回款账户',
                 },
                 form:{
-                    account_id: "",
+                    payment_account: "",
                     amount: "",
                     creator_user_id: "",
                     creator_user_user: "",
@@ -87,13 +87,7 @@
                         let url;
                         let message = "";
                         let fun="";
-                        let data = {
-                            "invoice_id": this.form.invoice,
-                            "remark": this.form.remark,
-                            "received_date": this.form.received_date,
-                            "account_id":this.form.account_id,
-                            "amount": this.form.amount,
-                        };
+                        let data = this.form;
                         if(type === "add"){
                             url = this.URL;
                             message = "添加";
@@ -113,16 +107,21 @@
                     }
                 })
             },
+            clear(){
+                this.$refs.form.resetFields();
+            },
+            coverObj(val){
+                val?this.$tool.coverObj(this.form,val,{obj:["invoice","payment_account"]}):"";
+            }
         },
+
         watch:{
             rowData:function (val,oldVal) {
-                this.$tool.coverObj(this.form,val);
+                this.coverObj(val);
             }
         },
-        created(){
-            if(Object.keys(this.rowData).length !== 0) {
-                this.$tool.coverObj(this.form,this.rowData);
-            }
+        mounted(){
+            this.coverObj(this.rowData);
         },
         components: {
             JumpSelect,
