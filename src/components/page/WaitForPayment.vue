@@ -101,8 +101,8 @@
                                 return h("span", name);
                             }
                         },
-                        {type: 'text', label: '请款时机', prop: 'invoice.request_time', width: '150'},
-                        {type: 'text', label: '请款时间', prop: 'invoice.request_time', width: '150'},
+                        {type: 'text', label: '请款时机', prop: 'payment_request_timing', width: '150'},
+                        {type: 'text', label: '请款时间', prop: 'invoice.payment_time', width: '150'},
                         {type: 'text', label: '请款单状态', prop: 'invoice.status', width: '150'},
                         {type: 'text', label: '付款时间', prop: 'invoice.payment_time', width: '150'},
                         {type: 'text', label: '备注', prop: 'remark', width: '150'},
@@ -122,24 +122,11 @@
             add() {
                 this.isPanelVisible = true;
                 this.compileType = "add";
-                this.row = {
-                    customer: "",
-                    invoice: "",
-                    project: "",
-                    currency: "",
-                    roe: "",
-                    amount: "",
-                    citizenship: "",
-                    payment_time: "",
-                    deadline: "",
-                    due_time: "",
-                    fee_code_id: "",
-                    status: "",
-                    order_id: "",
-                }
+                this.$refs.waitForPayment?this.$refs.waitForPayment.clear():"";
             },
             handleRowClick(row) {
                 this.compileType = "edit";
+                row.fee_code_name = row.feecode?row.feecode.name:"";
                 this.row = row;
                 this.title = `订单编号: ${row.project.serial}`;
                 this.isPanelVisible = true;
@@ -221,7 +208,7 @@
                 }
             },
             save(type) {
-                this.$refs.waitForPayment.save(type, this.row.id);
+                this.$refs.waitForPayment.save(type, this.row?this.row.id:"");
             },
             update() {
                 this.$refs.table.update();

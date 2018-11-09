@@ -31,7 +31,7 @@
                         {type: 'text', label: '邮件地址', prop: 'email_address', width: '145'},
                         {type: 'text', label: '电话号码', prop: 'phone_number', width: '120'},
                         {type: 'text', label: '证件号码', prop: 'identity', width: '150'},
-                        {type: 'text', label: '是否公开姓名', prop: 'is_publish_name', width: '130'},
+                        {type: 'text', label: '是否公开姓名', prop: 'is_publish_name', width: '130',render_text:(item)=>{return item?"是":"否"}},
                         {type: 'text', label: '英文名', prop: 'first_name', min_width: '120'},
                         {type: 'text', label: '英文姓', prop: 'last_name', width: '120'},
                         {type: 'text', label: '备注', prop: 'remark', width: '200'},
@@ -81,7 +81,6 @@
             },
             editPop(row) {
                 let copy = this.$tool.deepCopy(row);
-                copy.is_publish_name === "是" ? copy.is_publish_name = 1 : 0;
                 this.$refs.pop.show('edit', copy);
                 this.currentId = copy.id
             },

@@ -9,6 +9,7 @@
                 <el-button type="primary" size="small" v-if="compileType === 'edit'"
                            @click="save('edit')">保存</el-button>
             </span>
+            <express-info-add></express-info-add>
         </app-shrink>
     </div>
 </template>
@@ -16,6 +17,7 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
+    import ExpressInfoAdd from '@/components/page_extension/ExpressInfoAdd'
     import TableMixins from '@/mixins/table-mixins'
     export default {
         name: "ExpressManage",
@@ -56,7 +58,7 @@
                 tableData:[],
                 isPanelVisible:false,
                 title:"",
-                compileType:"",
+                compileType:"add",
             }
         },
         methods:{
@@ -80,7 +82,9 @@
         },
         components:{
             TableComponent,
-            AppShrink
+            AppShrink,
+            ExpressInfoAdd
+
         }
     }
 </script>

@@ -1,17 +1,18 @@
 <!-- 请款管理 -->
 <template>
     <div class="PaymentManage">
-        <table-component :tableOption="tableOption" :data="tableData" ref="table" @refresh = "refresh" @update = "update"
+        <table-component :tableOption="tableOption" :data="tableData" ref="table" @refresh="refresh" @update="update"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
                 <el-button type="primary" size="small" @click="save">保存</el-button>
-                <!--<el-button type="danger" size="small">删除</el-button>-->
-                <el-button type="primary" size="small" v-if="bill_status === 'audit'" @click="submitAudit">提交审核</el-button>
+                <el-button type="danger" size="small" @click="deleteBill">删除</el-button>
+                <el-button type="primary" size="small" v-if="bill_status === 'audit'"
+                           @click="submitAudit">提交审核</el-button>
                 <el-button type="primary" size="small" v-if="bill_status === 'remind'">邮件提醒</el-button>
                 <!--<el-button type="" size="small">退回修改</el-button>-->
             </span>
-            <payment-manage-msg ref="detail" :id="rowID" @update = "update" :rowData = "row"></payment-manage-msg>
+            <payment-manage-msg ref="detail" :id="rowID" @update="update" :rowData="row"></payment-manage-msg>
         </app-shrink>
     </div>
 </template>
@@ -20,13 +21,14 @@
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
     import PaymentManageMsg from '@/components/page_extension/PaymentManageMsg'
+
     const URL = "/invoices";
     export default {
         name: "PaymentManage",
         data() {
             return {
                 tableData: [],
-                bill_status:"add",
+                bill_status: "add",
                 tableOption: {
                     'name': 'PaymentManageList',
                     'url': URL,
@@ -59,28 +61,37 @@
                         {type: 'text', label: '回款确认用户', prop: 'creator_user_name', width: '150'},
                         {type: 'text', label: '回款确认时间', prop: 'confirmation_time', width: '150'},
                         {type: 'text', label: '请款单状态', prop: 'status', width: '150'},
-                        {type: 'text', label: '票据已上传', prop: 'is_voucher_uploaded', width: '150'},
+                        {
+                            type: 'text',
+                            label: '票据已上传',
+                            prop: 'is_voucher_uploaded',
+                            width: '150',
+                            render: (h, item) => {
+                                return h("span", item ? "是" : "否")
+                            }
+                        },
                         {type: 'text', label: '快递单号', prop: 'express.serial', width: '150'},
                         {type: 'text', label: '寄件时间', prop: 'express.date', width: '150'},
                         {type: 'text', label: '备注', prop: 'remark', width: '150'},
                     ],
                 },
-                isPanelVisible:false,
-                title:"订单编号:B18001",
-                row:null,
-                rowID:null,
+                isPanelVisible: false,
+                title: "",
+                row: null,
+                rowID: null,
+                is_deleted: 0,
             }
         },
         methods: {
-            handleRowClick(row){
+            handleRowClick(row) {
                 console.log(row);
                 this.row = row;
                 this.rowID = row.id;
-                if(row.status === 1){
+                if (row.status === 1) {
                     this.bill_status = 'audit';
-                }else if(row.status === 0){
+                } else if (row.status === 0) {
                     this.bill_status = 'remind';
-                }else {
+                } else {
                     this.bill_status = 'add';
                 }
                 this.title = `订单编号: ${row.serial}`;
@@ -88,25 +99,68 @@
             },
             refreshTableData(data) {
                 const url = URL;
-                const success = _ =>{
+                const success = _ => {
                     this.tableData = _.invoice;
                 };
-                this.$axiosGet({url,data,success})
+                this.$axiosGet({url, data, success})
             },
-            update(){
+            update() {
                 this.$refs.table.update();
             },
-            refresh(){
+            refresh() {
                 this.$refs.table.refresh();
             },
-            submitAudit(){  // 提交审核
-                this.$refs.detail.submitAudit(this.rowID);
+            submitAudit() {  // 提交审核
+                // this.$refs.detail.submitAudit(this.rowID);
+                const url = "/hashmap";
+                let data = {
+                    key: "account_type"
+                }
+                const success = _ => {
+                    this.$message({type: "success", message: "暂时改为获取hashmap!获取hashmap成功!"})
+                    console.log(_);
+                }
+                this.$axiosGet({url, data, success});
             },
-            save(){     // 保存修改的账单
+            save() {     // 保存修改的账单
                 this.$refs.detail.save(this.rowID);
             },
+            change(val) {
+                val ? this.is_deleted = 1 : this.is_deleted = 0;
+            },
+
+            deleteBill() {
+                const h = this.$createElement;
+                this.$msgbox({
+                    title: "提示",
+                    message: h("el-checkbox", {
+                        on: {
+                            change: this.change
+                        }
+                    }, "是否删除订单下的所有费用"),
+                    showCancelButton: true,
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    beforeClose: (action, instance, done) => {
+                        if (action === 'confirm') {
+                            const url = `${URL}?id[]=${this.rowID}`;
+                            const data = {
+                                is_deleted: this.is_deleted
+                            };
+                            const success = _ => {
+                                this.$message({type: "success", message: "删除成功!"});
+                                this.update();
+                                done();
+                            };
+                            this.$axiosDelete({url, data, success});
+                        } else {
+                            done();
+                        }
+                    }
+                })
+            }
         },
-        mounted(){
+        mounted() {
             this.$refs.table.refresh();
         },
         components: {

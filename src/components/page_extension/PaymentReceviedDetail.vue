@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="回款账户" prop="account_id">
-                        <jump-select :type="bank_accounts" v-model="form.account_id"></jump-select>
+                        <jump-select type="payment_accounts" v-model="form.account_id"></jump-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -46,7 +46,7 @@
                         {required:true,message:"请选择所属账单"},
                     ],
                     account_id:[
-                        {required:false,message:"请选择回款账户"},
+                        {required:true,message:"请选择回款账户"},
                     ],
                     amount:[
                         {required:true,message:"请输入回款金额",trigger:"blur"},

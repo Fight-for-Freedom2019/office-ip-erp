@@ -4,24 +4,24 @@
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="客户" prop="customer_name">
-                        <jump-select type="customer" v-model="form.customer_name"></jump-select>
+                    <el-form-item label="客户" prop="customer">
+                        <jump-select type="customer" v-model="form.customer"></jump-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="账单" prop="bill">
-                        <jump-select :type="bill" v-model="form.bill"></jump-select>
+                    <el-form-item label="账单" prop="invoice">
+                        <jump-select :type="bill" v-model="form.invoice"></jump-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="抬头" prop="title">
-                        <jump-select :type="title" v-model="form.title"></jump-select>
+                    <el-form-item label="抬头" prop="invoice_target">
+                        <jump-select :type="title" v-model="form.invoice_target"></jump-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="金额" prop="amount">
+                    <el-form-item label="金额" prop="serial">
                         <el-input type="number" v-model="form.amount" placeholder="请输入金额"></el-input>
                     </el-form-item>
                 </el-col>
@@ -56,7 +56,7 @@
         </el-form>
         <table-component :tableOption="tableOption" :data="tableData" ref="table"></table-component>
         <el-dialog title="选择费用" :visible.sync="dialogFormVisible" :modal="false">
-            <payment-cost-detail type="other" @getRowData="getRowData"></payment-cost-detail>
+            <payment-cost-detail :data="detail" type="other" @getRowData="getRowData"></payment-cost-detail>
         </el-dialog>
     </div>
 </template>
@@ -74,23 +74,26 @@
             return {
                 URL: "/vouchers",
                 rules: {
-                    customer_name: [
+                    customer: [
                         {required: true, message: "请选择客户"},
                     ],
-                    bill: [
+                    invoice: [
                         {required: true, message: "请选择账单"},
                     ],
-                    title: [
-                        {required: false, message: "请选择抬头", trigger: "blur"},   // TODO 这个是必选项 但是现在还没有抬头可以选择
+                    invoice_target: [
+                        {required: true, message: "请选择抬头", trigger: "blur"},
                     ],
                     received_date: [
                         {required: true, message: "请选择回款日期", trigger: "blur"},
                     ]
                 },
                 form: {
+                    customer: "",
                     customer_name: "",
                     customer_id: "",
-                    bill: "",
+                    invoice_target_id: "",
+                    invoice_target: "",
+                    invoice: "",
                     title: "",
                     received_date: "",
                     amount: "",
@@ -103,10 +106,10 @@
                     PARAMS: {is_debit: 1},
                 },
                 title: {      // 抬头JumpSelect的type
-                    URL: '/invoices',
-                    DATA_KEY: 'invoices',
+                    URL: '/invoice_targets',
+                    DATA_KEY: 'data',
                     PLACEHOLDER: '请选择抬头',
-                    PARAMS: {is_debit: 1},
+                    PARAMS: {},
                 },
                 dialogFormVisible: false,
                 tableOption: {
@@ -121,17 +124,17 @@
                     ],
                     'columns': [
                         {type: 'text', label: '客户', prop: 'customer.name', min_width: '178'},
-                        {type: 'text', label: '案号', prop: 'project.serial', width: '120'},
-                        {type: 'text', label: '标题', prop: 'project.title', width: '150'},
-                        {type: 'text', label: '申请国家', prop: 'project.area', width: '180'},
+                        {type: 'text', label: '案号', prop: 'serial', width: '120'},
+                        {type: 'text', label: '标题', prop: 'title', width: '150'},
+                        {type: 'text', label: '申请国家', prop: 'area', width: '180'},
                         {type: 'text', label: '订单号', prop: 'order.serial', width: '120'},
                         {type: 'text', label: '申请号', prop: 'application_number', width: '120'},
                         {type: 'text', label: '申请日', prop: 'application_date', width: '100'},
-                        {type: 'text-btn', label: '官费', prop: 'official_fee', width: '150', click: this.checkFeeDetail},
-                        {type: 'text-btn', label: '代理费', prop: 'service_fee', width: '150', click: this.checkFeeDetail},
+                        {type: 'text', label: '官费', prop: 'officail_fee.sum', width: '150',},
+                        {type: 'text', label: '代理费', prop: 'service_fee.sum', width: '150',},
                         {type: 'text', label: '费用策略', prop: 'policy', width: '150'},
-                        {type: 'text', label: '官费票据', prop: 'official_voucher', width: '150'},
-                        {type: 'text', label: '代理费票据', prop: 'serfice_voucher', width: '150'},
+                        {type: 'array', label: '官费票据', prop: 'official_voucher', width: '150'},
+                        {type: 'array', label: '代理费票据', prop: 'service_voucher', width: '150'},
                         {
                             type: "action", btns: [
                                 {type: 'delete', click: this.removeFee},
@@ -140,6 +143,7 @@
                     ],
                 },
                 tableData: [],
+                detail: [],
             }
         },
         props: {
@@ -167,33 +171,27 @@
                             message = "编辑";
                             fun = "update";
                         }
-                        let data = {
-                            "is_deleted": 0,
-                            "customer_id": Number.isNaN(this.form.customer_name) ? this.form.customer_id : this.form.customer_name,
-                            "amount": this.form.amount,
-                            "status": this.form.citizenship,
-                            "remark": this.form.remark,
-                            "ids": this.getIds()
-                        };
+                        let data = this.form;
+                        console.log("提交的data", data);
                         const success = _ => {
                             this.$message({type: "success", message: `${message}成功`});
                             this.$emit(fun);
                         };
                         type === "add" ? this.$axiosPost({url, data, success}) : this.$axiosPut({url, data, success});
-                    }else {
-                        this.$message({type:"warning",message:"请填写必选项!"});
+                    } else {
+                        this.$message({type: "warning", message: "请填写必选项!"});
                     }
                 })
             },
             selectFee() {
-                if (this.form.bill === "") {
+                if (this.form.invoice === "") {
                     this.$message({type: "warning", message: "请选择账单!"});
                     return;
                 }
                 this.dialogFormVisible = true;
-                let url = `/invoices/${this.form.bill}`;
+                let url = `/invoices/${this.form.invoice}`;
                 let success = _ => {
-                    this.tableData = _.data.data[0].fee_list;
+                    this.detail = _.data.data[0].fee_list;
                 };
                 this.$axiosGet({url, success});
             },
@@ -224,6 +222,12 @@
                     }
                 })
             },
+            clear() {
+                this.$refs.form.resetFields();
+            },
+            coverObj(val) {
+                val ? this.$tool.coverObj(this.form, val, {obj: ["customer", "invoice", "invoice_target"]}) : "";
+            },
 
         },
         watch: {
@@ -231,13 +235,11 @@
                 this.bill.PARAMS.user = val;
             },
             rowData: function (val, oldVal) {
-                this.$tool.coverObj(this.form, val);
-            }
+                this.coverObj(val);
+            },
         },
-        created() {
-            if (Object.keys(this.rowData).length !== 0) {
-                this.$tool.coverObj(this.form, this.rowData);
-            }
+        mounted() {
+            this.coverObj(this.rowData);
         },
         components: {
             JumpSelect,

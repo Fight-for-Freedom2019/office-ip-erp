@@ -54,7 +54,7 @@
         props: ['customer', 'contact_id','isDefaultContacts'],
         data() {
             return {
-                switch_type:"is",
+                switch_type:"is_boolean",
                 cityInfo: '',
                 form: {
                     name: "",

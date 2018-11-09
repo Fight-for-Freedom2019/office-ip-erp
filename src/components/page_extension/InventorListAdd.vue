@@ -72,7 +72,7 @@
     const URL = "/inventors";
     const map = new Map(Config);
     export default {
-        name: "ContactsListAdd",
+        name: "InventorListAdd",
         props: {
             inventors: {
                 type: Object,
@@ -84,7 +84,7 @@
         },
         data() {
             return {
-                switch_type: "is",
+                switch_type: "is_boolean",
                 form: {
                     customer:{},
                     customer_id:"",
@@ -161,26 +161,19 @@
             getIsPublishName(val) {
                 this.form.is_publish_name = val;
             },
-            coverObj(val) {
-                if (val) {
-                    this.$tool.coverObj(this.form, val);
-                }
-            }
+            clear () {
+                this.$refs['form'].resetFields();
+            },
         },
-        created() {
-            this.coverObj(this.inventors);
+        mounted() {
+            this.$tool.coverObj(this.form,this.inventors);
         },
         watch: {
             inventors: function (val, oldVal) {
                 this.$tool.coverObj(this.form,val);
             },
             type: function (val, oldVal) {
-                if (val === "add") {
-                    this.form = {};
-                    this.form.is_publish_name = 1;
-                } else {
-                    this.form = this.$tool.deepCopy(this.inventors);
-                }
+                val === "add"?this.clear():"";
             }
         },
         components: {

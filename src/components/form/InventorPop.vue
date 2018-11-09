@@ -77,7 +77,7 @@
         data() {
             return {
                 cityInfo: '',
-                switch_type: "is",
+                switch_type: "is_boolean",
                 form: {
                     customer:{},
                     customer_id:"",

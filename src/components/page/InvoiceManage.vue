@@ -88,7 +88,7 @@
         methods: {
             handleRowClick(row) {
                 this.rowData = row;
-                this.rowID = row.invoice_id;    // TODO 这个地方需要改成id,因为table删除是跟id走的
+                this.rowID = row.id;
                 this.title = "发票编辑";
                 this.isPanelVisible = true;
                 this.compileType = "edit";
@@ -110,15 +110,7 @@
                 this.isPanelVisible = true;
                 this.compileType = "add";
                 this.title = "开票申请";
-                this.rowData = {
-                    customer_name: "",
-                    customer_id: "",
-                    bill: "",
-                    title: "",
-                    received_date: "",
-                    amount: "",
-                    status: "",
-                };
+                this.$refs.detail?this.$refs.detail.clear():"";
             },
             save(type) {
                 this.compileType = type;

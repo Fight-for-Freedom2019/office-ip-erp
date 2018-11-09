@@ -27,6 +27,15 @@
             offText: '否',
             onValue: 1,
             offValue: 0,
+        }],
+        // 添加布尔类型，不影响其它使用数字的
+        ['is_boolean', {
+            onColor: '#13ce66',
+            offColor: '#ff4949',
+            onText: '是',
+            offText: '否',
+            onValue: true,
+            offValue: false,
         }]
     ];
     const map = new Map(config);
@@ -46,7 +55,7 @@
             }
         },
         props: {
-            value : Number,
+            value : [Number,Boolean],
             type :[Object,String],
             // simple参数控制选项是否在开关两头显示，为true时只在开关右侧显示onText和offText
             simple:{

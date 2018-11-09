@@ -123,6 +123,16 @@ const map = new Map([
     DATA_KEY: 'data',
     PLACEHOLDER: '请选择客户',
   }],
+  ['payment_accounts', {
+    URL: '/payment_accounts',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择回款账户',
+  }],
+  ['user', {
+    URL: '/users',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择人员',
+  }],
 ]);
 
 export default {
@@ -337,7 +347,7 @@ export default {
       //将单项统一处理为数组 single时保留原状
       if(!this.multiple && !this.single) {
         // console.log(this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]);
-        val = this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : [ this.value ]; //空字符串 空对象处理
+        val = this.value == "" || (this.value instanceof Object && this.$tool.getObjLength(this.value) == 0 ) ? [] : !this.value?[]:[this.value]; //空字符串 空对象处理
       }else {
         val = this.value;
       }

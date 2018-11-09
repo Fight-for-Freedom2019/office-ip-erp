@@ -17,7 +17,9 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="请款单状态"><span class="form-item-text">{{form.status}}</span>
+                    <el-form-item label="请款单状态">
+                        <static-select type="invoice_status" class="custom-input" v-model="form.status"></static-select>
+                        <!--<span class="form-item-text">{{form.status}}</span>-->
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -45,11 +47,13 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="回款期限"><span class="form-item-text">{{form.deadline}}</span>
+                    <el-form-item label="回款期限">
+                        <el-date-picker placeholder="请选择回款期限" class="custom-picker-input" type="datetime" value-format="yyyy-MM-dd HH-mm-ss" v-model="form.deadline"></el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="回款时间"><span class="form-item-text">{{form.payment_time}}</span>
+                        <!--<span class="form-item-text">{{form.payment_time}}</span>-->
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -85,6 +89,7 @@
 
 <script>
     import RemoteSelect from "@/components/form/RemoteSelect";
+    import StaticSelect from "@/components/form/StaticSelect";
     import UpLoad from "@/components/form/Upload";
     import PaymentCostDetail from '@/components/page_extension/PaymentCostDetail'
     import RemindersRecord from '@/components/page_extension/RemindersRecord'
@@ -149,6 +154,8 @@
                 let data = {
                     express_id: 1,
                     remark: this.form.remark,
+                    status:this.form.status,
+                    deadline:this.form.deadline,
                 };  // TODO 参数为form表单中的快递信息、备注、附件
                 let url = `/invoices/${id}`;
                 const success = _ => {
@@ -166,7 +173,8 @@
                 const success = _ => {
                     console.log("账单的详情", _);
                     this.receivedData = _.data.data[0].received_payment;
-                    this.costDetail = _.data.data[0].fee_list ? _.data.data[0].fee_list : {};
+                    this.remindersData = _.data.data[0].reminder;
+                    this.costDetail = _.data.data[0].fee_list ? _.data.data[0].fee_list : [];
                 };
                 this.$axiosGet({url, data, success});
             },
@@ -188,7 +196,8 @@
             UpLoad,
             PaymentCostDetail,
             RemindersRecord,
-            ReceivedRecord
+            ReceivedRecord,
+            StaticSelect
         },
     }
 </script>
@@ -224,5 +233,19 @@
 <style>
     #app .PaymentRequestMsg .break-form textarea {
         height: auto;
+    }
+    .PaymentRequestMsg .custom-input .el-input__inner,.PaymentRequestMsg .custom-picker-input .el-input__inner{
+        height:28px;
+        line-height: 28px;
+        font-size: 12px;
+    }
+    .PaymentRequestMsg .custom-picker-input .el-input__inner {
+        padding: 0 14px;
+    }
+    .PaymentRequestMsg .custom-input .el-input__icon,.PaymentRequestMsg .custom-picker-input .el-input__icon{
+        line-height: 28px;
+    }
+    .PaymentRequestMsg .custom-picker-input .el-input__prefix {
+        display: none;
     }
 </style>

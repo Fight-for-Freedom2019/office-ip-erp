@@ -3,11 +3,12 @@
     <div class="RemindersRecord">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
-        <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false" size="mini">
+        <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false" size="small" width="600px">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="跟催方式" prop="remind_type">
-                    <el-input type="text" v-model="form.remind_type"></el-input>
+                    <static-select type="customer_reminder_type" v-model="form.remind_type"></static-select>
                 </el-form-item>
+                <!-- TODO 少了一个跟催人 -->
                 <el-form-item label="跟催时间" prop="remind_date">
                     <el-date-picker type="date" placeholder="请选择时间" v-model="form.remind_date"></el-date-picker>
                 </el-form-item>
@@ -28,6 +29,7 @@
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
+    import StaticSelect from '@/components/form/StaticSelect'
 
     export default {
         name: "RemindersRecord",
@@ -55,9 +57,9 @@
                     ],
                 },
                 form:{
-                    remind_type:"文明方式",
-                    remind_date:"2018-11-01",
-                    result:"催款成功!"
+                    remind_type:"",
+                    remind_date:"",
+                    result:""
                 },
                 tableData: [],
                 title:"新增跟催记录",   // 弹窗title
@@ -91,6 +93,7 @@
         },
         components: {
             TableComponent,
+            StaticSelect
         }
     }
 </script>

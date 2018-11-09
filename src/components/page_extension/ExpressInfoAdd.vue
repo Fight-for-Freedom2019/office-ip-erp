@@ -1,4 +1,4 @@
-<!-- 新增开票信息 -->
+<!-- 新增快递信息 -->
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
@@ -9,44 +9,39 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="主体类型" prop="target_type">
-                        <static-select type="target_type" v-model="form.target_type"></static-select>
+                    <el-form-item label="收件人" prop="user">
+                        <jump-select type="user" v-model="form.user"></jump-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="单位名称" prop="name">
-                        <el-input type="text" placeholder="请输入单位名称" v-model="form.name"></el-input>
+                    <el-form-item label="联系信息" prop="contact">
+                        <el-input type="text" placeholder="请输入联系信息" v-model="form.contact"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="纳税人识别号" prop="identity">
-                        <el-input type="text" placeholder="请输入纳税人识别号" v-model="form.identity"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="注册地址" prop="address">
-                        <el-input type="text" v-model="form.address" placeholder="请输入注册地址"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="联系电话" prop="phone_number">
-                        <el-input type="text" placeholder="请输入联系电话" v-model="form.phone_number"></el-input>
+                    <el-form-item label="快递公司" prop="carrier">
+                        <el-input type="text" placeholder="请输入纳税人识别号" v-model="form.carrier"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="开户行" prop="bank">
-                        <el-input type="text" placeholder="请输入开户行" v-model="form.bank"></el-input>
+                    <el-form-item label="快递单号" prop="serial">
+                        <el-input type="text" v-model="form.serial" placeholder="请输入快递单号"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="银行账户" prop="account">
-                        <el-input type="text" placeholder="请输入银行账户" v-model="form.account"></el-input>
+                    <el-form-item label="寄件时间" prop="date">
+                        <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="请选择寄件时间" v-model="form.date"></el-date-picker>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="签收时间" prop="receipt_date">
+                        <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="请选择签收时间" v-model="form.receipt_date"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -65,21 +60,19 @@
     import RemoteSelect from "@/components/form/RemoteSelect";
     import JumpSelect from "@/components/form/JumpSelect";
     import StaticSelect from "@/components/form/StaticSelect";
-
     export default {
-        name: "BillingInfoAdd",
+        name: "ExpressInfoAdd",
         data(){
             return {
-                URL:"/invoice_targets",
+                URL:"/expresses",
                 form:{
                     customer:"",
-                    target_type:"",
-                    name:"",
-                    identity:"",
-                    address:"",
-                    phone_number:"",
-                    bank:"",
-                    account:"",
+                    user:"",
+                    contact:"",
+                    carrier:"",
+                    serial:"",
+                    date:"",
+                    receipt_date:"",
                     remark:"",
                 },
                 rules:{
@@ -109,9 +102,9 @@
             type:String,
         },
         created(){
-            if(Object.keys(this.data).length !== 0){
-                this.$tool.coverObj(this.form,this.data);
-            }
+            // if(Object.keys(this.data).length !== 0){
+            //     this.$tool.coverObj(this.form,this.data);
+            // }
         },
         watch:{
             data:function (val,oldVal) {

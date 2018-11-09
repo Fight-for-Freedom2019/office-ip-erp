@@ -361,17 +361,17 @@ const config = [
     placeholder: '请选择管制事项',
     options: 'taskDefsData',
   }],
-  ['fee_code', {
-    placeholder: '请选择费用代码',
-    url: '/feeCodes',
-    handle (data) {
-      return data.codes.map(_=>{
-        _.id = _.id - 0;
-        _.amount = _.amount - 0;
-        return _;
-      })
-    }
-  }],
+  // ['fee_code', {     // TODO 可能是上个版本遗留下来的接口，在这个系统请求不到数据
+  //   placeholder: '请选择费用代码',
+  //   url: '/feeCodes',
+  //   handle (data) {
+  //     return data.codes.map(_=>{
+  //       _.id = _.id - 0;
+  //       _.amount = _.amount - 0;
+  //       return _;
+  //     })
+  //   }
+  // }],
   ['fee_code_renewal', {
     placeholder: '请选择年费类型',
     url: '/feeCodes?type=renewal',
@@ -609,6 +609,72 @@ const config = [
     options: [
       {id: 1, name: '个人'},
       {id: 2, name: '单位'}
+    ]
+  }],
+  ['account_type', {
+    placeholder: '账户类型',
+    options: [
+        {id: 1, name: '对公'},
+        {id: 2, name: '对私'},
+        {id: 3, name: '第三方'},
+        {id: 4, name: '现金'},
+    ]
+  }],
+  ['customer_reminder_type', {
+    placeholder: '跟催类型',
+    options: [
+        {id: 1, name: '邮件'},
+        {id: 2, name: '电话'},
+        {id: 3, name: 'IM'},
+    ]
+  }],
+  ['invoice_status', {
+    placeholder: '请款单状态',
+    options: [
+        {id: 0, name: '待审核'},
+        {id: 1, name: '流程主管审核中'},
+        {id: 2, name: '根据流程主管意见修改'},
+        {id: 3, name: '财务主管审核中'},
+        {id: 4, name: '根据财务主管意见修改'},
+        {id: 5, name: '待发文'},
+        {id: 6, name: '待客户确认'},
+        {id: 7, name: '待寄送票据'},
+        {id: 8, name: '待回款'},
+        {id: 9, name: '已回款'},
+        {id: 10, name: '已删除'},
+        {id: 11, name: '待上传票据'},
+        {id: 12, name: '待付款'},
+        {id: 13, name: '已付款'},
+    ]
+  }],
+  ['fee_code', {
+    placeholder: '请选择费用类型',
+    url: '/feecode',
+    handle (data) {
+        return data.data;
+    }
+  }],
+  ['fee_type', {
+    placeholder: '请选择费用类型',
+    options: [
+      {id: 1, name: '代理费'},
+      {id: 2, name: '官费'},
+      {id: 3, name: '撰稿费'},
+      {id: 4, name: '销售提成'},
+      {id: 5, name: '供应商服务费'},
+    ]
+  }],
+  ['fee_status', {
+    placeholder: '请选择费用状态',
+    options: [
+        {id: 0, name: '初始录入'},
+        {id: 1, name: '待请款'},
+        {id: 2, name: '已请款'},
+        {id: 5, name: '已回款'},
+        {id: 11, name: '待付款'},
+        {id: 12, name: '付款计划'},
+        {id: 15, name: '已付款'},
+        {id: 16, name: '已删除'},
     ]
   }],
 ];
