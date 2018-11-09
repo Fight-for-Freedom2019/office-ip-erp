@@ -92,7 +92,6 @@ const reportMenu = [
 ]
 
 const exchangeMenu = [
-	{ type: 'item', text: '邮件', path: '/exchange/mail', icon: 'el-icon-my-patent' },
 	{ type: 'item', text: '文档上传', path: '/exchange/document', icon: 'el-icon-my-patent' },
 	{ type: 'item', text: 'CPC通知书手动上传', path: '/exchange/cpc', icon: 'el-icon-my-patent' },
 	{ 
@@ -105,6 +104,7 @@ const exchangeMenu = [
 			{ type: 'item', text: '递交包', path: '/exchange/client/filing', icon: '' },
 		],
 	},
+	{ type: 'item', text: '邮件', path: '/exchange/mail', icon: 'el-icon-my-patent' },
 ];
 
 const dataInsiderMenu = [
@@ -125,9 +125,16 @@ const settingMenu = [
 		icon: 'iconfont el-icon-my-set-copy',
 		type: 'item',
 	},
-	{ type: 'submenu', text: '基础设置', path: '/setting/basics', icon: 'iconfont el-icon-my-system',
+	{ type: 'submenu', text: '基础数据', path: '/setting/data', icon: 'iconfont el-icon-my-system',
     children:[
-        {type: 'item', text: '收款账户', path: '/setting/basics/payment_account', icon: 'iconfont el-icon-my-system'}
+        {type: 'item', text: '收款账户', path: '/setting/data/payment_account', icon: 'iconfont el-icon-my-system'},
+        {type: 'item', text: '费用代码', path: '/setting/data/fee_code', icon: 'iconfont el-icon-my-system'},
+        {type: 'item', text: '文件类型', path: '/setting/data/file_type', icon: 'iconfont el-icon-my-system'},
+        {type: 'item', text: '案件状态', path: '/setting/data/stages', icon: 'iconfont el-icon-my-system'},
+        {type: 'item', text: '管制事项', path: '/setting/data/definitions', icon: 'iconfont el-icon-my-system'},
+        {type: 'item', text: '流程管理', path: '/setting/data/flows', icon: 'iconfont el-icon-my-system'},
+        {type: 'item', text: '流程节点', path: '/setting/data/actions', icon: 'iconfont el-icon-my-system'},
+        {type: 'item', text: '原始记录', path: '/setting/data/enity_change', icon: 'iconfont el-icon-my-system'},
     ]
     },
 	{ type: 'item', text: '系统设置', path: '/setting/system', icon: 'iconfont el-icon-my-system' },
