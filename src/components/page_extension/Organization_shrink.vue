@@ -75,9 +75,9 @@ export default {
 			if(this.roleType == 'organization') {
 				return Object.assign({'parent': this.currentId}, this.form);
 			}else if (this.roleType == 'roles') {
-				return Object.assign({'roles_group_id': this.currentId}, this.form);
+				return Object.assign({'role_group_id': this.currentId}, this.form);
 			}else{
-				return this.form.name;
+				return this.form;
 			}
 		},
 		setForm (d) {
@@ -89,7 +89,7 @@ export default {
 	      this.$nextTick(_=>{
 	        this.$refs.form.resetFields();  
 	        
-	        if(type === 'edit' || type === 'confirm') {
+	        if(type === 'edit') {
 	          if(data instanceof Object) {
 	            const copy = this.$tool.deepCopy(data);
 	            this.id = copy.id; 
