@@ -8,9 +8,8 @@
                 <el-form-item label="跟催方式" prop="remind_type">
                     <static-select type="customer_reminder_type" v-model="form.remind_type"></static-select>
                 </el-form-item>
-                <!-- TODO 少了一个跟催人 -->
                 <el-form-item label="跟催时间" prop="remind_date">
-                    <el-date-picker type="date" placeholder="请选择时间" v-model="form.remind_date"></el-date-picker>
+                    <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="请选择时间" v-model="form.remind_date"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="跟催结果" prop="result">
                     <el-input type="textarea" v-model="form.result"></el-input>
@@ -48,7 +47,7 @@
                     'is_search': false,
                     // 'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'add',click:this.openVisible("dialogFormVisible")},
+                        {type: 'add',click:this.add},
                     ],
                     'columns': [
                         // {type: 'selection'},
@@ -79,6 +78,9 @@
                     this.update();
                 };
                 this.$axiosPost({url,data,success});
+            },
+            add(){
+                this.openVisible("dialogFormVisible")
             },
             cancel() {
                 this.closeVisible("dialogFormVisible");

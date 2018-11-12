@@ -96,7 +96,7 @@
                     first_name: "",
                     last_name: "",
                     citizenship:"",
-                    is_publish_name: 1,
+                    is_publish_name: true,
                 },
                 formType: "add",
                 rules: {
@@ -129,34 +129,39 @@
             };
         },
         methods: {
-            async save(type) {
-                const data = this.form;
-                data.customer_id = data.customer;
-                let response;
-                if (type === "add") {
-                    response = await this.$axiosPost({
-                        url: URL,
-                        data,
-                        success: () => {
-                            this.$message({type: "success", message: "添加成功"});
-                            this.$emit("editSuccess");
+            save(type) {
+                this.$refs['form'].validate((valid)=>{
+                    if(valid){
+                        const data = Object.assign({},this.form);
+                        data.customer_id = data.customer;
+                        if (type === "add") {
+                            this.$axiosPost({
+                                url: URL,
+                                data,
+                                success: () => {
+                                    this.$message({type: "success", message: "添加成功"});
+                                    this.$emit("editSuccess");
+                                }
+                            });
+                        } else {
+                            // 由于后端返回的是联系人类型的字符串,修改时需要将其转换成Number类型，不然后端报错，新增时不需要修改
+                            map.get("contacts_type").options.forEach((_) => {_.name === data.type?data.type = _.id:"";});
+                            let url = "/inventors/" + this.inventors.id;
+                            data.id = this.inventors.id;
+                            this.$axiosPut({
+                                url,
+                                data,
+                                success: () => {
+                                    this.$message({type: "success", message: "编辑成功"});
+                                    this.$emit("editSuccess");
+                                }
+                            });
                         }
-                    });
-                } else {
-                    // 由于后端返回的是联系人类型的字符串,修改时需要将其转换成Number类型，不然后端报错，新增时不需要修改
-                    map.get("contacts_type").options.forEach((_) => {_.name === data.type?data.type = _.id:"";});
-                    let url = "/inventors/" + this.inventors.id;
-                    data.id = this.inventors.id;
-                    response = await this.$axiosPut({
-                        url,
-                        data,
-                        success: () => {
-                            this.$message({type: "success", message: "编辑成功"});
-                            this.$emit("editSuccess");
-                        }
-                    });
-                }
-                return response;
+                    }else {
+                        this.$message({type: 'warning', message: '请正确填写'});
+                    }
+                })
+
             },
             getIsPublishName(val) {
                 this.form.is_publish_name = val;
@@ -164,17 +169,17 @@
             clear () {
                 this.$refs['form'].resetFields();
             },
+            coverObj(val){
+                val?this.$tool.coverObj(this.form,val):"";
+            },
         },
         mounted() {
-            this.$tool.coverObj(this.form,this.inventors);
+            this.coverObj(this.inventors);
         },
         watch: {
             inventors: function (val, oldVal) {
-                this.$tool.coverObj(this.form,val);
+                this.coverObj(val);
             },
-            type: function (val, oldVal) {
-                val === "add"?this.clear():"";
-            }
         },
         components: {
             StaticSelect,
