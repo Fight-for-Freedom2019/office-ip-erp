@@ -1,5 +1,5 @@
 <template>
-  <div class="user-tree">
+  <div class="user-tree" :style="{height: innerHeight-70 + 'px'} ">
     <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
     <div style="margin-top: 10px; text-align: center;">
       <el-radio-group v-model="radio" size="small">
@@ -31,6 +31,7 @@
 
 <script>
 import OrganizationShrink from '@/components/page_extension/Organization_shrink'
+import {mapGetters} from 'vuex'
 const urlMap = new Map([
   ['organization',{
     URL: '/organization_units',
@@ -48,6 +49,9 @@ const urlMap = new Map([
 export default {
   name: 'userTree',
   computed: {
+    ...mapGetters([
+      'innerHeight',
+    ]),    
     URL () {
       return this.radio ? urlMap.get(this.radio)['URL'] : '';
     },
@@ -87,8 +91,8 @@ export default {
         n.store.defaultExpandAll = false;
         return true;
       }else{
-        const url = this.radio === 'rolegroups' && n.level == 2 ? '/roles' : this.URL;
-        const data_key = this.radio === 'rolegroups' && n.level == 2 ? 'data' : this.DATA_KEY;
+        const url = this.radio === 'rolegroups' ? '/roles' : this.URL;
+        const data_key = this.radio === 'rolegroups' ? 'data' : this.DATA_KEY;
         const data = { keyword };
         const success = _=>{
           n.store.lazy = false;
@@ -254,6 +258,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .user-tree {
+  overflow: auto;
   background: #fff;
   border: 1px solid #ebeef5;
   margin-right: 6px;

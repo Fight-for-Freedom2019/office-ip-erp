@@ -34,6 +34,8 @@
                     'url': URL,
                     'rowClick': this.handleRowClick,
                     'height': 'default',
+                    'is_list_filter': true,
+                    'list_type': 'inventors',
                     'header_btn': [
                         {type: 'add', click: this.addPop},
                         {type: 'delete'},
@@ -45,7 +47,7 @@
                         {type: 'text', label: '尊称', prop: 'title', width: '150'},
                         {type: 'text', label: '所属客户', prop: 'customer.name', width: '150'},
                         {type: 'text', label: '国籍', prop: 'citizenship', sortable: true, width: '80'},
-                        {type: 'text', label: '邮件地址', prop: 'email_address', width: '145'},
+                        {type: 'text', label: '邮箱', prop: 'email_address', width: '145'},
                         {type: 'text', label: '电话号码', prop: 'phone_number', width: '120'},
                         {type: 'text', label: '证件号码', prop: 'identity', width: '150'},
                         {
@@ -79,6 +81,7 @@
                 this.formType = 'add';
                 this.appPanelTitle = '新建发明人';
                 this.isInventorsAddPanelVisible = true;
+                this.$refs.inventorsAdd?this.$refs.inventorsAdd.clear():"";
             },
             editPop(col) {
                 this.$refs.pop.show('edit', col);
@@ -112,7 +115,6 @@
             },
             handleRowClick(row) {
                 let copy = this.$tool.deepCopy(row);
-                // !Number.isNaN(copy.is_publish_name) ? copy.is_publish_name === "是" ? copy.is_publish_name = 1 : copy.is_publish_name = 0 : "";
                 this.inventors = copy;
                 this.formType = 'edit';
                 this.appPanelTitle = '编辑发明人>' + copy.name;

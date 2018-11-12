@@ -79,7 +79,7 @@ export default {
   			const url = `${URL}/${this.id}/config`;
   			const success = _=>{ 
   				for(let k in this.form) {
-  					const d = _.data[k];
+  					const d = _.data['data'][0][k];
   					this.form[k] = d;
   				} 
   			};

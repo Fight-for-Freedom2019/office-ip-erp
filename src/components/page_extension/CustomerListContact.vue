@@ -40,7 +40,6 @@
                         {type: 'text', label: '邮箱', prop: 'email_address', width: '145'},
                         {type: 'text', label: '电话', prop: 'phone_number'},
                         {type: 'text', label: '证件号码', prop: 'identity', width: '123'},
-                        {type: 'text', label: '是否公开姓名', prop: 'is_publish_name', width: '175',render_text:(item)=>{return item?"是":"否"}},
                         {type: 'text', label: '英文名', prop: 'first_name', min_width: '200'},
                         {type: 'text', label: '英文姓', prop: 'last_name', width: '200'},
                         {

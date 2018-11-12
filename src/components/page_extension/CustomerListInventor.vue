@@ -109,7 +109,6 @@
         watch: {
             itemData() {
                 this.inventorData = this.itemData;
-                console.log(this.inventorData)
             }
         },
         components: {

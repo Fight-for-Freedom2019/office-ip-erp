@@ -89,13 +89,12 @@
                     first_name: "",
                     last_name: "",
                     citizenship:"",
-                    is_publish_name: 1,
+                    is_publish_name: true,
                 },
                 'rules': {
                     'name': [{required: true, message: '发明名称不能为空', trigger: 'blur'},
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
                     ],
-                    'subtype': {required: true, message: '发明人类型不能为空', trigger: 'change'},
                     'identity': [{required: true, message: '证件号码不能为空', trigger: 'blur'},
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
                     ],
@@ -110,13 +109,6 @@
                             trigger: 'blur'
                         }],
                     'phone_number': {pattern: /^1[345678]\d{9}$/, message: '手机号码或者座机号码格式错误', trigger: 'blur'},
-                    // 'address': [{ required: true, message: '地址名称不能为空', trigger: 'blur'},
-                    //            { min: 4, max: 255, message: '地址长度应在4-225个字符之间', trigger: 'blur'},
-                    //             { pattern: /^[^~!@#$%^&*]+$/, message: '地址不能包含非法字符', trigger: 'blur' }],
-                    // 'english_name':[
-                    //          { pattern: /^[a-zA-Z]+$/, message: '英文名称应为英文字符', trigger: 'blur' }],
-                    // 'english_address':{ pattern: /^[a-zA-Z 0-9]+$/, message: '英文地址为英文字母、数字和空格', trigger: 'blur' },
-                    // 'is_fee_discount': { required: true, message: '费减状态备案不能为空', trigger: 'change' },
                 }
             }
         },
@@ -142,32 +134,40 @@
                 this.$emit('update');
             },
             add() {
-                if (this.form.name !== '' && this.form.citizenship !== '' && this.form.identity !== '') {
-                    const url = `${URL}/${this.customer.id}/inventors`;
-                    const data = Object.assign({}, this.form);
-                    delete data.customer;
-                    const success = _ => {
-                        this.dialogVisible = false;
-                        this.refresh();
-                        this.$message({message: '添加成功！', type: 'success'})
+                this.$refs['form'].validate((valid)=>{
+                    if(valid){
+                        const url = `${URL}/${this.customer.id}/inventors`;
+                        const data = Object.assign({}, this.form);
+                        delete data.customer;
+                        const success = _ => {
+                            this.dialogVisible = false;
+                            this.refresh();
+                            this.$message({message: '添加成功！', type: 'success'})
+                        };
+                        this.$axiosPost({url, data, success});
+                    }else {
+                        this.$message({type: 'warning', message: '请正确填写'});
                     }
-                    this.$axiosPost({url, data, success});
-                } else {
-                    this.$message({type: 'warning', message: '必选项不能为空！'});
-                }
+                })
 
             },
             edit() {
-                const url = `${URL}/${this.customer.id}/inventors/${this.presentId}`;
-                const data = Object.assign({}, this.form);
-                delete data.customer;
-                !Number.isNaN(data.is_publish_name)?data.is_publish_name === "是"?data.is_publish_name = 1:data.is_publish_name=0:"";
-                const success = _ => {
-                    this.dialogVisible = false;
-                    this.update();
-                    this.$message({message: '编辑成功！', type: 'success'})
-                }
-                this.$axiosPut({url, data, success});
+                this.$refs['form'].validate((valid)=>{
+                    if(valid){
+                        const url = `${URL}/${this.customer.id}/inventors/${this.presentId}`;
+                        const data = Object.assign({}, this.form);
+                        delete data.customer;
+                        const success = _ => {
+                            this.dialogVisible = false;
+                            this.update();
+                            this.$message({message: '编辑成功！', type: 'success'})
+                        }
+                        this.$axiosPut({url, data, success});
+                    }else {
+                        this.$message({type: 'warning', message: '请正确填写'});
+                    }
+                });
+
             },
             cancel() {
                 this.dialogVisible = false;

@@ -1,6 +1,6 @@
 <template>
   <div style="display: flex;">
-  	<template style="min-width: 0; overflow: auto;">
+  	<template>
 	  <user-tree @refresh="handleTree"></user-tree>
     </template>
     <template style="flex:1;">
