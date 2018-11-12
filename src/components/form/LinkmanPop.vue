@@ -10,7 +10,7 @@
                 <static-select type="contacts_type" v-model="form.contact_type"></static-select>
             </el-form-item>
 
-            <el-form-item label="邮箱" prop="identity">
+            <el-form-item label="邮箱" prop="email_address">
                 <el-input v-model="form.email_address" placeholder=""></el-input>
             </el-form-item>
             <el-form-item label="电话" prop="phone_number">
@@ -25,9 +25,6 @@
                 </el-form-item>
                 <el-form-item label="英文姓" prop="last_name">
                     <el-input v-model="form.last_name" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="是否公开姓名" prop="is_publish_name">
-                    <app-switch :type="switch_type" v-model="form.is_publish_name" @input="getIsPublishName"></app-switch>
                 </el-form-item>
             </template>
 
@@ -67,7 +64,6 @@
                     identity: "",
                     first_name: "",
                     last_name: "",
-                    is_publish_name: 0,
                 },
                 'rules': {
                     'name': [{required: true, message: '联系人名称不能为空', trigger: 'blur'},
@@ -90,10 +86,20 @@
                     'address': [{required: false, message: '地址名称不能为空', trigger: 'blur'},
                         {min: 4, max: 255, message: '地址长度应在4-225个字符之间', trigger: 'blur'},
                         {pattern: /^[^~!@#$%^&*]+$/, message: '地址不能包含非法字符', trigger: 'blur'}],
-                    'english_name': [
-                        {pattern: /^[a-zA-Z]+$/, message: '英文名称应为英文字符', trigger: 'blur'}],
-                    'english_address': {pattern: /^[a-zA-Z 0-9]+$/, message: '英文地址为英文字母、数字和空格', trigger: 'blur'},
-                    'is_fee_discount': {required: false, message: '费减状态备案不能为空', trigger: 'change'},
+                    "first_name": [
+                        {
+                            pattern: /^[a-zA-Z][\.a-zA-Z\s]*?[a-zA-Z]+$/,
+                            message: "英文名应为英文字符和空格",
+                            trigger: "blur"
+                        }
+                    ],
+                    "last_name": [
+                        {
+                            pattern: /^[a-zA-Z][\.a-zA-Z\s]*?[a-zA-Z]+$/,
+                            message: "英文名应为英文字符和空格",
+                            trigger: "blur"
+                        }
+                    ],
                 }
             }
         },
@@ -114,52 +120,46 @@
                     this.dialogVisible = false;
                     return
                 }
-                if (this.form.name !== ''&&this.form.contact_type!=="") {
-                    const url = `${URL}/${this.customer.id}/contacts`;
-                    const data = Object.assign({}, this.form);
-                    const success = _ => {
-                        this.dialogVisible = false;
-                        this.refresh();
-                        this.$message({message: '添加成功！', type: 'success'})
+                this.$refs.form.validate((valid) => {
+                    if(valid){
+                        const url = `${URL}/${this.customer.id}/contacts`;
+                        const data = Object.assign({}, this.form);
+                        const success = _ => {
+                            this.dialogVisible = false;
+                            this.refresh();
+                            this.$message({message: '添加成功！', type: 'success'})
+                        }
+                        this.$axiosPost({url, data, success});
+                    }else {
+                        this.$message({type: 'warning', message: '必选项不能为空！'});
                     }
-                    this.$axiosPost({url, data, success});
-                } else {
-                    this.$message({type: 'warning', message: '必选项不能为空！'});
-                }
-
-            },
-            getIsPublishName(val){
-                this.form.is_publish_name = val;
+                })
             },
             edit() {
-                const url = `${URL}/${this.customer.id}/contacts/${this.contact_id}`;
-                const data = Object.assign({}, this.form);
-                console.log("提交的data",data);
-                if (data.name === '' || data.contact_type==="") {
-                    this.$message({type: 'warning', message: '必选项不能为空！'});
-                    return
-                }
-                map.get("contacts_type").options.forEach((_) => {
-                    if (_.name === data.contact_type) {
-                        data.contact_type = _.id;
+                this.$refs.form.validate((valid) => {
+                    if(valid){
+                        const url = `${URL}/${this.customer.id}/contacts/${this.contact_id}`;
+                        const data = Object.assign({}, this.form);
+                        map.get("contacts_type").options.forEach((_) => {
+                            if (_.name === data.contact_type) {
+                                data.contact_type = _.id;
+                            }
+                        });
+                        const success = _ => {
+                            this.dialogVisible = false;
+                            this.$emit("update");
+                            this.$message({message: '编辑成功！', type: 'success'})
+                        };
+                        this.$axiosPut({url, data, success});
+                    }else {
+                        this.$message({type: 'warning', message: '必选项不能为空！'});
                     }
-                });
-                const success = _ => {
-                    this.dialogVisible = false;
-                    this.$emit("update");
-                    this.$message({message: '编辑成功！', type: 'success'})
-                }
-                this.$axiosPut({url, data, success});
+                })
+
             },
             cancel() {
                 this.dialogVisible = false;
             },
-        },
-        watch:{
-            // form:function (val,oldVal) {
-            //     console.log("每次都会经过这吗?")
-            //     val.is_publish_name = val.is_publish_name=== "是"?1:0;
-            // }
         },
         components: {
             StaticSelect,
