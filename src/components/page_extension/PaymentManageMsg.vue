@@ -74,10 +74,10 @@
         <div class="PaymentRequestDetail">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="费用清单" name="first">
-                    <payment-cost-detail :data="costDetail"></payment-cost-detail>
+                    <payment-cost-detail :data="costDetail" :id="id"></payment-cost-detail>
                 </el-tab-pane>
                 <el-tab-pane label="跟催记录" name="reminders">
-                    <reminders-record :data="remindersData"></reminders-record>
+                    <reminders-record ref="reminders" :data="remindersData" :id="id"></reminders-record>
                 </el-tab-pane>
                 <el-tab-pane label="回款记录" name="received_payments">
                     <received-record ref="received" :id="id" :data="receivedData"></received-record>
@@ -100,7 +100,20 @@
         data() {
             return {
                 activeName: "first",
-                form: {},
+                form: {
+                    creator_user_name:"",
+                    creation_time:"",
+                    status:"",
+                    amount:"",
+                    currency:"",
+                    roe:"",
+                    rmb_amount:"",
+                    request_time:"",
+                    deadline:"",
+                    payment_time:"",
+                    received_amount:"",
+                    remark:"",
+                },
                 costDetail: [],
                 remindersData: [],
                 receivedData: [],
@@ -126,7 +139,10 @@
                     this.$nextTick(function () {
                         this.$refs.received.refreshData();
                     })
-
+                }else if(tab.name === "reminders"){
+                    this.$nextTick(function () {
+                        this.$refs.reminders.refreshData();
+                    })
                 }
             },
             submitAudit(id) {
@@ -178,14 +194,19 @@
                 };
                 this.$axiosGet({url, data, success});
             },
+            coverObj(val){
+                val?this.$tool.coverObj(this.form,val):"";
+            },
         },
-        created() {
-            this.form = this.$tool.deepCopy(this.rowData);
+        created(){
             this.getDetail(this.id);
+        },
+        mounted() {
+            this.coverObj(this.rowData);
         },
         watch: {
             rowData: function (val, oldVal) {
-                this.$tool.coverObj(this.form, val);
+                this.coverObj(val);
             },
             id: function (val, oldVal) {
                 this.getDetail(val);

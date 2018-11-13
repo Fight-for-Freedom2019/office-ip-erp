@@ -76,7 +76,7 @@
                         data,
                         success: () => {
                             this.$message({type: "success", message: "添加成功"});
-                            this.$emit("editSuccess");
+                            this.$emit("refresh");
                         }
                     });
                 } else {
@@ -93,7 +93,7 @@
                         data,
                         success: () => {
                             this.$message({type: "success", message: "编辑成功"});
-                            this.$emit("editSuccess");
+                            this.$emit("update");
                         }
                     });
                 }

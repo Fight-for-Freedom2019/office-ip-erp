@@ -35,7 +35,7 @@
                     'highlightCurrentRow': true,
                     'is_search': true,
                     'is_list_filter': true,
-                    'list_type': 'serial',
+                    'list_type': 'invoice_targets',
                     'search_placeholder': '客户名称、联系人',
                     'rowClick': this.handleRowClick,
                     'header_btn': [

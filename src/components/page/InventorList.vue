@@ -9,8 +9,7 @@
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
-            <inventor-list-add ref="inventorsAdd" :type='formType' :inventors='inventors'
-                               @editSuccess="refreshTableData" @addSuccess="refreshTableData"></inventor-list-add>
+            <inventor-list-add ref="inventorsAdd" :type='formType' :inventors='inventors' @refresh="refresh" @update="update"></inventor-list-add>
         </app-shrink>
     </div>
 </template>
@@ -19,10 +18,12 @@
     import TableComponent from '@/components/common/TableComponent'
     import InventorListAdd from '@/components/page_extension/InventorListAdd'
     import AppShrink from '@/components/common/AppShrink'
+    import TableMixins from '@/mixins/table-mixins'
 
     const URL = '/inventors'
     export default {
         name: 'InventorList',
+        mixins:[TableMixins],
         data() {
             return {
                 isInventorsAddPanelVisible: false,
@@ -120,18 +121,9 @@
                 this.appPanelTitle = '编辑发明人>' + copy.name;
                 this.isInventorsAddPanelVisible = true;
             },
-            refresh() {
-                this.$refs.table.refresh();
-            },
-            update() {
-                this.$refs.table.update();
-            },
             handlePopRefresh(key) {
                 this.refresh();
             }
-        },
-        mounted() {
-            this.refresh();
         },
         components: {TableComponent, InventorListAdd, AppShrink}
     }

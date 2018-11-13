@@ -188,7 +188,7 @@
                                 data,
                                 success: () => {
                                     this.$message({type: "success", message: "添加申请人成功"});
-                                    this.$emit("editSuccess");
+                                    this.$emit("refresh");
                                 }
                             });
                         } else {
@@ -199,7 +199,7 @@
                                 data,
                                 success: () => {
                                     this.$message({type: "success", message: "编辑申请人成功"});
-                                    this.$emit("editSuccess");
+                                    this.$emit("update");
                                 }
                             });
                         }

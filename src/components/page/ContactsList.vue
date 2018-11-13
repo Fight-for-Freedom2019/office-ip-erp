@@ -9,8 +9,7 @@
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
-            <contacts-list-add ref="contactsAdd" :type='formType' :contacts='contacts' @refresh="refresh" @update="update" @editSuccess="refreshTableData"
-                               @addSuccess="refreshTableData"></contacts-list-add>
+            <contacts-list-add ref="contactsAdd" :type='formType' :contacts='contacts' @refresh="refresh" @update="update"></contacts-list-add>
         </app-shrink>
     </div>
 </template>
@@ -20,12 +19,15 @@
     import ContactsListAdd from '@/components/page_extension/ContactsListAdd'
     import AppShrink from '@/components/common/AppShrink'
     import Config from "@/const/selectConfig";
+    import TableMixins from '@/mixins/table-mixins'
+
 
     const map = new Map(Config);
 
     const URL = '/contacts'
     export default {
         name: 'contactsList',
+        mixins:[TableMixins],
         data() {
             return {
                 isContactsAddPanelVisible: false,
@@ -37,6 +39,8 @@
                     'url': URL,
                     'rowClick': this.handleRowClick,
                     'height': 'default',
+                    'is_list_filter': true,
+                    'list_type': 'contacts',
                     'header_btn': [
                         {type: 'add', click: this.addPop},
                         {type: 'delete'},
@@ -120,20 +124,10 @@
                 this.appPanelTitle = '编辑联系人>' + copy.name;
                 this.isContactsAddPanelVisible = true;
             },
-            refresh() {
-                this.$refs.table.refresh();
-            },
-            update() {
-                this.$refs.table.update();
-            },
             handlePopRefresh(key) {
                 this.refresh();
             }
         },
-        mounted() {
-            this.refresh();
-        }
-        ,
         components: {
             TableComponent, ContactsListAdd, AppShrink
         }

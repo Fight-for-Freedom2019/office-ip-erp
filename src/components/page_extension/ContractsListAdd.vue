@@ -143,7 +143,7 @@
                 const data = this.form;
                 data.customer_id = data.customer;
                 data.contact_id = data.contact;     // 在获取remote-select数据时把id保存在了contact和customer这两个字段上，实际上后端需要的是contact_id和customer_id
-                if(data.customer_id === null && data.customer === null){this.$message({type: "warn", message: "必选项不能为空"});return;}
+                if(data.customer_id === null && data.customer === null){this.$message({type: "warning", message: "必选项不能为空"});return;}
                 let response;
                 if (type === "add") {
                     response = await this.$axiosPost({
@@ -151,7 +151,7 @@
                         data,
                         success: () => {
                             this.$message({type: "success", message: "添加合同成功"});
-                            this.$emit("editSuccess");
+                            this.$emit("refresh");
                         }
                     });
                 } else {
@@ -162,7 +162,7 @@
                         data,
                         success: () => {
                             this.$message({type: "success", message: "编辑合同成功"});
-                            this.$emit("editSuccess");
+                            this.$emit("update");
                         }
                     });
                 }

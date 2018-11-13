@@ -34,6 +34,12 @@ const strainerConfig = [
 		{ "name": "客户定稿日", "id": "customer_final_edition_time",},
 		{ "name": "递交日", "id": "filling_time",},
 		{ "name": "申请日", "id": "application_date",},
-	]]
+	]],
+    ['applicants',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['invoices',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]]
 ]
 export {config, fieldExceptMap, strainerConfig}

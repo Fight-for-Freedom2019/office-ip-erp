@@ -9,8 +9,7 @@
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
-            <remark-list-add ref="remarkAdd" :type='formType' :contacts='contacts' @editSuccess="refreshTableData"
-                             @addSuccess="refreshTableData"></remark-list-add>
+            <remark-list-add ref="remarkAdd" :type='formType' :contacts='contacts' @refresh="refresh" @update="update"></remark-list-add>
         </app-shrink>
     </div>
 </template>
@@ -19,11 +18,14 @@
     import TableComponent from '@/components/common/TableComponent'
     import RemarkListAdd from '@/components/page_extension/RemarkListAdd'
     import AppShrink from '@/components/common/AppShrink'
+    import TableMixins from '@/mixins/table-mixins'
+
 
     const URL = '/remarks'
 
     export default {
         name: 'CustomerRemarks',
+        mixins:[TableMixins],
         data() {
             return {
                 isRemarkAddPanelVisible: false,
@@ -35,6 +37,8 @@
                     'url': URL,
                     'rowClick': this.handleRowClick,
                     'height': 'default',
+                    'is_list_filter': true,
+                    'list_type': 'remarks',
                     'header_btn': [
                         {type: 'add', click: this.addPop},
                         {type: 'delete'},
@@ -95,18 +99,9 @@
                 this.appPanelTitle = '编辑备注';
                 this.isRemarkAddPanelVisible = true;
             },
-            refresh() {
-                this.$refs.table.refresh();
-            },
-            update() {
-                this.$refs.table.update();
-            },
             handlePopRefresh(key) {
                 this.refresh();
             }
-        },
-        mounted() {
-            this.refresh();
         },
         components: {TableComponent, RemarkListAdd, AppShrink}
     }
