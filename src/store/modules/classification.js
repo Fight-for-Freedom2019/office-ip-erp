@@ -40,8 +40,9 @@ const mutations = {
 const actions = {
 	refreshClassification ({commit, rootState, state},{success}={}) {
 		url = rootState.status ? url.replace(/\/api/, '') : url;
+		const params = {is_classification_child: 1};
 		rootState.axios
-			.get(url)
+			.get(url,params)
 			.then(response=>{
 				const d = response.data;
 				if(d.status){
