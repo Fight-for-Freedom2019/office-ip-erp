@@ -5,8 +5,8 @@ const menu = {};
 const taskMenu = [
 	{ type: 'item', text: '我的待办', path: '/task/pending', icon: 'iconfont el-icon-my-task'},
 	{ type: 'submenu', text: '我的审核', path: '/task/review', icon: 'iconfont el-icon-my-task', children:[
-		{ type: 'item', text: '我发送的', path: '/task/review/send', icon: ''},
-		{ type: 'item', text: '待我审核', path: '/task/review/check', icon: ''},
+		{ type: 'item', text: '我发送的', path: '/task/review/sent', icon: ''},
+		{ type: 'item', text: '待我审核', path: '/task/review/my', icon: ''},
 	]},
 	{ type: 'submenu', text: '期限管控', path: '/task/monitor', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '新申请', path: '/task/monitor/application', icon: '' },
@@ -49,14 +49,14 @@ const projectMenu = [
 
 const crmMenu = [
 	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont el-icon-my-task'},
-	{ type: 'item', text: '订单管理', path: '/crm/project', icon: 'iconfont el-icon-my-task'},
+	{ type: 'item', text: '订单管理', path: '/crm/orders', icon: 'iconfont el-icon-my-task'},
 	{ type: 'submenu', text: '客户数据', path: '/crm/data', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '申请人管理', path: '/crm/data/applicants', icon: 'iconfont icon-proposer' },
 		{ type: 'item', text: '发明人管理', path: '/crm/data/inventors', icon: 'iconfont icon-proposer' },
 		{ type: 'item', text: '联系人管理', path: '/crm/data/contacts', icon: 'iconfont icon-proposer'},
 		{ type: 'item', text: '客户备注', path: '/crm/data/remarks', icon: 'iconfont icon-contract'},
 		{ type: 'item', text: '合同管理', path: '/crm/contracts', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '开票信息', path: '/crm/data/bill_info', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '开票信息', path: '/crm/data/invoice_targets', icon: 'iconfont icon-contract'},
 	] },
 	{ type: 'submenu', text: '账款管理', path: '/crm/finance', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '待请费用', path: '/crm/finance/fee', icon: 'iconfont icon-contract'},
@@ -113,11 +113,11 @@ const dataInsiderMenu = [
 
 
 const settingMenu = [
-	{ type: 'item', text: '个人设置', path: '/setting/individual', icon: 'iconfont el-icon-my-set-copy' },
-	{ type: 'item', text: '用户管理', path: '/setting/userManage', icon: 'iconfont el-icon-my-users' },
+	{ type: 'item', text: '个人设置', path: '/setting/my', icon: 'iconfont el-icon-my-set-copy' },
+	{ type: 'item', text: '用户管理', path: '/setting/users', icon: 'iconfont el-icon-my-users' },
 	// { type: 'item', text: '组织架构', path: '/setting/branch', icon: 'iconfont el-icon-my-department' },
-	{ type: 'item', text: '技术分类管理', path: '/setting/classification', icon: 'iconfont el-icon-my-techonology' },
-	{ type: 'item', text: '产品分类管理', path: '/setting/product', icon: 'iconfont el-icon-my-products' },
+	{ type: 'item', text: '技术分类管理', path: '/setting/classifications', icon: 'iconfont el-icon-my-techonology' },
+	{ type: 'item', text: '产品分类管理', path: '/setting/products', icon: 'iconfont el-icon-my-products' },
 	// { type: 'item', text: '报价管理', path: '/setting/offer', icon: 'iconfont el-icon-my-organization' },
 	{
 		text: '字段权限管理',
@@ -135,11 +135,11 @@ const settingMenu = [
     },
 	{ type: 'submenu', text: '基础数据', path: '/setting/data', icon: 'iconfont el-icon-my-system',
 		children:[
-			{type: 'item', text: '收款账户', path: '/setting/data/payment_account', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '收款账户', path: '/setting/data/payment_accounts', icon: 'iconfont el-icon-my-system'},
 			{type: 'item', text: '费用代码', path: '/setting/data/fee_codes', icon: 'iconfont el-icon-my-system'},
 			{type: 'item', text: '文件类型', path: '/setting/data/file_types', icon: 'iconfont el-icon-my-system'},
 			{type: 'item', text: '案件状态', path: '/setting/data/stages', icon: 'iconfont el-icon-my-system'},
-			{type: 'item', text: '原始记录', path: '/setting/data/entity_change', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '原始记录', path: '/setting/data/entity_changes', icon: 'iconfont el-icon-my-system'},
 		]
     },
 	{ type: 'item', text: '系统设置', path: '/setting/system', icon: 'iconfont el-icon-my-system' },

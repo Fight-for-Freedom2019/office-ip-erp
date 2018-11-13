@@ -112,7 +112,7 @@ const router = new Router({
     { path: '/news', redirect: '/news/mailList' },
     { path: '/dispatch', redirect: '/dispatch/administration' },
     { path: '/fee', redirect: '/fee/bonus/all' },
-    { path: '/setting', redirect: '/setting/individual' },
+    { path: '/setting', redirect: '/setting/my' },
     { path: '/renewal', redirect: '/renewal/fee' },
     { path: '/report', redirect: '/report/task' },
     { path: '/test', redirect: '/test/form' },
@@ -151,7 +151,7 @@ const router = new Router({
       component: ContactsList
     },
     {
-      path: '/crm/data/bill_info',
+      path: '/crm/data/invoice_targets',
       name: 'BillingInfo',
       component: BillingInfo
     },
@@ -206,7 +206,7 @@ const router = new Router({
       },
     },   
     {
-      path: '/task/review/send',
+      path: '/task/review/sent',
       name: 'TaskReviewSend',
       component: TaskCommon,
       meta: {
@@ -217,7 +217,7 @@ const router = new Router({
       },
     },    
     {
-      path: '/task/review/check',
+      path: '/task/review/my',
       name: 'TaskReviewCheck',
       component: TaskCommon,
       meta: {
@@ -1190,7 +1190,7 @@ const router = new Router({
       component: UserList,
     },
     {
-      path: '/setting/userManage',
+      path: '/setting/users',
       name: 'UserManage',
       component: UserManage,
     },
@@ -1227,12 +1227,12 @@ const router = new Router({
       component: MailAdd,
     },
     {
-      path: '/setting/classification',
+      path: '/setting/classifications',
       name: 'Clssification',
       component: ClassificationCommon,
     },
     {
-      path: '/setting/product',
+      path: '/setting/products',
       name: 'Product',
       component: ClassificationCommon,
     },
@@ -1311,15 +1311,15 @@ const router = new Router({
     { path: '/setting/agency', name: 'SettingAgency', component: SettingAgency },
     { path: '/setting/agency/detail', name: 'SettingAgencyDetail', component: SettingAgencyDetail },
     { path: '/setting/case', name: 'SettingCase', component: SettingAgency },
-    { path: '/setting/individual', name: 'SettingIndividual', component: SettingIndividual },
+    { path: '/setting/my', name: 'SettingIndividual', component: SettingIndividual },
     { path: '/setting/jurisdiction', name: 'SettingJurisdiction', component: SettingJurisdiction },
     { path: '/setting/rule', name: 'SettingRule', component: SettingRule },
     { path: '/setting/field', name: 'SettingField', component: SettingField },
-    { path: '/setting/data/payment_account', name: 'PaymentAccount', component: PaymentAccount },
+    { path: '/setting/data/payment_accounts', name: 'PaymentAccount', component: PaymentAccount },
     { path: '/setting/data/fee_codes', name: 'FeeCode', component: SettingFeeCode },
     { path: '/setting/data/file_types', name: 'FileType', component: SettingFileType },
     { path: '/setting/data/stages', name: 'ProjectStage', component: SettingProjectStage },
-    { path: '/setting/data/entity_change', name: 'EntityChange', component: SettingEntityChange },
+    { path: '/setting/data/entity_changes', name: 'EntityChange', component: SettingEntityChange },
     { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
     { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
     { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },
