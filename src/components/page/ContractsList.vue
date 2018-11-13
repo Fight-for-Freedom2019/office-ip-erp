@@ -9,8 +9,7 @@
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
-            <contracts-list-add ref="contractsAdd" :type='formType' :contracts='contracts'
-                                @editSuccess="refreshTableData" @addSuccess="refreshTableData"></contracts-list-add>
+            <contracts-list-add ref="contractsAdd" :type='formType' :contracts='contracts' @refresh="refresh" @update="update"></contracts-list-add>
         </app-shrink>
     </div>
 </template>
@@ -19,11 +18,13 @@
     import TableComponent from '@/components/common/TableComponent'
     import ContractsListAdd from '@/components/page_extension/ContractsListAdd'
     import AppShrink from '@/components/common/AppShrink'
+    import TableMixins from '@/mixins/table-mixins'
 
     const URL = '/contracts'
 
     export default {
         name: 'ContractsList',
+        mixins:[TableMixins],
         data() {
             return {
                 isContractsAddPanelVisible: false,
@@ -35,6 +36,8 @@
                     'url': URL,
                     'rowClick': this.handleRowClick,
                     'height': 'default',
+                    'is_list_filter': true,
+                    'list_type': 'contracts',
                     'header_btn': [
                         {type: 'add', click: this.addPop},
                         {type: 'delete'},
@@ -112,18 +115,9 @@
                 this.appPanelTitle = '编辑合同>' + row.serial;
                 this.isContractsAddPanelVisible = true;
             },
-            refresh() {
-                this.$refs.table.refresh();
-            },
-            update() {
-                this.$refs.table.update();
-            },
             handlePopRefresh(key) {
                 this.refresh();
             }
-        },
-        mounted() {
-            this.refresh();
         },
         components: {TableComponent, ContractsListAdd, AppShrink}
     }

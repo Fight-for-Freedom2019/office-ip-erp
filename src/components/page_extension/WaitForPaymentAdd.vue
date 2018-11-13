@@ -16,7 +16,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="费用类型" prop="feecode">
-                        <static-select type="fee_code" v-model="form.feecode"></static-select>
+                        <static-select type="fee_code" v-model="form.fee_code"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -63,7 +63,7 @@
                     <!--</el-form-item>-->
                 <!--</el-col>-->
                 <el-col :span="12">
-                    <el-form-item label="费用状态" prop="fee_code_id">
+                    <el-form-item label="费用状态" prop="status">
                         <static-select type="fee_status" v-model="form.status"></static-select>
                     </el-form-item>
                 </el-col>
@@ -101,8 +101,9 @@
                     due_time: "",
                     status: "",
                     order_id: "",
-                    feecode:"",
+                    fee_code:"",
                     remark:"",
+                    is_debit:1,
                 },
                 rules: {
                     customer: [
@@ -157,7 +158,7 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val,{obj:["feecode","project"]}):"";
+                val?this.$tool.coverObj(this.form,val,{obj:["fee_code","project"]}):"";
             },
         },
         watch:{

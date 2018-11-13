@@ -58,7 +58,7 @@
                     'is_list_filter': true,
                     'list_type': 'serial',
                     'is_merge': {KEY: "customer.id", COL: [1, 2, 3, 4, 5]},
-                    'search_placeholder': '客户名称、联系人',
+                    'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
                         {type: 'add', click: this.add},
@@ -110,7 +110,7 @@
                 },
                 compileType: "add",
                 isPanelVisible: false,
-                title: "",
+                title: "新增",
                 row: null,
                 dialogCreateNewOrder: false,
                 dialogAddToOrder: false,
@@ -121,12 +121,12 @@
         methods: {
             add() {
                 this.isPanelVisible = true;
+                this.title = "新增";
                 this.compileType = "add";
                 this.$refs.waitForPayment?this.$refs.waitForPayment.clear():"";
             },
             handleRowClick(row) {
                 this.compileType = "edit";
-                row.fee_code_name = row.feecode?row.feecode.name:"";
                 this.row = row;
                 this.title = `订单编号: ${row.project.serial}`;
                 this.isPanelVisible = true;

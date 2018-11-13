@@ -218,7 +218,76 @@ const map = new Map([
         { components: 'remote_select', id: 'agency',                        name: '代理机构', type: 'agency' },
         { components: 'static_select', id: 'is_district_funding',           name: '是否已申报资助', type: 'bool', multiple: false},    
         { components: 'static_select', id: 'is_city_funding',               name: '是否已申报市资助', type: 'bool', multiple: false},    
-    ]]
+    ]],
+    /* 申请人 */
+    ['applicants',[
+        { components: 'remote_select', id: 'customer',               name: '客户', type: 'customer', used: true},
+        { components: 'input',         id: 'name',                   name: '申请人姓名', used: true},
+        { components: 'static_select', id: 'citizenship',            name: '国籍', type: 'area'},
+        { components: 'static_select', id: 'applicant_type',         name: '申请人类型', type: 'applicant_type', used: true},
+        { components: 'input',         id: 'identity',               name: '证件号码'},
+        { components: 'input',         id: 'postcode',               name: '邮编'},
+        { components: 'input',         id: 'email_address',          name: '邮箱'},
+        { components: 'input',         id: 'phone_number',           name: '电话号码'},
+        { components: 'input',         id: 'residence',              name: '住所所在地', type: 'area'},
+        { components: 'input',         id: 'address',                name: '详细地址', type: 'area'},
+        { components: 'static_select', id: 'is_fee_discount',        name: '费用备案', type: 'fee_discount'},
+        { components: 'input',         id: 'english_name',           name: '英文姓名'},
+        { components: 'input',         id: 'english_address',        name: '英文地址'},
+    ]],
+    /* 发明人 */
+    ['inventors',[
+        { components: 'remote_select', id: 'customer',               name: '客户', type: 'customer', used: true},
+        { components: 'input',         id: 'name',                   name: '姓名'},
+        { components: 'input',         id: 'title',                  name: '尊称'},
+        { components: 'static_select', id: 'citizenship',            name: '国籍', type: 'area'},
+        { components: 'input',         id: 'email_address',          name: '邮箱'},
+        { components: 'input',         id: 'phone_number',           name: '电话号码'},
+        { components: 'input',         id: 'identity',               name: '证件号码'},
+        { components: 'input',         id: 'first_name',             name: '英文名'},
+        { components: 'input',         id: 'last_name',              name: '英文姓'},
+        { components: 'input',         id: 'remark',                 name: '备注'},
+    ]],
+    /* 联系人 */
+    ['contacts',[
+        { components: 'remote_select', id: 'customer',               name: '客户', type: 'customer', used: true},
+        { components: 'remote_select', id: 'name',                   name: '姓名'},
+        { components: 'static_select', id: 'contact_type',           name: '类型', type: 'contacts_type', used: true},
+        { components: 'input',         id: 'email_address',          name: '邮箱'},
+        { components: 'input',         id: 'address',                name: '电话号码'},
+        { components: 'input',         id: 'phone_number',           name: '地址'},
+        { components: 'input',         id: 'remark',                 name: '备注'},
+    ]],
+    /* 客户备注 */
+    ['remarks',[
+        { components: 'remote_select', id: 'customer',               name: '客户', type: 'customer', used: true},
+        { components: 'static_select', id: 'type',                   name: '类型', type: 'remark_type', used: true},
+        { components: 'date',          id: 'creation_time',          name: '备注时间'},
+        { components: 'input',         id: 'content',                name: '备注内容'},
+
+    ]],
+    /* 合同管理 */
+    ['contracts',[
+        { components: 'remote_select', id: 'customer',               name: '客户', type: 'customer', used: true},
+        { components: 'remote_select', id: 'name',                   name: '联系人', type: 'contacts', used: true},
+        { components: 'input',         id: 'serial',                 name: '合同编号'},
+        { components: 'static_select', id: 'type',                   name: '合同类型',type:"contract_type",used:true},
+        { components: 'date',          id: 'signing_date',           name: '签订日期'},
+        { components: 'date',          id: 'expire_date',            name: '届满日期'},
+        { components: 'input',         id: 'remark',                 name: '备注'},
+    ]],
+    /* 开票信息 */
+    ['invoice_targets',[
+        { components: 'remote_select', id: 'customer',               name: '客户', type: 'customer', used: true},
+        { components: 'static_select', id: 'target_type',            name: '主体类型', type: 'target_type', used: true},
+        { components: 'input',         id: 'name',                   name: '单位名称'},
+        { components: 'input',         id: 'identity',               name: '纳税人识别号'},
+        { components: 'input',         id: 'address',                name: '注册地址'},
+        { components: 'input',         id: 'phone_number',           name: '联系电话'},
+        { components: 'input',         id: 'bank',                   name: '开户行'},
+        { components: 'input',         id: 'account',                name: '银行账户'},
+        { components: 'input',         id: 'remark',                 name: '备注'},
+    ]],
 ])
 
 const customPathMap = new Map([
