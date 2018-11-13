@@ -13,7 +13,7 @@
 import AppCollapse from '@/components/common/AppCollapse'
 import AxiosMixins from '@/mixins/axios-mixins'
 
-const URL = '/api/configs'
+const URL = '/configs'
 
 export default {
   name: 'settingSystem',

@@ -25,7 +25,7 @@
 			<el-form-item label="SMTP端口" prop="smtp_port">
 				<el-input v-model="form.smtp_port" placeholder="请输入SMTP端口"></el-input>
 			</el-form-item>
-			<el-form-item label="是否使用SLS" prop="is_ssl">
+			<el-form-item label="是否使用SSL" prop="is_ssl">
 			<!-- 	<el-checkbox label="连接使用SSL (若POP端口为110不需要勾选，若POP端口为995必须勾选)" v-model="form.is_ssl" :true-label="1" :false-label="0"></el-checkbox> -->
         <app-switch v-model="form.is_ssl" type="is"></app-switch>
 			</el-form-item>

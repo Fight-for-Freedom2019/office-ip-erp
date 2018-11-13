@@ -58,7 +58,7 @@
                     'is_list_filter': true,
                     'list_type': 'serial',
                     'is_merge': {KEY: "customer.id", COL: [1, 2, 3, 4, 5]},
-                    'search_placeholder': '客户名称、联系人',
+                    'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
                         {type: 'add', click: this.add},

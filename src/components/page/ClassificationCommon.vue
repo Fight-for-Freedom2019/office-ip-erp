@@ -231,7 +231,7 @@ export default {
     },
     url () {
       const t = this.pageType;
-      return t == 'classification' ? '/classifications' : '/productclassifies';
+      return t == 'classification' ? '/classifications' : '/products';
     },
     dialogTitle () {
       const t = this.pageType;

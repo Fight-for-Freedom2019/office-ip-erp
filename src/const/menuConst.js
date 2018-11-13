@@ -67,7 +67,7 @@ const crmMenu = [
 	] },
 	{ type: 'submenu', text: '通知发文', path: '/crm/notice', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '官文', path: '/crm/notice/notice', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '报表', path: '/crm/notice/express', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '报表', path: '/crm/notice/report', icon: 'iconfont icon-contract'},
 		{ type: 'item', text: '年费', path: '/crm/notice/renewal', icon: 'iconfont icon-contract'},
 		{ type: 'item', text: '快递', path: '/crm/notice/express', icon: 'iconfont icon-contract'},
 	] },
@@ -92,7 +92,6 @@ const reportMenu = [
 ]
 
 const exchangeMenu = [
-	{ type: 'item', text: '邮件', path: '/exchange/mail', icon: 'el-icon-my-patent' },
 	{ type: 'item', text: '文档上传', path: '/exchange/document', icon: 'el-icon-my-patent' },
 	{ type: 'item', text: 'CPC通知书手动上传', path: '/exchange/cpc', icon: 'el-icon-my-patent' },
 	{ 
@@ -105,6 +104,7 @@ const exchangeMenu = [
 			{ type: 'item', text: '递交包', path: '/exchange/client/filing', icon: '' },
 		],
 	},
+	{ type: 'item', text: '邮件', path: '/exchange/mail', icon: 'el-icon-my-patent' },
 ];
 
 const dataInsiderMenu = [
@@ -125,10 +125,22 @@ const settingMenu = [
 		icon: 'iconfont el-icon-my-set-copy',
 		type: 'item',
 	},
-	{ type: 'submenu', text: '基础设置', path: '/setting/basics', icon: 'iconfont el-icon-my-system',
-    children:[
-        {type: 'item', text: '收款账户', path: '/setting/basics/payment_account', icon: 'iconfont el-icon-my-system'}
-    ]
+	{ type: 'item', text: '邮件模板管理', path: '/setting/mail_templates', icon: 'iconfont el-icon-my-products' },
+	{ type: 'submenu', text: '流程自定义', path: '/setting/flow', icon: 'iconfont el-icon-my-system',
+		children:[
+			{type: 'item', text: '管制事项', path: '/setting/flow/definitions', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '流程管理', path: '/setting/flow/flows', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '流程节点', path: '/setting/flow/actions', icon: 'iconfont el-icon-my-system'},
+		]
+    },
+	{ type: 'submenu', text: '基础数据', path: '/setting/data', icon: 'iconfont el-icon-my-system',
+		children:[
+			{type: 'item', text: '收款账户', path: '/setting/data/payment_account', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '费用代码', path: '/setting/data/fee_codes', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '文件类型', path: '/setting/data/file_types', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '案件状态', path: '/setting/data/stages', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '原始记录', path: '/setting/data/entity_change', icon: 'iconfont el-icon-my-system'},
+		]
     },
 	{ type: 'item', text: '系统设置', path: '/setting/system', icon: 'iconfont el-icon-my-system' },
 ];
@@ -156,27 +168,27 @@ menu.source = [
 		icon: 'iconfont el-icon-my-patent',
 		menu: patentMenu,
 	},
-	{
-		text: '商标',
-		key: 'trademark',
-		path: '/trademark',
-		icon: 'iconfont el-icon-my-patent',
-		menu: trademarkMenu,
-	},
-	{
-		text: '版权',
-		key: 'copyright',
-		path: '/copyright',
-		icon: 'iconfont el-icon-my-copyright',
-		menu: copyrightMenu,
-	},
-	{
-		text: '项目',
-		key: 'project',
-		path: '/project',
-		icon: 'iconfont el-icon-my-copyright',
-		menu: projectMenu,
-	},
+	// {
+	// 	text: '商标',
+	// 	key: 'trademark',
+	// 	path: '/trademark',
+	// 	icon: 'iconfont el-icon-my-patent',
+	// 	menu: trademarkMenu,
+	// },
+	// {
+	// 	text: '版权',
+	// 	key: 'copyright',
+	// 	path: '/copyright',
+	// 	icon: 'iconfont el-icon-my-copyright',
+	// 	menu: copyrightMenu,
+	// },
+	// {
+	// 	text: '项目',
+	// 	key: 'project',
+	// 	path: '/project',
+	// 	icon: 'iconfont el-icon-my-copyright',
+	// 	menu: projectMenu,
+	// },
 	{
 		text: 'CRM',
 		key: 'crm',
@@ -191,13 +203,13 @@ menu.source = [
 		icon: 'iconfont el-icon-my-fee',
 		menu: financeMenu,
 	},
-	{
-		text: '报表',
-		key: 'report',
-		path: '/report',
-		icon: 'el-icon-my-report',
-		menu: reportMenu,
-	},
+	// {
+	// 	text: '报表',
+	// 	key: 'report',
+	// 	path: '/report',
+	// 	icon: 'el-icon-my-report',
+	// 	menu: reportMenu,
+	// },
 	{
 		text: '交互',
 		key: 'exchange',

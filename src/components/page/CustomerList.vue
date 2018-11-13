@@ -54,12 +54,6 @@
                         {type: 'import'},
                         {type: 'export'},
                         {type: 'control'},
-                        {
-                            type: 'filter', click: () => {
-                                this.filterPopUp
-                            }
-                        },
-
                     ],
                     'columns': [
                         {type: 'selection'},

@@ -1,4 +1,28 @@
 const config = [
+  ['category',{
+    placeholder: '请选择案件类型',
+    options: [
+        { name: '专利', id: 1 },
+        { name: '商标', id: 2 },
+        { name: '版权', id: 3 },
+        { name: '项目', id: 4 },
+    ]
+  }],
+  ['subtype',{
+    placeholder: '请选择案件子类型',
+    options: [
+        { name: '发明专利', id: 1 },
+        { name: '实用新型', id: 2 },
+        { name: '外观设计', id: 3 },
+    ]
+  }],
+  ['status',{
+    placeholder: '请选择状态',
+    options: [
+        { name: '禁用', id: 0 },
+        { name: '启用', id: 1 },
+    ]
+  }],
   ['text_filter_relate',{
     placeholder: '请选择操作符',
     options: [

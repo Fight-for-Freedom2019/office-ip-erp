@@ -103,6 +103,7 @@
                     order_id: "",
                     feecode:"",
                     remark:"",
+                    is_debit:1,
                 },
                 rules: {
                     customer: [

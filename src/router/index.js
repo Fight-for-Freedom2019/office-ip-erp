@@ -74,6 +74,14 @@ const SettingTemplate          = () => import('@/components/page/SettingTemplate
 const SettingTemplateEdit      = () => import('@/components/page/SettingTemplateEdit')
 const OfferList                = () => import('@/components/page/OfferList')
 const SettingUser              = () => import('@/components/page/SettingUser')
+const SettingFeeCode           = () => import('@/components/page/setting/data/FeeCode')
+const SettingFileType           = () => import('@/components/page/setting/data/FileType')
+const SettingProjectStage           = () => import('@/components/page/setting/data/ProjectStage')
+const SettingDefinitions           = () => import('@/components/page/setting/data/Definitions')
+const SettingFlows           = () => import('@/components/page/setting/data/Flows')
+const SettingActions           = () => import('@/components/page/setting/data/Actions')
+const SettingEntityChange           = () => import('@/components/page/setting/data/EntityChange')
+const SettingMailTemplate           = () => import('@/components/page/setting/MailTemplate')
 
 //#################
 const SettingIndividual        = () => import('@/components/page/SettingIndividual')
@@ -1307,7 +1315,15 @@ const router = new Router({
     { path: '/setting/jurisdiction', name: 'SettingJurisdiction', component: SettingJurisdiction },
     { path: '/setting/rule', name: 'SettingRule', component: SettingRule },
     { path: '/setting/field', name: 'SettingField', component: SettingField },
-    { path: '/setting/basics/payment_account', name: 'PaymentAccount', component: PaymentAccount },
+    { path: '/setting/data/payment_account', name: 'PaymentAccount', component: PaymentAccount },
+    { path: '/setting/data/fee_codes', name: 'FeeCode', component: SettingFeeCode },
+    { path: '/setting/data/file_types', name: 'FileType', component: SettingFileType },
+    { path: '/setting/data/stages', name: 'ProjectStage', component: SettingProjectStage },
+    { path: '/setting/data/entity_change', name: 'EntityChange', component: SettingEntityChange },
+    { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
+    { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
+    { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },
+    { path: '/setting/flow/actions', name: 'Actions', component: SettingActions },
     {
       path: '/setting/system',
       name: 'SettingSystem',

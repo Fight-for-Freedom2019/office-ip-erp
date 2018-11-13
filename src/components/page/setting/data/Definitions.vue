@@ -1,6 +1,6 @@
-<!-- 开票信息 -->
+<!-- 收款账户 -->
 <template>
-    <div class="ExpressManage">
+    <div class="FeeCode">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
@@ -9,7 +9,7 @@
                 <el-button type="primary" size="small" v-if="compileType === 'edit'"
                            @click="save('edit')">保存</el-button>
             </span>
-            <billing-info-add :type="compileType" :data = "rowData" ref="BillInfoAdd" @update="update" @refresh="refresh"></billing-info-add>
+            <fee-code-add :type="compileType" :data = "rowData" ref="FeeCodeAdd" @update="update" @refresh="refresh"></fee-code-add>
         </app-shrink>
     </div>
 </template>
@@ -17,26 +17,27 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
-    import BillingInfoAdd from '@/components/page_extension/BillingInfoAdd'
+    import FeeCodeAdd from '@/components/page/setting/data/FeeCodeAdd'
     import TableMixins from '@/mixins/table-mixins'
     import Config from "@/const/selectConfig"
 
     const config = new Map(Config);
+
     export default {
-        name: "BillingInfo",
+        name: "FeeCode",
         mixins: [TableMixins],
         data() {
             return {
-                URL: "/invoice_targets",
+                URL: "/fee_codes",
                 tableOption: {
-                    'name': 'BillingInfoList',
-                    'url': "/invoice_targets",
+                    'name': 'FeeCodeList',
+                    'url': "/fee_codes",
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
-                    'is_list_filter': true,
-                    'list_type': 'invoice_targets',
-                    'search_placeholder': '客户名称、联系人',
+                    'is_list_filter': false,
+                    'list_type': 'serial',
+                    'search_placeholder': '费用名称、备注',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
                         {type: 'add', click: this.add},
@@ -46,35 +47,26 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer.name', width: '178'},
                         {
-                            type: 'text', label: '主体类型', prop: 'target_type', width: '150',
-                            render: (h, item) => {
-                                let options = config.get("target_type").options;
-                                let name = "";
-                                options.map(function (o) {
-                                    if (o.id === item) {
-                                        name = o.name;
-                                    }
-                                });
-                                return h("span", name);
-                            }
+                            type: 'text', label: '案件类型', prop: 'category',render_simple:'name', width: '100'
                         },
-                        {type: 'text', label: '单位名称', prop: 'name', width: '150'},
-                        {type: 'text', label: '纳税人识别号', prop: 'identity', min_width: '100'},
-                        {type: 'text', label: '注册地址', prop: 'address', width: '240'},
-                        {type: 'text', label: '联系电话', prop: 'phone_number', width: '120'},
-                        {type: 'text', label: '开户行', prop: 'bank', width: '160'},
-                        {type: 'text', label: '银行账户', prop: 'account', width: '200'},
-                        {type: 'text', label: '备注', prop: 'remark', width: '220'},
+                        {type: 'text', label: '案件子类型', prop: 'subtype',render_simple:'name', width: '120'},
+                        {type: 'text', label: '费用类型', prop: 'fee_type',render_simple:'name', width: '100'},
+                        {type: 'text', label: '费用名称', prop: 'name', min_width: '200'},
+                        {type: 'text', label: '货币', prop: 'currency', width: '80'},
+                        {type: 'text', label: '金额', prop: 'amount', width: '120'},
+                        {type: 'text', label: '排序', prop: 'sort', width: '100'},
+                        {type: 'text', label: '状态', prop: 'status',render_simple:'name', width: '100'},
+                        {type: 'text', label: '英文名', prop: 'alias', width: '100'},
+                        {type: 'text', label: '备注', prop: 'remark', width: '100'},
                     ],
                 },
-                tableData: [],
-                isPanelVisible: false,
-                title: "",
                 compileType: "add",
-                rowData:null,
+                isPanelVisible: false,
+                tableData: [],
                 rowID:null,
+                rowData:null,
+                title:"",
             }
         },
         methods: {
@@ -95,33 +87,24 @@
                 this.rowID = row.id;
                 this.openVisible("isPanelVisible");
                 this.compileType = "edit";
-                this.title = `开票信息>${row.customer.name}`
+                this.title = `编辑费用>${row.name}`
+                
             },
             add() {
-                this.title = "开票信息>";
+                this.title = "新增费用";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");
-                this.rowData = {
-                    customer:"",
-                    target_type:"",
-                    name:"",
-                    identity:"",
-                    address:"",
-                    phone_number:"",
-                    bank:"",
-                    account:"",
-                    remark:"",
-                }
+                this.$refs.FeeCodeAdd?this.$refs.FeeCodeAdd.clear():"";
             },
             save(type) {
-                this.$refs.BillInfoAdd.submitForm(type,this.rowID)
+                this.$refs.FeeCodeAdd.submitForm(type,this.rowID)
             },
         },
         components: {
             TableComponent,
             AppShrink,
-            BillingInfoAdd
-        }
+            FeeCodeAdd,
+        },
     }
 </script>
 

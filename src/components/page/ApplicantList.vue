@@ -9,8 +9,7 @@
         <el-button type="primary" @click="saveAdd" v-if="formType == 'add'" size="small">新建</el-button>
 				<el-button type="primary" @click="saveAdd" v-if="formType == 'edit'" size="small">保存</el-button>
       </span>
-            <applicant-list-add ref="applicantAdd" :type='formType' :applicant='applicant'
-                                @editSuccess="refreshTableData" @addSuccess="refreshTableData"></applicant-list-add>
+            <applicant-list-add ref="applicantAdd" :type='formType' :applicant='applicant' @refresh="refresh" @update="update"></applicant-list-add>
         </app-shrink>
 
     </div>
@@ -38,6 +37,9 @@
                 option: {
                     'name': 'applicant',
                     'url': '/applicants',
+                    'is_list_filter': true,
+                    'list_type': 'applicants',
+                    'treeFilter':'applicants',
                     'height': 'default',
                     'header_btn': [
                         {type: 'add', click: this.add},
@@ -47,13 +49,14 @@
                     'rowClick': this.handleRowClick,
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '申请人姓名', prop: 'name', sortable: true, width: '250'},
-                        {type: 'text', label: '国籍', prop: 'citizenship'},
+                        {type: 'text', label: '客户', prop: 'customer', render_header:true, width: '250',render:(h,item)=>{return h("span",item?item.name:"")}},
+                        {type: 'text', label: '申请人姓名', prop: 'name', render_header:true,sortable: true, width: '250'},
+                        {type: 'text', label: '国籍', prop: 'citizenship',render_header:true},
                         {
                             type: 'text',
                             label: '申请人类型',
                             prop: 'applicant_type',
-                            sortable: true,
+                            render_header:true,
                             width: '200',
                             render_text:(item)=>{
                                 let name;
@@ -65,12 +68,12 @@
                                 return name
                             }
                         },
-                        {type: 'text', label: '证件号码', prop: 'identity', sortable: true, width: '240'},
-                        {type: 'text', label: '邮编', prop: 'postcode', sortable: true, width: '145'},
-                        {type: 'text', label: '邮箱', prop: 'email_address', sortable: true, width: '145'},
-                        {type: 'text', label: '电话号码', prop: 'phone_number', sortable: true, width: '145'},
+                        {type: 'text', label: '证件号码', prop: 'identity', render_header:true, width: '240'},
+                        {type: 'text', label: '邮编', prop: 'postcode', render_header:true, width: '145'},
+                        {type: 'text', label: '邮箱', prop: 'email_address', render_header:true, width: '145'},
+                        {type: 'text', label: '电话号码', prop: 'phone_number', render_header:true, width: '145'},
                         {
-                            type: 'text', label: '住所所在地', prop: 'residence', sortable: true, width: '175',
+                            type: 'text', label: '住所所在地', prop: 'residence', render_header:true, width: '175',
                             render: (h, item) => {
                                 const d = this.areaMap.get(item);
                                 return h('span', d ? d : '');
@@ -90,22 +93,23 @@
                                 return h('span', d ? d : '');
                             }
                         },
-                        {type: 'text', label: '详细地址', prop: 'address', sortable: true, width: '260'},
+                        {type: 'text', label: '详细地址', prop: 'address', render_header:true, width: '260'},
                         {
                             type: 'text',
                             label: '费用备案',
                             prop: 'is_fee_discount',
-                            sortable: true,
+                            render_header:true,
                             width: '145',
                             render: (h, item) => h('span', item ? '已完成' : '未完成')
                         },
-                        {type: 'text', label: '英文姓名', prop: 'english_name', sortable: true, width: '175'},
-                        {type: 'text', label: '英文地址', prop: 'english_address', sortable: true, width: '260'},
+                        {type: 'text', label: '英文姓名', prop: 'english_name',render_header:true, width: '175'},
+                        {type: 'text', label: '英文地址', render_header:true,prop: 'english_address', width: '260'},
                         {
                             type: 'text',
                             label: '是否默认申请人',
                             prop: 'is_default',
                             sortable: true,
+                            render_header:true,
                             width: '145',
                             render: (h, item) => h('span', item ? '是' : '否')
                         },
@@ -149,7 +153,7 @@
                 const url = URL;
                 const data = Object.assign({}, option);
                 const success = _ => {
-                    if (this.formType === "add") this.isApplicantAddPanelVisible = false
+                    if (this.formType === "add") this.isApplicantAddPanelVisible = false;
                     this.tableData = _.data
                 };
                 this.axiosGet({url, data, success});
