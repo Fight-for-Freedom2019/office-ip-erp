@@ -145,7 +145,9 @@ const settingMenu = [
 	{ type: 'item', text: '系统设置', path: '/setting/system', icon: 'iconfont el-icon-my-system' },
 ];
 
-const homeMenu = []
+const homeMenu = [
+	{ type: 'item', text: '首页', path: '/home', icon: 'iconfont el-icon-my-system' },
+]
 
 menu.source = [
 	{
