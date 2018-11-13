@@ -1,4 +1,4 @@
-let url = '/productclassifies';
+let url = '/products';
 const state = {
 	data: [],
 }

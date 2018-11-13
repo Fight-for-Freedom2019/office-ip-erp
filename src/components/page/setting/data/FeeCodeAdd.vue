@@ -46,7 +46,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="状态" prop="status">
-                        <app-switch v-model="form.status"></app-switch>
+                        <static-select type="status" v-model="form.status"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -75,35 +75,40 @@
         name: "FeeCodeAdd",
         data() {
             return {
-                URL: "/payment_accounts",
+                URL: "/fee_codes",
                 form: {
                     category: "",
-                    abbr: "",
-                    bank: "",
-                    receipt: "",
-                    account: "",
+                    subtype: "",
+                    fee_type: "",
+                    name: "",
+                    currency: "",
+                    amount: "",
                     sort: "",
-                    payment_info: "",
+                    status:'',
+                    alias:'',
+                    remark:'',
                 },
                 rules: {
                     category: [
-                        {required: true, message: "请选择账户类型", trigger: "blur"}
+                        {required: true, message: "请选择案件类型", trigger: "blur"}
                     ],
-                    abbr: [
-                        {required: true, message: "请输入账户简称", trigger: "blur"}
+                    subtype: [
+                        {required: true, message: "请选择案件子类型", trigger: "blur"}
                     ],
-                    bank: [
-                        {required: false, message: "请输入开户行", trigger: "blur"}
+                    fee_type: [
+                        {required: false, message: "请选择费用类型", trigger: "blur"}
                     ],
-                    receipt: [
-                        {required: true, message: "请输入收款人", trigger: "blur"}
+                    name: [
+                        {required: true, message: "请输入费用名称", trigger: "blur"}
                     ],
-                    account: [
-                        {required: true, message: "请输入收款账号", trigger: "blur"}
+                    currency: [
+                        {required: true, message: "请选择货币", trigger: "blur"}
+                    ],
+                    amount: [
+                        {required: true, message: "请输入金额", trigger: "blur"}
                     ],
                     sort: [
                         {required: true, message: "请输入排序", trigger: "blur"},
-                        {type: "number", message: "请输入数字", trigger: "blur"},
                     ]
                 },
             }
@@ -119,9 +124,6 @@
             data: function (val, oldVal) {
                 this.coverObj(val);
             },
-            "form.category": function (val, oldVal) {
-                val === 1 ? this.rules.bank[0].required = true : this.rules.bank[0].required = false;
-            }
         },
         methods: {
             submitForm(type, id) {
@@ -162,6 +164,7 @@
         components: {
             RemoteSelect,
             StaticSelect,
+            AppSwitch,
         },
     }
 </script>

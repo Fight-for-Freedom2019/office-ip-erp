@@ -74,6 +74,7 @@ const SettingTemplate          = () => import('@/components/page/SettingTemplate
 const SettingTemplateEdit      = () => import('@/components/page/SettingTemplateEdit')
 const OfferList                = () => import('@/components/page/OfferList')
 const SettingUser              = () => import('@/components/page/SettingUser')
+const SettingFeeCode           = () => import('@/components/page/setting/data/FeeCode')
 
 //#################
 const SettingIndividual        = () => import('@/components/page/SettingIndividual')
@@ -1307,7 +1308,8 @@ const router = new Router({
     { path: '/setting/jurisdiction', name: 'SettingJurisdiction', component: SettingJurisdiction },
     { path: '/setting/rule', name: 'SettingRule', component: SettingRule },
     { path: '/setting/field', name: 'SettingField', component: SettingField },
-    { path: '/setting/basics/payment_account', name: 'PaymentAccount', component: PaymentAccount },
+    { path: '/setting/data/payment_account', name: 'PaymentAccount', component: PaymentAccount },
+    { path: '/setting/data/fee_codes', name: 'FeeCode', component: SettingFeeCode },
     {
       path: '/setting/system',
       name: 'SettingSystem',

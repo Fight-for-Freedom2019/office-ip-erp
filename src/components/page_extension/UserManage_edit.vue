@@ -35,7 +35,7 @@
 		<el-form-item label="SMTP端口" prop="smtp_port">
 		  <el-input v-model="form.smtp_port" placeholder="请输入SMTP端口"></el-input>
 		</el-form-item>
-		<el-form-item label="是否使用SLS" prop="is_ssl">
+		<el-form-item label="是否使用SSL" prop="is_ssl">
     	  <app-switch v-model="form.is_ssl" type="is"></app-switch>
 		</el-form-item>
 		<el-form-item style="margin-bottom: 0px;">
