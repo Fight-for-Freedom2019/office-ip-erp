@@ -46,7 +46,7 @@ import UserRole from '@/components/form/UserRole'
 import StaticSelect from '@/components/form/StaticSelect'
 
 const URL = 'api/members'
-const URL_GROUP = 'api/groups'
+const URL_GROUP = 'api/roles'
 
 export default {
   name: 'userList',
