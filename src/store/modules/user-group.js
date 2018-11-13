@@ -1,4 +1,4 @@
-let url = '/groups';
+let url = '/roles';
 const state = {
 	data: null,
 	loading: false,

@@ -52,7 +52,7 @@
 import AxiosMixins from '@/mixins/axios-mixins'
 import AppSwitch from '@/components/form/AppSwitch'
 
-const URL = 'api/groups';
+const URL = 'api/roles';
 const allUser = {name: '全部用户', description: '该用户组用于存放所有的用户，不可编辑，不可删除', id: 0};
 
 
