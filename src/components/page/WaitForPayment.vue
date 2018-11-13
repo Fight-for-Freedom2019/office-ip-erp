@@ -110,7 +110,7 @@
                 },
                 compileType: "add",
                 isPanelVisible: false,
-                title: "",
+                title: "新增",
                 row: null,
                 dialogCreateNewOrder: false,
                 dialogAddToOrder: false,
@@ -121,12 +121,12 @@
         methods: {
             add() {
                 this.isPanelVisible = true;
+                this.title = "新增";
                 this.compileType = "add";
                 this.$refs.waitForPayment?this.$refs.waitForPayment.clear():"";
             },
             handleRowClick(row) {
                 this.compileType = "edit";
-                row.fee_code_name = row.feecode?row.feecode.name:"";
                 this.row = row;
                 this.title = `订单编号: ${row.project.serial}`;
                 this.isPanelVisible = true;

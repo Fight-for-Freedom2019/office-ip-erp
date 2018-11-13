@@ -114,7 +114,7 @@
                 this.$refs['form'].validate((valid)=>{
                     if(valid){
                         let url = this.URL;
-                        let data = this.form;
+                        let data = Object.assign({},this.form);
                         data.invoice = this.id;
                         const success = _ =>{
                             this.$message({type:"success",message:"添加回款记录成功"});

@@ -95,7 +95,7 @@
             save(){
                 this.$refs['form'].validate((valid)=>{
                     if(valid){
-                        const data = this.form;
+                        const data = Object.assign({},this.form);
                         data.invoice = this.id;
                         const url = "/reminders";
                         const success = _ => {
