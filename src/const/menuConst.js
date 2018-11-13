@@ -67,7 +67,7 @@ const crmMenu = [
 	] },
 	{ type: 'submenu', text: '通知发文', path: '/crm/notice', icon: 'iconfont el-icon-my-task', children:[
 		{ type: 'item', text: '官文', path: '/crm/notice/notice', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '报表', path: '/crm/notice/express', icon: 'iconfont icon-contract'},
+		{ type: 'item', text: '报表', path: '/crm/notice/report', icon: 'iconfont icon-contract'},
 		{ type: 'item', text: '年费', path: '/crm/notice/renewal', icon: 'iconfont icon-contract'},
 		{ type: 'item', text: '快递', path: '/crm/notice/express', icon: 'iconfont icon-contract'},
 	] },
