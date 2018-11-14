@@ -143,7 +143,7 @@ const settingMenu = [
 			{type: 'item', text: '费用代码', path: '/setting/data/fee_codes', icon: 'iconfont el-icon-my-system'},
 			{type: 'item', text: '文件类型', path: '/setting/data/file_types', icon: 'iconfont el-icon-my-system'},
 			{type: 'item', text: '案件状态', path: '/setting/data/stages', icon: 'iconfont el-icon-my-system'},
-			{type: 'item', text: '原始记录', path: '/setting/data/entity_changes', icon: 'iconfont el-icon-my-system'},
+			// {type: 'item', text: '原始记录', path: '/setting/data/entity_changes', icon: 'iconfont el-icon-my-system'},
 		]
     },
 	{ type: 'item', text: '系统设置', path: '/setting/system', icon: 'iconfont el-icon-my-system' },
