@@ -223,6 +223,16 @@ const map = new Map([
         { type: 'static_select',    id: 'currency',        name: '币别',map_type: 'currency'},
         { type: 'text',         	id: 'remark',                name: '备注'},
 
+    ]],
+    /* 发票管理 */
+    ['invoice_request', [
+        { type: 'remote_select',    id: 'customer',              name: '客户',           data_key: 'data',          url: '/customers'},
+        { type: 'remote_select',    id: 'invoice',        name: '账单编号', data_key:"data",url:"/invoices"},
+        { type: 'remote_select',    id: 'invoice_target',        name: '开票主体', data_key:"data",url:"/invoice_targets"},
+        { type: 'static_select',    id: 'status',           name: '申请国家',      map_type: 'area'},
+        { type: 'text',         	id: 'remark',                name: '备注'},
+        { type: 'text',    id: 'amount',        name: '金额'},
+
     ]]
 ]);
 export {map};

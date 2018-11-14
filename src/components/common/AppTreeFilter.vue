@@ -26,6 +26,7 @@ const urlMap = new Map([
   ['invoice_targets',{ URL: '/invoice_targets/filters' }],
   ['invoices',{ URL: '/invoices/filters' }],
   ['received_payments',{ URL: '/received_payments/filters' }],
+  ['invoice_request',{ URL: '/vouchers/filters' }],
 
 ]);
 export default {
