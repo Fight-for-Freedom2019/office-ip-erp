@@ -92,8 +92,12 @@ const reportMenu = [
 ]
 
 const exchangeMenu = [
-	{ type: 'item', text: '文档上传', path: '/exchange/document', icon: 'el-icon-my-patent' },
-	{ type: 'item', text: 'CPC通知书手动上传', path: '/exchange/cpc', icon: 'el-icon-my-patent' },
+	{ type: 'submenu', text: '文档交互', path: '/exchange/document', icon: 'el-icon-my-patent', children:[
+		{ type: 'item', text: '官文通知', path: '/exchange/document/official_notice', icon: '' },
+		{ type: 'item', text: '一般文件', path: '/exchange/document/general', icon: '' },
+		{ type: 'item', text: '费用单据', path: '/exchange/document/voucher', icon: '' },
+		{ type: 'item', text: 'CPC通知书', path: '/exchange/document/cpc', icon: '' },
+	]},
 	{ 
 		type: 'submenu', 
 		text: '客户端同步', 

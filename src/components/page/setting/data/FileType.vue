@@ -28,10 +28,10 @@
         mixins: [TableMixins],
         data() {
             return {
-                URL: "/fee_codes",
+                URL: "/file_types",
                 tableOption: {
                     'name': 'FeeCodeList',
-                    'url': "/fee_codes",
+                    'url': "/file_types",
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
