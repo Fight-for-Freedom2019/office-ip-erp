@@ -1,4 +1,12 @@
 const config = [
+  ['file_type_category',{
+    placeholder: '请选择文件类型',
+    options: [
+        { name: '官文通知', id: 1 },
+        { name: '中间文件', id: 2 },
+        { name: '定稿文件', id: 3 },
+    ]
+  }],
   ['category',{
     placeholder: '请选择案件类型',
     options: [
@@ -151,6 +159,13 @@ const config = [
     url: '/api/iprs?listRows=100',
     handle (data) {
     	return data.members;
+    }
+  }],
+  ['project_stage', {
+    placeholder: '请选择案件阶段',
+    url: '/project_stages?listOnly=1',
+    handle (data) {
+    	return data.data;
     }
   }],
   ['patent_type', {
