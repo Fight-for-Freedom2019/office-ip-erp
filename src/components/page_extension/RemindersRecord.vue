@@ -97,7 +97,7 @@
                 this.$refs['form'].validate((valid)=>{
                     if(valid){
                         const data = Object.assign({},this.form);
-                        data.invoice = this.id;
+                        data.model_id = this.id;
                         const url = "/reminders";
                         const success = _ => {
                             this.$message({type:"success",message:"添加成功!"});
