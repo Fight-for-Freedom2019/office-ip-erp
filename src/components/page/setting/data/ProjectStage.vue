@@ -85,6 +85,7 @@
                 
             },
             add() {
+                this.rowData = {};
                 this.title = "新增案件阶段";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");

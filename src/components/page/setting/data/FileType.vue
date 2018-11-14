@@ -88,6 +88,7 @@
                 
             },
             add() {
+                this.rowData = {};
                 this.title = "新增文件类型";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");

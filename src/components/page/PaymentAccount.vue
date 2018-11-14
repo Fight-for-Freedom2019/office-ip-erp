@@ -96,6 +96,7 @@
                 this.title = `收款账户>${row.abbr}`
             },
             add() {
+                this.rowData = {};
                 this.title = "新增收款账户";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");
