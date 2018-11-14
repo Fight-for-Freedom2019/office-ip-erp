@@ -66,7 +66,8 @@
                     customer:"",
                     remind_type:"",
                     remind_date:"",
-                    result:""
+                    result:"",
+                    model:"invoice",
                 },
                 rules:{
                     customer:[
