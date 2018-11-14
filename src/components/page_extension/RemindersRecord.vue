@@ -125,6 +125,11 @@
                 this.$refs.form.resetFields();
             },
         },
+        watch:{
+            data:function (val) {
+                this.tableData = val;
+            }
+        },
         components: {
             TableComponent,
             StaticSelect,
