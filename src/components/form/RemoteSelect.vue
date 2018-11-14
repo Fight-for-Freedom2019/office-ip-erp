@@ -449,7 +449,7 @@ export default {
     }
   },
   created () {
-    this.refreshSelected(this.value2);
+    this.value2?this.refreshSelected(this.value2):"";
   },
   components: { AppCard },
 }

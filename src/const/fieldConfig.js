@@ -38,7 +38,25 @@ const strainerConfig = [
     ['applicants',[
         { "name": "客户", "id": "customer", "default": true},
     ]],
+    ['inventors',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['contacts',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['remarks',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['contracts',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['invoice_targets',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
     ['invoices',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['received_payments',[
         { "name": "客户", "id": "customer", "default": true},
     ]]
 ]

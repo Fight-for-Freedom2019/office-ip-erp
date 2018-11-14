@@ -138,10 +138,66 @@ const map = new Map([
         { type: 'text',             id: 'english_address',       name: '英文地址'},
         { type: 'static_select',    id: 'is_default',            name: '是否默认申请人',     map_type: 'bool'},
     ]],
+    /* 发明人 */
+    ['inventors', [
+        { type: 'text',             id: 'name',                  name: '姓名'},
+        { type: 'text',             id: 'title',                 name: '尊称',           data_key: 'data',          url: '/customers'},
+        { type: 'remote_select',    id: 'customer',              name: '所属客户',           data_key: 'data',          url: '/customers'},
+        { type: 'static_select',    id: 'citizenship',           name: '国籍',      map_type: 'area'},
+        { type: 'text',             id: 'email_address',         name: '邮箱'},
+        { type: 'text',             id: 'phone_number',          name: '电话号码'},
+        { type: 'text',             id: 'identity',              name: '证件号码'},
+        { type: 'static_select',    id: 'is_publish_name',       name: '是否公开姓名',     map_type: 'bool'},
+        { type: 'text',             id: 'first_name',            name: '英文名'},
+        { type: 'text',             id: 'last_name',             name: '英文姓'},
+        { type: 'text',         	id: 'remark',                name: '备注'},
+    ]],
+    /* 联系人 */
+    ['contacts', [
+        { type: 'text',             id: 'name',                  name: '姓名'},
+        { type: 'text',             id: 'title',                 name: '尊称'},
+        { type: 'remote_select',    id: 'customer',              name: '所属客户',           data_key: 'data',          url: '/customers'},
+        { type: 'static_select',    id: 'contact_type',          name: '类型',      map_type: 'contacts_type'},
+        { type: 'text',             id: 'email_address',         name: '邮箱'},
+        { type: 'text',             id: 'phone_number',          name: '电话号码'},
+        { type: 'text',         	id: 'remark',                name: '备注'},
+        { type: 'text',             id: 'address',               name: '地址'},
+    ]],
+    /* 客户备注 */
+    ['remarks', [
+        { type: 'static_select',    id: 'type',                  name: '类型',   map_type: 'remark_type'},
+        { type: 'remote_select',    id: 'user',                  name: '备注人',           data_key:"data",url:"/user"},
+        { type: 'date',             id: 'creation_time',         name: '备注时间'},
+        { type: 'text',             id: 'content',               name: '备注内容'},
+    ]],
+    /* 合同管理 */
+    ['invoice_targets', [
+        { type: 'remote_select',    id: 'customer',              name: '客户',           data_key: 'data',          url: '/customers'},
+        { type: 'static_select',    id: 'target_type',           name: '主体类型',      map_type: 'target_type'},
+        { type: 'text',         	id: 'name',                  name: '单位名称'},
+        { type: 'text',         	id: 'identity',              name: '纳税人识别号'},
+        { type: 'text',         	id: 'address',               name: '注册地址'},
+        { type: 'text',         	id: 'phone_number',          name: '联系电话'},
+        { type: 'text',         	id: 'bank',                  name: '开户行'},
+        { type: 'text',         	id: 'account',               name: '银行账户'},
+        { type: 'text',         	id: 'remark',                name: '备注'},
+    ]],
+    /* 开票信息 */
+    ['contracts', [
+        { type: 'remote_select',    id: 'customer',              name: '客户',           data_key: 'data',          url: '/customers'},
+        { type: 'remote_select',    id: 'contact',               name: '联系人',           data_key: 'data',          url: '/contacts'},
+        { type: 'text',             id: 'serial',                name: '合同编号'},
+        { type: 'static_select',    id: 'type',                  name: '合同类型',      map_type: 'contract_type'},
+        { type: 'static_select',    id: 'is_effective',          name: '状态',      map_type: 'bool'},
+        { type: 'date',             id: 'signing_date',          name: '签订日期'},
+        { type: 'date',             id: 'expire_date',           name: '届满日期'},
+        { type: 'text',         	id: 'remark',                name: '备注'},
+    ]],
     /* 请款管理 */
     ['invoices', [
         { type: 'remote_select',    id: 'serial',        name: '请款单号', data_key:"data",url:"/invoices"},
         { type: 'remote_select',    id: 'user_name',        name: '创建人', data_key:"data",url:"/user"},
+        { type: 'remote_select',    id: 'user',        name: '请款对象', data_key:"data",url:"/user"},
         { type: 'date',    id: 'creation_time',        name: '创建时间'},
         { type: 'text',    id: 'amount',        name: '金额'},
         { type: 'static_select',    id: 'currency',        name: '币别',map_type: 'currency'},
@@ -155,6 +211,17 @@ const map = new Map([
         { type: 'static_select',    id: 'status',        name: '请款单状态',map_type:"invoice_status"},
         { type: 'static_select',    id: 'is_voucher_uploaded',        name: '票据已上传',map_type: 'bool'},
         { type: 'text',    id: 'express',        name: '快递单号'},
+
+    ]],
+    /* 回款管理 */
+    ['received_payments', [
+        { type: 'remote_select',    id: 'invoice.customer.name',              name: '客户',           data_key: 'data',          url: '/customers'},
+        { type: 'remote_select',    id: 'invoice',        name: '请款单号', data_key:"data",url:"/invoices"},
+        { type: 'remote_select',    id: 'payment_account',        name: '回款账户', data_key:"data",url:"/payment_accounts"},
+        { type: 'date',    id: 'received_date',        name: '回款时间'},
+        { type: 'text',    id: 'amount',        name: '回款金额'},
+        { type: 'static_select',    id: 'currency',        name: '币别',map_type: 'currency'},
+        { type: 'text',         	id: 'remark',                name: '备注'},
 
     ]]
 ]);

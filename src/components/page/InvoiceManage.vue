@@ -107,6 +107,7 @@
                 this.$refs.table.refresh();
             },
             add() {
+                this.rowData = {};
                 this.isPanelVisible = true;
                 this.compileType = "add";
                 this.title = "开票申请";

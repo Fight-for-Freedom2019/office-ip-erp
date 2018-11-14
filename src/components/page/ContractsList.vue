@@ -38,6 +38,7 @@
                     'height': 'default',
                     'is_list_filter': true,
                     'list_type': 'contracts',
+                    'treeFilter':'contracts',
                     'header_btn': [
                         {type: 'add', click: this.addPop},
                         {type: 'delete'},
@@ -45,19 +46,20 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer.name', width: '150'},
-                        {type: 'text', label: '联系人', prop: 'contact.name', width: '170'},
-                        {type: 'text', label: '合同编号', prop: 'serial', width: '145'},
-                        {type: 'text', label: '合同类型', prop: 'type', width: '145'},
+                        {type: 'text', label: '客户', prop: 'customer', width: '150',render_simple:"name",render_header:true},
+                        {type: 'text', label: '联系人', prop: 'contact', width: '170',render_simple:"name",render_header:true},
+                        {type: 'text', label: '合同编号', prop: 'serial', width: '145',render_header:true},
+                        {type: 'text', label: '合同类型', prop: 'type', width: '145',render_header:true},
                         {
                             type: 'text', label: '状态', prop: 'is_effective', width: '123', render: (h, item) => {
                                 item = item === 1 ? "生效中" : "已失效";
                                 return h("span", item);
-                            }
+                            },
+                            render_header:true
                         },
-                        {type: 'text', label: '签订日期', prop: 'signing_date', width: '175'},
-                        {type: 'text', label: '届满日期', prop: 'expire_date', width: '175'},
-                        {type: 'text', label: '备注', prop: 'remark'},
+                        {type: 'text', label: '签订日期', prop: 'signing_date', width: '175',render_header:true},
+                        {type: 'text', label: '届满日期', prop: 'expire_date', width: '175',render_header:true},
+                        {type: 'text', label: '备注', prop: 'remark',render_header:true},
                         // 	{
                         // 		type: 'action',
                         // width: '200',

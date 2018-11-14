@@ -36,17 +36,17 @@
                     'is_search': true,
                     'is_list_filter': true,
                     'list_type': 'invoice_targets',
-                    'search_placeholder': '客户名称、联系人',
+                    'treeFilter':'invoice_targets',
+                    'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
                         {type: 'add', click: this.add},
                         {type: 'delete'},
-                        {type: 'export'},
                         {type: 'control'},
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer.name', width: '178'},
+                        {type: 'text', label: '客户', prop: 'customer', width: '178',render_simple:"name",render_header:true},
                         {
                             type: 'text', label: '主体类型', prop: 'target_type', width: '150',
                             render: (h, item) => {
@@ -58,15 +58,16 @@
                                     }
                                 });
                                 return h("span", name);
-                            }
+                            },
+                            render_header:true
                         },
-                        {type: 'text', label: '单位名称', prop: 'name', width: '150'},
-                        {type: 'text', label: '纳税人识别号', prop: 'identity', min_width: '100'},
-                        {type: 'text', label: '注册地址', prop: 'address', width: '240'},
-                        {type: 'text', label: '联系电话', prop: 'phone_number', width: '120'},
-                        {type: 'text', label: '开户行', prop: 'bank', width: '160'},
-                        {type: 'text', label: '银行账户', prop: 'account', width: '200'},
-                        {type: 'text', label: '备注', prop: 'remark', width: '220'},
+                        {type: 'text', label: '单位名称', prop: 'name', width: '150',render_header:true},
+                        {type: 'text', label: '纳税人识别号', prop: 'identity', min_width: '140',render_header:true},
+                        {type: 'text', label: '注册地址', prop: 'address', width: '240',render_header:true},
+                        {type: 'text', label: '联系电话', prop: 'phone_number', width: '120',render_header:true},
+                        {type: 'text', label: '开户行', prop: 'bank', width: '160',render_header:true},
+                        {type: 'text', label: '银行账户', prop: 'account', width: '200',render_header:true},
+                        {type: 'text', label: '备注', prop: 'remark', width: '220',render_header:true},
                     ],
                 },
                 tableData: [],

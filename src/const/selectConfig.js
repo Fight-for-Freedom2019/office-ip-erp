@@ -687,7 +687,7 @@ const config = [
     ]
   }],
   ['fee_code', {
-    placeholder: '请选择费用类型',
+    placeholder: '请选择费用名称',
     url: '/feecode',
     handle (data) {
         return data.data;

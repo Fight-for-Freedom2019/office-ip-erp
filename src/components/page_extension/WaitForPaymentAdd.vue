@@ -40,7 +40,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="国家" prop="citizenship">
-                        <static-select type="area" v-model="form.citizenship"></static-select>
+                        <static-select type="area" v-model="form.area"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -95,7 +95,7 @@
                     currency: "",
                     roe: "",
                     amount: "",
-                    citizenship: "",
+                    area: "",
                     payment_time: "",
                     deadline: "",
                     due_time: "",

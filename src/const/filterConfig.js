@@ -288,6 +288,32 @@ const map = new Map([
         { components: 'input',         id: 'account',                name: '银行账户'},
         { components: 'input',         id: 'remark',                 name: '备注'},
     ]],
+    /* 请款管理 */
+    ['invoices',[
+        { components: 'input',         id: 'serial',                 name: '请款单号'},
+        { components: 'remote_select', id: 'user_name',              name: '创建人', type: 'user', used: true},
+        { components: 'remote_select', id: 'user',                   name: '请款对象', type: 'user', used: true},
+        { components: 'date',          id: 'creation_time',          name: '创建时间'},
+        { components: 'input',         id: 'amount',                 name: '金额'},
+        { components: 'input',         id: 'currency',               name: '币别'},
+        { components: 'input',         id: 'roe',                    name: '汇率'},
+        { components: 'input',         id: 'rmb_amount',             name: '人民币'},
+        { components: 'date',          id: 'request_time',           name: '请款时间'},
+        { components: 'date',          id: 'deadline',               name: '回款期限'},
+        { components: 'date',          id: 'payment_time',           name: '回款时间'},
+        { components: 'input',         id: 'received_amount',        name: '回款金额'},
+        { components: 'input',         id: 'creator_user_name',      name: '回款确认用户'},
+        { components: 'date',          id: 'confirmation_time',      name: '回款确认时间'},
+    ]],
+    /* 回款管理 */
+    ['received_payments',[
+        { components: 'remote_select', id: 'invoice',                name: '客户', type: 'customer', used: true},
+        { components: 'input',         id: 'invoice',                name: '请款单号'},
+        { components: 'jump_select',   id: 'payment_account',        name: '回款账户' ,type: 'payment_accounts', used: true},
+        { components: 'date',          id: 'received_date',          name: '回款时间'},
+        { components: 'input',         id: 'amount',                 name: '回款金额'},
+        { components: 'input',         id: 'remark',                 name: '备注'},
+    ]],
 ])
 
 const customPathMap = new Map([

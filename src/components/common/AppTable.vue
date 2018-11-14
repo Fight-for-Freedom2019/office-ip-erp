@@ -213,6 +213,7 @@ export default {
       filterComponentVisible: false,
       filterConditionVisible: false,
       spanArr:[],   // 合并行策略数组
+      unknownData:[],
       // re_render: true,
     };
   },
@@ -364,7 +365,7 @@ export default {
       const item = this.filterSettingMap.get(key)
       let val = ''
       const multiple = item.multiple !== undefined ? item.multiple : true
-      if (item.components == 'static_select' || item.components == 'remote_select') {
+      if (item.components == 'static_select' || item.components == 'remote_select' || item.components == 'jump_select') {
         val = multiple ? [] : ''
       } else if(item.components == 'date' ) {
         val = ['','']
@@ -488,18 +489,19 @@ export default {
       }
     },
       getDescendantantProp(obj, desc) {     // 深层遍历对象属性获取属性值
-          var arr = desc.split('.');
-          while(arr.length) {
+          let arr = desc.split('.');
+          let copy = this.$tool.deepCopy(arr);
+          while(arr.length && obj[copy.shift()]) {
               obj = obj[arr.shift()];
           }
-          return obj;
+          return typeof obj === "number" ? obj : 0;
       },
       getSpanArr(data){     // 根据isMerge.KEY获取spanArr
           let fun = this.getDescendantantProp;
           let key = this.isMerge.KEY?this.isMerge.KEY:"";
           if(!key)return;
           data.sort(function (a,b) {    // 获取spanArr之前先要按id排序，因为渲染表格的时候并没有按照预定的规则渲染
-              return fun(a,key)-fun(b,key)
+              return fun(a,key)-fun(b,key);
           });
           let pos = 0;
           for (let i = 0;i < data.length;i++) {
@@ -507,7 +509,7 @@ export default {
                   this.spanArr.push(1);
                   pos = 0
               } else {
-                  if (fun(data[i],key) === fun(data[i-1],key)) {
+                  if (fun(data[i],key) === fun(data[i-1],key) && fun(data[i],key) !== 0) {
                       this.spanArr[pos] += 1;
                       this.spanArr.push(0);
                   } else {
