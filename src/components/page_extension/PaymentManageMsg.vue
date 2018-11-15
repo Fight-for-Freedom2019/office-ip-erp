@@ -5,11 +5,11 @@
             <el-row :gutter="20">
                 <el-col :span="6">
                     <el-form-item label="请款对象">
-                        <span class="form-item-text">{{form.creator_user_name}}</span>
+                        <span class="form-item-text">{{rowData.creator_user?rowData.creator_user.name:""}}</span><!-- 有些from项不用提交，直接使用rowData数据，因为经过coverObj方法的from没办法保留name -->
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="创建人"><span class="form-item-text">{{form.creator_user_name}}</span>
+                    <el-form-item label="创建人"><span class="form-item-text">{{rowData.user?rowData.user.name:""}}</span>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -102,7 +102,12 @@
             return {
                 activeName: "first",
                 form: {
-                    creator_user_name: "",
+                    creator_user:{
+                        name:""
+                    },
+                    user:{
+                        name:"",
+                    },
                     creation_time: "",
                     status: "",
                     amount: "",
