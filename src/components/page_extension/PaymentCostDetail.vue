@@ -23,7 +23,7 @@
                 tableOption: {
                     'name': 'PaymentCostDetailList',
                     'url': "",
-                    'height': 396,
+                    'height': 394,
                     'highlightCurrentRow': true,
                     'is_search': false,
                     // 'rowClick': this.handleRowClick,
@@ -59,7 +59,15 @@
                                 return row.service_fee.sum;
                             }
                         },
-                        {type: 'text', label: '费用策略', prop: 'policy', width: '150'},
+                        {type: 'text', label: '费用策略', prop: 'policy', width: '150',render: (h, item) => {
+                                let name = "";
+                                config.get("policy").options.map(function (o) {
+                                    if (o.id === item) {
+                                        name = o.name;
+                                    }
+                                });
+                                return h("span", name);
+                            }},
                         {type: 'text', label: '官费票据', prop: 'official_voucher', width: '150'},
                         {type: 'text', label: '代理费票据', prop: 'serfice_voucher', width: '150'},
                     ],

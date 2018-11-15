@@ -56,7 +56,7 @@
                         {type: 'text', label: '回款确认用户', prop: 'creator_user.name', width: '178'},
                         {type: 'text', label: '回款时间', prop: 'received_date', width: '120'},
                         {type: 'text', label: '回款金额', prop: 'amount', width: '150'},
-                        {type: 'text', label: '回款账户', prop: 'payment_account.bank', width: '180'},
+                        {type: 'text', label: '回款账户', prop: 'payment_account.abbr', width: '180'},
                         {type: 'text', label: '备注', prop: 'remark', min_width: '180'},
                     ],
                 },

@@ -8,7 +8,7 @@
                 <el-button type="primary" size="small" v-if="compileType === 'edit'" @click="save('edit')">保存</el-button>
                 <el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>
             </span>
-            <payment-recevied-detail ref="detail" @update="update" @refresh="refresh" :rowData="rowData"></payment-recevied-detail>
+            <payment-recevied-detail ref="detail" @update="update" @refresh="refresh" :rowData="rowData" @closeVisible="closeVisible('isPanelVisible')"></payment-recevied-detail>
         </app-shrink>
     </div>
 </template>
@@ -47,7 +47,7 @@
                         {type: 'selection'},
                         {type: 'text', label: '客户', prop: 'invoice.customer.name', width: '178',render_header:true},
                         {type: 'text', label: '请款单号', prop: 'invoice',render_simple:"serial", width: '150',render_header:true},
-                        {type: 'text', label: '回款账户', prop: 'payment_account', width: '150', render_simple:"bank",render_header:true},
+                        {type: 'text', label: '回款账户', prop: 'payment_account', width: '150', render_simple:"abbr",render_header:true},
                         {type: 'text', label: '回款时间', prop: 'received_date', width: '120',render_header:true},
                         {type: 'text', label: '回款金额', prop: 'amount', width: '120',render_header:true},
                         {type: 'text', label: '备注', prop: 'remark', min_width: '180',render_header:true},

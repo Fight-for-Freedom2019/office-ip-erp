@@ -23,10 +23,12 @@
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
     import InvoiceManageDetail from '@/components/page_extension/InvoiceManageDetail'
+    import TableMixins from '@/mixins/table-mixins'
 
     const URL = '/vouchers';
     export default {
         name: "InvoiceManage",
+        mixins:[TableMixins],
         data() {
             return {
                 tableData: [],
@@ -93,25 +95,20 @@
                 this.rowData = row;
                 this.rowID = row.id;
                 this.title = "发票编辑";
-                this.isPanelVisible = true;
+                this.openVisible("isPanelVisible");
                 this.compileType = "edit";
             },
             refreshTableData(data) {
                 const url = URL;
                 const success = _ => {
                     this.tableData = _.data;
+                    this.closeVisible("isPanelVisible");
                 };
                 this.$axiosGet({url, data, success})
             },
-            update() {
-                this.$refs.table.update();
-            },
-            refresh() {
-                this.$refs.table.refresh();
-            },
             add() {
                 this.rowData = {};
-                this.isPanelVisible = true;
+                this.openVisible("isPanelVisible");
                 this.compileType = "add";
                 this.title = "开票申请";
                 this.$refs.detail?this.$refs.detail.clear():"";
@@ -121,12 +118,9 @@
                 this.$refs.detail.submitForm(type, this.rowID);
             },
             checkFeeDetail(row, e, col) {
-                this.dialogFormVisible = true;
+                this.openVisible("dialogFormVisible");
                 this.feesDetail = row.detail ? row.detail : [];
             },
-        },
-        mounted() {
-            this.refresh();
         },
         components: {
             TableComponent,

@@ -204,6 +204,7 @@ const map = new Map([
         { type: 'text',    id: 'order.serial',        name: '订单号'},
         { type: 'static_select',    id: 'fee_code.name',              name: '费用名称',           map_type:"fee_code"},
         { type: 'static_select',    id: 'fee_code',              name: '费用类型',           map_type:"fee_type"},
+        { type: 'static_select',    id: 'policy',              name: '费用策略',           map_type:"policy"},
         { type: 'static_select',    id: 'currency',        name: '币别',map_type: 'currency'},
         { type: 'date',    id: 'deadline',        name: '费用期限'},
         { type: 'static_select',    id: 'status',              name: '费用状态',           map_type:"fee_status"},
@@ -213,7 +214,7 @@ const map = new Map([
     /* 请款管理 */
     ['invoices', [
         { type: 'remote_select',    id: 'serial',        name: '请款单号', data_key:"data",url:"/invoices"},
-        { type: 'remote_select',    id: 'user_name',        name: '创建人', data_key:"data",url:"/user"},
+        { type: 'remote_select',    id: 'creator_user',        name: '创建人', data_key:"data",url:"/user"},
         { type: 'remote_select',    id: 'user',        name: '请款对象', data_key:"data",url:"/user"},
         { type: 'date',    id: 'creation_time',        name: '创建时间'},
         { type: 'text',    id: 'amount',        name: '金额'},

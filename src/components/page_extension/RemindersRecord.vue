@@ -60,7 +60,7 @@
                     'columns': [
                         // {type: 'selection'},
                         {type: 'text', label: '跟催时间', prop: 'remind_date', width: '178'},
-                        {type: 'text', label: '跟催人', prop: 'customer.name', width: '120'},
+                        {type: 'text', label: '客户', prop: 'customer.name', width: '120'},
                         {
                             type: 'text', label: '跟催类型', prop: 'remind_type', width: '150', render: (h, item) => {
                                 let name;
