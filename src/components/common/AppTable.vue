@@ -504,6 +504,7 @@ export default {
               return fun(a,key)-fun(b,key);
           });
           let pos = 0;
+          this.spanArr = [];
           for (let i = 0;i < data.length;i++) {
               if (i === 0) {
                   this.spanArr.push(1);
