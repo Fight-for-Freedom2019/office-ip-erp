@@ -79,6 +79,7 @@
                 this.openVisible("isPanelVisible");
                 this.compileType = "add";
                 this.title = "新增";
+                this.rowData = {};
                 this.$refs.detail?this.$refs.detail.clear():"";
             },
             save(type){

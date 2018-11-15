@@ -41,6 +41,7 @@
                     'height': 'default',
                     'is_list_filter': true,
                     'list_type': 'contacts',
+                    'treeFilter':'contacts',
                     'header_btn': [
                         {type: 'add', click: this.addPop},
                         {type: 'delete'},
@@ -48,9 +49,9 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '姓名', prop: 'name', width: '150'},
-                        {type: 'text', label: '尊称', prop: 'title', width: '150'},
-                        {type: 'text', label: '所属客户', prop: 'customer.name', width: '150'},
+                        {type: 'text', label: '姓名', prop: 'name', width: '150',render_header:true},
+                        {type: 'text', label: '尊称', prop: 'title', width: '150',render_header:true},
+                        {type: 'text', label: '所属客户', prop: 'customer', width: '150',render_simple:"name",render_header:true},
                         {type: 'text', label: '类型', prop: 'contact_type', width: '100', render: (h, item) => {
                                 let options = map.get("contacts_type").options;
                                 let name = "";
@@ -58,12 +59,13 @@
                                     o.id === item ? name = o.name:"";
                                 });
                                 return h("span",name);
-                            }
+                            },
+                            render_header:true
                         },
-                        {type: 'text', label: '邮件地址', prop: 'email_address', width: '145'},
-                        {type: 'text', label: '电话号码', prop: 'phone_number'},
-                        {type: 'text', label: '地址', prop: 'address', width: '240'},
-                        {type: 'text', label: '备注', prop: 'remark', width: '200'},
+                        {type: 'text', label: '邮件地址', prop: 'email_address', width: '145',render_header:true},
+                        {type: 'text', label: '电话号码', prop: 'phone_number',width: '145',render_header:true},
+                        {type: 'text', label: '地址', prop: 'address', width: '240',render_header:true},
+                        {type: 'text', label: '备注', prop: 'remark', width: '200',render_header:true},
                         // 	{
                         // 		type: 'action',
                         // width: '200',

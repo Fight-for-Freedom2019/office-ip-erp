@@ -135,15 +135,6 @@
         },
         methods: {
             handleClick(tab) {
-                if (tab.name === "received_payments") {
-                    this.$nextTick(function () {
-                        this.$refs.received.refreshData();
-                    })
-                }else if(tab.name === "reminders"){
-                    this.$nextTick(function () {
-                        this.$refs.reminders.refreshData();
-                    })
-                }
             },
             submitAudit(id) {
                 this.$confirm('是否提交审核', '提示', {

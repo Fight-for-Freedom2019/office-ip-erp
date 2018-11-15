@@ -75,16 +75,16 @@
                     'columns': [
                         {type: 'selection'},
                         {type: 'text', label: '客户', prop: 'user.customer.name', min_width: '178'},
-                        {type: 'text', label: '标题', prop: 'project.title', width: '150'},
-                        {type: 'text', label: '申请号', prop: 'project.application_number', width: '150'},
-                        {type: 'text', label: '申请日', prop: 'project.application_date', width: '100'},
-                        {type: 'text', label: '请款单号', prop: 'invoice.serial', width: '150'},
+                        {type: 'text', label: '标题', prop: 'title', width: '150'},
+                        {type: 'text', label: '申请号', prop: 'application_number', width: '150'},
+                        {type: 'text', label: '申请日', prop: 'application_date', width: '100'},
+                        {type: 'text', label: '请款单号', prop: 'serial', width: '150'},
                         {type: 'text', label: '案号', prop: 'project.serial', width: '120'},
-                        {type: 'text', label: '申请国家', prop: 'project.area', width: '180'},
+                        {type: 'text', label: '申请国家', prop: 'area', width: '180'},
                         {type: 'text', label: '订单号', prop: 'order.serial', width: '120'},
                         {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160'},
                         {
-                            type: 'text', label: '费用类型', prop: 'fee_code', width: '100', render: (h,item) => {
+                            type: 'text', label: '费用类型', prop: 'fee_code', width: '100', render: (h, item) => {
                                 let name = "";
                                 config.get("fee_type").options.map(function (o) {
                                     if (item && o.id === item.fee_type) {
@@ -132,12 +132,13 @@
                 this.isPanelVisible = true;
                 this.title = "新增";
                 this.compileType = "add";
+                this.row = {};
                 this.$refs.waitForPayment ? this.$refs.waitForPayment.clear() : "";
             },
             handleRowClick(row) {
                 this.compileType = "edit";
                 this.row = row;
-                this.title = `订单编号: ${row.project.serial}`;
+                this.title = `订单编号: ${row.serial}`;
                 this.isPanelVisible = true;
             },
             refreshTableData(option) {

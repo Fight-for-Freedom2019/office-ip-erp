@@ -88,7 +88,7 @@
                 this.title = `编辑文件类型>${row.name}`
             },
             add() {
-                // this.rowData = {};
+                this.rowData = {};
                 this.title = "新增文件类型";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");

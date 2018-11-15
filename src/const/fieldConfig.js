@@ -38,7 +38,33 @@ const strainerConfig = [
     ['applicants',[
         { "name": "客户", "id": "customer", "default": true},
     ]],
+    ['inventors',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['contacts',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['remarks',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['contracts',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['invoice_targets',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
     ['invoices',[
+        { "name": "创建人", "id": "creator_user", "default": true},
+        { "name": "请款对象", "id": "user"},
+        { "name": "请款时间", "id": "request_time"},
+        { "name": "回款期限", "id": "deadline"},
+        { "name": "回款时间", "id": "payment_time"},
+        { "name": "请款单状态", "id": "status"},
+    ]],
+    ['received_payments',[
+        { "name": "客户", "id": "customer", "default": true},
+    ]],
+    ['invoice_request',[
         { "name": "客户", "id": "customer", "default": true},
     ]]
 ]

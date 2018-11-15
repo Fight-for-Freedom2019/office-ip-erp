@@ -21,7 +21,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="金额" prop="serial">
+                    <el-form-item label="金额" prop="amount">
                         <el-input type="number" v-model="form.amount" placeholder="请输入金额"></el-input>
                     </el-form-item>
                 </el-col>

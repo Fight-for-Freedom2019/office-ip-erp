@@ -55,11 +55,6 @@
                         {required:true,message:"请选择回款日期",trigger:"blur"},
                     ]
                 },
-                bank_accounts:{
-                    URL: '/bank_accounts',
-                    DATA_KEY: 'data',
-                    PLACEHOLDER: '请选择回款账户',
-                },
                 form:{
                     payment_account: "",
                     amount: "",

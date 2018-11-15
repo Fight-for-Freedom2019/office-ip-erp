@@ -134,7 +134,7 @@
         },
         watch:{
             data:function (val,oldVal) {
-                this.tableData = this.$tool.deepCopy(val);
+                this.tableData = val;
             }
         },
         components: {

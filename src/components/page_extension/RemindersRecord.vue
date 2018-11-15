@@ -12,7 +12,8 @@
                     <static-select type="customer_reminder_type" v-model="form.remind_type"></static-select>
                 </el-form-item>
                 <el-form-item label="跟催时间" prop="remind_date">
-                    <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="请选择时间" v-model="form.remind_date"></el-date-picker>
+                    <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="请选择时间"
+                                    v-model="form.remind_date"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="跟催结果" prop="result">
                     <el-input type="textarea" v-model="form.result"></el-input>
@@ -26,7 +27,6 @@
     </div>
 
 
-
 </template>
 
 <script>
@@ -34,95 +34,114 @@
     import StaticSelect from '@/components/form/StaticSelect'
     import JumpSelect from '@/components/form/JumpSelect'
     import RemoteSelect from '@/components/form/RemoteSelect'
+    import Config from '@/const/selectConfig'
+
+    const config = new Map(Config);
 
     export default {
         name: "RemindersRecord",
-        props:{
-            data:Array,
-            id:[Number,String]
+        props: {
+            data: Array,
+            id: [Number, String]
         },
         data() {
             return {
                 tableOption: {
                     'name': 'RemindersRecordList',
                     'url': "",
-                    'is_pagination':false,
+                    'is_pagination': false,
                     'height': 356,
                     'highlightCurrentRow': true,
                     'is_search': false,
                     // 'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'add',click:this.add},
+                        {type: 'add', click: this.add},
                     ],
                     'columns': [
                         // {type: 'selection'},
                         {type: 'text', label: '跟催时间', prop: 'remind_date', width: '178'},
                         {type: 'text', label: '跟催人', prop: 'customer.name', width: '120'},
-                        {type: 'text', label: '跟催类型', prop: 'remind_type', width: '150'},
-                        {type: 'text', label: '跟催结果', prop: 'result', min_width: '180'},
+                        {
+                            type: 'text', label: '跟催类型', prop: 'remind_type', width: '150', render: (h, item) => {
+                                let name;
+                                config.get("customer_reminder_type").options.map(function (o) {
+                                    if(o.id === item){
+                                        name = o.name;
+                                    }
+                                });
+                                return h("span",name);
+                            }
+                        },
+                        {type: 'text', label: '跟催结果', prop: 'remark', min_width: '180'},
                     ],
                 },
-                form:{
-                    customer:"",
-                    remind_type:"",
-                    remind_date:"",
-                    result:""
+                form: {
+                    customer: "",
+                    remind_type: "",
+                    remind_date: "",
+                    result: "",
+                    model: "invoice",
                 },
-                rules:{
-                    customer:[
-                        {required:true,message:"请选择客户"},
+                rules: {
+                    customer: [
+                        {required: true, message: "请选择客户"},
                     ],
-                    remind_type:[
-                        {required:true,message:"请选择跟催方式",trigger:"blur"},
+                    remind_type: [
+                        {required: true, message: "请选择跟催方式", trigger: "blur"},
                     ],
-                    remind_date:[
-                        {required:true,message:"请选择跟催日期",trigger:"blur"},
+                    remind_date: [
+                        {required: true, message: "请选择跟催日期", trigger: "blur"},
                     ]
                 },
                 tableData: [],
-                title:"新增跟催记录",   // 弹窗title
-                dialogFormVisible:false,
+                title: "新增跟催记录",   // 弹窗title
+                dialogFormVisible: false,
             }
         },
         methods: {
             refreshTableData(option) {
                 const url = `/invoices/${this.id}/reminders`;
-                const success = _ =>{
+                const success = _ => {
                     this.tableData = _.data;
                 };
-                this.$axiosGet({url,data:option,success})
+                this.$axiosGet({url, data: option, success})
             },
-            save(){
-                this.$refs['form'].validate((valid)=>{
-                    if(valid){
-                        const data = Object.assign({},this.form);
-                        data.invoice = this.id;
+            save() {
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        const data = Object.assign({}, this.form);
+                        data.model_id = this.id;
                         const url = "/reminders";
                         const success = _ => {
-                            this.$message({type:"success",message:"添加成功!"});
+                            this.$message({type: "success", message: "添加成功!"});
                             this.refreshTableData();
                             this.cancel();
                         };
-                        this.$axiosPost({url,data,success});
-                    }else {
-                        this.$message({type:"warning",message:"请正确填写"})
+                        this.$axiosPost({url, data, success});
+                    } else {
+                        this.$message({type: "warning", message: "请正确填写"})
                     }
                 })
 
             },
-            refreshData(){
+            refreshData() {
                 this.tableData = this.$tool.deepCopy(this.data);
             },
-            add(){
+            add() {
                 this.dialogFormVisible = true;
             },
             cancel() {
                 this.dialogFormVisible = false;
                 this.clear();
             },
-            clear(){
+            clear() {
                 this.$refs.form.resetFields();
             },
+        },
+        watch: {
+            data: function (val) {
+                this.tableData = val;
+            }
         },
         components: {
             TableComponent,

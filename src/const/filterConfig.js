@@ -288,6 +288,22 @@ const map = new Map([
         { components: 'input',         id: 'account',                name: '银行账户'},
         { components: 'input',         id: 'remark',                 name: '备注'},
     ]],
+    /* 请款管理 */
+    ['invoices',[
+        { components: 'remote_select', id: 'user',                   name: '请款对象', type: 'user', used: true},
+        { components: 'date',          id: 'request_time',           name: '请款时间'},
+        { components: 'date',          id: 'deadline',               name: '回款期限'},
+        { components: 'date',          id: 'payment_time',           name: '回款时间'},
+        { components: 'static_select', id: 'status',                 name: '请款单状态',type:"invoice_status"},
+    ]],
+    /* 回款管理 */
+    ['received_payments',[
+        { components: 'remote_select', id: 'customer',                name: '客户', type: 'customer', used: true},
+    ]],
+    /* 发票管理 */
+    ['invoice_request',[
+        { components: 'remote_select', id: 'customer',                name: '客户', type: 'customer', used: true},
+    ]],
 ])
 
 const customPathMap = new Map([

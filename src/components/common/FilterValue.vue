@@ -26,6 +26,18 @@
 			@change="handleChange"
 			>
 		</remote-select>
+
+        <jump-select
+                v-else-if="type == 'jump_select'"
+                ref="select"
+                :key="selectType"
+                :type="selectType"
+                :multiple="multiple"
+                :value="value"
+                @input="handleInput"
+                @change="handleChange"
+        >
+        </jump-select>
 		
 		<app-date 
 			ref="date"
@@ -51,6 +63,7 @@
 <script>
 import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
+import JumpSelect from '@/components/form/JumpSelect'
 import AppDate from '@/components/common/AppDate'
 
 const typeMap = new Map([
@@ -96,7 +109,7 @@ export default {
 		initialValue () {
 			let val = null;
 			// console.log('这里初始化')
-			if(this.type == 'static_select' || this.type == 'remote_select') {
+			if(this.type == 'static_select' || this.type == 'remote_select' || this.type == 'jump_select') {
 				val = this.multiple ? [] : '';
 			}else if(this.type == 'date' ) {
 				val = ['',''];
@@ -110,7 +123,7 @@ export default {
 		checkNull () {
 			const t = this.type;
 
-			if(t == 'static_select' || t == 'remote_select') {
+			if(t == 'static_select' || t == 'remote_select' || t == 'jump_select') {
 				return this.multiple ? this.value.length == 0 : this.value === ''; 
 			}
 
@@ -144,7 +157,7 @@ export default {
 		getLabel () {
 			const t = this.type;
 			
-			if(t == 'static_select' || t == 'remote_select') {
+			if(t == 'static_select' || t == 'remote_select' || t == 'jump_select') {
 				return this.$refs.select.getSelected().map(v => v.name).join('，');
 			}
 			
@@ -169,6 +182,7 @@ export default {
 	components: {
 		StaticSelect,
 		RemoteSelect,
+        JumpSelect,
 		AppDate,	
 	}
 }
