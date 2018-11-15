@@ -716,6 +716,23 @@ const config = [
         {id: 16, name: '已删除'},
     ]
   }],
+  ['payment_request_timing', {
+    placeholder: '请选择请款时机',
+    options: [
+        {id: 0, name: '手动处理'},
+        {id: 1, name: '立即请款'},
+        {id: 2, name: '产出申请号时'},
+        {id: 3, name: '1OA递交时'},
+    ]
+ }],
+  ['policy', {
+    placeholder: '请选择费用策略',
+    options: [
+        {id: 1, name: '代缴代垫'},
+        {id: 2, name: '代缴不代垫'},
+        {id: 3, name: '仅监控'},
+    ]
+  }],
 ];
 
 export default config;

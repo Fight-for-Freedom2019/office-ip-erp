@@ -193,6 +193,23 @@ const map = new Map([
         { type: 'date',             id: 'expire_date',           name: '届满日期'},
         { type: 'text',         	id: 'remark',                name: '备注'},
     ]],
+    /* 待请费用 */
+    ['fees', [
+        { type: 'remote_select',    id: 'user.customer.name',              name: '客户',           data_key: 'data',          url: '/customers'},
+        { type: 'text',    id: 'title',        name: '标题'},
+        { type: 'text',    id: 'application_number',        name: '申请号'},
+        { type: 'date',    id: 'application_date',        name: '申请日'},
+        { type: 'remote_select',    id: 'serial',              name: '案号',           data_key: 'projects',          url: '/projects'},
+        { type: 'static_select',    id: 'area',           name: '申请国家',      map_type: 'area'},
+        { type: 'text',    id: 'order.serial',        name: '订单号'},
+        { type: 'static_select',    id: 'fee_code.name',              name: '费用名称',           map_type:"fee_code"},
+        { type: 'static_select',    id: 'fee_code',              name: '费用类型',           map_type:"fee_type"},
+        { type: 'static_select',    id: 'currency',        name: '币别',map_type: 'currency'},
+        { type: 'date',    id: 'deadline',        name: '费用期限'},
+        { type: 'static_select',    id: 'status',              name: '费用状态',           map_type:"fee_status"},
+        { type: 'static_select',    id: 'payment_request_timing',              name: '请款时机',           map_type:"payment_request_timing"},
+        { type: 'text',         	id: 'remark',                name: '备注'},
+    ]],
     /* 请款管理 */
     ['invoices', [
         { type: 'remote_select',    id: 'serial',        name: '请款单号', data_key:"data",url:"/invoices"},

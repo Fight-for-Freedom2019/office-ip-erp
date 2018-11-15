@@ -24,6 +24,7 @@ const urlMap = new Map([
   ['remarks',{ URL: '/remarks/filters' }],
   ['contracts',{ URL: '/contracts/filters' }],
   ['invoice_targets',{ URL: '/invoice_targets/filters' }],
+  ['fees',{ URL: '/fees/filters' }],
   ['invoices',{ URL: '/invoices/filters' }],
   ['received_payments',{ URL: '/received_payments/filters' }],
   ['invoice_request',{ URL: '/vouchers/filters' }],

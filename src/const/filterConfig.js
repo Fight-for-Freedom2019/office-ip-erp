@@ -288,6 +288,14 @@ const map = new Map([
         { components: 'input',         id: 'account',                name: '银行账户'},
         { components: 'input',         id: 'remark',                 name: '备注'},
     ]],
+    /* 待请费用 */
+    ['fees',[
+        { components: 'remote_select', id: 'customer',                name: '客户', type: 'customer', used: true},
+        { components: 'date',          id: 'deadline',            name: '费用期限'},
+        { components: 'static_select', id: 'status',            name: '费用状态', type: 'fee_status', used: true},
+        { components: 'date',          id: 'payment_time',            name: '请款时间'},
+
+    ]],
     /* 请款管理 */
     ['invoices',[
         { components: 'remote_select', id: 'user',                   name: '请款对象', type: 'user', used: true},

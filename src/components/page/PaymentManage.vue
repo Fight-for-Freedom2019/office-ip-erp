@@ -117,6 +117,7 @@
                 }
                 this.title = `订单编号: ${row.serial}`;
                 this.isPanelVisible = true;
+                this.$refs.detail?this.$refs.detail.openLoading():"";
             },
             refreshTableData(data) {
                 const url = URL;

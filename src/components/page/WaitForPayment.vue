@@ -34,6 +34,7 @@
     import WaitForPaymentAdd from '@/components/page_extension/WaitForPaymentAdd'
     import JumpSelect from '@/components/form/JumpSelect'
     import Config from "@/const/selectConfig"
+    import {mapGetters} from 'vuex'
 
     const config = new Map(Config);
 
@@ -56,7 +57,8 @@
                     'highlightCurrentRow': true,
                     'is_search': true,
                     'is_list_filter': true,
-                    'list_type': 'serial',
+                    'list_type': 'fees',
+                    'treeFilter': 'fees',
                     'is_merge': {KEY: "user.customer.id", COL: [1, 2, 3, 4, 5]},
                     'search_placeholder': '',
                     'rowClick': this.handleRowClick,
@@ -74,15 +76,17 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'user.customer.name', min_width: '178'},
-                        {type: 'text', label: '标题', prop: 'title', width: '150'},
-                        {type: 'text', label: '申请号', prop: 'application_number', width: '150'},
-                        {type: 'text', label: '申请日', prop: 'application_date', width: '100'},
-                        {type: 'text', label: '请款单号', prop: 'serial', width: '150'},
-                        {type: 'text', label: '案号', prop: 'project.serial', width: '120'},
-                        {type: 'text', label: '申请国家', prop: 'area', width: '180'},
-                        {type: 'text', label: '订单号', prop: 'order.serial', width: '120'},
-                        {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160'},
+                        {type: 'text', label: '客户', prop: 'user.customer.name', min_width: '178', render_header: true},
+                        {type: 'text', label: '标题', prop: 'title', width: '150', render_header: true},
+                        {type: 'text', label: '申请号', prop: 'application_number', width: '150', render_header: true},
+                        {type: 'text', label: '申请日', prop: 'application_date', width: '160', render_header: true},
+                        {type: 'text', label: '案号', prop: 'serial', width: '120', render_header: true},
+                        {type: 'text', label: '申请国家', prop: 'area', width: '180', render_header: true,render: (h, item) => {
+                                const d = this.areaMap.get(item);
+                                return h('span', d ? d : '');
+                            }},
+                        {type: 'text', label: '订单号', prop: 'order.serial', width: '120', render_header: true},
+                        {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160', render_header: true},
                         {
                             type: 'text', label: '费用类型', prop: 'fee_code', width: '100', render: (h, item) => {
                                 let name = "";
@@ -92,13 +96,14 @@
                                     }
                                 });
                                 return h("span", name);
-                            }
+                            },
+                            render_header: true
                         },
                         {type: 'text', label: '金额', prop: 'amount', width: '100'},
-                        {type: 'text', label: '币别', prop: 'currency', width: '150'},
+                        {type: 'text', label: '币别', prop: 'currency', width: '150', render_header: true},
                         {type: 'text', label: '汇率', prop: 'roe', width: '150'},
                         {type: 'text', label: '人民币', prop: 'rmb_amount', width: '150'},
-                        {type: 'text', label: '费用期限', prop: 'deadline', width: '150'},
+                        {type: 'text', label: '费用期限', prop: 'deadline', width: '150', render_header: true},
                         {
                             type: 'text', label: '费用状态', prop: 'status', width: '150', render: (h, item) => {
                                 let name = "";
@@ -108,13 +113,26 @@
                                     }
                                 });
                                 return h("span", name);
-                            }
+                            },
+                            render_header: true
                         },
-                        {type: 'text', label: '请款时机', prop: 'payment_request_timing', width: '150'},
-                        {type: 'text', label: '请款时间', prop: 'invoice.payment_time', width: '150'},
-                        {type: 'text', label: '请款单状态', prop: 'invoice.status', width: '150'},
-                        {type: 'text', label: '付款时间', prop: 'invoice.payment_time', width: '150'},
-                        {type: 'text', label: '备注', prop: 'remark', width: '150'},
+                        {
+                            type: 'text',
+                            label: '请款时机',
+                            prop: 'payment_request_timing',
+                            width: '150',
+                            render: (h, item) => {
+                                let name = "";
+                                config.get("payment_request_timing").options.map(function (o) {
+                                    if (o.id === item) {
+                                        name = o.name;
+                                    }
+                                });
+                                return h("span", name);
+                            },
+                            render_header: true
+                        },
+                        {type: 'text', label: '备注', prop: 'remark', width: '150', render_header: true},
                     ],
                 },
                 compileType: "add",
@@ -126,6 +144,11 @@
                 bill: {},
                 ids: [],
             }
+        },
+        computed:{
+            ...mapGetters([
+                "areaMap"
+            ]),
         },
         methods: {
             add() {

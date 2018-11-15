@@ -53,6 +53,13 @@ const strainerConfig = [
     ['invoice_targets',[
         { "name": "客户", "id": "customer", "default": true},
     ]],
+    /* 待请费用 */
+    ['fees',[
+        { "name": "客户", "id": "customer", "default": true},
+        { "name": "费用期限", "id": "deadline"},
+        { "name": "费用状态", "id": "status"},
+        { "name": "请款时机", "id": "payment_request_timing"},
+    ]],
     ['invoices',[
         { "name": "创建人", "id": "creator_user", "default": true},
         { "name": "请款对象", "id": "user"},
