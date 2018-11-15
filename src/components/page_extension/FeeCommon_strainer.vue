@@ -14,7 +14,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="费用代码" prop="code">
+          <el-form-item label="费用类型" prop="code">
             <static-select type="fee_code" v-model="form.code" multiple></static-select>
           </el-form-item>
           

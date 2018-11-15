@@ -179,7 +179,7 @@ const map = new Map([
     ]],
     ['fee', [
         { components: 'remote_select', id: 'target', name: '费用对象', type: 'member'  , used: true},
-        { components: 'static_select', id: 'code', name: '费用代码', type: 'fee_code' },
+        { components: 'static_select', id: 'code', name: '费用类型', type: 'fee_code' },
         { components: 'date',          id: 'mail_date', name: '通知书发文日' },
         { components: 'date',          id: 'create_time', name: '费用生成日期' },
         { components: 'date',          id: 'due_time', name: '账单期限' },

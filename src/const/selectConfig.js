@@ -401,7 +401,7 @@ const config = [
     options: 'taskDefsData',
   }],
   // ['fee_code', {     // TODO 可能是上个版本遗留下来的接口，在这个系统请求不到数据
-  //   placeholder: '请选择费用代码',
+  //   placeholder: '请选择费用类型',
   //   url: '/feeCodes',
   //   handle (data) {
   //     return data.codes.map(_=>{

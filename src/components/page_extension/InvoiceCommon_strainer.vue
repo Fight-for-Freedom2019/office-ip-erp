@@ -13,7 +13,7 @@
             <el-date-picker type="daterange" placeholder="请选择费用期限" v-model="form.due_time"></el-date-picker>
           </el-form-item>
           
-          <!-- <el-form-item label="费用代码" prop="code">
+          <!-- <el-form-item label="费用类型" prop="code">
             <static-select type="fee_code" v-model="form.code" multiple></static-select>
           </el-form-item> -->
 <!--           <el-form-item label="通知书发文日" prop="mail_date">

@@ -93,9 +93,9 @@ const reportMenu = [
 
 const exchangeMenu = [
 	{ type: 'submenu', text: '文档交互', path: '/exchange/document', icon: 'el-icon-my-patent', children:[
-		{ type: 'item', text: '官文通知', path: '/exchange/document/official_notice', icon: '' },
-		{ type: 'item', text: '一般文件', path: '/exchange/document/general', icon: '' },
+		{ type: 'item', text: '官文通知', path: '/exchange/document/oa', icon: '' },
 		{ type: 'item', text: '费用单据', path: '/exchange/document/voucher', icon: '' },
+		{ type: 'item', text: '一般文件', path: '/exchange/document/other', icon: '' },
 		{ type: 'item', text: 'CPC通知书', path: '/exchange/document/cpc', icon: '' },
 	]},
 	{ 
@@ -140,7 +140,7 @@ const settingMenu = [
 	{ type: 'submenu', text: '基础数据', path: '/setting/data', icon: 'iconfont el-icon-my-system',
 		children:[
 			{type: 'item', text: '收款账户', path: '/setting/data/payment_accounts', icon: 'iconfont el-icon-my-system'},
-			{type: 'item', text: '费用代码', path: '/setting/data/fee_codes', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '费用类型', path: '/setting/data/fee_codes', icon: 'iconfont el-icon-my-system'},
 			{type: 'item', text: '文件类型', path: '/setting/data/file_types', icon: 'iconfont el-icon-my-system'},
 			{type: 'item', text: '案件状态', path: '/setting/data/stages', icon: 'iconfont el-icon-my-system'},
 			// {type: 'item', text: '原始记录', path: '/setting/data/entity_changes', icon: 'iconfont el-icon-my-system'},

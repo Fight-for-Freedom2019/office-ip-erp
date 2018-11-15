@@ -52,6 +52,7 @@
                         },
                         {type: 'text', label: '文件类型', prop: 'category',render_simple:'name', width: '120'},
                         {type: 'text', label: '文件类型名称', prop: 'name', min_width: '200'},
+                        {type: 'text', label: '文件类型简称', prop: 'abbr', width: '120'},
                         {type: 'text', label: '上传后案件阶段', prop: 'project_stage',render_simple:'name', width: '120'},
                         {type: 'text', label: '上传时填写字段', prop: 'fields', width: '120'},
                         {type: 'text', label: '上传时执行逻辑', prop: 'behavior', width: '120'},
@@ -85,9 +86,9 @@
                 this.openVisible("isPanelVisible");
                 this.compileType = "edit";
                 this.title = `编辑文件类型>${row.name}`
-                
             },
             add() {
+                // this.rowData = {};
                 this.title = "新增文件类型";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");

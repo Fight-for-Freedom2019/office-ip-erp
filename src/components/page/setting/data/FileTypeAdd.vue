@@ -14,11 +14,15 @@
                 <el-input type="text" placeholder="请输入文件类型名称" v-model="form.name"></el-input>
             </el-form-item>
 
+            <el-form-item label="文件类型简称" prop="abbr">
+                <el-input type="text" placeholder="请输入文件类型简称" v-model="form.abbr"></el-input>
+            </el-form-item>
+
             <el-form-item label="上传后案件阶段" prop="project_stage">
                 <static-select type="project_stage" v-model="form.project_stage"></static-select>
             </el-form-item>
 
-            <el-form-item label="上传时填写字段" prop="fields">
+            <el-form-item label="上传时填写字段" prop="fields" v-if="form.category == 1">
                 <el-input type="text" placeholder="请输入字段" v-model="form.fields"></el-input>
             </el-form-item>
 
@@ -43,9 +47,10 @@
             return {
                 URL: "/file_types",
                 form: {
-                    project_category: "",
-                    category: "",
+                    project_category: 1,
+                    category: 1,
                     name: "",
+                    abbr: "",
                     project_stage: "",
                     fields: "",
                     behavior: "",
@@ -60,6 +65,9 @@
                     ],
                     name: [
                         {required: true, message: "请输入文件类型名称", trigger: "blur"}
+                    ],
+                    abbr: [
+                        {required: false, message: "请输入文件类型简称", trigger: "blur"}
                     ],
                     project_stage: [
                         {required: false, message: "请选择案件阶段", trigger: "blur"}
@@ -121,7 +129,7 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val):"";
+                val?this.$tool.coverObj(this.form,val,{obj:['project_category','project_stage','category']}):"";
             },
         },
         components: {

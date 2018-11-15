@@ -1,4 +1,4 @@
-<!-- 新增费用代码 -->
+<!-- 新增费用类型 -->
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">

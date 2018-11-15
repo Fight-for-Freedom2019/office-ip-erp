@@ -60,6 +60,12 @@ const Email                    = () => import('@/components/page_extension/Commo
 const Documents                = () => import('@/components/page_extension/CommonDetail_documents')
 //#################
 
+//交互模块
+const ExchangeDocumentOa       = () => import('@/components/page/exchange/document/Oa')
+const ExchangeDocumentVoucher  = () => import('@/components/page/exchange/document/Voucher')
+const ExchangeDocumentOther    = () => import('@/components/page/exchange/document/Other')
+const ExchangeDocumentCpc      = () => import('@/components/page/exchange/document/Cpc')
+
 //-------------------设置 begin-----------------
 const SettingAgent            = () => import('@/components/page/SettingAgent')
 const SettingAgentDetail      = () => import('@/components/page/SettingAgentDetail')           
@@ -1275,6 +1281,26 @@ const router = new Router({
       path: '/fee/renewal/estimate',
       name: 'RenewalEstimate',
       component: RenewalEstimate,
+    },
+    {
+      path: '/exchange/document/oa',
+      name: 'ExchangeDocumentOa',
+      component: ExchangeDocumentOa,
+    },
+    {
+      path: '/exchange/document/voucher',
+      name: 'ExchangeDocumentVoucher',
+      component: ExchangeDocumentVoucher,
+    },
+    {
+      path: '/exchange/document/other',
+      name: 'ExchangeDocumentOther',
+      component: ExchangeDocumentOther,
+    },
+    {
+      path: '/exchange/document/cpc',
+      name: 'ExchangeDocumentCpc',
+      component: ExchangeDocumentCpc,
     },
     {
       path: '/patent/list/detail/:id',
