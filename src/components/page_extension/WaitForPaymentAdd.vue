@@ -34,18 +34,6 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="金额" prop="amount">
-                        <el-input type="text" v-model="form.amount" placeholder="请输入金额"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="国家" prop="area">
-                        <static-select type="area" v-model="form.area"></static-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
                     <el-form-item label="付款时间" prop="payment_time">
                         <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" v-model="form.payment_time"></el-date-picker>
                     </el-form-item>
@@ -58,6 +46,18 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
+                    <el-form-item label="金额" prop="amount">
+                        <el-input type="text" v-model="form.amount" placeholder="请输入金额"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="费用策略" prop="policy">
+                        <static-select type="policy" v-model="form.policy"></static-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
                     <el-form-item label="请款时机" prop="payment_request_timing">
                         <static-select type="payment_request_timing" v-model="form.payment_request_timing"></static-select>
                     </el-form-item>
@@ -65,13 +65,6 @@
                 <el-col :span="12">
                     <el-form-item label="费用状态" prop="status">
                         <static-select type="fee_status" v-model="form.status"></static-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="费用策略" prop="policy">
-                        <static-select type="policy" v-model="form.policy"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -102,7 +95,6 @@
                     currency: "",
                     roe: "",
                     amount: "",
-                    area: "",
                     payment_time: "",
                     deadline: "",
                     due_time: "",
@@ -120,9 +112,6 @@
                     ],
                     roe:[
                         {required:true,message:"汇率不能为空!", trigger: "blur"}
-                    ],
-                    due_time:[
-                        {required:true,message:"官方绝限不能为空!", trigger: "blur"}
                     ],
                     project:[
                         {required:true,message:"请选择案件", trigger: "blur"}

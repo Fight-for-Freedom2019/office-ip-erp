@@ -174,7 +174,13 @@ const router = new Router({
     {
       path: '/crm/finance/fee',
       name: 'WaitForPayment',
-      component: WaitForPayment
+      component: WaitForPayment,
+        meta:{
+          params:{
+              is_debit: 1,
+              status: 1
+          }
+        }
     },
     {
       path: '/crm/finance/payment_recevied',
