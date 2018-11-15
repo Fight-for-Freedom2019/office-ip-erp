@@ -181,12 +181,7 @@
             },
             getDetail(id) {
                 const url = `/invoices/${id}`;
-                const data = {
-                    page: 1,
-                    listRows: 20
-                };
                 const success = _ => {
-                    console.log("账单的详情", _);
                     this.receivedData = _.data.data[0].received_payment;
                     this.remindersData = _.data.data[0].reminder;
                     this.costDetail = _.data.data[0].fee_list ? _.data.data[0].fee_list : [];
@@ -196,7 +191,7 @@
                 const complete = () => {
                     this.closeLoading();
                 };
-                this.$axiosGet({url, data, success,complete});
+                this.$axiosGet({url, success,complete});
             },
             coverObj(val) {
                 val ? this.$tool.coverObj(this.form, val) : "";
@@ -227,6 +222,7 @@
                 this.coverObj(val);
             },
             id: function (val, oldVal) {
+                this.openLoading();
                 this.getDetail(val);
             }
         },

@@ -175,13 +175,13 @@
                 if (val) {
                     this.$tool.coverObj(this.form, val);
                 }
-            }
+            },
+            clear(){
+                this.$refs.form.resetFields();
+            },
         },
-        created() {
+        mounted() {
             this.coverObj(this.contracts);
-            // if (this.type !== "add"){
-            //     this.form = Object.assign({},this.contracts);
-            // }
         },
         watch: {
             contracts: function (val, oldVal) {
