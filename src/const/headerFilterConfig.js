@@ -166,7 +166,7 @@ const map = new Map([
     /* 客户备注 */
     ['remarks', [
         { type: 'static_select',    id: 'type',                  name: '类型',   map_type: 'remark_type'},
-        { type: 'remote_select',    id: 'user',                  name: '备注人',           data_key:"data",url:"/user"},
+        { type: 'remote_select',    id: 'user',                  name: '备注人',           data_key:"data"},
         { type: 'date',             id: 'creation_time',         name: '备注时间'},
         { type: 'text',             id: 'content',               name: '备注内容'},
     ]],
@@ -214,8 +214,8 @@ const map = new Map([
     /* 请款管理 */
     ['invoices', [
         { type: 'remote_select',    id: 'serial',        name: '请款单号', data_key:"data",url:"/invoices"},
-        { type: 'remote_select',    id: 'creator_user',        name: '创建人', data_key:"data",url:"/user"},
-        { type: 'remote_select',    id: 'user',        name: '请款对象', data_key:"data",url:"/user"},
+        { type: 'remote_select',    id: 'creator_user',        name: '创建人', data_key:"data"},
+        { type: 'remote_select',    id: 'user',        name: '请款对象', data_key:"data"},
         { type: 'date',    id: 'creation_time',        name: '创建时间'},
         { type: 'text',    id: 'amount',        name: '金额'},
         { type: 'static_select',    id: 'currency',        name: '币别',map_type: 'currency'},
@@ -224,7 +224,7 @@ const map = new Map([
         { type: 'date',    id: 'deadline',        name: '回款期限'},
         { type: 'date',    id: 'payment_time',        name: '回款时间'},
         { type: 'text',    id: 'received_amount',        name: '回款金额'},
-        { type: 'remote_select',    id: 'creator_user_name',        name: '回款确认用户',data_key: 'data',  url: '/user'},
+        { type: 'remote_select',    id: 'creator_user_name',        name: '回款确认用户',data_key: 'data'},
         { type: 'date',    id: 'confirmation_time',        name: '回款确认时间'},
         { type: 'static_select',    id: 'status',        name: '请款单状态',map_type:"invoice_status"},
         { type: 'static_select',    id: 'is_voucher_uploaded',        name: '票据已上传',map_type: 'bool'},
