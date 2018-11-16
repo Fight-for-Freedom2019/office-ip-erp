@@ -4,7 +4,9 @@
       <classification-tree></classification-tree>
     </template>
     <template style="flex:1;">
-	  <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table" style="overflow: auto;"></table-component>
+      <span></span>
+	    <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshT
+    ableData" ref="table" style="overflow: auto;"></table-component>
     </template>
     <edit ref="edit" @refresh="handleRefresh"></edit>
   </div>
