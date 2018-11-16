@@ -43,7 +43,7 @@
                     'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'export'},
+                        // {type: 'export'},
                         {type: 'delete',click:this.deleteBill},
                         {type: 'control'},
                     ],

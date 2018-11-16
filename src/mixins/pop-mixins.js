@@ -26,7 +26,8 @@ export default {
           if(data instanceof Object) {
             const copy = this.$tool.deepCopy(data);
             this.id = copy.id; 
-            this.setForm ? this.setForm(data) : this.$tool.coverObj(this.form, copy);  
+            this.setForm ? this.setForm(data) : this.$tool.coverObj(this.form, copy);
+            data.attachments?this.attachments = [...this.form.attachments]:"";
           }else if(data instanceof String || data instanceof Number) {
             data -= 0;
           }         

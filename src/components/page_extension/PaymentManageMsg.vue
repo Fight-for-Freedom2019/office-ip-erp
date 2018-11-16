@@ -5,11 +5,11 @@
             <el-row :gutter="20">
                 <el-col :span="6">
                     <el-form-item label="请款对象">
-                        <span class="form-item-text">{{rowData.creator_user?rowData.creator_user.name:""}}</span><!-- 有些from项不用提交，直接使用rowData数据，因为经过coverObj方法的from没办法保留name -->
+                        <span class="form-item-text">{{rowData.user?rowData.user.name:""}}</span><!-- 有些from项不用提交，直接使用rowData数据，因为经过coverObj方法的from没办法保留name -->
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="创建人"><span class="form-item-text">{{rowData.user?rowData.user.name:""}}</span>
+                    <el-form-item label="创建人"><span class="form-item-text">{{rowData.creator_user?rowData.creator_user.name:""}}</span>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -62,13 +62,13 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item class="break-form" label="快递" prop="express_id">
-                <up-load></up-load>
+            <el-form-item class="break-form upload-from" label="快递" prop="express">
+                <up-load v-model="form.express" :fileList="express"></up-load>
             </el-form-item>
             <el-form-item class="break-form" label="备注" prop="remark">
-                <el-input type="textarea" :rows="2" v-model="form.remark"></el-input>
+                <el-input type="textarea" v-model="form.remark" resize="none"></el-input>
             </el-form-item>
-            <el-form-item class="break-form" label="附件">
+            <el-form-item class="break-form upload-from" label="附件">
                 <up-load></up-load>
             </el-form-item>
         </el-form>
@@ -119,7 +119,9 @@
                     payment_time: "",
                     received_amount: "",
                     remark: "",
+                    express:[],
                 },
+                express:[],
                 costDetail: [],
                 remindersData: [],
                 receivedData: [],
@@ -220,6 +222,12 @@
         watch: {
             rowData: function (val, oldVal) {
                 this.coverObj(val);
+                if(this.form.express || this.form.express.length !== 0){
+                    this.form.express.map(_=>{
+                        _.name = _.serial;
+                    })
+                    this.express = [...this.form.express]
+                }
             },
             id: function (val, oldVal) {
                 this.openLoading();
@@ -269,7 +277,9 @@
     #app .PaymentRequestMsg .break-form textarea {
         height: auto;
     }
-
+    #app .PaymentRequestMsg .upload-from {
+        height: auto;
+    }
     .PaymentRequestMsg .custom-input .el-input__inner, .PaymentRequestMsg .custom-picker-input .el-input__inner {
         height: 28px;
         line-height: 28px;
