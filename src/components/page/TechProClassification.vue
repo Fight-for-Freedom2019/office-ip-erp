@@ -5,8 +5,7 @@
     </template>
     <template style="flex:1;">
       <span></span>
-	    <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshT
-    ableData" ref="table" style="overflow: auto;"></table-component>
+	    <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table" style="overflow: auto;"></table-component>
     </template>
     <edit ref="edit" @refresh="handleRefresh"></edit>
   </div>

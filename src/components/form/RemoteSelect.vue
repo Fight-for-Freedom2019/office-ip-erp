@@ -43,7 +43,7 @@ import AppCard from '@/components/common/AppCard'
 const map = new Map([
   ['contracts', {
     URL: '/contracts',
-    DATA_KEY: 'contracts',
+    DATA_KEY: 'data',
     PLACEHOLDER: '请输入合同关键词',
   }],	
   ['member', {
@@ -53,7 +53,7 @@ const map = new Map([
 	}],
 	['applicant', {
 		URL: '/applicants',
-		DATA_KEY: 'applicants',
+		DATA_KEY: 'data',
 		PLACEHOLDER: '请输入申请人关键词',
 	}],
 	['inventor', {
@@ -159,6 +159,12 @@ const map = new Map([
     DATA_KEY: 'data',
     PLACEHOLDER: '请选择联系人',
   }],
+  ['ipr_para',{
+      URL: '/contacts',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请输入IPR关键词',
+      PARAMS:{cotatct_type:2},
+  }]
 ]);
 
 export default {
