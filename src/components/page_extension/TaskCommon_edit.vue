@@ -1,9 +1,9 @@
 <template>  
   	<el-form label-width="110px" :model="form" ref="form" :rules="rules">
-      <el-form-item label="案件类型" prop="case_type" v-if="type == 'add'">
-        <static-select type="case_type" v-model="form.case_type"></static-select>
+      <el-form-item label="案件类型" prop="category" v-if="type == 'add'">
+        <static-select type="category" v-model="form.category"></static-select>
       </el-form-item>
-      <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.case_type != ''">
+      <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.category != ''">
         <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>
       </el-form-item>  
       <el-form-item label="绑定流程" prop="process_flow" v-if="form.model != ''">
@@ -190,9 +190,9 @@ import {mapActions} from 'vuex'
 
 const URL = '/processes';
 const typeMap = new Map([
-  [1, 'patent'],
-  [2, 'trademark'],
-  [3, 'copyright']
+  ['Patent', 'patent'],
+  ['Trademark', 'trademark'],
+  ['Copyright', 'copyright']
 ]);
 export default {
   name: 'taskEdit',
@@ -221,7 +221,7 @@ export default {
     async add () {
       await this.checkeForm()
       const url = URL;
-      const data = this.$tool.shallowCopy(this.form, {'date': true,'skip':['case_type']});
+      const data = this.$tool.shallowCopy(this.form, {'date': true,});
       const success = _=>{ 
         // this.dialogVisible  = false;
         this.$emit('addSuccess');
@@ -298,7 +298,7 @@ export default {
     };
   	return {
       form: {
-        case_type: '',
+        category: '',
         model: '',
         process_definition: '',
         process_flow: '',
@@ -332,10 +332,9 @@ export default {
         remark: '',
       },
       attachments: [],
-      category: '',
       btn_disabled: false,
       rules: {
-        case_type: getRules('案件类型不能为空', 'number'),
+        category: getRules('案件类型不能为空', 'string'),
         model: getRules('相关案件不能为空', 'number'),
         process_definition: getRules('管制事项不能为空', 'number'),
         process_flow: getRules('流程不能为空', 'number'),
@@ -350,7 +349,7 @@ export default {
   },
   computed: {
     projectType () {
-      const config = typeMap.get(this.form.case_type);
+      const config = typeMap.get(this.form.category);
       return config;
     },
     flowsData () {

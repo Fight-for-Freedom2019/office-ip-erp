@@ -2,10 +2,9 @@ const config = [
   ['category',{
     placeholder: '请选择案件类型',
     options: [
-        { name: '专利', id: 1 },
-        { name: '商标', id: 2 },
-        { name: '版权', id: 3 },
-        { name: '项目', id: 4 },
+        { name: '专利', id: 'Patent' },
+        { name: '商标', id: 'Trademark' },
+        { name: '版权', id: 'Copyright' },
     ]
   }],
   ['subtype',{
@@ -226,6 +225,14 @@ const config = [
       { id: 2, name: '商标' },
       { id: 3, name: '版权' },
     ]
+  }], 
+  ['case_type', {
+    placeholder: '请选择案件类型',
+    options: [
+      { id: 1, name: '专利' },
+      { id: 2, name: '商标' },
+      { id: 3, name: '版权' },
+    ]
   }],
   ['technical_field', {
     placeholder: '请选择技术领域',
@@ -370,9 +377,12 @@ const config = [
     placeholder: '请选择地区',
     options: 'areaData',
   }],
-  ['service', {
+  ['services', {
     placeholder: '请选择服务类型',
-    url: '/service',
+    url: '/services',
+    handle (data) {
+      return data.services.data.map(_=>{return {id: _.id, name: _.name}});
+    },
   }],
   ['flow_node', {
     placeholder: '请选择流程节点',

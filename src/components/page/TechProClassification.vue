@@ -13,11 +13,13 @@
 import TableComponent from '@/components/common/TableComponent'	
 import ClassificationTree from '@/components/page_extension/ClassificationTree'
 import Edit from '@/components/page_extension/UserManage_edit'
+const URL = '/patents'
 export default {
   name: 'tech-pro-classifition',
   data () {
   	return {
   	  option: {
+        'url': '/patents',
   	  	'name': 'tech-pro-classifition',
   	  	'height': 'default5',
   	  	'is_pagination': false,
