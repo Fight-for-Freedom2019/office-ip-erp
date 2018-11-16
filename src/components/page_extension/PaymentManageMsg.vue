@@ -195,6 +195,9 @@
                 };
                 this.$axiosGet({url, success,complete});
             },
+            changeState(){      // 改变状态的方法，有点繁琐
+                this.form.status = 10;
+            },
             coverObj(val) {
                 val ? this.$tool.coverObj(this.form, val) : "";
             },

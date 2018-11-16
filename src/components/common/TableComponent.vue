@@ -637,11 +637,10 @@ export default {
           }
       },
     handleDelete (func, e, callback) {
+      const s = this.getSelect(true);
       if(func) {
-        func(e)
+        func(e,s)   // 自定义方法可能也会选中行id
       }else {
-        const s = this.getSelect(true);
-    
         if(s.length == 0) {
           this.$message({message: '请选择需要删除的列表项', type: 'warning'});
         }else {
