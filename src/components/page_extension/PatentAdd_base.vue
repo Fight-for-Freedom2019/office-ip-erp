@@ -31,12 +31,12 @@
         <el-col :span="8">
           <el-form-item label="IPR" prop="ipr" :rules="{type: 'number', required: true, message: 'IPR不能为空', trigger: 'change'}">
             <!-- <span class="form-item-text" v-if="type == 'add'">{{ user ? user.name : '暂未取得当前用户信息' }}</span> -->
-            <remote-select :type="ipr_para" :page-type="type" v-model="form.ipr"></remote-select>
+            <remote-select type="ipr_para" :page-type="type" v-model="form.ipr"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="技术联系人">
-              <remote-select type="member" :page-type="type" v-model="form.contact"></remote-select>
+              <remote-select type="contacts" :page-type="type" v-model="form.contact"></remote-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -169,12 +169,6 @@ export default {
         // flownode:'',
         official_status: '',
         relates: [],
-      },
-      ipr_para:{    // 后端提出的ipr参数修改
-        URL: '/contacts',
-        DATA_KEY: 'data',
-        PLACEHOLDER: '请输入IPR关键词',
-        PARAMS:{cotatct_type:2},
       },
       titleLock: false, //标题锁 当评审表被上传且标题自动填充后 不再自动填充 
       attachments: [],

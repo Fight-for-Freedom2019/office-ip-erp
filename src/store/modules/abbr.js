@@ -1,4 +1,4 @@
-let url = '/api/abbr';
+let url = 'abbr';
 const state = {
   data: undefined,
 }

@@ -31,90 +31,106 @@
 <script>
 import AxiosMixins from '@/mixins/axios-mixins'
 const map = new Map([
-	['member', {
-		URL: '/api/members',
-		DATA_KEY: 'members',
-		PLACEHOLDER: '请输入用户关键词',
-	}],
-	['applicant', {
-		URL: '/api/applicants',
-		DATA_KEY: 'applicants',
-		PLACEHOLDER: '请输入申请人关键词',
-	}],
-	['inventor', {
-		URL: '/api/inventors',
-		DATA_KEY: 'data',
-		PLACEHOLDER: '请输入发明人关键词',
-	}],
-	['agent', {
-		URL: '/api/agents',
-		DATA_KEY: 'members',
-		PLACEHOLDER: '请输入代理人关键词',
-	}],
-	['agency', {
-		URL: '/api/agencies',
-		DATA_KEY: 'agencies',
-		PLACEHOLDER: '请输入代理机构关键词',
+  ['contracts', {
+    URL: '/contracts',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请输入合同关键词',
+  }], 
+  ['member', {
+    URL: '/members',
+    DATA_KEY: 'members',
+    PLACEHOLDER: '请输入用户关键词',
+  }],
+  ['applicant', {
+    URL: '/applicants',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请输入申请人关键词',
+  }],
+  ['inventor', {
+    URL: '/inventors',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请输入发明人关键词',
+  }],
+  ['agent', {
+    URL: '/agents',
+    DATA_KEY: 'members',
+    PLACEHOLDER: '请输入代理人关键词',
+  }],
+  ['agency', {
+    URL: '/agencies',
+    DATA_KEY: 'agencies',
+    PLACEHOLDER: '请输入代理机构关键词',
   }],
   ['agency_poa', {
-		URL: '/api/agencies',
-		DATA_KEY: 'agencies',
+    URL: '/agencies',
+    DATA_KEY: 'agencies',
     PLACEHOLDER: '请输入代理机构关键词',
     PARAMS: { poa: 1 },
-	}],
-	['project', {
-		URL: '/projects',
-		DATA_KEY: 'projects',
-		PLACEHOLDER: '请输入案件关键词',
-	}],
-	['proposal', {
-		URL: '/api/proposals',
-		DATA_KEY: 'proposals',
-		PLACEHOLDER: '请输入提案关键词',
-	}],
-	['patent', {
-		URL: '/api/projects',
-		DATA_KEY: 'projects',
-		PLACEHOLDER: '请输入专利关键词',
-		PARAMS: { category: 1 },
-	}],
-	['copyright', {
-		URL: '/api/projects',
-		DATA_KEY: 'projects',
-		PLACEHOLDER: '请输入版权关键词',
-		PARAMS: { category: 3 },
-	}],
+  }],
+  ['ipr',{
+    URL: '/iprs',
+    DATA_KEY: 'members',
+    PLACEHOLDER: '请输入IPR关键词',
+  }],
+  ['project', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入案件关键词',
+  }],
+  ['proposal', {
+    URL: '/proposals',
+    DATA_KEY: 'proposals',
+    PLACEHOLDER: '请输入提案关键词',
+  }],
+  ['patent', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入专利关键词',
+    PARAMS: { category: 'Patent' },
+  }], 
+  ['trademark', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入商标关键词',
+    PARAMS: { category: 'Trademark' },
+  }],
+  ['copyright', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入版权关键词',
+    PARAMS: { category: 'Copyright' },
+  }],
   ['bill', {
     URL: '/invoices',
-    DATA_KEY: 'invoice',
+    DATA_KEY: 'invoices',
     PLACEHOLDER: '请输入请款单关键词',
-    PARAMS: { is_debit: 1 },
+    PARAMS: { debit: 1 },
   }],
   ['pay', {
-    URL: '/api/invoices',
+    URL: '/invoices',
     DATA_KEY: 'invoices',
     PLACEHOLDER: '请输入付款单关键词',
     PARAMS: { debit: 0 },
   }],
   ['mail', {
-    URL: '/api/mailAddress',
+    URL: '/mailAddress',
     DATA_KEY: 'list',
     PLACEHOLDER: '请输入邮箱',
     dynamicCreate: true,
     defaultFirstOption: true,
   }],
   ['group_number', {
-    URL: '/api/gnumbers',
+    URL: '/gnumbers',
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入群组号',
   }],
   ['family_number', {
-    URL: '/api/fnumbers',
+    URL: '/fnumbers',
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入专利族号',
   }],
   ['award', {
-    URL: '/api/award',
+    URL: '/award',
     DATA_KEY: 'awards',
     PLACEHOLDER: '请输入奖项名称',
   }],
@@ -122,16 +138,16 @@ const map = new Map([
     URL: '/customers',
     DATA_KEY: 'data',
     PLACEHOLDER: '请选择客户',
-  }],
-  ['payment_accounts', {
-    URL: '/payment_accounts',
-    DATA_KEY: 'data',
-    PLACEHOLDER: '请选择回款账户',
-  }],
+  }],  
   ['user', {
     URL: '/users',
     DATA_KEY: 'data',
     PLACEHOLDER: '请选择人员',
+  }],
+  ['contacts', {
+    URL: '/contacts',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择联系人',
   }],
 ]);
 

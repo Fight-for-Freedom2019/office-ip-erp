@@ -153,11 +153,11 @@ const config = [
       { name: '分析', id: '分析'},
     ]
   }],
-  ['ipr', {
+  ['ipr_para', {
     placeholder: '请选择IPR',
-    url: '/api/iprs?listRows=100',
+    url: 'contacts?listRows=100&cotatct_type=2',
     handle (data) {
-    	return data.members;
+    	return data.data;
     }
   }],
   ['project_stage', {
@@ -354,7 +354,7 @@ const config = [
   }], 
   ['group_number', {
     placeholder: '请输入群组号',
-    url: '/api/gnumbers',
+    url: 'gnumbers',
     handle (data) {
       return data.data.map(_=>{return {id: _.id, name: _.name}});
     },
@@ -363,7 +363,7 @@ const config = [
   }],  
   ['family_number', {
     placeholder: '请输入专利族号',
-    url: '/api/fnumbers',
+    url: 'fnumbers',
     handle (data) {
       return data.data.map(_=>{return {id: _.id, name: _.name}});
     },

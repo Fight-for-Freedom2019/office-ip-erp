@@ -21,7 +21,47 @@
 </template>
 
 <script>
+ const MessageContent = {
+  
+  render (h) {
+    
+    const model = {
+      props: {
+        value: this.mergeId,
+        type: 'subtype'
+      },
+      on: {
+        input: (v) => {
+          this.mergeId = v; 
+        } 
+      }
+    };
+
+  // const items =  ;   
+
+    // const createLabel = (label) => ({ props: { label } })
+    
+    return (
+        <span>
+          
+          <StaticSelect {...model}></StaticSelect>
+         </span>
+      )
+  },
+  data () {
+    return {
+      mergeId: '',
+    }
+  },
+  computed: {
+ 
+  },
+  components: {
+    StaticSelect,
+  },
+}  
 import ClassificationShrink from '@/components/page_extension/Classification_shrink'
+import StaticSelect from '@/components/form/StaticSelect'
 import {mapGetters} from 'vuex'
 export default {
   name: 'userTree',
@@ -64,6 +104,7 @@ export default {
             <el-button type="text" icon="el-icon-plus" size="mini" onClick={(e)=>{e.stopPropagation();this.addChildTree(node,data,store)}}></el-button>
             <el-button type="text" icon="el-icon-edit" size="mini" onClick={(e)=>{e.stopPropagation();this.editChildTree(node,data,store)}}></el-button>
             <el-button type="text" icon="el-icon-delete" size="mini" onClick={(e)=>{e.stopPropagation();this.deleteChildTree(node,data,store)}}></el-button>
+            <el-button type="text" icon="el-icon-sort" size="mini" onClick={(e)=>{e.stopPropagation();this.mergeChildTree(node,data,store)}}></el-button>
             </span>
           </span>
         )
@@ -97,6 +138,21 @@ export default {
       this.parentData = d;
       this.currentId = d.id;
       this.$refs.classification.show('edit',d);
+    },
+    mergeChildTree (n, d, s) {
+      const h = this.$createElement;      
+      this.$msgbox({
+        title: '删除确认',
+        message: h('message-content', {
+          ref: 'messageContent'
+        }),
+        confirmButtonText: '确定',
+        showCancelButton: true,
+      }).then(action => {
+        // this.submitDelete();
+      }).catch(action =>{
+
+      });      
     },  
     deleteChildTree (n, d, s) {
       const t = this.pageType;
@@ -136,6 +192,7 @@ export default {
   },
   components: {
     ClassificationShrink,
+    MessageContent,
   },
 }
 </script>
