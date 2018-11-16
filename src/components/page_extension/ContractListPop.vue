@@ -48,8 +48,8 @@
             <el-form-item label="状态" prop="status">
                 <app-switch :type="switch_type" simple="true" v-model="form.is_effective" @input="getStatus"></app-switch>
             </el-form-item>
-            <el-form-item label="附件" prop="contract_file">
-                <upload v-model="form.contract_file" :file-list="contract_file"></upload>
+            <el-form-item label="附件" prop="attachments">
+                <upload v-model="form.attachments" :file-list="attachments"></upload><!-- TODO 合同上传 -->
             </el-form-item>
             <el-form-item style="margin-bottom: 0;">
                 <el-button type="primary" @click="add" v-if="popType === 'add'" :disabled="btn_disabled">添加</el-button>
@@ -121,9 +121,9 @@
                         name: "",
                         id: "",
                     },
-                    contract_file:[],
+                    attachments:[],
                 },
-                contract_file:[],
+                attachments:[],
                 'rules': {
                     'name': [{required: true, message: '申请人名称不能为空', trigger: 'blur'},
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
@@ -169,6 +169,7 @@
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 data.contact_id = data.contact;
+                data.attachments = this.form.attachments.map((d)=>{d.id});
                 delete data.customer;
                 const success = _ => {
                     this.dialogVisible = false;
@@ -210,14 +211,12 @@
         // created() {
         //     this.$tool.coverObj(this.form,this.contracts)
         // },
-        // watch: {
-        //     contracts: function (val, oldVal) {
-        //         this.$tool.coverObj(this.form,val)
-        //     },
-        //     popType: function (val, oldVal) {
-        //         val === "add" ? this.form = {} : this.$tool.coverObj(this.form,this.contracts);
-        //     }
-        // },
+        watch: {
+            contracts: function (val, oldVal) {
+                this.$tool.coverObj(this.form,val);
+
+            },
+        },
         components: {
             StaticSelect,
             AppSwitch,

@@ -43,7 +43,7 @@
                     'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'export'},
+                        // {type: 'export'},
                         {type: 'delete',click:this.deleteBill},
                         {type: 'control'},
                     ],
@@ -141,7 +141,12 @@
                 val ? this.is_deleted = 1 : this.is_deleted = 0;
             },
 
-            deleteBill() {
+            changeState(){     // 由于状态显示在shrink组件下的子组件中，所以还需要一个方法改变PaymentManageMsg中的form.status
+                this.$refs.detail.changeState();
+                this.bill_status = "add";
+            },
+
+            deleteBill(e,s) {
                 const h = this.$createElement;
                 this.$msgbox({
                     title: "提示",
@@ -155,13 +160,15 @@
                     cancelButtonText: '取消',
                     beforeClose: (action, instance, done) => {
                         if (action === 'confirm') {
-                            const url = `invoice_delete?id[]=${this.rowID}`;    // TODO 表格组件的删除也是用的这个方法，要记得获取选中的id，然后按删除的传值方式发送请求
+                            const url = "/invoices_delete";
                             const data = {
-                                is_deleted: this.is_deleted
+                                is_deleted: this.is_deleted,
+                                id: s?this.$tool.splitObj(s, 'id'):[this.rowID]
                             };
                             const success = _ => {
                                 this.$message({type: "success", message: "删除成功!"});
                                 this.update();
+                                this.changeState() // 成功之后在这里调用这个方法改变子组件的账单状态
                                 done();
                             };
                             this.$axiosDelete({url, data, success});

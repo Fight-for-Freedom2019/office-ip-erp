@@ -33,30 +33,38 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
+                    <el-form-item label="费用简称" prop="abbr">
+                        <el-input type="text" placeholder="请输入费用简称" v-model="form.abbr"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
                     <el-form-item label="金额" prop="amount">
                         <el-input type="text" placeholder="请输入金额" v-model="form.amount"></el-input>
                     </el-form-item>
                 </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="排序" prop="sort">
-                        <el-input type="text" placeholder="请输入排序" v-model="form.sort"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="状态" prop="status">
-                        <static-select type="status" v-model="form.status"></static-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
+                
                 <el-col :span="12">
                     <el-form-item label="英文名" prop="alias">
                         <el-input type="text" placeholder="请输入英文名" v-model="form.alias"></el-input>
                     </el-form-item>
                 </el-col>
+            </el-row>
+            <el-row>
                 <el-col :span="12">
+                    <el-form-item label="状态" prop="status">
+                        <static-select type="status" v-model="form.status"></static-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="排序" prop="sort">
+                        <el-input type="text" placeholder="请输入排序" v-model="form.sort"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
                     <el-form-item label="备注" prop="remark">
                         <el-input type="text" placeholder="请输入备注" v-model="form.remark"></el-input>
                     </el-form-item>

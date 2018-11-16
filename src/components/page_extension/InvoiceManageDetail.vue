@@ -42,17 +42,19 @@
             <el-row>
                 <el-col :span="12" v-if="compileType === 'edit'">
                     <el-form-item label="扫描件" prop="">
-                        <up-load></up-load>
+                        <up-load v-model="form.attachments" :fileList="attachments"></up-load>
                     </el-form-item>
                 </el-col>
+
+
+            </el-row>
+            <el-row>
                 <el-col :span="12">
                     <el-form-item label="费用" prop="fee">
                         <el-button type="text" @click="selectFee">选择费用</el-button>
                     </el-form-item>
                 </el-col>
-
             </el-row>
-
         </el-form>
         <table-component :tableOption="tableOption" :data="tableData" ref="table"></table-component>
         <el-dialog title="选择费用" :visible.sync="dialogFormVisible" :modal="false">
@@ -98,7 +100,9 @@
                     received_date: "",
                     amount: "",
                     status: "",
+                    attachments:[],
                 },
+                attachments:[],
                 para:{
                     customer:null,
                 },
@@ -118,7 +122,8 @@
                 tableOption: {
                     'name': 'PaymentCostDetailList',
                     'url': "",
-                    'height': 387,
+                    'height': 360,
+                    'is_pagination': false,
                     'highlightCurrentRow': true,
                     'is_search': false,
                     // 'rowClick': this.handleRowClick,
@@ -238,6 +243,7 @@
             },
             rowData: function (val, oldVal) {
                 this.coverObj(val);
+                this.attachments = [...this.form.attachments];
             },
         },
         mounted() {

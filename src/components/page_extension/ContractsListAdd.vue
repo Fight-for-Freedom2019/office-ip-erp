@@ -7,7 +7,7 @@
                 <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
             </el-form-item>
 
-            <el-form-item label="联系人" prop="type">
+            <el-form-item label="联系人" prop="contact">
                 <remote-select type="contacts" :pageType="type" v-model="form.contact"></remote-select>
             </el-form-item>
 
@@ -52,11 +52,11 @@
             <el-form-item label="备注" prop="remark">
                 <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item label="状态" prop="status">
+            <el-form-item label="状态" prop="is_effective">
                 <app-switch :type="switch_type" simple="true" v-model="form.is_effective" @input="getStatus"></app-switch>
             </el-form-item>
-            <el-form-item label="附件" prop="contract_file">
-                <upload v-model="form.contract_file" :file-list="contract_file"></upload>
+            <el-form-item label="附件" prop="attachments">
+                <upload v-model="form.attachments" :file-list="attachments"></upload>
             </el-form-item>
 
         </el-form>
@@ -106,7 +106,7 @@
                     contact_id: "",
                     customer_id: "",
                     remark:"",
-                    contract_file:[],
+                    attachments:[],
                     contact: {
                         name:"",
                         id:""
@@ -116,7 +116,7 @@
                         id:"",
                     },
                 },
-                contract_file:[],
+                attachments:[],
                 rules: {
                     customer: {
                         required: true,
@@ -139,14 +139,14 @@
             };
         },
         methods: {
-            async save(type) {
+            save(type) {
                 const data = this.form;
                 data.customer_id = data.customer;
                 data.contact_id = data.contact;     // 在获取remote-select数据时把id保存在了contact和customer这两个字段上，实际上后端需要的是contact_id和customer_id
                 if(data.customer_id === null && data.customer === null){this.$message({type: "warning", message: "必选项不能为空"});return;}
-                let response;
+                data.attachments = this.form.attachments.map((d)=>{d.id});
                 if (type === "add") {
-                    response = await this.$axiosPost({
+                    this.$axiosPost({
                         url: URL,
                         data,
                         success: () => {
@@ -157,7 +157,7 @@
                 } else {
                     let url = "/contracts/" + this.contracts.id;
                     data.id = this.contracts.id;
-                    response = await this.$axiosPut({
+                    this.$axiosPut({
                         url,
                         data,
                         success: () => {
@@ -166,7 +166,6 @@
                         }
                     });
                 }
-                return response;
             },
             getStatus(val) {
                 this.form.is_effective  = val;
@@ -174,6 +173,7 @@
             coverObj(val) {
                 if (val) {
                     this.$tool.coverObj(this.form, val);
+                    this.attachments = [...this.form.attachments];
                 }
             },
             clear(){

@@ -5,6 +5,11 @@
         <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false">
             <table-component :tableOption="feeDetailOption" :data="feesDetail"></table-component>
         </el-dialog>
+        <el-dialog :title="attachmentsTitle" :visible.sync="attachmentsVisible" :modal="false">
+            <table-component style="margin: 10px 0;" :tableOption="attachmentsOption"
+                             :data="voucherDetail"></table-component>
+        </el-dialog>
+
     </div>
 
 
@@ -26,6 +31,7 @@
                     'height': 394,
                     'highlightCurrentRow': true,
                     'is_search': false,
+                    'is_pagination': false,
                     // 'rowClick': this.handleRowClick,
                     'header_btn': [
                         // {type: 'add'},
@@ -59,7 +65,8 @@
                                 return row.service_fee.sum;
                             }
                         },
-                        {type: 'text', label: '费用策略', prop: 'policy', width: '150',render: (h, item) => {
+                        {
+                            type: 'text', label: '费用策略', prop: 'policy', width: '150', render: (h, item) => {
                                 let name = "";
                                 config.get("policy").options.map(function (o) {
                                     if (o.id === item) {
@@ -67,9 +74,25 @@
                                     }
                                 });
                                 return h("span", name);
-                            }},
-                        {type: 'text', label: '官费票据', prop: 'official_voucher', width: '150'},
-                        {type: 'text', label: '代理费票据', prop: 'serfice_voucher', width: '150'},
+                            }
+                        },
+                        {
+                            type: 'text-btn',
+                            label: '官费票据',
+                            prop: 'official_voucher',
+                            width: '150',
+                            click: this.checkVoucherDetail,
+                            render_text_btn: (row) => {
+                                return "点击查看详情";
+                            }
+                        },
+                        {
+                            type: 'text-btn', label: '代理费票据', prop: 'serfice_voucher', width: '150',
+                            click: this.checkVoucherDetail,
+                            render_text_btn: (row) => {
+                                return "点击查看详情";
+                            }
+                        },
                     ],
                 },
                 feeDetailOption: {
@@ -119,10 +142,40 @@
                         {type: 'text', label: '备注', prop: 'remark', width: '150'},
                     ],
                 },
+                attachmentsOption: {
+                    'is_header': false,
+                    'is_pagination': false,
+                    'is_border': false,
+                    "height": 300,
+                    'columns': [
+                        {type: 'text', label: '附件名称', prop: 'name'},
+                        {type: 'text', label: '附件格式', prop: 'ext'},
+                        {type: 'text', label: '附件大小 ', prop: 'size'},
+                        {
+                            type: 'action',
+                            label: '详情',
+                            btns: [
+                                {
+                                    type: 'view', click: ({viewUrl}) => {
+                                        window.open(viewUrl)
+                                    }
+                                },
+                                {
+                                    type: 'download', click: ({downloadUrl}) => {
+                                       window.open(downloadUrl)
+                                    }
+                                },
+                            ],
+                        }
+                    ]
+                },
                 tableData: [],
                 feesDetail: [],
-                title: "官费明细",   // 弹窗title
+                voucherDetail: [],
+                title: "官费明细",
+                attachmentsTitle: "官费票据",
                 dialogFormVisible: false,
+                attachmentsVisible: false,
             }
         },
         props: {
@@ -157,6 +210,15 @@
                     this.feesDetail = row.officail_fee.list;
                 } else {
                     this.feesDetail = row.service_fee.list;
+                }
+            },
+            checkVoucherDetail(row, e, col) {
+                this.attachmentsVisible = true;
+                col.label === "官费票据" ? this.attachmentsTitle = "官费票据明细" : this.attachmentsTitle = "代理费票据明细";
+                if (col.label === "官费票据") {
+                    this.voucherDetail = row.official_voucher[0];
+                } else {
+                    this.voucherDetail = row.serfice_voucher;
                 }
             },
             getRowData(data) {
