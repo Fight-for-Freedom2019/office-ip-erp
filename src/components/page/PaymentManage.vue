@@ -61,7 +61,7 @@
                         {type: 'text', label: '回款期限', prop: 'deadline', width: '150', render_header: true},
                         {type: 'text', label: '回款时间', prop: 'payment_time', width: '150', render_header: true},
                         {type: 'text', label: '回款金额', prop: 'received_amount', width: '150'},
-                        {type: 'text', label: '回款确认用户', prop: 'creator_user_name', width: '150', render_header: true},
+                        {type: 'text', label: '回款确认用户', prop: 'confirmation_user', width: '150', render_header: true},
                         {type: 'text', label: '回款确认时间', prop: 'confirmation_time', width: '150', render_header: true},
                         {
                             type: 'text',
@@ -88,12 +88,12 @@
                                 return h("span", item ? "是" : "否")
                             }
                         },
-                        {
+                        /*{
                             type: 'text', label: '快递单号', prop: 'express', width: '150', render: (h, item) => {
                                 return h("span", item ? item.serial : "")
                             }
                         },
-                        {type: 'text', label: '寄件时间', prop: 'express.date', width: '150'},
+                        {type: 'text', label: '寄件时间', prop: 'express.date', width: '150'},*/
                         {type: 'text', label: '备注', prop: 'remark', width: '150'},
                     ],
                 },

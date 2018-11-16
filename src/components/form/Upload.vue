@@ -90,7 +90,7 @@
 
         },
       },
-      ceated () {
+      created () {
         this.uploadList = this.fileList;
       },
       watch:{
