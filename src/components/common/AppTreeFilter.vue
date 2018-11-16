@@ -54,12 +54,16 @@ export default {
     config () {
       const val = this.type ? urlMap.get(this.type) : undefined;
       return val;
-    }
+    },
+    defaultParams () {
+      const params = this.$route.meta.params;
+      return params ? params : {};
+    },
   },
   methods: {
     refreshTreeData () {
       const url = this.config.URL;
-      const data = { filter_key: this.field_key };
+      const data = Object.assign({}, {filter_key: this.field_key}, this.defaultParams) ;
       const success = _=>{
         console.log(_);
         if(_) this.data = _.data;

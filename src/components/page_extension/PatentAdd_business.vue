@@ -4,7 +4,7 @@
         <remote-select type="customer" :page-type="type" v-model="form.customer"></remote-select>
       </el-form-item >
       <el-form-item label="服务类型" prop="service">
-        <static-select type="service" v-model="form.service"></static-select>
+        <static-select type="services" v-model="form.service"></static-select>
       </el-form-item>
       <el-form-item label="合同类型" prop="contract_mode">
         <static-select type="contract_mode" v-model="form.contract_mode"></static-select>

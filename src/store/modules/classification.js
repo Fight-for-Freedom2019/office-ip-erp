@@ -1,3 +1,4 @@
+import Vue from 'vue'
 let url = '/classifications';
 const state = {
 	data: [],
@@ -13,6 +14,25 @@ const getMap = (data) => {
 			map.set(d.id, d);
 			if(d.children && d.children.length) {
 				a(d.children);
+			}
+		}
+	}
+}
+
+const setTreeData = (data, pId, res) => {
+	console.log(data)
+	const len = data.length;
+	for (let i=0; i< data.length; i++) {
+		const td = data[i];
+		if(data[i].children == undefined) {
+			Vue.set(data[i], 'children', []);
+		}
+		if(td.id == pId ) {
+			data[i].children.splice(len, 0, res);
+			return;
+		}else {
+			if(td.children && td.children.length != 0) {
+				setTreeData(td.children, pId, res);
 			}
 		}
 	}
@@ -34,14 +54,33 @@ const getters = {
 const mutations = {
 	setClassification (state, d) {
 		state.data = d;
-	}
+	},
+	addclassification (state, {pId,d}) {
+		const cacheData = [...state.data];
+		setTreeData(cacheData, pId ,d);
+	},
+	addFirstclassification (state, d) {
+		state.data.push(d);
+	},
+	removeclassification (state, {n, d}) {
+		console.log(n)
+	  	const parent = n.parent;
+        const children = parent.data.children || parent.data;
+     	const index = children.findIndex(_ => _.id === d.id);
+      	children.splice(index, 1);   
+	},
+	updateclassification(state, {d, res}) {
+		console.log(d)
+		return d.name = res;
+	},
 }
 
 const actions = {
 	refreshClassification ({commit, rootState, state},{success}={}) {
 		url = rootState.status ? url.replace(/\/api/, '') : url;
+		const params = {is_classification_child: 0};
 		rootState.axios
-			.get(url)
+			.get(url,{params})
 			.then(response=>{
 				const d = response.data;
 				if(d.status){

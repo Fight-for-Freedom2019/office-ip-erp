@@ -348,6 +348,8 @@ export default {
           { type: 'text', prop: 'model', label: '模块', render_header: true, width: '145',},
           { type: 'text', prop: 'serial', label: '案号', render_header: true, width: '160',},
           { type: 'text', prop: 'title', label: '标题', render_header: true, width: '160'},
+          { type: 'text', prop: 'category', label: '案件类型', render_simple: 'name', render_header: true, width: '160'},
+          { type: 'text', prop: 'subtype', label: '案件子类型', render_simple: 'name', render_header: true, width: '160'},
           { type: 'text', prop: 'process_definition', label: '管制事项', render_simple: 'name', render_header: true, width: '150',},
           { type: 'text', prop: 'task', label: '当前节点', render_header: true, width: '150', render: function(h,item){
             return h('span',item.process_action.name);

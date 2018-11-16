@@ -41,7 +41,7 @@ const Branch                   = () => import('@/components/page/Branch')
 const FeeCommon                = () => import('@/components/page/FeeCommon')
 const DispatchAdministration   = () => import('@/components/page/DispatchAdministration')
 const InvoiceCommon            = () => import('@/components/page/InvoiceCommon')
-const ClassificationCommon     = () => import('@/components/page/ClassificationCommon')
+const TechProClassification    = () => import('@/components/page/TechProClassification')
 const MailList                 = () => import('@/components/page/MailList')
 const SystemMessage            = () => import('@/components/page/SystemMessage')
 const SystemMessageDetail      = () => import('@/components/page/SystemMessageDetail')
@@ -1241,12 +1241,12 @@ const router = new Router({
     {
       path: '/setting/classifications',
       name: 'Clssification',
-      component: ClassificationCommon,
+      component: TechProClassification,
     },
     {
       path: '/setting/products',
       name: 'Product',
-      component: ClassificationCommon,
+      component: TechProClassification,
     },
     {
       path: '/setting/branch',
