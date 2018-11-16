@@ -15,8 +15,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="费用类型" prop="feecode">
-                        <static-select type="fee_code" v-model="form.feecode"></static-select>
+                    <el-form-item label="费用名称" prop="fee_code">
+                        <static-select type="fee_code" v-model="form.fee_code"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -34,18 +34,6 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="金额" prop="amount">
-                        <el-input type="text" v-model="form.amount" placeholder="请输入金额"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="国家" prop="citizenship">
-                        <static-select type="area" v-model="form.citizenship"></static-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
                     <el-form-item label="付款时间" prop="payment_time">
                         <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" v-model="form.payment_time"></el-date-picker>
                     </el-form-item>
@@ -57,13 +45,25 @@
                 </el-col>
             </el-row>
             <el-row>
-                <!--<el-col :span="12">-->
-                    <!--<el-form-item label="官方绝限" prop="due_time">
-                        <!--<el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="请选择时间" v-model="form.due_time"></el-date-picker>-->
-                    <!--</el-form-item>-->
-                <!--</el-col>-->
                 <el-col :span="12">
-                    <el-form-item label="费用状态" prop="fee_code_id">
+                    <el-form-item label="金额" prop="amount">
+                        <el-input type="text" v-model="form.amount" placeholder="请输入金额"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="费用策略" prop="policy">
+                        <static-select type="policy" v-model="form.policy"></static-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="请款时机" prop="payment_request_timing">
+                        <static-select type="payment_request_timing" v-model="form.payment_request_timing"></static-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="费用状态" prop="status">
                         <static-select type="fee_status" v-model="form.status"></static-select>
                     </el-form-item>
                 </el-col>
@@ -95,15 +95,16 @@
                     currency: "",
                     roe: "",
                     amount: "",
-                    citizenship: "",
                     payment_time: "",
                     deadline: "",
                     due_time: "",
                     status: "",
                     order_id: "",
-                    feecode:"",
+                    fee_code:"",
                     remark:"",
                     is_debit:1,
+                    payment_request_timing:"",
+                    policy:"",
                 },
                 rules: {
                     customer: [
@@ -111,9 +112,6 @@
                     ],
                     roe:[
                         {required:true,message:"汇率不能为空!", trigger: "blur"}
-                    ],
-                    due_time:[
-                        {required:true,message:"官方绝限不能为空!", trigger: "blur"}
                     ],
                     project:[
                         {required:true,message:"请选择案件", trigger: "blur"}
@@ -158,7 +156,7 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val,{obj:["feecode","project"]}):"";
+                val?this.$tool.coverObj(this.form,val,{obj:["fee_code","project"]}):"";
             },
         },
         watch:{

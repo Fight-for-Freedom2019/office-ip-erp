@@ -179,7 +179,7 @@ const map = new Map([
     ]],
     ['fee', [
         { components: 'remote_select', id: 'target', name: '费用对象', type: 'member'  , used: true},
-        { components: 'static_select', id: 'code', name: '费用代码', type: 'fee_code' },
+        { components: 'static_select', id: 'code', name: '费用类型', type: 'fee_code' },
         { components: 'date',          id: 'mail_date', name: '通知书发文日' },
         { components: 'date',          id: 'create_time', name: '费用生成日期' },
         { components: 'date',          id: 'due_time', name: '账单期限' },
@@ -287,6 +287,30 @@ const map = new Map([
         { components: 'input',         id: 'bank',                   name: '开户行'},
         { components: 'input',         id: 'account',                name: '银行账户'},
         { components: 'input',         id: 'remark',                 name: '备注'},
+    ]],
+    /* 待请费用 */
+    ['fees',[
+        { components: 'remote_select', id: 'customer',                name: '客户', type: 'customer', used: true},
+        { components: 'date',          id: 'deadline',            name: '费用期限'},
+        { components: 'static_select', id: 'status',            name: '费用状态', type: 'fee_status', used: true},
+        { components: 'date',          id: 'payment_time',            name: '请款时间'},
+
+    ]],
+    /* 请款管理 */
+    ['invoices',[
+        { components: 'remote_select', id: 'user',                   name: '请款对象', type: 'user', used: true},
+        { components: 'date',          id: 'request_time',           name: '请款时间'},
+        { components: 'date',          id: 'deadline',               name: '回款期限'},
+        { components: 'date',          id: 'payment_time',           name: '回款时间'},
+        { components: 'static_select', id: 'status',                 name: '请款单状态',type:"invoice_status"},
+    ]],
+    /* 回款管理 */
+    ['received_payments',[
+        { components: 'remote_select', id: 'customer',                name: '客户', type: 'customer', used: true},
+    ]],
+    /* 发票管理 */
+    ['invoice_request',[
+        { components: 'remote_select', id: 'customer',                name: '客户', type: 'customer', used: true},
     ]],
 ])
 

@@ -12,7 +12,7 @@
 				<fee-status v-model="form.status" :feeAnnual="feeAnnual"></fee-status>
 			</el-form-item>
 
-			<el-form-item label="费用代码" prop="code" class="is-required">
+			<el-form-item label="费用类型" prop="code" class="is-required">
 				<static-select type="fee_code" v-model="form.code" ref="fee_code"></static-select>
 			</el-form-item>
 

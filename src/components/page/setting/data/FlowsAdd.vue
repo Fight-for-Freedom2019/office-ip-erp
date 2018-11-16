@@ -91,6 +91,7 @@
                 
             },
             add() {
+                this.rowData = {};
                 this.title = "新增费用";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");

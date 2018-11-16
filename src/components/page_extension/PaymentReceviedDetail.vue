@@ -22,7 +22,8 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="回款日期" prop="received_date">
-                        <el-date-picker value-format="yyyy-MM-dd" v-model="form.received_date" type="date" placeholder="选择日期"></el-date-picker>
+                        <el-date-picker value-format="yyyy-MM-dd" v-model="form.received_date" type="date"
+                                        placeholder="选择日期"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -40,27 +41,22 @@
         name: "PaymentReceviedDetail",
         data() {
             return {
-                URL:"/received_payments",
-                rules:{
-                    invoice:[
-                        {required:true,message:"请选择所属账单",trigger:"blur"},
+                URL: "/received_payments",
+                rules: {
+                    invoice: [
+                        {required: true, message: "请选择所属账单", trigger: "blur"},
                     ],
-                    payment_account:[
-                        {required:true,message:"请选择回款账户",trigger:"blur"},
+                    payment_account: [
+                        {required: true, message: "请选择回款账户", trigger: "blur"},
                     ],
-                    amount:[
-                        {required:true,message:"请输入回款金额",trigger:"blur"},
+                    amount: [
+                        {required: true, message: "请输入回款金额", trigger: "blur"},
                     ],
-                    received_date:[
-                        {required:true,message:"请选择回款日期",trigger:"blur"},
+                    received_date: [
+                        {required: true, message: "请选择回款日期", trigger: "blur"},
                     ]
                 },
-                bank_accounts:{
-                    URL: '/bank_accounts',
-                    DATA_KEY: 'data',
-                    PLACEHOLDER: '请选择回款账户',
-                },
-                form:{
+                form: {
                     payment_account: "",
                     amount: "",
                     creator_user_id: "",
@@ -80,47 +76,48 @@
                 }
             }
         },
-        methods:{
-            submitForm(type,id){   // type是父组件传来的,表示是add还是edit,id表示修改的某一行数据的id
-                this.$refs['form'].validate((valid)=>{
-                    if(valid){
+        methods: {
+            submitForm(type, id) {   // type是父组件传来的,表示是add还是edit,id表示修改的某一行数据的id
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
                         let url;
                         let message = "";
-                        let fun="";
+                        let fun = "";
                         let data = this.form;
-                        if(type === "add"){
+                        if (type === "add") {
                             url = this.URL;
                             message = "添加";
                             fun = "refresh";
-                        }else {
+                        } else {
                             url = `${this.URL}/${id}`;
                             message = "修改";
                             fun = "update";
                         }
-                        const success = _ =>{
-                            this.$message({type:"success",message:`${message}回款记录成功`});
+                        const success = _ => {
+                            this.$message({type: "success", message: `${message}回款记录成功`});
                             this.$emit(fun);
+                            type === "add" ? this.$emit("closeVisible") : "";
                         };
-                        type === "add" ? this.$axiosPost({url,data,success}):this.$axiosPut({url,data,success});
-                    }else {
-                        this.$message({type:"warning",message:"请正确填写"});
+                        type === "add" ? this.$axiosPost({url, data, success}) : this.$axiosPut({url, data, success});
+                    } else {
+                        this.$message({type: "warning", message: "请正确填写"});
                     }
                 })
             },
-            clear(){
+            clear() {
                 this.$refs.form.resetFields();
             },
-            coverObj(val){
-                val?this.$tool.coverObj(this.form,val,{obj:["invoice","payment_account"]}):"";
+            coverObj(val) {
+                val ? this.$tool.coverObj(this.form, val, {obj: ["invoice", "payment_account"]}) : "";
             }
         },
 
-        watch:{
-            rowData:function (val,oldVal) {
+        watch: {
+            rowData: function (val, oldVal) {
                 this.coverObj(val);
             }
         },
-        mounted(){
+        mounted() {
             this.coverObj(this.rowData);
         },
         components: {

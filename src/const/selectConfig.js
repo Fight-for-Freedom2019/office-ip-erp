@@ -1,4 +1,12 @@
 const config = [
+  ['file_type_category',{
+    placeholder: '请选择文件类型',
+    options: [
+        { name: '官文通知', id: 1 },
+        { name: '中间文件', id: 2 },
+        { name: '定稿文件', id: 3 },
+    ]
+  }],
   ['category',{
     placeholder: '请选择案件类型',
     options: [
@@ -150,6 +158,13 @@ const config = [
     url: '/api/iprs?listRows=100',
     handle (data) {
     	return data.members;
+    }
+  }],
+  ['project_stage', {
+    placeholder: '请选择案件阶段',
+    url: '/project_stages?listOnly=1',
+    handle (data) {
+    	return data.data;
     }
   }],
   ['patent_type', {
@@ -396,7 +411,7 @@ const config = [
     options: 'taskDefsData',
   }],
   // ['fee_code', {     // TODO 可能是上个版本遗留下来的接口，在这个系统请求不到数据
-  //   placeholder: '请选择费用代码',
+  //   placeholder: '请选择费用类型',
   //   url: '/feeCodes',
   //   handle (data) {
   //     return data.codes.map(_=>{
@@ -682,7 +697,7 @@ const config = [
     ]
   }],
   ['fee_code', {
-    placeholder: '请选择费用类型',
+    placeholder: '请选择费用名称',
     url: '/feecode',
     handle (data) {
         return data.data;
@@ -709,6 +724,23 @@ const config = [
         {id: 12, name: '付款计划'},
         {id: 15, name: '已付款'},
         {id: 16, name: '已删除'},
+    ]
+  }],
+  ['payment_request_timing', {
+    placeholder: '请选择请款时机',
+    options: [
+        {id: 0, name: '手动处理'},
+        {id: 1, name: '立即请款'},
+        {id: 2, name: '产出申请号时'},
+        {id: 3, name: '1OA递交时'},
+    ]
+ }],
+  ['policy', {
+    placeholder: '请选择费用策略',
+    options: [
+        {id: 1, name: '代缴代垫'},
+        {id: 2, name: '代缴不代垫'},
+        {id: 3, name: '仅监控'},
     ]
   }],
 ];

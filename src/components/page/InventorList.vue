@@ -37,6 +37,7 @@
                     'height': 'default',
                     'is_list_filter': true,
                     'list_type': 'inventors',
+                    'treeFilter':'inventors',
                     'header_btn': [
                         {type: 'add', click: this.addPop},
                         {type: 'delete'},
@@ -44,13 +45,13 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '姓名', prop: 'name', width: '150'},
-                        {type: 'text', label: '尊称', prop: 'title', width: '150'},
-                        {type: 'text', label: '所属客户', prop: 'customer.name', width: '150'},
-                        {type: 'text', label: '国籍', prop: 'citizenship', sortable: true, width: '80'},
-                        {type: 'text', label: '邮箱', prop: 'email_address', width: '145'},
-                        {type: 'text', label: '电话号码', prop: 'phone_number', width: '120'},
-                        {type: 'text', label: '证件号码', prop: 'identity', width: '150'},
+                        {type: 'text', label: '姓名', prop: 'name', width: '150',render_header:true},
+                        {type: 'text', label: '尊称', prop: 'title', width: '150',render_header:true},
+                        {type: 'text', label: '所属客户', prop: 'customer', width: '150',render_simple:"name",render_header:true},
+                        {type: 'text', label: '国籍', prop: 'citizenship', sortable: true, width: '80',render_header:true},
+                        {type: 'text', label: '邮箱', prop: 'email_address', width: '145',render_header:true},
+                        {type: 'text', label: '电话号码', prop: 'phone_number', width: '120',render_header:true},
+                        {type: 'text', label: '证件号码', prop: 'identity', width: '150',render_header:true},
                         {
                             type: 'text',
                             label: '是否公开姓名',
@@ -58,11 +59,12 @@
                             width: '130',
                             render_text: (item) => {
                                 return item ? "是" : "否"
-                            }
+                            },
+                            render_header:true
                         },
-                        {type: 'text', label: '英文名', prop: 'first_name', min_width: '120'},
-                        {type: 'text', label: '英文姓', prop: 'last_name', width: '120'},
-                        {type: 'text', label: '备注', prop: 'remark', width: '200'},
+                        {type: 'text', label: '英文名', prop: 'first_name', min_width: '120',render_header:true},
+                        {type: 'text', label: '英文姓', prop: 'last_name', width: '120',render_header:true},
+                        {type: 'text', label: '备注', prop: 'remark', width: '200',render_header:true},
                         // 	{
                         // 		type: 'action',
                         // width: '200',

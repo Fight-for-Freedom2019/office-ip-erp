@@ -317,7 +317,7 @@ export default {
 			const components =  this.filterSettingMap.get(key).components;
 			
 			//remote-select填充处理
-			if(components == 'remote_select') {
+			if(components == 'remote_select'||components == 'jump_select') {
 				let label = data.label;
 				if(Array.isArray(value)) {
 					label = label.split('，');
@@ -381,7 +381,7 @@ export default {
 			const item = this.filterSettingMap.get(key)
 			let val = null
 			const multiple = item.multiple !== undefined ? item.multiple : true
-			if (item.components == 'static_select' || item.components == 'remote_select') {
+			if (item.components == 'static_select' || item.components == 'remote_select'|| item.components == 'jump_select') {
 				val = multiple ? [] : ''
 			} else if(item.components == 'date' ) {
 				val = ['','']

@@ -1,15 +1,15 @@
 <!-- 请款管理详情面板 -->
 <template>
-    <div class="PaymentRequestMsg">
+    <div class="PaymentRequestMsg" v-loading="loadingVisible" :element-loading-text="loadingText">
         <el-form label-width="75px" ref="form" v-model="form" label-position="left" class="form-information">
             <el-row :gutter="20">
                 <el-col :span="6">
                     <el-form-item label="请款对象">
-                        <span class="form-item-text">{{form.creator_user_name}}</span>
+                        <span class="form-item-text">{{rowData.creator_user?rowData.creator_user.name:""}}</span><!-- 有些from项不用提交，直接使用rowData数据，因为经过coverObj方法的from没办法保留name -->
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="创建人"><span class="form-item-text">{{form.creator_user_name}}</span>
+                    <el-form-item label="创建人"><span class="form-item-text">{{rowData.user?rowData.user.name:""}}</span>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -48,7 +48,8 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="回款期限">
-                        <el-date-picker placeholder="请选择回款期限" class="custom-picker-input" type="datetime" value-format="yyyy-MM-dd HH-mm-ss" v-model="form.deadline"></el-date-picker>
+                        <el-date-picker placeholder="请选择回款期限" class="custom-picker-input" type="datetime"
+                                        value-format="yyyy-MM-dd HH-mm-ss" v-model="form.deadline"></el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -101,22 +102,29 @@
             return {
                 activeName: "first",
                 form: {
-                    creator_user_name:"",
-                    creation_time:"",
-                    status:"",
-                    amount:"",
-                    currency:"",
-                    roe:"",
-                    rmb_amount:"",
-                    request_time:"",
-                    deadline:"",
-                    payment_time:"",
-                    received_amount:"",
-                    remark:"",
+                    creator_user:{
+                        name:""
+                    },
+                    user:{
+                        name:"",
+                    },
+                    creation_time: "",
+                    status: "",
+                    amount: "",
+                    currency: "",
+                    roe: "",
+                    rmb_amount: "",
+                    request_time: "",
+                    deadline: "",
+                    payment_time: "",
+                    received_amount: "",
+                    remark: "",
                 },
                 costDetail: [],
                 remindersData: [],
                 receivedData: [],
+                loadingVisible:false,
+                loadingText:"加载账单详情中...",
             }
         },
         props: {
@@ -135,15 +143,6 @@
         },
         methods: {
             handleClick(tab) {
-                if (tab.name === "received_payments") {
-                    this.$nextTick(function () {
-                        this.$refs.received.refreshData();
-                    })
-                }else if(tab.name === "reminders"){
-                    this.$nextTick(function () {
-                        this.$refs.reminders.refreshData();
-                    })
-                }
             },
             submitAudit(id) {
                 this.$confirm('是否提交审核', '提示', {
@@ -170,8 +169,8 @@
                 let data = {
                     express_id: 1,
                     remark: this.form.remark,
-                    status:this.form.status,
-                    deadline:this.form.deadline,
+                    status: this.form.status,
+                    deadline: this.form.deadline,
                 };  // TODO 参数为form表单中的快递信息、备注、附件
                 let url = `/invoices/${id}`;
                 const success = _ => {
@@ -182,24 +181,38 @@
             },
             getDetail(id) {
                 const url = `/invoices/${id}`;
-                const data = {
-                    page: 1,
-                    listRows: 20
-                };
                 const success = _ => {
-                    console.log("账单的详情", _);
                     this.receivedData = _.data.data[0].received_payment;
                     this.remindersData = _.data.data[0].reminder;
                     this.costDetail = _.data.data[0].fee_list ? _.data.data[0].fee_list : [];
+                    this.form.received_amount = this.getAllReceived(this.receivedData);
+                    this.closeLoading();
                 };
-                this.$axiosGet({url, data, success});
+                const complete = () => {
+                    this.closeLoading();
+                };
+                this.$axiosGet({url, success,complete});
             },
-            coverObj(val){
-                val?this.$tool.coverObj(this.form,val):"";
+            coverObj(val) {
+                val ? this.$tool.coverObj(this.form, val) : "";
+            },
+            getAllReceived(data) {  // 获取回款总额
+                let sum = 0;
+                data.map(function (item) {
+                    sum += item.amount ? item.amount : 0;
+                });
+                return sum;
+            },
+            openLoading(){
+                this.loadingVisible = true;
+            },
+            closeLoading(){
+                this.loadingVisible = false;
             },
         },
-        created(){
+        created() {
             this.getDetail(this.id);
+            this.openLoading();
         },
         mounted() {
             this.coverObj(this.rowData);
@@ -209,6 +222,7 @@
                 this.coverObj(val);
             },
             id: function (val, oldVal) {
+                this.openLoading();
                 this.getDetail(val);
             }
         },
@@ -255,17 +269,21 @@
     #app .PaymentRequestMsg .break-form textarea {
         height: auto;
     }
-    .PaymentRequestMsg .custom-input .el-input__inner,.PaymentRequestMsg .custom-picker-input .el-input__inner{
-        height:28px;
+
+    .PaymentRequestMsg .custom-input .el-input__inner, .PaymentRequestMsg .custom-picker-input .el-input__inner {
+        height: 28px;
         line-height: 28px;
         font-size: 12px;
     }
+
     .PaymentRequestMsg .custom-picker-input .el-input__inner {
         padding: 0 14px;
     }
-    .PaymentRequestMsg .custom-input .el-input__icon,.PaymentRequestMsg .custom-picker-input .el-input__icon{
+
+    .PaymentRequestMsg .custom-input .el-input__icon, .PaymentRequestMsg .custom-picker-input .el-input__icon {
         line-height: 28px;
     }
+
     .PaymentRequestMsg .custom-picker-input .el-input__prefix {
         display: none;
     }

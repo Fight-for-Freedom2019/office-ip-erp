@@ -388,12 +388,16 @@ export default {
       }
       this.refreshSelected(val);   
   	},
-    para () {
-      this.remoteMethod('');
+    para: {
+        handler:function(){
+            this.remoteMethod('');
+        },
+        deep:true,
+
     }
   },
   created () {
-    this.refreshSelected(this.value2);
+      this.value2?this.refreshSelected(this.value2):"";
   }
 }
 </script>

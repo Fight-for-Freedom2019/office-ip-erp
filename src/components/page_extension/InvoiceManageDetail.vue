@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="账单" prop="invoice">
-                        <jump-select :type="bill" v-model="form.invoice"></jump-select>
+                        <jump-select :type="bill" :para="para" v-model="form.invoice"></jump-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -21,7 +21,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="金额" prop="serial">
+                    <el-form-item label="金额" prop="amount">
                         <el-input type="number" v-model="form.amount" placeholder="请输入金额"></el-input>
                     </el-form-item>
                 </el-col>
@@ -99,6 +99,9 @@
                     amount: "",
                     status: "",
                 },
+                para:{
+                    customer:null,
+                },
                 bill: {      // 账单JumpSelect的type
                     URL: '/invoices',
                     DATA_KEY: 'invoice',
@@ -172,7 +175,6 @@
                             fun = "update";
                         }
                         let data = this.form;
-                        console.log("提交的data", data);
                         const success = _ => {
                             this.$message({type: "success", message: `${message}成功`});
                             this.$emit(fun);
@@ -226,13 +228,13 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val) {
-                val ? this.$tool.coverObj(this.form, val, {obj: ["customer", "invoice", "invoice_target"]}) : "";
+                val ? this.$tool.coverObj(this.form, val) : "";
             },
 
         },
         watch: {
             'form.customer': function (val, oldVal) {
-                this.bill.PARAMS.user = val;
+                this.para.customer = val;
             },
             rowData: function (val, oldVal) {
                 this.coverObj(val);

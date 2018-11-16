@@ -751,7 +751,7 @@ export default {
         this.refreshTableData(Object.assign({}, this.getRequestOption(), this.filterForm ,this.strainerParams));
       }
 
-      this.$emit('refreshTableData', Object.assign({}, this.getRequestOption(), this.filterForm ) );
+      this.$emit('refreshTableData', Object.assign({}, this.getRequestOption(), this.filterForm ,this.strainerParams) );
     },
     search (val) {
       this.page = 1;

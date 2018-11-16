@@ -5,7 +5,7 @@ request {
     debit:"费用类型",//0-应付 1-应收
 	project_id:"对应的案件ID",
 	target_id:"费用对象",//通过/members接口，附加listOnly=1参数
-	code:"费用代码",//通过/feeCodes接口查询获取
+	code:"费用类型",//通过/feeCodes接口查询获取
 	status:"费用状态",//0-未付款 1-请款单 2-付款单 10-年费监控中 11-年费评估单 12-经评估确认不再缴纳 100-已付款
 	amount:"费用金额",//浮点类型
 	currency:"货币类型",//选项定义如下：[{label:"人民币[CNY]",value:"CNY"},{label:"美元[USD]",value:"USD"},{label:"欧元[EUR]",value:"EUR"},{label:"日元[JPY]",value:"JPY"},{label:"韩元[KRW]",value:"KRW"},{label:"港币[HKD]",value:"HKD"},{label:"新台币[NTD]",value:"NTD"},{label:"英磅[GBP]",value:"GBP"},{label:"德国马克[DEM]",value:"DEM"},{label:"瑞士法郎[CNY]",value:"CHF"},{label:"加拿大元[CAD]",value:"CAD"},{label:"澳大利亚元[AUD]",value:"AUD"},{label:"新西兰元[NZD]",value:"NZD"}],其余后续增加
@@ -103,7 +103,7 @@ request {
 
     id:"费用ID",//多个用逗号隔开
 	target:"费用对象ID",//多个用逗号隔开
-	code:"费用代码",//多个用逗号隔开
+	code:"费用类型",//多个用逗号隔开
 	mail_date:"通知书发文日",//多个用逗号隔开2017-08-01|2017-08-31
     create_time:"费用生成日期",//
 	due_time:"费用期限",//
@@ -160,7 +160,7 @@ response:{
 	}]
 }
 
-# 7、获取费用代码
+# 7、获取费用类型
 requestUrl:http://www.zhiq.wang/feeCodes
 method：GET;
 request {

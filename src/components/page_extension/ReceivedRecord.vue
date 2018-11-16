@@ -56,7 +56,7 @@
                         {type: 'text', label: '回款确认用户', prop: 'creator_user.name', width: '178'},
                         {type: 'text', label: '回款时间', prop: 'received_date', width: '120'},
                         {type: 'text', label: '回款金额', prop: 'amount', width: '150'},
-                        {type: 'text', label: '回款账户', prop: 'account', width: '180'},
+                        {type: 'text', label: '回款账户', prop: 'payment_account.abbr', width: '180'},
                         {type: 'text', label: '备注', prop: 'remark', min_width: '180'},
                     ],
                 },
@@ -114,7 +114,7 @@
                 this.$refs['form'].validate((valid)=>{
                     if(valid){
                         let url = this.URL;
-                        let data = this.form;
+                        let data = Object.assign({},this.form);
                         data.invoice = this.id;
                         const success = _ =>{
                             this.$message({type:"success",message:"添加回款记录成功"});
@@ -134,7 +134,7 @@
         },
         watch:{
             data:function (val,oldVal) {
-                this.tableData = this.$tool.deepCopy(val);
+                this.tableData = val;
             }
         },
         components: {

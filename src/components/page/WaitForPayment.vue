@@ -34,18 +34,14 @@
     import WaitForPaymentAdd from '@/components/page_extension/WaitForPaymentAdd'
     import JumpSelect from '@/components/form/JumpSelect'
     import Config from "@/const/selectConfig"
-
+    import {mapGetters} from 'vuex'
+    import TableMixins from '@/mixins/table-mixins'
     const config = new Map(Config);
-
     const URL = '/fees';
-    const DefaultParam = {
-        is_debit: 1,
-        status: 1
-    };
-    const API = 'Fees';
 
     export default {
         name: "WaitForPayment",
+        mixins:[TableMixins],
         data() {
             return {
                 tableData: [],
@@ -56,8 +52,9 @@
                     'highlightCurrentRow': true,
                     'is_search': true,
                     'is_list_filter': true,
-                    'list_type': 'serial',
-                    'is_merge': {KEY: "customer.id", COL: [1, 2, 3, 4, 5]},
+                    'list_type': 'fees',
+                    'treeFilter': 'fees',
+                    // 'is_merge': {KEY: "user.customer.id", COL: [1, 2, 3]},
                     'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
@@ -74,26 +71,39 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer.name', min_width: '178'},
-                        {type: 'text', label: '标题', prop: 'project.title', width: '150'},
-                        {type: 'text', label: '申请号', prop: 'project.application_number', width: '150'},
-                        {type: 'text', label: '申请日', prop: 'project.application_date', width: '100'},
-                        {type: 'text', label: '请款单号', prop: 'invoice.serial', width: '150'},
-                        {type: 'text', label: '案号', prop: 'project.serial', width: '120'},
-                        {type: 'text', label: '申请国家', prop: 'project.area', width: '180'},
-                        {type: 'text', label: '订单号', prop: 'order.serial', width: '120'},
-                        {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '100'},
-                        {type: 'text', label: '费用类型', prop: 'fee_code.fee_type', width: '100'},
+                        {type: 'text', label: '客户', prop: 'user.customer.name', min_width: '178', render_header: true},
+                        {type: 'text', label: '标题', prop: 'title', width: '150', render_header: true},
+                        {type: 'text', label: '申请号', prop: 'application_number', width: '150', render_header: true},
+                        {type: 'text', label: '申请日', prop: 'application_date', width: '160', render_header: true},
+                        {type: 'text', label: '案号', prop: 'serial', width: '120', render_header: true},
+                        {type: 'text', label: '订单号', prop: 'order.serial', width: '120', render_header: true},
+                        {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160', render_header: true},
+                        {
+                            type: 'text', label: '费用类型', prop: 'fee_code', width: '100', render: (h, item) => {
+                                let name = "";
+                                config.get("fee_type").options.map(function (o) {
+                                    if (item && o.id === item.fee_type) {
+                                        name = o.name;
+                                    }
+                                });
+                                return h("span", name);
+                            },
+                            render_header: true
+                        },
                         {type: 'text', label: '金额', prop: 'amount', width: '100'},
-                        {type: 'text', label: '币别', prop: 'currency', width: '150'},
+                        {type: 'text', label: '币别', prop: 'currency', width: '150', render_header: true},
                         {type: 'text', label: '汇率', prop: 'roe', width: '150'},
                         {type: 'text', label: '人民币', prop: 'rmb_amount', width: '150'},
-                        {type: 'text', label: '费用期限', prop: 'deadline', width: '150'},
+                        {type: 'text', label: '费用期限', prop: 'deadline', width: '150', render_header: true},
                         {
-                            type: 'text', label: '费用状态', prop: 'status', width: '150', render: (h, item) => {
-                                let options = config.get("fee_status").options;
+                            type: 'text',
+                            label: '费用策略',
+                            prop: 'policy',
+                            width: '150',
+                            render_header: true,
+                            render: (h, item) => {
                                 let name = "";
-                                options.map(function (o) {
+                                config.get("policy").options.map(function (o) {
                                     if (o.id === item) {
                                         name = o.name;
                                     }
@@ -101,16 +111,40 @@
                                 return h("span", name);
                             }
                         },
-                        {type: 'text', label: '请款时机', prop: 'payment_request_timing', width: '150'},
-                        {type: 'text', label: '请款时间', prop: 'invoice.payment_time', width: '150'},
-                        {type: 'text', label: '请款单状态', prop: 'invoice.status', width: '150'},
-                        {type: 'text', label: '付款时间', prop: 'invoice.payment_time', width: '150'},
-                        {type: 'text', label: '备注', prop: 'remark', width: '150'},
+                        {
+                            type: 'text', label: '费用状态', prop: 'status', width: '150', render: (h, item) => {
+                                let name = "";
+                                config.get("fee_status").options.map(function (o) {
+                                    if (o.id === item) {
+                                        name = o.name;
+                                    }
+                                });
+                                return h("span", name);
+                            },
+                            render_header: true
+                        },
+                        {
+                            type: 'text',
+                            label: '请款时机',
+                            prop: 'payment_request_timing',
+                            width: '150',
+                            render: (h, item) => {
+                                let name = "";
+                                config.get("payment_request_timing").options.map(function (o) {
+                                    if (o.id === item) {
+                                        name = o.name;
+                                    }
+                                });
+                                return h("span", name);
+                            },
+                            render_header: true
+                        },
+                        {type: 'text', label: '备注', prop: 'remark', width: '150', render_header: true},
                     ],
                 },
                 compileType: "add",
                 isPanelVisible: false,
-                title: "",
+                title: "新增",
                 row: null,
                 dialogCreateNewOrder: false,
                 dialogAddToOrder: false,
@@ -118,17 +152,26 @@
                 ids: [],
             }
         },
+        computed: {
+            ...mapGetters([
+                "areaMap"
+            ]),
+            params(){
+                return this.$route.meta.params;
+            }
+        },
         methods: {
             add() {
                 this.isPanelVisible = true;
+                this.title = "新增";
                 this.compileType = "add";
-                this.$refs.waitForPayment?this.$refs.waitForPayment.clear():"";
+                this.row = {};
+                this.$refs.waitForPayment ? this.$refs.waitForPayment.clear() : "";
             },
             handleRowClick(row) {
                 this.compileType = "edit";
-                row.fee_code_name = row.feecode?row.feecode.name:"";
                 this.row = row;
-                this.title = `订单编号: ${row.project.serial}`;
+                this.title = `订单编号: ${row.serial}`;
                 this.isPanelVisible = true;
             },
             refreshTableData(option) {
@@ -136,7 +179,7 @@
                     this.isPanelVisible = false;
                     this.tableData = _.data;
                 };
-                const data = Object.assign({}, option, DefaultParam);
+                const data = Object.assign({}, option, this.params);
                 this.$axiosGet({
                     url: URL,
                     data: data,
@@ -182,11 +225,12 @@
                 }
                 const success = _ => {
                     this.$message({type: "success", message: `${message}成功!`});
-                    this.closeDialog(dialog);
+                    this.update();
+                    this.closeVisible(dialog);
                 };
                 const error = _ => {
                     this.$message({type: "warning", message: `${_.info}`});
-                    this.closeDialog(dialog);
+                    this.closeVisible(dialog);
                 };
                 type === "new" ? this.$axiosPost({url, data, success, error}) : this.$axiosPut({
                     url,
@@ -194,9 +238,6 @@
                     success,
                     error
                 })
-            },
-            closeDialog(name) {
-                this[name] = false;
             },
             getSelected(flag) {      // 获取选中行的id
                 let _this = this;
@@ -208,24 +249,14 @@
                 }
             },
             save(type) {
-                this.$refs.waitForPayment.save(type, this.row?this.row.id:"");
+                this.$refs.waitForPayment.save(type, this.row ? this.row.id : "");
             },
-            update() {
-                this.$refs.table.update();
-            },
-            refresh() {
-                this.$refs.table.refresh();
-            },
-        },
-        mounted() {
-            this.refresh();
         },
         components: {
             WaitForPaymentAdd,
             TableComponent,
             AppShrink,
             JumpSelect,
-            Config
         }
     }
 </script>

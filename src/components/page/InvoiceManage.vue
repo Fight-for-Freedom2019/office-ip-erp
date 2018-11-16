@@ -23,10 +23,12 @@
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
     import InvoiceManageDetail from '@/components/page_extension/InvoiceManageDetail'
+    import TableMixins from '@/mixins/table-mixins'
 
     const URL = '/vouchers';
     export default {
         name: "InvoiceManage",
+        mixins:[TableMixins],
         data() {
             return {
                 tableData: [],
@@ -36,7 +38,10 @@
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
-                    'search_placeholder': '客户名称、联系人',
+                    'is_list_filter': true,
+                    'list_type': 'invoice_request',
+                    'treeFilter': 'invoice_request',
+                    'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
                         {type: 'add', click: this.add},
@@ -46,14 +51,14 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer_name', width: '178'},
-                        {type: 'text', label: '账单编号', prop: 'invoice.serial', width: '180'},
-                        {type: 'text', label: '开票主体', prop: 'invoice_target.name', min_width: '260'},
-                        {type: 'text-btn', label: '金额', prop: 'amount', width: '180', click: this.checkFeeDetail},
-                        {type: 'text', label: '申请国家', prop: 'status', width: '120'},
-                        {type: 'text', label: '备注', prop: 'remark', width: '320'},
+                        {type: 'text', label: '客户', prop: 'customer', width: '178',render_simple:"name",render_header:true},
+                        {type: 'text', label: '账单编号', prop: 'invoice',render_simple:"serial", width: '180',render_header:true},
+                        {type: 'text', label: '开票主体', prop: 'invoice_target',render_simple:"name", min_width: '260',render_header:true},
+                        {type: 'text-btn', label: '金额', prop: 'amount', width: '180', click: this.checkFeeDetail,render_header:true},
+                        {type: 'text', label: '申请国家', prop: 'status', width: '120',render_header:true},
+                        {type: 'text', label: '备注', prop: 'remark', width: '320',render_header:true},
                         // {type: 'text', label: '扫描件', prop: 'is_scanning_copy', width: '100'},
-                        {type: 'text', label: '扫描件', prop: 'scanning_copy', width: '150'},
+                        {type: 'text', label: '扫描件', prop: 'scanning_copy', width: '150',render_header:true},
                         // {type: 'text', label: '发票明细', prop: 'service_fee', width: '150'},
                     ],
                 },
@@ -90,24 +95,20 @@
                 this.rowData = row;
                 this.rowID = row.id;
                 this.title = "发票编辑";
-                this.isPanelVisible = true;
+                this.openVisible("isPanelVisible");
                 this.compileType = "edit";
             },
             refreshTableData(data) {
                 const url = URL;
                 const success = _ => {
                     this.tableData = _.data;
+                    this.closeVisible("isPanelVisible");
                 };
                 this.$axiosGet({url, data, success})
             },
-            update() {
-                this.$refs.table.update();
-            },
-            refresh() {
-                this.$refs.table.refresh();
-            },
             add() {
-                this.isPanelVisible = true;
+                this.rowData = {};
+                this.openVisible("isPanelVisible");
                 this.compileType = "add";
                 this.title = "开票申请";
                 this.$refs.detail?this.$refs.detail.clear():"";
@@ -117,12 +118,9 @@
                 this.$refs.detail.submitForm(type, this.rowID);
             },
             checkFeeDetail(row, e, col) {
-                this.dialogFormVisible = true;
+                this.openVisible("dialogFormVisible");
                 this.feesDetail = row.detail ? row.detail : [];
             },
-        },
-        mounted() {
-            this.refresh();
         },
         components: {
             TableComponent,
