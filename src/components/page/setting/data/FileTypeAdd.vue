@@ -1,7 +1,7 @@
 <!-- 新增文件类型代码 -->
 <template>
     <div class="main" style="margin-top:10px;">
-        <el-form label-width="120px" :model="form" :rules="rules" ref="form">
+        <el-form label-width="160px" :model="form" :rules="rules" ref="form">
             <el-form-item label="案件类型" prop="project_category">
                 <static-select type="category" v-model="form.project_category"></static-select>
             </el-form-item>
@@ -20,6 +20,10 @@
 
             <el-form-item label="上传后案件阶段" prop="project_stage">
                 <static-select type="project_stage" v-model="form.project_stage"></static-select>
+            </el-form-item>
+
+            <el-form-item label="上传触发管制事项" prop="process_definition">
+                <static-select type="process_definition" v-model="form.process_definition"></static-select>
             </el-form-item>
 
             <el-form-item label="上传时填写字段" prop="fields" v-if="form.category == 1">
@@ -55,6 +59,7 @@
                     fields: "",
                     behavior: "",
                     sort: "",
+                    process_definition:'',
                 },
                 rules: {
                     project_category: [
@@ -71,6 +76,9 @@
                     ],
                     project_stage: [
                         {required: false, message: "请选择案件阶段", trigger: "blur"}
+                    ],
+                    process_definition: [
+                        {required: false, message: "请选择触发的管制事项", trigger: "blur"}
                     ],
                     fields: [
                         {required: false, message: "请输入表单字段", trigger: "blur"}

@@ -381,6 +381,14 @@ const config = [
     allowCreate: true,
     defaultFirstOption: true,
   }],
+  ['process_definition', {
+    placeholder: '请输入或选择管理事项',
+    url: '/definitions?listOnly=1',
+    handle (data) {
+      return data.data;
+    },
+    defaultFirstOption: true,
+  }],
   ['area', {
     placeholder: '请选择地区',
     options: 'areaData',

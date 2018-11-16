@@ -44,9 +44,9 @@
           <static-select :type="config.file_type" v-model="scope.row.type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}"></static-select>
         </template>
       </el-table-column>
-      <el-table-column label="发文日" prop="time" v-if="config.time">
+      <el-table-column label="发文日" prop="mail_date" v-if="config.time">
         <template slot-scope="scope">
-          <el-date-picker type="date" v-model="scope.row.time" style="width: 100%;" v-show="!!tableData[scope.$index]['show_mail_date']"></el-date-picker>
+          <el-date-picker type="date" v-model="scope.row.mail_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_mail_date']"></el-date-picker>
         </template>
       </el-table-column>
       <el-table-column label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline" >
@@ -109,8 +109,6 @@ const config = [
     legal_deadline: true,
     apn: true,
     apd: true,
-    issue_date: true,
-    issue_number: true,
   }],
   ['voucher', {
     action: 'parseVoucher',
