@@ -13,7 +13,7 @@ const map = new Map([
         { type: 'remote_select',    id: 'final_reviewer',         name: '复审人',         data_key: 'data',          url: '/customers'},
         { type: 'remote_select',    id: 'ipr',                   name: 'IPR',           data_key: 'data',          url: '/customers'},
         { type: 'remote_select',    id: 'customer',              name: '客户',           data_key: 'data',          url: '/customers'},
-        { type: 'remote_select',    id: 'contact',               name: '联系人',           data_key: 'data',          url: '/customers'},
+        { type: 'remote_select',    id: 'contact',               name: '联系人',           data_key: 'data',          url: '/contacts'},
         { type: 'date',             id: 'first_edition_deadline',name: '初稿期限'},
         { type: 'date',             id: 'filing_deadline',       name: '递交期限'},
         { type: 'date',             id: 'legal_deadline',        name: '官方绝限'},
@@ -43,7 +43,7 @@ const map = new Map([
         { type: 'text',         	id: 'english_title',         name: '英文名称'},
         { type: 'text',         	id: 'proposal_title',        name: '提案标题'},
         { type: 'text',         	id: 'start_year',            name: '首次年费年度'},
-        { type: 'remote_select',	id: 'applicants',            name: '申请人',       url: '/api/applicants',    data_key: 'applicants',},
+        { type: 'remote_select',	id: 'applicants',            name: '申请人',       url: 'applicants',    data_key: 'applicants',},
         { type: 'text',         	id: 'apn',                   name: '申请号'},
         { type: 'date',         	id: 'apd',                   name: '申请日',},
         { type: 'date',         	id: 'entrusting_time',       name: '委案时间'},
@@ -59,8 +59,8 @@ const map = new Map([
         // { type: 'select',       id: 'progress',                       name: '详细状态',},
         { type: 'static_select',    id: 'flownode',              name: '详细状态',     url: '/flownodes', map_type: 'flow_node'},
         { type: 'static_select',    id: 'legal_status',          name: '法律状态',     map_type: 'legal_status'},
-        { type: 'remote_select',    id: 'inventors',             name: '发明人',       url: '/api/inventors', data_key: 'data',},
-        { type: 'remote_select',    id: 'alias_inventors',       name: '送件发明人',   url: '/api/inventors', data_key: 'data',},
+        { type: 'remote_select',    id: 'inventors',             name: '发明人',       url: 'inventors', data_key: 'data',},
+        { type: 'remote_select',    id: 'alias_inventors',       name: '送件发明人',   url: 'inventors', data_key: 'data',},
         { type: 'static_select',    id: 'tags',                  name: '标签',         map_type: 'tag',   url: '/tags' },
         { type: 'static_select',    id: 'branch',                name: '部门',         map_type: 'branch'},
         { type: 'static_select',    id: 'classification',        name: '技术分类',     map_type: 'classification'},
@@ -68,8 +68,8 @@ const map = new Map([
         { type: 'static_select',    id: 'product_relevance',     name: '产品相关',     map_type: 'product_relevance',},
         { type: 'static_select',    id: 'level',                 name: '案件等级',     map_type: 'case_level'},
         { type: 'static_select',    id: 'agency_type',           name: '案件类型',     map_type: 'case_type',},
-        { type: 'static_select',    id: 'ipr',                   name: '负责IPR',      map_type: 'ipr',    url: '/api/iprs'},
-        { type: 'remote_select',    id: 'proposer',              name: '技术联系人',    data_key: 'members',  url: '/api/members'},
+        { type: 'static_select',    id: 'ipr',                   name: '负责IPR',      map_type: 'ipr',    url: 'iprs'},
+        { type: 'remote_select',    id: 'proposer',              name: '技术联系人',    data_key: 'members',  url: 'members'},
         { type: 'text',             id: 'priorities',            name: '优先权'},
         { type: 'text',         	id: 'das',                   name: 'DAS码'},
         { type: 'text',         	id: 'tech_rank',             name: '技术理解评分'},
@@ -78,8 +78,8 @@ const map = new Map([
         { type: 'text',         	id: 'negative_flag',         name: '特别评价'},
         { type: 'text',         	id: 'negative_comment',      name: '评价详情'},
         { type: 'static_select',	id: 'is_support',            name: '是否已申请资助',  map_type: 'bool'}, //是否已申请资助
-        { type: 'remote_select',    id: 'agency',                name: '代理机构',       url: '/api/agencies',    data_key: 'agencies'}, //代理机构
-        { type: 'remote_select',    id: 'agent',                 name: '代理人',         url: '/api/agents',data_key: 'members'}, //代理人
+        { type: 'remote_select',    id: 'agency',                name: '代理机构',       url: '/agencies',    data_key: 'agencies'}, //代理机构
+        { type: 'remote_select',    id: 'agent',                 name: '代理人',         url: '/users',data_key: 'members'}, //代理人
         { type: 'date',          	id: 'pre_exam_ok_date',                 name: '初审合格日'},
         { type: 'date',          	id: 'sub_exam_start_date',              name: '进入实审日'},
         { type: 'date',          	id: 'sub_exam_start_date',              name: '进入实审日'},

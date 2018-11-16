@@ -44,7 +44,7 @@ export default {
         fees: [],
       },
       rules: {
-        'customer':{type: 'array', required: true, message: '客户不能为空', trigger: 'change'},
+        'customer':{type: 'number', required: true, message: '客户不能为空', trigger: 'change'},
         'service':{type: 'number', required: true, message: '服务类型不能为空', trigger: 'change'},
         'contract_mode':{type: 'number', required: true, message: '合同类型不能为空', trigger: 'change'},
         'contracts':{type: 'array', required: true, message: '合同不能为空', trigger: 'change'},
