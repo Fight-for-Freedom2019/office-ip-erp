@@ -35,7 +35,12 @@ const map = new Map([
     URL: '/contracts',
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入合同关键词',
-  }], 
+  }],
+  ['payment_accounts', {
+    URL: '/payment_accounts',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择回款账户',
+  }],
   ['member', {
     URL: '/members',
     DATA_KEY: 'members',
@@ -102,13 +107,13 @@ const map = new Map([
   }],
   ['bill', {
     URL: '/invoices',
-    DATA_KEY: 'invoices',
+    DATA_KEY: 'invoice',
     PLACEHOLDER: '请输入请款单关键词',
     PARAMS: { debit: 1 },
   }],
   ['pay', {
     URL: '/invoices',
-    DATA_KEY: 'invoices',
+    DATA_KEY: 'invoice',
     PLACEHOLDER: '请输入付款单关键词',
     PARAMS: { debit: 0 },
   }],
@@ -152,7 +157,7 @@ const map = new Map([
 ]);
 
 export default {
-  name: 'remoteSelect',
+  name: 'jumpSelect',
   mixins: [ AxiosMixins ],
   props: {
     'value': [Number, String, Array, Object],
