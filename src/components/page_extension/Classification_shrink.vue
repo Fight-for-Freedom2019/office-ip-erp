@@ -2,7 +2,7 @@
 	<app-shrink :visible.sync="dialogVisible" :title="title" size="small" @close="$emit('close','')" >
 		<el-form ref="form" :model="form" >	
 			<el-form-item label="上级分类" prop="parent" v-if="rerender">
-				<static-select type="classification" v-model="form.parent" :disabled="select_disabled"></static-select>		
+				<static-select :type="pageType" v-model="form.parent" :disabled="select_disabled"></static-select>		
 			</el-form-item>
 			<el-form-item label="分类名称" prop="name">
 				<el-input placeholder="请输入分类名称" v-model="form.name"></el-input>

@@ -18,6 +18,32 @@ const getMap = (data) => {
 	}
 }
 
+const setTreeData = (data, pId, res) => {
+	console.log(data)
+	const len = data.length;
+	for (let i=0; i < len; i++) {
+		const td = data[i];
+		if(data[i].children == undefined) {
+			Vue.set(data[i], 'children', []);
+		}
+		if(td.id == pId ) {
+			if(Array.isArray(res)) {
+				for(let item of res) {
+					console.log(item)
+					data[i].children.push(item.data);
+				}
+			}else {
+				data[i].children.splice(len, 0, res);
+			}
+			return;
+		}else {
+			if(td.children && td.children.length != 0) {
+				setTreeData(td.children, pId, res);
+			}
+		}
+	}
+}
+
 const getters = {
 	productData: state=>state.data,
 	productMap: state=>{
@@ -34,7 +60,25 @@ const getters = {
 const mutations = {
 	setProduct (state, d) {
 		state.data = d;
-	}
+	},
+	addproduct (state, {pId,d}) {
+		const cacheData = [...state.data];
+		setTreeData(cacheData, pId ,d);
+	},
+	addFirstproduct (state, d) {
+		state.data.push(d);
+	},
+	removeproduct (state, {n, d}) {
+		console.log(n)
+	  	const parent = n.parent;
+        const children = parent.data.children || parent.data;
+     	const index = children.findIndex(_ => _.id === d.id);
+      	children.splice(index, 1);   
+	},
+	updateproduct (state, {d, res}) {
+		console.log(d)
+		return d.name = res;
+	},	
 }
 
 const actions = {

@@ -1,7 +1,7 @@
 <!-- table表格公共组件 -->
 <template>
   <div class="hjg-table">
-    
+    <slot name="bread_mark"></slot>
     <div class="table-header" v-if="tableOption.is_header === undefined ? true : tableOption.is_header">
       <div class="table-header-left">
       <el-popover

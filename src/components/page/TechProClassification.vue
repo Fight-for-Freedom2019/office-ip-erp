@@ -1,33 +1,41 @@
 <template>
   <div style="display: flex;">
   	<template>
-      <classification-tree></classification-tree>
+      <classification-tree @deliver="receive" ref="classification_tree"></classification-tree>
     </template>
     <template style="flex:1;">
-      <span></span>
-	    <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table" style="overflow: auto;"></table-component>
+      <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table" style="overflow: auto;">
+        <span slot="bread_mark">{{ mark }}</span>
+      </table-component>
     </template>
-    <edit ref="edit" @refresh="handleRefresh"></edit>
+    <common-detail
+        :title="currentRow.title"
+        :visible.sync="shrinkVisible" 
+        type="patent" 
+        :id="currentRow.id" 
+        ref="detail"
+        @editSuccess="refresh"
+    >
+    </common-detail>
   </div>
 </template>
 <script>
 import TableComponent from '@/components/common/TableComponent'	
 import ClassificationTree from '@/components/page_extension/ClassificationTree'
-import Edit from '@/components/page_extension/UserManage_edit'
+import CommonDetail from '@/components/page_extension/Common_detail'
 const URL = '/patents'
 export default {
   name: 'tech-pro-classifition',
   data () {
   	return {
+      shrinkVisible: false,
   	  option: {
         'url': '/patents',
   	  	'name': 'tech-pro-classifition',
-  	  	'height': 'default5',
+  	  	'height': 'default3',
   	  	'is_pagination': false,
   	  	'is_search': false,
-  	  	'header_btn': [
-          { type: 'add'},
-  	  	],
+        'rowClick': this.handleRowClick,
   	  	'columns': [
   	  	   { type: 'selection' },
   	  	   { type: 'text', label: '用户组', prop: 'roles', width: '145'},   	
@@ -51,55 +59,41 @@ export default {
   	  	],
   	  },
   	  tableData: [],
-  	  nodeData: '',
-  	  roleType: '',
+      mark: '',
+      filter_id: 1,
+      currentRow: '',
   	}
   },
   computed: {
-
+    pageType () {
+      const path = this.$route.path;
+      return /classification/.test(path) ? 'classification' : 'product';
+    },
   },
   methods: {
-  	addShrink () {
-  		this.$refs.edit.show('add');
-  	},
-  	editShrink (row) {
-  		this.$refs.edit.show('edit',row);
-  	},
-  	handleTree (val,type) {
-  		this.nodeData = val;
-  		this.roleType = type;
-  		this.refresh();
-  	},
-  	handleRefresh () {
-  		this.refresh();
-  	},
+    receive (val) {
+      console.log(val)
+      this.mark = val.fullname +':' + val.description;
+      this.filter_id = val.id;
+    },
+    handleRowClick (row) {
+      this.shrinkVisible = true;
+      this.currentRow = row;
+    },
   	refreshTableData(option) {
+      const t = this.pageType;
 	    const url = URL;
-	    const data = Object.assign({},option);
-	    if(this.roleType === 'organization') {
-	    	data.origanization_units = this.nodeData.id;
-	    }else if (this.roleType === 'rolegroups') {
-	    	data.roles = this.nodeData.id;
-	    }
+      let extraParams = {};
+      extraParams[`is_${t}_child`] = 0;
+      extraParams[`${t}_id`] = this.filter_id;
+	    const data = Object.assign({},option, extraParams);
+	   
 	    const success = _=>{
 	        console.log(_)
-	        this.tableData = _.data;
+	        this.tableData = _.patents.data;
 	    };
 	    this.$axiosGet({ url, data, success });
-  	},
-	deleteSingle ({user_name, id}) {
-		const url = `${URL}/${id}`;
-		const success = _=>{ 
-			this.$message({message: '删除用户成功！', type: 'success'});
-			this.refresh();
-		};
-
-		this.$confirm(`删除后不可恢复，确认删除用户‘${user_name}’？`,'删除确认',{type: 'warning'})
-			.then(_=>{
-				this.$axiosDelete({url, success});
-			})
-			.catch(_=>{});
-	},  	
+  	}, 	
   	refresh () {
       this.$refs.table.refresh();
     },
@@ -107,10 +101,15 @@ export default {
   mounted () {
   	this.refresh();
   },
+  watch: {
+    filter_id () {
+      this.refresh();
+    }
+  },
   components: {
   	TableComponent,
-  	Edit,
     ClassificationTree,
+    CommonDetail,
   },
 }	
 </script>
