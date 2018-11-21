@@ -38,7 +38,7 @@ const actions = {
 			commit('setGroupLoading', false);
 			const d = response.data;
 			if(d.status){
-				commit('setGroup', d.groups);
+				commit('setGroup', d.data.data);
 				if(callback) {callback(d)};
 			}else {
 				console.log(d);

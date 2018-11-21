@@ -119,6 +119,7 @@ const SettingDefinitions           = () => import('@/components/page/setting/dat
 const SettingFlows           = () => import('@/components/page/setting/data/Flows')
 const SettingActions           = () => import('@/components/page/setting/data/Actions')
 const SettingEntityChange           = () => import('@/components/page/setting/data/EntityChange')
+const SettingServiceProject           = () => import('@/components/page/setting/ServiceProject')
 const SettingMailTemplate           = () => import('@/components/page/setting/MailTemplate')
 const SettingSystem            = () => import('@/components/page/SettingSystem')
 
@@ -401,7 +402,7 @@ const router = new Router({
     },
     {
       path: '/finance/fees_to_pay',
-      name: 'FeeCommonRequest',
+      name: 'FeeCommonPay',
       component: FeeCommon,
       props: {
         debit: 0,
@@ -465,6 +466,7 @@ const router = new Router({
       component: TechProClassification,
     },
     { path: '/setting/field', name: 'SettingField', component: SettingField },
+    { path: '/setting/services', name: 'ServiceProject', component: SettingServiceProject },
     { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
     { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
     { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },

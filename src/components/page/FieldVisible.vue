@@ -32,7 +32,7 @@ import {config} from '@/const/fieldConfig'
 import StaticSelect from '@/components/form/StaticSelect';
 import AppTransferPanel from '@/components/common/AppTransferPanel';
 
-const URL = '/ruleexcept';
+const URL = '/roles';
 const map = new Map(config);
 
 export default {
@@ -40,10 +40,10 @@ export default {
 	data () {
 		return {
 			defaultProps: {
-				label: 'name',
+				label: 'display_name',
 				children: 'children',
 			},
-			tableType:  'patent',		
+			tableType:  'Patent',		
 			checkedFields: [],
 			fields: [],
 			cache: {},
@@ -85,7 +85,7 @@ export default {
 		async refreshFields () {
 			const url = `${this.tableType}s/fields`;
 			const success = _=>{
-				this.fields = _.fields;
+				this.fields = _.data;
 			};
 			this.$axiosGet({url, success});
 
@@ -103,8 +103,8 @@ export default {
 				this.listLoading = true;
 				try {
 					const response = await this.$axiosGet({
-						url: URL,
-						data: {group_id, module: model},
+						url: `${URL}/${group_id}/except_fields`,
+						data: { model },
 						success: (data) => {
 							except = data.data;
 							this.cache[group_id][model] = except; //缓存

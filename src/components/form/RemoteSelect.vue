@@ -4,6 +4,7 @@
     <app-card :value="selectedValue" :type="type" @handleCloseTag="handleCloseTag"></app-card>
     <el-button type="text" @click="selectVisible = true" style="line-height: 16px;" :class="[selectedValue.length!=0? 'btn' : '']">{{ pageType == 'add' ? '添加' : '修改' }}</el-button>
     <el-dialog :visible.sync="selectVisible" :modal="false" title="编辑">
+      <slot></slot>
     	<el-select
     	  :value="value2"
     	  @input="handleInput"
@@ -164,7 +165,17 @@ const map = new Map([
       DATA_KEY: 'data',
       PLACEHOLDER: '请输入IPR关键词',
       PARAMS:{cotatct_type:2},
-  }]
+  }],  
+  ['definitions',{
+      URL: '/definitions',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择触发的默认管制事项',
+  }],
+  ['roles',{
+      URL: '/roles',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择用户',
+  }],
 ]);
 
 export default {
