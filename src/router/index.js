@@ -32,7 +32,7 @@ const ContractsList            = () => import('@/components/page/ContractsList')
 const InvoiceTargets           = () => import('@/components/page/InvoiceTargets')
 
 //CRM模块账款管理
-const WaitForPayment           = () => import('@/components/page/WaitForPayment')     //待请费用
+const RequestPayout             = () => import('@/components/page/RequestPayout')     //待请费用
 const PaymentManage            = () => import('@/components/page/PaymentManage')     //请款管理
 const InvoiceManage            = () => import('@/components/page/InvoiceManage')     //发票管理
 const PaymentRecevied          = () => import('@/components/page/PaymentRecevied')     //回款管理
@@ -199,8 +199,8 @@ const router = new Router({
   },
   {
     path: '/crm/finance/fee',
-    name: 'WaitForPayment',
-    component: WaitForPayment,
+    name: 'RequestPayout',
+    component: RequestPayout,
       meta:{
         params:{
             is_debit: 1,
@@ -246,7 +246,12 @@ const router = new Router({
   {
     path: '/crm/suppliers/fees',
     name: 'SuppliersFee',
-    component: SuppliersFee
+    component: SuppliersFee,
+    meta:{
+      params:{
+          status: 11
+      }
+    }
   },
   {
     path: '/crm/suppliers/payments',
