@@ -30,7 +30,15 @@
         <app-switch v-model="form.is_ssl" type="is"></app-switch>
 			</el-form-item>
 			<el-form-item label="邮件签名" prop="signature">
-				<el-input v-model="form.signature" type="textarea" placeholder="请输入邮件签名"></el-input>
+				<quill-editor 
+          v-model="form.signature"
+          ref="myQuillEditor"
+          :options="editorOption"
+          @blur="onEditorBlur($event)"
+          @focus="onEditorFocus($event)"
+          @ready="onEditorReady($event)"    
+        >
+        </quill-editor>
 			</el-form-item>
 			<el-form-item>
 				<el-button @click="save" type="primary" :disabled="btn_disabled">保存</el-button>
@@ -63,6 +71,7 @@ export default {
 		    "is_ssl": 0,
 		    "signature": ""
 		  },
+      editorOption: {},
 		  loading: true,
 		  btn_disabled: false,
 		}
@@ -90,6 +99,15 @@ export default {
   			this.$axiosGet({url, success, complete});
   		}
   	},
+    onEditorBlur (editor) {
+
+    },
+    onEditorFocus (editor) {
+
+    },
+    onEditorReady (editor) {
+
+    },    
   	async save () {
   		// if(this.checkForm()) return;
   		await this.checkFormFields()

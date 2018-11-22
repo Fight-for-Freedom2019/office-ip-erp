@@ -102,6 +102,7 @@ export default {
         'rowClick': this.handleRowClick,
         'is_filter': true,
         'is_list_filter': true,
+        'treeFilter': 'patent',
         'list_type': 'patent',
         'import_type': 'patent',
         // 'upload_type': 'patent',

@@ -23,6 +23,13 @@ const config = [
         { name: '外观设计', id: 3 },
     ]
   }],
+  ['receiverType',{
+    placeholder: '请选择收件人类型',
+    options: [
+        { name: '基于身份', id: 1 },
+        { name: '固定人员', id: 2 },
+    ]
+  }],
   ['status',{
     placeholder: '请选择状态',
     options: [
@@ -229,8 +236,14 @@ const config = [
   ['table_type', {
     placeholder: '请选择模块',
     options: [
-      { id: 'patent', name: '专利' },
-      // { id: 'proposal', name: '提案' },
+      { id: 'Patent', name: '专利' },
+      { id: 'Trademark', name: '商标' },
+      { id: 'Copyright', name: '版权' },
+      { id: 'Project', name: '项目' },
+      { id: 'Task', name: '任务' },
+      { id: 'Customer', name: '客户' },
+      { id: 'Fee', name: '费用' },
+      { id: 'Invoice', name: '账单' },
     ]
   }],
   ['case_type', {
@@ -241,14 +254,6 @@ const config = [
       { id: 3, name: '版权' },
     ]
   }], 
-  ['case_type', {
-    placeholder: '请选择案件类型',
-    options: [
-      { id: 1, name: '专利' },
-      { id: 2, name: '商标' },
-      { id: 3, name: '版权' },
-    ]
-  }],
   ['technical_field', {
     placeholder: '请选择技术领域',
     options: [
