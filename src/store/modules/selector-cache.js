@@ -7,8 +7,14 @@ const state = {
 }
 
 const getters = {
-	staticSelectorMap (state) {
+	staticSelectorMap (state, rootGetters) {
 		return new Map(state.config);
+	},
+	MergeSelectorMap (state, rootGetters) {
+		// 合并本地静态配置和远程静态配置
+		const map = new Map([...state.config,...[...rootGetters.getHashMaps]])
+		console.log(map)
+		return map
 	},
 	staticSelectorCache (state) {
 		return state.cache;

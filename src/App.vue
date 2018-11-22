@@ -199,6 +199,7 @@ export default {
       'refreshArea', //area
       'refreshCity', //city
       'closeTag', //filter-cache
+      'initializeHashMapsCache', //index
     ]),
     ...mapMutations([
       'toggleLeftVisible', //index
@@ -293,7 +294,7 @@ export default {
       //使用localStorage进行本地缓存
       this.refreshArea();
       this.refreshCity();
-      
+      this.initializeHashMapsCache();
       // this.$store.dispatch('refreshFeeCode');
       // this.$store.dispatch('refreshEntity');
       // this.$store.dispatch('refreshGroup');

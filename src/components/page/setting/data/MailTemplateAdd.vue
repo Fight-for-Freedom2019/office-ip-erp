@@ -8,22 +8,22 @@
                 <remote-select type="customer" v-model="form.customer"></remote-select>
             </el-form-item>
             <el-form-item label="模板类型" prop="template_type">
-                <static-select type="case_type" v-model="form.template_type"></static-select>
+                <static-select type="message_template_type" v-model="form.template_type"></static-select>
             </el-form-item>
-            <el-form-item label="子类型" prop="subtype">
-                <static-select type="case_type" v-model="form.subtype"></static-select>
+            <el-form-item label="子类型" prop="subtype" v-if="form.template_type == 1">
+                <static-select type="message_template_subtype" v-model="form.subtype"></static-select>
             </el-form-item>
             <el-form-item label="场景" prop="scene">
-                <static-select type="case_type" v-model="form.scene"></static-select>
+                <static-select type="message_template_scene" v-model="form.scene"></static-select>
             </el-form-item>
             <el-form-item label="标题" prop="title">
                 <el-input placeholder="请输入标题" v-model="form.title"></el-input>
-            </el-form-item> 
+            </el-form-item>         
             <el-form-item label="收件人" prop="to">
                 <remote-select :type="receiver" v-model="form.to.users" multiple>
                     <static-select type="receiverType" v-model="form.to.type"></static-select>
                 </remote-select>
-            </el-form-item>            
+            </el-form-item>
             <el-form-item label="抄送" prop="cc">
                 <remote-select :type="receiver_cc" v-model="form.cc.users" multiple>
                     <static-select type="receiverType" v-model="form.cc.type"></static-select>
@@ -89,7 +89,7 @@ export default {
                     {required: true, message: "模板类型不能为空", trigger: "change"}
                 ],
                 to: [
-                    {type: 'object', required: true, fields: {
+                    {type: 'object', required: true,trigger: 'change', fields: {
                         users: {type: 'array', required: true, message: '收件人不能为空', trigger: 'change'},
                     }}
                 ],           
@@ -106,12 +106,15 @@ export default {
                 title: [
                     {required: true, message: "标题不能为空", trigger: "blur"}
                 ],
-                // customer: [
-                //     {required: true, message: "客户不能为空", trigger: "change"}
-                // ],
-                process_action: [
-                    {required: true, message: "", trigger: "change"}
+                customer: [
+                    {required: true, message: "客户不能为空", trigger: "change"}
                 ],
+                subtype: [
+                    {required: true, message: "模板子类型不能为空", trigger: "change"}
+                ],
+                scene: [
+                    {required: false, message: "场景不能为空", trigger: "change"}
+                ]
             },
         }
     },
@@ -129,6 +132,13 @@ export default {
     },
     methods: {
         submitForm(type, id) {
+            if(this.form.is_default) {
+                this.rules.customer[0].required = false;
+                this.$refs['form'].clearValidate('customer');
+
+            }else {
+                this.rules.customer[0].required = true;
+            }
             this.$refs['form'].validate((valid) => {
                 if (valid) {
                     let url;
@@ -164,6 +174,14 @@ export default {
             if(val['to']) {
                 this.form.to.type = val['to']['type'];
                 this.form.to.users = val['to']['user'].map(_=>_.id!= undefined ? _.id :'');
+            }    
+            if(val['cc']) {
+                this.form.cc.type = val['cc']['type'];
+                this.form.cc.users = val['cc']['user'].map(_=>_.id!= undefined ? _.id :'');
+            }     
+            if(val['bcc']) {
+                this.form.bcc.type = val['bcc']['type'];
+                this.form.bcc.users = val['bcc']['user'].map(_=>_.id!= undefined ? _.id :'');
             }
         },
         onEditorBlur () {
@@ -177,6 +195,21 @@ export default {
         },
     },
     watch: {
+        'form.is_default': {
+            handler (val) {
+                this.rules.customer[0].required = !this.rules.customer[0].required
+            },
+        },
+        'form.subtype': {
+            handler (val) {
+                if(val == 2) {
+                    this.rules.scene[0].required = true; 
+                }else {
+                    this.rules.scene[0].required = false;
+                    this.$refs['form'].clearValidate('scene');
+                }
+            },
+        },
         'form.to.type': {
             handler(val) {
                 if(val === 1 ) {
