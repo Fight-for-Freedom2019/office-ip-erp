@@ -4,21 +4,21 @@ const menu = {};
 
 const taskMenu = [
 	{ type: 'item', text: '我的待办', path: '/task/pending', icon: 'iconfont el-icon-my-task'},
-	{ type: 'submenu', text: '我的审核', path: '/task/review', icon: 'iconfont el-icon-my-task', children:[
-		{ type: 'item', text: '我发送的', path: '/task/review/sent', icon: ''},
-		{ type: 'item', text: '待我审核', path: '/task/review/my', icon: ''},
+	{ type: 'submenu', text: '我的审核', path: '/task/review', icon: 'iconfont el-icon-my-review', children:[
+		{ type: 'item', text: '我发送的', path: '/task/review/sent', icon: 'iconfont el-icon-my-send'},
+		{ type: 'item', text: '待我审核', path: '/task/review/my', icon: 'iconfont el-icon-my-received'},
 	]},
-	{ type: 'submenu', text: '我的关注', path: '/task/monitor', icon: 'iconfont el-icon-my-task', children:[
-		{ type: 'item', text: '新申请', path: '/task/monitor/application', icon: '' },
-		{ type: 'item', text: '法限案件', path: '/task/monitor/oa', icon: '' },
+	{ type: 'submenu', text: '我的关注', path: '/task/monitor', icon: 'iconfont el-icon-my-star', children:[
+		{ type: 'item', text: '新申请', path: '/task/monitor/application', icon: 'iconfont el-icon-my-order' },
+		{ type: 'item', text: '法限案件', path: '/task/monitor/oa', icon: 'iconfont el-icon-my-due' },
 	] },
 
 ];
 
 const patentMenu = [
 	{ type: 'item', text: '专利管理', path: '/patent/list', icon: 'iconfont el-icon-my-patent' },
-	{ type: 'item', text: '立案管理', path: '/patent/draftbox', icon: 'iconfont el-icon-my-patent' },
-	{ type: 'item', text: '通知书管理', path: '/patent/notice', icon: 'iconfont el-icon-my-patent' },
+	{ type: 'item', text: '立案管理', path: '/patent/draftbox', icon: 'iconfont el-icon-my-new' },
+	{ type: 'item', text: '通知书管理', path: '/patent/notice', icon: 'iconfont el-icon-my-notice' },
 ];
 const trademarkMenu = [
 	{ type: 'item', text: '商标管理', path: '/trademark/list', icon: 'iconfont el-icon-my-trademark' },
@@ -48,41 +48,41 @@ const projectMenu = [
 ]
 
 const crmMenu = [
-	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont el-icon-my-task'},
-	{ type: 'item', text: '订单管理', path: '/crm/orders', icon: 'iconfont el-icon-my-task'},
-	{ type: 'submenu', text: '客户数据', path: '/crm/data', icon: 'iconfont el-icon-my-task', children:[
-		{ type: 'item', text: '申请人管理', path: '/crm/data/applicants', icon: 'iconfont icon-proposer' },
-		{ type: 'item', text: '发明人管理', path: '/crm/data/inventors', icon: 'iconfont icon-proposer' },
-		{ type: 'item', text: '联系人管理', path: '/crm/data/contacts', icon: 'iconfont icon-proposer'},
-		{ type: 'item', text: '客户备注', path: '/crm/data/remarks', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '合同管理', path: '/crm/contracts', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '开票信息', path: '/crm/data/invoice_targets', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '报价管理', path: '/crm/data/quotations', icon: 'iconfont icon-contract'},
+	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont el-icon-my-customer'},
+	{ type: 'item', text: '订单管理', path: '/crm/orders', icon: 'iconfont el-icon-my-order'},
+	{ type: 'submenu', text: '客户数据', path: '/crm/data', icon: 'iconfont el-icon-my-data', children:[
+		{ type: 'item', text: '申请人管理', path: '/crm/data/applicants', icon: 'iconfont el-icon-my-people' },
+		{ type: 'item', text: '发明人管理', path: '/crm/data/inventors', icon: 'iconfont el-icon-my-bulb' },
+		{ type: 'item', text: '联系人管理', path: '/crm/data/contacts', icon: 'iconfont el-icon-my-contact'},
+		{ type: 'item', text: '客户备注', path: '/crm/data/remarks', icon: 'iconfont el-icon-my-remark'},
+		{ type: 'item', text: '合同管理', path: '/crm/contracts', icon: 'iconfont el-icon-my-contract'},
+		{ type: 'item', text: '开票信息', path: '/crm/data/invoice_targets', icon: 'iconfont el-icon-my-voucher'},
+		{ type: 'item', text: '报价管理', path: '/crm/data/quotations', icon: 'iconfont el-icon-my-quotation'},
 	] },
-	{ type: 'submenu', text: '账款管理', path: '/crm/finance', icon: 'iconfont el-icon-my-task', children:[
-		{ type: 'item', text: '待请费用', path: '/crm/finance/fee', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '请款管理', path: '/crm/finance/payment_request', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '回款管理', path: '/crm/finance/payment_recevied', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '发票管理', path: '/crm/finance/invoice', icon: 'iconfont icon-contract'},
+	{ type: 'submenu', text: '账款管理', path: '/crm/finance', icon: 'iconfont el-icon-my-invoice', children:[
+		{ type: 'item', text: '待请费用', path: '/crm/finance/fee', icon: 'iconfont el-icon-my-fee'},
+		{ type: 'item', text: '请款管理', path: '/crm/finance/payment_request', icon: 'iconfont el-icon-my-payment-request'},
+		{ type: 'item', text: '回款管理', path: '/crm/finance/payment_recevied', icon: 'iconfont el-icon-my-received-payment'},
+		{ type: 'item', text: '发票管理', path: '/crm/finance/invoice', icon: 'iconfont el-icon-my-voucher'},
 	] },
-	{ type: 'submenu', text: '通知发文', path: '/crm/notice', icon: 'iconfont el-icon-my-task', children:[
-		{ type: 'item', text: '官文', path: '/crm/notice/notices', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '报表', path: '/crm/notice/reports', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '年费', path: '/crm/notice/renewals', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '快递', path: '/crm/notice/expresses', icon: 'iconfont icon-contract'},
+	{ type: 'submenu', text: '通知发文', path: '/crm/notice', icon: 'iconfont el-icon-my-email', children:[
+		{ type: 'item', text: '官文', path: '/crm/notice/notices', icon: 'iconfont el-icon-my-notice'},
+		{ type: 'item', text: '报表', path: '/crm/notice/reports', icon: 'iconfont el-icon-my-report'},
+		{ type: 'item', text: '年费', path: '/crm/notice/renewals', icon: 'iconfont el-icon-my-renewal-fee'},
+		{ type: 'item', text: '快递', path: '/crm/notice/expresses', icon: 'iconfont el-icon-my-express'},
 	] },
-	{ type: 'submenu', text: '供应商管理', path: '/crm/suppliers', icon: 'iconfont el-icon-my-task', children:[
-		{ type: 'item', text: '供应商管理', path: '/crm/suppliers/lists', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '待付费用', path: '/crm/suppliers/fees', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '付款管理', path: '/crm/suppliers/payments', icon: 'iconfont icon-contract'},
-		{ type: 'item', text: '报价管理', path: '/crm/suppliers/quotations', icon: 'iconfont icon-contract'},
+	{ type: 'submenu', text: '供应商管理', path: '/crm/suppliers', icon: 'iconfont el-icon-my-supplier', children:[
+		{ type: 'item', text: '供应商管理', path: '/crm/suppliers/lists', icon: 'iconfont el-icon-my-supplier'},
+		{ type: 'item', text: '待付费用', path: '/crm/suppliers/fees', icon: 'iconfont el-icon-my-fee'},
+		{ type: 'item', text: '付款管理', path: '/crm/suppliers/payments', icon: 'iconfont el-icon-my-payment'},
+		{ type: 'item', text: '报价管理', path: '/crm/suppliers/quotations', icon: 'iconfont el-icon-my-quotation'},
 	]},
 ];
 
 const financeMenu = [
-	{ type: 'item', text: '应收费用', path: '/finance/fees_to_request', icon: 'iconfont icon-fee-income'},
-	{ type: 'item', text: '应付费用', path: '/finance/fees_to_pay', icon: 'iconfont icon-personel'},
-	{ type: 'item', text: '年费管理', path: '/finance/renewal_fees', icon: 'iconfont icon-personel'},
+	{ type: 'item', text: '应收费用', path: '/finance/fees_to_request', icon: 'iconfont el-icon-my-received-payment'},
+	{ type: 'item', text: '应付费用', path: '/finance/fees_to_pay', icon: 'iconfont el-icon-my-payment'},
+	{ type: 'item', text: '年费管理', path: '/finance/renewal_fees', icon: 'iconfont el-icon-my-renewal-fee'},
 ];
 
 
@@ -92,23 +92,23 @@ const reportMenu = [
 ]
 
 const exchangeMenu = [
-	{ type: 'submenu', text: '文档交互', path: '/exchange/document', icon: 'el-icon-my-patent', children:[
-		{ type: 'item', text: '官文通知', path: '/exchange/document/oa', icon: '' },
-		{ type: 'item', text: '费用单据', path: '/exchange/document/voucher', icon: '' },
-		{ type: 'item', text: '一般文件', path: '/exchange/document/other', icon: '' },
-		{ type: 'item', text: 'CPC通知书', path: '/exchange/document/cpc', icon: '' },
+	{ type: 'submenu', text: '文档交互', path: '/exchange/document', icon: 'iconfont el-icon-my-notice', children:[
+		{ type: 'item', text: '官文通知', path: '/exchange/document/oa', icon: 'iconfont el-icon-my-notice' },
+		{ type: 'item', text: '费用单据', path: '/exchange/document/voucher', icon: 'iconfont el-icon-my-voucher' },
+		{ type: 'item', text: '一般文件', path: '/exchange/document/other', icon: 'iconfont el-icon-my-file' },
+		{ type: 'item', text: 'CPC通知书', path: '/exchange/document/cpc', icon: 'iconfont el-icon-my-patent' },
 	]},
 	{ 
 		type: 'submenu', 
 		text: '客户端同步', 
 		path: '/exchange/client',
-		icon: 'iconfont el-icon-my-patent',
+		icon: 'iconfont el-icon-my-sync',
 		children: [
-			{ type: 'item', text: '通知书', path: '/exchange/client/notices', icon: '' },
-			{ type: 'item', text: '递交包', path: '/exchange/client/archives', icon: '' },
+			{ type: 'item', text: '通知书', path: '/exchange/client/notices', icon: 'iconfont el-icon-my-notice' },
+			{ type: 'item', text: '递交包', path: '/exchange/client/archives', icon: 'iconfont el-icon-my-archive' },
 		],
 	},
-	{ type: 'item', text: '邮件', path: '/exchange/mails', icon: 'el-icon-my-patent' },
+	{ type: 'item', text: '邮件', path: '/exchange/mails', icon: 'el-icon-my-email' },
 ];
 
 const dataInsiderMenu = [
@@ -117,34 +117,34 @@ const dataInsiderMenu = [
 
 
 const settingMenu = [
-	{ type: 'item', text: '个人设置', path: '/setting/my', icon: 'iconfont el-icon-my-set-copy' },
-	{ type: 'item', text: '用户管理', path: '/setting/users', icon: 'iconfont el-icon-my-users' },
+	{ type: 'item', text: '个人设置', path: '/setting/my', icon: 'iconfont el-icon-my-personal-setting' },
+	{ type: 'item', text: '用户管理', path: '/setting/users', icon: 'iconfont el-icon-my-people' },
 	
 	// { type: 'item', text: '组织架构', path: '/setting/branch', icon: 'iconfont el-icon-my-department' },
-	{ type: 'item', text: '技术分类管理', path: '/setting/classifications', icon: 'iconfont el-icon-my-techonology' },
-	{ type: 'item', text: '产品分类管理', path: '/setting/products', icon: 'iconfont el-icon-my-products' },
+	{ type: 'item', text: '技术分类管理', path: '/setting/classifications', icon: 'iconfont el-icon-my-org' },
+	{ type: 'item', text: '产品分类管理', path: '/setting/products', icon: 'iconfont el-icon-my-product-category' },
 	// { type: 'item', text: '报价管理', path: '/setting/offer', icon: 'iconfont el-icon-my-organization' },
 	{
 		text: '字段权限管理',
 		path: '/setting/field',
-		icon: 'iconfont el-icon-my-set-copy',
+		icon: 'iconfont el-icon-my-authority',
 		type: 'item',
 	},
-	{ type: 'item', text: '邮件模板管理', path: '/setting/mail_templates', icon: 'iconfont el-icon-my-products' },
-	{ type: 'submenu', text: '流程自定义', path: '/setting/flow', icon: 'iconfont el-icon-my-system',
+	{ type: 'item', text: '邮件模板管理', path: '/setting/mail_templates', icon: 'iconfont el-icon-my-template' },
+	{ type: 'submenu', text: '流程自定义', path: '/setting/flow', icon: 'iconfont el-icon-my-flow',
 		children:[
-			{type: 'item', text: '管制事项', path: '/setting/flow/definitions', icon: 'iconfont el-icon-my-system'},
-			{type: 'item', text: '流程管理', path: '/setting/flow/flows', icon: 'iconfont el-icon-my-system'},
-			{type: 'item', text: '流程节点', path: '/setting/flow/actions', icon: 'iconfont el-icon-my-system'},
+			{type: 'item', text: '管制事项', path: '/setting/flow/definitions', icon: 'iconfont el-icon-my-task-def'},
+			{type: 'item', text: '流程管理', path: '/setting/flow/flows', icon: 'iconfont el-icon-my-flow-def'},
+			{type: 'item', text: '流程节点', path: '/setting/flow/actions', icon: 'iconfont el-icon-my-node'},
 		]
     },
-	{ type: 'submenu', text: '基础数据', path: '/setting/data', icon: 'iconfont el-icon-my-system',
+	{ type: 'submenu', text: '基础数据', path: '/setting/data', icon: 'iconfont el-icon-my-data',
 		children:[
-			{type: 'item', text: '收款账户', path: '/setting/data/payment_accounts', icon: 'iconfont el-icon-my-system'},
-			{type: 'item', text: '费用类型', path: '/setting/data/fee_codes', icon: 'iconfont el-icon-my-system'},
-			{type: 'item', text: '文件类型', path: '/setting/data/file_types', icon: 'iconfont el-icon-my-system'},
-			{type: 'item', text: '案件状态', path: '/setting/data/stages', icon: 'iconfont el-icon-my-system'},
-			{ type: 'item', text: '服务项目', path: '/setting/services', icon: 'iconfont el-icon-my-users' },
+			{type: 'item', text: '收款账户', path: '/setting/data/payment_accounts', icon: 'iconfont el-icon-my-account'},
+			{type: 'item', text: '费用类型', path: '/setting/data/fee_codes', icon: 'iconfont el-icon-my-fee-type'},
+			{type: 'item', text: '文件类型', path: '/setting/data/file_types', icon: 'iconfont el-icon-my-category'},
+			{type: 'item', text: '案件状态', path: '/setting/data/stages', icon: 'iconfont el-icon-my-status'},
+			{ type: 'item', text: '服务项目', path: '/setting/services', icon: 'iconfont el-icon-my-service' },
 			// {type: 'item', text: '原始记录', path: '/setting/data/entity_changes', icon: 'iconfont el-icon-my-system'},
 		]
     },
@@ -152,7 +152,7 @@ const settingMenu = [
 ];
 
 const homeMenu = [
-	{ type: 'item', text: '首页', path: '/home', icon: 'iconfont el-icon-my-system' },
+	{ type: 'item', text: '首页', path: '/home', icon: 'iconfont el-icon-my-home' },
 ]
 
 menu.source = [

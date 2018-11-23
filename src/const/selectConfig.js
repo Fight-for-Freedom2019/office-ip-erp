@@ -412,13 +412,6 @@ const config = [
       return data.services.data.map(_=>{return {id: _.id, name: _.name}});
     },
   }],
-  ['flow_node', {
-    placeholder: '请选择流程节点',
-    url: '/flownodes',
-    handle: _=>_.flownodes,
-    // set: 'setFlowNodes',
-    // refresh: 'refreshFlowNodes',
-  }],
   ['task_def', {
     placeholder: '请选择管制事项',
     options: 'taskDefsData',
