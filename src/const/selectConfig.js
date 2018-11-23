@@ -704,9 +704,21 @@ const config = [
         {id: 8, name: '待回款'},
         {id: 9, name: '已回款'},
         {id: 10, name: '已删除'},
+    ]
+  }],
+  ['invoice_status_fee', {
+    placeholder: '付款单状态',
+    options: [
+        {id: 0, name: '待审核'},
+        {id: 1, name: '流程主管审核中'},
+        {id: 2, name: '根据流程主管意见修改'},
+        {id: 3, name: '财务主管审核中'},
+        {id: 4, name: '根据财务主管意见修改'},
+        {id: 14, name: '总经理审核中'},
         {id: 11, name: '待上传票据'},
         {id: 12, name: '待付款'},
         {id: 13, name: '已付款'},
+        {id: 10, name: '已删除'},
     ]
   }],
   ['fee_code', {

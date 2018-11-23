@@ -101,14 +101,12 @@
             data:Object,
             type:String,
         },
-        created(){
-            // if(Object.keys(this.data).length !== 0){
-            //     this.$tool.coverObj(this.form,this.data);
-            // }
+        mounted(){
+            this.coverObj(this.data);
         },
         watch:{
             data:function (val,oldVal) {
-                this.$tool.coverObj(this.form,val);
+                this.coverObj(val);
             }
         },
         methods:{
@@ -141,7 +139,13 @@
                         this.$message({type:"warning",message:"请正确填写"});
                     }
                 })
-            }
+            },
+            coverObj(val){
+                val?this.$tool.coverObj(this.form,val):"";
+            },
+            clear(){
+                this.$refs.form.resetFields();
+            },
         },
         components:{
             RemoteSelect,

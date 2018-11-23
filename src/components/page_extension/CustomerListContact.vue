@@ -2,7 +2,7 @@
     <div>
         <table-component :data="tableData" :tableOption="option" ref="table"
                          @refreshTableData='refreshTableData'></table-component>
-        <pop @refresh="refresh" @update="update" ref="pop" :customer="customer" :contact_id="contact_id"></pop>
+        <pop @refresh="refresh" @update="update" ref="pop" :URL="URL" :customer="customer" :contact_id="contact_id"></pop>
     </div>
 </template>
 <script>
@@ -12,15 +12,14 @@
     import {mapGetters} from 'vuex'
 
     const config = new Map(Config);
-    const URL = '/customers';
     export default {
         name: 'ClientlistLinkman',
-        props: ['customer', 'itemData'],
+        props: ['customer', 'itemData','URL'],
         data() {
             return {
                 option: {
                     name: 'ClientlistLinkman',
-                    url: URL,
+                    URL: this.url,
                     is_search: true,
                     header_btn: [
                         {type: 'add', click: this.addPop},
@@ -65,6 +64,9 @@
             ...mapGetters([
                 'caseMap',
             ]),
+            url(){
+              return this.URL;
+            },
         },
         methods: {
             addPop() {
@@ -75,7 +77,7 @@
                     this.tableData = _.data;
                 }
                 this.$axiosGet({
-                    url: `${URL}/${this.customer.id}/contacts`,
+                    url: `${this.URL}/${this.customer.id}/contacts`,
                     data: Object.assign({}, option),
                     success,
                 })

@@ -18,16 +18,16 @@ import StaticSelect from '@/components/form/StaticSelect'
 import { strainerConfig } from '@/const/fieldConfig' 
 const urlMap = new Map([
   ['process',{ URL: '/processes/filters' }],
-  ['applicants',{ URL: '/applicants/filters' }],
-  ['inventors',{ URL: '/inventors/filters' }],
-  ['contacts',{ URL: '/contacts/filters' }],
-  ['remarks',{ URL: '/remarks/filters' }],
-  ['contracts',{ URL: '/contracts/filters' }],
-  ['invoice_targets',{ URL: '/invoice_targets/filters' }],
-  ['fees',{ URL: '/fees/filters' }],
-  ['invoices',{ URL: '/invoices/filters' }],
-  ['received_payments',{ URL: '/received_payments/filters' }],
-  ['invoice_request',{ URL: '/vouchers/filters' }],
+  ['applicants',{ URL: '/filters/applicants' }],
+  ['inventors',{ URL: '/filters/inventors' }],
+  ['contacts',{ URL: '/filters/contacts' }],
+  ['remarks',{ URL: '/filters/remarks' }],
+  ['contracts',{ URL: '/filters/contracts' }],
+  ['invoice_targets',{ URL: '/filters/invoice_targets' }],
+  ['fees',{ URL: '/filters/fees' }],
+  ['invoices',{ URL: '/filters/invoices' }],
+  ['received_payments',{ URL: '/filters/received_payments' }],
+  ['invoice_request',{ URL: '/filters/vouchers' }],
 
 ]);
 export default {

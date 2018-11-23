@@ -12,23 +12,25 @@
                     <customer-add ref="basicInfo" popType="edit" :customer="row"
                                   @refresh="handleRefresh"></customer-add>
                 </el-tab-pane>
-                <el-tab-pane label="申请人" name="applicants">
-                    <detail-applicant ref="applicants" :customer="row" :itemData="appData"></detail-applicant>
-                </el-tab-pane>
-                <el-tab-pane label="发明人" name="inventors">
-                    <detail-inventor ref="inventors" :customer="row" :itemData="inventorsData"></detail-inventor>
-                </el-tab-pane>
+                <template v-if="!is_suppliers"><!-- 供应商管理不需要申请人和发明人 -->
+                    <el-tab-pane label="申请人" name="applicants">
+                        <detail-applicant ref="applicants" :customer="row" :itemData="appData"></detail-applicant>
+                    </el-tab-pane>
+                    <el-tab-pane label="发明人" name="inventors">
+                        <detail-inventor ref="inventors" :customer="row" :itemData="inventorsData"></detail-inventor>
+                    </el-tab-pane>
+                </template>
                 <el-tab-pane label="联系人" name="contacts">
-                    <detail-contact ref="contacts" :customer="row" :itemData="contactsData"></detail-contact>
+                    <detail-contact ref="contacts" :URL="URL" :customer="row" :itemData="contactsData"></detail-contact>
                 </el-tab-pane>
                 <el-tab-pane label="合同" name="contracts">
-                    <detail-contract ref="contracts" :customer="row" :itemData="contractsData"></detail-contract>
+                    <detail-contract ref="contracts" :URL="URL" :customer="row" :itemData="contractsData"></detail-contract>
                 </el-tab-pane>
                 <!-- <el-tab-pane label="报价单" name="quotation">
                     <detail-quotation  :customer="row"></detail-quotation>
                 </el-tab-pane> -->
                 <el-tab-pane label="客户备注" name="remarks">
-                    <detail-remark ref="remarks" :customer="row" :itemData="remarksData"></detail-remark>
+                    <detail-remark ref="remarks" :URL="URL" :customer="row" :itemData="remarksData"></detail-remark>
                 </el-tab-pane>
             </el-tabs>
         </app-shrink>
@@ -62,7 +64,9 @@
                 type: Boolean,
                 default: true
             },
-            title: String
+            title: String,
+            URL:String,
+            is_suppliers:Boolean,
         },
         data() {
             return {

@@ -199,7 +199,7 @@ const map = new Map([
     ]],
     /* 待请费用 */
     ['fees', [
-        { type: 'remote_select',    id: 'user.customer.name',              name: '客户',           data_key: 'data',          url: '/customers'},
+        { type: 'remote_select',    id: 'customer',              name: '客户',           data_key: 'data',          url: '/customers'},
         { type: 'text',    id: 'title',        name: '标题'},
         { type: 'text',    id: 'application_number',        name: '申请号'},
         { type: 'date',    id: 'application_date',        name: '申请日'},

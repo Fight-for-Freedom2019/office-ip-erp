@@ -85,7 +85,7 @@
     import StaticSelect from "@/components/form/StaticSelect";
 
     export default {
-        name: "WaitForPaymentAdd",
+        name: "RequestPayoutAdd",
         data() {
             return {
                 URL: "/fees",
@@ -102,7 +102,6 @@
                     order_id: "",
                     fee_code:"",
                     remark:"",
-                    is_debit:1,
                     payment_request_timing:"",
                     policy:"",
                 },
@@ -123,7 +122,10 @@
         props:{
             rowData:{
                 type:Object,
-            }
+            },
+            is_debit:{
+              type:[Number,String],
+            },
         },
         methods: {
             save(type,id) {
@@ -132,6 +134,8 @@
                         let url;
                         let message;
                         let fun;
+                        let data = Object.assign({},this.form);
+                        data.is_debit = this.is_debit;
                         if (type === "add"){
                             url = this.URL;
                             message = "创建";
@@ -146,7 +150,7 @@
                             this.$message({type: "success", message: `${message}费用成功!`});
                             this.$emit(fun);
                         };
-                        type === "add" ? this.$axiosPost({url, data:this.form, success}):this.$axiosPut({url, data:this.form, success});
+                        type === "add" ? this.$axiosPost({url, data, success}):this.$axiosPut({url, data, success});
                     }
 
                 })

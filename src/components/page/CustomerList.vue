@@ -1,4 +1,5 @@
 <!--客户管理-->
+<!-- 供应商管理的需求和客户管理的需求很相似，只有接口不一样，然后没有申请人和发明人两项的添加 -->
 <template>
     <div class="customerList">
         <table-component :tableOption="tableOption" :data="tableData" ref="table"
@@ -9,7 +10,7 @@
           <span slot="header" style="float: right;">
             <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
           </span>
-            <customer-list-add ref="customerAdd" @refresh="addSuccess" popType="add"></customer-list-add>
+            <customer-list-add ref="customerAdd" :URL="URL" @refresh="addSuccess" popType="add"></customer-list-add>
         </app-shrink>
 
         <!-- 客户详情面板 -->
@@ -20,6 +21,8 @@
                 :id="currentRow.id"
                 :row="currentRow"
                 ref="detail"
+                :URL="URL"
+                :is_suppliers="is_suppliers"
                 @editSuccess="refresh">
         </customer-list-detail>
 
@@ -32,16 +35,17 @@
     import CustomerListAdd from '@/components/page_extension/CustomerListAdd'
     import {mapGetters} from 'vuex'
 
-    const URL = '/customers';
     export default {
         name: 'customerList',
         data() {
             return {
                 popType: '',
+                URL:"/customers",
                 isCustomerAddPanelVisible: false,
+                is_suppliers:false,
                 tableOption: {
                     'name': 'customerList',
-                    'url': URL,
+                    'url': this.URL,
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
@@ -106,7 +110,7 @@
                     this.tableData = _.data;
                 }
                 this.$axiosGet({
-                    url: URL,
+                    url: this.URL,
                     data: Object.assign({}, option),
                     success,
                 })

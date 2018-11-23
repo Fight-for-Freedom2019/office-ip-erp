@@ -91,6 +91,7 @@
                 }
             },
             contractsID:Number,
+            URL:String,
         },
         data() {
             return {
@@ -165,7 +166,7 @@
             },
             add() {
                 //if (this.form.name !== '') {
-                const url = `${URL}/${this.customer.id}/contracts`;
+                const url = `${this.URL}/${this.customer.id}/contracts`;
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 data.contact_id = data.contact;
@@ -186,7 +187,7 @@
                 this.form.status = val;
             },
             edit() {
-                const url = `${URL}/${this.customer.id}/contracts/${this.contractsID}`;
+                const url = `${this.URL}/${this.customer.id}/contracts/${this.contractsID}`;
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 data.contact_id = data.contact;
