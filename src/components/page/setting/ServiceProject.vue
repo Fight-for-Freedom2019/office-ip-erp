@@ -4,11 +4,9 @@
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" v-if="compileType === 'add'" @click="
-                ('add')">新建</el-button>
+                <el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>
                 <el-button type="primary" size="small" v-if="compileType === 'edit'"
-                           @click="
-                           ('edit')">保存</el-button>
+                           @click="save('edit')">保存</el-button>
             </span>
             <service-add :type="compileType" :data = "rowData" ref="ServiceAdd" @update="update" @refresh="refresh"></service-add>
         </app-shrink>

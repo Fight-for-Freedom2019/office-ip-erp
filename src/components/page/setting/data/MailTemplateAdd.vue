@@ -172,16 +172,19 @@ export default {
         coverObj(val){
             val?this.$tool.coverObj(this.form, val, {skip: ['to','cc', 'bcc']}):"";
             if(val['to']) {
-                this.form.to.type = val['to']['type'];
-                this.form.to.users = val['to']['user'].map(_=>_.id!= undefined ? _.id :'');
+                this.form.to.type = val['to']['type']['id'];
+                const to_value = val['to']['users']
+                this.form.to.users = to_value;
             }    
             if(val['cc']) {
-                this.form.cc.type = val['cc']['type'];
-                this.form.cc.users = val['cc']['user'].map(_=>_.id!= undefined ? _.id :'');
+                this.form.cc.type = val['cc']['type']['id'];
+                 const cc_value = val['cc']['users']
+                this.form.cc.users = cc_value;
             }     
             if(val['bcc']) {
-                this.form.bcc.type = val['bcc']['type'];
-                this.form.bcc.users = val['bcc']['user'].map(_=>_.id!= undefined ? _.id :'');
+                this.form.bcc.type = val['bcc']['type']['id'];
+                const bcc_value = val['bcc']['users']
+                this.form.bcc.users = bcc_value;
             }
         },
         onEditorBlur () {

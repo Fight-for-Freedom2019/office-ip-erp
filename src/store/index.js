@@ -140,6 +140,7 @@ const store = new Vuex.Store({
         }
         if(key !== 'placeholder') {
           for (let index in value) {
+              index = typeof index == 'string' && /^[0-9]+.?[0-9]*$/.test(index)? index-0: index;
               arr.push({id: index, name: value[index]});
           }
               o.options = arr;

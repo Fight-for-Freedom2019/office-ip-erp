@@ -85,11 +85,13 @@ export default {
     ]),
     cacheData () {
       let obj = {};
+      // 将远程获取的静态map转为对象
       for(let[k,v] of this.getHashMaps) {
-        obj[k] = v
+        obj[k] = v.options
       }
-      const cache = Object.assign({},this.staticSelectorCache[this.type], obj);
-      return cache
+      // 合并两对象数组
+      const cache = {...this.staticSelectorCache, ...obj}
+      return cache[this.type]
     },
     config () {
       const config = this.MergeSelectorMap.get(this.type);
