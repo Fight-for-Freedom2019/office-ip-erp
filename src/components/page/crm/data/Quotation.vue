@@ -1,6 +1,6 @@
-<!-- 收款账户 -->
+<!-- 报价 -->
 <template>
-    <div class="FileType">
+    <div class="Quotation">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
@@ -9,7 +9,7 @@
                 <el-button type="primary" size="small" v-if="compileType === 'edit'"
                            @click="save('edit')">保存</el-button>
             </span>
-            <file-type-add :type="compileType" :data = "rowData" ref="FileTypeAdd" @update="update" @refresh="refresh"></file-type-add>
+            <quotation-add :type="compileType" :data = "rowData" ref="QuotationAdd" @update="update" @refresh="refresh"></quotation-add>
         </app-shrink>
     </div>
 </template>
@@ -17,27 +17,27 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
-    import FileTypeAdd from '@/components/page/setting/data/FileTypeAdd'
+    import QuotationAdd from '@/components/page/crm/data/QuotationAdd'
     import TableMixins from '@/mixins/table-mixins'
     import Config from "@/const/selectConfig"
 
     const config = new Map(Config);
 
     export default {
-        name: "FileType",
+        name: "Quotation",
         mixins: [TableMixins],
         data() {
             return {
-                URL: "/file_types",
+                URL: "/quotations",
                 tableOption: {
-                    'name': 'FileTypeList',
-                    'url': "/file_types",
+                    'name': 'QuotationList',
+                    'url': "/quotations",
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
                     'is_list_filter': false,
                     'list_type': 'serial',
-                    'search_placeholder': '文件类型名称',
+                    'search_placeholder': '报价名称',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
                         {type: 'add', click: this.add},
@@ -47,17 +47,10 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {
-                            type: 'text', label: '案件类型', prop: 'project_category',render_simple:'name', width: '100'
-                        },
-                        {type: 'text', label: '文件类型', prop: 'category',render_simple:'name', width: '120'},
-                        {type: 'text', label: '文件类型名称', prop: 'name', min_width: '200'},
-                        {type: 'text', label: '文件类型简称', prop: 'abbr', width: '120'},
-                        {type: 'text', label: '上传触发管制事项', prop: 'process_definition',render_simple:'name', width: '130'},
-                        {type: 'text', label: '上传后案件阶段', prop: 'project_stage',render_simple:'name', width: '120'},
-                        {type: 'text', label: '上传时填写字段', prop: 'fields', width: '120'},
-                        {type: 'text', label: '上传时执行逻辑', prop: 'behavior', width: '120'},
-                        {type: 'text', label: '排序', prop: 'sort', width: '100'},
+                        {type: 'text', label: '报价对象', prop: 'user',render_simple:'name', min_width: '120'},
+                        {type: 'text', label: '服务项目', prop: 'service',render_simple:'name', min_width: '100'},
+                        {type: 'text', label: '报价', prop: 'price', min_width: '120'},
+                        {type: 'text', label: '备注', prop: 'remark', min_width: '120'},
                     ],
                 },
                 compileType: "add",
@@ -86,23 +79,23 @@
                 this.rowID = row.id;
                 this.openVisible("isPanelVisible");
                 this.compileType = "edit";
-                this.title = `编辑文件类型>${row.name}`
+                this.title = `编辑报价>${row.name}`
             },
             add() {
                 this.rowData = {};
-                this.title = "新增文件类型";
+                this.title = "新增报价";
                 this.compileType = "add";
                 this.openVisible("isPanelVisible");
-                this.$refs.FileTypeAdd?this.$refs.FileTypeAdd.clear():"";
+                this.$refs.QuotationAdd?this.$refs.QuotationAdd.clear():"";
             },
             save(type) {
-                this.$refs.FileTypeAdd.submitForm(type,this.rowID)
+                this.$refs.QuotationAdd.submitForm(type,this.rowID)
             },
         },
         components: {
             TableComponent,
             AppShrink,
-            FileTypeAdd,
+            QuotationAdd,
         },
     }
 </script>
