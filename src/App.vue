@@ -298,7 +298,6 @@ export default {
       // this.$store.dispatch('refreshFeeCode');
       // this.$store.dispatch('refreshEntity');
       // this.$store.dispatch('refreshGroup');
-      // this.$store.dispatch('refreshFlowNodes');
       // this.$store.dispatch('refreshFileType');
       // this.$store.dispatch('refreshMail');
     };

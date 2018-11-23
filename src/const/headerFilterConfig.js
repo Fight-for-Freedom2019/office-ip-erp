@@ -5,7 +5,7 @@ const map = new Map([
         { type: 'text',             id: 'serial',                name: '案号'},
         { type: 'text',             id: 'title',                 name: '标题'},
         { type: 'static_select',    id: 'process_definition',     name: '管制事项',      map_type: 'task_def'},
-        { type: 'static_select',    id: 'task',           name: '当前节点',      map_type: 'flow_node',     url: '/flownodes'},
+        { type: 'static_select',    id: 'task',                 name: '当前节点',      map_type: 'flow_node',     url: '/actions'},
         { type: 'static_select',    id: 'branch',                name: '部门',         map_type: 'branch'},
         { type: 'remote_select',    id: 'user',                  name: '承办人',        data_key: 'data',          url: '/customers'},
         { type: 'remote_select',    id: 'agent',                 name: '代理人',        data_key: 'data',          url: '/customers'},

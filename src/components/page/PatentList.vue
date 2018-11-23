@@ -272,8 +272,6 @@ export default {
       'refreDetailData',
       'initializeSelectorCache',
       'refreshFlows',
-      'refreshTaskDefs',
-      'refreshFlownodes'
     ]),
     // toggle() {
     //   console.log('aa')
@@ -436,7 +434,6 @@ export default {
     this.initializeSelectorCache({type: 'file_type_patent_notice'});
     this.refreshFlows();
     this.refreshTaskDefs();
-    this.refreshFlownodes();
   },
   mounted () {
     if(!this.custom) {
