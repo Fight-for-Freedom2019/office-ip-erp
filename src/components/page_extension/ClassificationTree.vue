@@ -102,14 +102,15 @@ export default {
       return data.name.indexOf(value) !== -1;
     },
     renderContent (h,{node, data, store}) {
+      const count = data.patents_count ? data.patents_count : 0
       return (
           <span style="flex: 1;display: flex;align-items: center;justify-content: space-between;">
-            <span>{node.label+'（'+data.patents_count+'）'}</span>
+            <span>{node.label+'（'+count+'）'}</span>
             <span class={this.treeBtn}>
-            <el-button type="text" icon="el-icon-plus" size="mini" onClick={(e)=>{e.stopPropagation();this.addChildTree(node,data,store)}}></el-button>
-            <el-button type="text" icon="el-icon-edit" size="mini" onClick={(e)=>{e.stopPropagation();this.editChildTree(node,data,store)}}></el-button>
-            <el-button type="text" icon="el-icon-delete" size="mini" onClick={(e)=>{e.stopPropagation();this.deleteChildTree(node,data,store)}}></el-button>
-            <el-button type="text" icon="el-icon-sort" size="mini" onClick={(e)=>{e.stopPropagation();this.mergeChildTree(node,data,store)}}></el-button>
+            <el-button type="text" title="添加" icon="el-icon-plus" size="mini" onClick={(e)=>{e.stopPropagation();this.addChildTree(node,data,store)}}></el-button>
+            <el-button type="text" title="编辑" icon="el-icon-edit" size="mini" onClick={(e)=>{e.stopPropagation();this.editChildTree(node,data,store)}}></el-button>
+            <el-button type="text" title="删除" icon="el-icon-delete" size="mini" onClick={(e)=>{e.stopPropagation();this.deleteChildTree(node,data,store)}}></el-button>
+            <el-button type="text" title="合并" icon="el-icon-sort" size="mini" onClick={(e)=>{e.stopPropagation();this.mergeChildTree(node,data,store)}}></el-button>
             </span>
           </span>
         )

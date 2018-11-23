@@ -1,12 +1,12 @@
 <template>
   <div>
 	<app-shrink :visible.sync="dialogVisible" :title="title" size="small">
-	  <el-form :model="form" :rules="rules" ref="form">
+	  <el-form label-width="100px" :model="form" :rules="rules" ref="form">
 	    <el-form-item label="用户组" prop="roles">
-	      <remote-select type="user" v-model="form.roles" multiple></remote-select>
+	      <remote-select type="roles" v-model="form.roles" multiple></remote-select>
 	    </el-form-item>
 	    <el-form-item label="所属部门" prop="organization_units">
-	      <remote-select type="user" v-model="form.organization_units" multiple></remote-select>
+	      <static-select type="branch" v-model="form.organization_units" multiple></static-select>
 	    </el-form-item>
 	    <el-form-item label="用户名" prop="user_name">
 	      <el-input v-model="form.user_name" placeholder="请输入用户名"></el-input>
@@ -37,6 +37,9 @@
 		</el-form-item>
 		<el-form-item label="是否使用SSL" prop="is_ssl">
     	  <app-switch v-model="form.is_ssl" type="is"></app-switch>
+		</el-form-item>		
+		<el-form-item label="是否激活" prop="is_active" v-if="type=='edit'">
+    	  <app-switch v-model="form.is_active" type="is"></app-switch>
 		</el-form-item>
 		<el-form-item style="margin-bottom: 0px;">
 			<el-button v-if="type == 'add'" type="primary" :disabled="btn_disabled" @click="add">添加</el-button>
@@ -49,6 +52,7 @@
 <script>
 import AppShrink from '@/components/common/AppShrink'
 import RemoteSelect from '@/components/form/RemoteSelect'
+import StaticSelect from '@/components/form/StaticSelect'
 import AppSwitch from '@/components/form/AppSwitch'	
 import PopMixins from '@/mixins/pop-mixins'
 export default {
@@ -71,18 +75,19 @@ export default {
  	  	smtp_server: '',
  	  	smtp_port: '',
  	  	is_ssl: 0,
+ 	  	is_active: 0,
  	  },
  	  rules:{
  	  	'roles': { type: 'array', required: true, message: '用户组不能为空', trigger: 'change'},
  	  	'organization_units': { type: 'array', required: true, message: '用户组不能为空', trigger: 'change'},
 		'user_name': [{required: true, message: '用户名称不能为空', trigger: 'blur'},],
-		'password': [{required: true, message: '密码不能为空', trigger: 'blur'},],
+		// 'password': [{required: true, message: '密码不能为空', trigger: 'blur'},],
 		'name': [{required: true, message: '名称不能为空', trigger: 'blur'},],
-		'pop_server': [{required: true, message: 'POP服务器不能为空', trigger: 'blur'},],
-		'pop_port': [{required: true, message: 'POP端口不能为空', trigger: 'blur'},],
-		'smtp_server': [{required: true, message: 'SMTP服务器不能为空', trigger: 'blur'},],
-		'smtp_port': [{required: true, message: 'SMTP端口不能为空', trigger: 'blur'},],
-		'is_ssl': [{required: true, message: 'SSL不能为空', trigger: 'blur'},],
+		// 'pop_server': [{required: true, message: 'POP服务器不能为空', trigger: 'blur'},],
+		// 'pop_port': [{required: true, message: 'POP端口不能为空', trigger: 'blur'},],
+		// 'smtp_server': [{required: true, message: 'SMTP服务器不能为空', trigger: 'blur'},],
+		// 'smtp_port': [{required: true, message: 'SMTP端口不能为空', trigger: 'blur'},],
+		// 'is_ssl': [{required: true, message: 'SSL不能为空', trigger: 'blur'},],
         'email_address': [
             {
                 pattern: /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
@@ -90,7 +95,7 @@ export default {
                 trigger: 'blur',
                 required: true,
             }],
-        'phone_number': {required: true,pattern: /^1[345678]\d{9}$/, message: '手机号码或者座机号码格式错误', trigger: 'blur'}, 	  	
+        // 'phone_number': {required: true,pattern: /^1[345678]\d{9}$/, message: '手机号码或者座机号码格式错误', trigger: 'blur'}, 	  	
  	  },
   	}
   },
@@ -105,6 +110,7 @@ export default {
   components: {
   	AppShrink,
   	RemoteSelect,
+  	StaticSelect,
   	AppSwitch,
   },	
 }	

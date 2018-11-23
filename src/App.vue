@@ -287,7 +287,7 @@ export default {
       //  1.每次使用相关数据的位置添加一个尝试初始化的函数
       //  2.localStorage动态关联 
       this.refreshProduct();
-      // this.refreshBranch();
+      this.refreshBranch();
       this.refreshClassification();
       // this.$store.dispatch('refreshIpr');
       
@@ -593,7 +593,7 @@ nav {
   .tree_btn {
     display: none;
   }
-  .el-tree-node__content:hover .tree_btn {
+  .el-tree-node__content:hover .tree_btn,.is-current>.el-tree-node__content .tree_btn {
     display: inline-block;
   }
   .el-tree-node__expand-icon.is-leaf {

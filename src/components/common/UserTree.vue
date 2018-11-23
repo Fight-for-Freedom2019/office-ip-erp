@@ -106,14 +106,15 @@ export default {
       console.log('调用了');
       console.log(node);
       console.log(this.$refs.userTree);
-
+      console.log(children)
       if(str == 'add') {
         const oldChildren = node.childNodes;
         oldChildren.splice(0,oldChildren.length);
 
         if(!node.isLeaf) {
           console.log('非')
-          this.$refs.userTree.updateKeyChildren(node.data.id,children)
+           node.doCreateChildren(children);
+          // this.$refs.userTree.updateKeyChildren(node.data.id,children)
         }else{
           console.log('叶子')
           node.doCreateChildren(children);
@@ -162,9 +163,9 @@ export default {
           <span style="flex: 1;display: flex;align-items: center;justify-content: space-between;">
             <span>{node.label}</span>
             <span class={this.treeBtn}>
-           {this.radio == 'rolegroups'&& node.level == 2 ? <span></span> : <el-button type="text" icon="el-icon-plus" size="mini" onClick={(e)=>{e.stopPropagation();this.addChildTree(node,data,store)}}></el-button>}
-              <el-button type="text" icon="el-icon-edit" size="mini" onClick={(e)=>{e.stopPropagation();this.editChildTree(node,data,store)}}></el-button>
-              <el-button type="text" icon="el-icon-delete" size="mini" onClick={(e)=>{e.stopPropagation();this.deleteChildTree(node,data,store)}}></el-button>
+           {this.radio == 'rolegroups'&& node.level == 2 ? <span></span> : <el-button type="text" title="添加" icon="el-icon-plus" size="mini" onClick={(e)=>{e.stopPropagation();this.addChildTree(node,data,store)}}></el-button>}
+              <el-button type="text" title="编辑" icon="el-icon-edit" size="mini" onClick={(e)=>{e.stopPropagation();this.editChildTree(node,data,store)}}></el-button>
+              <el-button type="text" title="删除" icon="el-icon-delete" size="mini" onClick={(e)=>{e.stopPropagation();this.deleteChildTree(node,data,store)}}></el-button>
             </span>
           </span>
         )

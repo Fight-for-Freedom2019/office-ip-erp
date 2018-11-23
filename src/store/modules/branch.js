@@ -1,4 +1,4 @@
-let url = '/api/branches';
+let url = '/organization_units';
 const state = {
 	data: [],
 	lastUpdate: '',
@@ -38,7 +38,7 @@ const getters = {
 
 const mutations = {
 	setBranch (state, d) {
-		state.data = d.branches;
+		state.data = d.branches.data;
 		state.lastUpdate = d.last_update;
 	},
 }

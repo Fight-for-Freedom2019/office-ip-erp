@@ -16,9 +16,11 @@
 			<el-form-item label="部门主管" prop="supervisor" v-if="roleType == 'organization'">
 				<remote-select type="user" v-model="form.supervisor" placeholder="请选择部门主管"></remote-select>
 			</el-form-item>
-			<el-form-item v-if="roleType == 'roles'" v-for="item in group_rules" :label="item.name" :key="item.id">
-         		 <app-switch type="status" v-model="item.checked"></app-switch>
-        	</el-form-item>
+			<app-collapse v-for="(item,index) in group_rules" :col-title="item.name" :key="index">
+				<el-form-item v-if="roleType == 'roles'" v-for="value in item.children" :label="value.label" :key="value.id">
+		     		 	<app-switch type="status" v-model="value.checked"></app-switch>
+		    	</el-form-item>
+			</app-collapse>
 			<el-form-item style="margin-bottom: 0px;">
 				<el-button v-if="type == 'add'" type="primary" :disabled="btn_disabled" @click="add">添加</el-button>
 				<el-button v-if="type == 'edit'" type="primary" :disabled="btn_disabled" @click="edit">编辑</el-button>
@@ -33,6 +35,7 @@ import PopMixins from '@/mixins/pop-mixins'
 import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import AppSwitch from '@/components/form/AppSwitch'
+import AppCollapse from '@/components/common/AppCollapse'
 const map = new Map([
 	['organization',{
 		url: '/organization_units',
@@ -159,7 +162,7 @@ export default {
 
 	      const url = `${this.URL}/${data.id}`;
 	      const success = _=>{
-	        this.group_rules = _.group.rules;
+	        this.group_rules = _.data.rules;
 	      };
 	      this.$axiosGet({url, success});
 	    },	    	
@@ -169,6 +172,7 @@ export default {
 		StaticSelect,
 		RemoteSelect,
 		AppSwitch,
+		AppCollapse,
 	}
 }	
 </script>

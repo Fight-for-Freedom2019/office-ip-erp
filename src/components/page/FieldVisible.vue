@@ -40,7 +40,7 @@ export default {
 	data () {
 		return {
 			defaultProps: {
-				label: 'display_name',
+				label: 'name',
 				children: 'children',
 			},
 			tableType:  'Patent',		
@@ -72,6 +72,8 @@ export default {
 			},
 			get () {
 				const map = new Map();
+				console.log('++++++++++++++++++')
+				console.log(this.checkedFields)
 				this.checkedFields.forEach(v => {map.set(v, true)});
 				return this.fields.filter(v => !map.get(v.value)).map(v => v.value);
 			}
@@ -106,7 +108,7 @@ export default {
 						url: `${URL}/${group_id}/except_fields`,
 						data: { model },
 						success: (data) => {
-							except = data.data;
+							except = data.data==null? [] : data.data;
 							this.cache[group_id][model] = except; //缓存
 						}
 					})
@@ -125,8 +127,8 @@ export default {
 			this.saveLoading = true;
 			try {
 				this.$axiosPost({
-					url: URL,
-					data: {group_id, module: model, except},
+					url: `${URL}/${group_id}/except_fields`,
+					data: {role_group_id: group_id, model, except_fields: except},
 					success: () => {
 						this.$message({type: 'success', message: '保存成功'});
 						this.cache[group_id][model] = except;
