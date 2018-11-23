@@ -32,7 +32,7 @@ const ContractsList            = () => import('@/components/page/ContractsList')
 const InvoiceTargets           = () => import('@/components/page/InvoiceTargets')
 
 //CRM模块账款管理
-const WaitForPayment           = () => import('@/components/page/WaitForPayment')     //待请费用
+const RequestPayout             = () => import('@/components/page/RequestPayout')     //待请费用
 const PaymentManage            = () => import('@/components/page/PaymentManage')     //请款管理
 const InvoiceManage            = () => import('@/components/page/InvoiceManage')     //发票管理
 const PaymentRecevied          = () => import('@/components/page/PaymentRecevied')     //回款管理
@@ -119,6 +119,7 @@ const SettingDefinitions           = () => import('@/components/page/setting/dat
 const SettingFlows           = () => import('@/components/page/setting/data/Flows')
 const SettingActions           = () => import('@/components/page/setting/data/Actions')
 const SettingEntityChange           = () => import('@/components/page/setting/data/EntityChange')
+const SettingServiceProject           = () => import('@/components/page/setting/ServiceProject')
 const SettingMailTemplate           = () => import('@/components/page/setting/MailTemplate')
 const SettingSystem            = () => import('@/components/page/SettingSystem')
 
@@ -198,8 +199,8 @@ const router = new Router({
   },
   {
     path: '/crm/finance/fee',
-    name: 'WaitForPayment',
-    component: WaitForPayment,
+    name: 'RequestPayout',
+    component: RequestPayout,
       meta:{
         params:{
             is_debit: 1,
@@ -245,7 +246,12 @@ const router = new Router({
   {
     path: '/crm/suppliers/fees',
     name: 'SuppliersFee',
-    component: SuppliersFee
+    component: SuppliersFee,
+    meta:{
+      params:{
+          status: 11
+      }
+    }
   },
   {
     path: '/crm/suppliers/payments',
@@ -401,7 +407,7 @@ const router = new Router({
     },
     {
       path: '/finance/fees_to_pay',
-      name: 'FeeCommonRequest',
+      name: 'FeeCommonPay',
       component: FeeCommon,
       props: {
         debit: 0,
@@ -465,6 +471,7 @@ const router = new Router({
       component: TechProClassification,
     },
     { path: '/setting/field', name: 'SettingField', component: SettingField },
+    { path: '/setting/services', name: 'ServiceProject', component: SettingServiceProject },
     { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
     { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
     { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },

@@ -29,7 +29,6 @@
     import RemoteSelect from "@/components/form/RemoteSelect";
     const map = new Map(Config);
 
-    const URL = '/customers'
     export default {
         name: 'ContractListPop',
         mixins: [PopMixins],
@@ -48,6 +47,7 @@
                 }
             },
             remarkID:Number,
+            URL:String,
         },
         data() {
             return {
@@ -104,7 +104,7 @@
             },
             add() {
                 //if (this.form.name !== '') {
-                const url = `${URL}/${this.customer.id}/remarks`;
+                const url = `${this.URL}/${this.customer.id}/remarks`;
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 const success = _ => {
@@ -122,7 +122,7 @@
                 this.form.is_publish_name = val;
             },
             edit() {
-                const url = `${URL}/${this.customer.id}/remarks/${this.remarkID}`;
+                const url = `${this.URL}/${this.customer.id}/remarks/${this.remarkID}`;
                 const data = Object.assign({}, this.form);
                 data.customer_id = this.customer.id;
                 map.get("remark_type").options.forEach((_) => {

@@ -34,7 +34,7 @@
                 <el-input v-model="form.address"></el-input>
             </el-form-item>
         </el-form>
-        <linkman-pop @refresh="refresh" ref="pop" isDefaultContacts = "true" @getDefaultContacts = "getDefaultContacts"></linkman-pop>
+        <linkman-pop @refresh="refresh" ref="pop" :URL="URL" isDefaultContacts = "true" @getDefaultContacts = "getDefaultContacts"></linkman-pop>
     </div>
 </template>
 
@@ -47,11 +47,10 @@
     import ProvincialLinkage from '@/components/form/City'
     import LinkmanPop from '@/components/form/LinkmanPop'
 
-    const URL = '/customers'
     export default {
         name: 'CustomerListAdd',
         mixins: [PopMixins],
-        props: ['customer', 'row','popType'],
+        props: ['customer', 'row','popType','URL'],
         data() {
             return {
                 cityInfo: [],
@@ -122,7 +121,7 @@
             },
             add() {
                 if (this.form.name !== '') {
-                    const url = URL;
+                    const url = this.URL;
                     this.form.contact = this.contact;
                     const data = Object.assign({}, this.form);
                     const success = _ => {
@@ -140,7 +139,7 @@
                 this.contact = val;
             },
             edit() {
-                const url = `${URL}/${this.customer.id}`;
+                const url = `${this.URL}/${this.customer.id}`;
                 this.form.contact_id = this.form.contact;
                 const data = Object.assign({}, this.form);
                 const success = _ => {
@@ -183,8 +182,6 @@
             this.coverObj(this.customer);
 
         },
-        URL: '/api/requirements',
-        REMINDER_TEXT: '申请人要求',
     }
 </script>
 

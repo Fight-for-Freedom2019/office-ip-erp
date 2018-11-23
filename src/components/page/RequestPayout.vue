@@ -1,28 +1,29 @@
 <!-- 待请费用 -->
 <template>
-    <div class="WaitForPayment">
+    <div class="RequestPayout">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>
+                <el-button type="primary" size="small" v-if="compileType === 'add'"
+                           @click="save('add','requestPayout')">新建</el-button>
                 <el-button type="primary" size="small" v-if="compileType === 'edit'"
-                           @click="save('edit')">保存</el-button>
+                           @click="save('edit','requestPayout')">保存</el-button>
             </span>
-            <wait-for-payment-add ref="waitForPayment" :rowData="row" @update="update"
-                                  @refresh="refresh"></wait-for-payment-add>
+            <request-payout-add ref="requestPayout" :is_debit="is_debit" :rowData="row" @update="update"
+                                @refresh="refresh"></request-payout-add>
         </app-shrink>
         <el-dialog :visible.sync="dialogCreateNewOrder" :modal="true" width="600px" size="mini" title="将费用新建为请款单">
             <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
-                <span>从选取的费用创建一个新的付款单，用于批量追踪请款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
+                <span>从选取的费用创建一个新的请款单，用于批量追踪请款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
             </div>
             <el-button type="primary" @click="saveOrder('new')">确认新建</el-button>
         </el-dialog>
         <el-dialog :visible.sync="dialogAddToOrder" :modal="true" width="600px" size="mini" title="将费用新建为请款单">
             <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
-                <span>从选取的费用创建一个新的付款单，用于批量追踪请款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
+                <span>从选取的费用创建一个新的请款单，用于批量追踪请款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
             </div>
-            <jump-select style="margin-bottom: 10px;" type="bill" v-model="bill"></jump-select>
+            <jump-select style="margin-bottom: 10px;" :type="invoices" v-model="bill"></jump-select>
             <el-button type="primary" @click="saveOrder('add')">确认添加</el-button>
         </el-dialog>
     </div>
@@ -31,22 +32,20 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
-    import WaitForPaymentAdd from '@/components/page_extension/WaitForPaymentAdd'
+    import RequestPayoutAdd from '@/components/page_extension/RequestPayoutAdd'
     import JumpSelect from '@/components/form/JumpSelect'
     import Config from "@/const/selectConfig"
-    import {mapGetters} from 'vuex'
-    import TableMixins from '@/mixins/table-mixins'
+    import FeeCommon from '@/mixins/fee-common'
+
     const config = new Map(Config);
-    const URL = '/fees';
 
     export default {
-        name: "WaitForPayment",
-        mixins:[TableMixins],
+        name: "RequestPayout",
+        mixins: [FeeCommon('requestPayout')],
         data() {
             return {
-                tableData: [],
                 tableOption: {
-                    'name': 'WaitForPaymentList',
+                    'name': 'RequestPayoutList',
                     'url': "/fees",
                     'height': 'default',
                     'highlightCurrentRow': true,
@@ -71,7 +70,14 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'user.customer.name', min_width: '178', render_header: true},
+                        {
+                            type: 'text',
+                            label: '客户',
+                            prop: 'customer',
+                            render_simple: "name",
+                            min_width: '178',
+                            render_header: true
+                        },
                         {type: 'text', label: '标题', prop: 'title', width: '150', render_header: true},
                         {type: 'text', label: '申请号', prop: 'application_number', width: '150', render_header: true},
                         {type: 'text', label: '申请日', prop: 'application_date', width: '160', render_header: true},
@@ -142,118 +148,18 @@
                         {type: 'text', label: '备注', prop: 'remark', width: '150', render_header: true},
                     ],
                 },
-                compileType: "add",
-                isPanelVisible: false,
-                title: "新增",
-                row: null,
-                dialogCreateNewOrder: false,
-                dialogAddToOrder: false,
-                bill: {},
-                ids: [],
+                is_debit: 1,
+                URL: "/fees",
+                invoices: {
+                    URL: '/invoices',
+                    DATA_KEY: 'invoice',
+                    PLACEHOLDER: '请输入付款单关键词',
+                    PARAMS: {is_debit: 1},
+                },
             }
-        },
-        computed: {
-            ...mapGetters([
-                "areaMap"
-            ]),
-            params(){
-                return this.$route.meta.params;
-            }
-        },
-        methods: {
-            add() {
-                this.isPanelVisible = true;
-                this.title = "新增";
-                this.compileType = "add";
-                this.row = {};
-                this.$refs.waitForPayment ? this.$refs.waitForPayment.clear() : "";
-            },
-            handleRowClick(row) {
-                this.compileType = "edit";
-                this.row = row;
-                this.title = `订单编号: ${row.serial}`;
-                this.isPanelVisible = true;
-            },
-            refreshTableData(option) {
-                const success = _ => {
-                    this.isPanelVisible = false;
-                    this.tableData = _.data;
-                };
-                const data = Object.assign({}, option, this.params);
-                this.$axiosGet({
-                    url: URL,
-                    data: data,
-                    success,
-                })
-            },
-            createNewOrder() {   // 创建新的请款单
-                if (this.ids.length !== 0) {
-                    console.log("createNewOrder", this.ids);
-                    this.dialogCreateNewOrder = true;
-                } else {
-                    this.$message({type: "warning", message: "请至少选择一项！"});
-                }
-            },
-            addToOrder() {   //将费用添加至现有的请款单内
-                if (this.ids.length !== 0) {
-                    this.dialogAddToOrder = true;
-                } else {
-                    this.$message({type: "warning", message: "请至少选择一项！"});
-                }
-            },
-            saveOrder(type) {
-                let url = "";
-                let data = "";
-                let message = "";
-                let dialog = "";
-                if (type === "new") {
-                    url = "/invoices";
-                    data = {
-                        is_debit: 1,
-                        fees: this.ids
-                    };
-                    message = "创建";
-                    dialog = "dialogCreateNewOrder";
-                } else {
-                    url = `/invoices/${this.bill}/fees`;
-                    data = {
-                        is_debit: 1,
-                        fees: this.ids
-                    };
-                    message = "添加";
-                    dialog = "dialogAddToOrder";
-                }
-                const success = _ => {
-                    this.$message({type: "success", message: `${message}成功!`});
-                    this.update();
-                    this.closeVisible(dialog);
-                };
-                const error = _ => {
-                    this.$message({type: "warning", message: `${_.info}`});
-                    this.closeVisible(dialog);
-                };
-                type === "new" ? this.$axiosPost({url, data, success, error}) : this.$axiosPut({
-                    url,
-                    data,
-                    success,
-                    error
-                })
-            },
-            getSelected(flag) {      // 获取选中行的id
-                let _this = this;
-                if (flag) {
-                    _this.ids = [];
-                    _this.$refs.table.getSelect(true).map(function (item) {
-                        _this.ids.push(item.id);
-                    });
-                }
-            },
-            save(type) {
-                this.$refs.waitForPayment.save(type, this.row ? this.row.id : "");
-            },
         },
         components: {
-            WaitForPaymentAdd,
+            RequestPayoutAdd,
             TableComponent,
             AppShrink,
             JumpSelect,

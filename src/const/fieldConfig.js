@@ -35,6 +35,9 @@ const strainerConfig = [
 		{ "name": "递交日", "id": "filing_time",},
 		{ "name": "申请日", "id": "application_date",},
 	]],
+    ['patent',[
+        {"name": "案件类型", "id": "subtype", "default": true},
+    ]],
     ['applicants',[
         { "name": "客户", "id": "customer", "default": true},
     ]],

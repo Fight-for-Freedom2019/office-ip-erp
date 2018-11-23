@@ -74,6 +74,13 @@
                   </template>
               </el-table-column>
           </template>
+          <template v-else-if="col.custom_text ? true : false">
+              <el-table-column :label="col.label" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+                  <template slot-scope="scope">
+                      <el-button type="text" style="padding: 0;" @click="handleActionCommand(col.click, scope, $event)">{{col.custom_text}}</el-button>
+                  </template>
+              </el-table-column>
+          </template>
           <template v-else>
               <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
                   <template slot-scope="scope">

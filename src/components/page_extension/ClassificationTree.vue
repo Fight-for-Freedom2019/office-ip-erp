@@ -1,7 +1,7 @@
 <template>
   <div class="classfication-tree" :style="{height: innerHeight-70 + 'px'} ">
     <span style="width: 100%;display:inline-block;border-bottom: 1px solid #ebeef5">
-      <span style="float: left;padding: 6px;">技术分类</span>
+      <span style="float: left;padding: 6px;">{{ treeTitle }}</span>
       <el-button size="mini" icon="el-icon-plus" style="float: right;margin: 6px;" @click="addFirstTree">新增一级分类</el-button>
     </span>
     <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
@@ -13,6 +13,8 @@
       :render-content="renderContent"  
       :filter-node-method="filterNode"
       highlight-current
+      :current-node-key="setCurrent"
+      @node-click="handleNodeRefresh"
       ref="ClassificationTree"
     >
     </el-tree>
@@ -28,23 +30,24 @@
     const model = {
       props: {
         value: this.mergeId,
-        type: 'subtype'
       },
       on: {
         input: (v) => {
           this.mergeId = v; 
+          this.$emit('refreshId', v);
         } 
       }
     };
 
-  // const items =  ;   
-
-    // const createLabel = (label) => ({ props: { label } })
-    
+    const items =  this.messageOptions.map((item,index)=>{
+    return <el-option key={index} value={item.id} label={item.name}></el-option>
+  });     
     return (
         <span>
-          
-          <StaticSelect {...model}></StaticSelect>
+          <span>目标分类：</span>
+          <el-select {...model}>
+            {items}
+          </el-select>
          </span>
       )
   },
@@ -53,11 +56,8 @@
       mergeId: '',
     }
   },
+  props: ['pageType','messageOptions'],
   computed: {
- 
-  },
-  components: {
-    StaticSelect,
   },
 }  
 import ClassificationShrink from '@/components/page_extension/Classification_shrink'
@@ -76,7 +76,12 @@ export default {
     options () {
       const t = this.pageType;
       console.log(this.$store.getters[`${t}Data`])
+      console.log(this)
       return this.$store.getters[`${t}Data`];
+    },
+    optionsData () {
+      const t = this.pageType;
+      return this.$store.getters[`${t}Options`];
     },
     optionMap () {
       const t = this.pageType;
@@ -86,9 +91,9 @@ export default {
       const t = this.pageType;
       return t == 'classification' ? '/classifications' : '/products';
     },
-    dialogTitle () {
+    treeTitle () {
       const t = this.pageType;
-      return t == 'classification' ? '新增技术分类' : '新增产品';
+      return t == 'classification' ? '技术分类' : '产品分类';
     },
   },
   methods: {
@@ -116,18 +121,29 @@ export default {
         // if(Array.isArray(node.childNodes)) {
         const len = node.childNodes.length;
         const pId = form.parent ? form.parent : this.parentData.id;
-        this.$store.commit(`add${t}`,{pId , d: data.classification});
+        this.$store.commit(`add${t}`,{pId , d: data[t]});
         // }
       }else if(str == 'edit') {
         this.$store.commit(`update${t}`,{d:this.parentData,res:form.name});
       }else {
-        this.$store.commit(`addFirst${t}`, data.classification); 
+        this.$store.commit(`addFirst${t}`, data[t]); 
       }
+    },
+    handleNodeRefresh (data, node) {
+      if(typeof data == 'number') {
+        console.log(this.optionMap)
+        data = this.optionMap.get(data);
+        console.log(data)
+      }
+      this.setCurrent = data.id;
+      // this.$emit('input',data);
+      this.$emit('deliver', data);
     },
     addFirstTree () {
       this.$refs.classification.show('firstAdd');
     },    
     addChildTree (n, d, s) {
+      console.log(n)
       this.parentNode = n;
       this.parentData = d;
       this.currentId = d.id;
@@ -140,20 +156,40 @@ export default {
       this.$refs.classification.show('edit',d);
     },
     mergeChildTree (n, d, s) {
-      const h = this.$createElement;      
+      const h = this.$createElement;    
+      let targetId = '';
+      const t = this.pageType;
       this.$msgbox({
-        title: '删除确认',
+        title: '合并分类',
         message: h('message-content', {
+          props: {
+            pageType:  this.pageType,
+            messageOptions: this.optionsData, 
+          },
+          on: {
+            refreshId(val) {
+              targetId = val;
+            }, 
+          },
           ref: 'messageContent'
         }),
         confirmButtonText: '确定',
         showCancelButton: true,
       }).then(action => {
-        // this.submitDelete();
+        const url = `${this.url}/${d.id}/merge/${targetId}`;
+        const success = _=>{
+          // this.$store.commit(`add${t}`,{pId: targetId, d: n.childNodes});
+          this.$store.commit(`remove${t}`, {n,d});
+          if(t=='classification') {
+            this.$store.dispatch('refreshClassification')
+          }else {
+            this.$store.dispatch('refreshProduct')
+          }
+        };
+        this.$axiosPut({url, success});
       }).catch(action =>{
-
       });      
-    },  
+    }, 
     deleteChildTree (n, d, s) {
       const t = this.pageType;
       this.$confirm(`删除不可恢复，确定要删除"${d.name}"分类?`,'删除确认',{
@@ -179,11 +215,17 @@ export default {
       parentData: '',     
       filterData: [],
       currentId: '',
+      setCurrent: '',
       defaultProps: {
         children: 'children',
         label: 'name', 
       },
 		}
+  },
+  mounted () {
+    setTimeout(_=>{
+      this.$emit('deliver', this.options[0])
+    },500)
   },
   watch: {
     filterText(val) {

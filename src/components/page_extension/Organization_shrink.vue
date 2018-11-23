@@ -16,6 +16,9 @@
 			<el-form-item label="部门主管" prop="supervisor" v-if="roleType == 'organization'">
 				<remote-select type="user" v-model="form.supervisor" placeholder="请选择部门主管"></remote-select>
 			</el-form-item>
+			<el-form-item v-if="roleType == 'roles'" v-for="item in group_rules" :label="item.name" :key="item.id">
+         		 <app-switch type="status" v-model="item.checked"></app-switch>
+        	</el-form-item>
 			<el-form-item style="margin-bottom: 0px;">
 				<el-button v-if="type == 'add'" type="primary" :disabled="btn_disabled" @click="add">添加</el-button>
 				<el-button v-if="type == 'edit'" type="primary" :disabled="btn_disabled" @click="edit">编辑</el-button>
@@ -29,6 +32,7 @@ import AppShrink from '@/components/common/AppShrink'
 import PopMixins from '@/mixins/pop-mixins'
 import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
+import AppSwitch from '@/components/form/AppSwitch'
 const map = new Map([
 	['organization',{
 		url: '/organization_units',
@@ -52,6 +56,7 @@ export default {
      		type: '',
       		btn_disabled: false,
       		dialogVisible: false,
+      		group_rules: [],
 			form: {
 				name: '',
 				description: '',
@@ -90,6 +95,9 @@ export default {
 	        this.$refs.form.resetFields();  
 	        
 	        if(type === 'edit') {
+	        	if(this.roleType == 'roles') {
+	        		this.powerPop(data);
+	        	}
 	          if(data instanceof Object) {
 	            const copy = this.$tool.deepCopy(data);
 	            this.id = copy.id; 
@@ -125,9 +133,12 @@ export default {
 	    edit () {
 	      const url = `${this.URL}/${this.id}`;
 	      const tex = this.REMINDER_TEXT;
-	      const data = this.editForm 
+	      let data = this.editForm 
 	                    ? this.editForm() : this.submitForm 
 	                      ? this.submitForm() : this.form;
+	      if(this.roleType == 'roles') {
+	      	data = Object.assign({},data,{rules: this.group_rules});
+	      }                
 	      const success = _=>{
 	        this.$message({message: `编辑${tex}成功`, type: 'success'});
 	        this.dialogVisible = false;
@@ -143,12 +154,21 @@ export default {
 	          this.$axiosPut({url, data, success, complete});        
 	        }  
 	      })
-	    }	
+	    },
+	    powerPop(data) {
+
+	      const url = `${this.URL}/${data.id}`;
+	      const success = _=>{
+	        this.group_rules = _.group.rules;
+	      };
+	      this.$axiosGet({url, success});
+	    },	    	
 	},
 	components: {
 		AppShrink,
 		StaticSelect,
 		RemoteSelect,
+		AppSwitch,
 	}
 }	
 </script>

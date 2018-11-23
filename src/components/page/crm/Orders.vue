@@ -1,109 +1,156 @@
-<!-- 收款账户 -->
+<!-- 订单管理 -->
 <template>
-    <div class="FileType">
-        <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
+    <div class="Orders">
+        <!-- TODO 数据要改 -->
+        <table-component :tableOption="tableOption" :data="tableData1.array" ref="table" @refresh="refresh" @update="update"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>
-                <el-button type="primary" size="small" v-if="compileType === 'edit'"
-                           @click="save('edit')">保存</el-button>
+                <el-button type="primary" size="small" @click="save">保存</el-button>
+                <el-button type="danger" :disabled="is_disabled" size="small" @click="deleteBill">删除</el-button>
+                <el-button type="primary" size="small" v-if="bill_status === 'audit'"
+                           @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
+                <el-button type="primary" size="small" v-if="bill_status === 'remind'">邮件提醒</el-button>
+                <el-button type="primary" size="small" v-if="bill_status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button>
+                <el-button type="primary" size="small" v-if="bill_status === 'confirm'" @click="confirm">确认付款</el-button>
+                <!--<el-button type="" size="small">退回修改</el-button>-->
             </span>
-            <file-type-add :type="compileType" :data = "rowData" ref="FileTypeAdd" @update="update" @refresh="refresh"></file-type-add>
+            <order-manage-detail type="pay" ref="detail" :id="rowID" @update="update" :rowData="row"></order-manage-detail>
         </app-shrink>
+        <app-shrink :visible.sync="visibleOrderAdd" :modal='false' :title="orderAddTitle">
+            <span slot="header" style="float: right;">
+                <el-button type="primary" size="small" @click="save">保存</el-button>
+            </span>
+            <order-list-add :rowData="row" :id="rowID"></order-list-add>
+        </app-shrink>
+        <!--<el-dialog title="确认付款" :inline="true" :visible.sync="paymentDialog" width="40%">
+            <el-form :rules="rules" v-model="form" label-width="100px" label-position="left" ref="form">
+                <el-form-item label="付款时间" prop="date">
+                    <el-date-picker value-format="yyyy-MM-dd" v-model="form.date"></el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="confirmPayment">确认</el-button>
+                    <el-button @click="()=>{paymentDialog = false}">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>-->
     </div>
 </template>
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
-    import FileTypeAdd from '@/components/page/setting/data/FileTypeAdd'
-    import TableMixins from '@/mixins/table-mixins'
+    import OrderManageDetail from '@/components/page_extension/OrderManageDetail'
+    import OrderListAdd from '@/components/page_extension/OrderListAdd'
     import Config from "@/const/selectConfig"
+    import FeeManage from '@/mixins/fee-manage'
 
     const config = new Map(Config);
-
+    const status = [
+        [0,"audit"],
+        [8,"remind"],
+        [11,"upload"],
+        [12,"confirm"],
+    ];
+    const statusMap = new Map(status);
     export default {
-        name: "FileType",
-        mixins: [TableMixins],
+        name: "Orders",
+        mixins:[FeeManage(statusMap)],
         data() {
             return {
-                URL: "/file_types",
+                tableData1:this.$mock.mock({
+                    "array|2-5":[
+                        {
+                            "id|+1":1,
+                            "customer":{
+                                "name":"@cname()"
+                            },
+                            "contact":{
+                                "name":"@cname()"
+                            },
+                            "sales":"@cname()",
+                            "delivery_date":"@date()",
+                            "status|0-13":4,
+                            "remark":"@csentence()",
+                        }
+                    ]
+                }),
+                tableData: [],
+                paymentDialog:false,
                 tableOption: {
-                    'name': 'FileTypeList',
-                    'url': "/file_types",
+                    'name': 'OrdersList',
+                    'url': this.URL,
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
-                    'is_list_filter': false,
-                    'list_type': 'serial',
-                    'search_placeholder': '文件类型名称',
+                    /*'is_list_filter': true,
+                    'list_type': 'invoices',
+                    'treeFilter': 'invoices',*/
+                    'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'add', click: this.add},
-                        {type: 'delete'},
-                        {type: 'export'},
+                        // {type: 'export'},
+                        {type: 'add',click:this.add},
+                        {type: 'delete',click:this.deleteBill},
                         {type: 'control'},
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {
-                            type: 'text', label: '案件类型', prop: 'project_category',render_simple:'name', width: '100'
-                        },
-                        {type: 'text', label: '文件类型', prop: 'category',render_simple:'name', width: '120'},
-                        {type: 'text', label: '文件类型名称', prop: 'name', min_width: '200'},
-                        {type: 'text', label: '文件类型简称', prop: 'abbr', width: '120'},
-                        {type: 'text', label: '上传触发管制事项', prop: 'process_definition',render_simple:'name', width: '130'},
-                        {type: 'text', label: '上传后案件阶段', prop: 'project_stage',render_simple:'name', width: '120'},
-                        {type: 'text', label: '上传时填写字段', prop: 'fields', width: '120'},
-                        {type: 'text', label: '上传时执行逻辑', prop: 'behavior', width: '120'},
-                        {type: 'text', label: '排序', prop: 'sort', width: '100'},
+                        {type: 'text', label: '客户名称', prop: 'customer', render_simple:"name",width: '178', render_header: true},
+                        {type: 'text', label: '联系人', prop: 'contact', render_simple:"name", width: '120', render_header: true},
+                        {type: 'text', label: '销售', prop: 'sales' ,render_header: true},
+                        {type: 'text', label: '交付日期', prop: 'delivery_date', width: '180',render_header: true},
+                        {type: 'text', label: '订单状态', prop: 'status', width: '120'},
+                        {type: 'text', label: '备注', prop: 'remark', min_width: '120', render_header: true},
                     ],
                 },
-                compileType: "add",
-                isPanelVisible: false,
-                tableData: [],
-                rowID:null,
-                rowData:null,
-                title:"",
+                is_deleted: 0,
+                URL:"/orders",
+                d_URL:"/orders",
+                form:{
+                    date:""
+                },
+                rules:{
+                    date:[
+                        {required:true,message:"请选择付款时间",trigger: 'blur' }
+                    ]
+                },
+                visibleOrderAdd:false,
+                orderAddTitle:"新增"
             }
         },
-        methods: {
-            refreshTableData(option) {
-                const success = _ => {
-                    this.compileType === "add" ? this.closeVisible("isPanelVisible") : "";
-                    this.tableData = _.data;
-                };
-                const data = Object.assign({}, option);
-                this.$axiosGet({
-                    url: this.URL,
-                    data: data,
-                    success,
-                })
+        methods:{
+            confirm(){
+                this.paymentDialog = true;
             },
-            handleRowClick(row) {
-                this.rowData = row;
+            confirmPayment(){
+                this.$refs.form.validate((valid)=>{
+                    if(valid){
+
+                    }
+                });
+            },
+            add(){
+                this.openVisible("visibleOrderAdd");
+            },
+            handleRowClick(row){
+                this.openVisible("isPanelVisible");
+                this.title = "订单详情";
                 this.rowID = row.id;
-                this.openVisible("isPanelVisible");
-                this.compileType = "edit";
-                this.title = `编辑文件类型>${row.name}`
+                this.row = row;
             },
-            add() {
-                this.rowData = {};
-                this.title = "新增文件类型";
-                this.compileType = "add";
-                this.openVisible("isPanelVisible");
-                this.$refs.FileTypeAdd?this.$refs.FileTypeAdd.clear():"";
-            },
-            save(type) {
-                this.$refs.FileTypeAdd.submitForm(type,this.rowID)
+        },
+        computed:{
+            is_disabled(){
+                return this.row?this.row.status===1?false:true:false;
             },
         },
         components: {
             TableComponent,
             AppShrink,
-            FileTypeAdd,
-        },
+            OrderManageDetail,
+            OrderListAdd,
+        }
     }
 </script>
 

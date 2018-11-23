@@ -80,16 +80,24 @@ export default {
     ...mapGetters([
       'staticSelectorMap',
       'staticSelectorCache',
+      'MergeSelectorMap',
+      'getHashMaps',
     ]),
     cacheData () {
-      return this.staticSelectorCache[this.type];
+      let obj = {};
+      for(let[k,v] of this.getHashMaps) {
+        obj[k] = v
+      }
+      const cache = Object.assign({},this.staticSelectorCache[this.type], obj);
+      return cache
     },
     config () {
-      const config = this.staticSelectorMap.get(this.type);
+      const config = this.MergeSelectorMap.get(this.type);
       return config ? config : this.type;
     },
     map () {
       const map = new Map ();
+      console.log(this.options)
       this.options.forEach(_=>{map.set(_.id, _)});
 
       return map;

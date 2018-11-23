@@ -44,6 +44,7 @@ const store = new Vuex.Store({
     leftNavVisible: true,
     agencyLoadVisible: false,
     importLoading: false,
+    hashMaps: '',
   },
   modules: {
     filter,
@@ -86,6 +87,7 @@ const store = new Vuex.Store({
     leftVisible: state=>state.leftNavVisible,
     agencyLoadVisible: state=>state.agencyLoadVisible,
     importLoading: state=>state.importLoading,
+    getHashMaps: state=>state.hashMaps,
   },
   mutations: {
     setDragId (state, id) {
@@ -124,7 +126,35 @@ const store = new Vuex.Store({
     },
     setImportLoading(state, boolean) {
       state.importLoading = boolean;
-    }
+    },
+    setHashMaps(state, d) {
+      const obj = d.data;
+      let phObj = {};
+      const map = new Map();
+      for(let key in obj) {
+        const arr = [];
+        const o = {};
+        const value = obj[key];
+        if(key == 'placeholder') {
+          phObj = value;
+        }
+        if(key !== 'placeholder') {
+          for (let index in value) {
+              arr.push({id: index, name: value[index]});
+          }
+              o.options = arr;
+        }
+        for (let item in phObj) {
+          if(key == item) {
+            o.placeholder = phObj[item]
+          }
+        }
+        if(key !== 'placeholder') {
+           map.set(key, o);
+        }
+      }
+      return state.hashMaps = map;
+    },
   },
   actions: {
     onShrinkLoading({state, commit},text="加载中...") {
@@ -138,6 +168,24 @@ const store = new Vuex.Store({
       commit('setShrinkLoading', false);
       // state.shrinkLoadingText = '';
       // state.shrinkLoading = false;
+    },
+    initializeHashMapsCache ({state, commit}) {
+      const url = '/hashmap';
+      const params = {};
+      const success= _=>{
+        console.log(_)
+        commit('setHashMaps', _);
+      };
+      axios.get(url, {params})
+        .then(response=>{
+          const d = response.data;
+          if(d.status){
+            success(d);
+          }else {
+            console.log(response);
+          }
+        })
+        .catch(error=>{console.log(error)});
     }
   }
 });

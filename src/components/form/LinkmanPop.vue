@@ -47,11 +47,10 @@
     import Config from "@/const/selectConfig";
     const map = new Map(Config);
 
-    const URL = '/customers'
     export default {
         name: 'RequireListPop',
         mixins: [PopMixins],
-        props: ['customer', 'contact_id','isDefaultContacts'],
+        props: ['customer', 'contact_id','isDefaultContacts','URL'],
         data() {
             return {
                 switch_type:"is_boolean",
@@ -122,7 +121,7 @@
                 }
                 this.$refs.form.validate((valid) => {
                     if(valid){
-                        const url = `${URL}/${this.customer.id}/contacts`;
+                        const url = `${this.URL}/${this.customer.id}/contacts`;
                         const data = Object.assign({}, this.form);
                         const success = _ => {
                             this.dialogVisible = false;
@@ -138,7 +137,7 @@
             edit() {
                 this.$refs.form.validate((valid) => {
                     if(valid){
-                        const url = `${URL}/${this.customer.id}/contacts/${this.contact_id}`;
+                        const url = `${this.URL}/${this.customer.id}/contacts/${this.contact_id}`;
                         const data = Object.assign({}, this.form);
                         map.get("contacts_type").options.forEach((_) => {
                             if (_.name === data.contact_type) {
