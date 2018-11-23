@@ -8,7 +8,7 @@
                 <el-button type="primary" size="small" v-if="compileType === 'edit'"
                            @click="save('edit')">保存</el-button>
             </span>
-            <mail-template-add :type="compileType" :data = "rowData" ref="MailTemplateAdd" @update="update" @refresh="refresh"></mail-template-add>
+            <mail-template-add :type="compileType" :data="rowData" ref="MailTemplateAdd" @update="update" @refresh="refresh"></mail-template-add>
         </app-shrink>
     </div>
 </template>
@@ -21,7 +21,7 @@ import TableMixins from '@/mixins/table-mixins'
 import Config from "@/const/selectConfig"
 
 const config = new Map(Config);
-const URL = '/services';
+const URL = '/message_templates';
 export default {
     name: "MailTemplate",
     mixins: [TableMixins],
@@ -49,14 +49,14 @@ export default {
                         item = item ? '是' : '否';
                         return h('span', item)
                     }},
-                    {type: 'text', label: '所属客户', prop: 'customer', min_width: '200'},
-                    {type: 'text', label: '模板类型', prop: 'template_type', width: '120'},
-                    {type: 'text', label: '子类型', prop: 'subtype', width: '120'},
-                    {type: 'text', label: '场景', prop: 'scene', width: '100'},
+                    {type: 'text', label: '所属客户', prop: 'customer', render_simple: 'name', min_width: '200'},
+                    {type: 'text', label: '模板类型', prop: 'template_type', render_simple: 'name', width: '120'},
+                    {type: 'text', label: '子类型', prop: 'subtype', render_simple: 'name', width: '120'},
+                    {type: 'text', label: '场景', prop: 'scene', render_simple: 'name', width: '100'},
                     {type: 'text', label: '标题', prop: 'title', width: '100'},
-                    {type: 'array', label: '收件人', prop: 'to', width: '100'},
-                    {type: 'array', label: '抄送', prop: 'cc', width: '100'},
-                    {type: 'array', label: '密送', prop: 'bcc', width: '100'},
+                    {type: 'text', label: '收件人', prop: 'to', width: '100', render: this.handleRenderPerson,},
+                    {type: 'text', label: '抄送', prop: 'cc', width: '100', render: this.handleRenderPerson,},
+                    {type: 'text', label: '密送', prop: 'bcc', width: '100', render: this.handleRenderPerson,},
                     {type: 'text', label: '邮件正文', prop: 'body', width: '100'},
                 ],
             },
@@ -72,7 +72,7 @@ export default {
         refreshTableData(option) {
             const success = _ => {
                 this.compileType === "add" ? this.closeVisible("isPanelVisible") : "";
-                this.tableData = _.services.data;
+                this.tableData = _.data.data;
             };
             const data = Object.assign({}, option);
             this.$axiosGet({
@@ -88,6 +88,15 @@ export default {
             this.compileType = "edit";
             this.title = `编辑邮件模板>${row.name}`
             
+        },
+        handleRenderPerson (h, item) {
+            if(item == null) return 
+
+            const type = item.type.name!==undefined? item.type.name : item.type;
+            const value = item.users.map(d=>d.name);
+            item = type + ':' + value;
+
+            return h('el-tag', item)
         },
         add() {
             this.rowData = {};
