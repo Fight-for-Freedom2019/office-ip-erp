@@ -1,7 +1,7 @@
 <template>
-  <div class="user-tree" :style="{height: innerHeight-70 + 'px'} ">
-    <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
-    <div style="margin-top: 10px; text-align: center;">
+  <div class="user-tree" ref="scrollBody" :style="{height: innerHeight-70 + 'px'} " @scroll="handleScroll">
+    <el-input :style="{left:scrollLeft+'px'}" placeholder="请输入关键字进行过滤" v-model="filterText" style="width: 100%;"></el-input>
+    <div :style="{left:scrollLeft+'px'}" style="position: relative;margin-top: 10px; text-align: center;width: 100%;">
       <el-radio-group v-model="radio" size="small">
         <el-radio-button label="organization">组织架构</el-radio-button>
         <el-radio-button label="rolegroups">角色</el-radio-button>
@@ -79,6 +79,9 @@ export default {
     },
   },
   methods: {
+    handleScroll(){
+      this.scrollLeft = this.$refs.scrollBody.scrollLeft;
+    },
     addRoleGroups () {
       this.$refs.organization.show('add');
       this.type = 'rolegroups';
@@ -222,6 +225,7 @@ export default {
   },
   data () {
 		return {
+          scrollLeft:"",
 		  filterText: '',
       radio: 'organization',
       filterData: [],
@@ -259,10 +263,23 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .user-tree {
+  min-width: 300px;
+  display: flex;
   overflow: auto;
   background: #fff;
   border: 1px solid #ebeef5;
   margin-right: 6px;
-  flex: 0 0 300px; 
+  flex: 0 0 300px;
+  flex-wrap: wrap;
+  align-content:flex-start;
+}
+
+</style>
+<style>
+#app .user-tree .el-tree {
+  width: auto;
+}
+#app .user-tree .el-tree-node__content {
+  min-width: 300px;
 }
 </style>
