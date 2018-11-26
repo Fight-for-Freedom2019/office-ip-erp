@@ -749,7 +749,9 @@ export default {
       if(this.refreshTableData) {
         this.refreshTableData(Object.assign({}, this.getRequestOption(), this.filterForm ,this.strainerParams));
       }
-
+      if (this.$refs.appTreeFilter) {
+        this.$refs.appTreeFilter.refreshTreeData();
+      }
       this.$emit('refreshTableData', Object.assign({}, this.getRequestOption(), this.filterForm ,this.strainerParams) );
     },
     search (val) {

@@ -18,7 +18,7 @@
 			</el-form-item>
 			<app-collapse v-for="(item,index) in group_rules" :col-title="item.name" :key="index">
 				<el-form-item v-if="roleType == 'roles'" v-for="value in item.children" :label="value.label" :key="value.id">
-		     		 	<app-switch type="status" v-model="value.checked"></app-switch>
+		     		<app-switch type="status" v-model="value.checked" @input="(val)=>{handleSwitchChange(val)}"></app-switch>
 		    	</el-form-item>
 			</app-collapse>
 			<el-form-item style="margin-bottom: 0px;">
@@ -60,6 +60,7 @@ export default {
       		btn_disabled: false,
       		dialogVisible: false,
       		group_rules: [],
+      		rules_name: [],
 			form: {
 				name: '',
 				description: '',
@@ -91,6 +92,10 @@ export default {
 		setForm (d) {
 			this.$tool.coverObj(this.form,d);
 		},
+		handleSwitchChange (val) {
+			console.log(val)
+			this.rules_name.push(val);
+		},	
 	   show ( type='add', data ) {
 	      this.type = type;
 	      this.dialogVisible = true;

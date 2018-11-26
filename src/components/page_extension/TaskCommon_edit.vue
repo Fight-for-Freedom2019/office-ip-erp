@@ -6,7 +6,7 @@
       <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.category != ''">
         <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>
       </el-form-item>  
-      <el-form-item label="绑定流程" prop="process_flow" v-if="form.model != ''">
+      <el-form-item label="绑定流程" prop="process_flow"  v-if="form.model != ''">
         <el-select v-model="form.process_flow" placeholder="请选择绑定流程" @visible-change.once="initFlows">
           <el-option
             v-for="item in flowOptions"
@@ -17,7 +17,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="事件名称" prop="process_definition" v-if="form.model != ''">
+      <el-form-item label="事件名称" prop="process_definition"  v-if="form.model != ''">
         <el-select v-model="form.process_definition" placeholder="请选择事件名称">
           <el-option
             v-for="item in defOptions"
@@ -89,73 +89,89 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="初稿日" prop="first_edition_time">
-              <el-date-picker type="date" v-model="form.first_edition_time"></el-date-picker>
+              <el-date-picker type="date" v-model="form.first_edition_time" placeholder="请选择初稿日"></el-date-picker>
             </el-form-item>      
           </el-col>
           <el-col :span="8">
             <el-form-item label="内部定稿日" prop="internal_final_edition_time">
-              <el-date-picker type="date" v-model="form.internal_final_edition_time"></el-date-picker>
+              <el-date-picker type="date" v-model="form.internal_final_edition_time" placeholder="请选择内部定稿日"></el-date-picker>
             </el-form-item>      
           </el-col>
           <el-col :span="8">
             <el-form-item label="返稿日" prop="customer_edition_time">
-              <el-date-picker type="date" v-model="form.customer_edition_time"></el-date-picker>
+              <el-date-picker type="date" v-model="form.customer_edition_time" placeholder="请选择返稿日"></el-date-picker>
             </el-form-item>      
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <el-form-item label="客户定稿日" prop="customer_final_edition_time">
-              <el-date-picker type="date" v-model="form.customer_final_edition_time"></el-date-picker>
+              <el-date-picker type="date" v-model="form.customer_final_edition_time" placeholder="请选择客户定稿日"></el-date-picker>
             </el-form-item>      
           </el-col>
           <el-col :span="8">
             <el-form-item label="递交日" prop="filing_time">
-              <el-date-picker type="date" v-model="form.filing_time"></el-date-picker>
+              <el-date-picker type="date" v-model="form.filing_time" placeholder="请选择递交日"></el-date-picker>
             </el-form-item>      
           </el-col>
           <el-col :span="8">
-            <el-form-item label="内部撰写时间" prop="internal_drafting_period">
-              <el-date-picker type="date" v-model="form.internal_drafting_period"></el-date-picker>
+            <el-form-item label="内部撰稿时长" prop="internal_drafting_period">
+              <el-input v-model="form.internal_drafting_period" placeholder="请输入内部撰稿时长"></el-input>
             </el-form-item>      
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="内部修改时间" prop="internal_amending_period">
-              <el-date-picker type="date" v-model="form.internal_amending_period"></el-date-picker>
+            <el-form-item label="内部修改时长" prop="internal_amending_period">
+              <el-input v-model="form.internal_amending_period" placeholder="请输入内部修改时长"></el-input>
             </el-form-item>  
           </el-col>
           <el-col :span="8">
-            <el-form-item label="内部审核时间" prop="internal_reviewing_period">
-              <el-date-picker type="date" v-model="form.internal_reviewing_period"></el-date-picker>
+            <el-form-item label="内部审核时长" prop="internal_reviewing_period">
+              <el-input v-model="form.internal_reviewing_period" placeholder="请输入内部审核时长"></el-input>
             </el-form-item>  
           </el-col>
           <el-col :span="8">
-            <el-form-item label="返客户稿时间" prop="customer_first_edition_period">
-              <el-date-picker type="date" v-model="form.customer_first_edition_period"></el-date-picker>
+            <el-form-item label="返稿时长" prop="customer_first_edition_period">
+              <el-input v-model="form.customer_first_edition_period" placeholder="请输入返稿时长"></el-input>
             </el-form-item>  
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="客户审核时间" prop="customer_amending_period">
-              <el-date-picker type="date" v-model="form.customer_amending_period"></el-date-picker>
+            <el-form-item label="客户审核时长" prop="customer_amending_period">
+              <el-input v-model="form.customer_amending_period" placeholder="请输入客户审核时长"></el-input>
             </el-form-item>  
           </el-col>
           <el-col :span="8">
-            <el-form-item label="客户修改时间" prop="customer_reviewing_period">
-              <el-date-picker type="date" v-model="form.customer_reviewing_period"></el-date-picker>
+            <el-form-item label="客户修改时长" prop="customer_reviewing_period">
+              <el-input v-model="form.customer_reviewing_period" placeholder="请输入客户修改时长"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
           </el-col>
         </el-row>    
           <el-form-item label="内部审核次数" prop="internal_reviewing_times">
-            <el-input v-model="form.internal_reviewing_times" placeholder="请填写内部审核次数"></el-input>
+            <el-select v-model="form.internal_reviewing_times" placeholder="请填写内部审核次数">
+              <el-option
+                v-for="item in timeOptions"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
           </el-form-item> 
           <el-form-item label="客户审核次数" prop="customer_reviewing_times">
-            <el-input v-model="form.customer_reviewing_times" placeholder="请填写客户审核次数"></el-input>
+            <el-select v-model="form.customer_reviewing_times" placeholder="请填写客户审核次数">
+              <el-option
+                v-for="item in timeOptions"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>            
           </el-form-item>
           <el-form-item label="技术评分" prop="technical_rank">
             <el-slider v-model="form.technical_rank" show-input></el-slider>
@@ -180,7 +196,6 @@
 </template>
 
 <script>
-import Member from '@/components/form/Member'
 import Upload from '@/components/form/Upload'
 import AxiosMixins from '@/mixins/axios-mixins'
 import StaticSelect from '@/components/form/StaticSelect'
@@ -234,8 +249,12 @@ export default {
     },
     async edit () {
       await this.checkeForm()
+      if(this.form.category) {
+        this.form.category = this.form.category['id'];
+      }
+
       const url = `${URL}/${this.row.id}`;
-      const data = this.$tool.shallowCopy(this.form, {'date': true});
+      const data = this.$tool.shallowCopy(this.form, {'date': true,'skip': ['model']});
       const success = _=>{ this.$emit('editSuccess') };
       const complete = _=>{ this.btn_disabled = false };
       this.btn_disabled = true;
@@ -264,12 +283,17 @@ export default {
       console.log(this.row);
       if(this.type == 'edit') {
         this.$tool.coverObj(this.form,this.row,{
-          obj: ['process_flow','process_definition','process_action','user','agent','assistant','first_reviewer',
-          'final_reviewer','attachments'],
+          obj: ['process_flow','process_definition',],
           date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline','internal_reviewing_times','internal_drafting_period',
           'internal_amending_period','internal_final_edition_time','customer_amending_period','customer_reviewing_period','customer_edition_time','filing_time','customer_first_edition_period','customer_final_edition_time'],
-          skip: ['remark','internal_reviewing_times','customer_reviewing_times','technical_rank','communication_rank','claims_rank','spec_rank']
         })
+        if(this.row.task.process_action) {
+          this.form.process_action = this.row.task.process_action['id'];
+        }else if (this.row.task.remark) {
+          this.form.remark = this.row.task.remark; 
+        }else if (this.row.task.attachments && this.row.task.attachments.length != 0) {
+           this.form.attachments = this.row.task.attachments.map(_=>_.id); 
+        }
       }
     }
   },
@@ -330,7 +354,7 @@ export default {
         communication_rank: 0,        
         attachments: [],
         remark: '',
-      },
+      },    
       attachments: [],
       btn_disabled: false,
       rules: {
@@ -344,7 +368,19 @@ export default {
         first_reviewer: getRules('初审人不能为空', 'number'),
         first_edition_deadline: getRules('初稿时间不能为空', 'date'),
         filing_deadline: getRules('递交期限不能为空', 'date'),
-      }
+      },
+       timeOptions: [
+        { id: 1, name: '1'},
+        { id: 2, name: '2'},
+        { id: 3, name: '3'},
+        { id: 4, name: '4'},
+        { id: 5, name: '5'},
+        { id: 6, name: '6'},
+        { id: 7, name: '7'},
+        { id: 8, name: '8'},
+        { id: 9, name: '9'},
+        { id: 10, name: '10'},
+      ],
   	}
   },
   computed: {
@@ -356,7 +392,6 @@ export default {
       return this.$store.getters.flowsData;
     },
     flowOptions () {
-      this.form.process_flow = '';
       if( this.flowsData == undefined) {
         return [];
       }else {
@@ -365,7 +400,6 @@ export default {
     },
     defOptions () {
       let arr =[];
-      this.form.process_definition = '';
       const f = this.form.process_flow;
       if( !this.flowsData && !this.form.process_flow) {
         return [];
@@ -381,7 +415,6 @@ export default {
     },
     actionOptions () {
      let arr =[];
-     this.form.process_action = '';
       const f = this.form.process_flow;
       if( !this.flowsData && !this.form.process_flow ) {
         return [];
@@ -397,23 +430,16 @@ export default {
     },
   },
   watch: {
-    'form.process_flow': {
-      handler(val) {
-        console.log(val);
-        console.log(this.defOptions)
-      },
-    },
     'row.id': {
       handler () {
         this.refreshRow();
       },
-      deep: true,
     }
   },
   mounted () {
     this.refreshRow();
   },
-  components: { Member, Upload, RemoteSelect, JumpSelect, StaticSelect, }
+  components: { Upload, RemoteSelect, JumpSelect, StaticSelect, }
 }
 </script>
 

@@ -39,7 +39,7 @@
     	  <app-switch v-model="form.is_ssl" type="is"></app-switch>
 		</el-form-item>		
 		<el-form-item label="是否激活" prop="is_active" v-if="type=='edit'">
-    	  <app-switch v-model="form.is_active" type="is"></app-switch>
+    	  <app-switch v-model="form.is_active" type="is_boolean"></app-switch>
 		</el-form-item>
 		<el-form-item style="margin-bottom: 0px;">
 			<el-button v-if="type == 'add'" type="primary" :disabled="btn_disabled" @click="add">添加</el-button>
@@ -75,14 +75,14 @@ export default {
  	  	smtp_server: '',
  	  	smtp_port: '',
  	  	is_ssl: 0,
- 	  	is_active: 0,
+ 	  	is_active: false,
  	  },
  	  rules:{
- 	  	'roles': { type: 'array', required: true, message: '用户组不能为空', trigger: 'change'},
- 	  	'organization_units': { type: 'array', required: true, message: '用户组不能为空', trigger: 'change'},
-		'user_name': [{required: true, message: '用户名称不能为空', trigger: 'blur'},],
+ 	  	'roles': { type: 'array', required: true, message: '请输入用户组', trigger: 'change'},
+ 	  	'organization_units': { type: 'array', required: true, message: '请输入部门', trigger: 'change'},
+		'user_name': [{required: true, message: '请输入用户名称', trigger: 'blur'},],
 		// 'password': [{required: true, message: '密码不能为空', trigger: 'blur'},],
-		'name': [{required: true, message: '名称不能为空', trigger: 'blur'},],
+		'name': [{required: true, message: '请输入名称', trigger: 'blur'},],
 		// 'pop_server': [{required: true, message: 'POP服务器不能为空', trigger: 'blur'},],
 		// 'pop_port': [{required: true, message: 'POP端口不能为空', trigger: 'blur'},],
 		// 'smtp_server': [{required: true, message: 'SMTP服务器不能为空', trigger: 'blur'},],

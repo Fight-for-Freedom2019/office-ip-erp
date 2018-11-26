@@ -583,7 +583,11 @@ nav {
   //   transition: transform .3s ease-in-out;
   // }
   .el-tree-node__content>.el-checkbox, .el-tree-node__content>.el-tree-node__expand-icon {
-    margin-right: 10px;
+    margin-right: 5px;
+
+  }
+  .app-tree-filter .el-tree-node__content>.el-tree-node__expand-icon  {
+    padding: 0px;
   }
   .el-tree-node__content {
     line-height: 36px;
@@ -732,12 +736,15 @@ nav {
   [class^="el-icon-my"], [class*=" el-icon-my"] {
     font-family:"iconfont" !important;
     font-size:16px;
+    text-align: center;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
-
+.el-submenu__title *{
+  vertical-align: baseline;
+}
 .left-tree-header {
   font-size: 14px;
   height: auto;

@@ -345,7 +345,7 @@ export default {
         'columns': [
           // { type: 'expand' },
           { type: 'selection' },
-          { type: 'text', prop: 'model', label: '模块', render_header: true, width: '145',},
+          { type: 'text', prop: 'model', label: '模块', render_header: true, render_simple: 'name', width: '145',},
           { type: 'text', prop: 'serial', label: '案号', render_header: true, width: '160',},
           { type: 'text', prop: 'title', label: '标题', render_header: true, width: '160'},
           { type: 'text', prop: 'category', label: '案件类型', render_simple: 'name', render_header: true, width: '160'},
@@ -376,7 +376,7 @@ export default {
           { type: 'text', prop: 'internal_reviewing_period', label: '内部审核时间', render_header: true, width: '175',},
           { type: 'text', prop: 'customer_first_edition_period', label: '返稿时间', render_header: true, width: '175',},
           { type: 'text', prop: 'customer_reviewing_period', label: '客户审核时间', render_header: true, width: '175',},
-          { type: 'text', prop: 'customer_amending_period', label: '客户审核修改时间', render_header: true, width: '178',},
+          { type: 'text', prop: 'customer_amending_period', label: '客户修改时间', render_header: true, width: '178',},
           { type: 'text', prop: 'internal_reviewing_times', label: '内部审核次数', render_header: true, width: '175',},
           { type: 'text', prop: 'customer_reviewing_times', label: '客户审核次数', render_header: true, width: '175',},
           { type: 'text', prop: 'technical_rank', label: '技术评分', render_header: true, width: '145',},
@@ -486,7 +486,8 @@ export default {
       'refreshUser',
       'refreshTaskDelay',
       'addListFilter',
-      'refreshProcessDetail'
+      'refreshFlows',
+      'refreshProcessDetail',
     ]),   
     handleTasks (type) {
       if(type == 'add') {
@@ -535,7 +536,7 @@ export default {
       this.$refs.table.setCurrentRow();
     },
     addPop (type = 'add') {
-      if(this.$refs.processes_task) {
+      if(type == 'add ' && this.$refs.processes_task) {
         this.$refs.processes_task.clear();
       }
       this.pageType = type;
@@ -901,11 +902,10 @@ export default {
     //   this.refresh();
     // }
 
-
     if(this.task_status == 1 || this.task_status == -1) {
       this.activeName = 'relative_tasks';
     }
-
+    this.refreshFlows({type: 'patent'})
     this.refreshOption();
   },
   components: { 
