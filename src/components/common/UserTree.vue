@@ -1,32 +1,36 @@
 <template>
-  <div class="user-tree" ref="scrollBody" :style="{height: innerHeight-70 + 'px'} " @scroll="handleScroll">
-    <el-input :style="{left:scrollLeft+'px'}" placeholder="请输入关键字进行过滤" v-model="filterText" style="width: 100%;"></el-input>
-    <div :style="{left:scrollLeft+'px'}" style="position: relative;margin-top: 10px; text-align: center;width: 100%;">
-      <el-radio-group v-model="radio" size="small">
-        <el-radio-button label="organization">组织架构</el-radio-button>
-        <el-radio-button label="rolegroups">角色</el-radio-button>
-      </el-radio-group>
+    <div style="width: 300px;">
+        <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
+        <div style="position: relative;margin: 5px 0 5px; text-align: center;width: 100%;">
+            <el-radio-group v-model="radio" size="small">
+                <el-radio-button label="organization">组织架构</el-radio-button>
+                <el-radio-button label="rolegroups">角色</el-radio-button>
+            </el-radio-group>
+        </div>
+        <div class="user-tree" ref="scrollBody" :style="{height: innerHeight-142 + 'px'} ">
+
+            <div style="text-align: center; margin-top: 10px;" v-if="radio==='rolegroups'">
+                <el-button size="mini" icon="el-icon-plus" @click="addRoleGroups">新增角色组</el-button>
+            </div>
+            <el-tree
+                    v-if="switchTree"
+                    :props="defaultProps"
+                    :data="filterData"
+                    node-key="id"
+                    highlight-current
+                    :expand-on-click-node="false"
+                    :load="handleLoadNode"
+                    lazy
+                    :render-content="renderContent"
+                    :filter-node-method="filterNode"
+                    @node-click="refreshUserListData"
+                    ref="userTree"
+            >
+            </el-tree>
+            <organization-shrink :role-type="type" :current-id="currentId" ref="organization" @refresh="(str,form,val)=>{refreshTreeData(parentNode,str,form,val.data)}" @close="_=>{setType = ''}"></organization-shrink>
+        </div>
+
     </div>
-    <div style="text-align: center; margin-top: 10px;" v-if="radio==='rolegroups'">
-      <el-button size="mini" icon="el-icon-plus" @click="addRoleGroups">新增角色组</el-button>
-    </div>
-    <el-tree
-      v-if="switchTree"
-      :props="defaultProps"
-      :data="filterData"
-      node-key="id" 
-      highlight-current
-      :expand-on-click-node="false"
-      :load="handleLoadNode"
-      lazy
-      :render-content="renderContent"
-      :filter-node-method="filterNode"
-      @node-click="refreshUserListData"
-      ref="userTree"
-    >
-    </el-tree>
-    <organization-shrink :role-type="type" :current-id="currentId" ref="organization" @refresh="(str,form,val)=>{refreshTreeData(parentNode,str,form,val.data)}" @close="_=>{setType = ''}"></organization-shrink>
-  </div>
 </template>
 
 <script>
@@ -79,9 +83,6 @@ export default {
     },
   },
   methods: {
-    handleScroll(){
-      this.scrollLeft = this.$refs.scrollBody.scrollLeft;
-    },
     addRoleGroups () {
       this.$emit('close');
       this.$refs.organization.show('add');
@@ -228,7 +229,6 @@ export default {
   },
   data () {
 		return {
-          scrollLeft:"",
 		  filterText: '',
       radio: 'organization',
       filterData: [],
@@ -266,7 +266,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .user-tree {
-  min-width: 300px;
   display: flex;
   overflow: auto;
   background: #fff;
@@ -280,9 +279,9 @@ export default {
 </style>
 <style>
 #app .user-tree .el-tree {
-  width: auto;
+  width: 100%;
 }
-#app .user-tree .el-tree-node__content {
-  min-width: 300px;
+#app .user-tree .el-tree-node__children {
+  overflow: inherit;
 }
 </style>
