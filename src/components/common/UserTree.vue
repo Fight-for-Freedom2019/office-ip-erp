@@ -1,18 +1,18 @@
 <template>
     <div style="width: 300px;">
-        <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
-        <div style="position: relative;margin: 5px 0 5px; text-align: center;width: 100%;">
-            <el-radio-group v-model="radio" size="small">
-                <el-radio-button label="organization">组织架构</el-radio-button>
-                <el-radio-button label="rolegroups">角色</el-radio-button>
-            </el-radio-group>
+        <div ref="inputGroup">
+            <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
+            <div style="position: relative;margin: 5px 0 5px; text-align: center;width: 100%;">
+                <el-radio-group v-model="radio" size="small">
+                    <el-radio-button label="organization">组织架构</el-radio-button>
+                    <el-radio-button label="rolegroups">角色</el-radio-button>
+                </el-radio-group>
+            </div>
+            <div style="text-align: center; margin-bottom: 5px;" v-if="radio==='rolegroups'">
+                <el-button size="mini" icon="el-icon-plus" @click="addRoleGroups">新增角色组</el-button>
+            </div>
         </div>
-        <div style="text-align: center; margin-bottom: 5px;" v-if="radio==='rolegroups'">
-            <el-button size="mini" icon="el-icon-plus" @click="addRoleGroups">新增角色组</el-button>
-        </div>
-        <div class="user-tree" ref="scrollBody" :style="{height: innerHeight-170 + 'px'} ">
-
-
+        <div class="user-tree" :style="{height: innerHeight-inputGroupHeight + 'px'} ">
             <el-tree
                     v-if="switchTree"
                     :props="defaultProps"
@@ -82,6 +82,10 @@ export default {
         return this.setType = v;
       }
     },
+    /*inputGroupHeight(){
+      const a = this.radio;
+      return this.$refs.inputGroup.clientHeight;
+    },*/
   },
   methods: {
     addRoleGroups () {
@@ -227,9 +231,14 @@ export default {
 
       });
     },
+    getInputGroupHeight(){
+      return this.$refs.inputGroup.clientHeight + this.containerNavHeight;
+    },
   },
   data () {
 		return {
+          containerNavHeight:62,    // .container-nav的高
+          inputGroupHeight:"",
 		  filterText: '',
       radio: 'organization',
       filterData: [],
@@ -251,6 +260,7 @@ export default {
       this.switchTree = false;
       this.$nextTick(_=>{
         this.switchTree = true;
+        this.inputGroupHeight = this.getInputGroupHeight();
       })
     },
     filterText (val) {
@@ -258,6 +268,9 @@ export default {
       this.filterNode(val,null,this.parentNode);
     },
   },
+    mounted(){
+        this.inputGroupHeight = this.getInputGroupHeight();
+    },
   components: {
     OrganizationShrink,
   },
