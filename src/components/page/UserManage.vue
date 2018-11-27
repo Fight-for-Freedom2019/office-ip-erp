@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex;">
   	<template>
-	  <user-tree @refresh="handleTree"></user-tree>
+	  <user-tree @refresh="handleTree" @close="()=>$refs.edit.dialogVisible=false"></user-tree>
     </template>
     <template style="flex:1;">
 	  <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData" ref="table" style="overflow: auto;"></table-component>

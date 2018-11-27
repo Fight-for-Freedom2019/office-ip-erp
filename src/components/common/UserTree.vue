@@ -83,6 +83,7 @@ export default {
       this.scrollLeft = this.$refs.scrollBody.scrollLeft;
     },
     addRoleGroups () {
+      this.$emit('close');
       this.$refs.organization.show('add');
       this.type = 'rolegroups';
     },
@@ -182,6 +183,7 @@ export default {
       if(this.radio === 'rolegroups' && n.level == 1) {
         this.type = 'roles'
       }
+      this.$emit('close');
       this.$refs.organization.show('add');
     },
     editChildTree (n,d,s) {
@@ -190,6 +192,7 @@ export default {
       if(this.radio === 'rolegroups' && n.level == 1) {
         this.setType = ''
       }
+      this.$emit('close');
       this.$refs.organization.show('edit',d);
     },
     remove (node,data) {
