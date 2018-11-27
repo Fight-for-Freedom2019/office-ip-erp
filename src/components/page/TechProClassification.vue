@@ -42,7 +42,7 @@ export default {
           { type: 'text', label: '标题', prop: 'title',  is_import: true, width: '200', is_agency: true, render_header: true},
           { type: 'text', label: '英文标题', prop: 'english_title',  is_import: true, width: '200', is_agency: true, render_header: true},
   
-          { type: 'text', label: '案件类型', prop: 'subtype', is_agency: true,  is_import: true, width: '120',render_header:true},
+          { type: 'text', label: '案件类型', prop: 'subtype', is_agency: true,  is_import: true, render_simple: 'name', width: '120',render_header:true},
           { type: 'text', label: '申请国家', prop: 'area',  is_import: true, width: '120', is_agency: true, render_header: true },
           { type: 'array', label: '申请人', prop: 'applicants', width: '200', is_import: true,render: _=>{ return _.map(_=>_.name);},render_header: true},
           { type: 'text', label: '申请号', prop: 'application_number',  is_import: true, width: '140', is_agency: true, render_header: true},
@@ -52,7 +52,7 @@ export default {
           { type: 'text', label: '客户', prop: 'customer', render_simple: 'name',  is_import: true, width: '90', is_agency: true, render_header: true},
           { type: 'text', label: '客户案号', prop: 'customer_serial',  width: '140', render_header: true },
           { type: 'text', label: '客户标题', prop: 'proposal_title',  width: '140', render_header: true },
-          { type: 'array', label: '发明人', width: '238', prop: 'inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>`${_.name}_${_.email}:${_.share}%`)},render_header: true},          
+          { type: 'array', label: '发明人', width: '238', prop: 'inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>_.name)},render_header: true},          
           { type: 'text', label: '代理人', width: '90', prop: 'agent', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '代理人助理', width: '130', prop: 'assistant', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '联系人', width: '90', prop: 'contact', render_simple: 'name', is_import: true, render_header: true},

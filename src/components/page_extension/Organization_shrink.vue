@@ -24,8 +24,8 @@
 		</el-form>
 		<template>
 			<span slot="header" style="float: right;">
-				<el-button v-if="type == 'add'" type="primary" size="mini" :disabled="btn_disabled" @click="add">添加</el-button>
-				<el-button v-if="type == 'edit'" type="primary" size="mini" :disabled="btn_disabled" @click="edit">编辑</el-button>
+				<el-button v-if="type == 'add'" type="primary" size="small" :disabled="btn_disabled" @click="add">添加</el-button>
+				<el-button v-if="type == 'edit'" type="primary" size="small" :disabled="btn_disabled" @click="edit">编辑</el-button>
 			</span>	
 		</template>
 	</app-shrink>
