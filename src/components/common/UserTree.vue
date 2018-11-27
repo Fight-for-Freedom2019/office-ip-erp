@@ -7,11 +7,12 @@
                 <el-radio-button label="rolegroups">角色</el-radio-button>
             </el-radio-group>
         </div>
-        <div class="user-tree" ref="scrollBody" :style="{height: innerHeight-142 + 'px'} ">
+        <div style="text-align: center; margin-bottom: 5px;" v-if="radio==='rolegroups'">
+            <el-button size="mini" icon="el-icon-plus" @click="addRoleGroups">新增角色组</el-button>
+        </div>
+        <div class="user-tree" ref="scrollBody" :style="{height: innerHeight-170 + 'px'} ">
 
-            <div style="text-align: center; margin-top: 10px;" v-if="radio==='rolegroups'">
-                <el-button size="mini" icon="el-icon-plus" @click="addRoleGroups">新增角色组</el-button>
-            </div>
+
             <el-tree
                     v-if="switchTree"
                     :props="defaultProps"
