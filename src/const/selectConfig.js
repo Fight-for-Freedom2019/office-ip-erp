@@ -348,6 +348,15 @@ const config = [
     allowCreate: true,
     defaultFirstOption: true,
   }],
+  ['file_type', {
+    placeholder: '请输入邮箱地址',
+    url: '/file_types?listOnly=1',
+    handle (data) {
+      return data.data;
+    },
+    allowCreate: true,
+    defaultFirstOption: true,
+  }],
   ['tag', {
     placeholder: '请输入或选择标签',
     url: '/tags',

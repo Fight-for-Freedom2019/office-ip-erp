@@ -50,6 +50,7 @@ const projectMenu = [
 const crmMenu = [
 	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont el-icon-my-customer'},
 	{ type: 'item', text: '订单管理', path: '/crm/orders', icon: 'iconfont el-icon-my-order'},
+	{ type: 'item', text: '快递管理', path: '/crm/expresses', icon: 'iconfont el-icon-my-express'},
 	{ type: 'submenu', text: '客户数据', path: '/crm/data', icon: 'iconfont el-icon-my-data', children:[
 		{ type: 'item', text: '申请人管理', path: '/crm/data/applicants', icon: 'iconfont el-icon-my-people' },
 		{ type: 'item', text: '发明人管理', path: '/crm/data/inventors', icon: 'iconfont el-icon-my-bulb' },
@@ -65,12 +66,12 @@ const crmMenu = [
 		{ type: 'item', text: '回款管理', path: '/crm/finance/payment_recevied', icon: 'iconfont el-icon-my-received-payment'},
 		{ type: 'item', text: '发票管理', path: '/crm/finance/invoice', icon: 'iconfont el-icon-my-voucher'},
 	] },
-	{ type: 'submenu', text: '通知发文', path: '/crm/notice', icon: 'iconfont el-icon-my-email', children:[
-		{ type: 'item', text: '官文', path: '/crm/notice/notices', icon: 'iconfont el-icon-my-notice'},
-		{ type: 'item', text: '报表', path: '/crm/notice/reports', icon: 'iconfont el-icon-my-report'},
-		{ type: 'item', text: '年费', path: '/crm/notice/renewals', icon: 'iconfont el-icon-my-renewal-fee'},
-		{ type: 'item', text: '快递', path: '/crm/notice/expresses', icon: 'iconfont el-icon-my-express'},
-	] },
+	// { type: 'submenu', text: '通知发文', path: '/crm/notice', icon: 'iconfont el-icon-my-email', children:[
+	// 	{ type: 'item', text: '官文', path: '/crm/notice/notices', icon: 'iconfont el-icon-my-notice'},
+	// 	{ type: 'item', text: '报表', path: '/crm/notice/reports', icon: 'iconfont el-icon-my-report'},
+	// 	{ type: 'item', text: '年费', path: '/crm/notice/renewals', icon: 'iconfont el-icon-my-renewal-fee'},
+	// 	{ type: 'item', text: '快递', path: '/crm/notice/expresses', icon: 'iconfont el-icon-my-express'},
+	// ] },
 	{ type: 'submenu', text: '供应商管理', path: '/crm/suppliers', icon: 'iconfont el-icon-my-supplier', children:[
 		{ type: 'item', text: '供应商管理', path: '/crm/suppliers/lists', icon: 'iconfont el-icon-my-supplier'},
 		{ type: 'item', text: '待付费用', path: '/crm/suppliers/fees', icon: 'iconfont el-icon-my-fee'},
@@ -222,7 +223,7 @@ menu.source = [
 		text: '交互',
 		key: 'exchange',
 		path: '/exchange',
-		icon: 'el-icon-my-report',
+		icon: 'el-icon-my-interact',
 		menu: exchangeMenu,
 	},
 	// {

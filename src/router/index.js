@@ -234,7 +234,7 @@ const router = new Router({
     component: CustomersRenewals
   },
   {
-    path: '/crm/notice/expresses',
+    path: '/crm/expresses',
     name: 'ExpressManage',
     component: ExpressManage
   },
