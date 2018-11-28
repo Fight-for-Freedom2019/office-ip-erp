@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column label="文件类型" prop="type" min-width="120">
         <template slot-scope="scope">
-          <static-select :type="config.file_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" ref="file_type"></static-select>
+          <static-select :type="config.file_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" :ref="`file_type_${scope.$index}`"></static-select>
         </template>
       </el-table-column>
       <el-table-column label="发文日" prop="mail_date" v-if="config.mail_date">
@@ -147,6 +147,7 @@ export default {
     return {
       fileList: [],
       tableData: [],
+      copyTableData: [],
       file: [],
       dialogVisible: false,
       dialogVisibleIn: false,
@@ -360,12 +361,13 @@ export default {
           lists.push(this.$tool.deepCopy(_));
           _.type = '';
         });
-          this.tableData.push(...a.data.list);
+        this.tableData.push(...a.data.list);
           this.file.push(a.data.file);
           this.$nextTick(_=>{
-            lists.forEach((v,k)=>{
-              this.tableData.splice(k+l,1,v);
+           lists.forEach((v,k)=>{
+               this.tableData.splice(k+l,1,v);
             })
+          this.copyTableData.push(...a.data.list);
           })
       }else {
         this.$message({message: a.info, type: 'warning'});
@@ -388,15 +390,17 @@ export default {
     this.initializeSelectorCache({type: this.config.file_type});
   },
   watch: {
-    // 'tableData':[ 
-    //   function handle1(val) {
-    //     console.log(val);
-    //    this.tableData.forEach((_,i)=>{
-    //     const v =  this.$refs.file_type.getSelected(3)
-    //      this.handleTypeChange(v[0],i)
-    //    })
-    //   },
-    // ]
+    'copyTableData':[ 
+      function handle1(val) {
+        val.forEach((v,i)=>{
+          console.log(this.$refs[`file_type_${i}`])
+          this.$nextTick(()=>{
+            const s =  this.$refs[`file_type_${i}`].getSelected(v.file_type.id)[0]
+            this.handleTypeChange(s,i)
+          })
+       })
+      },
+    ]
   },
   components: { 
     RemoteSelect,
