@@ -20,7 +20,7 @@ export default {
   	return {
   	  option: {
   	  	'name': 'userManage',
-  	  	'height': 'default5',
+  	  	'height': 'noPagination',
   	  	'is_pagination': false,
   	  	// 'is_search': false,
   	  	'header_btn': [

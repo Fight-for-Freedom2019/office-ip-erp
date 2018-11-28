@@ -227,6 +227,7 @@ export default {
   computed: {
     ...mapGetters([
       'innerHeight',
+      'breadHeaderHeight',
     ]),
     value2() {},
     filterSetting () { //自定义筛选配置项
@@ -297,6 +298,9 @@ export default {
             height = height < 300 ? 300 : height;
         }else if(hk === 'userList') {
           height = this.innerHeight - 200;
+          height = height < 300 ? 300 : height;
+        }else if(hk === 'noPagination') {
+          height = this.innerHeight - this.breadHeaderHeight;
           height = height < 300 ? 300 : height;
         }else {
           height = hk;

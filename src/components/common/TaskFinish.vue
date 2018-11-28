@@ -1,5 +1,5 @@
 <template>
-<div  element-loading-text="数据加载中" >
+<div v-loading="loading"  element-loading-text="数据加载中" >
   <el-steps :space="150" style="padding: 5px 40px;" v-if="data.tips" align-center>
     <el-step v-for="(item, index) in data.tips" :key="index" :title="item.name" :status="item.current ? 'finish' : 'wait'"></el-step>
   </el-steps>

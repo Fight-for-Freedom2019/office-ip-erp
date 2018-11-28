@@ -1,14 +1,14 @@
 <template>
-    <div style="width: 300px;">
-        <div ref="inputGroup">
+    <div>
+        <div ref="inputGroup" style="width:300px;background: #fff;border: 1px solid #ebeef5">
             <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
-            <div style="position: relative;margin: 5px 0 5px; text-align: center;width: 100%;">
+            <div style="position: relative;padding: 5px 0 5px; text-align: center;width: 100%;">
                 <el-radio-group v-model="radio" size="small">
                     <el-radio-button label="organization">组织架构</el-radio-button>
                     <el-radio-button label="rolegroups">角色</el-radio-button>
                 </el-radio-group>
             </div>
-            <div style="text-align: center; margin-bottom: 5px;" v-if="radio==='rolegroups'">
+            <div style="text-align: center; padding-bottom: 5px;" v-if="radio==='rolegroups'">
                 <el-button size="mini" icon="el-icon-plus" @click="addRoleGroups">新增角色组</el-button>
             </div>
         </div>
@@ -288,6 +288,7 @@ export default {
   flex: 0 0 300px;
   flex-wrap: wrap;
   align-content:flex-start;
+  width: 300px;
 }
 
 </style>

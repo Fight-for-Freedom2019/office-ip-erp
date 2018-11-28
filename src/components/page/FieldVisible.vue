@@ -182,8 +182,10 @@ export default {
 .filter-visible-body-left {
 	-webkit-flex: 0 0 auto;
   flex: 0 0 auto;
-  width: 200px;
+  width: 240px;
   margin-right: 10px;
+  overflow: auto;
+  height: 420px;
 }
 .filter-visible-body-right {
 	-webkit-flex: 1;
