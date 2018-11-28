@@ -29,7 +29,7 @@ export default {
   	  	'columns': [
   	  	   { type: 'selection' },
   	  	   { type: 'array', label: '用户组', prop: 'roles', render: _=>{return _.map(_=>_.name)}, width: '145'},   	
-  	  	   { type: 'array', label: '所属部门', prop: 'organization_units', render: _=>{return _.map(_=>_.display_name)}, width: '145'},   	
+  	  	   { type: 'array', label: '所属部门', prop: 'organization_unit', render: _=>{return _.map(_=>_.name)}, width: '145'},   	
   	  	   { type: 'text', label: '名称', prop: 'name', width: '145'},   	
   	  	   { type: 'text', label: '用户名', prop: 'user_name', width: '145'},   	
   	  	   { type: 'text', label: '邮箱', prop: 'email_address', width: '145'},   	
