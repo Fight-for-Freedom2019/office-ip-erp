@@ -142,7 +142,6 @@ export default {
           return true;
         })
       }
-
       return options;
     }
   },

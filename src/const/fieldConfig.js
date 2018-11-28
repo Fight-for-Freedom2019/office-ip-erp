@@ -29,7 +29,7 @@ const strainerConfig = [
 		{ "name": "递交期限", "id": "filing_deadline",},
 		{ "name": "官方绝限", "id": "legal_deadline",},
 		{ "name": "初稿日", "id": "first_edition_time",},
-		{ "name": "内部定稿日", "id": "internal_final_edtion_time",},
+		{ "name": "内部定稿日", "id": "internal_final_edition_time",},
 		{ "name": "返稿日", "id": "customer_edition_time",},
 		{ "name": "客户定稿日", "id": "customer_final_edition_time",},
 		{ "name": "递交日", "id": "filing_time",},

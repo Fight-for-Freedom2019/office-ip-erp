@@ -2,7 +2,7 @@
 <template>
   <div class="hjg-table">
     <slot name="bread_mark"></slot>
-    <div class="table-header" v-if="tableOption.is_header === undefined ? true : tableOption.is_header">
+    <div class="table-header" v-if="tableOption.is_header === undefined ? true : tableOption.is_header" ref="table_header">
       <div class="table-header-left">
       <el-popover
         placement="right"
@@ -374,6 +374,10 @@ export default {
 
       return a;
     },
+    bread_header_height () {
+      // 计算出面包屑和table-header所在宽度
+      return this.$refs.table_header.clientHeight + 64;
+    },  
     //计算列表项 
     columns () {
       let cols = this.optionColumns; 
@@ -423,6 +427,7 @@ export default {
   methods: {
     ...mapMutations([
       'setPageSize',
+      'setBreadHeaderHeight',
     ]),
     ...mapActions([
       'clearFilter',
@@ -816,6 +821,9 @@ export default {
   },
   beforeDestroy () {
     // this.clearFilter();
+  },
+  mounted() {
+    this.setBreadHeaderHeight(this.bread_header_height);
   },
   created () {
     window.setTimeout(()=>{

@@ -1,10 +1,13 @@
 <template>
-  <div class="classfication-tree" :style="{height: innerHeight-70 + 'px'} ">
-    <span style="width: 100%;display:inline-block;border-bottom: 1px solid #ebeef5">
-      <span style="float: left;padding: 6px;">{{ treeTitle }}</span>
-      <el-button size="mini" icon="el-icon-plus" style="float: right;margin: 6px;" @click="addFirstTree">新增一级分类</el-button>
-    </span>
-    <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
+  <div>
+    <div style="width: 300px;background: #fff;">
+      <span style="width: 100%;display:inline-block;border-bottom: 1px solid #ebeef5">
+        <span style="float: left;padding: 6px;">{{ treeTitle }}</span>
+        <el-button size="mini" icon="el-icon-plus" style="float: right;margin: 6px;" @click="addFirstTree">新增一级分类</el-button>
+      </span>
+      <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
+  </div>
+  <div class="classfication-tree" :style="{height: innerHeight-155 + 'px'} ">
     <el-tree
       :props="defaultProps"
       :data="options"
@@ -20,6 +23,7 @@
     </el-tree>
     <classification-shrink  ref="classification" :current-id="currentId" :page-type="pageType" @refresh="(str,form,data)=>{refreshData(str,form,data)}"></classification-shrink>
   </div>
+  </div>  
 </template>
 
 <script>
@@ -248,5 +252,11 @@ export default {
   border: 1px solid #ebeef5;
   margin-right: 6px;
   flex: 0 0 300px; 
+  width: 300px;
+}
+</style>
+<style>
+  #app .classfication-tree .el-tree-node__children {
+  overflow: inherit;
 }
 </style>

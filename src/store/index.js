@@ -44,6 +44,7 @@ const store = new Vuex.Store({
     agencyLoadVisible: false,
     importLoading: false,
     hashMaps: '',
+    bread_header_height: '',
   },
   modules: {
     filter,
@@ -86,6 +87,7 @@ const store = new Vuex.Store({
     agencyLoadVisible: state=>state.agencyLoadVisible,
     importLoading: state=>state.importLoading,
     getHashMaps: state=>state.hashMaps,
+    breadHeaderHeight: state=>state.bread_header_height,
   },
   mutations: {
     setDragId (state, id) {
@@ -106,6 +108,9 @@ const store = new Vuex.Store({
     },
     setInnerHeight (state, number) {
       state.inner_height = number;
+    },
+    setBreadHeaderHeight (state, number) {
+      state.bread_header_height = number;
     },
     setInnerWidth (state, number) {
       state.inner_width = number;

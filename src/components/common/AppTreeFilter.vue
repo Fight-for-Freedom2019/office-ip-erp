@@ -18,6 +18,7 @@ import StaticSelect from '@/components/form/StaticSelect'
 import { strainerConfig } from '@/const/fieldConfig' 
 const urlMap = new Map([
   ['process',{ URL: '/processes/filters' }],
+  ['patent',{ URL: '/patents/filters' }],
   ['applicants',{ URL: '/filters/applicants' }],
   ['inventors',{ URL: '/filters/inventors' }],
   ['contacts',{ URL: '/filters/contacts' }],
