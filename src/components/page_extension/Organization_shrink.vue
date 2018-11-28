@@ -16,16 +16,18 @@
 			<el-form-item label="部门主管" prop="supervisor" v-if="roleType == 'organization'">
 				<remote-select type="user" v-model="form.supervisor" placeholder="请选择部门主管"></remote-select>
 			</el-form-item>
-			<app-collapse v-for="(item,index) in group_rules" :col-title="item.name" :key="index">
-				<el-form-item v-if="roleType == 'roles'" v-for="value in item.children" :label="value.label" :key="value.id">
+			<app-collapse v-for="(item,index) in group_rules" :col-title="item.name" :key="index" v-if="roleType == 'roles' && type == 'edit'">
+				<el-form-item  v-for="value in item.children" :label="value.label" :key="value.id">
 		     		<app-switch type="status" v-model="value.checked" @input="(val)=>{handleSwitchChange(val)}"></app-switch>
 		    	</el-form-item>
 			</app-collapse>
-			<el-form-item style="margin-bottom: 0px;">
-				<el-button v-if="type == 'add'" type="primary" :disabled="btn_disabled" @click="add">添加</el-button>
-				<el-button v-if="type == 'edit'" type="primary" :disabled="btn_disabled" @click="edit">编辑</el-button>
-			</el-form-item>
 		</el-form>
+		<template>
+			<span slot="header" style="float: right;">
+				<el-button v-if="type == 'add'" type="primary" size="small" :disabled="btn_disabled" @click="add">添加</el-button>
+				<el-button v-if="type == 'edit'" type="primary" size="small" :disabled="btn_disabled" @click="edit">编辑</el-button>
+			</span>	
+		</template>
 	</app-shrink>
 </template>
 

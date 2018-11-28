@@ -121,7 +121,7 @@ const SettingActions           = () => import('@/components/page/setting/data/Ac
 const SettingEntityChange           = () => import('@/components/page/setting/data/EntityChange')
 const SettingServiceProject           = () => import('@/components/page/setting/ServiceProject')
 const SettingMailTemplate           = () => import('@/components/page/setting/MailTemplate')
-const SettingSystem            = () => import('@/components/page/SettingSystem')
+const SettingSystem            = () => import('@/components/page/setting/SystemSetting')
 
 //#################
 // const SI_Base                  = () => import('@/components/page_extension/SettingIndividual_base')
