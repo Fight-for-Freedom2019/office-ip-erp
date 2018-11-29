@@ -164,7 +164,7 @@ const config = [
     placeholder: '请选择IPR',
     url: 'contacts?listRows=100&cotatct_type=2',
     handle (data) {
-    	return data.data;
+    	return data.data.data;
     }
   }],
   ['project_stage', {
