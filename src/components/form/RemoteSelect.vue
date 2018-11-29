@@ -67,49 +67,30 @@ const map = new Map([
 		DATA_KEY: 'members',
 		PLACEHOLDER: '请输入代理人关键词',
 	}],
-	['agency', {
-		URL: '/agencies',
-		DATA_KEY: 'agencies',
-		PLACEHOLDER: '请输入代理机构关键词',
-  }],
-  ['agency_poa', {
-		URL: '/agencies',
-		DATA_KEY: 'agencies',
-    PLACEHOLDER: '请输入代理机构关键词',
-    PARAMS: { poa: 1 },
-	}],
   ['ipr',{
     URL: '/iprs',
     DATA_KEY: 'members',
     PLACEHOLDER: '请输入IPR关键词',
   }],
-	['project', {
-		URL: '/projects',
-		DATA_KEY: 'projects',
-		PLACEHOLDER: '请输入案件关键词',
-	}],
-	['proposal', {
-		URL: '/proposals',
-		DATA_KEY: 'proposals',
-		PLACEHOLDER: '请输入提案关键词',
-	}],
-  ['patent', {
+  ['oa', {
     URL: '/projects',
     DATA_KEY: 'projects',
-    PLACEHOLDER: '请输入专利关键词',
-    PARAMS: { category: 'Patent' },
+    PLACEHOLDER: '请输入OA关键词',
   }],	
-  ['trademark', {
+  ['voucher', {
 		URL: '/projects',
 		DATA_KEY: 'projects',
-		PLACEHOLDER: '请输入商标关键词',
-		PARAMS: { category: 'Trademark' },
+		PLACEHOLDER: '请输入费用单据关键词',
 	}],
-	['copyright', {
+  ['other', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入一般文件关键词',
+  }],	
+  ['cpc', {
 		URL: '/projects',
 		DATA_KEY: 'projects',
-		PLACEHOLDER: '请输入版权关键词',
-		PARAMS: { category: 'Copyright' },
+		PLACEHOLDER: '请输入CPC关键词',
 	}],
   ['bill', {
     URL: '/invoices',

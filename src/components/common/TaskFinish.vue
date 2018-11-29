@@ -52,10 +52,10 @@
         <el-row>
           <el-form-item label="备注"><span class="form-item-text">{{ processData.task.remark }}</span></el-form-item>
         </el-row>
-      <!--   <el-form-item label="附件">
-            <app-table v-if="processData.attachments.length > 0" :columns="columns" :data="processData.attachments"></app-table>
-            <span v-if="processData.attachments.length == 0">无附件</span>
-        </el-form-item> -->
+        <el-form-item label="附件">
+            <app-table v-if="processData.task.attachments.length > 0" :columns="columns" :data="processData.task.attachments"></app-table>
+            <span v-if="processData.task.attachments.length == 0">无附件</span>
+        </el-form-item>
       </el-form>
     </el-collapse-item>
     <el-collapse-item title="任务处理" name="2">
