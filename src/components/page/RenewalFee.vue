@@ -74,38 +74,43 @@ export default {
 				height: 'default2',
 				search_placeholder: '案号、案件名称、创建人',
 				header_btn: [
-					{ type: 'add', click: this.addPop },
-					{ type: 'add', label: '批量添加', click: _=>{ this.dialogVisble4 = true; } },
+					// { type: 'add', click: this.addPop },
+					// { type: 'add', label: '批量添加', click: _=>{ this.dialogVisble4 = true; } },
 					{ 
-            type: 'dropdown',
-            label:  '年费评估单',
-            items: [
-              {text: '新建评估单', click: ()=>{ this.estimatePop('add') }, icon: 'plus' },
-              {text: '添加至已有评估单', click: ()=>{ this.estimatePop('append') }, icon: 'd-arrow-right'  },
-            ],
-          },
+						type: 'dropdown',
+						label:  '年费评估单',
+						items: [
+						{text: '新建评估单', click: ()=>{ this.estimatePop('add') }, icon: 'plus' },
+						{text: '添加至已有评估单', click: ()=>{ this.estimatePop('append') }, icon: 'd-arrow-right'  },
+						],
+					},
 					{ type: 'delete' },
 					{ type: 'control' },
-					{ 
-						type: 'custom', 
-						icon: 'setting', 
-						label: '设定', 
-						click: _=>{
-							let month = this.$tool.getLocal('renewalFeeMonth');
-							this.month = month ? month : 3;
-							this.dialogVisble3 = true;
-						} 
-					},
+					// { 
+					// 	type: 'custom', 
+					// 	icon: 'setting', 
+					// 	label: '设定', 
+					// 	click: _=>{
+					// 		let month = this.$tool.getLocal('renewalFeeMonth');
+					// 		this.month = month ? month : 3;
+					// 		this.dialogVisble3 = true;
+					// 	} 
+					// },
 				],
-				header_slot: [ 'status' ],
+				header_slot: [  ],
 				columns: [
 					{ type: 'selection' },
-					{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '200'},
+					{ type: 'text', label: '案件类型', prop: 'category', render_key: 'project', render_simple: 'serial', width: '150'},
+					{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '150'},
 					{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '200'},
-					{ type: 'text', label: '年费类型', prop: 'code', render_simple: 'name', width: '200'},
+					{ type: 'text', label: '客户', prop: 'customer', render_simple: 'name', width: '200'},
+					{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '135'},
+					{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '118'},
+					{ type: 'text', label: '官方绝限', prop: 'deadline', width: '128'},
+					{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '150'},
 					{ 
 						type: 'text', 
-						label: '外币金额', 
+						label: '金额', 
 						prop: 'amount', 
 						width: '100',
 						align: 'right',
@@ -141,19 +146,10 @@ export default {
 	            return h('span',`${item}CNY`)
 	          }
 	        },
-					{ type: 'text', label: '费用期限', prop: 'due_time', width: '200'},
-					{ type: 'text', label: '官方绝限', prop: 'deadline', width: '200'},
-					{ 
-						type: 'text', 
-						label: '年费状态', 
-						prop: 'status', 
-						render_text: _=>this.statusMap.get(_),
-						width: '200'
-					},
-					{ type: 'text', label: '年费对象', prop: 'target', render_simple: 'name', width: '200'},
-					{ type: 'text', label: '评估单编号', prop: 'renewal_estimate', render_simple: 'number', width: '200'},
-					{ type: 'text', label: '创建人', prop: 'member', render_simple: 'name', width: '200' },
-					{ type: 'text', label: '创建时间', prop: 'create_time', width: '200'},
+					
+					{ type: 'text',label: '年费状态',prop: 'status', render_text: _=>this.statusMap.get(_),width: '130'},
+					{ type: 'text', label: '案件费用策略', prop: 'fee_policy', render_simple: 'name', width: '130'},
+					{ type: 'text', label: '评估单编号', prop: 'renewal_estimate', render_simple: 'number', width: '130'},
 					{ type: 'text', label: '备注', prop: 'remark', width: '200'},
 				]
 			},

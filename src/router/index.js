@@ -187,32 +187,7 @@ const router = new Router({
     name: 'CustomerQuotation',
     component: CustomerQuotation
   },
-  {
-    path: '/crm/finance/payment_request',
-    name: 'PaymentManage',
-    component: PaymentManage
-  },
-  {
-    path: '/crm/finance/invoice',
-    name: 'InvoiceManage',
-    component: InvoiceManage
-  },
-  {
-    path: '/crm/finance/fee',
-    name: 'RequestPayout',
-    component: RequestPayout,
-      meta:{
-        params:{
-            is_debit: 1,
-            status: 1
-        }
-      }
-  },
-  {
-    path: '/crm/finance/payment_recevied',
-    name: 'PaymentRecevied',
-    component: PaymentRecevied
-  },
+  
   {
     path: '/crm/contracts',
     name: 'ContractsList',
@@ -233,31 +208,13 @@ const router = new Router({
     name: 'CustomersRenewals',
     component: CustomersRenewals
   },
-  {
-    path: '/crm/expresses',
-    name: 'ExpressManage',
-    component: ExpressManage
-  },
+
   {
     path: '/crm/suppliers/lists',
     name: 'Suppliers',
     component: Suppliers
   },
-  {
-    path: '/crm/suppliers/fees',
-    name: 'SuppliersFee',
-    component: SuppliersFee,
-    meta:{
-      params:{
-          status: 11
-      }
-    }
-  },
-  {
-    path: '/crm/suppliers/payments',
-    name: 'SuppliersPayment',
-    component: SuppliersPayment
-  },
+  
   {
     path: '/crm/suppliers/quotations',
     name: 'SuppliersQuotation',
@@ -336,6 +293,16 @@ const router = new Router({
         },
       },
     },
+    {
+      path: '/task/finished',
+      name: 'TasksFinished',
+      component: TaskCommon,
+      meta: {
+        params: { 
+          status: 1,
+        },
+      },
+    },
     
 //################### 任务路由 end #####################
 
@@ -395,31 +362,109 @@ const router = new Router({
   },
 //################### 版权路由 end #####################
 //################### 财务路由 begin ###################
-    {
-      path: '/finance/fees_to_request',
-      name: 'FeeCommonRequest',
-      component: FeeCommon,
-      props: {
-        debit: 1,
-        defaultParams: {
+  
+   {
+    path: '/finance/revenue/all',
+    name: 'RequestPayout',
+    component: RequestPayout,
+      meta:{
+        params:{
+          is_debit: 1,
         }
       }
     },
     {
-      path: '/finance/fees_to_pay',
-      name: 'FeeCommonPay',
-      component: FeeCommon,
-      props: {
-        debit: 0,
-        defaultParams: {
+      path: '/finance/revenue/ready_to_request',
+      name: 'RequestPayout',
+      component: RequestPayout,
+      meta:{
+        params:{
+          is_debit: 1,
+          status: 1
         }
       }
     },
     {
-      path: '/finance/renewal_fees',
+      path: '/finance/revenue/payment_requests',
+      name: 'InvoiceManage',
+      component: InvoiceManage,
+      meta:{
+        params:{
+            is_debit:1,
+        }
+      }
+    },
+    {
+      path: '/finance/revenue/payments_recevied',
+      name: 'PaymentRecevied',
+      component: PaymentRecevied,
+      meta:{
+        params:{
+            is_debit:1,
+        }
+      }
+    },
+
+    {
+      path: '/finance/outgo/all',
+      name: 'SuppliersFee',
+      component: SuppliersFee,
+      meta:{
+        params:{
+            is_debit:0,
+        }
+      }
+    },
+    {
+      path: '/finance/outgo/ready_to_pay',
+      name: 'SuppliersFee',
+      component: SuppliersFee,
+      meta:{
+        params:{
+            status: 11,
+            is_debit:0,
+        }
+      }
+    },
+    {
+      path: '/finance/outgo/payments',
+      name: 'SuppliersPayment',
+      component: SuppliersPayment,
+      meta:{
+        params:{
+            is_debit:0,
+        }
+      }
+    },
+
+    {
+      path: '/finance/renewal_fees/lists',
       name: 'RenewalFees',
       component: RenewalFee,
       props: {
+      }
+    },
+    {
+      path: '/finance/renewal_fees/confirmation_sheets',
+      name: 'RenewalFeesConfirmationSheets',
+      component: RenewalFee,
+      props: {
+      }
+    },
+    {
+      path: '/finance/vouchers/lists',
+      name: 'VouchersLists',
+      component: ExpressManage,
+      props: {
+        'voucher_type':1,
+      }
+    },
+    {
+      path: '/finance/vouchers/received',
+      name: 'VouchersReceived',
+      component: ExpressManage,
+      props: {
+        'voucher_type':2,
       }
     },
 //################### 费用路由 end #####################

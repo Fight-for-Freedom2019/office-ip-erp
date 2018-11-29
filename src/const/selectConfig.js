@@ -466,7 +466,7 @@ const config = [
   // }],
   ['fee_code_renewal', {
     placeholder: '请选择年费类型',
-    url: '/feeCodes?type=renewal',
+    url: '/fee_codes?litOnly=1&is_renewal_fee=1',
     handle (data) {
       return data.codes.map(_=>{
         _.id = _.id - 0;
