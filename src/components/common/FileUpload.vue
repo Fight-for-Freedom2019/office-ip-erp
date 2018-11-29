@@ -393,11 +393,12 @@ export default {
     'copyTableData':[ 
       function handle1(val) {
         val.forEach((v,i)=>{
-          console.log(this.$refs[`file_type_${i}`])
-          this.$nextTick(()=>{
-            const s =  this.$refs[`file_type_${i}`].getSelected(v.file_type.id)[0]
-            this.handleTypeChange(s,i)
-          })
+          if(v.file_type != null) {
+            this.$nextTick(()=>{
+              const s = this.$refs[`file_type_${i}`].getSelected(v.file_type.id)[0]
+              this.handleTypeChange(s,i)
+            })
+          }
        })
       },
     ]
