@@ -1,64 +1,65 @@
 <template>
-  <!-- <app-collapse col-title="其他信息"> -->
       <el-form label-width="120px">
-        <!-- <el-form-item label="已申请资助">
-          <app-switch type="is" v-model="form.is_support"></app-switch>
-        </el-form-item> -->
-        <!-- <el-form-item label="专利实施情况">
-          <el-input type="textarea" placeholder="请填写专利实施情况" v-model="form.application"></el-input>
-        </el-form-item> -->
-        <el-form-item label="详细状态" v-if="type == 'edit'">
-          <static-select type="patents_status" v-model="form.official_status"></static-select>
-        </el-form-item>
-        <el-form-item label="权利要求/附图数">
-          <el-input v-model="form.claims_count" placeholder="请填写权利要求项数或者附图数量"></el-input>
+        <el-form-item label="权利要求项数">
+          <el-input v-model="form.claims_count" placeholder="请填写权利要求项数"></el-input>
         </el-form-item>
         <el-form-item label="说明书字数">
           <el-input v-model="form.words_count" placeholder="请填写说明书字数"></el-input>
         </el-form-item>
         <el-form-item label="首次年费年度">
-          <el-input v-model="form.start_year" placeholder="请填写首次年费年度"></el-input>
+          <el-select v-model="form.start_year" placeholder="请选择首次年费年度">
+            <el-option
+              v-for="item in yearOptions"
+              :key="item.id"
+              :label="item.id"
+              :value="item.name"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="案件摘要">
           <el-input v-model="form.abstract" type="textarea" placeholder="请填写案件摘要"></el-input>
         </el-form-item>
-<!--         <el-form-item label="备注">
-          <el-input v-model="form.remark" type="textarea" placeholder="请填写备注信息"></el-input>
-        </el-form-item> -->
-        
+        <el-form-item label="摘要附图">
+          <upload v-model="form.figure_file" :fileList="figure_file"></upload>
+        </el-form-item>
       </el-form>
-    <!-- </app-collapse> -->
 </template>
 
 <script>
-import AppCollapse from '@/components/common/AppCollapse'
 import StaticSelect from '@/components/form/StaticSelect'
-import AppSwitch from '@/components/form/AppSwitch'
-
+import Upload from '@/components/form/Upload'
 export default {
   name: 'patentAddOther',
   props: ['type'],
   data () {
     return {
+      yearOptions: [
+        { id: 1, name: '1'},
+        { id: 2, name: '2'},
+        { id: 3, name: '3'},
+        { id: 4, name: '4'},
+        { id: 5, name: '5'},
+        { id: 6, name: '6'},
+        { id: 7, name: '7'},
+        { id: 8, name: '8'},
+        { id: 9, name: '9'},
+        { id: 10, name: '10'},
+      ],
       form: {
-        // progress: '',
         words_count: '',
-        // remark: '',
         claims_count: '',
         official_status: '',
-        // is_supported: '',
-        // application:'',
         start_year:'',
         abstract: '',
+        figure_file: [],
       },
+      figure_file: [],
     }
   },
   methods: {
     setForm (data) {
-      this.$tool.coverObj(this.form, data, {
-        obj: [ 'flownode'], 
-        skip:[ 'claims_count', 'words_count','start_year','abstract', ],
-      });
+      this.$tool.coverObj(this.form, data);
+       this.figure_file = data.attachments ? data.attachments : [];
     },
     submitForm () {
       return this.form;
@@ -68,9 +69,8 @@ export default {
     },
   },
   components: { 
-    // AppCollapse, 
     StaticSelect,
-    // AppSwitch,
+    Upload,
   }
 }
 </script>

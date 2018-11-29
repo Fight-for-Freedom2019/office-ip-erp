@@ -1,20 +1,26 @@
 <template>
   <!-- <app-collapse col-title="基本信息"> -->
     <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-			<el-form-item label="标题" prop="title">
-				<el-input v-model="form.title" placeholder="请填写案件标题" ></el-input>
-			</el-form-item>
-      <el-form-item label="英文标题" prop="english_title">
-				<el-input v-model="form.english_title" placeholder="请填写案件英文标题" ></el-input>
-			</el-form-item>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="案号" prop="serial">
-            <el-input v-model="form.serial" placeholder="请填写案号"></el-input>
-          </el-form-item>
+            <el-form-item label="案号" prop="serial">
+              <el-input v-model="form.serial" placeholder="请填写案号"></el-input>
+            </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="申请地区" prop="area" :rules="{ type: type=='add' ? 'array' : 'string',required: true, message: '地区不能为空', trigger: 'change' }">
+            <el-form-item label="标题" prop="title">
+              <el-input v-model="form.title" placeholder="请填写案件标题" ></el-input>
+            </el-form-item>
+        </el-col>
+        <el-col :span="8">
+            <el-form-item label="英文标题" prop="english_title">
+              <el-input v-model="form.english_title" placeholder="请填写案件英文标题"></el-input>
+            </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="申请国家" prop="area" :rules="{ type: type=='add' ? 'array' : 'string',required: true, message: '地区不能为空', trigger: 'change' }">
             <region 
               v-model="form.area" 
               :multiple="type == 'add'"
@@ -26,19 +32,6 @@
             <static-select type="patent_type" v-model="form.subtype"></static-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="IPR" prop="ipr" :rules="{type: 'number', required: true, message: 'IPR不能为空', trigger: 'change'}">
-            <!-- <span class="form-item-text" v-if="type == 'add'">{{ user ? user.name : '暂未取得当前用户信息' }}</span> -->
-            <remote-select type="ipr_para" :page-type="type" v-model="form.ipr"></remote-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="技术联系人">
-              <remote-select type="contacts" :page-type="type" v-model="form.contact"></remote-select>
-          </el-form-item>
-        </el-col>
         <el-col :span="8">
           <el-form-item label="案件等级">
             <static-select type="case_level" v-model="form.level"></static-select>
@@ -46,6 +39,20 @@
         </el-col>
       </el-row>
       <el-row>
+        <el-col :span="8">
+ 
+        </el-col>
+        <el-col :span="8">
+
+        </el-col>
+        <el-col :span="8">
+
+        </el-col>
+      </el-row>
+      <el-row>
+          <el-form-item label="案件状态">
+              <static-select type="get_stage" v-model="form.project_stage"></static-select>
+          </el-form-item>
 <!--         <el-col :span="8">
           <el-form-item label="群组号">
               <static-select  type="group_number" v-model="form.group_number" placeholder="请填写群组号" @visible-change="handleVisibleChange"></static-select>
@@ -57,17 +64,12 @@
           </el-form-item>
         </el-col> -->
         <el-col :span="8">
-          <!-- <el-form-item label="状态" v-if="type == 'edit'">
-              <static-select type="patents_status" v-model="form.flownode"></static-select>
-          </el-form-item> -->
-          <el-form-item label="法律状态">
+     <!--      <el-form-item label="法律状态">
               <static-select type="legal_status" v-model="form.official_status"></static-select>
-          </el-form-item>
+          </el-form-item> -->
         </el-col>
          <el-col :span="8"> 
-            <el-form-item label="客户案号" prop="customer_serial">
-              <el-input v-model="form.customer_serial" placeholder="请填写客户案号"></el-input>
-            </el-form-item>
+      
         </el-col>
       </el-row>
       <el-form-item label="申请人">
@@ -85,7 +87,7 @@
         <priorities v-model="form.priorities"></priorities>
       </el-form-item>
       <el-form-item label="相关案件">
-        <relative-projects v-model="form.relates" :page-type="type"></relative-projects>
+        <relative-projects v-model="form.references" :page-type="type"></relative-projects>
       </el-form-item>    
       <el-form-item label="案件标记">
         <el-checkbox-group v-model="form.extension" v-if="extensionSet.length != 0" id="extension">
@@ -148,33 +150,35 @@ export default {
     return {
       form: {
         serial: '',
-        customer_serial: '',
         title: '',
         english_title:'',
         area: this.type == 'add' ? [] : '',
         subtype: '',
-        ipr: '',
+        // ipr: '',
+        project_stage: '',
         level: '',
         applicants: [],
         inventors: [],
-        alias_inventors: [],
+        // alias_inventors: [],
         priorities: [],
         extension: [], 
         attachments: [],
-        contact:[],
+        // contact:[],
         // group_number:'',
         // family_number:'',
         remark: '',
         // abstract:'',
         // flownode:'',
-        official_status: '',
-        relates: [],
+        // official_status: '',
+        references: [],
       },
       titleLock: false, //标题锁 当评审表被上传且标题自动填充后 不再自动填充 
       attachments: [],
       rules: {
         'title':{ required: true, message: '标题不能为空', trigger: 'blur' },
-        'type': { type: 'number', required: true, message: '专利类型不能为空', trigger: 'change' },
+        'serial':{ required: true, message: '案号不能为空', trigger: 'blur' },
+        'subtype': { type: 'number', required: true, message: '专利类型不能为空', trigger: 'change' },
+        'english_title': {message: '只能输入英文和空格', trigger: 'blur', pattern: /^(?!_)([A-Za-z ]+)$/},
         'inventors': {
           type: 'array',
           trigger: 'change',
@@ -243,8 +247,8 @@ export default {
     setForm (form, upload=false, disclosureType='') {
       const t = this.type;
       this.$tool.coverObj(this.form, form, {
-        obj: [ 'attachments', 'area', 'subtype', 'ipr', 'case_level', 'legal_status','agency_type'], 
-        skip:[ 'extension', 'title','remark'],
+        obj: [ 'attachments', 'area', 'subtype','case_level', 'legal_status','agency_type'], 
+        skip:[ 'extension', 'title'],
       });
 
       if(form['title'] != undefined && !this.titleLock) {
