@@ -2,8 +2,8 @@
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-            <el-form-item label="案件类型" prop="project_category">
-                <static-select type="category" v-model="form.project_category"></static-select>
+            <el-form-item label="案件类型" prop="project_type">
+                <static-select type="project_type" v-model="form.project_type"></static-select>
             </el-form-item>
 
             <el-form-item label="文件类型名称" prop="name">
@@ -31,13 +31,13 @@
             return {
                 URL: "/project_stages",
                 form: {
-                    project_category: "",
+                    project_type: "",
                     name: "",
                     sort: "",
                     remark: "",
                 },
                 rules: {
-                    project_category: [
+                    project_type: [
                         {required: true, message: "请选择案件类型", trigger: "blur"}
                     ],
                     name: [

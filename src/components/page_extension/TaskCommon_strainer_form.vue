@@ -5,7 +5,7 @@
 
       <el-col :span="12">  
         <el-form-item label="案件类型" prop="category">
-          <static-select type="case_type" v-model="form.category"></static-select>
+          <static-select type="project_type" v-model="form.category"></static-select>
         </el-form-item>
         <el-form-item label="代理机构" prop="agency">
           <remote-select type="agency" v-model="form.agency" ref="agency" multiple></remote-select>

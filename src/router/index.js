@@ -119,7 +119,7 @@ const SettingDefinitions           = () => import('@/components/page/setting/dat
 const SettingFlows           = () => import('@/components/page/setting/data/Flows')
 const SettingActions           = () => import('@/components/page/setting/data/Actions')
 const SettingEntityChange           = () => import('@/components/page/setting/data/EntityChange')
-const SettingServiceProject           = () => import('@/components/page/setting/ServiceProject')
+const SettingService           = () => import('@/components/page/setting/data/Service')
 const SettingMailTemplate           = () => import('@/components/page/setting/MailTemplate')
 const SettingSystem            = () => import('@/components/page/setting/SystemSetting')
 
@@ -279,7 +279,7 @@ const router = new Router({
       component: TaskCommon,
       meta: {
         params: { 
-          is_oa: 0,
+          stage: 1,
         },
       },
     },
@@ -289,7 +289,17 @@ const router = new Router({
       component: TaskCommon,
       meta: {
         params: { 
-          is_oa: 1,
+          stage: '2,3,4,5',
+        },
+      },
+    },
+    {
+      path: '/task/monitor/other',
+      name: 'TaskMonitorOther',
+      component: TaskCommon,
+      meta: {
+        params: { 
+          stage: 'other',
         },
       },
     },
@@ -516,7 +526,7 @@ const router = new Router({
       component: TechProClassification,
     },
     { path: '/setting/field', name: 'SettingField', component: SettingField },
-    { path: '/setting/services', name: 'ServiceProject', component: SettingServiceProject },
+    { path: '/setting/services', name: 'ServiceProject', component: SettingService },
     { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
     { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
     { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },

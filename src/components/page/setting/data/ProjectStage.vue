@@ -48,7 +48,7 @@
                     'columns': [
                         {type: 'selection'},
                         {
-                            type: 'text', label: '案件类型', prop: 'project_category',render_simple:'name', width: '100'
+                            type: 'text', label: '案件类型', prop: 'project_type',render_simple:'name', width: '100'
                         },
                         {type: 'text', label: '案件阶段名称', prop: 'name', min_width: '200'},
                         {type: 'text', label: '排序', prop: 'sort', width: '100'},

@@ -1,6 +1,6 @@
 const map = new Map([
     ['task', [
-        { components: 'static_select', id: 'category',                       name: '案件类型', type: 'case_type' },
+        { components: 'static_select', id: 'category',                       name: '案件类型', type: 'project_type' },
         { components: 'static_select', id: 'type_name',                       name: '专利类型', type: 'patent_type' },
         { components: 'input',         id: 'serial',                        name: '案号'},
         { components: 'input',         id: 'title',                        name: '案件名称'},
@@ -187,7 +187,7 @@ const map = new Map([
         { components: 'date',          id: 'pay_time', name: '发放时间', path: 'bonus', used: true },        
         { components: 'date',          id: 'pay_time', name: '付款时间', path: 'oa', used: true},        
         { components: 'date',          id: 'pay_time', name: '到账时间', path: 'subsidy', used: true },
-        { components: 'static_select', id: 'category', name: '案件类型', type: 'case_type' },
+        { components: 'static_select', id: 'category', name: '案件类型', type: 'project_type' },
         { components: 'static_select', id: 'patent_type', name: '专利类型', type: 'patent_type' },
         { components: 'date',          id: 'apd', name: '申请日' },
         { components: 'static_select', id: 'area', name: '地区', type: 'area' },

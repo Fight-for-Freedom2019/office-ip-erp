@@ -7,12 +7,12 @@ const config = [
         { name: '定稿文件', id: 3 },
     ]
   }],
-  ['category',{
+  ['project_type',{
     placeholder: '请选择案件类型',
     options: [
-        { name: '专利', id: 'Patent' },
-        { name: '商标', id: 'Trademark' },
-        { name: '版权', id: 'Copyright' },
+        { name: '专利', id: '专利' },
+        { name: '商标', id: '商标' },
+        { name: '版权', id: '版权' },
     ]
   }],
   ['subtype',{
@@ -245,14 +245,6 @@ const config = [
       { id: 'Invoice', name: '账单' },
     ]
   }],
-  ['case_type', {
-    placeholder: '请选择案件类型',
-    options: [
-      { id: 1, name: '专利' },
-      { id: 2, name: '商标' },
-      { id: 3, name: '版权' },
-    ]
-  }], 
   ['technical_field', {
     placeholder: '请选择技术领域',
     options: [
@@ -474,99 +466,21 @@ const config = [
       })
     }
   }],
-  ['fee_target_income', {
-    placeholder: '请选择收入对象',
-    url: '/feeTargets',
-    params: {
-      debit: 1,
-    },
-  }],
-  ['fee_target_expenditure', {
-    placeholder: '请选择支出对象',
-    url: '/feeTargets',
-    params: {
-      debit: 0,
+  ['flows', {
+    placeholder: '请选择流程',
+    url: '/flows?litOnly=1',
+    handle (data) {
+      return data.data
     }
   }],
-  ['progress', {
-    placeholder: '请选择当前进度',
-    url: '/progress',
+  ['actions', {
+    placeholder: '请选择流程',
+    url: '/actions?litOnly=1',
+    handle (data) {
+      return data.data
+    }
   }],
-  ['strategy', {
-    placeholder: '请选择申请策略',
-    options: [
-      { id: 1, name: '占领性申请' },
-      { id: 2, name: '进攻性申请' },
-      { id: 3, name: '防御性申请' },
-      { id: 4, name: '策略性申请' },
-    ]
-  }],
-  ['timing', {
-    placeholder: '请选择实审实际',
-    options: [
-      { id: 1, name: '提前公开' },
-      { id: 2, name: '18个月' },
-      { id: 3, name: '3年' },
-    ]
-  }],
-  ['patent_in', {
-    placeholder: '请选择',
-    options: [
-      { id: '', name: '申请专利' },
-      { id: 827, name: '暂缓' },
-      { id: 825, name: '不申请专利，以技术秘密保护更有利' },
-      { id: 826, name: '不申请专利，以文献发表形式做防御性公开，避免他人申请专利' },
-    ]
-  }],
-  ['patent_importance', {
-    options: [
-      { id: 1, name: '核心' },
-      { id: 2, name: '很重要' },
-      { id: 3, name: '重要' },
-      { id: 4, name: '普通' },
-      { id: 5, name: '不清楚' },
-    ]
-  }],
-  ['patent_avoidability', {
-    options: [
-      { id: 1, name: '很困难' },
-      { id: 2, name: '比较困难' },
-      { id: 3, name: '容易' },
-      { id: 4, name: '很容易' },
-    ]
-  }],
-  ['patent_evidence', {
-    options: [
-      { id: 1, name: '非常容易' },
-      { id: 2, name: '可以' },
-      { id: 3, name: '可以但需要借助复杂手段' },
-      { id: 4, name: '不容易' },
-    ]
-  }],
-  ['patent_profitability', {
-    options: [
-      { id: 1, name: '较大' },
-      { id: 2, name: '中等' },
-      { id: 3, name: '较小' },
-      { id: 4, name: '不确定' },
-      { id: 5, name: '没有在用' },
-    ]
-  }],
-  ['patent_selling', {
-    options: [
-      { id: 1, name: '相关' },
-      { id: 2, name: '不相关' },
-      { id: 3, name: '不确定' },
-    ]
-  }],
-  ['patent_marketing', {
-    options: [
-      { id: 1, name: '阻挡对手' },
-      { id: 2, name: '宣传' },
-      { id: 3, name: '防止抄袭' },
-      { id: 4, name: '其他用途' },
-    ]
-  }],
+
   ['currency', {
     placeholder: '请选择费用类型',
     options: [
@@ -642,14 +556,6 @@ const config = [
       {id: 3, name: '已拒绝'},
       {id: 4, name: '已付款待上传凭证',}, 
       {id: 5, name: '已上传凭证'},
-    ]
-  }],
-  ['product_relevance', {
-    placeholder: '产品相关性',
-    options: [
-      {id: 0, name: '否'}, 
-      {id: 1, name: '是'},  
-      {id: 2, name: '预研阶段'},
     ]
   }],
   ['applicant_type', {

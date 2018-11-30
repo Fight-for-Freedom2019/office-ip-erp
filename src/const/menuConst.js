@@ -11,6 +11,7 @@ const taskMenu = [
 	{ type: 'submenu', text: '我的关注', path: '/task/monitor', icon: 'iconfont el-icon-my-star', children:[
 		{ type: 'item', text: '新申请', path: '/task/monitor/application', icon: 'iconfont el-icon-my-order' },
 		{ type: 'item', text: '法限案件', path: '/task/monitor/oa', icon: 'iconfont el-icon-my-due' },
+		{ type: 'item', text: '其它', path: '/task/monitor/other', icon: 'iconfont el-icon-my-due' },
 	] },
 	{ type: 'item', text: '已完成', path: '/task/finished', icon: 'iconfont el-icon-my-task-finish'},
 ];

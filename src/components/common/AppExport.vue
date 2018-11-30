@@ -2,7 +2,7 @@
 	<el-form label-position="top" :rules="rules" :model="form" ref="form">
 		
 		<el-form-item label="导出字段" prop="fields">
-			<app-transfer-panel v-model="form.fields" :data="fields" title="导出字段控制" :is-move="false" style="width: 100%;"></app-transfer-panel>
+			<app-transfer-panel v-model="form.fields" placeholder="请输入关键字查询字段" :data="fields" title="导出字段控制" :is-move="false" style="width: 100%;"></app-transfer-panel>
 		</el-form-item>
 		<el-form-item label="文件类型" prop="documents">
 			<static-select type="file_type" v-model="form.documents" v-if="responseKey=='certificates'" :normal-filter='[829]' disabled></static-select>
@@ -10,6 +10,7 @@
 		</el-form-item>
 		<el-form-item style="margin-bottom: 0px;">
 			<el-button type="primary" @click="exportClick" :loading="loading">{{loading ? '导出中' : '确认导出' }}</el-button>
+			<el-button type="primary" @click="exportClick" :loading="loading">{{'保存数据视图' }}</el-button>
 		</el-form-item>
 	</el-form>
 </template>

@@ -1,7 +1,7 @@
 <template>  
   	<el-form label-width="110px" :model="form" ref="form" :rules="rules">
       <el-form-item label="案件类型" prop="category" v-if="type == 'add'">
-        <static-select type="category" v-model="form.category"></static-select>
+        <static-select type="project_type" v-model="form.category"></static-select>
       </el-form-item>
       <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.category != null">
         <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>

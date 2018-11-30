@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="案件类型" prop="project_type">
-                        <static-select type="case_type" v-model="form.project_type"></static-select>
+                        <static-select type="project_type" v-model="form.project_type"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -28,8 +28,8 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="默认管制事项" prop="process_action">
-                      <remote-select type="definitions" v-model="form.process_action"></remote-select>
+                    <el-form-item label="默认管制事项" prop="process_definition">
+                      <remote-select type="definitions" v-model="form.process_definition"></remote-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -60,7 +60,7 @@
                     project_type: '',
                     name: '',
                     unit_price: '',
-                    process_action: '',
+                    process_definition: '',
                     remark:'',
                 },
                 rules: {
@@ -76,7 +76,7 @@
                     unit_price: [
                         {required: true, message: "请输入单价", trigger: "blur"}
                     ],
-                    process_action: [
+                    process_definition: [
                         {required: true, message: "请选择默认管制事项", trigger: "change"}
                     ],
                 },

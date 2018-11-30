@@ -5,7 +5,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="案件类型" prop="category">
-                        <static-select type="category" v-model="form.category"></static-select>
+                        <static-select type="project_type" v-model="form.category"></static-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
