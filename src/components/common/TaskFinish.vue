@@ -1,5 +1,5 @@
 <template>
-<div  element-loading-text="数据加载中" >
+<div v-loading="loading"  element-loading-text="数据加载中" >
   <el-steps :space="150" style="padding: 5px 40px;" v-if="data.tips" align-center>
     <el-step v-for="(item, index) in data.tips" :key="index" :title="item.name" :status="item.current ? 'finish' : 'wait'"></el-step>
   </el-steps>
@@ -52,10 +52,10 @@
         <el-row>
           <el-form-item label="备注"><span class="form-item-text">{{ processData.task.remark }}</span></el-form-item>
         </el-row>
-      <!--   <el-form-item label="附件">
-            <app-table v-if="processData.attachments.length > 0" :columns="columns" :data="processData.attachments"></app-table>
-            <span v-if="processData.attachments.length == 0">无附件</span>
-        </el-form-item> -->
+        <el-form-item label="附件">
+            <app-table v-if="processData.task.attachments.length > 0" :columns="columns" :data="processData.task.attachments"></app-table>
+            <span v-if="processData.task.attachments.length == 0">无附件</span>
+        </el-form-item>
       </el-form>
     </el-collapse-item>
     <el-collapse-item title="任务处理" name="2">

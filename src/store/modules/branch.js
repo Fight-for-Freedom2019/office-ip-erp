@@ -1,4 +1,4 @@
-let url = '/organization_units';
+let url = '/organization_units?getAll=1';
 const state = {
 	data: [],
 	lastUpdate: '',

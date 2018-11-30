@@ -100,7 +100,7 @@ export default {
         'search_placeholder': '搜索案号、标题、申请号、提案号', 
         'highlightCurrentRow': true,
         'rowClick': this.handleRowClick,
-        'is_filter': true,
+        // 'is_filter': true,
         'is_list_filter': true,
         'treeFilter': 'patent',
         'list_type': 'patent',
@@ -123,7 +123,7 @@ export default {
           { type: 'text', label: '标题', prop: 'title',  is_import: true, width: '200', is_agency: true, render_header: true},
           { type: 'text', label: '英文标题', prop: 'english_title',  is_import: true, width: '200', is_agency: true, render_header: true},
   
-          { type: 'text', label: '案件类型', prop: 'subtype', is_agency: true,  is_import: true, width: '120',render_header:true},
+          { type: 'text', label: '案件类型', prop: 'subtype', is_agency: true, render_simple: 'name', is_import: true, width: '120',render_header:true},
           { type: 'text', label: '申请国家', prop: 'area',  is_import: true, width: '120', is_agency: true, render_header: true },
           { type: 'array', label: '申请人', prop: 'applicants', width: '200', is_import: true,render: _=>{ return _.map(_=>_.name);},render_header: true},
           { type: 'text', label: '申请号', prop: 'application_number',  is_import: true, width: '140', is_agency: true, render_header: true},
@@ -172,9 +172,9 @@ export default {
           // { type: 'array', label: '标签', prop: 'tags', render: _=>_.map(_=>_.name), is_import: true, width: '123',render_header: true},
           { type: 'text', label: '案件等级', prop: 'level',width: '100', render_header: true},
 
-          { type: 'text', label: '技术分类', width: '123' , prop: 'classification',  is_import: true, render_simple: 'name',render_header: true},
+          { type: 'text', label: '技术分类', width: '160' , prop: 'classification',  is_import: true, render_simple: 'name',render_header: true},
           { type: 'array', label: '优先权', prop: 'priorities', width: '145',render: _=>_.map(_=>_.number), render_header: true},
-          // { type: 'array', label: '产品名称', width: '180', prop: 'products',  render: _=>_.map(_=>_.name),},
+          { type: 'array', label: '产品分类', width: '160', prop: 'products',  render: _=>_.map(_=>_.name), render_header: true,},
           { type: 'array', label: '相关案件', prop: 'references', width: '200',  render_header: true,},
           { type: 'text', label: '委案日', prop: 'entrusting_time',  render_header: true, is_import: true, width: '123',         
             render: (h,item)=>{
@@ -218,7 +218,6 @@ export default {
           { type: 'text', label: '优先权届满日', prop: 'priority_expire_date',  width: '178'  , render_header: true},
           // { type: 'text', label: '项目名称', prop: 'project_name',  width: '145'  , render_header: true},
           // { type: 'text', label: '项目编号', prop: 'project_serial',  width: '145' , render_header: true },
-          { type: 'text', label: '提案标题', prop: 'proposal_title',  width: '145'  , render_header: true},
           { type: 'text', label: '首次年费年度', prop: 'start_year',  width: '145'  , render_header: true},
           // { type: 'text', label: '详细类型', prop: 'type_name',  width: '145' },
           { type: 'text', label: '是否变更', prop: 'is_amended',  width: '178', render:this.booleanRender , render_header: true},         
@@ -433,7 +432,7 @@ export default {
     this.ifAgency()
     this.initializeSelectorCache({type: 'file_type_patent_notice'});
     this.refreshFlows();
-    this.refreshTaskDefs();
+    // this.refreshTaskDefs();
   },
   mounted () {
     if(!this.custom) {

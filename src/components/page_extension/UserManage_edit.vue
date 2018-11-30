@@ -44,8 +44,8 @@
 	  	</el-form>  
 	  	<template>
 			<span slot="header" style="float: right;">
-				<el-button v-if="type == 'add'" type="primary" size="mini" :disabled="btn_disabled" @click="add">添加</el-button>
-				<el-button v-if="type == 'edit'" type="primary" size="mini" :disabled="btn_disabled" @click="edit">编辑</el-button>
+				<el-button v-if="type == 'add'" type="primary" size="small" :disabled="btn_disabled" @click="add">添加</el-button>
+				<el-button v-if="type == 'edit'" type="primary" size="small" :disabled="btn_disabled" @click="edit">编辑</el-button>
 			</span>	
 		</template>
 	</app-shrink>	
@@ -83,13 +83,7 @@ export default {
  	  	'roles': { type: 'array', required: true, message: '请输入用户组', trigger: 'change'},
  	  	'organization_units': { type: 'array', required: true, message: '请输入部门', trigger: 'change'},
 		'user_name': [{required: true, message: '请输入用户名称', trigger: 'blur'},],
-		// 'password': [{required: true, message: '密码不能为空', trigger: 'blur'},],
 		'name': [{required: true, message: '请输入名称', trigger: 'blur'},],
-		// 'pop_server': [{required: true, message: 'POP服务器不能为空', trigger: 'blur'},],
-		// 'pop_port': [{required: true, message: 'POP端口不能为空', trigger: 'blur'},],
-		// 'smtp_server': [{required: true, message: 'SMTP服务器不能为空', trigger: 'blur'},],
-		// 'smtp_port': [{required: true, message: 'SMTP端口不能为空', trigger: 'blur'},],
-		// 'is_ssl': [{required: true, message: 'SSL不能为空', trigger: 'blur'},],
         'email_address': [
             {
                 pattern: /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
@@ -97,13 +91,15 @@ export default {
                 trigger: 'blur',
                 required: true,
             }],
-        // 'phone_number': {required: true,pattern: /^1[345678]\d{9}$/, message: '手机号码或者座机号码格式错误', trigger: 'blur'}, 	  	
  	  },
   	}
   },
   methods: {
   	setForm (d) {
   		this.$tool.coverObj(this.form, d);
+  		if(d.organization_unit) {
+  			this.form.organization_units = d.organization_unit.map(_=>_.id);
+  		}
   	},
   },
   created () {

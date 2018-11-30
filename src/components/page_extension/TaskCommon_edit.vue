@@ -3,10 +3,10 @@
       <el-form-item label="案件类型" prop="category" v-if="type == 'add'">
         <static-select type="category" v-model="form.category"></static-select>
       </el-form-item>
-      <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.category != ''">
+      <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.category != null">
         <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>
       </el-form-item>  
-      <el-form-item label="绑定流程" prop="process_flow"  v-if="form.model != ''">
+      <el-form-item label="绑定流程" prop="process_flow"  v-if="form.model != null">
         <el-select v-model="form.process_flow" placeholder="请选择绑定流程" @visible-change.once="initFlows">
           <el-option
             v-for="item in flowOptions"
@@ -17,7 +17,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="事件名称" prop="process_definition"  v-if="form.model != ''">
+      <el-form-item label="事件名称" prop="process_definition"  v-if="form.model != null">
         <el-select v-model="form.process_definition" placeholder="请选择事件名称">
           <el-option
             v-for="item in defOptions"
@@ -28,7 +28,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="开始节点" prop="process_action" v-if="form.model != ''">
+      <el-form-item label="开始节点" prop="process_action" v-if="form.model != null">
         <el-select v-model="form.process_action" placeholder="请选择开始">
           <el-option
             v-for="item in actionOptions"
@@ -40,7 +40,7 @@
         </el-select>
       </el-form-item> 
       <el-row>
-        <el-col :span="8" v-if="form.model != ''">
+        <el-col :span="8" v-if="form.model != null">
           <el-form-item  label="承办人" prop="user">
             <remote-select type="user" v-model="form.user"></remote-select>
           </el-form-item>
@@ -205,9 +205,9 @@ import {mapActions} from 'vuex'
 
 const URL = '/processes';
 const typeMap = new Map([
-  ['Patent', 'patent'],
-  ['Trademark', 'trademark'],
-  ['Copyright', 'copyright']
+  [1, 'patent'],
+  [2, 'trademark'],
+  [3, 'copyright']
 ]);
 export default {
   name: 'taskEdit',
@@ -262,6 +262,7 @@ export default {
       await this.$axiosPut({url, data, success, complete });
     },
     clear () {
+      this.form.category = '';
       this.$refs.form.resetFields();
     },
     fill (o,f,d) {
@@ -322,8 +323,8 @@ export default {
     };
   	return {
       form: {
-        category: '',
-        model: '',
+        category: null,
+        model: null,
         process_definition: '',
         process_flow: '',
         process_action: '',
@@ -385,7 +386,7 @@ export default {
   },
   computed: {
     projectType () {
-      const config = typeMap.get(this.form.category);
+      const config = this.type == 'add'? typeMap.get(this.form.category) : '';
       return config;
     },
     flowsData () {
@@ -434,6 +435,9 @@ export default {
       handler () {
         this.refreshRow();
       },
+    },
+    type (val) {
+      if(val == 'edit') this.refreshRow();
     }
   },
   mounted () {

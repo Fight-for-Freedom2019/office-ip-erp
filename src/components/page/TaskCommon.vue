@@ -178,7 +178,7 @@
         <el-button type="primary" size="small" v-if="pageType == 'add'" @click="handleTasks('add')">新增</el-button>
         <el-button type="primary" size="small" v-if="pageType == 'edit'" @click="handleTasks('edit')">保存</el-button>
       </span>
-      <edit :type="pageType" @addSuccess="addSuccess" ref="processes_task" :row="currentRow" @editSuccess="editSuccess"></edit>
+      <edit :type="pageType" @addSuccess="addSuccess" ref="processes_task" :row="currentRow" @editSuccess="editSuccess" v-if="rerender"></edit>
     </app-shrink>
     <common-detail 
       :type="categoryType" 
@@ -290,6 +290,7 @@ export default {
       dialogActivationVisible: false,
       moreVisible: false,
       nextValue: false,
+      rerender: true,
       taskIds: '',
       moreType: '',
       historyTasks: [],
@@ -320,7 +321,7 @@ export default {
           return ;
         },
         'header_btn': [
-          { type: 'add', click: ()=>{this.addPop()}, map_if: '/tasks/add_btn'},//部分顶部按钮在refreshOption中渲染
+          { type: 'add', click:()=>{ this.addPop()}, map_if: '/tasks/add_btn'},//部分顶部按钮在refreshOption中渲染
           {},
           {},
           {},
@@ -352,7 +353,8 @@ export default {
           { type: 'text', prop: 'subtype', label: '案件子类型', render_simple: 'name', render_header: true, width: '160'},
           { type: 'text', prop: 'process_definition', label: '管制事项', render_simple: 'name', render_header: true, width: '150',},
           { type: 'text', prop: 'task', label: '当前节点', render_header: true, width: '150', render: function(h,item){
-            return h('span',item.process_action.name);
+            item = item != null ? item.process_action.name: '';
+            return h('span',item);
           }},
           { type: 'text', prop: 'user', label: '承办人', render_simple: 'name', render_header: true, width: '145',},
           { type: 'text', prop: 'agent', label: '代理人', render_simple: 'name', render_header: true, width: '145',},
@@ -536,11 +538,19 @@ export default {
       this.$refs.table.setCurrentRow();
     },
     addPop (type = 'add') {
-      if(type == 'add ' && this.$refs.processes_task) {
-        this.$refs.processes_task.clear();
-      }
       this.pageType = type;
       this.dialogAddVisible = true;
+
+      if(type == 'add') {
+        this.rerender = false;
+        this.$nextTick(_=>{
+          // add为了重置表单 强制重新渲染表单  
+          this.rerender = true;
+          this.$nextTick(_=>{
+            this.$refs.processes_task.clear();
+          })
+        })
+      }
     },
     agenPop () {
       const s = this.$refs.table.getSelect();

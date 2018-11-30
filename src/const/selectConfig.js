@@ -10,9 +10,9 @@ const config = [
   ['category',{
     placeholder: '请选择案件类型',
     options: [
-        { name: '专利', id: 'Patent' },
-        { name: '商标', id: 'Trademark' },
-        { name: '版权', id: 'Copyright' },
+        { name: '专利', id: 1 },
+        { name: '商标', id: 2 },
+        { name: '版权', id: 3 },
     ]
   }],
   ['subtype',{
@@ -57,8 +57,7 @@ const config = [
     placeholder: '请选择费用类型',
     options: [
         { name: '后付费', id: 1 },
-        { name: '全额预付费', id: 2 },
-        { name: '部分预付费', id: 3 },
+        { name: '预付费', id: 2 },
       ]
   }],
   ['fee_status',{
@@ -164,7 +163,7 @@ const config = [
     placeholder: '请选择IPR',
     url: 'contacts?listRows=100&cotatct_type=2',
     handle (data) {
-    	return data.data;
+    	return data.data.data;
     }
   }],
   ['project_stage', {
@@ -282,6 +281,34 @@ const config = [
       { id: 10, name: '其它' },
     ]
   }],
+  ['file_type_oa', {
+    placeholder: '请选择文件类型',
+    url: '/file_types?project_type=1&category=1',
+    handle (data) {
+      return data.data.data;
+    },
+  }],   
+  ['file_type_voucher', {
+    placeholder: '请选择文件类型',
+    url: '/file_types?project_type=1&category=1',
+    handle (data) {
+      return data.data.data;
+    },    
+  }],   
+  ['file_type_other', {
+    placeholder: '请选择文件类型',
+    url: '/file_types?project_type=1&category=1',
+    handle (data) {
+      return data.data.data;
+    },    
+  }],   
+  ['file_type_cpc', {
+    placeholder: '请选择文件类型',
+    url: '/file_types?project_type=1&category=1',
+    handle (data) {
+      return data.data.data;
+    },    
+  }],  
   ['file_type', {
     placeholder: '请选择文件类型',
     url: '/fileTypes?category=1',

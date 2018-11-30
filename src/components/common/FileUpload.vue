@@ -11,7 +11,7 @@
       <div class="el-upload__text"><em>单/多文件上传</em></div>
     </el-upload>
     <el-upload
-      :action="`${upload_url}Zip`"
+      :action="zip_upload_url"
       :on-success="handleSuccess"
       drag
       multiple
@@ -31,37 +31,37 @@
       <el-table-column label="文件名称" prop="name" width="150"></el-table-column>
       <el-table-column label="关联案件" prop="project" min-width="120">
         <template slot-scope="scope">
-          <remote-select :type="config.type" v-model="scope.row.project" single></remote-select>
+          <jump-select :type="config.type" v-model="scope.row.project" single></jump-select>
         </template>
       </el-table-column>
       <el-table-column label="关联账单" prop="invoice" min-width="80"  v-if="config.invoice">
         <template slot-scope="scope">
-          <remote-select :type="invoice" v-model="scope.row.invoice" single  v-show="!!tableData[scope.$index]['show_invoice']"></remote-select>
+          <jump-select type="invoices" v-model="scope.row.invoice" single  v-show="!!tableData[scope.$index]['show_invoice']"></jump-select>
         </template>
       </el-table-column>
-      <el-table-column label="文件类型" prop="type" min-width="120">
+      <el-table-column label="文件类型" prop="type" min-width="120" v-if="!config.invoice">
         <template slot-scope="scope">
-          <static-select :type="config.file_type" v-model="scope.row.type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}"></static-select>
+          <static-select :type="config.file_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" :ref="`file_type_${scope.$index}`"></static-select>
         </template>
       </el-table-column>
-      <el-table-column label="发文日" prop="mail_date" v-if="config.time">
+      <el-table-column label="发文日" prop="mail_date" v-if="config.mail_date">
         <template slot-scope="scope">
           <el-date-picker type="date" v-model="scope.row.mail_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_mail_date']"></el-date-picker>
         </template>
       </el-table-column>
       <el-table-column label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline" >
         <template slot-scope="scope">
-          <el-date-picker type="date" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['legal_legal_deadline']"></el-date-picker>
+          <el-date-picker type="date" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['show_legal_deadline']"></el-date-picker>
         </template>
       </el-table-column>
-      <el-table-column label="申请日" prop="apd" v-if="config.apd">
+      <el-table-column label="申请日" prop="application_date" v-if="config.application_date">
         <template slot-scope="scope">
-          <el-date-picker type="date" v-model="scope.row.apd" style="width: 100%;" v-show="!!tableData[scope.$index]['show_apd']"></el-date-picker>
+          <el-date-picker type="date" v-model="scope.row.application_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_date']"></el-date-picker>
         </template>
       </el-table-column>      
-      <el-table-column label="申请号" prop="apn" v-if="config.apn">
+      <el-table-column label="申请号" prop="application_number" v-if="config.application_number">
         <template slot-scope="scope">
-          <el-input v-model="scope.row.apn" style="width: 100%;" v-show="!!tableData[scope.$index]['show_apn']"></el-input>
+          <el-input v-model="scope.row.application_number" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_number']"></el-input>
         </template>
       </el-table-column>       
       <el-table-column label="授权日" prop="issue_date" v-if="config.issue_date">
@@ -74,9 +74,9 @@
           <el-input v-model="scope.row.issue_number" style="width: 100%;" v-show="!!tableData[scope.$index]['show_issue_number']"></el-input>
         </template>
       </el-table-column>
-      <el-table-column label="费用" prop="fees" v-if="config.fees">
+      <el-table-column label="费用" prop="fees" v-if="config.fees" show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-input v-model="scope.row.fees" style="width: 100%;" v-show="!!tableData[scope.$index]['show_fees']"></el-input>
+          <el-tag v-for="(item, index ) in scope.row.fees" :key="index">{{ `${item.name}：${item.fee}` }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -95,6 +95,7 @@
 <script>
 import AxiosMixins from '@/mixins/axios-mixins'
 import RemoteSelect from '@/components/form/RemoteSelect'
+import JumpSelect from '@/components/form/JumpSelect'
 import StaticSelect from '@/components/form/StaticSelect'
 import {mapActions} from 'vuex'
 import {mapGetters} from 'vuex'
@@ -104,34 +105,37 @@ const config = [
     action: 'parseNotices',
     url: '/files/oa',
     type: 'oa',
-    file_type: 'file_type_patent',
+    file_type: 'file_type_oa',
     mail_date: true,
+    issue_date: true,
+    issue_number: true,
     legal_deadline: true,
-    apn: true,
-    apd: true,
+    application_number: true,
+    application_date: true,
   }],
   ['voucher', {
     action: 'parseVoucher',
     url: '/files/voucher',
     type: 'voucher',
-    file_type: 'file_type_trademark',
+    file_type: 'file_type_voucher',
     invoice: true,
+    fees:true,
   }],
   ['other', {
     action: 'parseFiles',
     url: '/files/other',
     type: 'other',
-    file_type: 'file_type_copyright',
+    file_type: 'file_type_other',
   }],
   ['cpc', {
     action: 'parseCpc',
     url: '/files/cpc',
     type: 'cpc',
-    file_type: 'file_type_patent_notice',
+    file_type: 'file_type_cpc',
     mail_date: true,
     legal_deadline: true,
-    apn: true,
-    apd: true,
+    application_number: true,
+    application_date: true,
     fees: true,
   }],
 ]
@@ -147,6 +151,7 @@ export default {
     return {
       fileList: [],
       tableData: [],
+      copyTableData: [],
       file: [],
       dialogVisible: false,
       dialogVisibleIn: false,
@@ -168,6 +173,15 @@ export default {
       let url = '/api/files';
       if(action != '') {
         url += `?action=${action}`;
+      }
+
+      return url;
+    },
+    zip_upload_url () {
+      const action = this.config.action;
+      let url = '/api/files';
+      if(action != '') {
+        url += `?action=${action}&is_zip=1`;
       }
 
       return url;
@@ -198,12 +212,12 @@ export default {
       }
       if (!f) return;
       const copy = this.$tool.deepCopy(this.tableData[index]);
-      copy['show_mail_date'] = f.mail_date == 1 && this.config.time ? true : false;
-      copy['legal_legal_deadline'] = f.deadline == 1 && this.config.legal_deadline ? true : false;
-      copy['show_apd'] = f.apd == 1 && this.config.apd ? true : false;
+      copy['show_mail_date'] = f.mail_date == 1 && this.config.mail_date ? true : false;
+      copy['show_legal_deadline'] = f.deadline == 1 && this.config.legal_deadline ? true : false;
+      copy['show_application_date'] = f.application_date == 1 && this.config.application_date ? true : false;
       copy['show_issue_date'] = f.issue_date == 1 && this.config.issue_date ? true : false;
       copy['show_issue_number'] = f.issue_number == 1 && this.config.issue_number ? true : false;
-      copy['show_apn'] = f.apn == 1 && this.config.apn ? true : false;
+      copy['show_application_number'] = f.application_number == 1 && this.config.application_number ? true : false;
       copy['show_invoice'] = f.invoice == 1 && this.config.invoice ? true : false;
       copy['show_fees'] = f.fees == 1 && this.config.fees ? true : false;
 
@@ -211,7 +225,7 @@ export default {
       // console.log(this.tableData);
 
       //这里使用强制刷新 无法触发更新（why？可能是数据 不在当前组件强制刷新的作用范围内）
-      //只有使用数组截取的方法 让它自动检测刷新了 麻烦一些 比起直接在row上进行修改
+    //只有使用数组截取的方法 让它自动检测刷新了 麻烦一些 比起直接在row上进行修改
       // this.$forceUpdate();
     
     },
@@ -235,7 +249,7 @@ export default {
         if( !d.project  ) {
           return this.$message({message: '关联案件不能为空', type: 'warning'});
         }
-        if( !d.type ) {
+        if( !d.file_type ) {
           return this.$message({message: '文件类型不能为空', type: 'warning'});
         }
       }
@@ -245,11 +259,15 @@ export default {
       const list2 = [];
       for(let i = 0; i < list.length; i++ ) {
         const _ = list[i];
+      const obj = this.$tool.shallowCopy(_,{skip:['show_legal_deadline','show_application_number','show_issue_number','show_issue_date','show_mail_date'
+        ,'show_fees', 'show_invoice', 'show_application_date','name',
+      ],date: true});
+
         const o = {};
         o.file_id = _.file_id;
         o.project = _.project;
         o.name = _.name;
-        o.type = _.type;
+        o.file_type = _.file_type;
         if(_.subfile) {
           o.subfile = _.subfile;
         }
@@ -257,23 +275,22 @@ export default {
           o.zip = _.zip;
         }
         if(_.show_mail_date) {
-          if(_.time) {
-            o.time = this.$tool.getDate( new Date(_.time) );
-          }else if(this.is_add_to_task) {
+          if(_.mail_date) {
+            o.mail_date = this.$tool.getDate( new Date(_.mail_date) );
+          }else {
             return this.$message({type: 'warning', message: '请填写发文日'});
           }
         }
-        if (this.is_add_to_task) {
-          if(_.legal_legal_deadline) {
+          if(_.show_legal_deadline) {
             if(_.legal_deadline) {
               o.legal_deadline = this.$tool.getDate( new Date(_.legal_deadline) );
             }else {
               return this.$message({type: 'warning', message: '请填写官方绝限'}); 
             }
           }
-          if(_.show_apd) {
-            if(_.apd) {
-              o.apd = this.$tool.getDate( new Date(_.apd) );
+          if(_.show_application_date) {
+            if(_.application_date) {
+              o.application_date = this.$tool.getDate( new Date(_.application_date) );
             }else {
               return this.$message({type: 'warning', message: '请填写申请日'}); 
             }
@@ -285,9 +302,9 @@ export default {
               return this.$message({type: 'warning', message: '请填写授权日'}); 
             }
           }
-          if(_.show_apn) {
-            if(_.apn) {
-              o.apn = _.apn;
+          if(_.show_application_number) {
+            if(_.application_number) {
+              o.application_number = _.application_number;
             }else {
               return this.$message({type: 'warning', message: '请填写申请号'}); 
             }
@@ -312,15 +329,14 @@ export default {
             }else {
               return this.$message({type: 'warning', message: '请填写检索结论摘要'}); 
             }
-          }           
-        }
-        list2.push(o);  
+          }
+
+        list2.push(obj);  
       }
-      
-      const data = {file: this.file, list: list2,is_add_to_task:this.is_add_to_task,is_apn:this.is_apn };
+      // const s = new Set([...list, ...list2]);
+      const data = { list: list2};
       const success = _=>{
         this.clear();
-        this.dialogVisible = false;
         this.$message({message: '上传文件成功', type: 'success'});
         this.$emit('uploadSuccess');
       };
@@ -338,25 +354,30 @@ export default {
         
         a.data.list.forEach((_, key)=>{ 
           // _.time = '';
-          _.legal_deadline = '';
-          _.apd = '';
-          _.issue_date = '';
-          _.issue_number = '';
-          _.apn = '';
-          _.pct_search_result = '';
-          _.pct_search_date = '';   
+          // _.legal_deadline = '';
+          // _.application_date = '';
+          // _.issue_date = '';
+          // _.issue_number = '';
+          // _.application_number = '';
+          // _.pct_search_result = '';
+          // _.pct_search_date = '';
+          if(_.code) {
+            _.name = _.code.name;
+          }   
           if(_.type) {
             _.type =  _.type.id-0;
           }
           lists.push(this.$tool.deepCopy(_));
-          _.type = '';
+
+          // _.type = '';
         });
-          this.tableData.push(...a.data.list);
+        this.tableData.push(...a.data.list);
           this.file.push(a.data.file);
           this.$nextTick(_=>{
-            lists.forEach((v,k)=>{
-              this.tableData.splice(k+l,1,v);
+           lists.forEach((v,k)=>{
+               this.tableData.splice(k+l,1,v);
             })
+          this.copyTableData.push(...a.data.list);
           })
       }else {
         this.$message({message: a.info, type: 'warning'});
@@ -379,10 +400,22 @@ export default {
     this.initializeSelectorCache({type: this.config.file_type});
   },
   watch: {
-
+    'copyTableData':[ 
+      function handle1(val) {
+        val.forEach((v,i)=>{
+          if(v.file_type != null) {
+            this.$nextTick(()=>{
+              const s = this.$refs[`file_type_${i}`].getSelected(v.file_type.id)[0]
+              this.handleTypeChange(s,i)
+            })
+          }
+       })
+      },
+    ]
   },
   components: { 
     RemoteSelect,
+    JumpSelect,
     StaticSelect,   
   },
 }

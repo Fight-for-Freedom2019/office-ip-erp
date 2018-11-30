@@ -29,6 +29,7 @@ export default {
         return {
             tableOption: {
                 'name': 'mailTemplate',
+                'url': URL,
                 'height': 'default',
                 'highlightCurrentRow': true,
                 'is_search': true,
