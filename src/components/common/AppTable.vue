@@ -10,6 +10,7 @@
   :height="tableHeight"
   :max-height="maxHeight"
   :span-method="spanMethod"
+  :show-summary="showSummary"
 
   @selection-change="handleSelectionChange" 
   @sort-change="_=>{$emit('sort-change', _)}"
@@ -197,6 +198,10 @@ export default {
     data: {
       type: Array,
       required: true,
+    },
+    showSummary:{
+      type: Boolean,
+      default: false,
     },
     tableSelected: {
       type: Array,

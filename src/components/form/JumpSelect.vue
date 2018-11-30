@@ -77,6 +77,11 @@ const map = new Map([
     DATA_KEY: 'members',
     PLACEHOLDER: '请输入IPR关键词',
   }],
+  ['services', {
+    URL: '/services',
+    DATA_KEY: 'services',
+    PLACEHOLDER: '请服务项目',
+  }],
   ['project', {
     URL: '/projects',
     DATA_KEY: 'projects',

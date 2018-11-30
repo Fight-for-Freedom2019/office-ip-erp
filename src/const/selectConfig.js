@@ -655,6 +655,7 @@ const config = [
   ['contract_type', {
         placeholder: '合同类型',
         options: [
+            {id: 0, name: '未定义合同类型'},
             {id: 1, name: '框架协议'},
             {id: 2, name: '订单协议'}
         ]
