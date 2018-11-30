@@ -63,6 +63,7 @@ const map = new Map([
         { type: 'remote_select',    id: 'customer',             name: '客户',       url: '/customers', data_key: 'data',},
         { type: 'static_select',    id: 'organization_unit',                name: '承办部门',         map_type: 'branch'},
         { type: 'static_select',    id: 'classification',        name: '技术分类',     map_type: 'classification'},
+        { type: 'static_select',    id: 'products',        name: '产品分类',     map_type: 'product'},
         { type: 'static_select',    id: 'level',                 name: '案件等级',     map_type: 'case_level'},
         { type: 'static_select',    id: 'project_state',                 name: '案件状态',     map_type: 'project_type'},
         { type: 'static_select',    id: 'ipr',                   name: '负责IPR',      map_type: 'ipr_para',    url: '/iprs'},

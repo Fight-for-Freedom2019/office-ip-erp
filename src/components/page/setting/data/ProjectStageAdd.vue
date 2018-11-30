@@ -31,7 +31,7 @@
             return {
                 URL: "/project_stages",
                 form: {
-                    project_type: "",
+                    project_type: "专利",
                     name: "",
                     sort: "",
                     remark: "",

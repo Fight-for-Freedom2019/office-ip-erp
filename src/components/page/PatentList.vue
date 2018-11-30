@@ -172,9 +172,9 @@ export default {
           // { type: 'array', label: '标签', prop: 'tags', render: _=>_.map(_=>_.name), is_import: true, width: '123',render_header: true},
           { type: 'text', label: '案件等级', prop: 'level',width: '100', render_header: true},
 
-          { type: 'text', label: '技术分类', width: '123' , prop: 'classification',  is_import: true, render_simple: 'name',render_header: true},
+          { type: 'text', label: '技术分类', width: '160' , prop: 'classification',  is_import: true, render_simple: 'name',render_header: true},
           { type: 'array', label: '优先权', prop: 'priorities', width: '145',render: _=>_.map(_=>_.number), render_header: true},
-          // { type: 'array', label: '产品名称', width: '180', prop: 'products',  render: _=>_.map(_=>_.name),},
+          { type: 'array', label: '产品分类', width: '160', prop: 'products',  render: _=>_.map(_=>_.name), render_header: true,},
           { type: 'array', label: '相关案件', prop: 'references', width: '200',  render_header: true,},
           { type: 'text', label: '委案日', prop: 'entrusting_time',  render_header: true, is_import: true, width: '123',         
             render: (h,item)=>{

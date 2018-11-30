@@ -143,6 +143,7 @@
           :isMerge="tableOption.is_merge === undefined?{}:tableOption.is_merge"
           :data="tableData"
           :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
+          :showSummary="tableOption.show_summary!=undefined?tableOption.show_summary: false"
           :filterVisible="filterValueVisible"
           :type="tableOption.list_type"
           :border="tableOption.is_border != undefined ? tableOption.is_border : true"

@@ -275,28 +275,28 @@ const config = [
   }],
   ['file_type_oa', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_category=1&category=1',
+    url: '/file_types?project_type=1&category=1',
     handle (data) {
       return data.data.data;
     },
   }],   
   ['file_type_voucher', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_category=1&category=1',
+    url: '/file_types?project_type=1&category=1',
     handle (data) {
       return data.data.data;
     },    
   }],   
   ['file_type_other', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_category=1&category=1',
+    url: '/file_types?project_type=1&category=1',
     handle (data) {
       return data.data.data;
     },    
   }],   
   ['file_type_cpc', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_category=1&category=1',
+    url: '/file_types?project_type=1&category=1',
     handle (data) {
       return data.data.data;
     },    
@@ -470,12 +470,33 @@ const config = [
     placeholder: '请选择流程',
     url: '/flows?litOnly=1',
     handle (data) {
-      return data.data
+      return data.data.data
     }
   }],
   ['actions', {
     placeholder: '请选择流程',
     url: '/actions?litOnly=1',
+    handle (data) {
+      return data.data.data
+    }
+  }],
+  ['process_stage', {
+    placeholder: '请选择管制事项阶段',
+    url: '/stages?listOnly=1',
+    handle (data) {
+      return data.data.data
+    }
+  }],
+  ['mail_template', {
+    placeholder: '请选择邮件模板',
+    url: '/message_templates?listOnly=1&template_type=1&template_subtype=1',
+    handle (data) {
+      return data.data
+    }
+  }],
+  ['form', {
+    placeholder: '请选择表单',
+    url: '/forms?listOnly=1',
     handle (data) {
       return data.data
     }
@@ -597,6 +618,7 @@ const config = [
   ['contract_type', {
         placeholder: '合同类型',
         options: [
+            {id: 0, name: '未定义合同类型'},
             {id: 1, name: '框架协议'},
             {id: 2, name: '订单协议'}
         ]

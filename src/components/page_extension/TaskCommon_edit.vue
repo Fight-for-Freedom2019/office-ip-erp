@@ -205,9 +205,9 @@ import {mapActions} from 'vuex'
 
 const URL = '/processes';
 const typeMap = new Map([
-  ['Patent', 'patent'],
-  ['Trademark', 'trademark'],
-  ['Copyright', 'copyright']
+  [1, 'patent'],
+  [2, 'trademark'],
+  [3, 'copyright']
 ]);
 export default {
   name: 'taskEdit',

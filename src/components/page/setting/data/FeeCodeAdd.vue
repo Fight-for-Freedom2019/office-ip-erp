@@ -4,8 +4,8 @@
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="案件类型" prop="category">
-                        <static-select type="project_type" v-model="form.category"></static-select>
+                    <el-form-item label="案件类型" prop="project_type">
+                        <static-select type="project_type" v-model="form.project_type"></static-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -85,9 +85,9 @@
             return {
                 URL: "/fee_codes",
                 form: {
-                    category: "",
-                    subtype: "",
-                    fee_type: "",
+                    project_type: "专利",
+                    subtype: 1,
+                    fee_type: 3,
                     name: "",
                     currency: "",
                     amount: "",
@@ -97,7 +97,7 @@
                     remark:'',
                 },
                 rules: {
-                    category: [
+                    project_type: [
                         {required: true, message: "请选择案件类型", trigger: "blur"}
                     ],
                     subtype: [

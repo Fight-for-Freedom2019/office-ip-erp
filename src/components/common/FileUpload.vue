@@ -31,15 +31,15 @@
       <el-table-column label="文件名称" prop="name" width="150"></el-table-column>
       <el-table-column label="关联案件" prop="project" min-width="120">
         <template slot-scope="scope">
-          <remote-select :type="config.type" v-model="scope.row.project" single></remote-select>
+          <jump-select :type="config.type" v-model="scope.row.project" single></jump-select>
         </template>
       </el-table-column>
       <el-table-column label="关联账单" prop="invoice" min-width="80"  v-if="config.invoice">
         <template slot-scope="scope">
-          <remote-select :type="invoice" v-model="scope.row.invoice" single  v-show="!!tableData[scope.$index]['show_invoice']"></remote-select>
+          <jump-select type="invoices" v-model="scope.row.invoice" single  v-show="!!tableData[scope.$index]['show_invoice']"></jump-select>
         </template>
       </el-table-column>
-      <el-table-column label="文件类型" prop="type" min-width="120">
+      <el-table-column label="文件类型" prop="type" min-width="120" v-if="!config.invoice">
         <template slot-scope="scope">
           <static-select :type="config.file_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" :ref="`file_type_${scope.$index}`"></static-select>
         </template>
@@ -51,7 +51,7 @@
       </el-table-column>
       <el-table-column label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline" >
         <template slot-scope="scope">
-          <el-date-picker type="date" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['legal_legal_deadline']"></el-date-picker>
+          <el-date-picker type="date" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['show_legal_deadline']"></el-date-picker>
         </template>
       </el-table-column>
       <el-table-column label="申请日" prop="application_date" v-if="config.application_date">
@@ -95,6 +95,7 @@
 <script>
 import AxiosMixins from '@/mixins/axios-mixins'
 import RemoteSelect from '@/components/form/RemoteSelect'
+import JumpSelect from '@/components/form/JumpSelect'
 import StaticSelect from '@/components/form/StaticSelect'
 import {mapActions} from 'vuex'
 import {mapGetters} from 'vuex'
@@ -106,6 +107,8 @@ const config = [
     type: 'oa',
     file_type: 'file_type_oa',
     mail_date: true,
+    issue_date: true,
+    issue_number: true,
     legal_deadline: true,
     application_number: true,
     application_date: true,
@@ -116,6 +119,7 @@ const config = [
     type: 'voucher',
     file_type: 'file_type_voucher',
     invoice: true,
+    fees:true,
   }],
   ['other', {
     action: 'parseFiles',
@@ -209,7 +213,7 @@ export default {
       if (!f) return;
       const copy = this.$tool.deepCopy(this.tableData[index]);
       copy['show_mail_date'] = f.mail_date == 1 && this.config.mail_date ? true : false;
-      copy['legal_legal_deadline'] = f.deadline == 1 && this.config.legal_deadline ? true : false;
+      copy['show_legal_deadline'] = f.deadline == 1 && this.config.legal_deadline ? true : false;
       copy['show_application_date'] = f.application_date == 1 && this.config.application_date ? true : false;
       copy['show_issue_date'] = f.issue_date == 1 && this.config.issue_date ? true : false;
       copy['show_issue_number'] = f.issue_number == 1 && this.config.issue_number ? true : false;
@@ -221,7 +225,7 @@ export default {
       // console.log(this.tableData);
 
       //这里使用强制刷新 无法触发更新（why？可能是数据 不在当前组件强制刷新的作用范围内）
-      //只有使用数组截取的方法 让它自动检测刷新了 麻烦一些 比起直接在row上进行修改
+    //只有使用数组截取的方法 让它自动检测刷新了 麻烦一些 比起直接在row上进行修改
       // this.$forceUpdate();
     
     },
@@ -255,6 +259,10 @@ export default {
       const list2 = [];
       for(let i = 0; i < list.length; i++ ) {
         const _ = list[i];
+      const obj = this.$tool.shallowCopy(_,{skip:['show_legal_deadline','show_application_number','show_issue_number','show_issue_date','show_mail_date'
+        ,'show_fees', 'show_invoice', 'show_application_date','name',
+      ],date: true});
+
         const o = {};
         o.file_id = _.file_id;
         o.project = _.project;
@@ -273,7 +281,7 @@ export default {
             return this.$message({type: 'warning', message: '请填写发文日'});
           }
         }
-          if(_.legal_legal_deadline) {
+          if(_.show_legal_deadline) {
             if(_.legal_deadline) {
               o.legal_deadline = this.$tool.getDate( new Date(_.legal_deadline) );
             }else {
@@ -321,11 +329,12 @@ export default {
             }else {
               return this.$message({type: 'warning', message: '请填写检索结论摘要'}); 
             }
-          }           
-        list2.push(o);  
+          }
+
+        list2.push(obj);  
       }
-      
-      const data = { list: list2,};
+      // const s = new Set([...list, ...list2]);
+      const data = { list: list2};
       const success = _=>{
         this.clear();
         this.$message({message: '上传文件成功', type: 'success'});
@@ -345,13 +354,13 @@ export default {
         
         a.data.list.forEach((_, key)=>{ 
           // _.time = '';
-          _.legal_deadline = '';
-          _.application_date = '';
-          _.issue_date = '';
-          _.issue_number = '';
-          _.application_number = '';
-          _.pct_search_result = '';
-          _.pct_search_date = '';
+          // _.legal_deadline = '';
+          // _.application_date = '';
+          // _.issue_date = '';
+          // _.issue_number = '';
+          // _.application_number = '';
+          // _.pct_search_result = '';
+          // _.pct_search_date = '';
           if(_.code) {
             _.name = _.code.name;
           }   
@@ -359,7 +368,8 @@ export default {
             _.type =  _.type.id-0;
           }
           lists.push(this.$tool.deepCopy(_));
-          _.type = '';
+
+          // _.type = '';
         });
         this.tableData.push(...a.data.list);
           this.file.push(a.data.file);
@@ -405,6 +415,7 @@ export default {
   },
   components: { 
     RemoteSelect,
+    JumpSelect,
     StaticSelect,   
   },
 }
