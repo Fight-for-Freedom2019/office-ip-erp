@@ -498,7 +498,7 @@ const config = [
     placeholder: '请选择表单',
     url: '/forms?listOnly=1',
     handle (data) {
-      return data.data
+      return data.data.data
     }
   }],
 

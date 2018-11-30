@@ -122,6 +122,7 @@ const SettingEntityChange           = () => import('@/components/page/setting/da
 const SettingService           = () => import('@/components/page/setting/data/Service')
 const SettingMailTemplate           = () => import('@/components/page/setting/MailTemplate')
 const SettingSystem            = () => import('@/components/page/setting/SystemSetting')
+const SettingForm                 = () => import('@/components/page/setting/flow/Form')
 
 //#################
 // const SI_Base                  = () => import('@/components/page_extension/SettingIndividual_base')
@@ -531,6 +532,7 @@ const router = new Router({
     { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
     { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },
     { path: '/setting/flow/actions', name: 'Actions', component: SettingActions },
+    { path: '/setting/flow/forms', name: 'Forms', component: SettingForm },
     { path: '/setting/data/payment_accounts', name: 'PaymentAccount', component: PaymentAccount },
     { path: '/setting/data/fee_codes', name: 'FeeCode', component: SettingFeeCode },
     { path: '/setting/data/file_types', name: 'FileType', component: SettingFileType },
