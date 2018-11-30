@@ -283,28 +283,28 @@ const config = [
   }],
   ['file_type_oa', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_category=1&category=1',
+    url: '/file_types?project_type=1&category=1',
     handle (data) {
       return data.data.data;
     },
   }],   
   ['file_type_voucher', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_category=1&category=1',
+    url: '/file_types?project_type=1&category=1',
     handle (data) {
       return data.data.data;
     },    
   }],   
   ['file_type_other', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_category=1&category=1',
+    url: '/file_types?project_type=1&category=1',
     handle (data) {
       return data.data.data;
     },    
   }],   
   ['file_type_cpc', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_category=1&category=1',
+    url: '/file_types?project_type=1&category=1',
     handle (data) {
       return data.data.data;
     },    
