@@ -31,11 +31,16 @@
 <script>
 import AxiosMixins from '@/mixins/axios-mixins'
 const map = new Map([
+  ['orders', {
+    URL: '/orders',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择订单',
+  }],
   ['contracts', {
     URL: '/contracts',
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入合同关键词',
-  }],
+  }],  
   ['payment_accounts', {
     URL: '/payment_accounts',
     DATA_KEY: 'data',
@@ -44,7 +49,7 @@ const map = new Map([
   ['member', {
     URL: '/members',
     DATA_KEY: 'members',
-    PLACEHOLDER: '请输入用户关键词',
+    PLACEHOLDER: '请选择用户关键词',
   }],
   ['applicant', {
     URL: '/applicants',

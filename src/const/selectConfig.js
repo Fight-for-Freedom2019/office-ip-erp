@@ -57,8 +57,7 @@ const config = [
     placeholder: '请选择费用类型',
     options: [
         { name: '后付费', id: 1 },
-        { name: '全额预付费', id: 2 },
-        { name: '部分预付费', id: 3 },
+        { name: '预付费', id: 2 },
       ]
   }],
   ['fee_status',{

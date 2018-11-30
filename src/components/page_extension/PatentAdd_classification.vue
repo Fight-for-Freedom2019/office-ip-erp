@@ -11,6 +11,27 @@
 				<el-form-item label="技术分类">
 					<classification v-model="form.classification" count-type="patent"></classification>
 				</el-form-item>
+        <el-form-item label="代理人">
+          <remote-select type="user" v-model="form.agent"></remote-select>
+        </el-form-item>
+        <el-form-item label="代理人助理">
+          <remote-select type="user" v-model="form.assistant"></remote-select>
+        </el-form-item>
+        <el-form-item label="初审人">
+          <remote-select type="user" v-model="form.first_reviewer"></remote-select>
+        </el-form-item>
+        <el-form-item label="复审人">
+          <remote-select type="user" v-model="form.final_reviewer"></remote-select>
+        </el-form-item>
+        <el-form-item label="代表人">
+          <remote-select type="user" v-model="form.representative"></remote-select>
+        </el-form-item>
+        <el-form-item label="顾问">
+          <remote-select type="user" v-model="form.consultant"></remote-select>
+        </el-form-item>
+        <el-form-item label="销售">
+          <remote-select type="user" v-model="form.sales"></remote-select>
+        </el-form-item>
       </el-form>
     <!-- </app-collapse> -->
 </template>
@@ -21,6 +42,7 @@ import Branch from '@/components/form/Branch'
 import Product from '@/components/form/Product'
 import Classification from '@/components/form/Classification'
 import StaticSelect from '@/components/form/StaticSelect'
+import RemoteSelect from '@/components/form/RemoteSelect'
 
 export default {
   name: 'patentAddClassification',
@@ -30,12 +52,19 @@ export default {
         organization_unit: '',
 				products: [],
 				classification: '',
+        agent: '',
+        assistant: '',
+        first_reviewer: '',
+        final_reviewer: '',
+        representative: '',
+        consultant: '',
+        sales: '',
 			}
     }
   },
   methods: {
   	setForm (data) {
-      this.$tool.coverObj(this.form, data, {obj: ['organization_unit', 'products', 'classification',]});
+      this.$tool.coverObj(this.form, data,{obj:['organization_unit','products', 'classification']});
   	},
     submitForm () {
       return this.form;
@@ -44,7 +73,7 @@ export default {
       callback(true);
     },
   },
-  components: { AppCollapse,Branch, Product, Classification, StaticSelect }
+  components: { AppCollapse,Branch, Product, Classification, StaticSelect, RemoteSelect }
 }
 </script>
 

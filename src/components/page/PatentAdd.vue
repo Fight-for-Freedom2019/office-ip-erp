@@ -2,49 +2,28 @@
   <div class="main">
     <el-tabs type="border-card">
       <el-tab-pane>
-        <span slot="label"><i class="el-icon-information"></i> 案件信息</span>
+        <span slot="label"><i class="el-icon-info"></i> 案件信息</span>
         <pa-base ref="base" :type="pageType" @uploadSuccess="handleUploadSuccess"></pa-base>
       </el-tab-pane>
       <el-tab-pane>
-        <span slot="label"><i class="el-icon-information"></i>商务信息</span>
+        <span slot="label"><i class="el-icon-info"></i> 商务信息</span>
         <business ref="business" :type="pageType"></business>
       </el-tab-pane>
       <el-tab-pane>
         <span slot="label"><i class="el-icon-date"></i> 日期&号码</span>
         <person ref="person" :type="pageType"></person>
       </el-tab-pane>
-      <el-tab-pane>
-        <span slot="label"><i class="el-icon-menu"></i> 分类信息</span>
+      <el-tab-pane v-if="pageType == 'edit'">
+        <span slot="label"><i class="el-icon-menu"></i> 人员信息</span>
         <classification ref="classification"></classification>
       </el-tab-pane>
-<!--       <el-tab-pane>
-        <span slot="label"><i class="el-icon-arrow-right"></i> 代理机构</span>
-        <agent ref="agent"></agent>
-      </el-tab-pane> -->
-<!--       <el-tab-pane>
-        <span slot="label"><i class="el-icon-share"></i> 相关案件</span>
-        <case ref="case" :type="pageType"></case>
-      </el-tab-pane> -->
+
       <el-tab-pane>
         <span slot="label"><i class="el-icon-more"></i> 其它信息</span>
         <other ref="other" :type="pageType" ></other>
       </el-tab-pane>
-<!--       <el-tab-pane>
-        <span slot="label"><i class="el-icon-document"></i>任务</span>
-        <task ref="task" :type="pageType" ></task>
-      </el-tab-pane> -->
+
     </el-tabs>
-    <!-- <pa-base ref="base" :type="pageType" @uploadSuccess="handleUploadSuccess"></pa-base>
-    <person ref="person" :type="pageType"></person>
-    <classification ref="classification"></classification>
-    <agent ref="agent"></agent>
-    <case ref="case"></case>
-    <other ref="other" :type="pageType" ></other> -->
-    <!-- <div style="margin-bottom: 20px;margin-top: 20px;"> -->
-      <!-- <el-button @click="add" type="primary" v-if="pageType == 'add'" :disabled="btn_disabled">保存</el-button> -->
-      <!-- <el-button @click="edit" type="primary" v-if="type == 'edit'" :disabled="btn_disabled">编辑</el-button> -->
-      <!-- <el-button @click="cancel" v-if="pageType == 'add'" :disabled="btn_disabled">取消</el-button> -->
-    <!-- </div> -->
 
   </div>
 </template>
@@ -61,7 +40,7 @@ const map = new Map([
   ['task', '请正确填写任务信息'],  
 ]);
 
-const getKeys = ['base', 'person', 'classification', 'other', 'business'];
+const getKeys = ['base', 'person', 'other', 'business'];
 const setKeys = ['base', 'person', 'classification', 'other', 'business'];
 
 const URL = '/patents';

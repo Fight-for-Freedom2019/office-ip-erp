@@ -13,8 +13,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="证书编号">
-              <el-input size="small" v-model="form.certificate_number" placeholder="证书编号" class="input-min-width"></el-input>
+            <el-form-item label="DAS码">
+              <el-input size="small"  v-model="form.das" placeholder="DAS码" class="input-min-width"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -37,23 +37,6 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="公开号">
-              <el-input size="small"  v-model="form.publication_number" placeholder="公开号" class="input-min-width"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="公开日">
-              <el-date-picker size="small"  v-model="form.publication_date" type="date" placeholder="公开日" class="input-min-width"></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="优先权号">
-              <el-input size="small"  v-model="form.priority_number" placeholder="优先权号" class="input-min-width"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
             <el-form-item label="公告号">
               <el-input size="small"  v-model="form.issue_number" placeholder="公告号" class="input-min-width"></el-input>
             </el-form-item>
@@ -64,11 +47,10 @@
             </el-form-item>
           </el-col>          
           <el-col :span="8">
-            <el-form-item label="优先权日">
-              <el-date-picker size="small"  v-model="form.priority_date" type="date" placeholder="优先权日" class="input-min-width"></el-date-picker>
+             <el-form-item label="PCT检索日">
+              <el-date-picker size="small"  v-model="form.pct_search_date" placeholder="PCT检索日" class="input-min-width"></el-date-picker>
             </el-form-item>
           </el-col>
-          
         </el-row>
         <el-row>
           <el-col :span="8">
@@ -123,23 +105,6 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="PCT检索日">
-              <el-date-picker size="small"  v-model="form.pct_search_date" placeholder="PCT检索日" class="input-min-width"></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="PCT新颖性">
-              <el-input size="small"  v-model="form.pct_novelty"  placeholder="PCT新颖性" :disabled="true" class="input-min-width"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="PCT创造性">
-              <el-input size="small"  v-model="form.pct_innovation"  placeholder="PCT创造性" :disabled="true" class="input-min-width"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
             <el-form-item label="进入实审日">
               <el-date-picker size="small"  v-model="form.sub_exam_start_date" type="date" placeholder="进入实审日" class="input-min-width"></el-date-picker>
             </el-form-item>
@@ -155,15 +120,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+         <el-row>
           <el-col :span="8">
-            <el-form-item label="DAS码">
-              <el-input size="small"  v-model="form.das" placeholder="DAS码" class="input-min-width"></el-input>
+            <el-form-item label="公开号">
+              <el-input size="small"  v-model="form.publication_number" placeholder="公开号" class="input-min-width"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="复审委内编号">
-              <el-input size="small"  v-model="form.board_number" placeholder="复审委内编号" class="input-min-width"></el-input>
+            <el-form-item label="公开日">
+              <el-date-picker size="small"  v-model="form.publication_date" type="date" placeholder="公开日" class="input-min-width"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -197,7 +162,6 @@ export default {
         sub_exam_start_date: '',
         issue_date: '',
         issue_number: '',
-        board_number: '',
         pct_application_number: '',
         pct_apd: '',
         pct_priority_date: '',
@@ -213,9 +177,6 @@ export default {
         priority_expire_date: '',
         inventor_review_times: '',
         pct_search_date: '',
-        certificate_number: '',
-        priority_number: '',
-        priority_date: '',
       },
       ipr_name: '',
       branchName: '',
