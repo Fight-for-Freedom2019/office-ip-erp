@@ -10,9 +10,9 @@ const config = [
   ['category',{
     placeholder: '请选择案件类型',
     options: [
-        { name: '专利', id: 'Patent' },
-        { name: '商标', id: 'Trademark' },
-        { name: '版权', id: 'Copyright' },
+        { name: '专利', id: 1 },
+        { name: '商标', id: 2 },
+        { name: '版权', id: 3 },
     ]
   }],
   ['subtype',{

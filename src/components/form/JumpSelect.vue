@@ -139,6 +139,26 @@ const map = new Map([
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入专利族号',
   }],
+  ['oa', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入OA关键词',
+  }], 
+  ['voucher', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入费用单据关键词',
+  }],
+  ['other', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入一般文件关键词',
+  }], 
+  ['cpc', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入CPC关键词',
+  }],  
   ['award', {
     URL: '/award',
     DATA_KEY: 'awards',
@@ -148,6 +168,11 @@ const map = new Map([
     URL: '/customers',
     DATA_KEY: 'data',
     PLACEHOLDER: '请选择客户',
+  }], 
+   ['invoices', {
+    URL: '/invoices',
+    DATA_KEY: 'invoices',
+    PLACEHOLDER: '请输入账单关键词',
   }],  
   ['user', {
     URL: '/users',
