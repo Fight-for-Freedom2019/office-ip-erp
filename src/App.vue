@@ -221,7 +221,7 @@ export default {
         const url = '/logout';
         const success = _=>{
           this.$message({message: '登出成功', type: 'success'} );
-          window.location.href = '/login';
+          window.location.href = '/';
         }
 
         this.$axiosGet({url, success});

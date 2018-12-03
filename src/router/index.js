@@ -123,6 +123,7 @@ const SettingService           = () => import('@/components/page/setting/data/Se
 const SettingMailTemplate           = () => import('@/components/page/setting/MailTemplate')
 const SettingSystem            = () => import('@/components/page/setting/SystemSetting')
 const SettingForm                 = () => import('@/components/page/setting/flow/Form')
+const SettingFields               = () => import('@/components/page/setting/flow/Field')
 
 //#################
 // const SI_Base                  = () => import('@/components/page_extension/SettingIndividual_base')
@@ -397,8 +398,8 @@ const router = new Router({
     },
     {
       path: '/finance/revenue/payment_requests',
-      name: 'InvoiceManage',
-      component: InvoiceManage,
+      name: 'PaymentManage',
+      component: PaymentManage,
       meta:{
         params:{
             is_debit:1,
@@ -533,6 +534,7 @@ const router = new Router({
     { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },
     { path: '/setting/flow/actions', name: 'Actions', component: SettingActions },
     { path: '/setting/flow/forms', name: 'Forms', component: SettingForm },
+    { path: '/setting/flow/fields', name: 'Fields', component: SettingFields },
     { path: '/setting/data/payment_accounts', name: 'PaymentAccount', component: PaymentAccount },
     { path: '/setting/data/fee_codes', name: 'FeeCode', component: SettingFeeCode },
     { path: '/setting/data/file_types', name: 'FileType', component: SettingFileType },

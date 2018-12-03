@@ -501,6 +501,13 @@ const config = [
       return data.data.data
     }
   }],
+  ['form_field', {
+    placeholder: '请选择表单字段',
+    url: '/fields?listOnly=1',
+    handle (data) {
+      return data.data.data
+    }
+  }],
 
   ['currency', {
     placeholder: '请选择费用类型',

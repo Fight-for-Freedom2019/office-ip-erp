@@ -147,7 +147,8 @@ const settingMenu = [
 			{type: 'item', text: '管制事项', path: '/setting/flow/definitions', icon: 'iconfont el-icon-my-task-def'},
 			{type: 'item', text: '流程管理', path: '/setting/flow/flows', icon: 'iconfont el-icon-my-flow-def'},
 			{type: 'item', text: '流程节点', path: '/setting/flow/actions', icon: 'iconfont el-icon-my-node'},
-			{type: 'item', text: '表单', path: '/setting/flow/forms', icon: 'iconfont el-icon-my-file'},
+			{type: 'item', text: '表单编辑', path: '/setting/flow/forms', icon: 'iconfont el-icon-my-file'},
+			{type: 'item', text: '字段编辑', path: '/setting/flow/fields', icon: 'iconfont el-icon-my-category'},
 		]
     },
 	{ type: 'submenu', text: '基础数据', path: '/setting/data', icon: 'iconfont el-icon-my-data',

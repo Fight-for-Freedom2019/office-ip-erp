@@ -4,59 +4,73 @@
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="表单名称" prop="name">
-                        <el-input type="text" placeholder="请输入表单名称" v-model="form.name"></el-input>
-                    </el-form-item> 
+                    <el-form-item label="字段名称" prop="name">
+                        <el-input type="text" placeholder="请输入字段标签" v-model="form.name"></el-input>
+                    </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="备注" prop="remark">
-                        <el-input type="text" placeholder="请输入备注" v-model="form.remark"></el-input>
+                    <el-form-item label="字段key" prop="key">
+                        <el-input type="text" placeholder="请输入字段key" v-model="form.key"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="字段类型" prop="field_type">
+                        <static-select type="field_type" placeholder="请输入字段类型" v-model="form.field_type"></static-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="占位符" prop="placeholder">
+                        <el-input type="text" placeholder="请输入占位符" v-model="form.placeholder"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <!-- <el-row>
+                <el-col :span="24">
+                    <el-form-item label="验证规则" prop="rules">
+                        <el-input type="text" placeholder="请输入验证规则" v-model="form.rules"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row> -->
         </el-form>
-
-        <div class="PaymentRequestDetail"  v-if="this.type == 'edit'">
-            <form-fields :id="id"></form-fields>
-        </div>
     </div>
-    
 </template>
 
 <script>
     import RemoteSelect from "@/components/form/RemoteSelect";
     import StaticSelect from "@/components/form/StaticSelect";
-    import FormFields from "@/components/page/setting/flow/FormFields";
     import AppSwitch from "@/components/form/AppSwitch";
 
     export default {
         name: "ActionAdd",
         data() {
             return {
-                URL: "/forms",
+                URL: "/fields",
                 form: {
                     name: "",
-                    remark:'',
+                    key: "",
+                    field_type: "",
+                    placeholder: "",
+                    // rules: "",
                 },
                 rules: {
-                    name: [
-                        {required: true, message: "请输入表单名称", trigger: "blur"}
-                    ],
+                    name: {required: true, message: "请输入字段标签", trigger: "blur"},
+                    key: {required: true, message: "请输入字段名称", trigger: "blur"},
+                    field_type: {required: true, message: "请输入字段类型", trigger: "blur"},
                 },
             }
         },
         props: {
             data: Object,
             type: String,
-            id: Number,
         },
         mounted() {
             this.coverObj(this.data);
-        },
-        created() {
-            
         },
         watch: {
             data: function (val, oldVal) {
@@ -96,14 +110,13 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val,{obj:['creation_template','completion_template','creation_process_stage','completion_process_stage']}):"";
+                val?this.$tool.coverObj(this.form,val,{obj:['field_type']}):"";
             },
         },
         components: {
             RemoteSelect,
             StaticSelect,
             AppSwitch,
-            FormFields,
         },
     }
 </script>
