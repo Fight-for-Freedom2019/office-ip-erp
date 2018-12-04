@@ -31,13 +31,14 @@
                         {type: 'text', label: '单价', prop: 'unit_price', width: '120'},
                         {type: 'text', label: '数量', prop: 'amount', width: '150'},
                         {type: 'text', label: '小计', prop: 'sum', width: '180'},
-                        {
+                        /* 不支持删除
+                        *{
                             type: 'action',
                             align:"center",
                             btns: [
                                 { type: 'delete',click:this.handleDelete},
                             ],
-                        }
+                        }*/
                     ],
                 },
                 tableData: [],

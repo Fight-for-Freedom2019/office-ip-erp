@@ -36,21 +36,7 @@
             data:{
                 type:Array,
                 default(){
-                    let data = this.$mock.mock({
-                        "array|5-8":[
-                            {
-                                "category":"@ctitle",
-                                "subtype":"@ctitle",
-                                "serial":"@integer(545462-664841)",
-                                "title":"@ctitle",
-                                "creation_time":"@date",
-                                "application_date":"@date",
-                                "application_number":"@integer(12545462-63264841)",
-                                "project_stage|0-13":3,
-                            }
-                        ]
-                    });
-                    return data.array
+                    return []
                 }
             },
         },

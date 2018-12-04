@@ -20,7 +20,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="交付日期" prop="delivery_date">
-                        <el-date-picker value-format="yyy-MM-dd" v-model="form.delivery_date"></el-date-picker>
+                        <el-date-picker value-format="yyyy-MM-dd" v-model="form.delivery_date"
+                                        placeholder="请选择交付日期"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -41,9 +42,10 @@
         </el-form>
         <table-component :tableOption="tableOption" :data="tableData" ref="table"></table-component>
         <el-dialog :visible.sync="visibleAdd" title="新增服务项目" :modal="false" width="600px">
-            <el-form ref="servicesForm" v-model="servicesForm" label-position="right" label-width="120px" :rules="servicesRules">
-                <el-form-item label="服务项目" prop="service">
-                    <jump-select type="user" v-model="servicesForm.service"></jump-select>
+            <el-form ref="servicesForm" :model="servicesForm" label-position="right" label-width="120px"
+                     :rules="servicesRules">
+                <el-form-item label="服务项目" prop="temp">
+                    <jump-select type="services" ref="jumpSelect" v-model="servicesForm.temp"></jump-select>
                 </el-form-item>
                 <el-form-item label="单价" prop="unit_price">
                     <el-input type="text" v-model.number="servicesForm.unit_price"></el-input>
@@ -52,7 +54,7 @@
                     <el-input type="text" v-model.number="servicesForm.amount"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="save">保存</el-button>
+                    <el-button type="primary" @click="saveServices">保存</el-button>
                     <el-button @click="()=>{visibleAdd = false}">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -71,61 +73,167 @@
         data() {
             return {
                 form: {
-                    customer: {},
-                    contacts: {},
-                    sales: {},
+                    customer: "",
+                    contacts: "",
+                    sales: "",
                     delivery_date: "",
-                    services: {},
                     remark: "",
                 },
                 rules: {
-                    customer:[
-                        {required:true,message:"请选择客户",trigger:"blur"},
+                    customer: [
+                        {required: true, message: "请选择客户", trigger: "blur"},
                     ],
-                    contacts:[
-                        {required:true,message:"请选择联系人",trigger:"blur"},
+                    contacts: [
+                        {required: true, message: "请选择联系人", trigger: "blur"},
                     ],
-                    sales:[
-                        {required:true,message:"请选择销售",trigger:"blur"},
+                    sales: [
+                        {required: true, message: "请选择销售", trigger: "blur"},
                     ],
-                    delivery_date:[
-                        {type:"date",required:true,message:"请选择交付日期",trigger:"blur"},
+                    delivery_date: [
+                        {required: true, message: "请选择交付日期", trigger: "blur"},
                     ],
                 },
-                servicesForm:{
-                    service:{
-                        id:1,
-                        name:"发明专利申请服务",
+                servicesForm: {
+                    service: {
+                        id: "",
+                        name: ""
                     },
-                    unit_price:5000,
-                    amount:2
+                    unit_price: "",
+                    amount: "",
+                    temp: "",
+                    sum: "",
                 },
-                servicesRules:{},
-                visibleAdd:false,
-                tableData:[],
+                servicesRules: {
+                    temp: [
+                        {required: true, message: "请选择服务项目", trigger: "blur"}
+                    ],
+                    unit_price: [
+                        {required: true, message: "请输入单价", trigger: "blur"},
+                        {type: "number", message: "请输入数字", trigger: "blur"}
+                    ],
+                    amount: [
+                        {required: true, message: "请输入数量", trigger: "blur"},
+                        {type: "number", message: "请输入数字", trigger: "blur"}
+                    ]
+                },
+                visibleAdd: false,
+                tableData: [],
                 tableOption: {
                     'height': 390,
-                    'is_search':false,
-                    'is_pagination':false,
+                    'is_search': false,
+                    'is_pagination': false,
+                    'show_summary': true,
                     'columns': [
-                        {type: 'text', label: '服务项目', prop: 'service', render_simple:"name", min_width: '178', render_header: true},
-                        {type: 'text', label: '单价', prop: 'unit_price', render_simple:"name", width: '120', render_header: true},
-                        {type: 'text', label: '数量', prop: 'amount', width: '150', render_header: true},
-                        {type: 'text', label: '小计', prop: 'sum', width: '180', render_simple:"name",render_header: true},
+                        {
+                            type: 'text',
+                            label: '服务项目',
+                            prop: 'service',
+                            render_simple: "name",
+                            min_width: '178',
+                            render_header: true
+                        },
+                        {type: 'text', label: '单价', prop: 'unit_price', width: '120'},
+                        {type: 'text', label: '数量', prop: 'amount', width: '150'},
+                        {type: 'text', label: '小计', prop: 'sum', width: '180'},
                         {
                             type: 'action',
+                            align: "center",
                             btns: [
-                                { type: 'delete'},
+                                {type: 'delete', click: this.removeItem},
                             ],
                         }
                     ],
                 },
+                /* 因为服务项目可能是从后端获取的
+                ** 也可能是从前端静态添加
+                ** 所以自定义一个唯一标识，以便删除
+                * */
+                mark: 0,
+                URL: "/orders"
             }
         },
-        methods:{
-            save(){},
-            add(){
+        props: {
+            data: {
+                type: Array,
+                default() {
+                    return [];
+                },
+            }
+        },
+        methods: {
+            getService() {      // 获取格式化的service数据
+                let arr = [];
+                this.tableData.forEach((item) => {
+                    let obj = {
+                        id: item.service.id,
+                        amount: item.amount,
+                        unit_price: item.unit_price,
+                    };
+                    arr.push(obj);
+                });
+                return arr;
+            },
+            save() {
+                this.$refs.form.validate((valid) => {
+                    if (valid) {
+                        this.form.services = this.getService();
+                        const success = _ => {
+                            this.$emit("refresh");
+                            this.$emit("closeVisible","visibleOrderAdd");
+                            this.$message({type: "success", message: _.info});
+                        };
+                        this.$axiosPost({url: this.URL, data: this.form, success})
+                    }
+                });
+            },
+            saveServices() {    // 保存新建的服务项目，静态的
+                this.$refs.servicesForm.validate((valid) => {
+                    if (valid) {
+                        this.servicesForm.service = {
+                            id: this.servicesForm.temp,
+                            name: this.getName()
+                        };
+                        const unit_price = this.servicesForm.unit_price;
+                        const amount = this.servicesForm.amount;
+                        this.servicesForm.sum = unit_price * amount;
+                        this.servicesForm.mark = this.mark;
+                        this.mark++;
+                        this.tableData.push(Object.assign({}, this.servicesForm));
+                        this.visibleAdd = false;
+                    } else {
+                        this.$message({type: "warning", message: "请正确填写"});
+                    }
+                });
+
+            },
+            add() {
                 this.visibleAdd = true;
+                this.clear("servicesForm");
+            },
+            getName() {
+                let target = this.$refs.jumpSelect.getSelected();
+                return target[0].name;
+            },
+            clear(form) {
+                this.$refs[form] ? this.$refs[form].resetFields() : "";
+            },
+            removeItem(r) {
+                let d = this.tableData;
+                d.forEach((item, index) => {
+                    if (item.mark === r.mark) {
+                        d.splice(index, 1);
+                    }
+                })
+            },
+            fillTable() {
+                const d = this.data;    // TODO 这里的data不是最终数据应该是data.services,但是接口没给出,后期需要更改
+                if (d.length !== 0) {
+                    d.forEach((item) => {
+                        item.mark = this.mark;
+                        this.tableData.push(item);
+                        this.mark++;
+                    })
+                }
             },
         },
         components: {

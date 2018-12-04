@@ -58,6 +58,7 @@
             value : [Number,Boolean],
             type :[Object,String],
             // simple参数控制选项是否在开关两头显示，为true时只在开关右侧显示onText和offText
+            // 暂不支持在同一个组件引用多个AppSwatch，因为watch value会改变cache的值，连带着其它引用的也一起改变了
             simple:{
                 type:[Boolean,String],
                 default(){
