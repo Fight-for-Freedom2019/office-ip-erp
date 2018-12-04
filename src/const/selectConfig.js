@@ -236,10 +236,10 @@ const config = [
     placeholder: '请选择模块',
     options: [
       { id: 'Patent', name: '专利' },
-      { id: 'Trademark', name: '商标' },
-      { id: 'Copyright', name: '版权' },
-      { id: 'Project', name: '项目' },
-      { id: 'Task', name: '任务' },
+      // { id: 'Trademark', name: '商标' },
+      // { id: 'Copyright', name: '版权' },
+      // { id: 'Project', name: '项目' },
+      { id: 'Process', name: '工作流' },
       { id: 'Customer', name: '客户' },
       { id: 'Fee', name: '费用' },
       { id: 'Invoice', name: '账单' },
@@ -275,35 +275,35 @@ const config = [
   }],
   ['file_type_oa', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_type=1&category=1',
+    url: '/file_types?category=1&listRows=10000',
     handle (data) {
       return data.data.data;
     },
   }],   
   ['file_type_voucher', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_type=1&category=1',
+    url: '/file_types?project_type=费用&listRows=10000',
     handle (data) {
       return data.data.data;
     },    
   }],   
   ['file_type_other', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_type=1&category=1',
+    url: '/file_types?project_type=其它&listRows=10000',
     handle (data) {
       return data.data.data;
     },    
   }],   
   ['file_type_cpc', {
     placeholder: '请选择文件类型',
-    url: '/file_types?project_type=1&category=1',
+    url: '/file_types?project_type=专利&category=1&listRows=10000',
     handle (data) {
       return data.data.data;
     },    
   }],  
   ['file_type', {
     placeholder: '请选择文件类型',
-    url: '/fileTypes?category=1',
+    url: '/fileTypes?category=1&listRows=10000',
   }],
   ['file_type_patent', {
     placeholder: '请选择专利文件类型',

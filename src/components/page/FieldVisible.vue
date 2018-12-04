@@ -15,7 +15,7 @@
 			</el-tree>
 			<div class="filter-visible-body-right">
 				<static-select type="table_type" v-model="tableType" @change="refreshFields"></static-select>
-				<app-transfer-panel v-loading="listLoading" element-loading-text="加载中..." style="width: 100%; margin-top: 10px;" list-style="height: 400px;" :is-move="false" title="权限控制" placeholder="查询字段..." :data="fields" v-model="checkedFields"></app-transfer-panel>
+				<app-transfer-panel v-loading="listLoading" element-loading-text="加载中..." style="width: 100%; margin-top: 10px;" list-style="height: 800px;" :is-move="false" title="权限控制" placeholder="查询字段..." :data="fields" v-model="checkedFields"></app-transfer-panel>
 				<!-- <app-transfer style="margin-top: 10px;" ref="transfer" title1="有权限" title2="无权限" placeholder="查询字段..." v-model="transferValue"></app-transfer> -->
 				<div style="margin-top: 10px;" v-if="currentId != '' && tableType != ''">
 					<el-button type="primary" @click="save" :loading="saveLoading">{{ saveLoading ? '保存中....' : '保存' }}</el-button>
@@ -85,7 +85,7 @@ export default {
 			'refreshUser',
 		]),
 		async refreshFields () {
-			const url = `${this.tableType}s/fields`;
+			const url = `/model_fields?model=${this.tableType}`;
 			const success = _=>{
 				this.fields = _.data;
 			};
@@ -185,7 +185,6 @@ export default {
   width: 240px;
   margin-right: 10px;
   overflow: auto;
-  height: 420px;
 }
 .filter-visible-body-right {
 	-webkit-flex: 1;

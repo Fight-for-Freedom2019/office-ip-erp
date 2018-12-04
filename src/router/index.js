@@ -34,7 +34,7 @@ const InvoiceTargets           = () => import('@/components/page/InvoiceTargets'
 //CRM模块账款管理
 const RequestPayout             = () => import('@/components/page/RequestPayout')     //待请费用
 const PaymentManage            = () => import('@/components/page/PaymentManage')     //请款管理
-const InvoiceManage            = () => import('@/components/page/InvoiceManage')     //发票管理
+const CrmVouchers              = () => import('@/components/page/InvoiceManage')     //发票管理
 const PaymentRecevied          = () => import('@/components/page/PaymentRecevied')     //回款管理
 
 // CRM模块通知发文
@@ -158,6 +158,11 @@ const router = new Router({
     path: '/crm/orders',
     name: 'Orders',
     component:  Orders,
+  },
+  {
+    path: '/crm/expresses',
+    name: 'ExpressManage',
+    component:  ExpressManage,
   },
   {
     path: '/crm/data/applicants',
@@ -466,7 +471,7 @@ const router = new Router({
     {
       path: '/finance/vouchers/lists',
       name: 'VouchersLists',
-      component: ExpressManage,
+      component: CrmVouchers,
       props: {
         'voucher_type':1,
       }
@@ -474,7 +479,7 @@ const router = new Router({
     {
       path: '/finance/vouchers/received',
       name: 'VouchersReceived',
-      component: ExpressManage,
+      component: CrmVouchers,
       props: {
         'voucher_type':2,
       }

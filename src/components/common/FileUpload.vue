@@ -39,29 +39,34 @@
           <jump-select type="invoices" v-model="scope.row.invoice" single  v-show="!!tableData[scope.$index]['show_invoice']"></jump-select>
         </template>
       </el-table-column>
-      <el-table-column label="文件类型" prop="type" min-width="120" v-if="!config.invoice">
+      <el-table-column label="文件类型" prop="type" min-width="120" v-if="!config.file_type || config.is_show">
         <template slot-scope="scope">
-          <static-select :type="config.file_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" :ref="`file_type_${scope.$index}`"></static-select>
+          <span v-if="config.is_show">{{scope.row.file_type.name}}</span>
+          <static-select :type="config.file_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" :ref="`file_type_${scope.$index}`" v-else></static-select>
         </template>
       </el-table-column>
-      <el-table-column label="发文日" prop="mail_date" v-if="config.mail_date">
+      <el-table-column label="发文日" prop="mail_date" v-if="config.mail_date || config.is_show">
         <template slot-scope="scope">
-          <el-date-picker type="date" v-model="scope.row.mail_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_mail_date']"></el-date-picker>
+          <span v-if="config.is_show">{{scope.row.mail_date}}</span>
+          <el-date-picker type="date" v-model="scope.row.mail_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_mail_date']" v-else></el-date-picker>
         </template>
       </el-table-column>
-      <el-table-column label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline" >
+      <el-table-column label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline || config.is_show" >
         <template slot-scope="scope">
-          <el-date-picker type="date" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['show_legal_deadline']"></el-date-picker>
+          <span v-if="config.is_show">{{scope.row.legal_deadline}}</span>
+          <el-date-picker type="date" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['show_legal_deadline']" v-else></el-date-picker>
         </template>
       </el-table-column>
-      <el-table-column label="申请日" prop="application_date" v-if="config.application_date">
+      <el-table-column label="申请日" prop="application_date" v-if="config.application_date || config.is_show">
         <template slot-scope="scope">
-          <el-date-picker type="date" v-model="scope.row.application_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_date']"></el-date-picker>
+          <span v-if="config.is_show">{{scope.row.application_date}}</span>
+          <el-date-picker type="date" v-model="scope.row.application_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_date']" v-else></el-date-picker>
         </template>
       </el-table-column>      
-      <el-table-column label="申请号" prop="application_number" v-if="config.application_number">
+      <el-table-column label="申请号" prop="application_number" v-if="config.application_number || config.is_show">
         <template slot-scope="scope">
-          <el-input v-model="scope.row.application_number" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_number']"></el-input>
+          <span v-if="config.is_show">{{scope.row.application_number}}</span>
+          <el-input v-model="scope.row.application_number" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_number']" v-else></el-input>
         </template>
       </el-table-column>       
       <el-table-column label="授权日" prop="issue_date" v-if="config.issue_date">
@@ -74,7 +79,7 @@
           <el-input v-model="scope.row.issue_number" style="width: 100%;" v-show="!!tableData[scope.$index]['show_issue_number']"></el-input>
         </template>
       </el-table-column>
-      <el-table-column label="费用" prop="fees" v-if="config.fees" show-overflow-tooltip>
+      <el-table-column label="费用" prop="fees" v-if="config.fees || config.is_show" show-overflow-tooltip>
         <template slot-scope="scope">
           <el-tag v-for="(item, index ) in scope.row.fees" :key="index">{{ `${item.name}：${item.fee}` }}</el-tag>
         </template>
@@ -105,38 +110,46 @@ const config = [
     action: 'parseNotices',
     url: '/files/oa',
     type: 'oa',
-    file_type: 'file_type_oa',
+    select_type: 'file_type_oa',
+    file_type:true,
     mail_date: true,
     issue_date: true,
     issue_number: true,
     legal_deadline: true,
     application_number: true,
     application_date: true,
+    is_show:false,
   }],
   ['voucher', {
     action: 'parseVoucher',
     url: '/files/voucher',
     type: 'voucher',
-    file_type: 'file_type_voucher',
+    select_type: 'file_type_voucher',
+    file_type:true,
     invoice: true,
     fees:true,
+    is_show:false,
   }],
   ['other', {
     action: 'parseFiles',
     url: '/files/other',
     type: 'other',
-    file_type: 'file_type_other',
+    select_type: 'file_type_other',
+    file_type:true,
+    is_show:false,
   }],
   ['cpc', {
     action: 'parseCpc',
     url: '/files/cpc',
     type: 'cpc',
-    file_type: 'file_type_cpc',
+    select_type: 'file_type_cpc',
+    file_type:true,
     mail_date: true,
     legal_deadline: true,
     application_number: true,
     application_date: true,
     fees: true,
+    is_show:true,
   }],
 ]
 const map = new Map(config);
@@ -208,7 +221,7 @@ export default {
       if(!selected) {
         f = {};
       }else {
-        f = selected.fields;
+        f = JSON.parse(selected.fields);
       }
       if (!f) return;
       const copy = this.$tool.deepCopy(this.tableData[index]);
@@ -397,7 +410,7 @@ export default {
     }
   },
   created () {
-    this.initializeSelectorCache({type: this.config.file_type});
+    this.initializeSelectorCache({type: this.config.select_type});
   },
   watch: {
     'copyTableData':[ 
@@ -405,8 +418,10 @@ export default {
         val.forEach((v,i)=>{
           if(v.file_type != null) {
             this.$nextTick(()=>{
-              const s = this.$refs[`file_type_${i}`].getSelected(v.file_type.id)[0]
-              this.handleTypeChange(s,i)
+              if (!this.config.is_show) {
+                const s = this.$refs[`file_type_${i}`].getSelected(v.file_type.id)[0]
+                this.handleTypeChange(s,i)
+              }
             })
           }
        })

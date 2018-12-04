@@ -11,12 +11,12 @@ import AxiosMixins from '@/mixins/axios-mixins'
 
 const config = [
 	['patent', {
-		URL: '/api/patents/notices',
+		URL: '/notices',
 		import_type: 'patent_notice',
 		upload_type: 'patent_notice',
 	}],
 	['copyright', {
-		URL: '/api/copyrights/notices',
+		URL: '/notices',
 		import_type: 'copyright_notice',
 	}]
 ]
@@ -31,7 +31,7 @@ export default {
 				'header_btn': [
 					// { type: 'custom', label: '筛选', icon: '', click: ()=>{alert("筛选")} },
 					// { type: 'custom', label: '统计', icon: '', click: ()=>{alert("统计")} },
-					{ type: 'delete', map_if: '/patent/notice/delete' },
+					{ type: 'delete', map_if: '/notice/delete' },
 					{ type: 'export' },
 					// { type: 'import', label: 'CPC通知书导入' },
 					// { type: 'batch_upload', label: '一般通知书上传' },
