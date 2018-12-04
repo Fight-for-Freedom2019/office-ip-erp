@@ -90,13 +90,13 @@ export default {
 					// { type: 'add', click: this.addPop },
 					// { type: 'add', label: '批量添加', click: _=>{ this.dialogVisble4 = true; } },
 					{ 
-            type: 'dropdown',
-            label:  '年费评估单',
-            items: [
-              {text: '新建评估单', click: ()=>{ this.estimatePop('add') }, icon: 'plus' },
-              {text: '添加至已有评估单', click: ()=>{ this.estimatePop('append') }, icon: 'd-arrow-right'  },
-            ],
-          },
+						type: 'dropdown',
+						label:  '年费评估单',
+						items: [
+						{text: '新建评估单', click: ()=>{ this.estimatePop('add') }, icon: 'plus' },
+						{text: '添加至已有评估单', click: ()=>{ this.estimatePop('append') }, icon: 'd-arrow-right'  },
+						],
+					},
 					{ type: 'delete' },
 					{ type: 'control' },
 					// { 
@@ -111,9 +111,11 @@ export default {
 					// },
 				],
 				// header_slot: [ 'status' ],
+
 				columns: [
 					{ type: 'selection' },
-					{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '200'},
+					{ type: 'text', label: '案件类型', prop: 'category', render_key: 'project', render_simple: 'serial', width: '150'},
+					{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '150'},
 					{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '200'},
 					{ type: 'text', label: '客户', prop: 'customer',  render_key: 'project', render_simple: 'name', width: '200'},
 					{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '200'},
@@ -124,7 +126,7 @@ export default {
 					{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '200'},
 					{ 
 						type: 'text', 
-						label: '外币金额', 
+						label: '金额', 
 						prop: 'amount', 
 						width: '100',
 						align: 'right',

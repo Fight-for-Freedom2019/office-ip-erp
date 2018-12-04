@@ -115,13 +115,15 @@ const PaymentAccount             = () => import('@/components/page/PaymentAccoun
 const SettingFeeCode           = () => import('@/components/page/setting/data/FeeCode')
 const SettingFileType           = () => import('@/components/page/setting/data/FileType')
 const SettingProjectStage           = () => import('@/components/page/setting/data/ProjectStage')
-const SettingDefinitions           = () => import('@/components/page/setting/data/Definitions')
-const SettingFlows           = () => import('@/components/page/setting/data/Flows')
-const SettingActions           = () => import('@/components/page/setting/data/Actions')
+const SettingDefinitions           = () => import('@/components/page/setting/flow/Definition')
+const SettingFlows           = () => import('@/components/page/setting/flow/Flow')
+const SettingActions           = () => import('@/components/page/setting/flow/Action')
 const SettingEntityChange           = () => import('@/components/page/setting/data/EntityChange')
-const SettingServiceProject           = () => import('@/components/page/setting/ServiceProject')
+const SettingService           = () => import('@/components/page/setting/data/Service')
 const SettingMailTemplate           = () => import('@/components/page/setting/MailTemplate')
 const SettingSystem            = () => import('@/components/page/setting/SystemSetting')
+const SettingForm                 = () => import('@/components/page/setting/flow/Form')
+const SettingFields               = () => import('@/components/page/setting/flow/Field')
 
 //#################
 // const SI_Base                  = () => import('@/components/page_extension/SettingIndividual_base')
@@ -187,32 +189,7 @@ const router = new Router({
     name: 'CustomerQuotation',
     component: CustomerQuotation
   },
-  {
-    path: '/crm/finance/payment_request',
-    name: 'PaymentManage',
-    component: PaymentManage
-  },
-  {
-    path: '/crm/finance/invoice',
-    name: 'InvoiceManage',
-    component: InvoiceManage
-  },
-  {
-    path: '/crm/finance/fee',
-    name: 'RequestPayout',
-    component: RequestPayout,
-      meta:{
-        params:{
-            is_debit: 1,
-            status: 1
-        }
-      }
-  },
-  {
-    path: '/crm/finance/payment_recevied',
-    name: 'PaymentRecevied',
-    component: PaymentRecevied
-  },
+  
   {
     path: '/crm/contracts',
     name: 'ContractsList',
@@ -233,31 +210,13 @@ const router = new Router({
     name: 'CustomersRenewals',
     component: CustomersRenewals
   },
-  {
-    path: '/crm/notice/expresses',
-    name: 'ExpressManage',
-    component: ExpressManage
-  },
+
   {
     path: '/crm/suppliers/lists',
     name: 'Suppliers',
     component: Suppliers
   },
-  {
-    path: '/crm/suppliers/fees',
-    name: 'SuppliersFee',
-    component: SuppliersFee,
-    meta:{
-      params:{
-          status: 11
-      }
-    }
-  },
-  {
-    path: '/crm/suppliers/payments',
-    name: 'SuppliersPayment',
-    component: SuppliersPayment
-  },
+  
   {
     path: '/crm/suppliers/quotations',
     name: 'SuppliersQuotation',
@@ -322,7 +281,7 @@ const router = new Router({
       component: TaskCommon,
       meta: {
         params: { 
-          is_oa: 0,
+          stage: 1,
         },
       },
     },
@@ -332,7 +291,27 @@ const router = new Router({
       component: TaskCommon,
       meta: {
         params: { 
-          is_oa: 1,
+          stage: '2,3,4,5',
+        },
+      },
+    },
+    {
+      path: '/task/monitor/other',
+      name: 'TaskMonitorOther',
+      component: TaskCommon,
+      meta: {
+        params: { 
+          stage: 'other',
+        },
+      },
+    },
+    {
+      path: '/task/finished',
+      name: 'TasksFinished',
+      component: TaskCommon,
+      meta: {
+        params: { 
+          status: 1,
         },
       },
     },
@@ -395,37 +374,106 @@ const router = new Router({
   },
 //################### 版权路由 end #####################
 //################### 财务路由 begin ###################
-    {
-      path: '/finance/fees_to_request',
-      name: 'FeeCommonRequest',
-      component: FeeCommon,
-      props: {
-        debit: 1,
-        defaultParams: {
+  
+   {
+    path: '/finance/revenue/all',
+    name: 'RequestPayout',
+    component: RequestPayout,
+      meta:{
+        params:{
+          is_debit: 1,
         }
       }
     },
     {
-      path: '/finance/fees_to_pay',
-      name: 'FeeCommonPay',
-      component: FeeCommon,
-      props: {
-        debit: 0,
-        defaultParams: {
+      path: '/finance/revenue/ready_to_request',
+      name: 'RequestPayout',
+      component: RequestPayout,
+      meta:{
+        params:{
+          is_debit: 1,
+          status: 1
         }
       }
     },
     {
-      path: '/finance/renewal_fees/monitoring',
+      path: '/finance/revenue/payment_requests',
+      name: 'PaymentManage',
+      component: PaymentManage,
+      meta:{
+        params:{
+            is_debit:1,
+        }
+      }
+    },
+    {
+      path: '/finance/revenue/payments_recevied',
+      name: 'PaymentRecevied',
+      component: PaymentRecevied,
+      meta:{
+        params:{
+            is_debit:1,
+        }
+      }
+    },
+
+    {
+      path: '/finance/outgo/all',
+      name: 'SuppliersFee',
+      component: SuppliersFee,
+      meta:{
+        params:{
+            is_debit:0,
+        }
+      }
+    },
+    {
+      path: '/finance/outgo/ready_to_pay',
+      name: 'SuppliersFee',
+      component: SuppliersFee,
+      meta:{
+        params:{
+            status: 11,
+            is_debit:0,
+        }
+      }
+    },
+    {
+      path: '/finance/outgo/payments',
+      name: 'SuppliersPayment',
+      component: SuppliersPayment,
+      meta:{
+        params:{
+            is_debit:0,
+        }
+      }
+    },
+
+    {
+      path: '/finance/renewal_fees/lists',
       name: 'RenewalFees',
       component: RenewalFee,
+    },
+    {
+      path: '/finance/renewal_fees/confirmation_sheets',
+      name: 'RenewalFeesConfirmationSheets',
+      component: RenewalEstimate,
+    },
+    {
+      path: '/finance/vouchers/lists',
+      name: 'VouchersLists',
+      component: ExpressManage,
       props: {
+        'voucher_type':1,
       }
     },
     {
-      path: '/finance/renewal_fees/renewal_estimate',
-      name: 'RenewalEstimate',
-      component: RenewalEstimate,
+      path: '/finance/vouchers/received',
+      name: 'VouchersReceived',
+      component: ExpressManage,
+      props: {
+        'voucher_type':2,
+      }
     },
 //################### 费用路由 end #####################
 //################### 报表路由 begin ###################
@@ -476,11 +524,13 @@ const router = new Router({
       component: TechProClassification,
     },
     { path: '/setting/field', name: 'SettingField', component: SettingField },
-    { path: '/setting/services', name: 'ServiceProject', component: SettingServiceProject },
+    { path: '/setting/services', name: 'ServiceProject', component: SettingService },
     { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
     { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
     { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },
     { path: '/setting/flow/actions', name: 'Actions', component: SettingActions },
+    { path: '/setting/flow/forms', name: 'Forms', component: SettingForm },
+    { path: '/setting/flow/fields', name: 'Fields', component: SettingFields },
     { path: '/setting/data/payment_accounts', name: 'PaymentAccount', component: PaymentAccount },
     { path: '/setting/data/fee_codes', name: 'FeeCode', component: SettingFeeCode },
     { path: '/setting/data/file_types', name: 'FileType', component: SettingFileType },

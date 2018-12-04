@@ -1,83 +1,48 @@
-<!-- 新增类服务类型 -->
+<!-- 新增流程节点类型 -->
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-row>
-                <el-col :span="12">
-                    <el-form-item label="国家" prop="area">
-                        <static-select type="area" v-model="form.area"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="案件类型" prop="project_type">
-                        <static-select type="project_type" v-model="form.project_type"></static-select>
-                    </el-form-item>
+                <el-col :span="24">
+                    <el-form-item label="表单名称" prop="name">
+                        <el-input type="text" placeholder="请输入表单名称" v-model="form.name"></el-input>
+                    </el-form-item> 
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12">
-                    <el-form-item label="服务名称" prop="name">
-                        <el-input type="text" placeholder="请输入服务名称" v-model="form.name"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="单价" prop="unit_price">
-                        <el-input type="text" placeholder="请输入单价" v-model="form.unit_price"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="默认管制事项" prop="process_definition">
-                      <remote-select type="definitions" v-model="form.process_definition"></remote-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-        
                 <el-col :span="24">
                     <el-form-item label="备注" prop="remark">
-                        <el-input type="textarea" placeholder="请输入备注" v-model="form.remark"></el-input>
+                        <el-input type="text" placeholder="请输入备注" v-model="form.remark"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
         </el-form>
+
+        <div class="PaymentRequestDetail"  v-if="this.type == 'edit'">
+            <form-fields :id="id"></form-fields>
+        </div>
     </div>
+    
 </template>
 
 <script>
     import RemoteSelect from "@/components/form/RemoteSelect";
     import StaticSelect from "@/components/form/StaticSelect";
+    import FormFields from "@/components/page/setting/flow/FormFields";
     import AppSwitch from "@/components/form/AppSwitch";
 
     export default {
-        name: "ServiceAdd",
+        name: "ActionAdd",
         data() {
             return {
-                URL: "/services",
+                URL: "/forms",
                 form: {
-                    area: '',
-                    project_type: '',
-                    name: '',
-                    unit_price: '',
-                    process_definition: '',
+                    name: "",
                     remark:'',
                 },
                 rules: {
-                    area: [
-                        {required: true, message: "请选择国家", trigger: "change"}
-                    ],
-                    project_type: [
-                        {required: true, message: "请选择案件类型", trigger: "change"}
-                    ],
                     name: [
-                        {required: true, message: "请输入服务名称", trigger: "blur"}
-                    ],
-                    unit_price: [
-                        {required: true, message: "请输入单价", trigger: "blur"}
-                    ],
-                    process_definition: [
-                        {required: true, message: "请选择默认管制事项", trigger: "change"}
+                        {required: true, message: "请输入表单名称", trigger: "blur"}
                     ],
                 },
             }
@@ -85,9 +50,13 @@
         props: {
             data: Object,
             type: String,
+            id: Number,
         },
         mounted() {
             this.coverObj(this.data);
+        },
+        created() {
+            
         },
         watch: {
             data: function (val, oldVal) {
@@ -127,13 +96,14 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val):"";
+                val?this.$tool.coverObj(this.form,val,{obj:['creation_template','completion_template','creation_process_stage','completion_process_stage']}):"";
             },
         },
         components: {
             RemoteSelect,
             StaticSelect,
             AppSwitch,
+            FormFields,
         },
     }
 </script>

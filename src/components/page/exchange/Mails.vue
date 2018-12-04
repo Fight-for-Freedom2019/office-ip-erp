@@ -36,12 +36,12 @@
                     'is_search': true,
                     'is_list_filter': false,
                     'list_type': 'serial',
-                    'search_placeholder': '文件类型名称',
+                    'search_placeholder': '请输入关键字',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'add', click: this.add},
+                        // {type: 'add', click: this.add},
                         {type: 'delete'},
-                        {type: 'export'},
+                        // {type: 'export'},
                         {type: 'control'},
                     ],
                     'columns': [

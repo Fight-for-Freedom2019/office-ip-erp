@@ -1,46 +1,42 @@
-<!-- 新增类服务类型 -->
+<!-- 新增流程节点类型 -->
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-row>
-                <el-col :span="12">
-                    <el-form-item label="国家" prop="area">
-                        <static-select type="area" v-model="form.area"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="案件类型" prop="project_type">
-                        <static-select type="project_type" v-model="form.project_type"></static-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="服务名称" prop="name">
-                        <el-input type="text" placeholder="请输入服务名称" v-model="form.name"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="单价" prop="unit_price">
-                        <el-input type="text" placeholder="请输入单价" v-model="form.unit_price"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="默认管制事项" prop="process_definition">
-                      <remote-select type="definitions" v-model="form.process_definition"></remote-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-        
                 <el-col :span="24">
-                    <el-form-item label="备注" prop="remark">
-                        <el-input type="textarea" placeholder="请输入备注" v-model="form.remark"></el-input>
+                    <el-form-item label="字段名称" prop="name">
+                        <el-input type="text" placeholder="请输入字段标签" v-model="form.name"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="字段key" prop="key">
+                        <el-input type="text" placeholder="请输入字段key" v-model="form.key"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="字段类型" prop="field_type">
+                        <static-select type="field_type" placeholder="请输入字段类型" v-model="form.field_type"></static-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="占位符" prop="placeholder">
+                        <el-input type="text" placeholder="请输入占位符" v-model="form.placeholder"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <!-- <el-row>
+                <el-col :span="24">
+                    <el-form-item label="验证规则" prop="rules">
+                        <el-input type="text" placeholder="请输入验证规则" v-model="form.rules"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row> -->
         </el-form>
     </div>
 </template>
@@ -51,34 +47,21 @@
     import AppSwitch from "@/components/form/AppSwitch";
 
     export default {
-        name: "ServiceAdd",
+        name: "ActionAdd",
         data() {
             return {
-                URL: "/services",
+                URL: "/fields",
                 form: {
-                    area: '',
-                    project_type: '',
-                    name: '',
-                    unit_price: '',
-                    process_definition: '',
-                    remark:'',
+                    name: "",
+                    key: "",
+                    field_type: "",
+                    placeholder: "",
+                    // rules: "",
                 },
                 rules: {
-                    area: [
-                        {required: true, message: "请选择国家", trigger: "change"}
-                    ],
-                    project_type: [
-                        {required: true, message: "请选择案件类型", trigger: "change"}
-                    ],
-                    name: [
-                        {required: true, message: "请输入服务名称", trigger: "blur"}
-                    ],
-                    unit_price: [
-                        {required: true, message: "请输入单价", trigger: "blur"}
-                    ],
-                    process_definition: [
-                        {required: true, message: "请选择默认管制事项", trigger: "change"}
-                    ],
+                    name: {required: true, message: "请输入字段标签", trigger: "blur"},
+                    key: {required: true, message: "请输入字段名称", trigger: "blur"},
+                    field_type: {required: true, message: "请输入字段类型", trigger: "blur"},
                 },
             }
         },
@@ -127,7 +110,7 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val):"";
+                val?this.$tool.coverObj(this.form,val,{obj:['field_type']}):"";
             },
         },
         components: {

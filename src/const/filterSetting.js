@@ -1,6 +1,6 @@
 const map = new Map([
 	['task', [
-		{ components: 'static_select', id: 'category', name: '案件类型', type: 'case_type' },
+		{ components: 'static_select', id: 'category', name: '案件类型', type: 'project_type' },
   		{ components: 'static_select', id: 'ipr', name: 'IPR', type: 'ipr' },
 		{ components: 'remote_select', id: 'agency', name: '代理机构', type: 'agency' },
 		{ components: 'remote_select', id: 'agent', name: '代理人', type: 'agent' },
@@ -74,7 +74,7 @@ const map = new Map([
 		{ components: 'date',          id: 'due_time', name: '账单期限' },
 		{ components: 'date',          id: 'deadline', name: '官方绝限' },
 		{ components: 'date',          id: 'pay_time', name: '付款时间' },
-		{ components: 'static_select', id: 'category', name: '案件类型', type: 'case_type' },
+		{ components: 'static_select', id: 'category', name: '案件类型', type: 'project_type' },
 		{ components: 'static_select', id: 'patent_type', name: '专利类型', type: 'patent_type' },
 		{ components: 'date',          id: 'apd', name: '申请日' },
 		{ components: 'static_select', id: 'area', name: '地区', type: 'area' },

@@ -1,6 +1,6 @@
 <template>
 	<div class="app-transfer-panel">
-      <p class="app-transfer-panel__header">{{ title }}</p>
+      <p class="app-transfer-panel__header">{{ `${title} 共 ${data.length} 项`}}</p>
       <div class="app-transfer-panel__body">
         <el-input
           :placeholder="placeholder"
@@ -23,7 +23,7 @@
         </el-checkbox-group>
       </div>
       <p class="app-transfer-panel__footer">
-      	<el-checkbox v-model="checkAll" :indeterminate="indeterminate" style="padding-left: 20px; color: #8391a5;">{{ `共 ${data.length} 项` }}</el-checkbox>
+      	<el-checkbox v-model="checkAll" :indeterminate="indeterminate" style="padding-left: 20px; color: #8391a5;">{{ btnLabel }}</el-checkbox>
       </p>
     </div>
 </template>
@@ -37,7 +37,8 @@ export default {
 	data () {
 		return {
 			search: '',
-			indexCache: '',
+      indexCache: '',
+      btnLabel: '全选',
 		}
 	},
 	computed: {
@@ -54,9 +55,11 @@ export default {
 		checkAll: {
 			set (val) {
 				if(val) {
-					this.handleInput(this.data.map(_=>_.value));
+          this.handleInput(this.data.map(_=>_.value));
+          this.btnLabel = '全不选';
 				}else {
-					this.handleInput([]);
+          this.handleInput([]);
+          this.btnLabel = '全选';
 				}
 			},
 			get () {
@@ -85,7 +88,7 @@ export default {
       // var img = new Image();
       // e.dataTransfer.setDragImage(img,0,0);
 			this.indexCache = e.target.dataset.index;
-		},
+    },
 		drop (e) {
 			if(this.search) return;
       const target = $(e.target).parents('div.app-transfer-panel__drag1')[0];

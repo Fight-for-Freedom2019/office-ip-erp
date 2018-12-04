@@ -48,9 +48,9 @@
                     'columns': [
                         {type: 'selection'},
                         {
-                            type: 'text', label: '案件类型', prop: 'category',render_simple:'name', width: '100'
+                            type: 'text', label: '案件类型', prop: 'project_type',render_simple:'name', width: '100'
                         },
-                        {type: 'text', label: '案件子类型', prop: 'subtype',render_simple:'name', width: '120'},
+                        {type: 'text', label: '案件子类型', prop: 'project_subtype',render_simple:'name', width: '120'},
                         {type: 'text', label: '费用类型', prop: 'fee_type',render_simple:'name', width: '100'},
                         {type: 'text', label: '费用名称', prop: 'name', min_width: '200'},
                         {type: 'text', label: '费用简称', prop: 'abbr', min_width: '80'},

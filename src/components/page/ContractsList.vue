@@ -49,7 +49,7 @@
                         {type: 'text', label: '客户', prop: 'customer', width: '150',render_simple:"name",render_header:true},
                         {type: 'text', label: '联系人', prop: 'contact', width: '170',render_simple:"name",render_header:true},
                         {type: 'text', label: '合同编号', prop: 'serial', width: '145',render_header:true},
-                        {type: 'text', label: '合同类型', prop: 'type', width: '145',render_header:true},
+                        {type: 'text', label: '合同类型', prop: 'type', width: '145',render_simple:"name",render_header:true},
                         {
                             type: 'text', label: '状态', prop: 'is_effective', width: '123', render: (h, item) => {
                                 item = item === 1 ? "生效中" : "已失效";

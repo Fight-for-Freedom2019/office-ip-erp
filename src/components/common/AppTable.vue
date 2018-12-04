@@ -10,6 +10,7 @@
   :height="tableHeight"
   :max-height="maxHeight"
   :span-method="spanMethod"
+  :show-summary="showSummary"
 
   @selection-change="handleSelectionChange" 
   @sort-change="_=>{$emit('sort-change', _)}"
@@ -198,6 +199,10 @@ export default {
       type: Array,
       required: true,
     },
+    showSummary:{
+      type: Boolean,
+      default: false,
+    },
     tableSelected: {
       type: Array,
       default () {
@@ -301,6 +306,9 @@ export default {
           height = height < 300 ? 300 : height;
         }else if(hk === 'noPagination') {
           height = this.innerHeight - this.breadHeaderHeight;
+          height = height < 300 ? 300 : height;
+        }else if(hk === 'flowActions') {
+          height = this.innerHeight - 280;
           height = height < 300 ? 300 : height;
         }else {
           height = 'auto';

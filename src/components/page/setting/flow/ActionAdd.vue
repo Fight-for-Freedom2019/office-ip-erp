@@ -1,60 +1,78 @@
-<!-- 新增费用类型 -->
+<!-- 新增流程节点类型 -->
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-row>
-                <el-col :span="12">
-                    <el-form-item label="案件类型" prop="project_type">
-                        <static-select type="project_type" v-model="form.project_type"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="子类型" prop="subtype">
-                        <static-select type="subtype" v-model="form.subtype"></static-select>
+                <el-col :span="24">
+                    <el-form-item label="流程节点名称" prop="name">
+                        <el-input type="text" placeholder="请输入流程节点名称" v-model="form.name"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="费用类型" prop="fee_type">
-                        <static-select type="fee_type" v-model="form.fee_type"></static-select>
+                    <el-form-item label="创建阶段" prop="creation_process_stage">
+                        <static-select type="process_stage" v-model="form.creation_process_stage"></static-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="费用名称" prop="name">
-                        <el-input type="text" placeholder="请输入费用名称" v-model="form.name"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="货币" prop="currency">
-                        <static-select type="currency" v-model="form.currency"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="费用简称" prop="abbr">
-                        <el-input type="text" placeholder="请输入费用简称" v-model="form.abbr"></el-input>
+                    <el-form-item label="完成阶段" prop="completion_process_stage">
+                        <static-select type="process_stage" v-model="form.completion_process_stage"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="金额" prop="amount">
-                        <el-input type="text" placeholder="请输入金额" v-model="form.amount"></el-input>
+                    <el-form-item label="创建邮件模板" prop="creation_template">
+                        <static-select type="mail_template" v-model="form.creation_template"></static-select>
                     </el-form-item>
                 </el-col>
-                
                 <el-col :span="12">
-                    <el-form-item label="英文名" prop="alias">
-                        <el-input type="text" placeholder="请输入英文名" v-model="form.alias"></el-input>
+                    <el-form-item label="完成邮件模板" prop="completion_template">
+                        <static-select type="mail_template" v-model="form.completion_template"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="状态" prop="status">
-                        <static-select type="status" v-model="form.status"></static-select>
+                    <el-form-item label="节点创建逻辑" prop="creation_logic">
+                        <el-input type="text" placeholder="请输入节点创建逻辑" v-model="form.creation_logic"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="节点完成逻辑" prop="completion_logic">
+                        <el-input type="text" placeholder="请输入节点完成逻辑" v-model="form.completion_logic"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="节点通过逻辑" prop="pass_logic">
+                        <el-input type="text" placeholder="请输入节点审核通过逻辑" v-model="form.pass_logic"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="节点驳回逻辑" prop="rejection_logic">
+                        <el-input type="text" placeholder="请输入节点审核驳回逻辑" v-model="form.rejection_logic"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="自动完成节点" prop="is_auto_complete">
+                        <app-switch type="status" placeholder="" v-model="form.is_auto_complete"></app-switch>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="审核节点" prop="is_review_action">
+                        <app-switch type="status" placeholder="" v-model="form.is_review_action"></app-switch>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="表单" prop="form">
+                        <static-select type="form" v-model="form.form"></static-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -80,44 +98,30 @@
     import AppSwitch from "@/components/form/AppSwitch";
 
     export default {
-        name: "FeeCodeAdd",
+        name: "ActionAdd",
         data() {
             return {
-                URL: "/fee_codes",
+                URL: "/actions",
                 form: {
-                    project_type: "专利",
-                    subtype: 1,
-                    fee_type: 3,
                     name: "",
-                    currency: "",
-                    amount: "",
-                    sort: "",
-                    status:'',
-                    alias:'',
+                    creation_process_stage: '',
+                    completion_process_stage: '',
+                    creation_template: "",
+                    completion_template: "",
+                    creation_logic: "",
+                    completion_logic:'',
+                    pass_logic:'',
+                    rejection_logic:'',
+                    is_auto_complete:'',
+                    is_review_action:'',
+                    form:'',
+                    sort:'',
                     remark:'',
                 },
                 rules: {
-                    project_type: [
-                        {required: true, message: "请选择案件类型", trigger: "blur"}
-                    ],
-                    subtype: [
-                        {required: true, message: "请选择案件子类型", trigger: "blur"}
-                    ],
-                    fee_type: [
-                        {required: false, message: "请选择费用类型", trigger: "blur"}
-                    ],
                     name: [
-                        {required: true, message: "请输入费用名称", trigger: "blur"}
+                        {required: true, message: "请输入流程节点名称", trigger: "blur"}
                     ],
-                    currency: [
-                        {required: true, message: "请选择货币", trigger: "blur"}
-                    ],
-                    amount: [
-                        {required: true, message: "请输入金额", trigger: "blur"}
-                    ],
-                    sort: [
-                        {required: true, message: "请输入排序", trigger: "blur"},
-                    ]
                 },
             }
         },
@@ -166,7 +170,7 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val):"";
+                val?this.$tool.coverObj(this.form,val,{obj:['creation_template','completion_template','creation_process_stage','completion_process_stage']}):"";
             },
         },
         components: {

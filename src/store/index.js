@@ -7,6 +7,7 @@ import table from '@/store/modules/table-common.js'
 import product from '@/store/modules/product.js'
 import classification from '@/store/modules/classification.js'
 import branch from '@/store/modules/branch.js'
+import action from '@/store/modules/action.js'
 import ipr from '@/store/modules/ipr.js'
 import area from '@/store/modules/area.js'
 import city from '@/store/modules/city.js'
@@ -48,30 +49,33 @@ const store = new Vuex.Store({
     bread_header_height: '',
   },
   modules: {
-    filter,
-    menuCache,
-    detail,
-    tags,
-    table,
-    product,
-    classification,
-    branch,
-    ipr,
+    action,
     area,
-    city,
-    invoiceEntity,
-    userGroup,
-    flows,
-    taskDef,
-    currentUser,
-    sysmesg,
+    branch,
     cache,
+    cardCache,
+    city,
+    classification,
+    currentUser,
+    detail,
+    filter,
+    flows,
+    invoiceEntity,
+    ipr,
+    menuCache,
+    processDetail,
+    product,
     selectorCache,
+    sysmesg,
+    table,
+    tags,
+    taskDef,
     taskDelay,
     treeCache,
     cardCache,
     processDetail,
     estimateDetail,
+    userGroup,
   },
   getters: {
     getDragId: state=>state.dragId,

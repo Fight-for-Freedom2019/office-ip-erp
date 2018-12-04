@@ -25,7 +25,7 @@
                     </el-form-item>
                     <el-form-item label="请款单状态" v-else>
                         <static-select type="invoice_status" class="custom-input" v-model="form.status"></static-select>
-                    </el-form-item>
+                    </el-form-item> 
                 </el-col>
             </el-row>
             <el-row :gutter="20">

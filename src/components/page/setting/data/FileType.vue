@@ -48,7 +48,7 @@
                     'columns': [
                         {type: 'selection'},
                         {
-                            type: 'text', label: '案件类型', prop: 'project_category',render_simple:'name', width: '100'
+                            type: 'text', label: '案件类型', prop: 'project_type',render_simple:'name', width: '100'
                         },
                         {type: 'text', label: '文件类型', prop: 'category',render_simple:'name', width: '120'},
                         {type: 'text', label: '文件类型名称', prop: 'name', min_width: '200'},

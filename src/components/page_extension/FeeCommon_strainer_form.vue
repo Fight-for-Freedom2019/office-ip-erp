@@ -23,7 +23,7 @@
   <el-row>
     <el-col :span="12">
       <el-form-item prop="category" label="案件类型">
-        <static-select type="case_type" v-model="form.category" multiple></static-select>
+        <static-select type="project_type" v-model="form.category" multiple></static-select>
       </el-form-item>
     </el-col>
     <el-col :span="12">
