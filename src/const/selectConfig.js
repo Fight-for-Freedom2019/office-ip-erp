@@ -457,7 +457,7 @@ const config = [
   // }],
   ['fee_code_renewal', {
     placeholder: '请选择年费类型',
-    url: '/fee_codes?litOnly=1&is_renewal_fee=1',
+    url: '/fee_codes?listOnly=1&is_renewal_fee=1',
     handle (data) {
       return data.codes.map(_=>{
         _.id = _.id - 0;
@@ -468,17 +468,11 @@ const config = [
   }],
   ['flows', {
     placeholder: '请选择流程',
-    url: '/flows?litOnly=1',
-    handle (data) {
-      return data.data.data
-    }
+    options:'flowOptions',
   }],
   ['actions', {
-    placeholder: '请选择流程',
-    url: '/actions?litOnly=1',
-    handle (data) {
-      return data.data.data
-    }
+    placeholder: '请选择流程节点',
+    options: 'actionOptions',
   }],
   ['process_stage', {
     placeholder: '请选择管制事项阶段',

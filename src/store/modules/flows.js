@@ -1,10 +1,13 @@
-let url = '/flows';
+let url = '/flows?listOnly=1&listRows=100000';
 const state = {
 	flows: undefined,
 }
 
 const getters = {
 	flowsData: state => state.flows,
+	flowOptions: state=>{
+		return state.flows;
+	}
 }
 
 const mutations = {
@@ -15,7 +18,6 @@ const mutations = {
 
 const actions = {
 	refreshFlows ({commit, rootState, state},{type}={}) {		
-		url = rootState.status ? url.replace(/\/api/, '') : url;
 		const params ={project_type: type};
 		rootState.axios
 			.get(url,{params})

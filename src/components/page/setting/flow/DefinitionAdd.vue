@@ -2,74 +2,30 @@
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="案件类型" prop="project_type">
-                        <static-select type="project_type" v-model="form.project_type"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="子类型" prop="subtype">
-                        <static-select type="subtype" v-model="form.subtype"></static-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="费用类型" prop="fee_type">
-                        <static-select type="fee_type" v-model="form.fee_type"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="费用名称" prop="name">
-                        <el-input type="text" placeholder="请输入费用名称" v-model="form.name"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="货币" prop="currency">
-                        <static-select type="currency" v-model="form.currency"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="费用简称" prop="abbr">
-                        <el-input type="text" placeholder="请输入费用简称" v-model="form.abbr"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="金额" prop="amount">
-                        <el-input type="text" placeholder="请输入金额" v-model="form.amount"></el-input>
-                    </el-form-item>
-                </el-col>
-                
-                <el-col :span="12">
-                    <el-form-item label="英文名" prop="alias">
-                        <el-input type="text" placeholder="请输入英文名" v-model="form.alias"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="状态" prop="status">
-                        <static-select type="status" v-model="form.status"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="排序" prop="sort">
-                        <el-input type="text" placeholder="请输入排序" v-model="form.sort"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="备注" prop="remark">
-                        <el-input type="text" placeholder="请输入备注" v-model="form.remark"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+            <el-form-item label="案件类型" prop="project_type">
+                <static-select type="project_type" v-model="form.project_type"></static-select>
+            </el-form-item>
+            <el-form-item label="管制事项名称" prop="name">
+                <el-input type="text" placeholder="请输入管制事项名称" v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="默认流程" prop="default_flow">
+                <static-select type="flows" v-model="form.default_flow"></static-select>
+            </el-form-item>
+            <el-form-item label="管制事项描述" prop="description">
+                <el-input type="text" placeholder="请输入管制事项描述" v-model="form.description"></el-input>
+            </el-form-item>
+            <el-form-item label="默认期限" prop="default_period">
+                <el-input type="text" placeholder="请输入默认期限" v-model="form.default_period"></el-input>
+            </el-form-item>
+            <el-form-item label="是否法限" prop="is_deadline">
+                <app-switch type="is" placeholder="请选择是否有法限" v-model="form.is_deadline"></app-switch>
+            </el-form-item>
+            <el-form-item label="案件阶段" prop="project_stage">
+                <static-select type="project_stage_patent" v-model="form.project_stage"></static-select>
+            </el-form-item>
+            <el-form-item label="排序" prop="sort">
+                <el-input type="text" placeholder="请输入排序" v-model="form.sort"></el-input>
+            </el-form-item>
         </el-form>
     </div>
 </template>
@@ -83,41 +39,27 @@
         name: "FeeCodeAdd",
         data() {
             return {
-                URL: "/fee_codes",
+                URL: "/definitions",
                 form: {
                     project_type: "专利",
-                    subtype: 1,
-                    fee_type: 3,
                     name: "",
-                    currency: "",
-                    amount: "",
+                    description: "",
+                    default_period: "",
+                    is_deadline: "",
+                    default_flow: "",
                     sort: "",
-                    status:'',
-                    alias:'',
-                    remark:'',
+                    project_stage:'',
                 },
                 rules: {
                     project_type: [
                         {required: true, message: "请选择案件类型", trigger: "blur"}
                     ],
-                    subtype: [
-                        {required: true, message: "请选择案件子类型", trigger: "blur"}
-                    ],
-                    fee_type: [
-                        {required: false, message: "请选择费用类型", trigger: "blur"}
-                    ],
                     name: [
                         {required: true, message: "请输入费用名称", trigger: "blur"}
                     ],
-                    currency: [
-                        {required: true, message: "请选择货币", trigger: "blur"}
+                    default_flow: [
+                        {required: true, message: "请选择默认流程", trigger: "blur"}
                     ],
-                    amount: [
-                        {required: true, message: "请输入金额", trigger: "blur"}
-                    ],
-                    sort: [
-                        {required: true, message: "请输入排序", trigger: "blur"},
-                    ]
                 },
             }
         },

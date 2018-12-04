@@ -4,57 +4,20 @@
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-row>
                 <el-col :span="12">
+                    <el-form-item label="流程名称" prop="name">
+                        <el-input type="text" placeholder="请输入流程名称" v-model="form.name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="流程描述" prop="description">
+                        <el-input type="text" placeholder="请输入流程描述" v-model="form.description"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
                     <el-form-item label="案件类型" prop="project_type">
                         <static-select type="project_type" v-model="form.project_type"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="子类型" prop="subtype">
-                        <static-select type="subtype" v-model="form.subtype"></static-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="费用类型" prop="fee_type">
-                        <static-select type="fee_type" v-model="form.fee_type"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="费用名称" prop="name">
-                        <el-input type="text" placeholder="请输入费用名称" v-model="form.name"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="货币" prop="currency">
-                        <static-select type="currency" v-model="form.currency"></static-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="费用简称" prop="abbr">
-                        <el-input type="text" placeholder="请输入费用简称" v-model="form.abbr"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="金额" prop="amount">
-                        <el-input type="text" placeholder="请输入金额" v-model="form.amount"></el-input>
-                    </el-form-item>
-                </el-col>
-                
-                <el-col :span="12">
-                    <el-form-item label="英文名" prop="alias">
-                        <el-input type="text" placeholder="请输入英文名" v-model="form.alias"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="状态" prop="status">
-                        <static-select type="status" v-model="form.status"></static-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -63,14 +26,10 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="备注" prop="remark">
-                        <el-input type="text" placeholder="请输入备注" v-model="form.remark"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
         </el-form>
+        <div v-if="this.type == 'edit'">
+            <flow-action-detail :id="data.id"></flow-action-detail>
+        </div>
     </div>
 </template>
 
@@ -78,12 +37,13 @@
     import RemoteSelect from "@/components/form/RemoteSelect";
     import StaticSelect from "@/components/form/StaticSelect";
     import AppSwitch from "@/components/form/AppSwitch";
+    import FlowActionDetail from "@/components/page/setting/flow/FlowActions";
 
     export default {
-        name: "FeeCodeAdd",
+        name: "FlowActions",
         data() {
             return {
-                URL: "/fee_codes",
+                URL: "/flows/:id/actions",
                 form: {
                     project_type: "专利",
                     subtype: 1,
@@ -97,27 +57,9 @@
                     remark:'',
                 },
                 rules: {
-                    project_type: [
-                        {required: true, message: "请选择案件类型", trigger: "blur"}
-                    ],
-                    subtype: [
-                        {required: true, message: "请选择案件子类型", trigger: "blur"}
-                    ],
-                    fee_type: [
-                        {required: false, message: "请选择费用类型", trigger: "blur"}
-                    ],
                     name: [
                         {required: true, message: "请输入费用名称", trigger: "blur"}
                     ],
-                    currency: [
-                        {required: true, message: "请选择货币", trigger: "blur"}
-                    ],
-                    amount: [
-                        {required: true, message: "请输入金额", trigger: "blur"}
-                    ],
-                    sort: [
-                        {required: true, message: "请输入排序", trigger: "blur"},
-                    ]
                 },
             }
         },
@@ -173,6 +115,7 @@
             RemoteSelect,
             StaticSelect,
             AppSwitch,
+            FlowActionDetail,
         },
     }
 </script>

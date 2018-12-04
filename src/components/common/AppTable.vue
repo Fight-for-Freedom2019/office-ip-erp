@@ -307,6 +307,9 @@ export default {
         }else if(hk === 'noPagination') {
           height = this.innerHeight - this.breadHeaderHeight;
           height = height < 300 ? 300 : height;
+        }else if(hk === 'flowActions') {
+          height = this.innerHeight - 280;
+          height = height < 300 ? 300 : height;
         }else {
           height = hk;
         }
