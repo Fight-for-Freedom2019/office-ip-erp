@@ -104,7 +104,7 @@
                         {
                             type: 'text',
                             label: '计划付款时间',
-                            prop: 'invoice',
+                            prop: 'invoice',   // TODO prop为invoice时计划付款时间和通知书发文日只渲染通知书发文日
                             render_simple: "deadline",
                             width: '150',
                             render_header: true

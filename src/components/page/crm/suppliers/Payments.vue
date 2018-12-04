@@ -7,11 +7,11 @@
             <span slot="header" style="float: right;">
                 <el-button type="primary" size="small" @click="save">保存</el-button>
                 <el-button type="danger" size="small" @click="deleteBill">删除</el-button>
-                <el-button type="primary" size="small" v-if="bill_status === 'audit'"
+                <el-button type="primary" size="small" v-if="status === 'audit'"
                            @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
-                <el-button type="primary" size="small" v-if="bill_status === 'remind'">邮件提醒</el-button>
-                <el-button type="primary" size="small" v-if="bill_status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button>
-                <el-button type="primary" size="small" v-if="bill_status === 'confirm'" @click="confirm">确认付款</el-button>
+                <el-button type="primary" size="small" v-if="status === 'remind'">邮件提醒</el-button>
+                <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button>
+                <el-button type="primary" size="small" v-if="status === 'confirm'" @click="confirm">确认付款</el-button>
                 <!--<el-button type="" size="small">退回修改</el-button>-->
             </span>
             <payment-manage-detail type="pay" ref="detail" :id="rowID" @update="update" :rowData="row"></payment-manage-detail>

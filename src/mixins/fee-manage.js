@@ -11,7 +11,7 @@ export default (statusMap)=>({
         }
     },
     computed:{
-        bill_status(){
+        status(){
             let val = this.row?statusMap.get(this.row.status):"";
             return val?val:"add";
         },
@@ -65,8 +65,8 @@ export default (statusMap)=>({
         submitCommon(id,suffix,hint) {  // 提交
             this.$refs.detail.submitCommon(id,suffix,hint);
         },
-        save() {     // 保存修改的账单
-            this.$refs.detail.save(this.rowID);
+        save(ref) {     // 传入组件的ref
+            this.$refs[ref].save(this.rowID);
         },
         change(val) {
             val ? this.is_deleted = 1 : this.is_deleted = 0;
@@ -74,7 +74,7 @@ export default (statusMap)=>({
 
         changeState(){     // 由于状态显示在shrink组件下的子组件中，所以还需要一个方法改变PaymentManageDetail中的form.status
             this.$refs.detail.changeState();
-            this.bill_status = "add";
+            this.status = "add";
         },
     },
 
