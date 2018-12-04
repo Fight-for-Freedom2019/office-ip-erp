@@ -377,7 +377,7 @@ const router = new Router({
   
    {
     path: '/finance/revenue/all',
-    name: 'RequestPayout',
+    name: 'RequestPayoutAll',
     component: RequestPayout,
       meta:{
         params:{
@@ -387,7 +387,7 @@ const router = new Router({
     },
     {
       path: '/finance/revenue/ready_to_request',
-      name: 'RequestPayout',
+      name: 'RequestPayoutRequest',
       component: RequestPayout,
       meta:{
         params:{
@@ -419,7 +419,7 @@ const router = new Router({
 
     {
       path: '/finance/outgo/all',
-      name: 'SuppliersFee',
+      name: 'SuppliersFeeAll',
       component: SuppliersFee,
       meta:{
         params:{
@@ -429,7 +429,7 @@ const router = new Router({
     },
     {
       path: '/finance/outgo/ready_to_pay',
-      name: 'SuppliersFee',
+      name: 'SuppliersFeePay',
       component: SuppliersFee,
       meta:{
         params:{

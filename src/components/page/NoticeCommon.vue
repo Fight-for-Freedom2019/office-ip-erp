@@ -126,7 +126,7 @@ export default {
 					window.location.href = _.list.downloadUrl;
 				}
 				else {
-					this.tableData = _.data;	
+					this.tableData = _.notices;	
 				}
 				
 			};
@@ -140,7 +140,7 @@ export default {
 		this.tableOption.url = this.config.URL;
 	},
 	mounted () {
-		// this.refresh();
+		this.refresh();
 	},
 	components: { 
 		TableComponent, 
