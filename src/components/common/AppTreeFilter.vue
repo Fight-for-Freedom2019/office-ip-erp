@@ -29,7 +29,6 @@ const urlMap = new Map([
   ['invoices',{ URL: '/filters/invoices' }],
   ['received_payments',{ URL: '/filters/received_payments' }],
   ['invoice_request',{ URL: '/filters/vouchers' }],
-
 ]);
 export default {
   name: 'filterTree',

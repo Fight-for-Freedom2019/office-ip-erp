@@ -346,7 +346,6 @@ export default {
 
         list2.push(obj);  
       }
-      // const s = new Set([...list, ...list2]);
       const data = { list: list2};
       const success = _=>{
         this.clear();

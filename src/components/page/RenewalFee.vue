@@ -8,12 +8,21 @@
 		</table-component>
 		<pop ref="pop" @refresh="refresh"></pop>
 		<el-dialog title="新建年费评估单" :visible.sync="dialogVisble" @close="remark = '';due_time='';" class="dialog-small">
-			<el-date-picker type="date" v-model="due_time" placeholder="请选择评估期限"></el-date-picker>
-			<el-input type="textarea" v-model="remark" placeholder="请填写年费评估单备注" style="margin-top: 10px;"></el-input>
-			<el-button :loading="loading" type="primary" @click="addEstimate" style="margin-top: 10px;">{{ loading ? '新建中...' : '确认新建' }}</el-button>
+			<!-- <el-date-picker type="date" v-model="due_time" placeholder="请选择评估期限"></el-date-picker> -->
+			<el-form :model="addForm" ref="addForm">
+				<el-form-item label="服务费/件" prop="price" :rules="{required: true, message: '请输入服务费/件', trigger: 'blur'}">
+					<el-input v-model="addForm.price" placeholder="请输入服务费/件"></el-input>
+				</el-form-item>
+				<el-form-item label="备注" prop="remark" :rules="{required: true, message: '请输入服务费/件', trigger: 'blur'}">
+					<el-input type="textarea" v-model="addForm.remark" placeholder="请填写年费评估单备注"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-button :loading="loading" type="primary" @click="addEstimate">{{ loading ? '新建中...' : '确认新建' }}</el-button>
+				</el-form-item>
+			</el-form>
 		</el-dialog>
 		<el-dialog title="添加到已有评估单" :visible.sync="dialogVisble2" @close="estimate = '';" class="dialog-small">
-			<remote-select type="estimate" :para="{status: 0}" v-model="estimate"></remote-select>
+			<jump-select type="estimate"  v-model="estimate"></jump-select>
 			<el-button :loading="loading" type="primary" @click="putEstimate" style="margin-top: 10px;">{{ loading ? '添加中...' : '确认添加' }}</el-button>
 		</el-dialog>
 		<el-dialog title="设置年费监控偏好" :visible.sync="dialogVisble3">
@@ -32,10 +41,11 @@
 import TableComponent from '@/components/common/TableComponent'
 import Pop from '@/components/page_extension/RenewalFee_pop'
 import RemoteSelect from '@/components/form/RemoteSelect'
+import JumpSelect from '@/components/form/JumpSelect'
 import {mapActions} from 'vuex'
 
-const URL = '/api/renewalfee'
-const URL2 = '/api/renewalestimate'
+const URL = '/renewal_fees'
+const URL2 = '/renewal_confirmation_sheets'
 export default {
 	name: 'renewalFee',
 	props: {
@@ -64,8 +74,11 @@ export default {
 			loading: false,
 			loading4: false,
 			patent: '',
-			due_time: '',
-			remark: '',
+			addForm: {
+				remark: '',
+				price: '',
+			},
+			// due_time: '',
 			estimate: '',
 
 			option: {
@@ -97,17 +110,20 @@ export default {
 					// 	} 
 					// },
 				],
-				header_slot: [  ],
+				// header_slot: [ 'status' ],
+
 				columns: [
 					{ type: 'selection' },
 					{ type: 'text', label: '案件类型', prop: 'category', render_key: 'project', render_simple: 'serial', width: '150'},
 					{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '150'},
 					{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '200'},
-					{ type: 'text', label: '客户', prop: 'customer', render_simple: 'name', width: '200'},
-					{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '135'},
-					{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '118'},
-					{ type: 'text', label: '官方绝限', prop: 'deadline', width: '128'},
-					{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '150'},
+					{ type: 'text', label: '客户', prop: 'customer',  render_key: 'project', render_simple: 'name', width: '200'},
+					{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '200'},
+					{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '200'},
+					{ type: 'text', label: '官方绝限', prop: 'legal_deadline', width: '200'},
+					{ type: 'text', label: '客户', prop: 'customer',  render_key: 'project', render_simple: 'name', width: '200'},
+
+					{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '200'},
 					{ 
 						type: 'text', 
 						label: '金额', 
@@ -139,21 +155,26 @@ export default {
           { 
           	type: 'text', 
           	label: '人民币金额', 
-          	prop: 'rmb', 
+          	prop: 'rmb_amount', 
           	width: '120',
           	align: 'right',
           	render:(h,item)=>{
 	            return h('span',`${item}CNY`)
 	          }
 	        },
-					
-					{ type: 'text',label: '年费状态',prop: 'status', render_text: _=>this.statusMap.get(_),width: '130'},
-					{ type: 'text', label: '案件费用策略', prop: 'fee_policy', render_simple: 'name', width: '130'},
-					{ type: 'text', label: '评估单编号', prop: 'renewal_estimate', render_simple: 'number', width: '130'},
+					{ 
+						type: 'text', 
+						label: '年费状态', 
+						prop: 'status', 
+						render_text: _=>this.statusMap.get(_),
+						width: '200'
+					},
+					{ type: 'text', label: '案件费用策略', prop: 'fee_policy', render_key: 'project', render_simple: 'name', width: '200'},
+					{ type: 'text', label: '评估单号', prop: 'confirmation_sheet', render_simple: 'serial', width: '200'},
 					{ type: 'text', label: '备注', prop: 'remark', width: '200'},
 				]
 			},
-			tableData: '',
+			tableData: [],
 		};
 	},
 	methods: {
@@ -189,41 +210,45 @@ export default {
 		refreshTableData (option) {
 			this.$axiosGet({
 				url: URL,
-				data: Object.assign({}, option, {status: this.status}, {month: this.month}, this.defaultParams),
+				data: Object.assign({}, option, this.defaultParams),
 				success: _=>{this.tableData = _.data},
 			})
 		},
 		estimatePop (type) {
 			const list = this.$refs.table.getSelected();
 			if(!list) return;
-			for(let i = 0; i < list.length; i++) {
-				if(list[i]['status'] != 0) {
-					return this.$message({type: 'warning', message: '请选择处于年费监控状态的列表项'});
-				}
-			}
+			// for(let i = 0; i < list.length; i++) {
+			// 	if(list[i]['status'] != 0) {
+			// 		return this.$message({type: 'warning', message: '请选择处于年费监控状态的列表项'});
+			// 	}
+			// }
 
 			if(type == 'add') this.dialogVisble = true;
 			if(type == 'append') this.dialogVisble2 = true;
 
 		},
 		addEstimate () {
-			const ids = this.$tool.splitObj(this.$refs.table.getSelected(true), 'id');
-			const remark = this.remark;
-			const due_time = this.$tool.getDate(this.due_time);
-			const data = { ids, remark, due_time };
-			
-			this.loading = true; 
-			this.$axiosPost({
-				url: URL2,
-				data,
-				success: _=>{
-					this.$message({type: 'success', message: '新建年费评估单成功'});
-					this.dialogVisble = false;
-					this.refresh();
-					this.refreshUser();
-				},
-				complete: _=>{
-					this.loading = false;
+			this.$refs.addForm.validate(valid=>{
+				if(valid) {
+					const fees = this.$tool.splitObj(this.$refs.table.getSelected(true), 'id');
+					const remark = this.remark;
+					const price = this.price;
+					const data = { fees, remark, price };
+					
+					this.loading = true; 
+					this.$axiosPost({
+						url: URL2,
+						data,
+						success: _=>{
+							this.$message({type: 'success', message: '新建年费评估单成功'});
+							this.dialogVisble = false;
+							this.refresh();
+							this.refreshUser();
+						},
+						complete: _=>{
+							this.loading = false;
+						}
+					})
 				}
 			})
 		},
@@ -260,9 +285,10 @@ export default {
 		}
 	},
 	components: { 
-    TableComponent, 
+    	TableComponent, 
 		Pop,
 		RemoteSelect,
+		JumpSelect,
 	}
 } 
 </script>

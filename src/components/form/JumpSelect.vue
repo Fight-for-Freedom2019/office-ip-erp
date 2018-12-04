@@ -189,6 +189,11 @@ const map = new Map([
     DATA_KEY: 'data',
     PLACEHOLDER: '请选择联系人',
   }],
+  ['estimate', {
+    URL: '/renewal_confirmation_sheets',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择评估单',
+  }],
 ]);
 
 export default {

@@ -175,14 +175,16 @@ export default {
         }
         if(response.forms && response.forms.length != 0) {
           response.forms.forEach(_=>{
-            const staticConfig = formMap.get(_.field_type);
+            let staticConfig = formMap.get(_.field_type.id);
+            console.log(staticConfig)
             if(_.is_required) {
-              this.$set(this.appFormRules, _.field_type, staticConfig.rules);
+              this.$set(this.appFormRules, _.key, staticConfig.rules);
             }
             const obj = Object.assign({}, staticConfig, _);
-            arr.push(obj);
+            arr.push(obj);  
           })
           this.sourceForm = arr;
+          console.log(this.sourceForm)
         }
       };
       const complete = _=>{ 

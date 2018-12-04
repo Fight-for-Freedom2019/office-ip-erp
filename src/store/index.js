@@ -26,6 +26,7 @@ import taskDelay from '@/store/modules/delay.js'
 import treeCache from '@/store/modules/tree-cache.js'
 import cardCache from '@/store/modules/card-cache.js'
 import processDetail from '@/store/modules/process-detail.js'
+import estimateDetail from '@/store/modules/estimate-detail.js'
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -71,6 +72,9 @@ const store = new Vuex.Store({
     taskDef,
     taskDelay,
     treeCache,
+    cardCache,
+    processDetail,
+    estimateDetail,
     userGroup,
   },
   getters: {
