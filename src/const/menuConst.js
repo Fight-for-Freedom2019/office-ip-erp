@@ -82,7 +82,10 @@ const crmMenu = [
 const financeMenu = [
 	{ type: 'item', text: '应收费用', path: '/finance/fees_to_request', icon: 'iconfont el-icon-my-received-payment'},
 	{ type: 'item', text: '应付费用', path: '/finance/fees_to_pay', icon: 'iconfont el-icon-my-payment'},
-	{ type: 'item', text: '年费管理', path: '/finance/renewal_fees', icon: 'iconfont el-icon-my-renewal-fee'},
+	{ type: 'submenu', text: '年费管理', path: '/finance/renewal_fees', icon: 'iconfont el-icon-my-renewal-fee', children: [
+		{ type: 'item', text: '年费监控', path: '/finance/renewal_fees/monitoring', icon: ''},
+		{ type: 'item', text: '年费评估单', path: '/finance/renewal_fees/renewal_estimate', icon: ''},
+	]},
 ];
 
 

@@ -303,10 +303,10 @@ export default {
           height = this.innerHeight - this.breadHeaderHeight;
           height = height < 300 ? 300 : height;
         }else {
-          height = hk;
+          height = 'auto';
         }
       }
-      return height-0;
+      return height;
     },
   },
   mounted() {

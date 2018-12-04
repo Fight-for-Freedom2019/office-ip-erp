@@ -111,6 +111,9 @@ const map = new Map([
         { type: 'date',             id: 'active_supplement_expire_date', 	name: '主动修改期限'},
         { type: 'text',         	id: 'remark',                        	name: '备注'},
     ]],
+    ['notices',[
+        { type: 'text', id: 'project.serial', name: '案号',},
+    ]],
     /* 申请人 */
     ['applicants', [
         { type: 'static_select',    id: 'applicant_type',        name: '申请人类型',map_type: 'applicant_type'},

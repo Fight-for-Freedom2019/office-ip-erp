@@ -52,6 +52,7 @@ const SuppliersQuotation       = () => import('@/components/page/crm/suppliers/Q
 //财务模块路由
 const FeeCommon                = () => import('@/components/page/FeeCommon')
 const RenewalFee               = () => import('@/components/page/RenewalFee')
+const RenewalEstimate          = () => import('@/components/page/RenewalEstimate')
 
 // 交互
 const ExchangeNotices          = () => import('@/components/page/exchange/client/Notices')     //通知书
@@ -62,7 +63,6 @@ const ExchangeMails            = () => import('@/components/page/exchange/Mails'
 const CopyrightList            = () => import('@/components/page/CopyrightList')
 
 
-// const RenewalEstimate          = () => import('@/components/page/RenewalEstimate')
 // const UserList                 = () => import('@/components/page/UserList')
 // const Branch                   = () => import('@/components/page/Branch')
 // const CopyrightAdd             = () => import('@/components/page/CopyrightAdd')
@@ -416,11 +416,16 @@ const router = new Router({
       }
     },
     {
-      path: '/finance/renewal_fees',
+      path: '/finance/renewal_fees/monitoring',
       name: 'RenewalFees',
       component: RenewalFee,
       props: {
       }
+    },
+    {
+      path: '/finance/renewal_fees/renewal_estimate',
+      name: 'RenewalEstimate',
+      component: RenewalEstimate,
     },
 //################### 费用路由 end #####################
 //################### 报表路由 begin ###################

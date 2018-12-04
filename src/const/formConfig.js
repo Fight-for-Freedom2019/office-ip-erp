@@ -1,18 +1,15 @@
 const map = new Map([
-	['agent',{
+	['single_user_select',{
 		components: 'remote_select',
 		type: 'user',
-		key: 'agent',
 		rules:{ type: 'number', required: true, message: '代理人不能为空', trigger: 'change'},
 	}],	
-	['remark',{
+	['input',{
 		components: 'input',
-		type: 'textarea',
-		key: 'remark',
-	}],
-	['upload',{
+		type: 'text',
+	}],	
+	['multiple_attachments',{
 		components: 'upload',
-		key: 'attachments'
 	}]
 ]);
 export { map };

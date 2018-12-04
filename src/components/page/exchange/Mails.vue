@@ -1,4 +1,3 @@
-<!-- 收款账户 -->
 <template>
     <div class="FileType">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
@@ -47,17 +46,12 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {
-                            type: 'text', label: '案件类型', prop: 'project_category',render_simple:'name', width: '100'
-                        },
-                        {type: 'text', label: '文件类型', prop: 'category',render_simple:'name', width: '120'},
-                        {type: 'text', label: '文件类型名称', prop: 'name', min_width: '200'},
-                        {type: 'text', label: '文件类型简称', prop: 'abbr', width: '120'},
-                        {type: 'text', label: '上传触发管制事项', prop: 'process_definition',render_simple:'name', width: '130'},
-                        {type: 'text', label: '上传后案件阶段', prop: 'project_stage',render_simple:'name', width: '120'},
-                        {type: 'text', label: '上传时填写字段', prop: 'fields', width: '120'},
-                        {type: 'text', label: '上传时执行逻辑', prop: 'behavior', width: '120'},
-                        {type: 'text', label: '排序', prop: 'sort', width: '100'},
+                        {type: 'text', label: '邮件类型', prop: 'mail_type', render_simple: 'name', width: '100' },
+                        {type: 'text', label: '邮件标题', prop: 'subject', min_width: '120'},
+                        {type: 'text', label: '发送时间', prop: 'sent_time', width: '200'},
+                        {type: 'text', label: '发件人', prop: 'sender', render_simple: 'name', width: '160'},
+                        {type: 'array', label: '收件人', prop: 'recipients',render: _=>_.map(_.name), width: '160'},
+                        {type: 'array', label: '抄送', prop: 'cc',render: _=>_.map(_.name), width: '160'},
                     ],
                 },
                 compileType: "add",
