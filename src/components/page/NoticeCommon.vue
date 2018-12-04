@@ -11,9 +11,9 @@ import AxiosMixins from '@/mixins/axios-mixins'
 
 const config = [
 	['patent', {
-		URL: '/api/patents/notices',
+		URL: '/notices',
 		import_type: 'patent_notice',
-		upload_type: 'patent_notice',
+		// upload_type: 'patent_notice',
 	}],
 	['copyright', {
 		URL: '/api/copyrights/notices',
@@ -39,27 +39,31 @@ export default {
 					// { type: 'custom', label: '上传', icon: '', click: ()=>{alert("上传")} },
 					// { type: 'custom', label: '批量上传', icon: '', click: ()=>{alert("批量上传")}},
 				],
-				'height': 'default2',
+				'height': 'default',
 				'url': '',
 				'import_type': '',
-				'upload_type': '',
+				// 'upload_type': '',
 				'is_list_filter': true,
-				'list_type': 'patent_notice',			
+				'list_type': 'notices',			
 				'columns': [
 					{ type: 'selection' },
-					// { type: 'text', label: '通知书案件名称', prop: 'title', width: '200', is_import: true },
-					{ type: 'text', label: '案号', prop: 'serial', width: '160' },
-					{ type: 'text', label: '案件名称', prop: 'title', width: '200', is_import: true },
-					{ type: 'text', label: '申请日', prop: 'apd', width: '110', is_import: true },
-					{ type: 'text', label: '申请号', prop: 'apn', width: '130', is_import: true },
+					{ type: 'text', label: '所属客户', prop: 'customer', render_simple: 'name', width: '160'},
+					{ type: 'text', label: '案号', prop: 'project.serial', width: '160', render_header: true, },
+					{ type: 'text', label: '事务所案号', prop: 'agency_serial', width: '135', is_import: true},
 					{ type: 'text', label: '通知书名称', prop: 'file_type', render_simple: 'name', width: '150', is_import: true },
+					{ type: 'text', label: '案件名称', prop: 'project.title', width: '200', is_import: true },
+					{ type: 'text', label: '申请号', prop: 'project.application_number', width: '130', is_import: true },
 					{ type: 'text', label: '发文日', prop: 'mail_date', width: '110', is_import: true },
 					{ type: 'text', label: '发文序列号', prop: 'mail_serial', width: '110', is_import: true },
-					{ type: 'text', label: '官方绝限', prop: 'deadline', width: '110' },
-					{ type: 'text', label: '上传日', prop: 'create_time', width: '110' },
+					{ type: 'text', label: '官方绝限', prop: 'legal_deadline', width: '110' },
+					{ type: 'text', label: '申请日', prop: 'project.application_date', width: '110', is_import: true },
+					{ type: 'text', label: '上传日', prop: 'creation_time', width: '110' },
 					{ type: 'text', label: '上传用户', prop: 'creator', render_simple: 'name', width: '110' },
-					{ type: 'text', label: '是否发送', prop: 'is_sent', render_simple: 'name', width: '110' },
-					{ type: 'text', label: '发送时间', prop: 'customer_remind_date', width: '110' },
+					{ type: 'text', label: '是否发送', prop: 'is_sent', width: '80', render: (h,item)=>{
+						item = item ? '是' : '否';
+						return h('span', item);
+					}},
+					{ type: 'text', label: '发送时间', prop: 'customer_remind_date', width: '140',},
 					// { type: 'text', label: '审查员', prop: 'examiner', width: '200' },
 					// { type: 'text', label: '审查部门', prop: 'examiner_dept', width: '200' },
 					// { type: 'text', label: '处理状态', prop: 'status', width: '200' },
@@ -122,7 +126,7 @@ export default {
 					window.location.href = _.list.downloadUrl;
 				}
 				else {
-					this.tableData = _.list;	
+					this.tableData = _.data;	
 				}
 				
 			};
@@ -136,7 +140,7 @@ export default {
 		this.tableOption.url = this.config.URL;
 	},
 	mounted () {
-		this.refresh();
+		// this.refresh();
 	},
 	components: { 
 		TableComponent, 

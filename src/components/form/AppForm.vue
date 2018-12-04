@@ -3,23 +3,23 @@
 		<slot></slot>
 		<template v-for="(item, index) in source">
 			<template v-if="item.components == 'static_select'">
-				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
+				<el-form-item :label="item.name" :prop="item.key" :key="index">
 					<static-select 
 						ref="static-select"
 						:type="item.type"
 						:multiple="item.multiple"
-						v-model="form[item.field_type]"
+						v-model="form[item.key]"
 						@input="handleInput"
 					>
 					</static-select>
 				</el-form-item>
 			</template>			
 			<template v-else-if="item.components == 'remote_select'">
-				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
+				<el-form-item :label="item.name" :prop="item.key" :key="index">
 					<remote-select 
 						ref="remote-select"
 						:multiple="item.multiple"
-						v-model="form[item.field_type]"
+						v-model="form[item.key]"
 						@input="handleInput"
 						:type="item.type"
 					>
@@ -27,10 +27,10 @@
 				</el-form-item>
 			</template>
 			<template v-else-if="item.components == 'date'">
-				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
+				<el-form-item :label="item.name" :prop="item.key" :key="index">
 					<el-date-picker
 						ref="date"
-						v-model="form[item.field_type]"
+						v-model="form[item.key]"
 						@input="handleInput"
 						:type="item.type"
 						:placeholder="item.placeholder"
@@ -39,10 +39,10 @@
 				</el-form-item>
 			</template>
 			<template v-else-if="item.components == 'input'">
-				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
+				<el-form-item :label="item.name" :prop="item.key" :key="index">
 					<el-input
 						ref="input"
-						v-model="form[item.field_type]"
+						v-model="form[item.key]"
 						@input="handleInput"
 						:type="item.type"
 						:placeholder="item.placeholder"
@@ -51,10 +51,10 @@
 				</el-form-item>
 			</template>
 			<template v-else-if="item.components == 'switch'">
-				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
+				<el-form-item :label="item.name" :prop="item.key" :key="index">
 					<app-switch
 						ref="switch"
-						v-model="form[item.field_type]"
+						v-model="form[item.key]"
 						@input="handleInput"
 						:type="item.type"
 					>
@@ -62,10 +62,10 @@
 				</el-form-item>
 			</template>
 			<template v-else-if="item.components == 'slider'">
-				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
+				<el-form-item :label="item.name" :prop="item.key" :key="index">
 					<el-slider
 						ref="slider"
-						v-model="form[item.field_type]"
+						v-model="form[item.key]"
 						@input="handleInput"
 						show-input
 					>
@@ -73,10 +73,10 @@
 				</el-form-item>
 			</template>
 			<template v-else-if="item.components == 'upload'">
-				<el-form-item :label="item.label" :prop="item.field_type" :key="index">
+				<el-form-item :label="item.name" :prop="item.key" :key="index">
 					<upload 
 						ref="upload"
-						v-model="form[item.field_type]"
+						v-model="form[item.key]"
 						@input="handleInput"
 					>
 					</upload>
@@ -125,7 +125,7 @@ export default {
 	computed: {
 		allKeys () {
 			if(this.source) {
-				const keys = this.$tool.splitObj(this.source, 'field_type');
+				const keys = this.$tool.splitObj(this.source, 'key');
 				console.log(keys);
 				return keys;
 			}
@@ -146,7 +146,7 @@ export default {
 				}else {
 					val = '';
 				}
-				this.$set(this.form, _.field_type, val);
+				this.$set(this.form, _.key, val);
 			});
 		},
 	},

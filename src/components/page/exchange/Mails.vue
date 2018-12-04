@@ -1,4 +1,3 @@
-<!-- 收款账户 -->
 <template>
     <div class="FileType">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
@@ -47,12 +46,12 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '标题', prop: 'subject', min_width: '100'},
-                        {type: 'text', label: '邮件类型', prop: 'mail_type',render_simple:'name', min_width: '120'},
-                        {type: 'text', label: '发件人', prop: 'sender', min_width: '150'},
-                        {type: 'text', label: '收件人', prop: 'recipients', min_width: '150'},
-                        {type: 'text', label: '抄送', prop: 'cc', min_: '120'},
-                        {type: 'text', label: '发送时间', prop: 'sent_time', min_: '120'},
+                        {type: 'text', label: '邮件类型', prop: 'mail_type', render_simple: 'name', width: '100' },
+                        {type: 'text', label: '邮件标题', prop: 'subject', min_width: '120'},
+                        {type: 'text', label: '发送时间', prop: 'sent_time', width: '200'},
+                        {type: 'text', label: '发件人', prop: 'sender', render_simple: 'name', width: '160'},
+                        {type: 'array', label: '收件人', prop: 'recipients',render: _=>_.map(_.name), width: '160'},
+                        {type: 'array', label: '抄送', prop: 'cc',render: _=>_.map(_.name), width: '160'},
                     ],
                 },
                 compileType: "add",

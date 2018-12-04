@@ -311,10 +311,10 @@ export default {
           height = this.innerHeight - 280;
           height = height < 300 ? 300 : height;
         }else {
-          height = hk;
+          height = 'auto';
         }
       }
-      return height-0;
+      return height;
     },
   },
   mounted() {

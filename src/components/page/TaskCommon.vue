@@ -915,7 +915,7 @@ export default {
     if(this.task_status == 1 || this.task_status == -1) {
       this.activeName = 'relative_tasks';
     }
-    this.refreshFlows({type: 'patent'})
+    this.refreshFlows({type: 1})
     this.refreshOption();
   },
   components: { 
