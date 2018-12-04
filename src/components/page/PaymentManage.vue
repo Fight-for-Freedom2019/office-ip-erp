@@ -13,7 +13,7 @@
                 <!--<el-button type="" size="small">退回修改</el-button>-->
             </span>
             <payment-manage-detail ref="detail" :id="rowID" @update="update" :rowData="row"></payment-manage-detail>
-        </app-shrink>
+        </app-shrink> 
     </div>
 </template>
 

@@ -17,7 +17,7 @@
 					<static-select type="area" v-model="form.area"></static-select>
 				</el-form-item>
 				<el-form-item label="案件类型" prop="category" :rules="rules.category">
-					<static-select type="case_type" v-model="form.category"></static-select>
+					<static-select type="project_type" v-model="form.category"></static-select>
 				</el-form-item>
 			</template>
 			<el-form-item label="默认报价" prop="amount" :rules="rules.amount">

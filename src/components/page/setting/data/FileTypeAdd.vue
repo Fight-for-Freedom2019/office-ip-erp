@@ -2,8 +2,8 @@
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="160px" :model="form" :rules="rules" ref="form">
-            <el-form-item label="案件类型" prop="project_category">
-                <static-select type="category" v-model="form.project_category"></static-select>
+            <el-form-item label="案件类型" prop="project_type">
+                <static-select type="project_type" v-model="form.project_type"></static-select>
             </el-form-item>
 
             <el-form-item label="文件类型" prop="category">
@@ -51,7 +51,7 @@
             return {
                 URL: "/file_types",
                 form: {
-                    project_category: 1,
+                    project_type: '专利',
                     category: 1,
                     name: "",
                     abbr: "",
@@ -62,7 +62,7 @@
                     process_definition:'',
                 },
                 rules: {
-                    project_category: [
+                    project_type: [
                         {required: true, message: "请选择案件类型", trigger: "blur"}
                     ],
                     category: [
@@ -137,7 +137,7 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val,{obj:['project_category','project_stage','category']}):"";
+                val?this.$tool.coverObj(this.form,val,{obj:['project_type','project_stage','category']}):"";
             },
         },
         components: {

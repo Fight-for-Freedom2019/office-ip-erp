@@ -1,21 +1,30 @@
-<!-- 新增案件阶段代码 -->
+<!-- 新增费用类型 -->
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-form-item label="案件类型" prop="project_type">
                 <static-select type="project_type" v-model="form.project_type"></static-select>
             </el-form-item>
-
-            <el-form-item label="文件类型名称" prop="name">
-                <el-input type="text" placeholder="请输入文件类型名称" v-model="form.name"></el-input>
+            <el-form-item label="管制事项名称" prop="name">
+                <el-input type="text" placeholder="请输入管制事项名称" v-model="form.name"></el-input>
             </el-form-item>
-
+            <el-form-item label="默认流程" prop="default_flow">
+                <static-select type="flows" v-model="form.default_flow"></static-select>
+            </el-form-item>
+            <el-form-item label="管制事项描述" prop="description">
+                <el-input type="text" placeholder="请输入管制事项描述" v-model="form.description"></el-input>
+            </el-form-item>
+            <el-form-item label="默认期限" prop="default_period">
+                <el-input type="text" placeholder="请输入默认期限" v-model="form.default_period"></el-input>
+            </el-form-item>
+            <el-form-item label="是否法限" prop="is_deadline">
+                <app-switch type="is" placeholder="请选择是否有法限" v-model="form.is_deadline"></app-switch>
+            </el-form-item>
+            <el-form-item label="案件阶段" prop="project_stage">
+                <static-select type="project_stage_patent" v-model="form.project_stage"></static-select>
+            </el-form-item>
             <el-form-item label="排序" prop="sort">
-                <el-input type="text" placeholder="请输入上文件类型排序" v-model="form.sort"></el-input>
-            </el-form-item>
-
-            <el-form-item label="备注" prop="behavior">
-                <el-input type="text" placeholder="请输入备注" v-model="form.remark"></el-input>
+                <el-input type="text" placeholder="请输入排序" v-model="form.sort"></el-input>
             </el-form-item>
         </el-form>
     </div>
@@ -24,30 +33,32 @@
 <script>
     import RemoteSelect from "@/components/form/RemoteSelect";
     import StaticSelect from "@/components/form/StaticSelect";
+    import AppSwitch from "@/components/form/AppSwitch";
 
     export default {
-        name: "ProjectStageAdd",
+        name: "FeeCodeAdd",
         data() {
             return {
-                URL: "/project_stages",
+                URL: "/definitions",
                 form: {
                     project_type: "专利",
                     name: "",
+                    description: "",
+                    default_period: "",
+                    is_deadline: "",
+                    default_flow: "",
                     sort: "",
-                    remark: "",
+                    project_stage:'',
                 },
                 rules: {
                     project_type: [
                         {required: true, message: "请选择案件类型", trigger: "blur"}
                     ],
                     name: [
-                        {required: true, message: "请输入案件阶段名称", trigger: "blur"}
+                        {required: true, message: "请输入费用名称", trigger: "blur"}
                     ],
-                    sort: [
-                        {required: false, message: "请输入排序", trigger: "blur"},
-                    ],
-                    remark: [
-                        {required: false, message: "请输入备注", trigger: "blur"}
+                    default_flow: [
+                        {required: true, message: "请选择默认流程", trigger: "blur"}
                     ],
                 },
             }
@@ -103,6 +114,7 @@
         components: {
             RemoteSelect,
             StaticSelect,
+            AppSwitch,
         },
     }
 </script>
