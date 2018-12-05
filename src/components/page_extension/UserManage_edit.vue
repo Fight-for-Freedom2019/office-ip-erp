@@ -97,8 +97,8 @@ export default {
   methods: {
   	setForm (d) {
   		this.$tool.coverObj(this.form, d);
-  		if(d.organization_unit) {
-  			this.form.organization_units = d.organization_unit.map(_=>_.id);
+  		if(d.organization_units) {
+  			this.form.organization_units = d.organization_units.map(_=>_.id);
   		}
   	},
   },

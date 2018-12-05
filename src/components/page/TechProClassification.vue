@@ -89,7 +89,7 @@ export default {
           { type: 'text', label: '说明书字数', prop: 'words_count',  width: '140',  render_header: true},
           { type: 'text', label: '权利要求项数', prop: 'claims_count',  width: '140',  render_header: true},
           // { type: 'array', label: '标签', prop: 'tags', render: _=>_.map(_=>_.name), is_import: true, width: '123',render_header: true},
-          { type: 'text', label: '案件等级', prop: 'level',width: '100', render_header: true},
+          { type: 'text', label: '案件等级', prop: 'level',width: '100',render_simple:'name', render_header: true},
 
           { type: 'text', label: '技术分类', width: '123' , prop: 'classification',  is_import: true, render_simple: 'name',render_header: true},
           { type: 'array', label: '优先权', prop: 'priorities', width: '145',render: _=>_.map(_=>_.number), render_header: true},

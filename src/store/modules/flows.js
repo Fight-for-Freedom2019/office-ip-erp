@@ -1,4 +1,4 @@
-let url = '/flows?listOnly=1&listRows=100000';
+let url = '/flows?listRows=100000';
 const state = {
 	flows: undefined,
 }

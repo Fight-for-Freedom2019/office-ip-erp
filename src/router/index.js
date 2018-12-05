@@ -125,6 +125,8 @@ const SettingSystem            = () => import('@/components/page/setting/SystemS
 const SettingForm                 = () => import('@/components/page/setting/flow/Form')
 const SettingFields               = () => import('@/components/page/setting/flow/Field')
 const SettingTags                 = () => import('@/components/page/setting/data/Tag')
+const SettingUserRatio            = () => import('@/components/page/setting/bonus/UserRatio')
+const SettingBonusRule            = () => import('@/components/page/setting/bonus/Rule')
 
 //#################
 // const SI_Base                  = () => import('@/components/page_extension/SettingIndividual_base')
@@ -543,6 +545,8 @@ const router = new Router({
     { path: '/setting/data/entity_changes', name: 'EntityChange', component: SettingEntityChange },
     { path: '/setting/data/services', name: 'ServiceProject', component: SettingService },
     { path: '/setting/data/tags',name: 'SettingTags',component: SettingTags,},
+    { path: '/setting/bonus/ratio',name: 'SettingUserRatio',component: SettingUserRatio,},
+    { path: '/setting/bonus/rules',name: 'SettingBonusRule',component: SettingBonusRule,},
     { path: '/setting/system',name: 'SettingSystem',component: SettingSystem,},
 
     // {

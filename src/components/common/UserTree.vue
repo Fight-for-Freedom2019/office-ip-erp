@@ -149,7 +149,7 @@ export default {
       const data = this.radio == 'organization'? { parent_id: 0 } : {};
 
       const success = _=>{
-        const data = _[data_key]['data'];
+        const data = _.data.data;
         resolve(data);
       };
 
@@ -162,7 +162,7 @@ export default {
       const data =this.radio == 'organization' ? { parent_id: node.data.id } : { role_group_id: node.data.id };
 
       const success = _=>{
-        const data = _[data_key]['data'];
+        const data = _.data.data;
         resolve(data);
       };
 
