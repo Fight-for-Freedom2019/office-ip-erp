@@ -94,6 +94,10 @@ const financeMenu = [
 		{ type: 'item', text: '己方开具', path: '/finance/vouchers/lists', icon: 'iconfont el-icon-my-people'},
 		{ type: 'item', text: '对方开具', path: '/finance/vouchers/received', icon: 'iconfont el-icon-my-supplier'},
 	]},
+	{ type: 'submenu', text: '点数管理', path: '/finance/points', icon: 'iconfont el-icon-my-award', children:[
+		{ type: 'item', text: '待结算', path: '/finance/points/ready_to_settle', icon: 'iconfont el-icon-my-zhangdan'},
+		{ type: 'item', text: '已结算', path: '/finance/points/settled', icon: 'iconfont el-icon-my-payment'},
+	]},
 ];
 
 
