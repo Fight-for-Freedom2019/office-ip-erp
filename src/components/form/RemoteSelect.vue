@@ -129,7 +129,7 @@ const map = new Map([
   }],
   ['mail', {
     URL: '/mailAddress',
-    DATA_KEY: 'list',
+    DATA_KEY: 'data',
     PLACEHOLDER: '请输入邮箱',
     dynamicCreate: true,
     defaultFirstOption: true,

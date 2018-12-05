@@ -223,7 +223,7 @@ export default {
     initFlows () {
       this.refreshFlows({type:this.projectType});
     },
-    checkeForm () {
+    checkForm () {
       return new Promise((reject) => {
         this.$refs.form.validate(flag => {
           if (flag) {
@@ -235,7 +235,7 @@ export default {
       })
     },
     async add () {
-      await this.checkeForm()
+      await this.checkForm()
       const url = URL;
       const data = this.$tool.shallowCopy(this.form, {'date': true,});
       const success = _=>{ 
@@ -249,7 +249,7 @@ export default {
       await this.$axiosPost({url, data, success, complete});  
     },
     async edit () {
-      await this.checkeForm()
+      await this.checkForm()
       if(this.form.category) {
         this.form.category = this.form.category['id'];
       }

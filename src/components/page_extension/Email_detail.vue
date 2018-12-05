@@ -6,19 +6,19 @@
       <app-collapse col-title="详细信息" default-close>
         <el-form label-width="80px">
           <el-form-item label="发件人" >
-            <el-tag style="margin-left: 5px;">{{ form.from.label }}</el-tag>
+            <el-tag style="margin-left: 5px;">{{ form.send_people.name }}</el-tag>
           </el-form-item>
       
           <el-form-item label="发送时间">
-            <span class="form-item-text" style="margin-left: 5px;">{{ form.mail_date }}</span>
+            <span class="form-item-text" style="margin-left: 5px;">{{ form.sent_time }}</span>
           </el-form-item>
 
           <el-form-item label="收件人">
-            <el-tag v-for="item in form.to" :key="item.value" style="margin-left: 5px;">{{ item.label }}</el-tag>
+            <el-tag v-for="item in form.recipient" :key="item.id" style="margin-left: 5px;">{{ item.email }}</el-tag>
           </el-form-item>
 
           <el-form-item label="抄送">
-            <el-tag v-for="item in form.cc" :key="item.value" style="margin-left: 5px;">{{ item.label }}</el-tag>
+            <el-tag v-for="item in form.cc" :key="item.id" style="margin-left: 5px;">{{ item.email }}</el-tag>
           </el-form-item>
         </el-form>
       </app-collapse>
@@ -50,9 +50,9 @@ export default {
   data () {
 		return {
       form: {
-        from: '',
-        mail_date: '',
-        to: [],
+        send_people: '',
+        sent_time: '',
+        recipient: [],
         cc: [],
         subject: '',
         attachments: [],
@@ -68,7 +68,7 @@ export default {
       this.dialogVisible = true;
       this.loading = true;
 
-      const url = `/api/mails/${id}`;
+      const url = `/mails/${id}`;
       const success = _=>{
         this.$tool.coverObj(this.form, _.mail);
         this.loading = false;

@@ -25,6 +25,7 @@ const getters = {
 const mutations = {
 	setGroup (state, d) {
 		state.data = d;
+		// 升序
 		const compare = (key) => {
 			return (a, b)=>{
 				return a[key]-b[key]
