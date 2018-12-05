@@ -154,7 +154,7 @@ $width: 200px;
   }
   .app-transfer-panel__body {
     padding-bottom: 36px;
-    height: 246px;
+    // height: auto;
   }
   .app-transfer-panel__footer {
     height: 36px;
@@ -189,7 +189,7 @@ $width: 200px;
     margin: 0;
     padding: 6px 0;
     list-style: none;
-    height: 214px;
+    height: 600px;
     overflow: auto;
     box-sizing: border-box;
   }

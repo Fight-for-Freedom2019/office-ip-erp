@@ -5,7 +5,9 @@ const state = {
 }
 
 const getters = {
-	groupOptions: state => state.data,
+	groupOptions: state => {
+		return state.data;
+	},
 	groupMap: state => {
 		const map = new Map();
 
@@ -23,6 +25,12 @@ const getters = {
 const mutations = {
 	setGroup (state, d) {
 		state.data = d;
+		const compare = (key) => {
+			return (a, b)=>{
+				return a[key]-b[key]
+			}
+		};
+		return state.data.sort(compare('id'));
 	},
 	setGroupLoading (state, bool) {
 		state.loading = bool;
