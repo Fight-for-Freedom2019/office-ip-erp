@@ -2,7 +2,7 @@
 	<div>
 		<span>
 			<el-button type="danger" size="small" style="float: left;" @click="deleteRenewal">删除年费</el-button>
-			<search-input style="float: right;"></search-input>
+			<search-input v-model="searchValue" style="float: right;" placeholder="搜索案号、案件名称、申请号"></search-input>
 		</span>
 		<app-table :columns="columns" :data="tableData" :border='true' ref="table" ></app-table>
 	</div>
@@ -17,7 +17,8 @@ export default {
 	props: ['id'],
 	data () {
 		return {
-			tableData: [],
+			searchValue: '',
+			initData: [],
 			columns: [
 				{ type: 'selection'},
 				{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '200'},
@@ -43,13 +44,20 @@ export default {
 		...mapGetters([
 			'renewalFeeList',
 		]),
+		tableData () {
+	 		if(this.searchValue == '') {
+	 			return this.initData;
+	 		}else{
+	 			return this.search(this.searchValue);
+	 		}
+ 		},
 	},
 	methods: {
 		handleRefreshDetail () {
 			const url = '/renewal_fees';
 			const data = {renewal_confirmation_sheet_id: this.id};
 			const success = _=> {
-				this.tableData = _.data.data;
+				this.initData = _.data.data;
 			}; 
 			this.$axiosGet({ url, data, success });
 		},
@@ -76,6 +84,25 @@ export default {
 				})
 			}
 		},
+		search (keyword) {
+			// 纯前端关键字过滤 （案号、标题、申请号）
+	        let newArr = [];
+	        if(keyword){
+		        this.initData.filter((val,i,arr)=>{
+		          for (let k in arr[i]) {
+		          	let n = arr[i][k];
+		          	if(n instanceof Object) {
+			          	for(let m in n) {
+			          		if (typeof n[m] == 'string' && n[m].indexOf(keyword) != -1 && (m === 'serial' || m=== 'title' || m === 'application_number')) {
+			          			newArr.push(arr[i]);
+			          		}
+			          	}
+		          	}
+		          }
+		        })
+		        return this.$tool.rmDuplicate(newArr);
+	        }
+    	},
 	},
 	created () {
 		if(this.id) {
