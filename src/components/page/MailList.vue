@@ -6,6 +6,9 @@
         </el-select> -->
       </table-component>
       <Detail ref="mail_detail"></Detail>
+      <app-shrink :visible.sync="shrinkVisible" :title="`邮件`">
+        <mail-add @refresh="refresh" ref="mail_add"></mail-add>
+      </app-shrink>
   </div>
 </template>
 
@@ -14,8 +17,10 @@ import TableComponent from '@/components/common/TableComponent'
 import Strainer from '@/components/page_extension/MailList_strainer'
 import AxiosMixins from '@/mixins/axios-mixins'
 import Detail from '@/components/page_extension/Email_detail'
+import MailAdd from '@/components/page/MailAdd'
+import AppShrink from '@/components/common/AppShrink'
 
-const URL = '/api/mails';
+const URL = '/mails';
 
 export default {
   name: 'mailList',
@@ -38,31 +43,26 @@ export default {
         'name': 'mailList',
         'url': URL,
 		  	'header_btn': [
-		  		// { type: 'custom', label: '写邮件', icon: 'edit', click: this.add },
+		  		{ type: 'custom', label: '写邮件', icon: 'edit', click: this.add },
 		  		{ type: 'delete' },
+          {type: 'control'},
 		  	],
-        'height': 'default2',
+        'height': 'default',
         'header_slot': [ 'mailbox' ],
 		  	// 'is_search': false,
 		  	'columns': [
-		  		{ type: 'selection', width: '50' },
-		  		{ type: 'text', label: '发件人邮箱', prop: 'from', render_simple: 'label', sortable: true, overflow: true, width: '280' },
-		  		{ type: 'array', label: '收件人邮箱', prop: 'to', sortable: true, overflow: true, width: '280',
-            render: _=>{
-              if(_ instanceof Array) {
-                return _.map(_=>_.label)
-              }else {
-                return []
-              }
-            },  
-          },
-		  		{ type: 'text', label: '邮件标题', prop: 'subject', overflow: true, min_width: '160'},
-		  		{ type: 'text', label: '发送时间', prop: 'mail_date', sortable: true, width: '200' },
+		  		{ type: 'selection'},
+		  		 {type: 'text', label: '邮件类型', prop: 'mail_type', render_simple: 'name', width: '100' },
+          {type: 'text', label: '邮件标题', prop: 'subject', min_width: '120'},
+          {type: 'text', label: '发送时间', prop: 'sent_time', width: '200'},
+          {type: 'text', label: '发件人', prop: 'sender', render_simple: 'name', width: '160'},
+          {type: 'array', label: '收件人', prop: 'recipients', width: '160'},
+          {type: 'array', label: '抄送', prop: 'cc', render:_=>_.map(_=>`${_.title}_${_.email}`), width: '160'},
 		  		{ 
 		  			type: 'action',
             width: '150',
 		  			btns: [
-              { type: 'edit', click: this.edit, btn_if: ({mailbox})=>mailbox === 0 ? true : false, },
+              { type: 'custom', click: this.edit, label: '编辑&补发',},
 		  				{ type: 'delete', click: this.mailDelete },
 		  			],  
 		  		}
@@ -73,19 +73,23 @@ export default {
 		  tableData: [],
 		  filter: {},
       mailbox: 1,
+      shrinkVisible: false,
 		}
   },
   methods: {
   	add () {
-  		this.$router.push('/news/mailList/mailAdd');
+      this.shrinkVisible = true;
   	},
-    edit ({id}) {
-      this.$router.push({path: '/news/mailList/mailEdit', query: {id} });
+    edit (row) {
+      this.shrinkVisible = true;
+      this.$nextTick(_=>{
+        this.$refs.mail_add.setForm(row);
+      })
     },
     refreshTableData (option) {
       const url = URL;
       const mailbox = {'mailbox': this.mailbox};
-      const data = Object.assign({}, this.filter, option, mailbox);
+      const data = Object.assign({}, this.filter, option,);
       const success = _=>{this.tableData = _.mails;}
 
       this.axiosGet({url, data, success});
@@ -136,7 +140,7 @@ export default {
   mounted () {
     this.refresh();
   },
-  components: { TableComponent, Strainer, Detail },
+  components: { TableComponent, Strainer, Detail, MailAdd, AppShrink },
 }
 </script>
 

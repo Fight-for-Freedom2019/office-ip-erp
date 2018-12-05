@@ -185,7 +185,7 @@ $width: 200px;
     display: inline-block;
     box-sizing: border-box;
   }
-  .el-transfer-panel__list {
+  .app-transfer-panel .el-transfer-panel__list {
     margin: 0;
     padding: 6px 0;
     list-style: none;

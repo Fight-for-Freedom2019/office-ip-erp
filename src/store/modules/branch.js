@@ -38,7 +38,7 @@ const getters = {
 
 const mutations = {
 	setBranch (state, d) {
-		state.data = d.branches.data;
+		state.data = d.data.data;
 		state.lastUpdate = d.last_update;
 	},
 }
