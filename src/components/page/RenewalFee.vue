@@ -84,7 +84,7 @@ export default {
 			option: {
 				name: 'renewalFeeList',
 				url: URL,
-				height: 'default2',
+				height: 'default',
 				search_placeholder: '案号、案件名称、创建人',
 				header_btn: [
 					// { type: 'add', click: this.addPop },
@@ -254,8 +254,8 @@ export default {
 		},
 		putEstimate () {
 			if(!this.estimate) return this.$message({type: 'warning', message: '请选择年费评估单'});
-			const ids = this.$tool.splitObj(this.$refs.table.getSelected(true), 'id');
-			const data = { ids }; 
+			const fees = this.$tool.splitObj(this.$refs.table.getSelected(true), 'id');
+			const data = { fees }; 
 			this.$axiosPut({		
 				url: `${URL2}/${this.estimate}`,
 				data,

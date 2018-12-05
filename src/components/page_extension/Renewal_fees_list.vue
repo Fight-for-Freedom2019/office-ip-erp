@@ -1,9 +1,17 @@
 <template>
-	<app-table :columns="columns" :data="tableData" :border='true' ref="table" ></app-table>
+	<div>
+		<span>
+			<el-button type="danger" size="small" style="float: left;" @click="deleteRenewal">删除年费</el-button>
+			<search-input style="float: right;"></search-input>
+		</span>
+		<app-table :columns="columns" :data="tableData" :border='true' ref="table" ></app-table>
+	</div>
 </template>
 <script>
 import AppTable from '@/components/common/AppTable'
+import SearchInput from '@/components/common/SearchInput'
 import {mapGetters} from 'vuex' 
+
 export default {
 	name: 'renewalFeeList',
 	props: ['id'],
@@ -14,7 +22,6 @@ export default {
 				{ type: 'selection'},
 				{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '200'},
 				{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '200'},
-				{ type: 'text', label: '年费类型', prop: 'code', render_simple: 'name', width: '200'},
 				{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '200'},
 				{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '200'},
 				{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '200'},
@@ -46,6 +53,29 @@ export default {
 			}; 
 			this.$axiosGet({ url, data, success });
 		},
+		deleteRenewal () {
+			const s = this.$refs.table.getSelected();
+			console.log(s)
+			if(s) {
+				const fees = this.$tool.splitObj(s, 'id');
+				console.log(fees)
+				this.$confirm(`确认删除选择的年费？删除操作无法恢复，只能重新添加！`,'删除确认',{
+					type: 'warning',
+				})
+				.then(_=>{
+					const url = `/renewal_confirmation_sheets/${this.id}/fees`;
+					const data = {fees};
+					const success = _=> {
+						this.$emit('refresh');
+						this.$message({type: 'success', message: _.info });
+					};
+					this.$axiosDelete({ url, data, success });
+
+				}).catch(_=>{
+
+				})
+			}
+		},
 	},
 	created () {
 		if(this.id) {
@@ -59,6 +89,7 @@ export default {
 	},
 	components: {
 		AppTable,
+		SearchInput,
 	}
 }
 </script>
