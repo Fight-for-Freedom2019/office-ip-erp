@@ -6,21 +6,22 @@
       <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.category != null">
         <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>
       </el-form-item>  
-      <el-form-item label="绑定流程" prop="process_flow"  v-if="form.model != null">
-        <el-select v-model="form.process_flow" placeholder="请选择绑定流程" @visible-change.once="initFlows">
+      <el-form-item label="管制事项" prop="process_definition"  v-if="form.model != null">
+        <static-select type="process_definition" v-model="form.process_definition"></static-select>
+        <!-- <el-select v-model="form.process_definition" placeholder="请选择事件名称">
           <el-option
-            v-for="item in flowOptions"
+            v-for="item in defOptions"
             :key="item.id"
             :label="item.name"
             :value="item.id"
           >
           </el-option>
-        </el-select>
+        </el-select> -->
       </el-form-item>
-      <el-form-item label="事件名称" prop="process_definition"  v-if="form.model != null">
-        <el-select v-model="form.process_definition" placeholder="请选择事件名称">
+      <el-form-item label="绑定流程" prop="process_flow"  v-if="form.model != null">
+        <el-select v-model="form.process_flow" placeholder="请选择绑定流程" @visible-change.once="initFlows">
           <el-option
-            v-for="item in defOptions"
+            v-for="item in flowOptions"
             :key="item.id"
             :label="item.name"
             :value="item.id"
@@ -205,9 +206,9 @@ import {mapActions} from 'vuex'
 
 const URL = '/processes';
 const typeMap = new Map([
-  [1, 'patent'],
-  [2, 'trademark'],
-  [3, 'copyright']
+  ['专利', '专利'],
+  ['商标', '商标'],
+  ['版权', '版权']
 ]);
 export default {
   name: 'taskEdit',

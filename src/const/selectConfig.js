@@ -60,14 +60,7 @@ const config = [
         { name: '预付费', id: 2 },
       ]
   }],
-  ['fee_status',{
-    placeholder: '请选择费用状态',
-    options: [
-        { name: '待请款', id: 1 },
-        { name: '已请款', id: 2 },
-        { name: '已回款', id: 5 },
-    ]
-  }],
+
   ['date_filter_relate',{
     placeholder: '请选择日期筛选',
     options: [
@@ -106,15 +99,7 @@ const config = [
       {id: 'D', name: 'D'},
 		]
 	}],
-	['reminder', {
-		placeholder: '请选择提醒类型',
-		options: [
-			{id: 'dib_date', name: '权利要求返回日' },
-      {id: 'manual_date', name: '说明书返回日' },
-      {id: 'fv_date', name: '定稿日期' },
-      {id: 'custom_date', name: '自定义' },
-		]
-	}],
+
 	['cycle', {
 		placeholder: '请选择数据周期',
 		options: [
@@ -147,16 +132,6 @@ const config = [
       { name: '立体', id: 4},
       { name: '声音', id: 5},
       { name: '气味', id: 6},
-    ]
-  }],
-  ['agency_scope', {
-    placeholder: '请选择代理机构业务范围',
-    options: [
-      { name: '国内新申请', id: '国内新申请'},
-      { name: '国外新申请', id: '国外新申请'},
-      { name: '国内无效诉讼', id: '国内无效诉讼'},
-      { name: '国外无效诉讼', id: '国外无效诉讼'},
-      { name: '分析', id: '分析'},
     ]
   }],
   ['ipr_para', {
@@ -211,27 +186,7 @@ const config = [
       { name: '外观设计', id: 3 },
     ]
   }],
-  ['agency_type', {
-    placeholder: '请选择代理类型',
-    options: [
-      {id:1, name:"申请及OA阶段"},
-      {id:2, name:"OA阶段"},
-      {id:3, name:"复审阶段"},
-      {id:4, name:"无效阶段"},
-      {id:5, name:"被无效答复"},
-      {id:6,name:"分析"}
-    ]
-  }],
-  ['bonus_level', {
-    placeholder: '请选择奖励等级',
-    options: [
-      {id:0, name:"无奖励"},
-      {id:1, name:"一般"},
-      {id:2, name:"良"},
-      {id:3, name:"优"},
-      {id:4, name:"优+"},
-    ]
-  }],
+
   ['table_type', {
     placeholder: '请选择模块',
     options: [
@@ -245,34 +200,7 @@ const config = [
       { id: 'Invoice', name: '账单' },
     ]
   }],
-  ['technical_field', {
-    placeholder: '请选择技术领域',
-    options: [
-      { id: 1, name: '结构' },
-      { id: 2, name: '电子' },
-      { id: 3, name: '软件' },
-    ]
-  }],
-  ['get_stage',{
-    placeholder: '请选择案件状态',
-    // url: '/getstage',
-    //  handle (data) {
-    //   return data.data.map(_=>{return {id: _.id, name: _.title}});
-    // },
-    options:[
-      { id: '', name: '全部' },
-      { id: 0, name: '提案阶段' },
-      { id: 1, name: '委案阶段' },
-      { id: 2, name: '撰稿中' },
-      { id: 3, name: '发明人审核中' },
-      { id: 4, name: 'IPR审核中' },
-      { id: 5, name: '重点案件审核中' },
-      { id: 6, name: '代理人修改中' },
-      { id: 7, name: '已定稿待递交' },
-      { id: 8, name: '已递交' },
-      { id: 10, name: '其它' },
-    ]
-  }],
+
   ['file_type_oa', {
     placeholder: '请选择文件类型',
     url: '/file_types?category=1&listRows=10000',
@@ -329,31 +257,7 @@ const config = [
     placeholder: '请选择版权通知书文件类型',
     url: '/fileTypes?category=3&type=1',
   }],
-  ['patents_status', {
-    url: '/progress',
-    placeholder: '请输入状态关键词',
-    params: { category: 1 },
-    }], 
-    ['legal_status', {
-  	placeholder: '请输入法律状态关键词',
-    options: [
-      {name: '新立案', id: 1},{name: '已递交', id: 24},{name: '受理', id: 2},{name: '初审合格', id: 3},{name: '公布', id: 4},{name: '实审', id: 5},
-      {name: '补正', id: 6},{name: '  审查意见', id: 7},{name: '复审', id: 8},{name: '授权办登', id: 9},{name: '专利权有效', id: 10},{name: '专利权有效期届满', id: 11},
-      {name: '驳回', id: 12},{name: '  行政诉讼', id: 13},{name: '专利权终止', id: 14},{name: '专利权无效', id: 15},{name: '专利转让', id: 16},
-      {name: '视撤', id: 17},{name: '撤回申请', id: 18},{name: '  结案', id: 19},{name: '  国际检索', id: 20},{name: '进入国家阶段', id: 21},{name: '国际公布', id: 22},
-      {name: '公布进实审',id:23},
-    ],
-	  }],
-  ['copyrights_status', {
-  	url: '/progress',
-  	placeholder: '请输入状态关键词',
-  	params: { category: 2 },
-	  }], 
-  ['trademarks_status', {
-  	url: '/progress',
-  	placeholder: '请输入状态关键词',
-  	params: { category: 3 },
-	}], 	  
+  
   ['group', {
     placeholder: '请选择用户组',
     options: 'groupOptions',
@@ -376,42 +280,11 @@ const config = [
     allowCreate: true,
     defaultFirstOption: true,
   }],
-  ['tag', {
-    placeholder: '请输入或选择标签',
-    url: '/tags',
-    handle (data) {
-      return data.tags.map(_=>{return {id: _.tag, name: _.tag}});
-    },
-    allowCreate: true,
-    defaultFirstOption: true,
+  ['tags', {
+    placeholder: '请选择标签',
+    options: 'tagOptions',
   }], 
-  ['group_number', {
-    placeholder: '请输入群组号',
-    url: 'gnumbers',
-    handle (data) {
-      return data.data.map(_=>{return {id: _.id, name: _.name}});
-    },
-    allowCreate: true,
-    defaultFirstOption: true,
-  }],  
-  ['family_number', {
-    placeholder: '请输入专利族号',
-    url: 'fnumbers',
-    handle (data) {
-      return data.data.map(_=>{return {id: _.id, name: _.name}});
-    },
-    allowCreate: true,
-    defaultFirstOption: true,
-  }],
-  ['award', {
-    placeholder: '请输入或选择奖项名称',
-    url: '/award',
-    handle (data) {
-      return data.awards.map(_=>{return {id: _.name, name: _.name}});
-    },
-    allowCreate: true,
-    defaultFirstOption: true,
-  }],
+ 
   ['abbr', {
     placeholder: '请输入或选择部门简称',
     url: '/abbr',
@@ -440,21 +313,7 @@ const config = [
       return data.services.data.map(_=>{return {id: _.id, name: _.name}});
     },
   }],
-  ['task_def', {
-    placeholder: '请选择管制事项',
-    options: 'taskDefsData',
-  }],
-  // ['fee_code', {     // TODO 可能是上个版本遗留下来的接口，在这个系统请求不到数据
-  //   placeholder: '请选择费用类型',
-  //   url: '/feeCodes',
-  //   handle (data) {
-  //     return data.codes.map(_=>{
-  //       _.id = _.id - 0;
-  //       _.amount = _.amount - 0;
-  //       return _;
-  //     })
-  //   }
-  // }],
+  
   ['fee_code_renewal', {
     placeholder: '请选择年费类型',
     url: '/fee_codes?listOnly=1&is_renewal_fee=1',

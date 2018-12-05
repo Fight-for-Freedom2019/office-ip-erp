@@ -29,11 +29,11 @@
                     <static-select type="receiverType" v-model="form.cc.type"></static-select>
                 </remote-select>
             </el-form-item>            
-            <el-form-item label="密送" prop="bcc">
+            <!-- <el-form-item label="密送" prop="bcc">
                 <remote-select :type="receiver_bcc" v-model="form.bcc.users" multiple>
                     <static-select type="receiverType" v-model="form.bcc.type"></static-select>
                 </remote-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="邮件正文" prop="body">
                 <quill-editor 
                     v-model="form.body"
@@ -77,10 +77,10 @@ export default {
                     type: 2,
                     users: [],
                 },
-                bcc: {
-                    type: 2,
-                    users: [],
-                },
+                // bcc: {
+                //     type: 2,
+                //     users: [],
+                // },
                 body: '',
             },
             editorOption:{},
@@ -170,7 +170,7 @@ export default {
             this.$refs.form.resetFields();
         },
         coverObj(val){
-            val?this.$tool.coverObj(this.form, val, {skip: ['to','cc', 'bcc']}):"";
+            val?this.$tool.coverObj(this.form, val, {skip: ['to','cc']}):"";
             if(val['to']) {
                 this.form.to.type = val['to']['type']['id'];
                 const to_value = val['to']['users']
@@ -181,11 +181,11 @@ export default {
                  const cc_value = val['cc']['users']
                 this.form.cc.users = cc_value;
             }     
-            if(val['bcc']) {
-                this.form.bcc.type = val['bcc']['type']['id'];
-                const bcc_value = val['bcc']['users']
-                this.form.bcc.users = bcc_value;
-            }
+            // if(val['bcc']) {
+            //     this.form.bcc.type = val['bcc']['type']['id'];
+            //     const bcc_value = val['bcc']['users']
+            //     this.form.bcc.users = bcc_value;
+            // }
         },
         onEditorBlur () {
 

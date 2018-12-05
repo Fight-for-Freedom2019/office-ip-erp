@@ -41,7 +41,7 @@ const actions = {
 		const config = getters.staticSelectorMap.get(type);
 		if(config == undefined) return;
 		//该选择器数据已存在 执行回掉函数 退出(当FLAG为True时强制刷新)
-		const data = state.cache[type];
+		const data = state.cache[type];console.log('data:'+type);console.log(data);
 		if(data != undefined && !flag) {
 			if(func) func(data);
 			return;

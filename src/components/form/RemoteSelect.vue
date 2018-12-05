@@ -92,23 +92,23 @@ const map = new Map([
 		DATA_KEY: 'projects',
 		PLACEHOLDER: '请输入CPC关键词',
 	}],
-  ['patent', {
+  ['专利', {
     URL: '/projects',
     DATA_KEY: 'projects',
     PLACEHOLDER: '请输入专利关键词',
-    PARAMS: { category: 1 },
+    PARAMS: { project_type: '专利' },
   }], 
-  ['trademark', {
+  ['商标', {
     URL: '/projects',
     DATA_KEY: 'projects',
     PLACEHOLDER: '请输入商标关键词',
-    PARAMS: { category: 2 },
+    PARAMS: { project_type: '商标' },
   }],
-  ['copyright', {
+  ['版权', {
     URL: '/projects',
     DATA_KEY: 'projects',
     PLACEHOLDER: '请输入版权关键词',
-    PARAMS: { category: 3 },
+    PARAMS: { project_type: '版权' },
   }],  
   ['invoices', {
     URL: '/invoices',

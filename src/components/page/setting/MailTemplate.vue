@@ -87,7 +87,7 @@ export default {
             this.rowID = row.id;
             this.openVisible("isPanelVisible");
             this.compileType = "edit";
-            this.title = `编辑邮件模板>${row.name}`
+            this.title = `编辑邮件模板>${row.title}`
             
         },
         handleRenderPerson (h, item) {

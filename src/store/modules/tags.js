@@ -1,4 +1,4 @@
-let url = '/api/tags';
+let url = '/tags?listOnly=1';
 const state = {
   data: undefined,
 }
@@ -6,9 +6,9 @@ const state = {
 const getters = {
 	tagOptions: state=>{
 		let d = state.data;
-		if(d) {
-			d = d.map( d=>{return {id: d.tag, name: d.tag} } );
-		}
+		// if(d) {
+		// 	d = d.map( d=>{return {id: d.tag, name: d.tag} } );
+		// }
 		return d;
 	},
 }
@@ -27,7 +27,7 @@ const actions = {
 		.then(response=>{
 			const d = response.data;
 			if(d.status){
-				commit('setTags', d.tags);
+				commit('setTags', d.data.data);
 			}else {
 				// alert('请求标签数据失败');
 			}

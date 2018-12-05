@@ -184,7 +184,7 @@ export default {
         this.options = op;
 
       }else if(typeof op === 'string') {
-        op = this.options_vuex;
+        op = this.options_vuex; console.log('11');console.log(op);
 
         //存储在vuex中的数据,op代表getters的名字,
         //当数据不止在Select而是在全局中有多处被使用,或者数据在使用过程中需要保持动态更新,使用vuex存储
