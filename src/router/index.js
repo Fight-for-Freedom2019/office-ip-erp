@@ -124,6 +124,7 @@ const SettingMailTemplate           = () => import('@/components/page/setting/Ma
 const SettingSystem            = () => import('@/components/page/setting/SystemSetting')
 const SettingForm                 = () => import('@/components/page/setting/flow/Form')
 const SettingFields               = () => import('@/components/page/setting/flow/Field')
+const SettingTags                 = () => import('@/components/page/setting/data/Tag')
 
 //#################
 // const SI_Base                  = () => import('@/components/page_extension/SettingIndividual_base')
@@ -529,7 +530,6 @@ const router = new Router({
       component: TechProClassification,
     },
     { path: '/setting/field', name: 'SettingField', component: SettingField },
-    { path: '/setting/services', name: 'ServiceProject', component: SettingService },
     { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
     { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
     { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },
@@ -541,6 +541,8 @@ const router = new Router({
     { path: '/setting/data/file_types', name: 'FileType', component: SettingFileType },
     { path: '/setting/data/stages', name: 'ProjectStage', component: SettingProjectStage },
     { path: '/setting/data/entity_changes', name: 'EntityChange', component: SettingEntityChange },
+    { path: '/setting/data/services', name: 'ServiceProject', component: SettingService },
+    { path: '/setting/data/tags',name: 'SettingTags',component: SettingTags,},
     { path: '/setting/system',name: 'SettingSystem',component: SettingSystem,},
 
     // {
