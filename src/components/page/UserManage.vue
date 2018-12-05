@@ -29,7 +29,7 @@ export default {
   	  	'columns': [
   	  	   { type: 'selection' },
   	  	   { type: 'array', label: '用户组', prop: 'roles', render: _=>{return _.map(_=>_.name)}, width: '145'},   	
-  	  	   { type: 'array', label: '所属部门', prop: 'organization_unit', render: _=>{return _.map(_=>_.name)}, width: '145'},   	
+  	  	   { type: 'array', label: '所属部门', prop: 'organization_units', render: _=>{return _.map(_=>_.name)}, width: '145'},   	
   	  	   { type: 'text', label: '名称', prop: 'name', width: '145'},   	
   	  	   { type: 'text', label: '用户名', prop: 'user_name', width: '145'},   	
   	  	   { type: 'text', label: '邮箱', prop: 'email_address', width: '145'},   	
@@ -61,6 +61,7 @@ export default {
   	  tableData: [],
   	  nodeData: '',
   	  roleType: '',
+  	  isOrg: false,
   	}
   },
   methods: {
@@ -73,19 +74,25 @@ export default {
   	handleTree (val,type) {
   		this.nodeData = val;
   		this.roleType = type;
+  		this.isOrg = true;
   		this.refresh();
+  		setInterval(()=>{
+			this.isOrg = false;
+		},200);
   	},
   	handleRefresh () {
   		this.refresh();
   	},
   	refreshTableData(option) {
 	    const url = URL;
-	    const data = Object.assign({},option);
-	    if(this.roleType === 'organization') {
-	    	data.origanization_units = this.nodeData.id;
-	    }else if (this.roleType === 'rolegroups') {
-	    	data.roles = this.nodeData.id;
-	    }
+		const data = Object.assign({},option);
+		if (this.isOrg) {
+			if(this.roleType === 'organization') {
+				data.organization_units = this.nodeData.id;
+			}else if (this.roleType === 'rolegroups') {
+				data.roles = this.nodeData.id;
+			}
+		}
 	    const success = _=>{
 	        console.log(_)
 	        this.tableData = _.data;

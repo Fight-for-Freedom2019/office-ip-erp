@@ -157,8 +157,15 @@ const settingMenu = [
 			{type: 'item', text: '费用类型', path: '/setting/data/fee_codes', icon: 'iconfont el-icon-my-fee-type'},
 			{type: 'item', text: '文件类型', path: '/setting/data/file_types', icon: 'iconfont el-icon-my-category'},
 			{type: 'item', text: '案件阶段', path: '/setting/data/stages', icon: 'iconfont el-icon-my-status'},
-			{ type: 'item', text: '服务项目', path: '/setting/services', icon: 'iconfont el-icon-my-service' },
+			{ type: 'item', text: '服务项目', path: '/setting/data/services', icon: 'iconfont el-icon-my-service' },
+			{ type: 'item', text: '案件标签', path: '/setting/data/tags', icon: 'iconfont el-icon-my-tag' },
 			// {type: 'item', text: '原始记录', path: '/setting/data/entity_changes', icon: 'iconfont el-icon-my-system'},
+		]
+    },
+	{ type: 'submenu', text: '点数设定', path: '/setting/bonus', icon: 'iconfont el-icon-my-award',
+		children:[
+			{type: 'item', text: '代理人系数', path: '/setting/bonus/ratio', icon: 'iconfont el-icon-my-star'},
+			{type: 'item', text: '提成规则', path: '/setting/bonus/rules', icon: 'iconfont el-icon-my-quotation'},
 		]
     },
 	{ type: 'item', text: '系统设置', path: '/setting/system', icon: 'iconfont el-icon-my-system' },
