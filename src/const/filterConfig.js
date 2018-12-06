@@ -312,6 +312,25 @@ const map = new Map([
     ['invoice_request',[
         { components: 'remote_select', id: 'customer',                name: '客户', type: 'customer', used: true},
     ]],
+    /* 交互>客户端>通知书 */
+    ['cpc_notice',[
+        { components: 'remote_select', id: 'customer',                name: '相关案件', type: '专利', used: true},
+        { components: 'date',          id: 'creation_time',           name: '上传时间', used: true},
+        { components: 'date',          id: 'cpc_mail_date',           name: '发文日', used: true},
+        { components: 'date',          id: 'cpc_legal_deadline',      name: '官方绝限', used: true},
+        { components: 'date',          id: 'imported_date',           name: '导入时间'},
+        { components: 'date',          id: 'cpc_download_date',       name: '下载日'},
+        { components: 'remote_select', id: 'creator_user',            name: '上传用户', type: 'user'},
+        { components: 'remote_select', id: 'import_user',             name: '导入用户', type: 'user'},
+        { components: 'static_select', id: 'source',                  name: '来源',type:"cpc_notice_source",used:true},
+    ]],
+    /* 交互>客户端>案卷包 */
+    ['cpc_archive',[
+        { components: 'remote_select', id: 'customer',                name: '相关案件', type: '专利', used: true},
+        { components: 'static-select', id: 'process_definition',      name: '管制事项', type: 'process_definition', used: true},
+        { components: 'date',          id: 'filed_date',              name: '送件日',used:true},
+        { components: 'static_select', id: 'filing_staus',            name: '送件状态',type:"cpc_archive_status",used:true},
+    ]],
 ])
 
 const customPathMap = new Map([

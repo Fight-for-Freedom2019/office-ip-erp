@@ -58,7 +58,7 @@ const PointsMonthly            = () => import('@/components/page/finance/PointsM
 
 // 交互
 const ExchangeNotices          = () => import('@/components/page/exchange/client/Notices')     //通知书
-const ExchangeArchives         = () => import('@/components/page/exchange/client/Archives')     //递交包
+const ExchangeArchives         = () => import('@/components/page/exchange/client/CpcArchive')     //递交包
 const ExchangeMails            = () => import('@/components/page/MailList')     //递交包
 
 // const TrademarkNotice          = () => import('@/components/page/NoticeCommon')

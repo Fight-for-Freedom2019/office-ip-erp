@@ -25,10 +25,10 @@
     import {mapActions} from 'vuex'
 
     export default {
-        name: "CpcNoticeEdit",
+        name: "CpcArchiveEdit",
         data() {
             return {
-                URL: "/cpc_notices",
+                URL: "/cpc_archives",
                 form: {
                     project: "",
                     remark:'',
