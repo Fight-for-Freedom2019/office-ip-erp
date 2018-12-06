@@ -21,6 +21,7 @@
       :row="currentRow"
       ref="detail"
       :URL="URL"
+      :is_suppliers="is_suppliers"
       @editSuccess="refresh">
     </customer-list-detail>
 
