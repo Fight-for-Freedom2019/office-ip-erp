@@ -1,21 +1,37 @@
 <template>
-	<app-table :columns="columns" :data="tableData" :border='true'></app-table>
+	<div>
+		<span>
+			<search-input v-model="searchValue" style="float: right;" placeholder="搜索案号、案件名称、申请号"></search-input>
+		</span>
+		<app-table :columns="columns" :data="tableData" :border='true'></app-table>
+	</div>
 </template>
 <script>
 import AppTable from '@/components/common/AppTable'
+import SearchInput from '@/components/common/SearchInput'
 import {mapGetters} from 'vuex' 
 export default {
 	name: 'renewalMail',
 	props: ['id'],
 	data () {
 		return {
-			tableData: [],
+			searchValue: '',
+			initData: [],
 			columns: [
-				{type: 'text', label: '审查节点', prop: 'taskdef',render_simple: 'name'},
-				{type: 'text', label: '记录人', prop: 'operator',render_simple: 'name'},
-				{type: 'text', label: '记录时间', prop: 'create_time'},
-				{type: 'text', label: '审查要点', prop: 'opinion', className: 'tabel-content__visible',overflow: false,},
-				{type: 'text', label: '修改/答辩', prop: 'response',className: 'tabel-content__visible',overflow: false,},
+				{ type: 'selection'},
+		  		{type: 'text', label: '邮件类型', prop: 'mail_type', render_simple: 'name', width: '100' },
+	          {type: 'text', label: '邮件标题', prop: 'subject', min_width: '120'},
+	          {type: 'text', label: '发送时间', prop: 'sent_time', width: '200'},
+	          {type: 'text', label: '发件人', prop: 'sender', render_simple: 'name', width: '160'},
+	          {type: 'array', label: '收件人', prop: 'recipients', width: '160'},
+	          {type: 'array', label: '抄送', prop: 'cc', render:_=>_.map(_=>`${_.title}_${_.email}`), width: '160'},
+		  		{ 
+		  			type: 'action',
+                    width: '110',
+		  			btns: [
+                        { type: 'custom', click: this.edit, label: '编辑&补发', },
+		  			],  
+		  		}
 			]	
 		}
 	},
@@ -23,16 +39,42 @@ export default {
 		...mapGetters([
 			'renewalMail',
 		]),
+		tableData () {
+	 		if(this.searchValue == '') {
+	 			return this.initData;
+	 		}else{
+	 			return this.search(this.searchValue);
+	 		}
+ 		},
 	},
 	methods: {
 		handleRefreshDetail () {
 			const url = '/fees';
 			const data = { renewal_confirmation_sheet_id: this.id, is_debit: 0 };
 			const success = _=> {
-				this.tableData = _.data.data;
+				this.initData = _.data.data;
 			}; 
 			this.$axiosGet({ url, data, success });
 		},
+		search (keyword) {
+			// 纯前端关键字过滤 （案号、标题、申请号）
+	        let newArr = [];
+	        if(keyword){
+		        this.initData.filter((val,i,arr)=>{
+		          for (let k in arr[i]) {
+		          	let n = arr[i][k];
+		          	if(n instanceof Object) {
+			          	for(let m in n) {
+			          		if (typeof n[m] == 'string' && n[m].indexOf(keyword) != -1 && (m === 'serial' || m=== 'title' || m === 'application_number')) {
+			          			newArr.push(arr[i]);
+			          		}
+			          	}
+		          	}
+		          }
+		        })
+		        return this.$tool.rmDuplicate(newArr);
+	        }
+    	},
 	},
 	created () {
 		if(this.id) {
@@ -46,6 +88,7 @@ export default {
 	},		
 	components: {
 		AppTable,
+		SearchInput,
 	}
 }
 </script>

@@ -7,7 +7,7 @@
       </table-component>
       <Detail ref="mail_detail"></Detail>
       <app-shrink :visible.sync="shrinkVisible" :title="`邮件`">
-        <mail-add @refresh="refresh" ref="mail_add"></mail-add>
+        <mail-add @refresh="handleRefresh" ref="mail_add"></mail-add>
       </app-shrink>
   </div>
 </template>
@@ -62,7 +62,7 @@ export default {
 		  			type: 'action',
             width: '150',
 		  			btns: [
-              { type: 'custom', click: this.edit, label: '编辑&补发',},
+              { type: 'custom', click: this.edit, label: '编辑&补发', },
 		  				{ type: 'delete', click: this.mailDelete },
 		  			],  
 		  		}
@@ -85,6 +85,10 @@ export default {
       this.$nextTick(_=>{
         this.$refs.mail_add.setForm(row);
       })
+    },
+    handleRefresh () {
+      this.refresh();
+      this.shrinkVisible = false;
     },
     refreshTableData (option) {
       const url = URL;

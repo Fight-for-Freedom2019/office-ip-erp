@@ -104,7 +104,8 @@ export default {
     ...mapGetters([
       'innerHeight',
       'filterData',
-      'staticFilterMap',
+      // 'staticFilterMap',
+      'MergeSelectorMap',
       'staticSelectorCache',
     ]),
     // value : {
@@ -121,7 +122,7 @@ export default {
     // },  
     staticConfig () {
       // if(this.source && this.source.map_type) {
-        const config = this.staticFilterMap.get(this.source.map_type);
+        const config = this.MergeSelectorMap.get(this.source.map_type);
         return config? config : this.source.map_type;
       // }
     },
