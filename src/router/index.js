@@ -53,6 +53,8 @@ const SuppliersQuotation       = () => import('@/components/page/crm/suppliers/Q
 const FeeCommon                = () => import('@/components/page/FeeCommon')
 const RenewalFee               = () => import('@/components/page/RenewalFee')
 const RenewalEstimate          = () => import('@/components/page/RenewalEstimate')
+const PointsReadyToSettle      = () => import('@/components/page/finance/Points')
+const PointsMonthly            = () => import('@/components/page/finance/PointsMonthly')
 
 // 交互
 const ExchangeNotices          = () => import('@/components/page/exchange/client/Notices')     //通知书
@@ -482,6 +484,16 @@ const router = new Router({
       props: {
         'voucher_type':2,
       }
+    },
+    {
+      path: '/finance/points/ready_to_settle',
+      name: 'PointsReadyToSettle',
+      component: PointsReadyToSettle,
+    },
+    {
+      path: '/finance/points/settled',
+      name: 'PointsMonthly',
+      component: PointsMonthly,
     },
 //################### 费用路由 end #####################
 //################### 报表路由 begin ###################

@@ -1,6 +1,6 @@
 <!-- 收款账户 -->
 <template>
-    <div class="FileType">
+    <div class="CpcNotice">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
@@ -9,7 +9,7 @@
                 <el-button type="primary" size="small" v-if="compileType === 'edit'"
                            @click="save('edit')">保存</el-button>
             </span>
-            <file-type-add :type="compileType" :data = "rowData" ref="FileTypeAdd" @update="update" @refresh="refresh"></file-type-add>
+            <cpc-notice-edit :type="compileType" :data = "rowData" ref="CpcNoticeEdit" @update="update" @refresh="refresh"></cpc-notice-edit>
         </app-shrink>
     </div>
 </template>
@@ -17,21 +17,21 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
-    import FileTypeAdd from '@/components/page/setting/data/FileTypeAdd'
+    import CpcNoticeEdit from '@/components/page/exchange/client/CpcNoticeEdit'
     import TableMixins from '@/mixins/table-mixins'
     import Config from "@/const/selectConfig"
 
     const config = new Map(Config);
 
     export default {
-        name: "FileType",
+        name: "CpcNotice",
         mixins: [TableMixins],
         data() {
             return {
-                URL: "/file_types",
+                URL: "/cpc_notices",
                 tableOption: {
-                    'name': 'FileTypeList',
-                    'url': "/file_types",
+                    'name': 'CpcNoticeList',
+                    'url': "/cpc_notices",
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
@@ -40,33 +40,57 @@
                     'search_placeholder': '文件类型名称',
                     'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'add', click: this.add},
-                        {type: 'delete'},
+                        // {type: 'add', click: this.add},
+                        // {type: 'delete'},
                         {type: 'export'},
                         {type: 'control'},
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {
-                            type: 'text', label: '匹配案件', prop: 'project_category',render_simple:'name', width: '100'
-                        },
-                        {type: 'text', label: '来源', prop: 'category',render_simple:'name', width: '120'},
-                        {type: 'text', label: '上传用户', prop: 'name', min_width: '200'},
-                        {type: 'text', label: '上传时间', prop: 'abbr', width: '120'},
-                        {type: 'text', label: '已导入', prop: 'process_definition',render_simple:'name', width: '130'},
-                        {type: 'text', label: '导入时间', prop: 'project_stage',render_simple:'name', width: '120'},
-                        {type: 'text', label: '导入用户', prop: 'fields', width: '120'},
-                        {type: 'text', label: '通知书正文', prop: 'behavior', width: '120'},
-                        {type: 'text', label: '通知书ID', prop: 'sort', width: '100'},
-                        {type: 'text', label: '通知书代码', prop: 'sort', width: '100'},
-                        {type: 'text', label: '发文日', prop: 'sort', width: '100'},
-                        {type: 'text', label: '发文序列号', prop: 'sort', width: '100'},
-                        {type: 'text', label: '下载日', prop: 'sort', width: '100'},
-                        {type: 'text', label: '下载账号', prop: 'sort', width: '100'},
-                        {type: 'text', label: '事务所案号', prop: 'sort', width: '100'},
-                        {type: 'text', label: '官方绝限', prop: 'sort', width: '100'},
-                        {type: 'text', label: '案件名称', prop: 'sort', width: '100'},
-                        {type: 'text', label: '通知书压缩包', prop: 'sort', width: '100'},
+                        {type: 'text', label: '匹配案件', prop: 'project',min_width: '120',render:(h, item) => {
+                            return item == null ? '' : h('span', item.serial + '-' + item.title)
+                        }},
+                        {type: 'text', label: '来源', prop: 'source',render_simple:'name', min_width: '100'},
+                        {type: 'text', label: '上传用户', prop: 'creator_user',render_simple:'name', min_width: '110'},
+                        {type: 'text', label: '上传时间', prop: 'creation_time', min_width: '135'},
+                        {type: 'text', label: '已导入', prop: 'is_imported', min_width: '70', render: (h, item) => h('span', item ? '是' : '否')},
+                        {type: 'text', label: '导入时间', prop: 'imported_date', min_width: '135'},
+                        {type: 'text', label: '导入用户', prop: 'import_user',render_simple:'name', min_width: '120'},
+                        {type: 'text', label: '通知书正文', prop: 'file', min_width: '120',render:(h,item,row)=>{
+                            if (row.file == null) return;
+                            return h('span',{},[h('a',{ attrs:{
+                                target:'_blank',
+                                href:'/files/' + row.file.id + '/preview'
+                            }}, `查看`),h('a',{ attrs:{
+                                target:'_blank',
+                                href:'/files/' + row.file.id
+                            },style:{marginLeft:'5px'}}, `下载`)])
+
+                        }},
+                        {type: 'text', label: '通知书压缩包', prop: 'cpc_file', min_width: '100',render:(h,item,row)=>{
+                            if (row.file == null) return;
+                            return h('a',{ attrs:{
+                                target:'_blank',
+                                href:'/files/' + row.file.id
+                            }}, `下载`)
+                        }},
+                        {type: 'text', label: '通知书ID', prop: 'cpc_id', min_width: '100'},
+                        {type: 'text', label: '通知书代码', prop: 'cpc_code', min_width: '100'},
+                        {type: 'text', label: '发文日', prop: 'cpc_mail_date', min_width: '100'},
+                        {type: 'text', label: '发文序列号', prop: 'cpc_mail_serial', min_width: '100'},
+                        {type: 'text', label: '下载日', prop: 'cpc_download_date', min_width: '100'},
+                        {type: 'text', label: '下载账号', prop: 'cpc_user', min_width: '100'},
+                        {type: 'text', label: '内部案号', prop: 'cpc_serial', min_width: '100'},
+                        {type: 'text', label: '官方绝限', prop: 'cpc_legal_deadline', min_width: '100'},
+                        {type: 'text', label: '案件名称', prop: 'cpc_title', min_width: '100'},
+                        {type: 'text', label: '备注', prop: 'remark', min_width: '100'},
+                        // { 
+                        //     type: 'action', 
+                        //     label: '详情',
+                        //     btns: [
+                        //         {type: 'view', click: ({viewUrl})=>{window.open(viewUrl)}},
+                        //     ],
+                        // }
                     ],
                 },
                 compileType: "add",
@@ -95,23 +119,23 @@
                 this.rowID = row.id;
                 this.openVisible("isPanelVisible");
                 this.compileType = "edit";
-                this.title = `编辑文件类型>${row.name}`
+                this.title = `编辑CPC通知书>${row.cpc_serial}-${row.cpc_file_type.name}`
             },
-            add() {
-                this.rowData = {};
-                this.title = "新增文件类型";
-                this.compileType = "add";
-                this.openVisible("isPanelVisible");
-                this.$refs.FileTypeAdd?this.$refs.FileTypeAdd.clear():"";
-            },
+            // add() {
+            //     this.rowData = {};
+            //     this.title = "新增文件类型";
+            //     this.compileType = "add";
+            //     this.openVisible("isPanelVisible");
+            //     this.$refs.CpcNoticeEdit?this.$refs.CpcNoticeEdit.clear():"";
+            // },
             save(type) {
-                this.$refs.FileTypeAdd.submitForm(type,this.rowID)
+                this.$refs.CpcNoticeEdit.submitForm(type,this.rowID)
             },
         },
         components: {
             TableComponent,
             AppShrink,
-            FileTypeAdd,
+            CpcNoticeEdit,
         },
     }
 </script>
