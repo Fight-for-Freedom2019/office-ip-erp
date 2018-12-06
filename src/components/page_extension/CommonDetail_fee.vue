@@ -17,9 +17,9 @@
       <app-table :columns="columns" :data="detailInventorBonus.list ? detailInventorBonus.list : []"></app-table>
     </app-collapse> -->
    
-    <app-collapse :col-title="`政府资助及专利奖(总计：${detailFundings.sum?detailFundings.sum:'0'}CNY)`">
+    <!-- <app-collapse :col-title="`政府资助及专利奖(总计：${detailFundings.sum?detailFundings.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailFundings.list ? detailFundings.list : []"></app-table>
-    </app-collapse>
+    </app-collapse> -->
     
     <app-collapse :col-title="`监控中的年费(总计：${detailAnnual.sum?detailAnnual.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailAnnual.list ? detailAnnual.list : []"></app-table>
@@ -62,12 +62,12 @@ export default {
             } 
           }
         },
-        { type: 'text', label: '人民币金额', prop: 'rmb', width: '120', 
+        { type: 'text', label: '人民币金额', prop: 'rmb_amount', width: '120', 
           render:(h,item)=>{
             return h('span',`${item}CNY`)
             }
         },
-        { type: 'text', label: '付款日期', prop: 'pay_date', width: '120'},
+        { type: 'text', label: '付款日期', prop: 'payment_time', width: '120'},
         { type: 'text', label: '状态', prop: 'status', width: '90'},
         { type: 'text', label: '备注', prop: 'remark', min_width: '90'},
         { 

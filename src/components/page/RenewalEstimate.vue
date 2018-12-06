@@ -30,7 +30,7 @@ export default {
 					{ type: 'delete' },
 					{ type: 'control' },
 				],
-				header_slot: ['status'],
+				// header_slot: ['status'],
 				columns: [
 					{ type: 'selection' },
 					{ type: 'text', label: '评估单号', prop: 'serial', width: '200' },

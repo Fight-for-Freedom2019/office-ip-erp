@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <app-table :columns="columns" :data="detailTasks" height="default6" style="overflow-y:auto;overflow-x: hidden; ">
+    <app-table :columns="columns" :data="detailProcesses" height="default6" style="overflow-y:auto;overflow-x: hidden; ">
     <template slot="row_action" slot-scope="scope">
       <el-button type="text" size='mini' @click='toggle(scope.row)'>{{ show == scope.row.id ? '隐藏详情' : '显示详情'}}</el-button>
     </template>
@@ -27,12 +27,12 @@ export default {
   data () {
     return {
       columns: [
-        { type: 'text', label: '管制事项', prop: 'taskdef', render: this.taskdefRender},
+        { type: 'text', label: '管制事项', prop: 'process_definiton', render: this.taskdefRender},
         // { type: 'text', label: '流程节点', prop: 'flownode', render_simple: 'name'},
-        { type: 'text', label: '开始时间', prop: 'start_time' },
-        { type: 'text', label: '内部期限', prop: 'due_time' },
-        { type: 'text', label: '官方绝限', prop: 'deadline' },
-        { type: 'text', label: '完成时间', prop: 'end_time' },
+        { type: 'text', label: '开始时间', prop: 'creation_time' },
+        { type: 'text', label: '内部期限', prop: 'filing_deadline' },
+        { type: 'text', label: '官方绝限', prop: 'legal_deadline' },
+        { type: 'text', label: '完成时间', prop: 'completion_time' },
         // { type: 'text', label: '状态', prop: 'status', render_text: v => v ? '已完成' : '未完成' },
         // { type: 'text', label: '代理机构', prop: 'agency' },
         // { type: 'text', label: '代理人', prop: 'agent' },
@@ -115,7 +115,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'detailTasks',
+      'detailProcesses',
       'menusMap',
     ]),
   },
@@ -129,7 +129,7 @@ export default {
         return;
       }
       if(this.show == null || this.show != id) {
-        const url = `/api/tasks/${id}`;
+        const url = `tasks/${id}`;
         const success = _=>{
           this.tableData2 = _.task.siblings;
           // console.log(_)
@@ -162,13 +162,13 @@ export default {
       return ( 
         <span>
           {data.status?<i class="el-icon-check" style="color: #3c3;margin-right:10px;"></i>:<i class="el-icon-loading" style="color: #f90;margin-right:10px;"></i>}
-            <span>{ data.taskdef.name }</span>
+            <span>{ data.process_definition.name }</span>
         </span>
       );
     },
   },
   watch: {
-    detailTasks (val) {
+    detailProcesses (val) {
       if(val.length != 0) {
         this.toggle(val[0]);  
       }else {

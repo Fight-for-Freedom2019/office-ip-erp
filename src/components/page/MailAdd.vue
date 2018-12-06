@@ -43,10 +43,10 @@ const URL = '/mails';
 
 export default {
   name: 'mailAdd',
+  props: ['data'],
   mixins: [ AxiosMixins ],
   data () {
 		return {
-			'id': '',
 			'form':{
 
 				subject: '',
@@ -180,37 +180,11 @@ export default {
 			return { 'from': { label: email, value: email } };
 		},
 	},
-	created () {
-
-		// if(this.type == 'edit') {
-		// 	const id = this.$route.query.id;
-		// 	const url = `${URL}/${id}`;
-		// 	const mail_arr = {'recipients': true, 'cc': true,};
-		// 	const success = _=>{
-		// 		const data = _.mail;
-		// 		for(let k in this.form) {
-		// 			let d = data[k];
-		// 			if(k == 'attachments') {
-		// 				this.attachments = d;
-		// 				this.form[k] = d.map(_=>_.id);
-		// 			}else if(mail_arr[k]) {
-		// 				if(d && d[0] && !d[0].id) {
-		// 					d = d.map(_=>{
-		// 						return {id: _.value, name: _.label};
-		// 					});
-		// 				}
-		// 				this.form[k] = d ? d : this.form[k];
-		// 			}else {
-		// 				this.form[k] = d ? d : this.form[k];
-		// 			}
-		// 		}
-		// 		this.id = id;
-		// 	}
-		// 	const complete = _=>{ this.$store.commit('cancelLoading') };
-
-		// 	this.$store.commit('onLoading');
-		// 	this.axiosGet({url, success, complete});
-		// }
+	watch: {
+		data (v) {
+			this.$tool.coverObj(this.form, v, {obj: ['cc', 'recipients','attachments']});
+			this.attachments = v.attachments ? v.attachments : [];
+		}
 	},
 	components: { 
 		Upload, 
