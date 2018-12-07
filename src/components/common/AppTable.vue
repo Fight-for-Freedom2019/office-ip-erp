@@ -310,8 +310,10 @@ export default {
         }else if(hk === 'flowActions') {
           height = this.innerHeight - 280;
           height = height < 300 ? 300 : height;
+        }else if(typeof hk === 'number'){
+          height = hk;
         }else {
-          height = 'auto';
+            height = 'auto';
         }
       }
       return height;
