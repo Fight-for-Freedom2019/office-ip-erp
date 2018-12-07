@@ -33,13 +33,13 @@ import { mapGetters } from 'vuex'
                 } 
               }
             },
-            { type: 'text', label: '人民币金额', prop: 'rmb', width: '120',
+            { type: 'text', label: '人民币金额', prop: 'rmb_amount', width: '120',
               render:(h,item)=>{
                 return h('span',`${item}CNY`)
                 }
             },
-            { type: 'text', label: '付款日期', prop: 'pay_date', width: '120'},
-            { type: 'text', label: '状态', prop: 'status', width: '90'},
+            { type: 'text', label: '付款日期', prop: 'payment_time', width: '120'},
+            { type: 'text', label: '状态', prop: 'status', render_simple: 'name', width: '90'},
             { type: 'text', label: '备注', prop: 'remark', min_width: '90'},
           ],
       }

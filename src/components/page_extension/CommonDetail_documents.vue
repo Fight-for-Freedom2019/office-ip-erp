@@ -7,7 +7,7 @@
 <script>
 import TableComponent from '@/components/common/TableComponent' 
 import SearchInput from '@/components/common/SearchInput'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: 'commonDetailDocuments',
   props: ['searchValue'],
@@ -25,10 +25,11 @@ export default {
 		  		{ type: 'text', label: '上传人', prop: 'uploader', render_simple: 'name', },
 		  		{ type: 'text', label: '上传时间', prop: 'creation_time' },
 		  		{ type: 'action',
-		  			width: '134',
+		  			width: '178',
 		  			btns: [
 		  				{ type: 'download', text: '下载', click: ({downloadUrl})=>{window.open(downloadUrl)} },
 		  				{ type: 'view', text: '查看', click: ({viewUrl})=>{window.open(viewUrl)} },
+              { type: 'delete',  click: this.handleDelete },
 		  			] 
 		  		}
 		  	],
@@ -48,26 +49,35 @@ export default {
  	},
   },
   methods: {
+    ...mapActions([
+      'refreshDetailData',
+    ]),
      search (keyword) {
       let newArr = [];
-      // let temp = [];
       if(keyword){
         this.detailDocuments.filter((val,i,arr)=>{
           for (let k in arr[i]) {
             if(typeof arr[i][k] == 'string'&& arr[i][k].indexOf(keyword) != -1 && (k == 'type' || k == 'name')) {
               newArr.push(arr[i]);
-              // for (let j = 0;j<newArr.length; j++  ) {
-              //   if(temp.indexOf(newArr[j]==-1)) {
-              //     temp.push(newArr[j])
-              //   }
-              // }
             }
           }
         })
-        console.log(newArr);
-        return newArr;
+        return this.$tool.rmDuplicate(newArr);
       }
-    },
+    }, 
+    handleDelete ({id, name}) {
+      const url = `/files/${id}`;
+      const success = _=>{ 
+        this.$message({message: `删除${name}成功！`, type: 'success'});
+        this.refreshDetailData();
+      };
+
+      this.$confirm(`删除后不可恢复，确认删除‘${name}’？`,'删除确认',{type: 'warning'})
+        .then(_=>{
+          this.$axiosDelete({url, success});
+        })
+        .catch(_=>{});
+    }, 
   },
   components: { TableComponent,SearchInput, }
 }

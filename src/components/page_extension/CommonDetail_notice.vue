@@ -120,33 +120,32 @@ import SearchInput from '@/components/common/SearchInput'
 
 import { mapActions } from 'vuex'
 import { mapGetters } from 'vuex'
-const URL = '';
 const config = [
   ['patent', {
-    action: 'getPatentDocuments',
+    action: 'parseFiles',
     type: 'patent',
     url: '/patents/documents',
   }],
   ['trademark', {
-    action: 'getTrademarkDocuments',
+    action: 'parseFiles',
     type: 'trademark',
     url: '/trademarks/documents',
   }],
   ['copyright', {
-    action: 'getCopyrightDocuments',
+    action: 'parseFiles',
     type: 'copyright',
     url: '/copyrights/documents',
   }],
   ['patent_notice', {
-    action: 'getPatentNoticesDocuments',
+    action: 'parseNotices',
     type: 'patent',
   }],
   ['copyright_notice', {
-    action: 'getCopyrightNoticesDocuments',
+    action: 'parseNotices',
     type: 'copyright',
   }],  
   ['trademark_notice', {
-    action: 'getTrademarkNoticesDocuments',
+    action: 'parseNotices',
     type: 'trademark',
   }],
 ]
@@ -167,8 +166,8 @@ export default {
       file: [],
       patentForm: {
         agency_serial: '',
-        apd: '',
-        apn: '',
+        application_date: '',
+        application_number: '',
         code: '',
         mail_date: '',
         notice_serial: '',
@@ -243,7 +242,7 @@ export default {
       return url;
     },
     patentNoice_upload_url () {
-      let url = '/api/files?action=getPatentNotices';
+      let url = '/api/files?action=parseCpc';
       return url
     },
     upload_url () {
@@ -288,16 +287,16 @@ export default {
           this.clear();
           const l = this.tableDatas.length;
           const lists = [];
-          a.data.list.forEach((_, key)=>{ 
-            _.time = '';
-            _.legal_time = '';
-            _.apd = '';
-            _.issue_date = '';
-            _.apn = '';
-            _.pct_search_result = '';
-            _.pct_search_date = '';   
-            lists.push(this.$tool.deepCopy(_));
-          });
+          // a.data.list.forEach((_, key)=>{ 
+          //   _.mail_date = '';
+          //   _.legal_deadline = '';
+          //   _.application_date = '';
+          //   _.issue_date = '';
+          //   _.application_number = '';
+          //   _.pct_search_result = '';
+          //   _.pct_search_date = '';   
+          //   lists.push(this.$tool.deepCopy(_));
+          // });
           this.tableDatas.push(...a.data.list);
           this.file.push(a.data.file);
             lists.forEach((v,k)=>{
@@ -388,21 +387,21 @@ export default {
             this.$message({message: p.info, type: 'warning'});
           }
     },
-    handleDelete ({id, name}) {
-      const url = `${URL}/${id}`;
+    handleDelete ({id, file}) {
+      const url = `notices?id=${id}`;
       const success = _=>{ 
-        this.$message({message: `删除${name}成功！`, type: 'success'});
+        this.$message({message: `删除${file.name}成功！`, type: 'success'});
         this.refreshDetailData();
       };
 
-      this.$confirm(`删除后不可恢复，确认删除用户‘${name}’？`,'删除确认',{type: 'warning'})
+      this.$confirm(`删除后不可恢复，确认删除‘${file.name}’？`,'删除确认',{type: 'warning'})
         .then(_=>{
           this.$axiosDelete({url, success});
         })
         .catch(_=>{});
     }, 
     importData () {
-      const url = '/notices/import';
+      const url = '/cpc_notices';
 
       if(this.tableData3.length==0) {
         this.$message({message: '上传数据不能为空', type: 'warning'});
@@ -417,7 +416,7 @@ export default {
       
       let data = this.tableData3[0];
       data.project = this.detailId;
-      data = [data];
+      data = { list: [data]};
 
       const success = _=>{
         this.tableData3 = [];
@@ -431,18 +430,23 @@ export default {
       this.$axiosPost({url, data, success,complete});
     },
     search (keyword) {
-      let newArr = [];
-      if(keyword){
-        this.detailNotices.filter((val,i,arr)=>{
-          for (let k in arr[i]) {
-            if(typeof arr[i][k] == 'string' && arr[i][k].indexOf(keyword) != -1 && k == 'notice_name') {
-              newArr.push(arr[i]);
-            }
+          let newArr = [];
+          if(keyword){
+            this.detailNotices.filter((val,i,arr)=>{
+                for (let k in arr[i]) {
+                  let n = arr[i][k];
+                  if(n instanceof Object) {
+                    for(let m in n) {
+                      if (typeof n[m] == 'string' && n[m].indexOf(keyword) != -1 && m === 'name') {
+                        newArr.push(arr[i]);
+                      }
+                    }
+                  }
+                }
+            })
+            return this.$tool.rmDuplicate(newArr);
           }
-        })
-        return newArr;
-      }
-    },
+    },    
     clearAll () {
        this.tableData3 = [];
        this.$refs['patentForm'].resetFields();

@@ -203,7 +203,7 @@ const config = [
 
   ['file_type_oa', {
     placeholder: '请选择文件类型',
-    url: '/file_types?category=1&listRows=10000',
+    url: '/file_types?project_type=专利&category=1&listRows=10000',
     handle (data) {
       return data.data.data;
     },
@@ -231,31 +231,43 @@ const config = [
   }],  
   ['file_type', {
     placeholder: '请选择文件类型',
-    url: '/fileTypes?category=1&listRows=10000',
+    url: '/file_types?project_type=专利&category=1&listRows=10000',
+     handle (data) {
+      return data.data.data;
+    },    
   }],
   ['file_type_patent', {
     placeholder: '请选择专利文件类型',
-    url: '/fileTypes?category=1&type=2',
+    url: '/file_types?project_type=专利&category=1&listRows=10000',
+     handle (data) {
+      return data.data.data;
+    },    
   }],
   ['file_type_patent_notice', {
     placeholder: '请选择专利通知书文件类型',
-    url: '/fileTypes?category=1&type=1',
+    url: '/file_types?project_type=专利&category=1&listRows=10000',
+     handle (data) {
+      return data.data.data;
+    },    
   }],
   ['file_type_trademark', {
     placeholder: '请选择商标文件类型',
-    url: '/fileTypes?category=2&type=2'
+    url: '/file_types?project_type=商标&category=1&listRows=10000',
+     handle (data) {
+      return data.data.data;
+    },    
   }],
   ['file_type_trademark_notice', {
     placeholder: '请选择商标通知书文件类型',
-    url: '/fileTypes?category=2&type=1'
+    url: '/fileTypes?category=1&listRows=10000'
   }],
   ['file_type_copyright', {
     placeholder: '请选择版权文件类型',
-    url: '/fileTypes?category=3&type=2',
+    url: '/fileTypes?category=1&listRows=10000',
   }],
   ['file_type_copyright_notice', {
     placeholder: '请选择版权通知书文件类型',
-    url: '/fileTypes?category=3&type=1',
+    url: '/fileTypes?category=1&listRows=10000',
   }],
   
   ['group', {
@@ -271,15 +283,15 @@ const config = [
     allowCreate: true,
     defaultFirstOption: true,
   }],
-  ['file_type', {
-    placeholder: '请输入邮箱地址',
-    url: '/file_types?listOnly=1',
-    handle (data) {
-      return data.data;
-    },
-    allowCreate: true,
-    defaultFirstOption: true,
-  }],
+  // ['file_type', {
+  //   placeholder: '请输入邮箱地址',
+  //   url: '/file_types?listOnly=1',
+  //   handle (data) {
+  //     return data.data;
+  //   },
+  //   allowCreate: true,
+  //   defaultFirstOption: true,
+  // }],
   ['tags', {
     placeholder: '请选择标签',
     options: 'tagOptions',

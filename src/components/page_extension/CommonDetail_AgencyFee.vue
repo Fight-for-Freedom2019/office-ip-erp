@@ -38,7 +38,7 @@ import { mapGetters } from 'vuex'
                 }
             },
             { type: 'text', label: '付款日期', prop: 'pay_date', width: '120'},
-            { type: 'text', label: '状态', prop: 'status', width: '90'},
+            { type: 'text', label: '状态', prop: 'status', render_simple: 'name', width: '90'},
             { type: 'text', label: '备注', prop: 'remark', min_width: '90'},
           ],
       }

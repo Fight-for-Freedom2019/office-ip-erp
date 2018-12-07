@@ -39,10 +39,10 @@
           <jump-select type="invoices" v-model="scope.row.invoice" single  v-show="!!tableData[scope.$index]['show_invoice']"></jump-select>
         </template>
       </el-table-column>
-      <el-table-column label="文件类型" prop="type" min-width="120" v-if="!config.file_type || config.is_show">
+      <el-table-column label="文件类型" prop="type" min-width="120" v-if="config.file_type || config.is_show">
         <template slot-scope="scope">
           <span v-if="config.is_show">{{scope.row.file_type.name}}</span>
-          <static-select :type="config.file_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" :ref="`file_type_${scope.$index}`" v-else></static-select>
+          <static-select :type="config.select_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" :ref="`file_type_${scope.$index}`" v-else></static-select>
         </template>
       </el-table-column>
       <el-table-column label="发文日" prop="mail_date" v-if="config.mail_date || config.is_show">
@@ -140,7 +140,7 @@ const config = [
   }],
   ['cpc', {
     action: 'parseCpc',
-    url: '/files/cpc',
+    url: '/cpc_notices',
     type: 'cpc',
     select_type: 'file_type_cpc',
     file_type:true,

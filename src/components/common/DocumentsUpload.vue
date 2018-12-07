@@ -7,26 +7,26 @@
       <el-form-item label="关联案件">
         <span>{{ title }}</span>
       </el-form-item>
-      <el-form-item label="文件类型" prop="type">
-        <static-select :type="config.file_type"  v-model="form.type" style="width: 100%;" @change="val=>{handleTypeChange(val, 0)}" ref="static"></static-select>
+      <el-form-item label="文件类型" prop="file_type">
+        <static-select :type="config.select_type"  v-model="form.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, 0)}" ref="static"></static-select>
       </el-form-item>
-      <el-form-item label="发文日" prop="time" v-if="config.time&&(!!tableData[0]['show_mail_date'])">
+      <el-form-item label="发文日" prop="mail_date" v-if="config.mail_date&&(!!tableData[0]['show_mail_date'])">
         <el-date-picker type="date" v-model="form.time"></el-date-picker>
       </el-form-item>      
-      <el-form-item label="官方绝限" prop="legal_time" v-if="config.legal_time&&(!!tableData[0]['show_deadline'])">
-        <el-date-picker type="date" v-model="form.legal_time"  ></el-date-picker>
+      <el-form-item label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline&&(!!tableData[0]['show_deadline'])">
+        <el-date-picker type="date" v-model="form.legal_deadline"  ></el-date-picker>
       </el-form-item>    
-      <el-form-item label="申请日" prop="apd" v-if="config.apd&&(!!tableData[0]['show_apd'])">
-        <el-date-picker type="date" v-model="form.apd"></el-date-picker>
+      <el-form-item label="申请日" prop="application_date" v-if="config.application_date&&(!!tableData[0]['show_application_date'])">
+        <el-date-picker type="date" v-model="form.application_date"></el-date-picker>
       </el-form-item>      
-      <el-form-item label="申请号" prop="apn" v-if="!!tableData[0]['show_apn']&&config.apn">
-        <el-input v-model="form.apn"></el-input>
+      <el-form-item label="申请号" prop="application_number" v-if="!!tableData[0]['show_application_number']&&config.application_number">
+        <el-input v-model="form.application_number"></el-input>
       </el-form-item>    
-      <el-form-item label="公开日" prop="public_date" v-if="config.public_date&&(!!tableData[0]['show_public_date'])">
-        <el-date-picker type="date" v-model="form.public_date"></el-date-picker>
+      <el-form-item label="公开日" prop="publication_date" v-if="config.publication_date&&(!!tableData[0]['show_publication_date'])">
+        <el-date-picker type="date" v-model="form.publication_date"></el-date-picker>
       </el-form-item>      
-      <el-form-item label="公开号" prop="public_number" v-if="!!tableData[0]['show_public_number']&&config.public_number">
-        <el-input v-model="form.public_number"></el-input>
+      <el-form-item label="公开号" prop="publication_number" v-if="!!tableData[0]['show_publication_number']&&config.publication_number">
+        <el-input v-model="form.publication_number"></el-input>
       </el-form-item>
       <el-form-item label="授权公告日" prop="issue_date" v-if="!!tableData[0]['show_issue_date']&&config.issue_date">
         <el-date-picker type="date" v-model="form.issue_date" ></el-date-picker>
@@ -73,35 +73,35 @@ import {mapGetters} from 'vuex'
 const config = [
   ['patent', {
     action: 'getPatentDocuments',
-    url: '/patents/documents',
+    url: '/files/other',
     type: 'patent',
-    file_type: 'file_type_patent',
+    select_type: 'file_type_patent',
   }],
   ['trademark', {
     action: 'getTrademarkDocuments',
-    url: '/trademarks/documents',
+    url: '/files/other',
     type: 'trademark',
-    file_type: 'file_type_trademark',
+    select_type: 'file_type_trademark',
   }],
   ['copyright', {
     action: 'getCopyrightDocuments',
-    url: '/copyrights/documents',
+    url: '/files/other',
     type: 'copyright',
-    file_type: 'file_type_copyright',
+    select_type: 'file_type_copyright',
   }],
   ['patent_notice', {
     action: 'getPatentNoticesDocuments',
-    url: '/patents_notice/documents',
+    url: '/files/oa',
     type: 'patent',
-    file_type: 'file_type_patent_notice',
-    time: true,
-    legal_time: true,
+    select_type: 'file_type_patent_notice',
+    mail_date: true,
+    legal_deadline: true,
     issue_date: true,
     issue_number:true,
-    apd: true,
-    apn: true,
-    public_date:true,
-    public_number:true,
+    application_date: true,
+    application_number: true,
+    publication_date:true,
+    publication_number:true,
     pct_search_date: true,
     pct_search_result: true,
     no_zip: true,
@@ -109,26 +109,26 @@ const config = [
   }],
   ['copyright_notice', {
     action: 'getCopyrightNoticesDocuments',
-    url: '/copyrights_notice/documents',
+    url: '/files/oa',
     type: 'copyright',
-    file_type: 'file_type_copyright_notice',
-    time: true,
-    legal_time: true,
+    select_type: 'file_type_copyright_notice',
+    mail_date: true,
+    legal_deadline: true,
     issue_date: true,
-    apd: true,
-    apn: true,
+    application_date: true,
+    application_number: true,
     no_zip: true,
   }],  
   ['trademark_notice', {
     action: 'getTrademarkNoticesDocuments',
-    url: '/trademarks_notice/documents',
+    url: '/files/oa',
     type: 'trademark',
-    file_type: 'file_type_trademark_notice',
-    time: true,
-    legal_time: true,
+    select_type: 'file_type_trademark_notice',
+    mail_date: true,
+    legal_deadline: true,
     issue_date: true,
-    apd: true,
-    apn: true,
+    application_date: true,
+    application_number: true,
     no_zip: true,
   }],
 ]
@@ -151,13 +151,13 @@ export default {
       $index: null,
       loading: false,
       form: {
-        type: '',
-        time: '',
-        legal_time: '',
-        apn: '',
-        apd: '',
-        public_date:'',
-        public_number:'',
+        file_type: '',
+        mail_date: '',
+        legal_deadline: '',
+        application_number: '',
+        application_date: '',
+        publication_date:'',
+        publication_number:'',
         issue_date: '',
         issue_number:'',
         pct_search_date: '',
@@ -203,16 +203,13 @@ export default {
     show () {
         this.$nextTick(_=>{
         if(this.tableData.length!=0) {
-          this.form.type = this.tableData[0]['type']['id']?this.tableData[0]['type']['id']-0:'';
-          const v = this.$refs.static.getSelected(this.form.type);
+          this.form.file_type = this.tableData[0]['file_type']['id']?this.tableData[0]['file_type']['id']-0:'';
+          const v = this.$refs.static.getSelected(this.form.file_type);
           console.log('----------v---------');
           console.log(v);
           this.handleTypeChange(v,0);
         }  
        });
-    },
-    test(){
-      console.log('调用成功');
     },
     design() {
       const o = this.$tool.deepCopy(this.tableData[this.$index]);
@@ -234,11 +231,11 @@ export default {
       if (!f) return;
       const copy = this.$tool.deepCopy(this.tableData[index]);
       copy['show_mail_date'] = f.mail_date == 1 && this.config.time ? true : false;
-      copy['show_deadline'] = f.deadline == 1 && this.config.legal_time ? true : false;
-      copy['show_apn'] = f.apn == 1 && this.config.apn ? true : false;
-      copy['show_apd'] = f.apd == 1 && this.config.apd ? true : false;
-      copy['show_public_date'] = f.public_date == 1 && this.config.public_date ? true : false;
-      copy['show_public_number'] = f.public_number == 1 && this.config.public_number ? true : false;
+      copy['show_deadline'] = f.deadline == 1 && this.config.legal_deadline ? true : false;
+      copy['show_application_number'] = f.application_number == 1 && this.config.application_number ? true : false;
+      copy['show_application_date'] = f.application_date == 1 && this.config.application_date ? true : false;
+      copy['show_publication_date'] = f.publication_date == 1 && this.config.publication_date ? true : false;
+      copy['show_publication_number'] = f.publication_number == 1 && this.config.publication_number ? true : false;
       copy['show_issue_date'] = f.issue_date == 1 && this.config.issue_date ? true : false;
       copy['show_issue_number'] = f.issue_number == 1 && this.config.issue_number ? true : false;
       copy['show_pct_search_date'] = f.pct_search_date == 1 && this.config.pct_search_date ? true : false;
@@ -262,7 +259,7 @@ export default {
         return this.$message({message: '上传数据不能为空', type: 'warning'});
       }
 
-      if(!this.form.type) {
+      if(!this.form.file_type) {
         this.$message({type: 'warning', message: '文件类型不能为空'});
         return false;
       }
@@ -272,15 +269,16 @@ export default {
       const list2 = [];
       for(let i = 0; i < list.length; i++ ) {
         const _ = list[i];
+          const obj = this.$tool.shallowCopy(_,{skip:['show_legal_deadline','show_application_number','show_issue_number','show_issue_date','show_mail_date','show_fees', 'show_invoice', 'show_application_date',],date: true});
         console.log(_);
         const o = {};
         o.file_id = _.file_id;
         o.project = this.detailId;
         o.name = _.name;
-        if(_.type && _.type.id == this.form.type) {
-          o.type = _.type;
+        if(_.file_type && _.file_type.id == this.form.file_type) {
+          o.file_type = _.file_type;
         }else {
-          o.type = this.form.type;
+          o.file_type = this.form.file_type;
         }
         if(_.subfile) {
           o.subfile = _.subfile;
@@ -289,29 +287,29 @@ export default {
           o.zip = _.zip;
         }
         if(_.show_mail_date) {
-          if(this.form.time) {
-            o.time = this.$tool.getDate( new Date(this.form.time) );
+          if(this.form.mail_date) {
+            o.time = this.$tool.getDate( new Date(this.form.mail_date) );
           }else {
             return this.$message({type: 'warning', message: '请填写发文日'});
           }
         }
         if(_.show_deadline) {
-          if(this.form.legal_time) {
-            o.legal_time = this.$tool.getDate( new Date(this.form.legal_time) );
+          if(this.form.legal_deadline) {
+            o.legal_deadline = this.$tool.getDate( new Date(this.form.legal_deadline) );
           }else {
             return this.$message({type: 'warning', message: '请填写官方绝限'}); 
           }
         }
-        if(_.show_apd) {
-          if(this.form.apd) {
-            o.apd = this.$tool.getDate( new Date(this.form.apd) );
+        if(_.show_application_date) {
+          if(this.form.application_date) {
+            o.application_date = this.$tool.getDate( new Date(this.form.application_date) );
           }else {
             return this.$message({type: 'warning', message: '请填写申请日'}); 
           }
         }        
-        if(_.show_apn) {
-          if(this.form.apn) {
-            o.apn = this.form.apn;
+        if(_.show_application_number) {
+          if(this.form.application_number) {
+            o.application_number = this.form.application_number;
           }else {
             return this.$message({type: 'warning', message: '请填写申请号'}); 
           }
@@ -330,16 +328,16 @@ export default {
             return this.$message({type: 'warning', message: '请填写授权公告号'}); 
           }
         }
-        if(_.show_public_date) {
-          if(this.form.public_date) {
-            o.public_date = this.$tool.getDate( new Date(this.form.public_date) );
+        if(_.show_publication_date) {
+          if(this.form.publication_date) {
+            o.publication_date = this.$tool.getDate( new Date(this.form.publication_date) );
           }else {
             return this.$message({type: 'warning', message: '请填写公开日'}); 
           }
         }
-        if(_.show_public_number) {
-          if(this.form.public_number) {
-            o.public_number = this.form.public_number;
+        if(_.show_publication_number) {
+          if(this.form.publication_number) {
+            o.publication_number = this.form.publication_number;
           }else {
             return this.$message({type: 'warning', message: '请填写公开号'}); 
           }
@@ -365,10 +363,11 @@ export default {
             return this.$message({type: 'warning', message: '请填写首次年费年度'}); 
           }
         }
-        list2.push(o);  
+        const merge = Object.assign({},obj,o);
+        list2.push(merge);  
       }
 
-      const data = {file: this.file, list: list2 };
+      const data = {list: list2 };
       const success = _=>{
         this.clear();
         this.close();
@@ -401,7 +400,7 @@ export default {
     // console.log(this.tableData[0])
   },
   watch: {
-    'form.type': {
+    'form.file_type': {
       handler:function(val,oVal){
         if(val !== "") {  
           const v =  this.$refs.static.getSelected(val);
