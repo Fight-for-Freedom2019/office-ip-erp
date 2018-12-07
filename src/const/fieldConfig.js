@@ -75,6 +75,19 @@ const strainerConfig = [
     ]],
     ['invoice_request',[
         { "name": "客户", "id": "customer", "default": true},
-    ]]
+    ]],
+    ['cpc_notice',[
+        { "name": "导入状态", "id": "is_imported", "default": true},
+        { "name": "上传时间", "id": "imported_date"},
+        { "name": "发文日", "id": "cpc_mail_date"},
+        { "name": "官方绝限", "id": "cpc_legal_deadline"},
+    ]],
+    ['cpc_archive',[
+        { "name": "送件状态", "id": "filing_status", "default": true},
+        { "name": "送件时间", "id": "filed_time"},
+        { "name": "管制事项", "id": "process_definition"},
+        { "name": "递交期限", "id": "filing_deadline"},
+        { "name": "官方绝限", "id": "legal_deadline"},
+    ]],
 ]
 export {config, fieldExceptMap, strainerConfig}

@@ -39,11 +39,11 @@ const getters = {
   		return null;
   	}
   },
-  detailTasks: state=>state.data ? state.data.tasks : [],
+  detailProcesses: state=>state.data ? state.data.process : [],
   detailNotices: state=>state.data ? state.data.notices : [],
   detailFees: state=>state.data ? state.data.fees : {},
   detailMails: state=>state.data ? state.data.mails : [],
-  detailDocuments: state=>state.data ? state.data.documents : [],
+  detailDocuments: state=>state.data ? state.data.attachments : [],
   detailGroup: state=>state.data && state.data.group ? state.data.group : [],
   detailFamily: state=>state.data && state.data.family ? state.data.family : [],
   detailDefence: state=>state.data && state.data.responses ? state.data.responses : [],

@@ -2,14 +2,21 @@
 	<div>
 		<span>
 			<el-button type="danger" size="small" style="float: left;" @click="deleteRenewal">删除年费</el-button>
+			<el-button size="small" type="primary" @click="confirmEstimate">评估单确认</el-button>
 			<search-input v-model="searchValue" style="float: right;" placeholder="搜索案号、案件名称、申请号"></search-input>
 		</span>
 		<app-table :columns="columns" :data="tableData" :border='true' ref="table" ></app-table>
+		<el-dialog :visible.sync="dialogVisible" title="评估单确认" width="25%" :modal="false">
+			<span>生成请款单：</span>
+			<app-switch type="is" v-model="is_invoice"></app-switch>
+			<el-button @click="submit" style="display: block; margin-top: 10px;" size="small" type="primary">确认</el-button>
+		</el-dialog>
 	</div>
 </template>
 <script>
 import AppTable from '@/components/common/AppTable'
 import SearchInput from '@/components/common/SearchInput'
+import AppSwitch from '@/components/form/AppSwitch'
 import {mapGetters} from 'vuex' 
 
 export default {
@@ -19,6 +26,9 @@ export default {
 		return {
 			searchValue: '',
 			initData: [],
+			feeIds: '',
+			dialogVisible: false,
+			is_invoice: 0,
 			columns: [
 				{ type: 'selection'},
 				{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '200'},
@@ -60,6 +70,27 @@ export default {
 				this.initData = _.data.data;
 			}; 
 			this.$axiosGet({ url, data, success });
+		},
+		confirmEstimate () {
+			const s =this.$refs.table.getSelected();
+			console.log(s)
+			if (s) {
+				this.feeIds = this.$tool.splitObj(s, 'id');
+				console.log(this.feeIds)
+				this.dialogVisible = true;
+			}
+		},
+		submit () {
+			const is_invoice = this.is_invoice;
+			const fees = this.feeIds;
+			const url = `/renewal_confirmation_sheets/${this.id}/confirm`;
+			const data = { fees , is_invoice};
+
+			const success = _=> {
+				this.$message({type: 'success', message: _.info });
+				this.dialogVisible = false;
+			};
+			this.$axiosPut({ url, data, success });
 		},
 		deleteRenewal () {
 			const s = this.$refs.table.getSelected();
@@ -117,6 +148,7 @@ export default {
 	components: {
 		AppTable,
 		SearchInput,
+		AppSwitch,
 	}
 }
 </script>

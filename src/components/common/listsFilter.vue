@@ -48,7 +48,7 @@ export default {
   },
   data () {
   	return {
-  	  	contain_relate: 1, 
+  	  	contain_relate: '', 
   	  	value:'',
   	  	filters:{},
   	}
@@ -144,6 +144,14 @@ export default {
   destroyed() {
     window.listHeaderFilter = null;
   }, 
+  watch: {
+    'source': {
+      handler (val) {
+       return val.type === 'text' ? this.contain_relate = 3 : this.contain_relate = 1;
+      },
+      immediate: true,
+    }
+  },
   components:{
   	StaticSelect,
   	FilterCondition,

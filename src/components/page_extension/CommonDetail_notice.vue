@@ -175,9 +175,9 @@ export default {
         fees: []
       },
       columns: [
-          { type: 'text', label: '通知书名称', prop: 'notice_name', min_width: '220' },
+          { type: 'text', label: '通知书名称', prop: 'name', render_key: 'file', render_simple: 'name', min_width: '220' },
           { type: 'text', label: '发文日', prop: 'mail_date', min_width: '160' },
-          { type: 'text', label: '官方绝限', prop: 'deadline', min_width: '160' },
+          { type: 'text', label: '官方绝限', prop: 'legal_deadline', min_width: '160' },
           // { type: 'text', label: '发文序列号', prop: 'notice_serial', width: '190' },
           // { type: 'text', label: '审查员', prop: 'examiner', width: '210' },
           // { type: 'text', label: '审查部门', prop: 'examiner_dept', width: '210' },
@@ -199,7 +199,7 @@ export default {
         { type: 'text', label: '文件格式', prop: 'ext' ,width:'100'},
         { type: 'text', label: '文件大小', prop: 'size' ,width:'100'},
         { type: 'text', label: '上传人', prop: 'uploader',width:'100' },
-        { type: 'text', label: '上传时间', prop: 'create_time' ,width:'145'},
+        { type: 'text', label: '上传时间', prop: 'creation_time' ,width:'145'},
         {
           type: 'action',
           width: '175',

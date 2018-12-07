@@ -77,7 +77,8 @@
       </el-form-item >
 
       <el-form-item label="发明人" prop="inventors" v-if="!menusMap.get('/iprs')">
-        <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors>
+        <!-- <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors> -->
+         <remote-select type="inventor" :page-type="type" v-model="form.inventors" multiple></remote-select>
       </el-form-item>
 
 <!--       <el-form-item label="送件发明人">
@@ -178,16 +179,16 @@ export default {
         'title':{ required: true, message: '标题不能为空', trigger: 'blur' },
         'serial':{ required: true, message: '案号不能为空', trigger: 'blur' },
         'subtype': { type: 'number', required: true, message: '专利类型不能为空', trigger: 'change' },
-        'english_title': {message: '只能输入英文和空格', trigger: 'blur', pattern: /^(?!_)([A-Za-z ]+)$/},
-        'inventors': {
-          type: 'array',
-          trigger: 'change',
-          validator: (a,b,c)=>{
-            this.$nextTick(_=>{
-              checkInventors(a, this.form.inventors, c, false);
-            })       
-          },
-        },
+        'english_title': {message: '请输入英文标题', trigger: 'blur', pattern:/^[^\u4e00-\u9fa5]*$/},
+        // 'inventors': {
+        //   type: 'array',
+        //   trigger: 'change',
+        //   validator: (a,b,c)=>{
+        //     this.$nextTick(_=>{
+        //       checkInventors(a, this.form.inventors, c, false);
+        //     })       
+        //   },
+        // },
       },
     };
   },
@@ -258,7 +259,7 @@ export default {
         this.form.area = form['area']?[form['area']]:[];
       }
       if(form['area'] != undefined && t == 'edit') {
-        this.form.area = form['area'];
+        this.form.area = form['area']['id'];
       }      
       if(form['extension']) {
         const arr = [];

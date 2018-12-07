@@ -3,8 +3,7 @@
 		<span style="float: right;" slot="header">
 			<el-button size="small" type="primary" @click="save">保存</el-button>
 			<el-button size="small" type="danger" @click="deleteEstimate">删除</el-button>
-			<el-button size="small">发送邮件</el-button>
-			<el-button size="small" type="primary" @click="confirmEstimate">评估单确认</el-button>
+			<el-button size="small" @click="sendMail">发送邮件</el-button>
 		</span>
 		<el-form :model="form" label-width="80px" label-position="left" class="form-information" v-loading="loading" element-loading-text="加载评估单信息中..." style="padding: 0px 20px;" ref="form">
 			<el-row :gutter="20">
@@ -34,7 +33,7 @@
 	  			</el-col>
 	  		</el-row>
 		</el-form>
-		<el-tabs v-model="active" style="margin-top: 10px;" @tab-click="handleTags">
+		<el-tabs v-model="active" style="margin-top: 10px;">
 			<el-tab-pane label="年费清单" name="fees_list">
 				<fees-list ref="fees_list" :id="id"></fees-list>
 			</el-tab-pane>
@@ -48,13 +47,10 @@
 				<mails :id="id"></mails>
 			</el-tab-pane>
 		</el-tabs>
-
-		<el-dialog :visible.sync="dialogVisible" title="评估单确认" width="25%" :modal="false">
-			<span>生成请款单：</span>
-			<app-switch type="is" v-model="is_invoice"></app-switch>
-			<el-button @click="submit" style="display: block; margin-top: 10px;" size="small" type="primary">确认</el-button>
-		</el-dialog>
-	</app-shrink>		
+		<app-shrink :visible.sync="shrinkVisible" :title="`邮件`">
+        	<mail-add @refresh="handleRefresh" ref="mail_add" :data="backData"></mail-add>
+      	</app-shrink>
+	</app-shrink>
 </template>
 
 <script>
@@ -62,8 +58,8 @@ import AppShrink from '@/components/common/AppShrink'
 import FeesList from '@/components/page_extension/Renewal_fees_list'
 import OfficialFees from '@/components/page_extension/Renewal_official_fees'
 import AgentFees from '@/components/page_extension/Renewal_agent_fees'
-import AppSwitch from '@/components/form/AppSwitch'
 import Mails from '@/components/page_extension/Renewal_mails'
+import MailAdd from '@/components/page/MailAdd'
 import { mapGetters, mapActions } from 'vuex'
 
 const URL = '/renewal_confirmation_sheets'
@@ -84,9 +80,8 @@ export default {
 	data () {
 		return {
 			loading: false,
-			feeIds: '',
-			dialogVisible: false,
-			is_invoice: 0,
+			backData: '',
+			shrinkVisible: false,
 			active: 'fees_list',
 			form: {
 				price: '',
@@ -112,6 +107,9 @@ export default {
 		handleVisible (val) {
 			this.$emit('update:visible', val);
 		},	
+		handleRefresh () {
+			this.shrinkVisible = false;
+		},
 		save () {
 			this.$refs['form'].validate(_=>{
 				if(_) {
@@ -140,29 +138,16 @@ export default {
 			}).catch(_=>{
 
 			})
-		},	
-		confirmEstimate () {
-			const s =this.$refs.fees_list.$refs.table.getSelected();
-			if (s) {
-				this.feeIds = this.$tool.splitObj(s, 'id');
-				this.dialogVisible = true;
-			}
 		},
-		submit () {
-			const is_invoice = this.is_invoice;
-			const fees = this.feeIds;
-			const url = `${URL}/${this.id}/confirm`;
-			const data = { fees , is_invoice};
+		sendMail () {
+			const url = `/mails/templates?mail_type=8&id=${this.id}`;
+			const success = _=>{
+				this.backData = _.data;
+				this.shrinkVisible = true;
 
-			const success = _=> {
-				this.$message({type: 'success', message: _.info });
-				this.dialogVisible = false;
 			};
-			this.$axiosPut({ url, data, success });
-		},
-		handleTags (tag, event) {
-
-		},
+			this.$axiosGet({ url, success });
+		},	
 	},
 	created () {
 		this.refreshEstimateDetail({id: this.id});
@@ -186,7 +171,7 @@ export default {
 		OfficialFees,
 		AgentFees,
 		Mails,
-		AppSwitch,
+		MailAdd,
 	},
 }
 </script>
