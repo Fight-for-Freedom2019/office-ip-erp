@@ -1,3 +1,4 @@
+import Vue from 'vue'
 let url = '/products';
 const state = {
 	data: [],
@@ -26,7 +27,7 @@ const setTreeData = (data, pId, res) => {
 		if(data[i].children == undefined) {
 			Vue.set(data[i], 'children', []);
 		}
-		if(td.id == pId ) {
+		if(td.id === pId ) {
 			if(Array.isArray(res)) {
 				for(let item of res) {
 					console.log(item)
@@ -35,7 +36,7 @@ const setTreeData = (data, pId, res) => {
 			}else {
 				data[i].children.splice(len, 0, res);
 			}
-			return;
+			break;
 		}else {
 			if(td.children && td.children.length != 0) {
 				setTreeData(td.children, pId, res);

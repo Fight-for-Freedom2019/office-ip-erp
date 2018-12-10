@@ -36,7 +36,7 @@
 			  <el-input v-model="form.smtp_port" placeholder="请输入SMTP端口"></el-input>
 			</el-form-item>
 			<el-form-item label="是否使用SSL" prop="is_ssl">
-	    	  <app-switch v-model="form.is_ssl" type="is"></app-switch>
+	    	  <app-switch v-model="form.is_ssl" type="is_boolean"></app-switch>
 			</el-form-item>		
 			<el-form-item label="是否激活" prop="is_active" v-if="type=='edit'">
 	    	  <app-switch v-model="form.is_active" type="is_boolean"></app-switch>
@@ -76,7 +76,7 @@ export default {
  	  	pop_port: '',
  	  	smtp_server: '',
  	  	smtp_port: '',
- 	  	is_ssl: 0,
+ 	  	is_ssl: false,
  	  	is_active: false,
  	  },
  	  rules:{

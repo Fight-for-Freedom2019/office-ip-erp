@@ -54,10 +54,10 @@
       <template v-else-if="col.render_simple ? true : false ">
         <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
           <template slot-scope="scope">
-            <span class="table-column-render">{{ handleSimple(scope.row, col) }}</span>
+            <span class="table-column-render">{{ handleSimple(scope.row, col) }}</span> 
           </template>
         </el-table-column>
-      </template>
+      </template>      
 
       <template v-else>
         <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
@@ -399,11 +399,20 @@ export default {
       this.filters[key] = this.getDefaultValue(key);
     },
     handleSimple (row, col) {
-      const key = col.render_key ? col.render_key : col.prop;
-      const obj = row[key];
-
-      return row[key] ? row[key][col.render_simple] : '';
-
+        const key = col.render_key ? col.render_key  :  col.render_obj ? col.render_obj : col.prop;
+        if(row[key]) {
+          if(!col.render_obj) {
+            return  row[key][col.render_simple];
+          }else {
+            if(col.prop && row[key][col.prop]) {
+              return row[key][col.prop][col.render_simple];
+            }else {
+              return ''
+            }
+          }
+        }else {
+          return ''
+        }
     },
     handleHeaderClose(key) {
       console.log(this.$refs);

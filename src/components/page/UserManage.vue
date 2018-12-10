@@ -61,7 +61,6 @@ export default {
   	  tableData: [],
   	  nodeData: '',
   	  roleType: '',
-  	  isOrg: false,
   	}
   },
   methods: {
@@ -74,11 +73,7 @@ export default {
   	handleTree (val,type) {
   		this.nodeData = val;
   		this.roleType = type;
-  		this.isOrg = true;
   		this.refresh();
-  		setInterval(()=>{
-			this.isOrg = false;
-		},200);
   	},
   	handleRefresh () {
   		this.refresh();
@@ -86,13 +81,11 @@ export default {
   	refreshTableData(option) {
 	    const url = URL;
 		const data = Object.assign({},option);
-		if (this.isOrg) {
 			if(this.roleType === 'organization') {
 				data.organization_units = this.nodeData.id;
 			}else if (this.roleType === 'rolegroups') {
 				data.roles = this.nodeData.id;
 			}
-		}
 	    const success = _=>{
 	        console.log(_)
 	        this.tableData = _.data;
