@@ -24,7 +24,12 @@
     <app-collapse :col-title="`监控中的年费(总计：${detailAnnual.sum?detailAnnual.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailAnnual.list ? detailAnnual.list : []"></app-table>
     </app-collapse>
-    <pop ref="pop" :feeType="1" @refresh="refresh"></pop>
+    <app-shrink :visible.sync="visible" title="费用编辑">
+       <span slot="header" style="float: right;">
+                <el-button type="primary" size="small" @click="save('edit')">保存</el-button>
+        </span>
+      <fee :row-data="currentRowFee" ref="fee"></fee>
+    </app-shrink>
     <renewal-pop ref="renewalPop" @refresh="refresh"></renewal-pop>
   </div>
 </template>
@@ -32,7 +37,8 @@
 <script>
 import AppTable from '@/components/common/AppTable'
 import AppCollapse from '@/components/common/AppCollapse'
-import Pop from '@/components/page_extension/FeeCommon_pop'
+import AppShrink from '@/components/common/AppShrink'
+import Fee from '@/components/page_extension/RequestPayoutAdd'
 import RenewalPop from '@/components/page_extension/RenewalFee_pop'
 import { mapGetters } from 'vuex'
 const URL = '';
@@ -40,7 +46,9 @@ const URL = '';
 export default {
   name: 'commonDetailFee',
   data () {
-		return {			
+		return {	
+      visible: false,
+      currentRowFee: '',		
 		  columns:[
         { type: 'text', label: '费用名称', prop: 'name', min_width: '145'},
         { type: 'text', label: '费用对象', prop: 'target', render_simple: 'name',},
@@ -73,7 +81,7 @@ export default {
         { 
           type: 'action',
           label: '操作',
-          width: '150',
+          width: '110',
           fixed: false,
           btns: [
             {type: 'edit', click: this.editFee},
@@ -103,11 +111,12 @@ export default {
   },
   methods: {
     editFee (row) {
-      if(row.type == 1) {
-        this.$refs.renewalPop.show(row);
-      }else {
-        this.$refs.pop.show(row);        
-      }
+      this.visible = true;
+      this.currentRowFee = row;
+    },
+    save (type) {
+      const id = this.currentRowFee.id;
+      this.$refs.fee.save(type, id);
     },
     refresh () {
       this.refreshDetailData();
@@ -129,7 +138,8 @@ export default {
   components: { 
   	AppCollapse,
   	AppTable,
-    Pop,
+    Fee,
+    AppShrink,
     RenewalPop,
   }
 }
