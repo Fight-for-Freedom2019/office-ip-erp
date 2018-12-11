@@ -1,16 +1,20 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogVisible" class="dialog-small">
+  <!-- <el-dialog :title="title" :visible.sync="dialogVisible" class="dialog-small"> -->
+  <app-shrink :title="title" :visible.sync="dialogVisible">
+     <span slot="header" style="float: right;">
+        <el-button type="primary" @click="edit" :loading="btn_disabled" size="mini">{{ btn_disabled ? '保存中...' : '保存' }}</el-button>
+      </span>  
   	<el-form label-width="80px" ref="form" :model="form" :rules="rules">
   		
   		<el-form-item label="相关案件" prop="project">
 				<remote-select type="project" v-model="form.project"></remote-select>
 			</el-form-item>
-			<el-form-item label="年费对象" prop="target">
+<!-- 			<el-form-item label="年费对象" prop="target">
 				<remote-select type="member" v-model="form.target"></remote-select>
 			</el-form-item>
       <el-form-item label="年费地区" prop="area">
         <static-select type="area" v-model="form.area"></static-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="年费类型" prop="code">
         <static-select  type="fee_code_renewal" v-model="form.code" ref="fee_code" :filter-options="areaFilter"></static-select>
       </el-form-item>
@@ -31,7 +35,7 @@
 				</el-row>
 			</el-form-item>
 
-			<el-row>
+<!-- 			<el-row>
 				<el-col :span="12">
 					<el-form-item label="费用期限" prop="due_time">
 						<el-date-picker v-model="form.due_time" type="date" placeholder="请选择费用期限"></el-date-picker>
@@ -43,21 +47,18 @@
 					</el-form-item>
 				</el-col>
 			</el-row>
-  	
+  	 -->
   		<el-form-item prop="remark" label="备注">
   			<el-input type="textarea" v-model="form.remark" placeholder="请填写年费备注"></el-input>
   		</el-form-item>
-
-  		<el-form-item style="margin-bottom: 0px;">
-  			<el-button type="primary" @click="add" :loading="btn_disabled">{{ btn_disabled ? '添加中...' : '添加年费' }}</el-button>
-  		</el-form-item>
-
   	</el-form>
-  </el-dialog>
+  </app-shrink>  
+  <!-- </el-dialog> -->
 </template>
 
 <script>
 import PopMixins from '@/mixins/pop-mixins'
+import AppShrink from '@/components/common/AppShrink'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import StaticSelect from '@/components/form/StaticSelect'
 import { checkMoney } from '@/const/validator.js'
@@ -77,10 +78,10 @@ export default {
       		currency: '',
       		roe: '',
       	},
-      	due_time: '',
-      	deadline: '',
+      	// due_time: '',
+      	// deadline: '',
       	remark: '',
-      	target: '',
+      	// target: '',
       },
       rules: {
         'project': { type: 'number', required: true, message: '请选择相关案件' },
@@ -137,11 +138,12 @@ export default {
       }
     }
 	},
-	URL: '/api/renewalfee',
+	URL: '/renewal_fees',
   REMINDER_TEXT: '年费',
   components: {
   	StaticSelect,
   	RemoteSelect,
+    AppShrink,
   }
 }
 </script>

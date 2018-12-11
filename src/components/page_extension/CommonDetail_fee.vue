@@ -24,13 +24,13 @@
     <app-collapse :col-title="`监控中的年费(总计：${detailAnnual.sum?detailAnnual.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailAnnual.list ? detailAnnual.list : []"></app-table>
     </app-collapse>
-    <app-shrink :visible.sync="visible" title="费用编辑">
+    <app-shrink  :visible.sync="visible" title="费用编辑">
        <span slot="header" style="float: right;">
                 <el-button type="primary" size="small" @click="save('edit')">保存</el-button>
         </span>
       <fee :row-data="currentRowFee" ref="fee"></fee>
     </app-shrink>
-    <renewal-pop ref="renewalPop" @refresh="refresh"></renewal-pop>
+    <renewal-fee @refresh="refresh"></renewal-fee>
   </div>
 </template>
 
@@ -39,10 +39,8 @@ import AppTable from '@/components/common/AppTable'
 import AppCollapse from '@/components/common/AppCollapse'
 import AppShrink from '@/components/common/AppShrink'
 import Fee from '@/components/page_extension/RequestPayoutAdd'
-import RenewalPop from '@/components/page_extension/RenewalFee_pop'
-import { mapGetters } from 'vuex'
-const URL = '';
-
+import RenewalFee from '@/components/page_extension/RenewalFee_pop'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'commonDetailFee',
   data () {
@@ -110,27 +108,38 @@ export default {
   	}*/
   },
   methods: {
-    editFee (row) {
+    ...mapActions([
+      'refreshDetailData',
+    ]),
+    editFee ({id, fee_type}) {
       this.visible = true;
-      this.currentRowFee = row;
+      const url = fee_type == 'renewal_fees' ? `/renewal_fees/${id}` : `/fees/${id}`;
+      const success = _=> {
+        this.currentRowFee = _.data;
+      };
+      this.$axiosGet({url, success});
     },
     save (type) {
       const id = this.currentRowFee.id;
       this.$refs.fee.save(type, id);
+      this.$nextTick(_=>{
+        this.refresh();
+      })
     },
     refresh () {
       this.refreshDetailData();
     },
-    deleteFee ({id,name}) {
-      const url = `${URL}/${id}`;
+    deleteFee ({id,name,fee_type}) {
+      const url = fee_type == 'renewal_fees' ? `/renewal_fees` : `/fees`;
+      const data = {id}
       const success = _=>{ 
         this.$message({message: `删除${name}成功！`, type: 'success'});
-        this.refreshDetailData();
+        this.refresh();
       };
 
       this.$confirm(`删除后不可恢复，确认删除用户‘${name}’？`,'删除确认',{type: 'warning'})
         .then(_=>{
-          this.$axiosDelete({url, success});
+          this.$axiosDelete({url, data, success});
         })
         .catch(_=>{});    
     },
@@ -139,8 +148,8 @@ export default {
   	AppCollapse,
   	AppTable,
     Fee,
+    RenewalFee,
     AppShrink,
-    RenewalPop,
   }
 }
 </script>

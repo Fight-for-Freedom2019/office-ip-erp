@@ -62,9 +62,15 @@ const mutations = {
 	setProduct (state, d) {
 		state.data = d;
 	},
-	addproduct (state, {pId,d}) {
-		const cacheData = [...state.data];
-		setTreeData(cacheData, pId ,d);
+	addproduct (state, {n,pd,cd}) {
+		if (!pd.children) {
+          Vue.set(pd, 'children', []);
+        }
+        // 数据有了但视图没有刷新，这里手动调用element底层方法强制刷新当前树子节点
+      	pd.children.push(cd);
+        const oldChildren = n.childNodes;
+        oldChildren.splice(0,oldChildren.length);
+        n.doCreateChildren(pd.children);
 	},
 	addFirstproduct (state, d) {
 		state.data.push(d);

@@ -25,7 +25,7 @@
 				  </el-select>
 	  		</el-col>
 	  		<el-col :span="16" style="padding: 0 5px">
-	  			<jump-select type="patent" :value-key="`key__${index}`" :value="item['id']['id']" @input="val=>{ handleProjects(val, index)}" ref="relativeProjects"></jump-select>
+	  			<jump-select type="专利" :value-key="`key__${index}`" :value="item['id']['id']" @input="val=>{ handleProjects(val, index)}" ref="relativeProjects"></jump-select>
 	  		</el-col>
 	  		<el-col :span="2" style="padding-left: 5px">
 	  			<el-button type="text" size="mini" @click="dataDelete(index)">删除</el-button>
