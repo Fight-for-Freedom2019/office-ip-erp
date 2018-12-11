@@ -182,7 +182,7 @@ export default {
 					}
 				]
 			},
-			tableData: [{id: 1,remark: 'fdf'}],
+			tableData: [],
 		};
 	},
 	methods: {
@@ -219,11 +219,11 @@ export default {
 			this.$refs.table.search(val);
 		},
 		refreshTableData (option) {
-			// this.$axiosGet({
-			// 	url: URL,
-			// 	data: Object.assign({}, option, this.defaultParams),
-			// 	success: _=>{this.tableData = _.data},
-			// })
+			this.$axiosGet({
+				url: URL,
+				data: Object.assign({}, option, this.defaultParams),
+				success: _=>{this.tableData = _.data},
+			})
 		},
 		estimatePop (type) {
 			const list = this.$refs.table.getSelected();

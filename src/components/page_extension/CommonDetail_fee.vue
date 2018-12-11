@@ -111,9 +111,9 @@ export default {
     ...mapActions([
       'refreshDetailData',
     ]),
-    editFee ({id, fee_type}) {
+    editFee ({id, is_renewal}) {
       this.visible = true;
-      const url = fee_type == 'renewal_fees' ? `/renewal_fees/${id}` : `/fees/${id}`;
+      const url = is_renewal ? `/renewal_fees/${id}` : `/fees/${id}`;
       const success = _=> {
         this.currentRowFee = _.data;
       };
@@ -129,8 +129,8 @@ export default {
     refresh () {
       this.refreshDetailData();
     },
-    deleteFee ({id,name,fee_type}) {
-      const url = fee_type == 'renewal_fees' ? `/renewal_fees` : `/fees`;
+    deleteFee ({id,name, is_renewal}) {
+      const url = is_renewal ? `/renewal_fees` : `/fees`;
       const data = {id}
       const success = _=>{ 
         this.$message({message: `删除${name}成功！`, type: 'success'});

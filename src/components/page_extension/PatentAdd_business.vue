@@ -73,7 +73,7 @@ export default {
       });
     },
     submitForm () {
-      return this.form;
+      return this.$tool.shallowCopy(this.form, {skip: ['fees']});
     },
     checkForm (callback) {
        let flag = true;
