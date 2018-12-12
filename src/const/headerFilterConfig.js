@@ -248,12 +248,12 @@ const map = new Map([
     /* 交互>客户端>通知书 */
     ['cpc_notice', [
         // { type: 'remote_select',    id: 'project',              name: '匹配案件',       data_key: 'data',          url: '/projects?project_type=专利&listOnly=1'},
-        { type: 'static-select',    id: 'source',               name: '来源',           map_type: 'cpc_notice_source'},
+        { type: 'static_select',    id: 'source',               name: '来源',           map_type: 'cpc_notice_source'},
         { type: 'date',             id: 'creation_time',        name: '上传时间'},
         { type: 'date',             id: 'imported_date',        name: '导入时间'},
         { type: 'date',             id: 'cpc_legal_deadline',   name: '官方绝限'},
         { type: 'date',             id: 'cpc_mail_date',        name: '发文日'},
-        { type: 'static-select',    id: 'is_imported',          name: '是否导入',       map_type: 'status'},
+        { type: 'static_select',    id: 'is_imported',          name: '是否导入',       map_type: 'status'},
         { type: 'text',             id: 'cpc_mail_serial',      name: '发文序列号'},
         { type: 'text',             id: 'remark',               name: '备注'},
         { type: 'text',             id: 'cpc_serial',           name: '内部案号'},
@@ -264,8 +264,8 @@ const map = new Map([
         { type: 'date',             id: 'filed_time',        name: '送件日'},
         { type: 'date',             id: 'legal_deadline',    name: '官方绝限'},
         { type: 'date',             id: 'filing_deadline',   name: '递交期限'},
-        { type: 'static-select',    id: 'filing_status',     name: '送件状态',       map_type: 'cpc_archive_status'},
-        { type: 'static-select',    id: 'process_definition',name: '管制事项',       map_type: 'process_definition'},
+        { type: 'static_select',    id: 'filing_status',     name: '送件状态',       map_type: 'cpc_archive_status'},
+        { type: 'static_select',    id: 'process_definition',name: '管制事项',       map_type: 'process_definition', url:true},
     ]],
 ]);
 export {map};
