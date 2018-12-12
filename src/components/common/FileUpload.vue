@@ -93,7 +93,7 @@
       
     </el-table>
     
-    <el-button type="primary" @click="importData" :loading="loading">{{ loading ? '上传中...' : '确认上传' }}</el-button>
+    <el-button type="primary" @click="importData" :loading="loading" :disabled="disabled">{{ loading ? '上传中...' : '确认上传' }}</el-button>
   </div>
 </template>
 
@@ -171,6 +171,7 @@ export default {
       project_id: '',
       $index: null,
       loading: false,
+      disabled: false,
     }
   },
   computed: {
@@ -221,7 +222,7 @@ export default {
       if(!selected) {
         f = {};
       }else {
-        f = JSON.parse(selected.fields);
+        f = selected.fields;
       }
       if (!f) return;
       const copy = this.$tool.deepCopy(this.tableData[index]);
@@ -354,9 +355,11 @@ export default {
       };
       const complete = _=>{
         this.loading = false;
+        this.disabled = false;
       }
 
       this.loading = true;
+      this.disabled = true;
       this.$axiosPost({url, data, success, complete});
     },
     handleSuccess (a,b,c) {

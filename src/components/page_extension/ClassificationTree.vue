@@ -120,13 +120,14 @@ export default {
         )
     },
     refreshData (str, form, data) {
-      const node = this.parentNode; 
+      const n = this.parentNode; 
+      const pd = this.parentData;
       const t = this.pageType;
       if(str == 'add') {
         // if(Array.isArray(node.childNodes)) {
-        const len = node.childNodes.length;
         const pId = form.parent ? form.parent : this.parentData.id;
-        this.$store.commit(`add${t}`,{pId , d: data[t]});
+        const cd = data[t];
+        this.$store.commit(`add${t}`,{n, pd, cd});
         // }
       }else if(str == 'edit') {
         this.$store.commit(`update${t}`,{d:this.parentData,res:form.name});

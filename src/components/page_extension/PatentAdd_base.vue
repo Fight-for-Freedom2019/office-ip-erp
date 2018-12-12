@@ -34,7 +34,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="案件等级">
-            <static-select type="case_level" v-model="form.level"></static-select>
+            <static-select type="project_level" v-model="form.level"></static-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -248,7 +248,7 @@ export default {
     setForm (form, upload=false, disclosureType='') {
       const t = this.type;
       this.$tool.coverObj(this.form, form, {
-        obj: [ 'attachments', 'area', 'subtype','case_level', 'legal_status','agency_type'], 
+        obj: [ 'attachments', 'area', 'subtype','level', 'project_stage','agency_type'], 
         skip:[ 'extension', 'title'],
       });
 

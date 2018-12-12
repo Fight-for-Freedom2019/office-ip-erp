@@ -133,6 +133,7 @@ export default {
 
       }else if (str == 'edit') {
         node.data.name = children.name
+        this.$emit('refresh',node.data, this.radio)
       }
     },
     handleLoadNode (node, resolve) {
@@ -153,7 +154,11 @@ export default {
         resolve(data);
       };
 
-      this.$axiosGet({ url, data, success });
+      const error = _=>{
+        resolve([])
+      };
+
+      this.$axiosGet({ url, data, success, error});
     },
     loadChildrenNode (node,resolve) {
       console.log(node)
@@ -166,7 +171,11 @@ export default {
         resolve(data);
       };
 
-      this.$axiosGet({ url, data, success });
+      const error = _=>{
+        resolve([]);
+      };
+
+      this.$axiosGet({ url, data, success, error});
     },
     renderContent (h,{node, data, store}) {
       return (
@@ -181,7 +190,13 @@ export default {
         )
     },
     refreshUserListData (data) {
-      this.$emit('refresh', data, this.radio);
+      /*判断是否是首次点击*/
+      if(this.lastIndex != data.id) {
+        this.$emit('refresh', data, this.radio);
+      }else{
+        return false;
+      }
+      this.lastIndex = data.id;
     },
     addChildTree (n,d,s) {
       this.currentId = d.id;
@@ -224,6 +239,7 @@ export default {
         const url = this.radio ==='rolegroups' && n.level == 2 ? `/roles/${d.id}` : `${this.URL}/${d.id}`;
         const success = _=>{
           this.remove(n,d);
+          this.$emit('refresh', d, this.radio);
         };
 
         this.$axiosDelete({ url, success });
@@ -240,6 +256,7 @@ export default {
           containerNavHeight:62,    // .container-nav的高
           inputGroupHeight:"",
 		  filterText: '',
+      lastIndex: '',
       radio: 'organization',
       filterData: [],
       treeBtn: 'tree_btn',

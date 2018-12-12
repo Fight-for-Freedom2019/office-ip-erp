@@ -172,6 +172,14 @@ export default {
 					{ type: 'text', label: '案件费用策略', prop: 'fee_policy', render_key: 'project', render_simple: 'name', width: '200'},
 					{ type: 'text', label: '评估单号', prop: 'confirmation_sheet', render_simple: 'serial', width: '200'},
 					{ type: 'text', label: '备注', prop: 'remark', width: '200'},
+					{
+						type: 'action',
+						label: '操作',
+						width: '110',
+						btns: [
+							{type: 'edit', click: this.editPop, icon: 'el-icon-plus' }
+						]
+					}
 				]
 			},
 			tableData: [],
@@ -200,6 +208,9 @@ export default {
     },	
 		addPop () {
 			this.$refs.pop.show();
+		},
+		editPop (row) {
+			this.$refs.pop.show('edit',row);
 		},
 		refresh () {
 			this.$refs.table.refresh();

@@ -92,6 +92,11 @@ const map = new Map([
 		DATA_KEY: 'projects',
 		PLACEHOLDER: '请输入CPC关键词',
 	}],
+  ['project', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入案件关键词',
+  }],   
   ['专利', {
     URL: '/projects',
     DATA_KEY: 'projects',

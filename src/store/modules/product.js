@@ -1,3 +1,4 @@
+import Vue from 'vue'
 let url = '/products';
 const state = {
 	data: [],
@@ -26,7 +27,7 @@ const setTreeData = (data, pId, res) => {
 		if(data[i].children == undefined) {
 			Vue.set(data[i], 'children', []);
 		}
-		if(td.id == pId ) {
+		if(td.id === pId ) {
 			if(Array.isArray(res)) {
 				for(let item of res) {
 					console.log(item)
@@ -35,7 +36,7 @@ const setTreeData = (data, pId, res) => {
 			}else {
 				data[i].children.splice(len, 0, res);
 			}
-			return;
+			break;
 		}else {
 			if(td.children && td.children.length != 0) {
 				setTreeData(td.children, pId, res);
@@ -61,9 +62,15 @@ const mutations = {
 	setProduct (state, d) {
 		state.data = d;
 	},
-	addproduct (state, {pId,d}) {
-		const cacheData = [...state.data];
-		setTreeData(cacheData, pId ,d);
+	addproduct (state, {n,pd,cd}) {
+		if (!pd.children) {
+          Vue.set(pd, 'children', []);
+        }
+        // 数据有了但视图没有刷新，这里手动调用element底层方法强制刷新当前树子节点
+      	pd.children.push(cd);
+        const oldChildren = n.childNodes;
+        oldChildren.splice(0,oldChildren.length);
+        n.doCreateChildren(pd.children);
 	},
 	addFirstproduct (state, d) {
 		state.data.push(d);

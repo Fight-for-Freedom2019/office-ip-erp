@@ -174,11 +174,20 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .filter-visible-body {
 	display: -webkit-flex;
   display: flex;
+   .el-transfer-panel__list {
+    margin: 0;
+    padding: 6px 0;
+    list-style: none;
+    height: 600px;
+    overflow: auto;
+    box-sizing: border-box;
+  }
 }
+
 .filter-visible-body-left {
 	-webkit-flex: 0 0 auto;
   flex: 0 0 auto;

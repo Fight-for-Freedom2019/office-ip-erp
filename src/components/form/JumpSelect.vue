@@ -77,6 +77,24 @@ const map = new Map([
     PLACEHOLDER: '请输入代理机构关键词',
     PARAMS: { poa: 1 },
   }],
+   ['专利', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入专利关键词',
+    PARAMS: { project_type: '专利' },
+  }], 
+  ['商标', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入商标关键词',
+    PARAMS: { project_type: '商标' },
+  }],
+  ['版权', {
+    URL: '/projects',
+    DATA_KEY: 'projects',
+    PLACEHOLDER: '请输入版权关键词',
+    PARAMS: { project_type: '版权' },
+  }],  
   ['ipr',{
     URL: '/iprs',
     DATA_KEY: 'members',

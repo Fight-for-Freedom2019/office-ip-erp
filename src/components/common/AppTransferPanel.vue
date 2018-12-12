@@ -33,7 +33,7 @@ import $ from 'jquery'
 
 export default {
 	name: 'appTransferPanel',
-	props: ['title', 'placeholder', 'value', 'data'],
+	props: ['title', 'placeholder', 'value', 'data',],
 	data () {
 		return {
 			search: '',
@@ -183,14 +183,6 @@ $width: 200px;
     height: 22px;
     width: 100%;
     display: inline-block;
-    box-sizing: border-box;
-  }
-  .app-transfer-panel .el-transfer-panel__list {
-    margin: 0;
-    padding: 6px 0;
-    list-style: none;
-    height: 600px;
-    overflow: auto;
     box-sizing: border-box;
   }
   .app-transfer-panel__item {

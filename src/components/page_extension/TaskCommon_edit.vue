@@ -1,9 +1,9 @@
 <template>  
   	<el-form label-width="110px" :model="form" ref="form" :rules="rules">
-      <el-form-item label="案件类型" prop="category" v-if="type == 'add'">
-        <static-select type="project_type" v-model="form.category"></static-select>
+      <el-form-item label="案件类型" prop="project_type" v-if="type == 'add'">
+        <static-select type="project_type" v-model="form.project_type"></static-select>
       </el-form-item>
-      <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.category != null">
+      <el-form-item label="相关案件" prop="model" v-if="type == 'add' && form.project_type != null">
         <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>
       </el-form-item>  
       <el-form-item label="管制事项" prop="process_definition"  v-if="form.model != null">
@@ -250,8 +250,8 @@ export default {
     },
     async edit () {
       await this.checkForm()
-      if(this.form.category) {
-        this.form.category = this.form.category['id'];
+      if(this.form.project_type) {
+        this.form.project_type = this.form.project_type['id'];
       }
 
       const url = `${URL}/${this.row.id}`;
@@ -263,7 +263,7 @@ export default {
       await this.$axiosPut({url, data, success, complete });
     },
     clear () {
-      this.form.category = '';
+      this.form.project_type = '';
       this.$refs.form.resetFields();
     },
     fill (o,f,d) {
@@ -324,7 +324,7 @@ export default {
     };
   	return {
       form: {
-        category: null,
+        project_type: null,
         model: null,
         process_definition: '',
         process_flow: '',
@@ -360,7 +360,7 @@ export default {
       attachments: [],
       btn_disabled: false,
       rules: {
-        category: getRules('案件类型不能为空', 'string'),
+        project_type: getRules('案件类型不能为空', 'string'),
         model: getRules('相关案件不能为空', 'number'),
         process_definition: getRules('管制事项不能为空', 'number'),
         process_flow: getRules('流程不能为空', 'number'),
@@ -387,7 +387,7 @@ export default {
   },
   computed: {
     projectType () {
-      const config = this.type == 'add'? typeMap.get(this.form.category) : '';
+      const config = this.type == 'add'? typeMap.get(this.form.project_type) : '';
       return config;
     },
     flowsData () {
