@@ -116,7 +116,7 @@ export default {
 	methods: {
 		handleRefreshDetail () {
 			const url = '/fees';
-			const data = { renewal_confirmation_sheet_id: this.id, is_debit: 0 };
+			const data = { renewal_confirmation_sheet: this.id, is_debit: 0 };
 			const success = _=> {
 				this.initData = _.data.data;
 			}; 

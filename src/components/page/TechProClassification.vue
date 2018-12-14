@@ -182,7 +182,7 @@ export default {
       let extraParams = {};
       extraParams[`is_${t}_child`] = 0;
       extraParams[`${t}_id`] = this.filter_id;
-	    const data = Object.assign({},option, extraParams);
+	    const data = Object.assign({},option, extraParams,{listRows: 10000});
 	   
 	    const success = _=>{
 	        console.log(_)

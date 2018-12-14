@@ -13,6 +13,7 @@
 import TableComponent from '@/components/common/TableComponent'	
 import UserTree from '@/components/common/UserTree'
 import Edit from '@/components/page_extension/UserManage_edit'
+import { mapMutations } from 'vuex'
 const URL = '/users'
 export default {
   name: 'userManage',
@@ -64,6 +65,9 @@ export default {
   	}
   },
   methods: {
+    ...mapMutations([
+      'setPageSize',
+    ]),
   	addShrink () {
   		this.$refs.edit.show('add');
   	},
@@ -80,15 +84,15 @@ export default {
   	},
   	refreshTableData(option) {
 	    const url = URL;
-		const data = Object.assign({},option);
-			if(this.roleType === 'organization') {
-				data.organization_units = this.nodeData.id;
-			}else if (this.roleType === 'rolegroups') {
-				data.roles = this.nodeData.id;
-			}
-	    const success = _=>{
-	        console.log(_)
-	        this.tableData = _.data;
+    const data = Object.assign({},option,{listRows: 10000});
+      if(this.roleType === 'organization') {
+        data.organization_units = this.nodeData.id;
+      }else if (this.roleType === 'rolegroups') {
+        data.roles = this.nodeData.id;
+      }
+      const success = _=>{
+          console.log(_)
+          this.tableData = _.data;
 	    };
 	    this.$axiosGet({ url, data, success });
   	},

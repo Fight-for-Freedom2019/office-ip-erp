@@ -47,7 +47,7 @@
 		        slot="reference"
 	    	>
 	    		<span v-if="type == 'inventor' && tag.share!=undefined">{{ `${tag.name};贡献率：${tag.share}%` }}</span>
-	    		<span v-else-if="type == 'relateProjects'">{{ tag['id']['name'] }}</span>
+	    		<span v-else-if="type == 'relateProjects'">{{ tag['relevance']['name'] }}</span>
 	      		<span v-else>{{tag.name}}</span>
 	    	</el-tag>
 		</el-popover>					

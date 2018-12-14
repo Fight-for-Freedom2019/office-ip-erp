@@ -330,11 +330,7 @@ const config = [
     placeholder: '请选择年费类型',
     url: '/fee_codes?listOnly=1&is_renewal_fee=1',
     handle (data) {
-      return data.codes.map(_=>{
-        _.id = _.id - 0;
-        _.amount = _.amount - 0;
-        return _;
-      })
+      return data.data
     }
   }],
   ['flows', {

@@ -264,7 +264,7 @@ export default {
         }
       })
       // console.log('------------------------table-data------------------------');
-      console.log(r);
+      // console.log(r);
       if(Object.keys(this.isMerge).length !== 0) {
         this.getSpanArr(r);
       };

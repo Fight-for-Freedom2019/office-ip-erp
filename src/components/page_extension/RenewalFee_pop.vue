@@ -15,8 +15,8 @@
       <el-form-item label="年费地区" prop="area">
         <static-select type="area" v-model="form.area"></static-select>
       </el-form-item> -->
-      <el-form-item label="年费类型" prop="code">
-        <static-select  type="fee_code_renewal" v-model="form.code" ref="fee_code" :filter-options="areaFilter"></static-select>
+      <el-form-item label="年费类型" prop="fee_code">
+        <static-select  type="fee_code_renewal" v-model="form.fee_code" ref="fee_code" ></static-select>
       </el-form-item>
 			<el-form-item label="费用金额" prop="money">
 				<el-row>	
@@ -72,7 +72,7 @@ export default {
       form: {
       	project: '',
         area: '',
-      	code: '',
+      	fee_code: '',
       	money: {
       		amount: '',
       		currency: '',
@@ -84,10 +84,10 @@ export default {
       	// target: '',
       },
       rules: {
-        'project': { type: 'number', required: true, message: '请选择相关案件' },
-      	'area': { required: true, message: '请选择年费地区' },
-      	'code': { type: 'number', required: true, message: '请选择年费类型' },
-      	'target': { type: 'number', required: true, message: '请选择年费对象' },
+        'project': { type: 'number', required: true, message: '请选择相关案件' ,trigger: 'change',},
+      	// 'area': { required: true, message: '请选择年费地区',trigger: 'change',},
+      	'fee_code': { type: 'number', required: true, message: '请选择年费类型',trigger: 'change', },
+      	// 'target': { type: 'number', required: true, message: '请选择年费对象',trigger: 'change', },
       	'money': { 
           type: 'object',
           required: true,
@@ -96,7 +96,7 @@ export default {
             checkMoney(a, b, c);
        		},
        	},
-      	'deadline': { type: 'date', required: true, message: '请选择官方绝限' },
+      	'deadline': { type: 'date', required: true, message: '请选择官方绝限',trigger: 'blur', },
       }
 		}
   },
@@ -116,11 +116,31 @@ export default {
   methods: {
   	submitForm () {
   		const s = this.$tool.shallowCopy(this.form, {date: true, skip: ['money']});
-  		return Object.assign(s, this.form.money);  		
-  	}
+      const obj = {
+        amount: this.form.money.amount,
+        roe: this.form.money.roe,
+        currency: this.form.money.currency,
+      };
+  		return Object.assign(s, obj);  		
+  	},
+    setForm(d) {
+      console.log(d)
+      this.$tool.coverObj(this.form,d,{
+        obj: ['project','fee_code'],
+      });
+      if(d.amount) {
+        this.form.money.amount = d.amount;
+      }
+      if(d.roe) {
+        this.form.money.roe = d.roe;
+      }
+      if(d.currency) {
+        this.form.money.currency = d.currency;
+      }
+    },
   },
   watch: {
-		'form.code': {
+		'form.fee_code': {
 			handler (v) {
 				const val = this.$refs.fee_code.getSelected(v)[0];
 				if(val) {
