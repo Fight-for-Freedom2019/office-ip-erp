@@ -151,7 +151,7 @@ const router = new Router({
   // mode: 'history',
   routes: [
     //###重定向###
-    { path: '/', redirect: '/login' },
+    { path: '/', redirect: '/task/pending' },
     { path: '/index', redirect: '/task/pending' },
     { path: '/task', redirect: '/task/pending' },
     { path: '/patents', redirect: '/patent/list' },

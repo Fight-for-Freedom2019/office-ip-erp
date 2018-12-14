@@ -12,7 +12,7 @@ const fieldExceptMap = new Map([
 const strainerConfig = [
 	['process',[
 		{ "name": "模块", "id": "model", },
-		{ "name": "案件类型", "id": "category", "default": true},
+		{ "name": "案件类型", "id": "project_type", "default": true},
 		{ "name": "案件子类型", "id": "subtype",},
 		{ "name": "管制事项", "id": "process_definition",},
 		{ "name": "当前节点", "id": "process_action",},

@@ -3,7 +3,7 @@
 		<span>
 			<search-input v-model="searchValue" style="float: right;" placeholder="搜索案号、案件名称、申请号"></search-input>
 		</span>
-		<app-table :columns="columns" :data="tableData" :border='true'></app-table>
+		<app-table :columns="columns" :data="tableData" :border='true' :height="600"></app-table>
 	</div>
 </template>
 <script>
@@ -21,11 +21,11 @@ export default {
 			initData: [],
 			columns: [
 				{ type: 'selection'},
-				{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '200'},
-				{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '200'},
-				{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '200'},
-				{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '200'},
-				{ type: 'text', label: '费用类型', prop: 'fee_code', width: '200',
+				{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '150'},
+				{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '100'},
+				{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '100'},
+				{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '100'},
+				{ type: 'text', label: '费用类型', prop: 'fee_code', width: '120',
 					render: (h, item) => {
                         let name = "";
                         config.get("fee_type").options.map(function (o) {
@@ -46,7 +46,7 @@ export default {
 		            return h('span',`${item}CNY`)
 	          		}
         		},
-				{ type: 'text', label: '费用策略', prop: 'policy', width: '200',
+				{ type: 'text', label: '费用策略', prop: 'policy',
 					render: (h, item) => {
                         let name = "";
                         config.get("policy").options.map(function (o) {

@@ -5,7 +5,7 @@
 			<el-button size="small" type="primary" @click="confirmEstimate">评估单确认</el-button>
 			<search-input v-model="searchValue" style="float: right;" placeholder="搜索案号、案件名称、申请号"></search-input>
 		</span>
-		<app-table :columns="columns" :data="tableData" :border='true' ref="table" ></app-table>
+		<app-table :columns="columns" :data="tableData" :border='true' ref="table" :height="600"></app-table>
 		<el-dialog :visible.sync="dialogVisible" title="评估单确认" width="25%" :modal="false">
 			<span>生成请款单：</span>
 			<app-switch type="is" v-model="is_invoice"></app-switch>
@@ -31,11 +31,11 @@ export default {
 			is_invoice: 0,
 			columns: [
 				{ type: 'selection'},
-				{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '200'},
-				{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '200'},
-				{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '200'},
-				{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '200'},
-				{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '200'},
+				{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '150'},
+				{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '120'},
+				{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '100'},
+				{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '100'},
+				{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '150'},
         		{ 
 		        	type: 'text', 
 		        	label: '人民币金额', 
@@ -46,7 +46,7 @@ export default {
 		            return h('span',`${item}CNY`)
 	          		}
         		},
-				{ type: 'text', label: '案件费用策略', prop: 'fee_policy', render_key: 'project', render_simple: 'name', width: '200'},
+				{ type: 'text', label: '案件费用策略', prop: 'fee_policy', render_key: 'project', render_simple: 'name',},
 			]	
 		}
 	},

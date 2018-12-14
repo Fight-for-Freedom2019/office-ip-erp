@@ -51,7 +51,7 @@
       </el-row>
       <el-row>
           <el-form-item label="案件状态">
-              <static-select type="project_stage_patent" v-model="form.project_stage"></static-select>
+              <static-select type="project_stage" v-model="form.project_stage"></static-select>
           </el-form-item>
 <!--         <el-col :span="8">
           <el-form-item label="群组号">

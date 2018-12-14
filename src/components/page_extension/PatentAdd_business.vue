@@ -19,7 +19,7 @@
         <static-select type="contract_mode" v-model="form.contract_type"></static-select>
       </el-form-item>
       <el-form-item label="相关合同" prop="contract">
-        <jump-select type="contracts" v-model="form.contract" :para="contractObj"></jump-select>
+        <jump-select type="contracts" v-model="form.contract" multiple></jump-select>
       </el-form-item>      
       <el-form-item label="费用策略" prop="fee_policy">
         <static-select type="fee_mode" v-model="form.fee_policy"></static-select>
@@ -69,7 +69,7 @@ export default {
   methods: {
     setForm (data) {
       this.$tool.coverObj(this.form, data, {
-        obj: [ 'service', 'contract_type', 'fee_policy'], 
+        obj: [ 'service', 'contract_type', 'fee_policy', 'contract'], 
       });
     },
     submitForm () {
