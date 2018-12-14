@@ -59,7 +59,7 @@
       </el-form>
     </el-collapse-item>
     <el-collapse-item title="任务处理" name="2">
-        <app-form :source="sourceForm" :rules="appFormRules" @formData="handleForm" ref="appForm">
+        <app-form :source="sourceForm" :rules="appFormRules" @formData="handleForm" :row="row" ref="appForm">
             <el-form-item label='审核意见' v-if="is_review">
               <app-radio
                 v-model="review_opinion" 
@@ -152,7 +152,7 @@ export default {
     if(this.row) {
       this.refreshDetail();
     }
-    this.refreshProcessDetail({id: this.id});
+    // this.refreshProcessDetail({id: this.id});
   },
   methods: {
     ...mapMutations([
