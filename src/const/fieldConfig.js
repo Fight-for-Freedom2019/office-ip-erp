@@ -12,14 +12,16 @@ const fieldExceptMap = new Map([
 const strainerConfig = [
 	['process',[
 		{ "name": "模块", "id": "model", },
-		{ "name": "案件类型", "id": "category", "default": true},
+		{ "name": "案件类型", "id": "project_type"},
 		{ "name": "案件子类型", "id": "subtype",},
-		{ "name": "管制事项", "id": "process_definition",},
+		{ "name": "案件标签", "id": "project_tags",},
+		{ "name": "事项标签", "id": "process_tags",},
+		{ "name": "管制事项", "id": "process_definition", "default": true},
 		{ "name": "当前节点", "id": "process_action",},
 		{ "name": "承办人", "id": "user",},
 		{ "name": "代理人", "id": "agent",},
 		{ "name": "代理人助理", "id": "assistant",},
-		{ "name": "初审核人", "id": "first_reviewer",},
+		{ "name": "初审人", "id": "first_reviewer",},
 		{ "name": "复审人", "id": "final_reviewer",},
 		{ "name": "所属部门", "id": "organization_unit",},
 		{ "name": "客户", "id": "customer",},
@@ -88,6 +90,9 @@ const strainerConfig = [
         { "name": "管制事项", "id": "process_definition"},
         { "name": "递交期限", "id": "filing_deadline"},
         { "name": "官方绝限", "id": "legal_deadline"},
+    ]],
+    ['orders',[
+        { "name": "订单状态", "id": "status", "default": true},
     ]],
 ]
 export {config, fieldExceptMap, strainerConfig}

@@ -94,8 +94,11 @@
     <template v-else-if="col.type == 'array'">
       <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
         <template slot-scope="scope">
-
-          <el-tag v-for="(item, i) in scope.row[scope.column.property]" style="margin-left: 5px;" disable-transitions size="small" :key="i">{{ item }}</el-tag>
+          
+          <template v-for="(item, i) in scope.row[scope.column.property]">
+          <el-tag style="margin-left: 5px;" disable-transitions size="small" :key="i" v-if="typeof(item) === 'string'">{{ item }}</el-tag>
+          <el-tag style="margin-left: 5px;" disable-transitions size="small" :key="i" :class="item.classname" v-else>{{ item.name }}</el-tag>
+          </template>
 
         </template>
       </el-table-column>

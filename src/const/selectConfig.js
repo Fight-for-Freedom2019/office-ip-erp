@@ -295,6 +295,10 @@ const config = [
   ['tags', {
     placeholder: '请选择标签',
     options: 'tagOptions',
+    url: '/tags?listOnly=1',
+    handle (data) {
+      return data.data.data;
+    },
   }], 
  
   ['abbr', {

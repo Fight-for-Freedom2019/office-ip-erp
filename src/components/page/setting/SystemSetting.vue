@@ -59,7 +59,7 @@
                 compileType: "add",
                 isPanelVisible: false,
                 tableData: [],
-                rowID:null,
+                rowId:null,
                 rowData:null,
                 title:"",
                 form: {
@@ -93,14 +93,13 @@
             },
             handleRowClick(row) {
                 this.rowData = row;
-                this.rowID = row.id;
+                this.rowId = row.id;
                 this.compileType = "edit";
-              
-                
             },
             editShrink (row) {
                 this.form.value = row.value;
                 this.title = `编辑配置项>${row.name}`   
+                this.rowId = row.id;
                 this.openVisible("isPanelVisible");
             },
             add() {
@@ -113,11 +112,12 @@
             async save(type) {
                const flag = await this.checkForm(); 
                if(flag) {
-                   const url = `${this.URL}/${this.rowID}`;
+                   const url = `${this.URL}/${this.rowId}`;
                    const value = this.form.value;
                    const data = {value};
                    const success= _=>{
-                      this.$message({type: 'success', message: _.info});  
+                       this.$refs.table.update();
+                       this.$message({type: 'success', message: _.info});  
                    };
                    this.$axiosPut({url, data, success});
                }

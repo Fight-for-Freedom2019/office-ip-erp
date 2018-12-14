@@ -14,7 +14,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="创建人"><span class="form-item-text">{{form.creation_user}}</span>
+                    <el-form-item label="创建人"><span class="form-item-text">{{form.creator_user.name}}</span>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -37,7 +37,7 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="订单状态">
-                        <static-select class="custom-input" type="order_status" v-model="form.status"></static-select>
+                        <static-select class="custom-input" type="order_status" v-model="form.status" :disabled="true"></static-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -45,7 +45,7 @@
                 <el-input type="textarea" v-model="form.remark" resize="none"></el-input>
             </el-form-item>
             <el-form-item class="break-form upload-from" label="附件">
-                <up-load></up-load>
+                <up-load v-model="form.attachments" :file-list="attachments"></up-load>
             </el-form-item>
         </el-form>
         <div class="OrderManageRelevant">
@@ -95,10 +95,13 @@
                     amount: "",
                     remark: "",
                     creation_time: "",
-                    creation_user: "",
+                    creator_user: {
+                        name: ""
+                    },
                     services: [
                         {service: {id: "", name: ""}, unit_price: "", amount: "", sum: "",}
                     ],
+                    attachments:[],
                 },
                 express: [],
                 loadingVisible: false,
@@ -108,6 +111,7 @@
                 projects: [],
                 contracts: [],
                 order_service: [],
+                attachments:[],
             }
         },
         props: {
@@ -134,25 +138,31 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    let data = {
+                        remark: this.form.remark,
+                        attachments: this.form.attachments,
+                    };
                     let url = `/orders/${id}${suffix}`;
                     const success = _ => {
                         this.$emit("update");
+                        this.getDetail(id);
                         this.$message({type: "success", message: "操作成功"});
                     };
                     const error = _ => {
                         this.$message({type: "warning", message: _.info});
                     };
-                    this.$axiosPost({url, success, error});
+                    this.$axiosPost({url, data, success, error});
                 })
             },
             save(id) {
                 let data = {
-                    express_id: 1,
+                    // express_id: 1,
                     remark: this.form.remark,
-                    status: this.form.status,
-                    deadline: this.form.deadline,
+                    // status: this.form.status,
+                    // deadline: this.form.deadline,
+                    attachments: this.form.attachments,
                 };  // TODO 这里的参数文档中没定义好
-                let url = `/order/${id}`;
+                let url = `/orders/${id}`;
                 const success = _ => {
                     this.$message({type: "success", message: "操作成功!"});
                     this.$emit("update");
@@ -168,7 +178,8 @@
                     const order_service = target.order_service;
                     const projects = target.projects;
                     const invoices = target.invoices;
-                    this.form = this.$tool.deepCopy(target);
+                    this.$tool.coverObj(this.form, target, {obj:['status']});
+                    this.attachments = target.attachments;
                     this.order_service = order_service ? order_service : [];
                     this.contracts = contracts ? contracts : [];
                     this.projects = projects ? projects : [];

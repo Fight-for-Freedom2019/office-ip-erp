@@ -42,12 +42,12 @@
           style="cursor: pointer; float: right; margin-right: 20px; margin-top: 12px; font-size: 24px;" 
           title="系统消息"
           :src="sysmesg.length != 0 ? '/static/static_img/news_in.png' : '/static/static_img/news.png'"
-        />   -->      
+        />   
           <el-badge :value="pendingTaskCount" class="task-pending-top">
             <el-button size="mini" icon="el-icon-warning" type="primary" @click="$router.push('/task/pending')" title="待办任务"></el-button>
           </el-badge>
         <a target="_blank" href="http://help.hongjianguo.com" style="margin-right:20px;
-    font-size: 14px;">帮助</a>       
+    font-size: 14px;">帮助</a>       -->
         </div>   
     </nav>
       
@@ -758,6 +758,41 @@ nav {
   margin-bottom: 10px;
   color: rgb(132, 146, 166);
   font-size: 14px;
+}
+
+.tag-color-1 {
+  color: #fff;
+  background-color: rgb(199,0,57);
+}
+
+.tag-color-2 {
+  color: #fff;
+  background-color: rgb(255,87,51);
+}
+
+.tag-color-3 {
+  color: #fff;
+  background-color: rgb(87,199,133);
+}
+
+.tag-color-4 {
+  color: #fff;
+  background-color: rgb(0,186,173);
+}
+
+.tag-color-5 {
+  color: #fff;
+  background-color: rgb(81,24,73);
+}
+
+.tag-color-6 {
+  color: #fff;
+  background-color: rgb(42,123,125);
+}
+
+.tag-color-7 {
+  color: #fff;
+  background-color: rgb(255,141,26);
 }
 
 

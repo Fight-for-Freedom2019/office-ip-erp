@@ -7,8 +7,8 @@
             </el-form-item>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="联系人" prop="contacts">
-                        <jump-select type="contacts" v-model="form.contacts"></jump-select>
+                    <el-form-item label="联系人" prop="contact">
+                        <jump-select type="contacts" v-model="form.contact"></jump-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -50,7 +50,7 @@
                 <el-form-item label="单价" prop="unit_price">
                     <el-input type="text" v-model.number="servicesForm.unit_price"></el-input>
                 </el-form-item>
-                <el-form-item label="代收官费" prop="collected_official_fee">
+                <el-form-item label="预收官费" prop="collected_official_fee">
                     <el-input type="text" v-model.number="servicesForm.collected_official_fee"></el-input>
                 </el-form-item>
                 <el-form-item label="数量" prop="amount">
@@ -77,7 +77,7 @@
             return {
                 form: {
                     customer: "",
-                    contacts: "",
+                    contact: "",
                     sales: "",
                     delivery_date: "",
                     remark: "",
@@ -86,7 +86,7 @@
                     customer: [
                         {required: true, message: "请选择客户", trigger: "blur"},
                     ],
-                    contacts: [
+                    contact: [
                         {required: true, message: "请选择联系人", trigger: "blur"},
                     ],
                     sales: [
@@ -137,7 +137,7 @@
                             render_header: true
                         },
                         {type: 'text', label: '单价', prop: 'unit_price', width: '120'},
-                        {type: 'text', label: '代收官费', prop: 'collected_official_fee', width: '120'},
+                        {type: 'text', label: '预收官费', prop: 'collected_official_fee', width: '120'},
                         {type: 'text', label: '数量', prop: 'amount', width: '150'},
                         {type: 'text', label: '小计', prop: 'sum', width: '180'},
                         {
@@ -183,6 +183,9 @@
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         this.form.services = this.getService();
+                        if (this.form.services.length == 0) {
+                            this.$message({type: 'alert',message: '服务项目不能为空！'});
+                        }
                         const success = _ => {
                             this.$emit("refresh");
                             this.$emit("closeVisible","visibleOrderAdd");
