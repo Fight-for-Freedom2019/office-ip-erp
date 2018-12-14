@@ -3,7 +3,7 @@
 		<span>
 			<search-input v-model="searchValue" style="float: right;" placeholder="搜索案号、案件名称、申请号"></search-input>
 		</span>
-		<app-table :columns="columns" :data="tableData" :border='true'></app-table>
+		<app-table :columns="columns" :data="tableData" :border='true' :height="600"></app-table>
 		<app-shrink :visible.sync="shrinkVisible" :title="`邮件`">
         	<mail-add @refresh="handleRefresh" ref="mail_add"></mail-add>
       	</app-shrink>
@@ -22,7 +22,7 @@ export default {
 		return {
 			searchValue: '',
 			shrinkVisible: false,
-			initData: [{id:1}],
+			initData: [],
 			columns: [
 				{ type: 'selection'},
 		  		{type: 'text', label: '邮件类型', prop: 'mail_type', render_simple: 'name', width: '100' },

@@ -8,7 +8,7 @@
 		<el-form :model="form" label-width="80px" label-position="left" class="form-information" v-loading="loading" element-loading-text="加载评估单信息中..." style="padding: 0px 20px;" ref="form">
 			<el-row :gutter="20">
 				<el-col :span="6">
-					<el-form-item label="客户">{{ info && info.customer ? info.customer.name: '' }}</el-form-item>
+					<el-form-item label="客户"><span :title="info && info.customer ? info.customer.name: ''" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{ info && info.customer ? info.customer.name: '' }}</span></el-form-item>
 				</el-col>
 				<el-col :span="6">
 			  		<el-form-item label="创建人"><span>{{ info && info.creator ? info.creator.name : '' }}</span></el-form-item>
@@ -35,7 +35,7 @@
 		</el-form>
 		<el-tabs v-model="active" style="margin-top: 10px;">
 			<el-tab-pane label="年费清单" name="fees_list">
-				<fees-list ref="fees_list" :id="id"></fees-list>
+				<fees-list ref="fees_list" :id="id" ></fees-list>
 			</el-tab-pane>
 			<el-tab-pane label="应付官费" name="official_fees">
 				<official-fees :id="id"></official-fees>
@@ -162,8 +162,8 @@ export default {
 				this.form.price = val.price;
 				this.form.remark = val.remark
 			}
-		})
-},
+			})
+		}
 	},
 	components: {
 		AppShrink,

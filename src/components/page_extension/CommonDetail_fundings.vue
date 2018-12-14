@@ -15,7 +15,7 @@ import { mapGetters } from 'vuex'
 
           columns:[
             { type: 'text', label: '费用名称', prop: 'name', min_width: '145'},
-            { type: 'text', label: '费用对象', prop: 'target', render_simple: 'name',},
+            // { type: 'text', label: '费用对象', prop: 'target', render_simple: 'name',},
             { type: 'text', label: '外币金额',  prop: 'amount', width: '100',
               render:(h,item,row)=>{
                 if( row.roe == 1 ){

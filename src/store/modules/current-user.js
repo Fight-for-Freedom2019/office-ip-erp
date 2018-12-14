@@ -1,4 +1,4 @@
-let url = '/userinfo'
+ let url = '/userinfo'
 
 const state = {
 	data: null,

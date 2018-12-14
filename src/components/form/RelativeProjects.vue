@@ -25,13 +25,13 @@
 				  </el-select>
 	  		</el-col>
 	  		<el-col :span="16" style="padding: 0 5px">
-	  			<jump-select type="专利" :value-key="`key__${index}`" :value="item['id']['id']" @input="val=>{ handleProjects(val, index)}" ref="relativeProjects"></jump-select>
+	  			<jump-select type="专利" :value-key="`key__${index}`" :value="item['project']['id']" @input="val=>{ handleProjects(val, index)}" ref="relativeProjects"></jump-select>
 	  		</el-col>
 	  		<el-col :span="2" style="padding-left: 5px">
 	  			<el-button type="text" size="mini" @click="dataDelete(index)">删除</el-button>
 	  		</el-col>
 		</el-row>
-		<el-button type="text" @click="add({'id': {id: '', name: ''}, 'type': ''})">添加相关案件</el-button>
+		<el-button type="text" @click="add({'project': {id: '', name: ''}, 'type': ''})">添加相关案件</el-button>
 		<el-row>
 			<el-button type="primary" @click="handleAddTag">确认</el-button>
 			<el-button @click="relativeVisible = false">取消</el-button>
@@ -73,8 +73,8 @@ export default {
 			// this.projectsValue.push({'id':{'id':id, 'name': name}, type:type})
 			// this.$emit('input',[{'id':{'id':id, 'name': name}, type:type}]);
 		  	const arr = this.$tool.deepCopy(this.value);
-	  		arr[index]['id']['id'] = id;
-	  		arr[index]['id']['name'] = name;
+	  		arr[index]['project']['id'] = id;
+	  		arr[index]['project']['name'] = name;
 	  		arr[index]['type'] = type;
 	  		this.$emit('input', arr);	
 		},
@@ -94,7 +94,7 @@ export default {
 			this.projectsValue = val;
 			if(val[0] && val[0]['name']) {
 				let arr;
-				arr = val.map(_=>{ return {id: { id: _.id, name: _.name }, type: _.type} });
+				arr = val.map(_=>{ return {project: { id: _.id, name: _.name }, type: _.type} });
 				this.$nextTick(_=>{ this.$emit('input', arr); });				
 			}
 		}

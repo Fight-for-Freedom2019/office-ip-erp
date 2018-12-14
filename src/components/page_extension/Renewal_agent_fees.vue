@@ -3,7 +3,7 @@
 		<span>
 			<search-input v-model="searchValue" style="float: right;" placeholder="搜索案号、案件名称、申请号"></search-input>
 		</span>
-		<app-table :columns="columns" :data="tableData" :border='true'></app-table>
+		<app-table :columns="columns" :data="tableData" :border='true' :height="600"></app-table>
 	</div>
 </template>
 <script>
@@ -27,15 +27,15 @@ export default {
                             label: '客户',
                             prop: 'customer',
                             render_simple: "name",
-                            min_width: '178',
+                            min_width: '150',
                             render_header: true
                         },
-                        {type: 'text', label: '标题', prop: 'title', render_key: 'project', render_simple: 'title', width: '150', render_header: true},
-                        {type: 'text', label: '申请号', prop: 'application_number', render_key: 'project', render_simple: 'application_number',width: '150', render_header: true},
-                        {type: 'text', label: '申请日', prop: 'application_date', render_key: 'project', render_simple: 'application_date', width: '160', render_header: true},
-                        {type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '120', render_header: true},
-                        {type: 'text', label: '订单号', prop: 'order.serial', width: '120', render_header: true},
-                        {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160', render_header: true},
+                        {type: 'text', label: '标题', prop: 'title', render_key: 'project', render_simple: 'title', width: '100', render_header: true},
+                        {type: 'text', label: '申请号', prop: 'application_number', render_key: 'project', render_simple: 'application_number',width: '100', render_header: true},
+                        {type: 'text', label: '申请日', prop: 'application_date', render_key: 'project', render_simple: 'application_date', width: '100', render_header: true},
+                        {type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '100', render_header: true},
+                        {type: 'text', label: '订单号', prop: 'order.serial', width: '100', render_header: true},
+                        {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '100', render_header: true},
                         {
                             type: 'text', label: '费用类型', prop: 'fee_code', width: '100', render: (h, item) => {
                                 let name = "";
@@ -49,15 +49,15 @@ export default {
                             render_header: true
                         },
                         {type: 'text', label: '金额', prop: 'amount', width: '100'},
-                        {type: 'text', label: '币别', prop: 'currency', width: '150', render_header: true},
-                        {type: 'text', label: '汇率', prop: 'roe', width: '150'},
-                        {type: 'text', label: '人民币', prop: 'rmb_amount', width: '150'},
-                        {type: 'text', label: '费用期限', prop: 'deadline', width: '150', render_header: true},
+                        {type: 'text', label: '币别', prop: 'currency', width: '80', render_header: true},
+                        {type: 'text', label: '汇率', prop: 'roe', width: '80'},
+                        {type: 'text', label: '人民币', prop: 'rmb_amount', width: '100'},
+                        {type: 'text', label: '费用期限', prop: 'deadline', width: '100', render_header: true},
                         {
                             type: 'text',
                             label: '费用策略',
                             prop: 'policy',
-                            width: '150',
+                            width: '100',
                             render_header: true,
                             render: (h, item) => {
                                 let name = "";
@@ -85,7 +85,7 @@ export default {
                             type: 'text',
                             label: '请款时机',
                             prop: 'payment_request_timing',
-                            width: '150',
+                            width: '100',
                             render: (h, item) => {
                                 let name = "";
                                 config.get("payment_request_timing").options.map(function (o) {
@@ -97,7 +97,7 @@ export default {
                             },
                             render_header: true
                         },
-                        {type: 'text', label: '备注', prop: 'remark', width: '150', render_header: true},
+                        {type: 'text', label: '备注', prop: 'remark', width: '100', render_header: true},
 			]	
 		}
 	},

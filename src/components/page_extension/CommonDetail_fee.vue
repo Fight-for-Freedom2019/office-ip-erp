@@ -6,11 +6,11 @@
   	</div>
 
   	<app-collapse :col-title="`官费(总计：${detailOfficial.sum?detailOfficial.sum:'0'}CNY)`">
-      <app-table :columns="columns" :data="detailOfficial.list?detailOfficial.list : []"></app-table>
+      <app-table :columns="columns" :data="detailOfficial.list?detailOfficial.list : []" max-height="160px"></app-table>
    	</app-collapse>
    
     <app-collapse :col-title="`代理费及撰写奖励(总计：${detailAgency.sum?detailAgency.sum:'0'}CNY)`">
-      <app-table :columns="columns" :data="detailAgency.list ? detailAgency.list : []"></app-table>
+      <app-table :columns="columns" :data="detailAgency.list ? detailAgency.list : []" max-height="160px"></app-table>
     </app-collapse>
 <!-- 
     <app-collapse :col-title="`发明人奖励(总计：${detailInventorBonus.sum?detailInventorBonus.sum:'0'}CNY)`">
@@ -22,7 +22,7 @@
     </app-collapse> -->
     
     <app-collapse :col-title="`监控中的年费(总计：${detailAnnual.sum?detailAnnual.sum:'0'}CNY)`">
-      <app-table :columns="columns" :data="detailAnnual.list ? detailAnnual.list : []"></app-table>
+      <app-table :columns="columns" :data="detailAnnual.list ? detailAnnual.list : []" max-height="160px"></app-table>
     </app-collapse>
     <app-shrink  :visible.sync="visible" title="费用编辑">
        <span slot="header" style="float: right;">
@@ -46,10 +46,10 @@ export default {
   data () {
 		return {	
       visible: false,
-      currentRowFee: '',		
+      currentRowFee: {},		
 		  columns:[
         { type: 'text', label: '费用名称', prop: 'name', min_width: '145'},
-        { type: 'text', label: '费用对象', prop: 'target', render_simple: 'name',},
+        // { type: 'text', label: '费用对象', prop: 'target', render_simple: 'name',},
         { type: 'text', label: '外币金额',  prop: 'amount', width: '100', 
           render:(h,item,row)=>{
             if( row.roe == 1 ){
@@ -124,6 +124,7 @@ export default {
       this.$refs.fee.save(type, id);
       this.$nextTick(_=>{
         this.refresh();
+        this.visible = false;
       })
     },
     refresh () {
