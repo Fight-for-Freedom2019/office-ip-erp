@@ -234,7 +234,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'tableComponent',
-  inject:['reload'],
+  // inject:['reload'],
   props: ['tableOption', 'data', 'tableStyle', 'refreshProxy', 'filter', 'refreshTableData','feeBonus', 'filterVisibles'],
   data () {    
     const data = {
@@ -809,10 +809,10 @@ export default {
     filterValueVisible(val) {
       console.log('重新渲染')
       console.log(val);
-      if(val == false) {
-        // 因为关闭测试筛选时，视图数据无法及时更新，则强制刷新当前路由加载数据
-         this.reload(); 
-      }
+      // if(val == false) {
+      //   // 因为关闭测试筛选时，视图数据无法及时更新，则强制刷新当前路由加载数据
+      //    this.reload(); 
+      // }
       // hack 重新渲染tabel
       this.refreshRender = false;
       this.$nextTick(_=>{
@@ -822,6 +822,7 @@ export default {
   },
   beforeDestroy () {
     // this.clearFilter();
+    this.filterValueVisible = false;
   },
   mounted() {
     this.setBreadHeaderHeight(this.bread_header_height);

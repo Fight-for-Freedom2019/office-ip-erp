@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+//登录
+const Login                    = () => import('@/components/page/Login')
+// INDEX
+const Index                    = () => import('@/components/page/Index')
 //首页
 const Home                     = () => import('@/components/page/Home')
 
@@ -147,7 +151,8 @@ const router = new Router({
   // mode: 'history',
   routes: [
     //###重定向###
-    { path: '/', redirect: '/task/pending' },
+    { path: '/', redirect: '/login' },
+    { path: '/index', redirect: '/task/pending' },
     { path: '/task', redirect: '/task/pending' },
     { path: '/patents', redirect: '/patent/list' },
     { path: '/trademarks', redirect: '/trademark/list' },
@@ -155,442 +160,469 @@ const router = new Router({
     { path: '/crm', redirect: '/crm/customers' },
     { path: '/setting', redirect: '/setting/my' },
     { path: '/report', redirect: '/report/task' },
-    //###重定向###
-    { path: '/statistics',name: 'Home',component: Home },
-//################### CRM router begin ################
-    { path: '/crm/customers', name: 'CustomerList',component:  CustomerList,},
-  {
-    path: '/crm/orders',
-    name: 'Orders',
-    component:  Orders,
-  },
-  {
-    path: '/crm/expresses',
-    name: 'ExpressManage',
-    component:  ExpressManage,
-  },
-  {
-    path: '/crm/data/applicants',
-    name: 'ApplicantLists',
-    component: ApplicantList
-  },
-  {
-    path: '/crm/data/inventors',
-    name: 'InventorList',
-    component: InventorList
-  },
-  {
-    path: '/crm/data/remarks',
-    name: 'CustomerRemarks',
-    component: CustomerRemarks
-  },
-  {
-    path: '/crm/data/contacts',
-    name: 'ContactsList',
-    component: ContactsList
-  },
-  {
-    path: '/crm/data/invoice_targets',
-    name: 'InvoiceTargets',
-    component: InvoiceTargets
-  },
-  {
-    path: '/crm/data/quotations',
-    name: 'CustomerQuotation',
-    component: CustomerQuotation
-  },
-  
-  {
-    path: '/crm/contracts',
-    name: 'ContractsList',
-    component: ContractsList
-  },
-  {
-    path: '/crm/notice/notices',
-    name: 'CustomerNotices',
-    component: CustomerNotices
-  },
-  {
-    path: '/crm/notice/reports',
-    name: 'CustomerReports',
-    component: CustomerReports
-  },
-  {
-    path: '/crm/notice/renewals',
-    name: 'CustomersRenewals',
-    component: CustomersRenewals
-  },
-
-  {
-    path: '/crm/suppliers/lists',
-    name: 'Suppliers',
-    component: Suppliers
-  },
-  
-  {
-    path: '/crm/suppliers/quotations',
-    name: 'SuppliersQuotation',
-    component: SuppliersQuotation
-  },
-
-//################### CRM router end ##################
-
-//################### Exchange router begin ##################
-  {
-    path: '/exchange/client/notices',
-    name: 'ExchangeNotices',
-    component: ExchangeNotices
-  },
-  {
-    path: '/exchange/client/archives',
-    name: 'ExchangeArchives',
-    component: ExchangeArchives
-  },
-  {
-    path: '/exchange/mails',
-    name: 'ExchangeMails',
-    component: ExchangeMails
-  },
-
-//################### Exchange router end ##################
-
-//################### 任务路由 begin ###################
+//###重定向###
     {
-      path: '/task/pending',
-      name: 'TaskPending',
-      component: TaskCommon,
-      meta: { 
-        params: { is_review_action: 0 }, 
+      path: '/login',
+      name: 'Login',
+      component: Login,
+    },
+    {
+      path: '/index',
+      name: 'Index',
+      component: Index,
+      meta: { requiresAuth: true }, //进入路由需要登录验证
+      children: [
+      { path: '/statistics',name: 'Home',component: Home },
+        //################### CRM router begin ################
+      { path: '/crm/customers', name: 'CustomerList',component:  CustomerList,},
+      {
+        path: '/crm/orders',
+        name: 'Orders',
+        component:  Orders,
       },
-    },   
-    {
-      path: '/task/review/sent',
-      name: 'TaskReviewSend',
-      component: TaskCommon,
-      meta: {
-        params: { 
-          is_review_action: 1,
-          is_sender: 1,
+      {
+        path: '/crm/expresses',
+        name: 'ExpressManage',
+        component:  ExpressManage,
+      },
+      {
+        path: '/crm/data/applicants',
+        name: 'ApplicantLists',
+        component: ApplicantList
+      },
+      {
+        path: '/crm/data/inventors',
+        name: 'InventorList',
+        component: InventorList
+      },
+      {
+        path: '/crm/data/remarks',
+        name: 'CustomerRemarks',
+        component: CustomerRemarks
+      },
+      {
+        path: '/crm/data/contacts',
+        name: 'ContactsList',
+        component: ContactsList
+      },
+      {
+        path: '/crm/data/invoice_targets',
+        name: 'InvoiceTargets',
+        component: InvoiceTargets
+      },
+      {
+        path: '/crm/data/quotations',
+        name: 'CustomerQuotation',
+        component: CustomerQuotation
+      },
+      
+      {
+        path: '/crm/contracts',
+        name: 'ContractsList',
+        component: ContractsList
+      },
+      {
+        path: '/crm/notice/notices',
+        name: 'CustomerNotices',
+        component: CustomerNotices
+      },
+      {
+        path: '/crm/notice/reports',
+        name: 'CustomerReports',
+        component: CustomerReports
+      },
+      {
+        path: '/crm/notice/renewals',
+        name: 'CustomersRenewals',
+        component: CustomersRenewals
+      },
+
+      {
+        path: '/crm/suppliers/lists',
+        name: 'Suppliers',
+        component: Suppliers
+      },
+      
+      {
+        path: '/crm/suppliers/quotations',
+        name: 'SuppliersQuotation',
+        component: SuppliersQuotation
+      },
+
+    //################### CRM router end ##################
+
+    //################### Exchange router begin ##################
+      {
+        path: '/exchange/client/notices',
+        name: 'ExchangeNotices',
+        component: ExchangeNotices
+      },
+      {
+        path: '/exchange/client/archives',
+        name: 'ExchangeArchives',
+        component: ExchangeArchives
+      },
+      {
+        path: '/exchange/mails',
+        name: 'ExchangeMails',
+        component: ExchangeMails
+      },
+
+    //################### Exchange router end ##################
+
+    //################### 任务路由 begin ###################
+        {
+          path: '/task/pending',
+          name: 'TaskPending',
+          component: TaskCommon,
+          meta: { 
+            params: { is_review_action: 0 }, 
+          },
+        },   
+        {
+          path: '/task/review/sent',
+          name: 'TaskReviewSend',
+          component: TaskCommon,
+          meta: {
+            params: { 
+              is_review_action: 1,
+              is_sender: 1,
+            },
+          },
+        },    
+        {
+          path: '/task/review/my',
+          name: 'TaskReviewCheck',
+          component: TaskCommon,
+          meta: {
+            params: { 
+              is_review_action: 1,
+              is_sender: 0,
+            },
+          },
         },
+        {
+          path: '/task/monitor/application',
+          name: 'TaskMonitorApplication',
+          component: TaskCommon,
+          meta: {
+            params: { 
+              stage: 1,
+            },
+          },
+        },
+        {
+          path: '/task/monitor/oa',
+          name: 'TaskMonitorOa',
+          component: TaskCommon,
+          meta: {
+            params: { 
+              stage: '2,3,4,5',
+            },
+          },
+        },
+        {
+          path: '/task/monitor/other',
+          name: 'TaskMonitorOther',
+          component: TaskCommon,
+          meta: {
+            params: { 
+              stage: 'other',
+            },
+          },
+        },
+        {
+          path: '/task/finished',
+          name: 'TasksFinished',
+          component: TaskCommon,
+          meta: {
+            params: { 
+              status: 1,
+            },
+          },
+        },
+        
+    //################### 任务路由 end #####################
+
+    //################### 专利路由 start #####################
+        {
+          path: '/patent/list',
+          name: 'PattentList',
+          component: PatentList,
+          meta: {
+            params: { status: 1 }
+          }
+        },    
+        {
+          path: '/patent/draftbox',
+          name: 'PatentDraftbox',
+          component: PatentList,
+          meta: {
+            params: { status: 0 }
+          }
+        },
+        {
+          path: '/patent/notice',
+          name: 'PatentNotice',
+          component: NoticeCommon,
+          meta: {
+            params: {  },
+            type: 'patent'
+          }
+        },
+    //################### 专利路由 end #####################
+
+    //################### 版权路由 begin ###################
+      {
+        path: '/copyright/list',
+        name: 'CopyrightList',
+        component: CopyrightList,
+        meta: {
+          params: { status: 1 }
+        }
+      },    
+      {
+        path: '/copyright/draftbox',
+        name: 'CopyrightDraftbox',
+        component: PatentList,
+        meta: {
+          params: { status: 0 }
+        }
       },
+      {
+        path: '/copyright/notice',
+        name: 'CopyrightNotice',
+        component: NoticeCommon,
+        meta: {
+          params: {  },
+          type: 'patent'
+        }
+      },
+    //################### 版权路由 end #####################
+    //################### 财务路由 begin ###################
+      
+       {
+        path: '/finance/revenue/all',
+        name: 'RequestPayoutAll',
+        component: RequestPayout,
+          meta:{
+            params:{
+              is_debit: 1,
+            }
+          }
+        },
+        {
+          path: '/finance/revenue/ready_to_request',
+          name: 'RequestPayoutRequest',
+          component: RequestPayout,
+          meta:{
+            params:{
+              is_debit: 1,
+              status: 1
+            }
+          }
+        },
+        {
+          path: '/finance/revenue/payment_requests',
+          name: 'PaymentManage',
+          component: PaymentManage,
+          meta:{
+            params:{
+                is_debit:1,
+            }
+          }
+        },
+        {
+          path: '/finance/revenue/payments_recevied',
+          name: 'PaymentRecevied',
+          component: PaymentRecevied,
+          meta:{
+            params:{
+                is_debit:1,
+            }
+          }
+        },
+
+        {
+          path: '/finance/outgo/all',
+          name: 'SuppliersFeeAll',
+          component: SuppliersFee,
+          meta:{
+            params:{
+                is_debit:0,
+            }
+          }
+        },
+        {
+          path: '/finance/outgo/ready_to_pay',
+          name: 'SuppliersFeePay',
+          component: SuppliersFee,
+          meta:{
+            params:{
+                status: 11,
+                is_debit:0,
+            }
+          }
+        },
+        {
+          path: '/finance/outgo/payments',
+          name: 'SuppliersPayment',
+          component: SuppliersPayment,
+          meta:{
+            params:{
+                is_debit:0,
+            }
+          }
+        },
+
+        {
+          path: '/finance/renewal_fees/lists',
+          name: 'RenewalFees',
+          component: RenewalFee,
+        },
+        {
+          path: '/finance/renewal_fees/confirmation_sheets',
+          name: 'RenewalFeesConfirmationSheets',
+          component: RenewalEstimate,
+        },
+        {
+          path: '/finance/vouchers/lists',
+          name: 'VouchersLists',
+          component: CrmVouchers,
+          props: {
+            'voucher_type':1,
+          }
+        },
+        {
+          path: '/finance/vouchers/received',
+          name: 'VouchersReceived',
+          component: CrmVouchers,
+          props: {
+            'voucher_type':2,
+          }
+        },
+        {
+          path: '/finance/points/ready_to_settle',
+          name: 'PointsReadyToSettle',
+          component: PointsReadyToSettle,
+        },
+        {
+          path: '/finance/points/settled',
+          name: 'PointsMonthly',
+          component: PointsMonthly,
+        },
+    //################### 费用路由 end #####################
+    //################### 报表路由 begin ###################
+        // {
+        //   path: '/report/task',
+        //   name: 'TaskReport',
+        //   component: Report,
+        //   meta: { 'type': 'task' },
+        // },
+    //################### 报表路由 end #####################
+
+    //################### 交互模块 start ###################
+        {
+          path: '/exchange/document/oa',name: 'ExchangeDocumentOa',component: ExchangeDocumentOa,
+        },
+        {
+          path: '/exchange/document/voucher',
+          name: 'ExchangeDocumentVoucher',
+          component: ExchangeDocumentVoucher,
+        },
+        {
+          path: '/exchange/document/other',
+          name: 'ExchangeDocumentOther',
+          component: ExchangeDocumentOther,
+        },
+        {
+          path: '/exchange/document/cpc',
+          name: 'ExchangeDocumentCpc',
+          component: ExchangeDocumentCpc,
+        },
+    //################### 交互模块 End ###################
+
+    //################### 设置模块 start ###################
+        { path: '/setting/my', name: 'SettingIndividual', component: SettingIndividual },
+        {
+          path: '/setting/users',
+          name: 'UserManage',
+          component: UserManage,
+        },
+        {
+          path: '/setting/classifications',
+          name: 'Clssification',
+          component: TechProClassification,
+        },
+        {
+          path: '/setting/products',
+          name: 'Product',
+          component: TechProClassification,
+        },
+        { path: '/setting/field', name: 'SettingField', component: SettingField },
+        { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
+        { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
+        { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },
+        { path: '/setting/flow/actions', name: 'Actions', component: SettingActions },
+        { path: '/setting/flow/forms', name: 'Forms', component: SettingForm },
+        { path: '/setting/flow/fields', name: 'Fields', component: SettingFields },
+        { path: '/setting/data/payment_accounts', name: 'PaymentAccount', component: PaymentAccount },
+        { path: '/setting/data/fee_codes', name: 'FeeCode', component: SettingFeeCode },
+        { path: '/setting/data/file_types', name: 'FileType', component: SettingFileType },
+        { path: '/setting/data/stages', name: 'ProjectStage', component: SettingProjectStage },
+        { path: '/setting/data/entity_changes', name: 'EntityChange', component: SettingEntityChange },
+        { path: '/setting/data/services', name: 'ServiceProject', component: SettingService },
+        { path: '/setting/data/tags',name: 'SettingTags',component: SettingTags,},
+        { path: '/setting/bonus/ratio',name: 'SettingUserRatio',component: SettingUserRatio,},
+        { path: '/setting/bonus/rules',name: 'SettingBonusRule',component: SettingBonusRule,},
+        { path: '/setting/system',name: 'SettingSystem',component: SettingSystem,},
+
+        // {
+        //   path: '/patent/list/detail__/:id',
+        //   component: CommonDetail,
+        //   children: [
+        //     { path: '', redirect: 'base',  },
+        //     { path: 'base', component: PatentAdd, meta: {type: 'edit'} },
+        //     { path: 'control', component: Control },
+        //     { path: 'notice', component: Notice },
+        //     { path: 'fee', component: Fee },
+        //     { path: 'email', component: Email },
+        //     { path: 'documents', component: Documents },
+        //   ]
+        // },
+        // {
+        //   path: '/commonDetail/:id',
+        //   component: CommonDetail,
+        //   children: [
+        //     { path: '', redirect: 'babel' },
+        //     { path: 'babel', component: Babel },
+        //     { path: 'control', component: Control },
+        //     { path: 'notice', component: Notice },
+        //     { path: 'fee', component: Fee },
+        //     { path: 'email', component: Email },
+        //     { path: 'documents', component: Documents },
+        //   ],
+        // },
+      ],
     },    
-    {
-      path: '/task/review/my',
-      name: 'TaskReviewCheck',
-      component: TaskCommon,
-      meta: {
-        params: { 
-          is_review_action: 1,
-          is_sender: 0,
-        },
-      },
-    },
-    {
-      path: '/task/monitor/application',
-      name: 'TaskMonitorApplication',
-      component: TaskCommon,
-      meta: {
-        params: { 
-          stage: 1,
-        },
-      },
-    },
-    {
-      path: '/task/monitor/oa',
-      name: 'TaskMonitorOa',
-      component: TaskCommon,
-      meta: {
-        params: { 
-          stage: '2,3,4,5',
-        },
-      },
-    },
-    {
-      path: '/task/monitor/other',
-      name: 'TaskMonitorOther',
-      component: TaskCommon,
-      meta: {
-        params: { 
-          stage: 'other',
-        },
-      },
-    },
-    {
-      path: '/task/finished',
-      name: 'TasksFinished',
-      component: TaskCommon,
-      meta: {
-        params: { 
-          status: 1,
-        },
-      },
-    },
-    
-//################### 任务路由 end #####################
-
-//################### 专利路由 start #####################
-    {
-      path: '/patent/list',
-      name: 'PattentList',
-      component: PatentList,
-      meta: {
-        params: { status: 1 }
-      }
-    },    
-    {
-      path: '/patent/draftbox',
-      name: 'PatentDraftbox',
-      component: PatentList,
-      meta: {
-        params: { status: 0 }
-      }
-    },
-    {
-      path: '/patent/notice',
-      name: 'PatentNotice',
-      component: NoticeCommon,
-      meta: {
-        params: {  },
-        type: 'patent'
-      }
-    },
-//################### 专利路由 end #####################
-
-//################### 版权路由 begin ###################
-  {
-    path: '/copyright/list',
-    name: 'CopyrightList',
-    component: CopyrightList,
-    meta: {
-      params: { status: 1 }
-    }
-  },    
-  {
-    path: '/copyright/draftbox',
-    name: 'CopyrightDraftbox',
-    component: PatentList,
-    meta: {
-      params: { status: 0 }
-    }
-  },
-  {
-    path: '/copyright/notice',
-    name: 'CopyrightNotice',
-    component: NoticeCommon,
-    meta: {
-      params: {  },
-      type: 'patent'
-    }
-  },
-//################### 版权路由 end #####################
-//################### 财务路由 begin ###################
-  
-   {
-    path: '/finance/revenue/all',
-    name: 'RequestPayoutAll',
-    component: RequestPayout,
-      meta:{
-        params:{
-          is_debit: 1,
-        }
-      }
-    },
-    {
-      path: '/finance/revenue/ready_to_request',
-      name: 'RequestPayoutRequest',
-      component: RequestPayout,
-      meta:{
-        params:{
-          is_debit: 1,
-          status: 1
-        }
-      }
-    },
-    {
-      path: '/finance/revenue/payment_requests',
-      name: 'PaymentManage',
-      component: PaymentManage,
-      meta:{
-        params:{
-            is_debit:1,
-        }
-      }
-    },
-    {
-      path: '/finance/revenue/payments_recevied',
-      name: 'PaymentRecevied',
-      component: PaymentRecevied,
-      meta:{
-        params:{
-            is_debit:1,
-        }
-      }
-    },
-
-    {
-      path: '/finance/outgo/all',
-      name: 'SuppliersFeeAll',
-      component: SuppliersFee,
-      meta:{
-        params:{
-            is_debit:0,
-        }
-      }
-    },
-    {
-      path: '/finance/outgo/ready_to_pay',
-      name: 'SuppliersFeePay',
-      component: SuppliersFee,
-      meta:{
-        params:{
-            status: 11,
-            is_debit:0,
-        }
-      }
-    },
-    {
-      path: '/finance/outgo/payments',
-      name: 'SuppliersPayment',
-      component: SuppliersPayment,
-      meta:{
-        params:{
-            is_debit:0,
-        }
-      }
-    },
-
-    {
-      path: '/finance/renewal_fees/lists',
-      name: 'RenewalFees',
-      component: RenewalFee,
-    },
-    {
-      path: '/finance/renewal_fees/confirmation_sheets',
-      name: 'RenewalFeesConfirmationSheets',
-      component: RenewalEstimate,
-    },
-    {
-      path: '/finance/vouchers/lists',
-      name: 'VouchersLists',
-      component: CrmVouchers,
-      props: {
-        'voucher_type':1,
-      }
-    },
-    {
-      path: '/finance/vouchers/received',
-      name: 'VouchersReceived',
-      component: CrmVouchers,
-      props: {
-        'voucher_type':2,
-      }
-    },
-    {
-      path: '/finance/points/ready_to_settle',
-      name: 'PointsReadyToSettle',
-      component: PointsReadyToSettle,
-    },
-    {
-      path: '/finance/points/settled',
-      name: 'PointsMonthly',
-      component: PointsMonthly,
-    },
-//################### 费用路由 end #####################
-//################### 报表路由 begin ###################
-    // {
-    //   path: '/report/task',
-    //   name: 'TaskReport',
-    //   component: Report,
-    //   meta: { 'type': 'task' },
-    // },
-//################### 报表路由 end #####################
-
-//################### 交互模块 start ###################
-    {
-      path: '/exchange/document/oa',name: 'ExchangeDocumentOa',component: ExchangeDocumentOa,
-    },
-    {
-      path: '/exchange/document/voucher',
-      name: 'ExchangeDocumentVoucher',
-      component: ExchangeDocumentVoucher,
-    },
-    {
-      path: '/exchange/document/other',
-      name: 'ExchangeDocumentOther',
-      component: ExchangeDocumentOther,
-    },
-    {
-      path: '/exchange/document/cpc',
-      name: 'ExchangeDocumentCpc',
-      component: ExchangeDocumentCpc,
-    },
-//################### 交互模块 End ###################
-
-//################### 设置模块 start ###################
-    { path: '/setting/my', name: 'SettingIndividual', component: SettingIndividual },
-    {
-      path: '/setting/users',
-      name: 'UserManage',
-      component: UserManage,
-    },
-    {
-      path: '/setting/classifications',
-      name: 'Clssification',
-      component: TechProClassification,
-    },
-    {
-      path: '/setting/products',
-      name: 'Product',
-      component: TechProClassification,
-    },
-    { path: '/setting/field', name: 'SettingField', component: SettingField },
-    { path: '/setting/mail_templates', name: 'MailTemplates', component: SettingMailTemplate },
-    { path: '/setting/flow/definitions', name: 'Definitions', component: SettingDefinitions },
-    { path: '/setting/flow/flows', name: 'Flows', component: SettingFlows },
-    { path: '/setting/flow/actions', name: 'Actions', component: SettingActions },
-    { path: '/setting/flow/forms', name: 'Forms', component: SettingForm },
-    { path: '/setting/flow/fields', name: 'Fields', component: SettingFields },
-    { path: '/setting/data/payment_accounts', name: 'PaymentAccount', component: PaymentAccount },
-    { path: '/setting/data/fee_codes', name: 'FeeCode', component: SettingFeeCode },
-    { path: '/setting/data/file_types', name: 'FileType', component: SettingFileType },
-    { path: '/setting/data/stages', name: 'ProjectStage', component: SettingProjectStage },
-    { path: '/setting/data/entity_changes', name: 'EntityChange', component: SettingEntityChange },
-    { path: '/setting/data/services', name: 'ServiceProject', component: SettingService },
-    { path: '/setting/data/tags',name: 'SettingTags',component: SettingTags,},
-    { path: '/setting/bonus/ratio',name: 'SettingUserRatio',component: SettingUserRatio,},
-    { path: '/setting/bonus/rules',name: 'SettingBonusRule',component: SettingBonusRule,},
-    { path: '/setting/system',name: 'SettingSystem',component: SettingSystem,},
-
-    // {
-    //   path: '/patent/list/detail__/:id',
-    //   component: CommonDetail,
-    //   children: [
-    //     { path: '', redirect: 'base',  },
-    //     { path: 'base', component: PatentAdd, meta: {type: 'edit'} },
-    //     { path: 'control', component: Control },
-    //     { path: 'notice', component: Notice },
-    //     { path: 'fee', component: Fee },
-    //     { path: 'email', component: Email },
-    //     { path: 'documents', component: Documents },
-    //   ]
-    // },
-    // {
-    //   path: '/commonDetail/:id',
-    //   component: CommonDetail,
-    //   children: [
-    //     { path: '', redirect: 'babel' },
-    //     { path: 'babel', component: Babel },
-    //     { path: 'control', component: Control },
-    //     { path: 'notice', component: Notice },
-    //     { path: 'fee', component: Fee },
-    //     { path: 'email', component: Email },
-    //     { path: 'documents', component: Documents },
-    //   ],
-    // },
   ]
 });
 router.beforeEach((to, from, next) => {
+  // 清除顶部el-tag
   router.app.$options.store.dispatch('clearFilter');
-  next();
+  // 纯前端路由访问权限控制
+  if(to.matched.some(_=>_.meta.requiresAuth)) {
+    if(window.localStorage.getItem('token')) {
+      next();
+    }else {
+      next({
+        path: '/login',
+        redirect: to.fullPath,
+      })
+    }
+
+  }else {
+    next();
+  }
 })
 export default router

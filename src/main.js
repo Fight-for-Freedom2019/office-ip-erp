@@ -4,6 +4,7 @@ import Vue from 'vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
+import $ from 'jquery'
 import VueQuillEditor from 'vue-quill-editor'
 import MyAxios from '@/const/MyAxios'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -31,7 +32,6 @@ Vue.use(MyAxios);
 axios.defaults.headers.common['Authorization'] = window.localStorage.getItem("token");
 // 添加请求拦截器
 axios.interceptors.request.use(config => {
-  // 在发送请求之前做些什么
   //判断是否存在token，如果存在将每个页面header都添加token
   
   if(window.localStorage.getItem("token")){
@@ -40,30 +40,29 @@ axios.interceptors.request.use(config => {
    
     return config;
   }, error => {
-  // 对请求错误做些什么
     return Promise.reject(error);
   });
    
-  // // http response 拦截器
-  // Axios.interceptors.response.use(
-  // response => {
+  // http response 拦截器
+axios.interceptors.response.use(
+  response => {
    
-  // return response;
-  // },
-  // error => {
+  return response;
+  },
+  error => {
    
-  // if (error.response) {
-  // switch (error.response.status) {
-  // case 401:
-  // this.$store.commit('del_token');
-  // router.replace({
-  // path: '/login',
-  // query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面
-  // })
-  // }
-  // }
-  // return Promise.reject(error.response.data)
-  // });
+  if (error.response) {
+    switch (error.response.status) {
+      case 401:
+      window.localStorage.removeItem('token');
+      router.replace({
+        path: '/login',
+        query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面
+      })
+    }
+  }
+  return Promise.reject(error.response.data)
+});
   
 /* eslint-disable no-new */
 new Vue({

@@ -89,106 +89,29 @@
 
     <agency-load :visible="agencyLoadVisible"></agency-load>
     
+  <div id="app">
+    <transition name="fade">
+      <keep-alive>
+        <router-view></router-view>
+       </keep-alive>
+    </transition>
   </div>
 </template>
 
 <script>
-
-import AgencyLoad from '@/components/form/AgencyLoad'
-
-import menu from '@/const/menuConst'
-import AppNav from '@/components/common/AppNav'
-import AppMenuItem from '@/components/common/AppMenuItem'
-
 import { mapGetters } from 'vuex'
 import { mapMutations } from 'vuex'
 import { mapActions } from 'vuex'
-
 export default {
   name: 'app',
-  provide(){
+  data () {
     return {
-      reload: this.reload,
     }
-
   },
   computed: {
-    ...mapGetters([
-      'navLabel',
-      'innerHeight',
-      'loading',
-      'loadingText',
-      'viewLoading',
-      'viewLoadingText',
-      'username',
-      'leftVisible',
-      'agencyLoadVisible',
-      'menusMap',
-      'pendingTaskCount',
-      'menuData',
-      'menuDataMap',
-      'menuType',
-      'noMenu',
-    ]),
     path () {
-      let path = this.$route.path;
-      path = path.split("__")[0];
-      return path;
+      return this.$route.path;
     },
-    select_arr () {
-      const d = this;
-      const arr = [];
-      const path = this.path;
-      const params = d.$route.params;
-
-      const arr2 = path.split("/");
-
-      for(let i = 0; i < arr2.length; i++) {
-        const str = i == 0 ? "/" : arr2.slice(0, i+1 ).join("/");
-        const item = this.menuDataMap[str];
-        if(item) {
-          arr.push(item);
-        }
-      }
-      return arr;
-    },
-    sysmesg () {
-      let s = this.$store.getters.sysmesg;
-      if(s === undefined) {
-        s = [];
-        this.$store.dispatch('refreshMesg'); 
-      }
-      if(s.length > 3) s = s.slice(0,3);
-      return s;
-    },
-    appPaddingLef () {
-      if(this.noMenu) return '0px';
-      return this.leftVisible ? '200px' : '0px';
-    },
-    navLeft () {
-      return this.leftVisible ? '0px' : '-200px';
-    },
-    navLeftBtn () {
-      return this.leftVisible ? '200px' : '0px';
-    },
-    navLeftBtnClass () {
-      const arr = ['nav-left-btn-arrow', 'el-icon-arrow-left'];
-      this.leftVisible ? arr.push('el-icon-arrow-left') : arr.push('el-icon-arrow-right');
-      return arr.join(' ');   
-    }
-
-  },
-  data () {
-    return {      
-      menu_data: menu.data,
-      resize_lock: false,
-      sysPopVisible: false,
-      windowLock: false,
-      userinfoLoading: true,
-      isCollapse: false,
-      leftMenuActive: '',
-      isRouterAlive: true,
-    };
   },
   methods: {
     ...mapActions([
@@ -198,86 +121,16 @@ export default {
       'refreshBranch', //branch
       'refreshArea', //area
       'refreshCity', //city
+      'refreshUser',
       'closeTag', //filter-cache
       'initializeHashMapsCache', //index
     ]),
-    ...mapMutations([
-      'toggleLeftVisible', //index
-      'setInnerHeight', //index
-      'setInnerWidth', //index
-      'setUser', //current-user
-    ]),
-    reload() {
-      this.isRouterAlive= false;
-      this.$nextTick(()=>{
-        this.isRouterAlive = true;
-      });
-    },
-    handleClose (item) {
-      this.closeTag(item);
-    },
-    handleCommond (commond) {
-      if(commond == 'login_out') {
-        const url = '/logout';
-        const success = _=>{
-          this.$message({message: '登出成功', type: 'success'} );
-          window.location.href = '/';
-        }
-
-        this.$axiosGet({url, success});
-      }
-    },
-    navToggle () {
-      this.toggleLeftVisible();
-
-      // let i = 32;
-      // let n = this.leftVisible ? 160 : 0;
-      // i = this.leftVisible ? -i : i;
-      // animation();
-      
-      //滑动效果
-      // function animation () {        
-      //   n += i;
-      //   left.css('width', n);
-      //   app.css('padding-left', n);
-      //   btn.css('left', n);
-
-      //   if(n == 0) {
-      //     btn.find('.nav-left-btn-arrow').removeClass('el-icon-arrow-left').addClass('el-icon-arrow-right');
-      //   }else if( n== 160) {
-      //     btn.find('.nav-left-btn-arrow').removeClass('el-icon-arrow-right').addClass('el-icon-arrow-left');
-      //   }else {
-      //     window.requestAnimationFrame(animation);
-      //   }
-      // }     
-    }
   },
   created () {
-    // this.leftMenuActive = this.path;
-
-    const refreshWindow =  _=> {
-      this.setInnerHeight(window.innerHeight);
-      this.setInnerWidth(window.innerWidth);
-    }
-
-    refreshWindow();
-    window.onresize = _=>{
-      if( !this.windowLock ) {
-        this.windowLock = true;
-         
-        window.setTimeout(_=>{
-          refreshWindow(); 
-          this.windowLock = false;
-        },100)
-      }
-    };
-
-
-    const success = _=>{
-      this.userinfoLoading = false;
+       const success = _=>{
       
       //设置个人信息
-      this.setUser(window.appCache.userinfo);
+      // this.setUser(window.appCache.userinfo);
       
       //获取系统配置数据
       // this.refreshExtends(false);
@@ -294,6 +147,7 @@ export default {
       //使用localStorage进行本地缓存
       this.refreshArea();
       this.refreshCity();
+      // this.refreshUser();
       this.initializeHashMapsCache();
       // this.$store.dispatch('refreshFeeCode');
       // this.$store.dispatch('refreshEntity');
@@ -301,240 +155,40 @@ export default {
       // this.$store.dispatch('refreshFileType');
       // this.$store.dispatch('refreshMail');
     };
-    success();
-
+    // 页面加载后300ms后请求数据，为了能在登录面不提前发请求
+      setTimeout(_=>{
+        if(!/login/.test(this.path)) {
+           success();
+        }
+      },1000)
   },
-  components: { 
-    AppMenuItem,
-    AgencyLoad,
-    AppNav,
-  },
-  watch: {
-    //路径更改 左侧菜单自东变更active项
-    path (val) {
-      this.leftMenuActive = val; 
-    },
-    //解决菜单切换时 左侧菜单的active项为空
-    menuType () {
-      this.leftMenuActive = '';
-      this.$nextTick(() => {
-        this.leftMenuActive = this.path;
-      });
-    }
-  }
 }
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-/*@media only screen and (max-width: 1338px){
-  @import './style/common';
-}*/
-$nav_bgColor: #383838;
-$nav_height: 50px;
-
-$navL_bgColor: #324157;
-$navL_width: 200px;
-
-$container_padding: 20px;
-
-$table_margin: 10px;
-
-body {
-  margin: 0;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-a {
-  color: #20a0ff;
-}
-#app {
-  position: relative;
-  padding: {
-    top: $nav_height;
-    left: $navL_width;
-  };
-}
-nav {
-  position: fixed;
-  background-color: $nav_bgColor;
-  top: 0;
-  left: 0;
-  height: $nav_height;
-  line-height: $nav_height;
-  width: 100%;
-  color: #fff;
-  padding-left: 20px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.5);
-  z-index: 10;
-}
-.nav-left {
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: $navL_width;
-  position: fixed;
-  top: $nav_height;
-  left: 0;
-  background-color: $navL_bgColor;
-}
-.nav-left-btn {
-  position: fixed;
-  left: $navL_width;
-  top: 50%;
-  margin-top: -50px;
-  background-color: #68758a;
-  width: 10px;
-  height: 150px;
-  border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
-  cursor: pointer;
-  opacity: .5;
-}
-.nav-left-btn-arrow {
-  position: absolute;
-  top: 50%;
-  left: -4px;
-  color: #324157;
-  transform: translate(0, -50%);
-}
-.nav-left .iconfont {
-  position: relative;
-  padding-right: 10px;
-  top: 1px;
-}
-.container-menu {
-  font-size: 24px;
-  color: #acb1b8;
-  height: 46px;
-  line-height: 46px;
-}
-.container-menu .iconfont {
-  
-  opacity: .3;
-  font-size: 42px;
-  margin-right: 10px;
-  vertical-align: middle;
-  position: relative;
-  top: -8px;
-}
-.container-nav {
-  border-radius: 4px;
-  background: #f3f5f6;
-  /*padding: 8px;*/
-  margin-bottom: 10px;
-  height: 32px;
-}
-.container-nav .el-breadcrumb {
-  font-size: 14px;
-  height: 32px;
-  line-height: 32px;
-}
-.container-nav .iconfont {
-    font-size: 14px;
-    padding-right: 5px;
-}
-.container-nav-screen .el-tag+.el-tag {
-  margin-left: 10px;
-}
-.el-table {
-  /*margin-bottom: 10px;*/
-}
-.tabel-content__visible {
-  word-wrap: break-word; 
-  overflow:auto;
-}
-.table-search {
-  width: 130px;
-  float: right;
-  transition: all 1s;
-}
-.table-search-focus  {
-  width: 200px;
-}
-.el-pagination {
-/*  text-align: right;
-  padding-right: 40px;*/
-}
-.row {
-  overflow: hidden;
-}
-.left {
-  float: left;
-  width: 200px;
-}
-.right {
-  margin-left: 220px;
-}
-.left .tree-search>input {
-  border-radius: 0;
-}
-
-.el-select {
-  width: 100%;
-}
-.table-header-btn .el-icon-menu::before {
-  font-size: 12px;
-}
-.el-table .table-error {
-  color: #FF4949;
-}
-.el-table .table-warning {
- color: #F7BA2A;
-}
-.ql-toolbar.ql-snow {
-  line-height: initial;
-}
-.ql-container.ql-snow {
-  height: 300px;
-}
-.table-flag {
-  display: inline-block;
-
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-.table-flag-read {
-  background-color: #ccc;
-}
-.table-flag-unread {
-  background-color: #58B7FF;
-}
-.sysmesg-item {
-  cursor: pointer;
-  margin-bottom: 5px; 
-}
-.sysmesg-item:hover {
-  color: #58B7FF;
-}
-.hjg-table .el-pagination {
-  margin-top: 10px;
-}
-.logo_name {
-  padding-left: 10px;
-  font-size: 18px;
-  height: 28px;
-  line-height: 28px;
-  /*font-weight: bold;*/
-  display: inline-block;
-}
-.float-block:before {
-  display: table;
-  content: "";
-}
-.float-block:after {
-  display: table;
-  content: "";
-  clear: both;
-} 
-.el-date-editor.el-input {
-      width: 100%;
-  }
-.input-min-width {
-  width: 150px !important;
-}
-.upload-width {
-  width: 180px !important;
-}
 /*这里放入重写element-ui样式的内容*/
+html,body {
+  width: 100%;
+  height: 100%;
+}
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-style: normal;
+    text-decoration: none;
+    border: none;
+    font-family: "Microsoft Yahei",sans-serif;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-font-smoothing: antialiased;
+    &:focus {
+        outline: none;
+    }
+}
 #app {
+    height: 100%;
+    width: 100%;
   .el-menu--horizontal {
     border: none;
   } 

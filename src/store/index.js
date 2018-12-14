@@ -47,6 +47,7 @@ const store = new Vuex.Store({
     importLoading: false,
     hashMaps: '',
     bread_header_height: '',
+    token: null,
   },
   modules: {
     action,
@@ -94,10 +95,19 @@ const store = new Vuex.Store({
     importLoading: state=>state.importLoading,
     getHashMaps: state=>state.hashMaps,
     breadHeaderHeight: state=>state.bread_header_height,
+    getToken: state=> state.token,
   },
   mutations: {
     setDragId (state, id) {
       state.dragId = id;
+    },
+    LOGIN (state, d) {
+      window.localStorage.setItem('token', d);
+      state.token = d;
+    },   
+    LOGOUT (state, d) {
+      window.localStorage.removeItem('token');
+      state.token = null;
     },
     toggleLeftVisible (state) {
       state.leftNavVisible = !state.leftNavVisible;
