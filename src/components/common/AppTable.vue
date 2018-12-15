@@ -229,6 +229,8 @@ export default {
       filterConditionVisible: false,
       spanArr:[],   // 合并行策略数组
       unknownData:[],
+      copyCount: '',
+      saveLabel: '',
       // re_render: true,
     };
   },
@@ -267,7 +269,7 @@ export default {
         }
       })
       // console.log('------------------------table-data------------------------');
-      console.log(r);
+      // console.log(r);
       if(Object.keys(this.isMerge).length !== 0) {
         this.getSpanArr(r);
       };
@@ -428,6 +430,7 @@ export default {
     handleRenderHeader (h,{column,$index},func) {
       console.log('aaa');
       let self = this;
+      let count = 0;
       let item = column.label;
       let property = '';
       const sindex =column.property.indexOf('__');
@@ -470,11 +473,14 @@ export default {
         const data = {  
           props:{
             field: property,
+            labelMap,
             listType: self.listType,
             filterConditionVisible: self.filterConditionVisible,
           },
           on: {
             popover(val) {
+              self.filterConditionVisible = false;
+              labelMap.clear();
                self.handleHeaderClose(property);
             },
             order(val) {
@@ -492,6 +498,17 @@ export default {
         const btnClick = {
           nativeOn: {
             click(e) {
+              // e.target.className
+              console.log(e.target.className);
+              labelMap.clear();
+             const propertyFlag = e.target.className.split(' ')[1];
+             if (self.saveLabel != propertyFlag) {
+              self.saveLabel = propertyFlag;
+              self.filterConditionVisible = true;
+             } else {
+              self.filterConditionVisible =false;
+             }
+
               // 阻止表头默认点击事件
               e.stopPropagation();
             /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
@@ -499,10 +516,14 @@ export default {
               for(let k in refObj) {
                 if( k !== `popover-${property}`) {
                   self.$refs.table.$refs.tableHeader.$refs[k].doClose();
+                }else {
+                  labelMap.set(property,true);
                 }
               }
               self.$refs.table.$refs.tableHeader.$refs[`popover-${property}`].doToggle();
-
+                count++;
+              self.copyCount = count;
+              console.log(count)
             }
           },
         }
@@ -514,7 +535,7 @@ export default {
               <div style={{width: '100%',}}>
                   <ListsFilter {...data}></ListsFilter>
               </div> 
-              <el-button style={{float: 'right',paddingTop: '0',paddingBottom: '0',lineHeight: '23px',height: '23px'}} type="text" icon="el-icon-my-filter-btn" slot="reference" {...btnClick}></el-button>
+              <el-button style={{float: 'right',paddingTop: '0',paddingBottom: '0',lineHeight: '23px',height: '23px'}} type="text" icon={'el-icon-my-filter-btn '+property} slot="reference" {...btnClick}></el-button>
               </el-popover>
             </span>:<span>{item}</span>
 
@@ -566,6 +587,21 @@ export default {
     },
   },
   watch:{
+    // copyCount(v) {
+    //   if(v%2===0){
+    //     console.log('even')
+    //     // setTimeout(_=>{
+    //       this.filterConditionVisible = false;
+          
+    //     // },1000)
+    //   }else {
+    //     console.log('odd')
+    //     //  setTimeout(_=>{
+    //       this.filterConditionVisible = true;
+          
+    //     // },1000)
+    //   }
+    // },
   },
   components: {
     'TableRender': {

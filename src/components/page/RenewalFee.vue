@@ -7,7 +7,7 @@
 			</el-select>
 		</table-component>
 		<pop ref="pop" @refresh="refresh"></pop>
-		<el-dialog title="新建年费评估单" :visible.sync="dialogVisble" @close="remark = '';due_time='';" class="dialog-small">
+		<el-dialog title="新建年费评估单" :visible.sync="dialogVisble" @close="addForm.remark = '';addForm.price='';" class="dialog-small">
 			<!-- <el-date-picker type="date" v-model="due_time" placeholder="请选择评估期限"></el-date-picker> -->
 			<el-form :model="addForm" ref="addForm">
 				<el-form-item label="服务费/件" prop="price" :rules="{required: true, message: '请输入服务费/件', trigger: 'blur'}">
@@ -242,8 +242,8 @@ export default {
 			this.$refs.addForm.validate(valid=>{
 				if(valid) {
 					const fees = this.$tool.splitObj(this.$refs.table.getSelected(true), 'id');
-					const remark = this.remark;
-					const price = this.price;
+					const remark = this.addForm.remark;
+					const price = this.addForm.price;
 					const data = { fees, remark, price };
 					
 					this.loading = true; 

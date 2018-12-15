@@ -1,5 +1,5 @@
 <template>
-	<app-shrink :visible="visible" :title="`年费评估单>${row.serial}`" @update:visible="handleVisible">	
+	<app-shrink :visible="visible" :title="`年费评估单>${row.serial}`"@update:visible="handleVisible">	
 		<span style="float: right;" slot="header">
 			<el-button size="small" type="primary" @click="save">保存</el-button>
 			<el-button size="small" type="danger" @click="deleteEstimate">删除</el-button>

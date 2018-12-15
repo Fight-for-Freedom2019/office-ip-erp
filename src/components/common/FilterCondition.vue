@@ -55,7 +55,15 @@ export default {
     value: {
       type: [String, Number, Date, Array],
       required: true,
-    },      
+    },
+    visible: {
+      type: Boolean,
+      default: false,
+    },
+    field: String, 
+    labelMap: {
+      type: Map,
+    }     
   },
   data () {
     return {
@@ -182,16 +190,24 @@ export default {
       
       this.setUrl({key:this.source.id,url:this.filterUrl});
     }
-    if(this.filterDataKey && this.filterUrl) {
-      this.refreshFilterData({key:this.source.id});
-    }
+    // if(this.filterDataKey && this.filterUrl) {
+    //   this.refreshFilterData({key:this.source.id});
+    // }
     if(this.source && this.source.map_type &&this.source.url != undefined) {
       this.initializeSelectorCache({type: this.source.map_type});
     }
   },
    watch: {
     filterText(val) {
+      if(this.source.type === 'remote_select') {
+        this.refreshFilterData({key: this.source.id, keyword: val});
+      }
       this.$refs.tree.filter(val);
+    },
+    visible (v) {
+      // console.log(v)
+      // console.log(this.field)
+      return v && this.filterDataKey && this.filterUrl && this.labelMap.get(this.source.id) ? this.refreshFilterData({key: this.source.id,}) : null;
     },   
   }, 
   components: {

@@ -65,7 +65,7 @@ export default {
 	methods: {
 		handleRefreshDetail () {
 			const url = '/renewal_fees';
-			const data = {renewal_confirmation_sheet_id: this.id};
+			const data = {renewal_confirmation_sheet: this.id};
 			const success = _=> {
 				this.initData = _.data.data;
 			}; 

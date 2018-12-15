@@ -55,12 +55,11 @@ export default {
 	},
 	methods: {
 		handleRefreshDetail () {
-			const url = '/fees';
-			const data = { renewal_confirmation_sheet_id: this.id, is_debit: 0 };
+			const url = `/renewal_confirmation_sheets/${this.id}/mails`;
 			const success = _=> {
 				this.initData = _.data.data;
 			}; 
-			this.$axiosGet({ url, data, success });
+			this.$axiosGet({ url, success });
 		},
 		handleRefresh () {
 			this.handleRefreshDetail();

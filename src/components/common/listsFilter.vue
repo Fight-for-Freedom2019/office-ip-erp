@@ -13,7 +13,7 @@
 		</el-row>				
 		<el-row class="common">
 			<el-col :span="24">
-				<filter-condition  :source="source" :value="filters[source.id]" @input="handleInput" ref="filterCondition"></filter-condition>
+				<filter-condition  :source="source" :label-map="labelMap" :value="filters[source.id]" :field="field" :visible="filterConditionVisible" @input="handleInput" ref="filterCondition"></filter-condition>
 	  	 </el-col>
 		</el-row>
 		<el-row>
@@ -45,6 +45,9 @@ export default {
   		type: Boolean,
   		default: false,
   	},
+    labelMap: {
+      type: Map,
+    }
   },
   data () {
   	return {
@@ -150,7 +153,7 @@ export default {
        return val.type === 'text' ? this.contain_relate = 3 : this.contain_relate = 1;
       },
       immediate: true,
-    }
+    },
   },
   components:{
   	StaticSelect,
