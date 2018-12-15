@@ -28,13 +28,14 @@ const mutations = {
 }
 
 const actions = {
-  refreshFilterData ({commit, rootState, state,getters},{success,key}={}) {
+  refreshFilterData ({commit, rootState, state,getters},{success,key,keyword}={}) {
     // console.log(getters.data_key);
     if(key == undefined) return;
     // if(getters.getUrl === '' && getters.data_key === '') return false; 
     const url = rootState.status ? getters.getUrl[key].replace(/\/api/, '') : getters.getUrl[key];
+    const params= { keyword };
     rootState.axios
-      .get(url)
+      .get(url,{params})
       .then(response=>{
         const d = response.data;
         const DATA_KEY = getters.data_key[key];
