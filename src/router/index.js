@@ -302,42 +302,75 @@ const router = new Router({
           },
         },
         {
-          path: '/task/monitor/application',
-          name: 'TaskMonitorApplication',
+          path: '/task/monitor/agent',
+          name: 'TaskMonitorAgent',
           component: TaskCommon,
           meta: {
             params: { 
               stage: 1,
+              relevance:'agent',
             },
           },
         },
         {
-          path: '/task/monitor/oa',
-          name: 'TaskMonitorOa',
+          path: '/task/monitor/assistant',
+          name: 'TaskMonitorAssistant',
           component: TaskCommon,
           meta: {
             params: { 
               stage: '2,3,4,5',
+              relevance:'assistant',
             },
           },
         },
         {
-          path: '/task/monitor/other',
-          name: 'TaskMonitorOther',
+          path: '/task/monitor/first_reviewer',
+          name: 'TaskMonitorFirstReviewer',
           component: TaskCommon,
           meta: {
             params: { 
               stage: 'other',
+              relevance:'first_reviewer',
             },
           },
         },
         {
-          path: '/task/finished',
+          path: '/task/monitor/final_reviewer',
+          name: 'TaskMonitorFinalReviewer',
+          component: TaskCommon,
+          meta: {
+            params: { 
+              stage: 'other',
+              relevance:'final_reviewer',
+            },
+          },
+        },
+        {
+          path: '/task/all',
+          name: 'TaskPending',
+          component: TaskCommon,
+          meta: { 
+            params: { scope: 'all' }, 
+          },
+        },   
+        {
+          path: '/task/finished/my',
           name: 'TasksFinished',
           component: TaskCommon,
           meta: {
             params: { 
-              status: 1,
+              is_completed: 1,
+            },
+          },
+        },
+        {
+          path: '/task/finished/team',
+          name: 'TasksFinished',
+          component: TaskCommon,
+          meta: {
+            params: { 
+              is_completed: 1,
+              scope: 'all',
             },
           },
         },

@@ -89,17 +89,18 @@
 						v-model="form[item.key]"
 						@click="showPanel(item.type)"
 						:type="item.type"
+						disabled="isDetailEnabled"
 						>{{"点我查看" + item.name}}
 					</a>
 				</el-form-item>
 			</template>
 		</template>
 		<slot name="app-button"></slot>
-		<app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
-			<template v-if="this.type == 'order'">
-				<order-manage-detail type="pay" ref="detail" :id="row.model_id"></order-manage-detail>
+		<!-- <app-shrink :visible.sync="isPanelVisible" :title="title" ref="panel"> -->
+			<template>
+				<order-manage-detail ref="order" @loaded="panelLoaded"></order-manage-detail>
 			</template>
-			<template v-else-if="this.type == 'cpc_editor'">
+			<!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
 			</template>
 			<template v-else-if="this.type == 'payment_request'">
@@ -116,8 +117,8 @@
 			</template>
 			<template v-else-if="this.type == 'sensitive_operation'">
 				<sensitive-operation type="pay" ref="detail" :id="row.model_id"></sensitive-operation>
-			</template>
-		</app-shrink>
+			</template> -->
+		<!-- </app-shrink> -->
 	</el-form>
 </template>
 <script>
@@ -166,10 +167,8 @@ export default {
 	data () {
 		return {
 			form: {},
-			isPanelVisible: false,
 			id: 0,
-			type: '',
-			title: '',
+			isDetailEnabled : true,
 		}
 	},
 	computed: {
@@ -182,14 +181,19 @@ export default {
 		},
 	},
 	methods: {
+		panelLoaded() {
+			this.isDetailPanelEnabled = true;
+		},
 		handleInput (val) {
 			this.$emit('input',val);
 			this.$emit('formData',this.form);
 		},
-		showPanel (val) {
-			this.type = val;
-			this.title = this.row.model.name + '详情>' + this.row.serial;
-			this.isPanelVisible = true;
+		showPanel (type) {
+			this.isDetailEnabled = false;
+			console.log('task detail panel is clicked, type:' + type + ' id: ' + this.row.model_id);
+			switch (type) {
+				case 'order':this.$refs.order.show(this.row.model_id,'edit');break;
+			}
 		},
 		initializeForm () {
 			let val = null;

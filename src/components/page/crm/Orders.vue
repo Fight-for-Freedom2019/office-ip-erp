@@ -3,19 +3,7 @@
     <div class="Orders">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @refresh="refresh" @update="update"
                          @refreshTableData="refreshTableData"></table-component>
-        <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
-            <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" @click="save('detail')">保存</el-button>
-                <el-button type="danger"  size="small" @click="deleteBill" v-if="orderStatus === 'audit'">删除</el-button>
-                <el-button type="primary" size="small" v-if="orderStatus === 'audit'"
-                           @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
-                <el-button type="primary" size="small" v-if="status === 'remind'">邮件提醒</el-button>
-                <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button>
-                <el-button type="primary" size="small" v-if="status === 'confirm'" @click="confirm">确认付款</el-button>
-                <!--<el-button type="" size="small">退回修改</el-button>-->
-            </span>
-            <order-manage-detail type="pay" ref="detail" :id="rowID" @update="update" :rowData="row"></order-manage-detail>
-        </app-shrink>
+        <order-manage-detail type="pay" ref="detail" @update="update"></order-manage-detail>
         <app-shrink :visible.sync="visibleOrderAdd" :modal='false' :title="orderAddTitle">
             <span slot="header" style="float: right;">
                 <el-button type="primary" size="small" @click="save('addDetail')">保存</el-button>
@@ -103,7 +91,6 @@
                 },
                 visibleOrderAdd:false,
                 orderAddTitle:"新增",
-                orderStatus:'',
             }
         },
         methods:{
@@ -121,11 +108,7 @@
                 this.openVisible("visibleOrderAdd");
             },
             handleRowClick(row){
-                this.openVisible("isPanelVisible");
-                this.title = "订单详情";
-                this.rowID = row.id;
-                this.row = row;
-                this.orderStatus = statusMap.get(row.status.id);
+                this.$refs.detail.show(row.id,'edit');
             },
             refreshTableData(data) {
                 const url = this.URL;

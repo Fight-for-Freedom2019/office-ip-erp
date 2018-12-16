@@ -1,9 +1,9 @@
 <template>
   <div class="main" id="task_common">
     <table-component :tableOption="tableOption" :data="tableData" :refreshTableData="refreshTableData" ref="table">
-<!--       <el-select v-if="menusMap && !menusMap.get('/tasks/all')" slot="toggle" v-model="task_toggle" style="width: 110px; margin-left: 5px;">
-        <el-option key="mine" label="我的任务" value="personal"></el-option>
-        <el-option key="all" label="所有任务" value="all"></el-option>
+      <!-- <el-select v-if="menusMap && !menusMap.get('Pages.Tasks.All')" slot="toggle" v-model="task_toggle" style="width: 110px; margin-left: 5px;">
+        <el-option key="mine" label="我的待办" value="my"></el-option>
+        <el-option key="all" label="所有待办" value="all"></el-option>
       </el-select> -->
         <!-- <el-button type="primary" slot="test" @click="toggle">测试</el-button> -->
     </table-component>
@@ -329,6 +329,7 @@ export default {
           // { type: 'custom', label: '转出', icon: '', click: ()=>{ this.dialogTurnoutVisible = true; } },
           { type: 'control', label: '字段'},
           // { type: 'custom', label: '设定', icon: '', click: ()=>{ this.dialogSettingVisible = true; } }
+          { type: 'taskscope'}
         ],
         'header_slot': [ 'toggle', ],
         'highlightCurrentRow': true, 
@@ -393,7 +394,7 @@ export default {
         ],
       },
       tableData: [],
-      task_toggle: 'personal',
+      task_toggle: 'my',
       // agen: {
       //   agency_id: '',
       //   agency_agent: '',
@@ -646,7 +647,7 @@ export default {
     },
     refreshTableData (option) {
       const url = URL;
-      const data = Object.assign({}, option, {status: this.task_status}, this.urlParams, this.defaultParams);
+      const data = Object.assign({}, option, {status: this.task_status, scope:this.task_toggle}, this.urlParams, this.defaultParams);
       const success = d=>{
         if( data['format'] == 'excel' ) {
           window.location.href = d.tasks.downloadUrl;
