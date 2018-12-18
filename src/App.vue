@@ -323,4 +323,43 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
   color: rgb(132, 146, 166);
   font-size: 14px;
 }
+
+.tag-color-1 {
+  color: #fff;
+  background-color: rgb(199,0,57);
+}
+
+.tag-color-2 {
+  color: #fff;
+  background-color: rgb(255,87,51);
+}
+
+.tag-color-3 {
+  color: #fff;
+  background-color: rgb(87,199,133);
+}
+
+.tag-color-4 {
+  color: #fff;
+  background-color: rgb(0,186,173);
+}
+
+.tag-color-5 {
+  color: #fff;
+  background-color: rgb(81,24,73);
+}
+
+.tag-color-6 {
+  color: #fff;
+  background-color: rgb(42,123,125);
+}
+
+.tag-color-7 {
+  color: #fff;
+  background-color: rgb(255,141,26);
+}
+
+
+
+  
 </style>

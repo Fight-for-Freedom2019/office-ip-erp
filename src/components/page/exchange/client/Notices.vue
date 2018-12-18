@@ -54,7 +54,7 @@
                         {type: 'text', label: '来源', prop: 'source',render_simple:'name',render_header: true, min_width: '100'},
                         {type: 'text', label: '上传用户', prop: 'creator_user',render_simple:'name', min_width: '110'},
                         {type: 'text', label: '上传时间', prop: 'creation_time',render_header: true, min_width: '135'},
-                        {type: 'text', label: '已导入', prop: 'is_imported',render_simple:'name',render_header: true, min_width: '80'},
+                        {type: 'text', label: '导入状态', prop: 'is_imported',render_simple:'name',render_header: true, min_width: '90'},
                         {type: 'text', label: '导入时间', prop: 'imported_date',render_header: true, min_width: '135'},
                         {type: 'text', label: '导入用户', prop: 'import_user',render_simple:'name', min_width: '120'},
                         {type: 'text', label: '通知书正文', prop: 'file', min_width: '120',render:(h,item,row)=>{

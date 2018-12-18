@@ -3,19 +3,7 @@
     <div class="Orders">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @refresh="refresh" @update="update"
                          @refreshTableData="refreshTableData"></table-component>
-        <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
-            <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" @click="save('detail')">保存</el-button>
-                <el-button type="danger" :disabled="is_disabled" size="small" @click="deleteBill">删除</el-button>
-                <el-button type="primary" size="small" v-if="status === 'audit'"
-                           @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
-                <el-button type="primary" size="small" v-if="status === 'remind'">邮件提醒</el-button>
-                <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button>
-                <el-button type="primary" size="small" v-if="status === 'confirm'" @click="confirm">确认付款</el-button>
-                <!--<el-button type="" size="small">退回修改</el-button>-->
-            </span>
-            <order-manage-detail type="pay" ref="detail" :id="rowID" @update="update" :rowData="row"></order-manage-detail>
-        </app-shrink>
+        <order-manage-detail type="pay" ref="detail" @update="update"></order-manage-detail>
         <app-shrink :visible.sync="visibleOrderAdd" :modal='false' :title="orderAddTitle">
             <span slot="header" style="float: right;">
                 <el-button type="primary" size="small" @click="save('addDetail')">保存</el-button>
@@ -46,7 +34,8 @@
 
     const config = new Map(Config);
     const status = [
-        [0,"audit"],
+        [1,"audit"],
+        [3,"audit"],
         [8,"remind"],
         [11,"upload"],
         [12,"confirm"],
@@ -66,11 +55,12 @@
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
-                    /*'is_list_filter': true,
-                    'list_type': 'invoices',
-                    'treeFilter': 'invoices',*/
+                    // 'is_list_filter': true,
+                    'list_type': 'orders',
+                    'treeFilter': 'orders',
                     'search_placeholder': '',
                     'rowClick': this.handleRowClick,
+                    'search_placeholder': '搜索客户名称、订单号码',
                     'header_btn': [
                         // {type: 'export'},
                         {type: 'add',click:this.add},
@@ -79,11 +69,12 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户名称', prop: 'customer', render_simple:"name",width: '178', render_header: true},
-                        {type: 'text', label: '联系人', prop: 'contact', render_simple:"name", width: '120', render_header: true},
-                        {type: 'text', label: '销售', prop: 'sales' ,render_simple:"name",render_header: true},
-                        {type: 'text', label: '交付日期', prop: 'delivery_date', width: '180',render_header: true},
-                        {type: 'text', label: '订单状态', prop: 'status', width: '120'},
+                        {type: 'text', label: '订单号', prop: 'serial', min_width: '120'},
+                        {type: 'text', label: '客户名称', prop: 'customer', render_simple:"name", min_width: '178', render_header: true},
+                        {type: 'text', label: '联系人', prop: 'contact', render_simple:"name", min_width: '110', render_header: true},
+                        {type: 'text', label: '销售', prop: 'sales' ,render_simple:"name",render_header: true, min_width: '110'},
+                        {type: 'text', label: '交付期限', prop: 'delivery_date', min_width: '110',render_header: true},
+                        {type: 'text', label: '订单状态', prop: 'status',render_simple:'name', min_width: '110',render_header:true},
                         {type: 'text', label: '备注', prop: 'remark', min_width: '120', render_header: true},
                     ],
                 },
@@ -99,7 +90,7 @@
                     ]
                 },
                 visibleOrderAdd:false,
-                orderAddTitle:"新增"
+                orderAddTitle:"新增",
             }
         },
         methods:{
@@ -117,10 +108,7 @@
                 this.openVisible("visibleOrderAdd");
             },
             handleRowClick(row){
-                this.openVisible("isPanelVisible");
-                this.title = "订单详情";
-                this.rowID = row.id;
-                this.row = row;
+                this.$refs.detail.show(row.id,'edit');
             },
             refreshTableData(data) {
                 const url = this.URL;

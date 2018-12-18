@@ -29,6 +29,7 @@
                     'columns': [
                         {type: 'text', label: '服务项目', prop: 'service', render_simple:"name",min_width: '178'},
                         {type: 'text', label: '单价', prop: 'unit_price', width: '120'},
+                        {type: 'text', label: '预收官费', prop: 'collected_official_fee', width: '120'},
                         {type: 'text', label: '数量', prop: 'amount', width: '150'},
                         {type: 'text', label: '小计', prop: 'sum', width: '180'},
                         /* 不支持删除

@@ -4,16 +4,21 @@ const menu = {};
 
 const taskMenu = [
 	{ type: 'item', text: '我的待办', path: '/task/pending', icon: 'iconfont el-icon-my-task'},
+	{ type: 'item', text: '所有待办', path: '/task/all', icon: 'iconfont el-icon-my-all'},
 	{ type: 'submenu', text: '我的审核', path: '/task/review', icon: 'iconfont el-icon-my-review', children:[
 		{ type: 'item', text: '我发送的', path: '/task/review/sent', icon: 'iconfont el-icon-my-send'},
 		{ type: 'item', text: '待我审核', path: '/task/review/my', icon: 'iconfont el-icon-my-received'},
 	]},
 	{ type: 'submenu', text: '我的关注', path: '/task/monitor', icon: 'iconfont el-icon-my-star', children:[
-		{ type: 'item', text: '新申请', path: '/task/monitor/application', icon: 'iconfont el-icon-my-order' },
-		{ type: 'item', text: '法限案件', path: '/task/monitor/oa', icon: 'iconfont el-icon-my-due' },
-		{ type: 'item', text: '其它', path: '/task/monitor/other', icon: 'iconfont el-icon-my-due' },
+		{ type: 'item', text: '我为代理人', path: '/task/monitor/agent', icon: 'iconfont el-icon-my-people' },
+		{ type: 'item', text: '我为代理人助理', path: '/task/monitor/assistant', icon: 'iconfont el-icon-my-proposer' },
+		{ type: 'item', text: '我为初审人', path: '/task/monitor/first_reviewer', icon: 'iconfont el-icon-my-due' },
+		{ type: 'item', text: '我为复审人', path: '/task/monitor/final_reviewer', icon: 'iconfont el-icon-my-patent-applied' },
 	] },
-	{ type: 'item', text: '已完成', path: '/task/finished', icon: 'iconfont el-icon-my-task-finish'},
+	{ type: 'submenu', text: '已完成', path: '/task/finished', icon: 'iconfont el-icon-my-task-finish', children:[
+		{ type: 'item', text: '我的已完成', path: '/task/finished/my', icon: 'iconfont el-icon-my-people' },
+		{ type: 'item', text: '团队已完成', path: '/task/finished/team', icon: 'iconfont el-icon-my-team' },
+	] },
 ];
 
 const patentMenu = [

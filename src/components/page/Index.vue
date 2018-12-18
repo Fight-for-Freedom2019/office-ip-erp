@@ -42,12 +42,12 @@
           style="cursor: pointer; float: right; margin-right: 20px; margin-top: 12px; font-size: 24px;" 
           title="系统消息"
           :src="sysmesg.length != 0 ? '/static/static_img/news_in.png' : '/static/static_img/news.png'"
-        />   -->      
+        />   
           <el-badge :value="pendingTaskCount" class="task-pending-top">
             <el-button size="mini" icon="el-icon-warning" type="primary" @click="$router.push('/task/pending')" title="待办任务"></el-button>
           </el-badge>
         <a target="_blank" href="http://help.hongjianguo.com" style="margin-right:20px;
-    font-size: 14px;">帮助</a>       
+    font-size: 14px;">帮助</a>-->       
         </div>   
     </nav>
       

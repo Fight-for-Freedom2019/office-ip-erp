@@ -1,6 +1,6 @@
 <template>
 	<div>
-	<div class="app-shrink-modal" v-if="modal" v-show="visible" @click="close"></div>
+	<div class="app-shrink-modal" v-if="modal" v-show="visible"></div>
 	<transition name="slide-fade">
 	<div :style="shirnkStyle" class="app-shrink" v-show="visible">
 		<div class="app-shrink-head">
@@ -59,7 +59,7 @@ export default {
 		close () {
 			if(this.modalClick) {
 				this.$emit('update:visible', false);
-				this.$emit('close');	
+				this.$emit('close');
 			}
 		},
 		// fire (e) {

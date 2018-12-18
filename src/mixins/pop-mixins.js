@@ -21,7 +21,7 @@ export default {
       this.dialogVisible = true;
       this.$nextTick(_=>{
         this.$refs.form.resetFields();  
-        
+      
         if(type === 'edit' || type === 'confirm') {
           if(data instanceof Object) {
             const copy = this.$tool.deepCopy(data);

@@ -7,8 +7,8 @@
             </el-form-item>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="联系人" prop="contacts">
-                        <jump-select type="contacts" v-model="form.contacts"></jump-select>
+                    <el-form-item label="联系人" prop="contact">
+                        <jump-select type="contacts" v-model="form.contact"></jump-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -50,6 +50,9 @@
                 <el-form-item label="单价" prop="unit_price">
                     <el-input type="text" v-model.number="servicesForm.unit_price"></el-input>
                 </el-form-item>
+                <el-form-item label="预收官费" prop="collected_official_fee">
+                    <el-input type="text" v-model.number="servicesForm.collected_official_fee"></el-input>
+                </el-form-item>
                 <el-form-item label="数量" prop="amount">
                     <el-input type="text" v-model.number="servicesForm.amount"></el-input>
                 </el-form-item>
@@ -74,7 +77,7 @@
             return {
                 form: {
                     customer: "",
-                    contacts: "",
+                    contact: "",
                     sales: "",
                     delivery_date: "",
                     remark: "",
@@ -83,7 +86,7 @@
                     customer: [
                         {required: true, message: "请选择客户", trigger: "blur"},
                     ],
-                    contacts: [
+                    contact: [
                         {required: true, message: "请选择联系人", trigger: "blur"},
                     ],
                     sales: [
@@ -99,6 +102,7 @@
                         name: ""
                     },
                     unit_price: "",
+                    collected_official_fee: "",
                     amount: "",
                     temp: "",
                     sum: "",
@@ -133,6 +137,7 @@
                             render_header: true
                         },
                         {type: 'text', label: '单价', prop: 'unit_price', width: '120'},
+                        {type: 'text', label: '预收官费', prop: 'collected_official_fee', width: '120'},
                         {type: 'text', label: '数量', prop: 'amount', width: '150'},
                         {type: 'text', label: '小计', prop: 'sum', width: '180'},
                         {
@@ -168,6 +173,7 @@
                         id: item.service.id,
                         amount: item.amount,
                         unit_price: item.unit_price,
+                        collected_official_fee: item.collected_official_fee,
                     };
                     arr.push(obj);
                 });
@@ -177,6 +183,9 @@
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         this.form.services = this.getService();
+                        if (this.form.services.length == 0) {
+                            this.$message({type: 'alert',message: '服务项目不能为空！'});
+                        }
                         const success = _ => {
                             this.$emit("refresh");
                             this.$emit("closeVisible","visibleOrderAdd");
@@ -194,8 +203,9 @@
                             name: this.getName()
                         };
                         const unit_price = this.servicesForm.unit_price;
+                        const collected_official_fee = this.servicesForm.collected_official_fee;
                         const amount = this.servicesForm.amount;
-                        this.servicesForm.sum = unit_price * amount;
+                        this.servicesForm.sum = unit_price * amount + collected_official_fee * amount;
                         this.servicesForm.mark = this.mark;
                         this.mark++;
                         this.tableData.push(Object.assign({}, this.servicesForm));

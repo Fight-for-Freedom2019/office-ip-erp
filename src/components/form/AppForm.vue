@@ -82,8 +82,43 @@
 					</upload>
 				</el-form-item>
 			</template>
+			<template v-else-if="item.components == 'panel'">
+				<el-form-item :label="item.name" :prop="item.key" :key="index">
+					<a ref="panel"
+						href="#"
+						v-model="form[item.key]"
+						@click="showPanel(item.type)"
+						:type="item.type"
+						disabled="isDetailEnabled"
+						>{{"点我查看" + item.name}}
+					</a>
+				</el-form-item>
+			</template>
 		</template>
 		<slot name="app-button"></slot>
+		<!-- <app-shrink :visible.sync="isPanelVisible" :title="title" ref="panel"> -->
+			<template>
+				<order-manage-detail ref="order" @loaded="panelLoaded"></order-manage-detail>
+			</template>
+			<!-- <template v-else-if="this.type == 'cpc_editor'">
+				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
+			</template>
+			<template v-else-if="this.type == 'payment_request'">
+				<payment-manage-detail type="pay" ref="detail" :id="row.model_id"></payment-manage-detail>
+			</template>
+			<template v-else-if="this.type == 'outgo_payment'">
+				<cusotmer-payment-detail type="pay" ref="detail" :id="row.model_id"></cusotmer-payment-detail>
+			</template>
+			<template v-else-if="this.type == 'contract'">
+				<contract-detail type="pay" ref="detail" :id="row.model_id"></contract-detail>
+			</template>
+			<template v-else-if="this.type == 'voucher'">
+				<invoice-manage-detail type="pay" ref="detail" :id="row.model_id"></invoice-manage-detail>
+			</template>
+			<template v-else-if="this.type == 'sensitive_operation'">
+				<sensitive-operation type="pay" ref="detail" :id="row.model_id"></sensitive-operation>
+			</template> -->
+		<!-- </app-shrink> -->
 	</el-form>
 </template>
 <script>
@@ -92,6 +127,14 @@ import RemoteSelect from '@/components/form/RemoteSelect'
 import JumpSelect from '@/components/form/JumpSelect'
 import AppSwitch from '@/components/form/AppSwitch'
 import Upload from '@/components/form/Upload'
+import AppShrink from '@/components/common/AppShrink'
+import OrderManageDetail from '@/components/page_extension/OrderManageDetail'
+import PaymentManageDetail from '@/components/page_extension/PaymentManageDetail'
+import CustomerPaymentDetail from '@/components/page/crm/suppliers/Payments'
+import InvoiceManageDetail from '@/components/page_extension/InvoiceManageDetail'
+import ContractsDetail from '@/components/page_extension/ContractsListAdd'
+import SensitiveOperation from '@/components/page/common/SensitiveOperation'
+import CpcEditor from '@/components/page/cpc/CpcEditor'
 
 export default {
 	name: 'appForm',
@@ -115,11 +158,17 @@ export default {
 			default () {
 				return {}
 			},
-		}	
+		},
+		'row':{
+			type: Object,
+			default: {},
+		}
 	},
 	data () {
 		return {
 			form: {},
+			id: 0,
+			isDetailEnabled : true,
 		}
 	},
 	computed: {
@@ -132,9 +181,19 @@ export default {
 		},
 	},
 	methods: {
+		panelLoaded() {
+			this.isDetailPanelEnabled = true;
+		},
 		handleInput (val) {
 			this.$emit('input',val);
 			this.$emit('formData',this.form);
+		},
+		showPanel (type) {
+			this.isDetailEnabled = false;
+			console.log('task detail panel is clicked, type:' + type + ' id: ' + this.row.model_id);
+			switch (type) {
+				case 'order':this.$refs.order.show(this.row.model_id,'edit');break;
+			}
 		},
 		initializeForm () {
 			let val = null;
@@ -158,7 +217,7 @@ export default {
 			this.initializeForm();
 		},
 	},
-	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload, }
+	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload,OrderManageDetail,AppShrink, PaymentManageDetail, InvoiceManageDetail, ContractsDetail, SensitiveOperation, CpcEditor,CustomerPaymentDetail  }
 }
 </script>
 <style lang="scss" scoped>
