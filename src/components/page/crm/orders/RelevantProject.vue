@@ -16,18 +16,18 @@
             return {
                 tableOption: {
                     'name': 'RelevantProjectList',
-                    'height': 515,
+                    'height': 450,
                     'is_search': false,
                     'is_pagination': false,
                     'columns': [
-                        {type: 'text', label: '案件类型', prop: 'category', width: '150'},
-                        {type: 'text', label: '子类型', prop: 'subtype', width: '170'},
-                        {type: 'text', label: '案号', prop: 'serial', width: '145'},
-                        {type: 'text', label: '标题', prop: 'title', width: '145'},
-                        {type: 'text', label: '立案时间', prop: 'creation_time', width: '145'},
-                        {type: 'text', label: '申请日', prop: 'application_date', width: '145'},
-                        {type: 'text', label: '申请号', prop: 'application_number', width: '145'},
-                        {type: 'text', label: '当前状态', prop: 'project_stage', width: '145',render_simple:"name"},
+                        {type: 'text', label: '案件类型', prop: 'project_type',render_simple:'name', min_width: '120'},
+                        {type: 'text', label: '子类型', prop: 'subtype',render_simple:'name', min_width: '120'},
+                        {type: 'text', label: '案号', prop: 'serial', min_width: '120'},
+                        {type: 'text', label: '标题', prop: 'title', min_width: '120'},
+                        {type: 'text', label: '立案日', prop: 'creation_time', min_width: '110'},
+                        // {type: 'text', label: '申请日', prop: 'application_date', width: '145'},
+                        // {type: 'text', label: '申请号', prop: 'application_number', width: '145'},
+                        {type: 'text', label: '当前状态', prop: 'project_stage', min_width: '110',render_simple:"name"},
                     ]
                 },
             }

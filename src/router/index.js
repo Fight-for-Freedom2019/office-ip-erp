@@ -26,19 +26,19 @@ const NoticeCommon             = () => import('@/components/page/NoticeCommon')
 
 //CRM基础数据
 const CustomerList             = () => import('@/components/page/CustomerList')
-const Orders                   = () => import('@/components/page/crm/Orders')
+const Orders                   = () => import('@/components/page/crm/orders/Orders')
 const CustomerQuotation        = () => import('@/components/page/crm/data/Quotation')     //报价管理
 const ApplicantList            = () => import('@/components/page/ApplicantList')
 const InventorList             = () => import('@/components/page/InventorList')
 const ContactsList             = () => import('@/components/page/ContactsList')
 const CustomerRemarks          = () => import('@/components/page/CustomerRemarks')
-const ContractsList            = () => import('@/components/page/ContractsList')
+const ContractsList            = () => import('@/components/page/crm/contracts/ContractsList')
 const InvoiceTargets           = () => import('@/components/page/InvoiceTargets')
 
 //CRM模块账款管理
 const RequestPayout             = () => import('@/components/page/RequestPayout')     //待请费用
-const PaymentManage            = () => import('@/components/page/PaymentManage')     //请款管理
-const CrmVouchers              = () => import('@/components/page/InvoiceManage')     //发票管理
+const PaymentManage            = () => import('@/components/page/PaymentManage')      //请款管理
+const CrmVouchers              = () => import('@/components/page/InvoiceManage')      //发票管理
 const PaymentRecevied          = () => import('@/components/page/PaymentRecevied')     //回款管理
 
 // CRM模块通知发文
@@ -347,7 +347,7 @@ const router = new Router({
         },
         {
           path: '/task/all',
-          name: 'TaskPending',
+          name: 'TaskPendingAll',
           component: TaskCommon,
           meta: { 
             params: { scope: 'all' }, 
@@ -355,7 +355,7 @@ const router = new Router({
         },   
         {
           path: '/task/finished/my',
-          name: 'TasksFinished',
+          name: 'TasksFinishedMy',
           component: TaskCommon,
           meta: {
             params: { 
@@ -365,7 +365,7 @@ const router = new Router({
         },
         {
           path: '/task/finished/team',
-          name: 'TasksFinished',
+          name: 'TasksFinishedTeam',
           component: TaskCommon,
           meta: {
             params: { 

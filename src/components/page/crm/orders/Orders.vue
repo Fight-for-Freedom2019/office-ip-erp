@@ -3,7 +3,7 @@
     <div class="Orders">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @refresh="refresh" @update="update"
                          @refreshTableData="refreshTableData"></table-component>
-        <order-manage-detail type="pay" ref="detail" @update="update"></order-manage-detail>
+        <order-detail type="pay" ref="detail" @update="update"></order-detail>
         <app-shrink :visible.sync="visibleOrderAdd" :modal='false' :title="orderAddTitle">
             <span slot="header" style="float: right;">
                 <el-button type="primary" size="small" @click="save('addDetail')">保存</el-button>
@@ -27,8 +27,8 @@
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
-    import OrderManageDetail from '@/components/page_extension/OrderManageDetail'
-    import OrderListAdd from '@/components/page_extension/OrderListAdd'
+    import OrderDetail from '@/components/page/crm/orders/OrderDetail'
+    import OrderListAdd from '@/components/page/crm/orders/OrderListAdd'
     import Config from "@/const/selectConfig"
     import FeeManage from '@/mixins/fee-manage'
 
@@ -126,7 +126,7 @@
         components: {
             TableComponent,
             AppShrink,
-            OrderManageDetail,
+            OrderDetail,
             OrderListAdd,
         }
     }

@@ -19,7 +19,7 @@
     import TableComponent from '@/components/common/TableComponent'
     import AppShrink from '@/components/common/AppShrink'
     import ExpressInfoAdd from '@/components/page_extension/ExpressInfoAdd'
-    import RelevantContract from '@/components/page_extension/RelevantContract'
+    import RelevantContract from '@/components/page/crm/orders/RelevantContract'
     import TableMixins from '@/mixins/table-mixins'
 
     const config = [    // 需要与tableOption的columns中的label定义的一致

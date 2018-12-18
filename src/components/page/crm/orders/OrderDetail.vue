@@ -1,6 +1,6 @@
 <!-- 订单详情,与请/付款管理的template结构类似,字段不同 -->
 <template>
-    <div class="OrderManageDetail">
+    <div class="OrderDetail">
         <app-shrink :visible.sync="dialogVisible"  :title="title">
             <span slot="header" style="float: right;" >
                 <el-button type="primary" size="small" @click="save()">保存</el-button>
@@ -59,18 +59,17 @@
                 <div class="OrderManageRelevant">
                     <el-tabs v-model="activeName">
                         <el-tab-pane label="订单明细" name="first">
-                            <!--<order-detail :data="orders?orders.services:[]" :id="id"></order-detail>-->
-                            <order-detail :data="order_service" :id="id"></order-detail>
+                            <order-detail-service :data="order_service" :id="id"></order-detail-service>
                         </el-tab-pane>
                         <el-tab-pane label="相关合同" name="reminders">
-                            <relevant-contract ref="reminders" :data="contracts" :status="form.status"
-                                            :id="id"></relevant-contract>
+                            <order-detail-contract ref="reminders" :data="contracts" :status="form.status"
+                                            :id="id" :order="this.order" @refresh="refresh"></order-detail-contract>
                         </el-tab-pane>
                         <el-tab-pane label="相关账单" name="received_payments">
-                            <relevant-project ref="received" :id="id" :data="invoices"></relevant-project>
+                            <order-detail-invoice ref="received" :id="id" :data="invoices"></order-detail-invoice>
                         </el-tab-pane>
                         <el-tab-pane label="相关案件" name="case">
-                            <relevant-project ref="received" :id="id" :data="projects"></relevant-project>
+                            <order-detail-project ref="received" :id="id" :data="projects"></order-detail-project>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -84,9 +83,10 @@
     import RemoteSelect from "@/components/form/RemoteSelect";
     import StaticSelect from "@/components/form/StaticSelect";
     import UpLoad from "@/components/form/Upload";
-    import OrderDetail from '@/components/page_extension/OrderDetail'
-    import RelevantContract from '@/components/page_extension/RelevantContract'
-    import RelevantProject from '@/components/page_extension/RelevantProject'
+    import OrderDetailService from '@/components/page/crm/orders/OrderDetailServie'
+    import OrderDetailInvoice from '@/components/page/crm/orders/RelevantInvoice'
+    import OrderDetailContract from '@/components/page/crm/orders/RelevantContract'
+    import OrderDetailProject from '@/components/page/crm/orders/RelevantProject'
     import FeeManage from '@/mixins/fee-manage'
     import AppShrink from '@/components/common/AppShrink'
 
@@ -101,7 +101,7 @@
     const statusMap = new Map(status);
 
     export default {
-        name: "OrderManageDetail",
+        name: "OrderDetail",
         mixins:[],
         data() {
             return {
@@ -141,6 +141,7 @@
                 id:0,
                 mode:'edit',
                 dialogVisible: false,
+                order:{},
             }
         },
         methods: {
@@ -196,13 +197,15 @@
                 }
                 const url = `${this.URL}/${id}`;
                 const success = _ => {
-                    const target = _.data.data[0];
-                    const contracts = target.contract;
-                    const order_service = target.order_service;
+                    const target = _.data;
+                    this.order = target;
+                    this.order.name = this.order.serial;
+                    const contracts = target.contracts;
+                    const order_service = target.order_services;
                     const projects = target.projects;
                     const invoices = target.invoices;
                     this.$tool.coverObj(this.form, target, {obj:['status']});
-                    this.attachments = target.attachments;
+                    // this.attachments = target.attachments;
                     this.order_service = order_service ? order_service : [];
                     this.contracts = contracts ? contracts : [];
                     this.projects = projects ? projects : [];
@@ -215,6 +218,9 @@
                     this.$emit('loaded');
                 };
                 this.$axiosGet({url, success, complete});
+            },
+            refresh() {
+                this.show(this.id,this.mode);
             },
 
             changeState() {      // 改变状态的方法，有点繁琐
@@ -234,9 +240,10 @@
         components: {
             RemoteSelect,
             UpLoad,
-            OrderDetail,
-            RelevantContract,
-            RelevantProject,
+            OrderDetailService,
+            OrderDetailProject,
+            OrderDetailContract,
+            OrderDetailInvoice,
             StaticSelect,
             AppShrink,
         },
@@ -263,29 +270,29 @@
 
 </style>
 <style>
-    #app .OrderManageDetail .break-form textarea {
+    #app .OrderDetail .break-form textarea {
         height: auto;
     }
 
-    #app .OrderManageDetail .upload-form {
+    #app .OrderDetail .upload-form {
         height: auto;
     }
 
-    .OrderManageDetail .custom-input .el-input__inner, .OrderManageDetail .custom-picker-input .el-input__inner {
+    .OrderDetail .custom-input .el-input__inner, .OrderDetail .custom-picker-input .el-input__inner {
         height: 28px;
         line-height: 28px;
         font-size: 12px;
     }
 
-    .OrderManageDetail .custom-picker-input .el-input__inner {
+    .OrderDetail .custom-picker-input .el-input__inner {
         padding: 0 14px;
     }
 
-    .OrderManageDetail .custom-input .el-input__icon, .OrderManageDetail .custom-picker-input .el-input__icon {
+    .OrderDetail .custom-input .el-input__icon, .OrderDetail .custom-picker-input .el-input__icon {
         line-height: 28px;
     }
 
-    .OrderManageDetail .custom-picker-input .el-input__prefix {
+    .OrderDetail .custom-picker-input .el-input__prefix {
         display: none;
     }
 </style>

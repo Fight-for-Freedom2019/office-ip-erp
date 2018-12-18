@@ -7,10 +7,22 @@
                 <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
             </el-form-item>
 
-            <el-form-item label="联系人" prop="contact">
-                <remote-select type="contacts" :pageType="type" v-model="form.contact"></remote-select>
+            <el-form-item label="合同正文" prop="attachments">
+                <upload v-model="form.attachments" :file-list="attachments"></upload>
             </el-form-item>
 
+            <el-row>
+                <el-col :span="12">
+                     <el-form-item label="联系人" prop="contact">
+                        <remote-select type="contacts" :pageType="type" v-model="form.contact"></remote-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="相关订单" prop="order">
+                        <remote-select type="orders" :pageType="type"  v-model="form.order"></remote-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="合同编号" prop="serial">
@@ -52,12 +64,10 @@
             <el-form-item label="备注" prop="remark">
                 <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item label="状态" prop="is_effective">
-                <app-switch :type="switch_type" simple="true" v-model="form.is_effective" @input="getStatus"></app-switch>
+            <el-form-item label="状态" prop="status" v-if="this.type === 'edit'">
+                <static-select type="contract_status" v-model="form.status" placeholder=""></static-select>
             </el-form-item>
-            <el-form-item label="附件" prop="attachments">
-                <upload v-model="form.attachments" :file-list="attachments"></upload>
-            </el-form-item>
+            
 
         </el-form>
     </div>
@@ -75,6 +85,12 @@
         name: "ContractsListAdd",
         props: {
             contracts: {
+                type: Object,
+                default() {
+                    return {};
+                }
+            },
+            order: {
                 type: Object,
                 default() {
                     return {};
@@ -101,7 +117,7 @@
                     type: "",
                     signing_date: "",
                     expire_date: "",
-                    is_effective : 1,
+                    status : 1,
                     serial: "",
                     contact_id: "",
                     customer_id: "",
@@ -115,6 +131,10 @@
                         name:"",
                         id:"",
                     },
+                    order: {
+                        name:"",
+                        id:"",
+                    },
                 },
                 attachments:[],
                 rules: {
@@ -123,56 +143,53 @@
                         message: "请选择客户",
                         trigger: "change"
                     },
-                    email_address: [
-                        {
-                            pattern: /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
-                            message: "邮件地址格式不正确",
-                            trigger: "blur"
-                        }
-                    ],
-                    phone_number: {
-                        pattern: /^1[345678]\d{9}$/,
-                        message: "手机号码或者座机号码格式错误",
-                        trigger: "blur"
+                    attachments: {
+                        required: true,
+                        message: "请上传合同文本",
+                        trigger: "change"
                     }
                 }
             };
         },
         methods: {
             save(type) {
-                const data = this.form;
-                data.customer_id = data.customer;
-                data.contact_id = data.contact;     // 在获取remote-select数据时把id保存在了contact和customer这两个字段上，实际上后端需要的是contact_id和customer_id
-                if(data.customer_id === null && data.customer === null){this.$message({type: "warning", message: "必选项不能为空"});return;}
-                data.attachments = this.form.attachments.map((d)=>{d.id});
-                if (type === "add") {
-                    this.$axiosPost({
-                        url: URL,
-                        data,
-                        success: () => {
-                            this.$message({type: "success", message: "添加合同成功"});
-                            this.$emit("refresh");
+                this.$refs['form'].validate((valid)=>{
+                    if(valid){
+                        const data = this.form;
+                        if (type === "add") {
+                            this.$axiosPost({
+                                url: URL,
+                                data,
+                                success: () => {
+                                    this.$message({type: "success", message: "添加合同成功"});
+                                    this.$emit("refresh");
+                                }
+                            });
+                        } else {
+                            let url = "/contracts/" + this.contracts.id;
+                            data.id = this.contracts.id;
+                            this.$axiosPut({
+                                url,
+                                data,
+                                success: () => {
+                                    this.$message({type: "success", message: "编辑合同成功"});
+                                    this.$emit("update");
+                                }
+                            });
                         }
-                    });
-                } else {
-                    let url = "/contracts/" + this.contracts.id;
-                    data.id = this.contracts.id;
-                    this.$axiosPut({
-                        url,
-                        data,
-                        success: () => {
-                            this.$message({type: "success", message: "编辑合同成功"});
-                            this.$emit("update");
-                        }
-                    });
-                }
+                    } else {
+                        this.$message({type: 'warning', message: '请正确填写'});
+                        return;
+                    }
+                })
+                
             },
             getStatus(val) {
-                this.form.is_effective  = val;
+                this.form.status  = val;
             },
             coverObj(val) {
                 if (val) {
-                    this.$tool.coverObj(this.form, val);
+                    this.$tool.coverObj(this.form, val, {obj: ['type']});
                     this.attachments = [...this.form.attachments];
                 }
             },
@@ -182,10 +199,20 @@
         },
         mounted() {
             this.coverObj(this.contracts);
+            if (this.order.customer !== undefined) {
+                this.form.customer = this.order.customer;
+                this.form.order = this.order;
+                this.form.type = 2;
+            }
         },
         watch: {
             contracts: function (val, oldVal) {
                 this.coverObj(val);
+            },
+            order: function (val, oldVal) {
+                this.form.customer = val.customer.id;
+                this.form.order = val.id;
+                this.form.type = 2;
             },
             type: function (val, oldVal) {
                 if (val === "add") {

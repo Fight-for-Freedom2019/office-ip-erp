@@ -6,7 +6,7 @@
         <!-- 新建合同 -->
         <app-shrink :visible.sync="isContractsAddPanelVisible" :modal="formType==='add'" :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
-        <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
+        <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">保存&提交审核</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
             <contracts-list-add ref="contractsAdd" :type='formType' :contracts='contracts' @refresh="refresh" @update="update"></contracts-list-add>
@@ -16,7 +16,7 @@
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
-    import ContractsListAdd from '@/components/page_extension/ContractsListAdd'
+    import ContractsListAdd from '@/components/page/crm/contracts/ContractsListAdd'
     import AppShrink from '@/components/common/AppShrink'
     import TableMixins from '@/mixins/table-mixins'
 
@@ -47,18 +47,13 @@
                     'columns': [
                         {type: 'selection'},
                         {type: 'text', label: '客户', prop: 'customer', width: '150',render_simple:"name",render_header:true},
-                        {type: 'text', label: '联系人', prop: 'contact', width: '170',render_simple:"name",render_header:true},
-                        {type: 'text', label: '合同编号', prop: 'serial', width: '145',render_header:true},
-                        {type: 'text', label: '合同类型', prop: 'type', width: '145',render_simple:"name",render_header:true},
-                        {
-                            type: 'text', label: '状态', prop: 'is_effective', width: '123', render: (h, item) => {
-                                item = item === 1 ? "生效中" : "已失效";
-                                return h("span", item);
-                            },
-                            render_header:true
-                        },
-                        {type: 'text', label: '签订日期', prop: 'signing_date', width: '175',render_header:true},
-                        {type: 'text', label: '届满日期', prop: 'expire_date', width: '175',render_header:true},
+                        {type: 'text', label: '联系人', prop: 'contact', width: '120',render_simple:"name",render_header:true},
+                        {type: 'text', label: '合同编号', prop: 'serial', width: '120',render_header:true},
+                        {type: 'text', label: '合同类型', prop: 'type', width: '120',render_simple:"name",render_header:true},
+                        {type: 'text', label: '订单号', prop: 'order',render_simple:'name', width: '130',render_header:true},
+                        {type: 'text', label: '合同状态', prop: 'status',render_simple:'name', width: '110',render_header:true},
+                        {type: 'text', label: '签订日期', prop: 'signing_date', width: '110',render_header:true},
+                        {type: 'text', label: '届满日期', prop: 'expire_date', width: '110',render_header:true},
                         {type: 'text', label: '备注', prop: 'remark',render_header:true},
                         // 	{
                         // 		type: 'action',

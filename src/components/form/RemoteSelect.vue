@@ -185,6 +185,11 @@ const map = new Map([
       DATA_KEY: 'data',
       PLACEHOLDER: '请选择用户',
   }],
+  ['orders',{
+      URL: '/orders?listOnly=1',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择订单',
+  }],
 ]);
 
 export default {

@@ -57,7 +57,7 @@
     <el-collapse-item title="任务处理" name="2">
         <app-form :source="sourceForm" :rules="appFormRules" @formData="handleForm" :row="row" ref="appForm">
             <el-form-item label="节点描述" v-if="tips">
-              <span>{{ tips }}</span>
+              <span style="display:inline-block;padding-top:2px;">{{ tips }}</span>
             </el-form-item>
             <el-form-item label='审核意见' v-if="is_review">
               <app-radio
