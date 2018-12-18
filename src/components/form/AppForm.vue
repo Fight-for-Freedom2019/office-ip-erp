@@ -98,7 +98,7 @@
 		<slot name="app-button"></slot>
 		<!-- <app-shrink :visible.sync="isPanelVisible" :title="title" ref="panel"> -->
 			<template>
-				<order-manage-detail ref="order" @loaded="panelLoaded"></order-manage-detail>
+				<order-detail ref="order" @loaded="panelLoaded"></order-detail>
 			</template>
 			<!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
@@ -128,11 +128,11 @@ import JumpSelect from '@/components/form/JumpSelect'
 import AppSwitch from '@/components/form/AppSwitch'
 import Upload from '@/components/form/Upload'
 import AppShrink from '@/components/common/AppShrink'
-import OrderManageDetail from '@/components/page_extension/OrderManageDetail'
+import OrderDetail from '@/components/page/crm/orders/OrderDetail'
 import PaymentManageDetail from '@/components/page_extension/PaymentManageDetail'
 import CustomerPaymentDetail from '@/components/page/crm/suppliers/Payments'
 import InvoiceManageDetail from '@/components/page_extension/InvoiceManageDetail'
-import ContractsDetail from '@/components/page_extension/ContractsListAdd'
+import ContractsDetail from '@/components/page/crm/contracts/ContractsListAdd'
 import SensitiveOperation from '@/components/page/common/SensitiveOperation'
 import CpcEditor from '@/components/page/cpc/CpcEditor'
 
@@ -217,7 +217,7 @@ export default {
 			this.initializeForm();
 		},
 	},
-	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload,OrderManageDetail,AppShrink, PaymentManageDetail, InvoiceManageDetail, ContractsDetail, SensitiveOperation, CpcEditor,CustomerPaymentDetail  }
+	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload,OrderDetail,AppShrink, PaymentManageDetail, InvoiceManageDetail, ContractsDetail, SensitiveOperation, CpcEditor,CustomerPaymentDetail  }
 }
 </script>
 <style lang="scss" scoped>
