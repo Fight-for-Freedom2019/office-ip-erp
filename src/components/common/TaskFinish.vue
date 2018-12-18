@@ -44,22 +44,21 @@
           <el-col :span="6">
             <el-form-item label="申请号"><span class="form-item-text">{{ processData.application_number }}</span></el-form-item>
           </el-col>
-          <el-col :span="6">
-          </el-col>
-          <el-col :span="6">
+          <el-col :span="12">
+            <el-form-item label="备注"><span class="form-item-text">{{ processData.task.remark }}</span></el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-form-item label="备注"><span class="form-item-text">{{ processData.task.remark }}</span></el-form-item>
-        </el-row>
- <!--        <el-form-item label="附件">
+        <el-form-item label="附件">
             <app-table v-if="processData.task.attachments.length > 0" :columns="columns" :data="processData.task.attachments"></app-table>
             <span v-if="processData.task.attachments.length == 0">无附件</span>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
     </el-collapse-item>
     <el-collapse-item title="任务处理" name="2">
         <app-form :source="sourceForm" :rules="appFormRules" @formData="handleForm" :row="row" ref="appForm">
+            <el-form-item label="节点描述" v-if="tips">
+              <span>{{ tips }}</span>
+            </el-form-item>
             <el-form-item label='审核意见' v-if="is_review">
               <app-radio
                 v-model="review_opinion" 
@@ -110,6 +109,7 @@ export default {
   data () {
     return {
       sourceForm: [],
+      tips: '',
       activeName:['1', '2'],
       'data': {},
       'review_opinion': '',
@@ -172,6 +172,7 @@ export default {
         this.data = response;
         if(response.review_opinion && response.review_opinion.length != 0) {
           this.review_opinion = response.review_opinion[0];
+          this.tips = response.remark;
         }
         if(response.forms && response.forms.length != 0) {
           response.forms.forEach(_=>{
