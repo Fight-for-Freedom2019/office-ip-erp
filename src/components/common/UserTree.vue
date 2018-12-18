@@ -253,8 +253,8 @@ export default {
   },
   data () {
 		return {
-          containerNavHeight:62,    // .container-nav的高
-          inputGroupHeight:"",
+      containerNavHeight:62,    // .container-nav的高
+      inputGroupHeight:"",
 		  filterText: '',
       lastIndex: '',
       radio: 'organization',
@@ -268,7 +268,7 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'name', 
-        isLeaf: 'isLeaf' 
+        isLeaf: 'is_leaf' 
       },
 		}
   },

@@ -226,7 +226,6 @@ export default {
       filterConditionVisible: false,
       spanArr:[],   // 合并行策略数组
       unknownData:[],
-      copyCount: '',
       saveLabel: '',
       // re_render: true,
     };
@@ -495,8 +494,7 @@ export default {
         const btnClick = {
           nativeOn: {
             click(e) {
-              // e.target.className
-              console.log(e.target.className);
+              // 用一个全局变量存储当前点击的位置作为标志，区分出不同点击的位置，判断出popover的显隐状态
               labelMap.clear();
              const propertyFlag = e.target.className.split(' ')[1];
              if (self.saveLabel != propertyFlag) {
@@ -518,9 +516,6 @@ export default {
                 }
               }
               self.$refs.table.$refs.tableHeader.$refs[`popover-${property}`].doToggle();
-                count++;
-              self.copyCount = count;
-              console.log(count)
             }
           },
         }
@@ -584,21 +579,6 @@ export default {
     },
   },
   watch:{
-    // copyCount(v) {
-    //   if(v%2===0){
-    //     console.log('even')
-    //     // setTimeout(_=>{
-    //       this.filterConditionVisible = false;
-          
-    //     // },1000)
-    //   }else {
-    //     console.log('odd')
-    //     //  setTimeout(_=>{
-    //       this.filterConditionVisible = true;
-          
-    //     // },1000)
-    //   }
-    // },
   },
   components: {
     'TableRender': {

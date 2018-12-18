@@ -25,13 +25,13 @@
 				  </el-select>
 	  		</el-col>
 	  		<el-col :span="16" style="padding: 0 5px">
-	  			<jump-select type="专利" :value-key="`key__${index}`" :value="item['relevance']['id']" @input="val=>{ handleProjects(val, index)}" ref="relativeProjects"></jump-select>
+	  			<jump-select type="专利" :value-key="`key__${index}`" :value="item['id']['id']" @input="val=>{handleProjects(val, index)}" :ref="`relativeProjects__${index}`"></jump-select>
 	  		</el-col>
 	  		<el-col :span="2" style="padding-left: 5px">
 	  			<el-button type="text" size="mini" @click="dataDelete(index)">删除</el-button>
 	  		</el-col>
 		</el-row>
-		<el-button type="text" @click="add({'relevance': {id: '', name: ''}, 'reference_type': ''})">添加相关案件</el-button>
+		<el-button type="text" @click="add({'id': {id: '', name: ''}, 'reference_type': '',})">添加相关案件</el-button>
 		<el-row>
 			<el-button type="primary" @click="handleAddTag">确认</el-button>
 			<el-button @click="relativeVisible = false">取消</el-button>
@@ -65,17 +65,16 @@ export default {
 	},
 	methods: {
 		handleProjects (val, index) {
-			const selected = this.$refs['relativeProjects'][0].map.get(val);
+			const selected = this.$refs[`relativeProjects__${index}`][0].map.get(val);
 			console.log(selected)
 			const id = selected && selected.id ? selected.id : '';
 			const name = selected && selected.name ? selected.name : '';
 			const reference_type = this.value[index]['reference_type'];
-			// this.projectsValue.push({'id':{'id':id, 'name': name}, type:type})
-			// this.$emit('input',[{'id':{'id':id, 'name': name}, type:type}]);
+			console.log(reference_type)
 		  	const arr = this.$tool.deepCopy(this.value);
-	  		arr[index]['relevance']['id'] = id;
-	  		arr[index]['relevance']['name'] = name;
-	  		arr[index]['reference_type'] = reference_type;
+	  		arr[index]['id']['id'] = id;
+	  		arr[index]['id']['name'] = name;
+	  		arr[index]['reference_type'] = reference_type; 
 	  		this.$emit('input', arr);	
 		},
 		handleAddTag () {
@@ -92,11 +91,11 @@ export default {
 		value (val) {
 			console.log(val);
 			this.projectsValue = val;
-			// if(val[0] && val[0]['relevance']['name']) {
-			// 	let arr;
-			// 	arr = val.map(_=>{ return {relevance: { id: _.relevance.id, name: _.relevance.name }, reference_type: _.reference_type.id} });
-			// 	this.$nextTick(_=>{ this.$emit('input', arr); });				
-			// }
+			if(val[0] && val[0]['name']) {
+				let arr;
+				arr = val.map(_=>{ return {id: { id: _.id, name: _.name }, reference_type: _.reference_type,} });
+				this.$nextTick(_=>{ this.$emit('input', arr); });				
+			}
 		}
 	},
 	components: { RemoteSelect, JumpSelect, AppCard },

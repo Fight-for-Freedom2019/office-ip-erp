@@ -30,7 +30,7 @@ const actions = {
 			.then(response=>{
 				const d = response.data;
 				if(d.status){
-					commit('setAction', d.data.data);
+					commit('setAction', d.data);
 				}else {
 					// alert('请求Action数据失败');
 				}

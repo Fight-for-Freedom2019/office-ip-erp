@@ -5,7 +5,9 @@
  		 	:key="index"
  		 	width="400"
 			placement="right"
-			trigger="click"
+			trigger="manual"
+			:value="tag.visible"
+			@input="_=>$emit('input',_)"
 			@show.once="handleCardDetails(tag)"
  		>
 			<el-row>
@@ -43,11 +45,12 @@
 		        closable
 		        disable-transitions
 		        @close="handleCloseTag(index)"
-		        style="margin-right: 5px; cursor: pointer;" 
+		        style="margin-right: 5px; cursor: pointer;"
 		        slot="reference"
+		        @click.native="handleCardVisible(tag)"
 	    	>
 	    		<span v-if="type == 'inventor' && tag.share!=undefined">{{ `${tag.name};贡献率：${tag.share}%` }}</span>
-	    		<span v-else-if="type == 'relateProjects'">{{ tag['relevance']['name'] }}</span>
+	    		<span v-else-if="type == 'relateProjects'">{{ tag['id']['name'] }}</span>
 	      		<span v-else>{{tag.name}}</span>
 	    	</el-tag>
 		</el-popover>					
@@ -90,12 +93,24 @@ export default {
 	created() {
 		this.handleDynamicForm();
 	},
+	watch: {
+		value (val) {
+			val.forEach(_=>{
+				if(!_.visible) return this.$set( _, 'visible', false );
+			});
+			return val;
+		},
+	},
 	methods: {
 		...mapActions([
 			'initializeCardCache',
 		]),
 		handleCloseTag (tag) {
 			this.$emit('handleCloseTag', tag);
+		},
+		handleCardVisible(tag) {
+			console.log(tag)
+			return	this.cardFields && this.cardFields.length != 0 ? tag.visible = !tag.visible : false;
 		},
 		setForm (data) {
 			for ( let k  in this.cardForm) {

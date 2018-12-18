@@ -1,6 +1,6 @@
 const config = [
 	['applicant',{
-	  URL: '/api/applicants',
+	  URL: '/applicants',
 	  DATA_KEY: 'applicant',
 	  PARAMS: {},
 	  FIELDS: [ 
@@ -16,7 +16,7 @@ const config = [
 	  	}},
 	  ]
 	}],	['inventor',{
-	  URL: '/api/inventors',
+	  URL: '/inventors',
 	  DATA_KEY: '',
 	  PARAMS: {},
 	  FIELDS: [ 

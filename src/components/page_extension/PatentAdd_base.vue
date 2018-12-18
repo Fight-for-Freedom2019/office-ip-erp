@@ -39,17 +39,6 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="8">
- 
-        </el-col>
-        <el-col :span="8">
-
-        </el-col>
-        <el-col :span="8">
-
-        </el-col>
-      </el-row>
-      <el-row>
           <el-form-item label="案件状态">
               <static-select type="project_stage" v-model="form.project_stage"></static-select>
           </el-form-item>
@@ -282,6 +271,12 @@ export default {
       }      
     },    
     submitForm () {
+      if(this.form.references && this.form.references.length != 0) {
+        this.form.references.map(_=>{
+          _.id = _.id.id;
+          _.references_type = _.references_type;
+        });
+      }
       return this.$tool.shallowCopy(this.form, { 'date': true });
     },
     handleUploadSuccess (a, b, c) {
