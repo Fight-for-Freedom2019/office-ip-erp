@@ -6,8 +6,8 @@
  		 	width="400"
 			placement="right"
 			trigger="manual"
-			:value="tag.visible"
-			@input="_=>$emit('input',_)"
+			:ref="`popover_${tag.type}_${tag.id}`"
+			v-model="tag.visible"
 			@show.once="handleCardDetails(tag)"
  		>
 			<el-row>
@@ -47,7 +47,7 @@
 		        @close="handleCloseTag(index)"
 		        style="margin-right: 5px; cursor: pointer;"
 		        slot="reference"
-		        @click.native="handleCardVisible(tag)"
+		        @click.native="(e)=>{handleCardVisible(tag,e)}"
 	    	>
 	    		<span v-if="type == 'inventor' && tag.share!=undefined">{{ `${tag.name};贡献率：${tag.share}%` }}</span>
 	    		<span v-else-if="type == 'relateProjects'">{{ tag['id']['name'] }}</span>
@@ -58,7 +58,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'	
+import { mapActions } from 'vuex'
+import { mapMutations } from 'vuex'	
 
 export default {
 	'name': 'appCard',
@@ -74,6 +75,7 @@ export default {
 	data() {
 		return {
 			cardForm: {},
+			saveIndentity: '', 
 		}
 	},
 	computed: {
@@ -96,7 +98,8 @@ export default {
 	watch: {
 		value (val) {
 			val.forEach(_=>{
-				if(!_.visible) return this.$set( _, 'visible', false );
+				if(!_.visible)  this.$set( _, 'visible', false );
+				this.$set(_, 'type', this.type);
 			});
 			return val;
 		},
@@ -108,9 +111,19 @@ export default {
 		handleCloseTag (tag) {
 			this.$emit('handleCloseTag', tag);
 		},
-		handleCardVisible(tag) {
-			console.log(tag)
-			return	this.cardFields && this.cardFields.length != 0 ? tag.visible = !tag.visible : false;
+		handleCardVisible(tag,e) {
+			if(this.cardFields && this.cardFields.length != 0 ) {
+				//手动关闭el-popover，还存在缺陷，无法关闭不是同一个字段,因为$refs只有当前字段的
+				for (let k in this.$refs) {
+					if(k !== `popover_${tag.type}_${tag.id}`) {
+						this.$refs[k][0].doClose();
+					}
+				}
+				this.$refs[`popover_${tag.type}_${tag.id}`][0].doToggle();
+			}else {
+				return false;
+			}
+			// return	this.cardFields && this.cardFields.length != 0 ? tag.visible = !tag.visible : false;
 		},
 		setForm (data) {
 			for ( let k  in this.cardForm) {

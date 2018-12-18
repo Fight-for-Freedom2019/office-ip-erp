@@ -24,7 +24,7 @@ const mutations = {
 		// const map = new Map();
 		// value.forEach(_=>{map.set(_.id, _)});
 		// state.cacheMap.set(type, map);
-	}
+	},
 }
 
 const actions = {
