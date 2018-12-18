@@ -215,6 +215,9 @@ export default {
 	watch: {
 		source() {
 			this.initializeForm();
+			this.$nextTick(_=>{
+				this.$refs['upload'][0].clearFiles();
+			})
 		},
 	},
 	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload,OrderDetail,AppShrink, PaymentManageDetail, InvoiceManageDetail, ContractsDetail, SensitiveOperation, CpcEditor,CustomerPaymentDetail  }
