@@ -34,6 +34,7 @@ const ContactsList             = () => import('@/components/page/ContactsList')
 const CustomerRemarks          = () => import('@/components/page/CustomerRemarks')
 const ContractsList            = () => import('@/components/page/crm/contracts/ContractsList')
 const InvoiceTargets           = () => import('@/components/page/InvoiceTargets')
+const ApplicationEditor           = () => import('@/components/page/ApplicationEditor')
 
 //CRM模块账款管理
 const RequestPayout             = () => import('@/components/page/RequestPayout')     //待请费用
@@ -189,6 +190,11 @@ const router = new Router({
         path: '/crm/data/applicants',
         name: 'ApplicantLists',
         component: ApplicantList
+      },
+      {
+        path: '/crm/ApplicationEditor',
+        name: 'ApplicationEditor',
+        component: ApplicationEditor
       },
       {
         path: '/crm/data/inventors',
