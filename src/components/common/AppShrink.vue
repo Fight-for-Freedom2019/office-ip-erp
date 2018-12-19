@@ -74,9 +74,11 @@ export default {
       'shrinkHeight',
       'shrinkLoading',
       'shrinkLoadingText',
+      'innerWidth'
     ]),
     shirnkStyle () {
     	return {
+            'full-screen':`width: ${this.innerWidth-20}px`,
     		'large': 'width: 926px;',
     		'middle': 'width: 600px;',
     		'small': 'width: 460px;',
