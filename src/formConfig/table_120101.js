@@ -2,6 +2,7 @@
 import {vm as statement} from '../formTemplate/statement'
 import {vm as priority} from '../formTemplate/priority'
 import {handleSingle} from "./handle/handle";
+import {vm as checkbox_vm} from "../formTemplate/checkbox";
 
 let rule = [
     {
@@ -27,12 +28,7 @@ let rule = [
     {
         type: "select", title: "代理人", field: "agents", value: "", request: true, url: "",
     },
-    {
-        type: "checkbox",title: "代理声明",field: "poa_declaration",value: "",
-        options: [
-            {value: 1, label: '声明已经与申请人签订了专利代理委托书且本表中的信息与委托书中相应信息一致'},
-        ],
-    },
+    checkbox_vm("poa_declaration","声明已经与申请人签订了专利代理委托书且本表中的信息与委托书中相应信息一致",{labelWidth:"120px"},"代理声明"),
     {
         type: "select", title: "总委托书编号", field: "poa", value: "", request: true, url: "",
         attrs:{
