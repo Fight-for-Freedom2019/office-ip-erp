@@ -100,6 +100,12 @@
 			<template>
 				<order-detail ref="order" @loaded="panelLoaded"></order-detail>
 			</template>
+			<template >
+				<contract-detail ref="contract" @loaded="panelLoaded"></contract-detail>
+			</template>
+			<template>
+				<invoice-detail ref="payment_request" @loaded="panelLoaded"></invoice-detail>
+			</template>
 			<!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
 			</template>
@@ -129,10 +135,10 @@ import AppSwitch from '@/components/form/AppSwitch'
 import Upload from '@/components/form/Upload'
 import AppShrink from '@/components/common/AppShrink'
 import OrderDetail from '@/components/page/crm/orders/OrderDetail'
-import PaymentManageDetail from '@/components/page_extension/PaymentManageDetail'
+import InvoiceDetail from '@/components/page_extension/PaymentManageDetail'
 import CustomerPaymentDetail from '@/components/page/crm/suppliers/Payments'
 import InvoiceManageDetail from '@/components/page_extension/InvoiceManageDetail'
-import ContractsDetail from '@/components/page/crm/contracts/ContractsListAdd'
+import ContractDetail from '@/components/page/crm/contracts/ContractsListAdd'
 import SensitiveOperation from '@/components/page/common/SensitiveOperation'
 import CpcEditor from '@/components/page/cpc/CpcEditor'
 
@@ -193,6 +199,8 @@ export default {
 			console.log('task detail panel is clicked, type:' + type + ' id: ' + this.row.model_id);
 			switch (type) {
 				case 'order':this.$refs.order.show(this.row.model_id,'edit');break;
+				case 'contract':this.$refs.contract.show(this.row.model_id,'edit');break;
+				case 'payment_request':this.$refs.payment_request.show(this.row.model_id,'edit');break;
 			}
 		},
 		initializeForm () {
@@ -220,7 +228,7 @@ export default {
 			})
 		},
 	},
-	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload,OrderDetail,AppShrink, PaymentManageDetail, InvoiceManageDetail, ContractsDetail, SensitiveOperation, CpcEditor,CustomerPaymentDetail  }
+	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload,OrderDetail,AppShrink, InvoiceDetail, InvoiceManageDetail, ContractDetail, SensitiveOperation, CpcEditor,CustomerPaymentDetail  }
 }
 </script>
 <style lang="scss" scoped>
