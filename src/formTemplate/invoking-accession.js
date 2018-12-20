@@ -6,16 +6,17 @@ const defaultCol = {
     labelWidth: "0px"
 }
 const fieldObj = {
-    'reference_spec':["reference_spec_page","reference_spec_date"],
-    'reference_aclm':["reference_aclm_page","reference_aclm_date"],
-    'reference_figs':["reference_figs_page","reference_figs_date"],
+    'reference_spec': ["reference_spec_page", "reference_spec_date"],
+    'reference_aclm': ["reference_aclm_page", "reference_aclm_date"],
+    'reference_figs': ["reference_figs_page", "reference_figs_date"],
 }
-function vm(type,col = defaultCol) {
+
+function vm(type, col = defaultCol) {
     let extendData = {};
     for (let key in fieldObj) {
-        if(fieldObj.hasOwnProperty(key)){
-            if(type === key){
-                fieldObj[key].forEach((item)=>{
+        if (fieldObj.hasOwnProperty(key)) {
+            if (type === key) {
+                fieldObj[key].forEach((item) => {
                     extendData[item] = "";
                 })
             }
@@ -40,11 +41,9 @@ function vm(type,col = defaultCol) {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData,
-                type:type,
-            }
+        data: {
+            extendData,
+            type: type,
         },
     };
     return {

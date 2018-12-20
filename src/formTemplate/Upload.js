@@ -1,11 +1,16 @@
 // 著录项目变更申报书 附件
 const defaultProps = {
-    handlePreview:()=>{},
-    handleRemove:()=>{},
-    beforeRemove:()=>{},
-    handleExceed:()=>{},
+    handlePreview: () => {
+    },
+    handleRemove: () => {
+    },
+    beforeRemove: () => {
+    },
+    handleExceed: () => {
+    },
 };
-function vm({label,url,props = {},tip="",type = "picture"}) {
+
+function vm({label, url, props = {}, tip = "", type = "picture"}) {
     const template = `
 <div>
     <template v-if="type === 'file'">
@@ -39,27 +44,23 @@ function vm({label,url,props = {},tip="",type = "picture"}) {
         
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-
-                },
-                fileList:[{url:'http://img1.touxiang.cn/uploads/20131030/30-075657_191.jpg'}],
-                action:url,
-                dialogImageUrl:"",
-                dialogVisible:false,
-                type:type
-            }
+        data: {
+            extendData: {},
+            fileList: [{url: 'http://img1.touxiang.cn/uploads/20131030/30-075657_191.jpg'}],
+            action: url,
+            dialogImageUrl: "",
+            dialogVisible: false,
+            type: type
         },
-        methods:{
+        methods: {
             submitUpload() {
                 this.$refs.upload.submit();
             },
-            handlePreview:props.handlePreview?props.handlePreview:defaultProps.handlePreview,
-            handleRemove:props.handleRemove?props.handleRemove:defaultProps.handleRemove,
-            beforeRemove:props.beforeRemove?props.beforeRemove:defaultProps.beforeRemove,
-            handleExceed:props.handleExceed?props.handleExceed:defaultProps.handleExceed,
-            handlePictureCardPreview(file){
+            handlePreview: props.handlePreview ? props.handlePreview : defaultProps.handlePreview,
+            handleRemove: props.handleRemove ? props.handleRemove : defaultProps.handleRemove,
+            beforeRemove: props.beforeRemove ? props.beforeRemove : defaultProps.beforeRemove,
+            handleExceed: props.handleExceed ? props.handleExceed : defaultProps.handleExceed,
+            handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
@@ -73,4 +74,5 @@ function vm({label,url,props = {},tip="",type = "picture"}) {
         field: "__upload",
     };
 }
+
 export {vm}

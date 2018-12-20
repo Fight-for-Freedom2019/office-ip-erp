@@ -60,29 +60,27 @@ function vm() {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    amendments:[],
-                },
-                isVisible:false,
-                form:{
-                    group:"",
-                    serial:"",
-                    serial_value:"",
-                    field:"",
-                    field_value:"",
-                },
-                groupOptions:[],
-                serialOptions:[],
-                fieldOptions:[],
-                serialPlaceholder:"",
-                fieldPlaceholder:"",
-                //citations_info:citations_info,
-            }
+        data: {
+            extendData: {
+                amendments: [],
+            },
+            isVisible: false,
+            form: {
+                group: "",
+                serial: "",
+                serial_value: "",
+                field: "",
+                field_value: "",
+            },
+            groupOptions: [],
+            serialOptions: [],
+            fieldOptions: [],
+            serialPlaceholder: "",
+            fieldPlaceholder: "",
+            //citations_info:citations_info,
         },
-        methods:{
-            reset(){
+        methods: {
+            reset() {
                 this.form.group = null;
                 this.form.serial = null;
                 this.form.field = null;
@@ -91,24 +89,24 @@ function vm() {
                 this.serialPlaceholder = "";
                 this.fieldPlaceholder = "";
             },
-            add(){
+            add() {
                 this.reset();
                 let info = window.$fc_citations_info;
-                if(!info){
-                    this.$message({type:"warning",message:"请先选中变更项目"})
+                if (!info) {
+                    this.$message({type: "warning", message: "请先选中变更项目"})
                     return
                 }
                 this.groupOptions = info.child;
                 this.controlDialog("block");
             },
-            controlDialog (c) {
+            controlDialog(c) {
                 this.isVisible = c === 'block' ? true : false
                 const parent = document.getElementsByClassName('citations_information_dialog')[0].parentNode
                 parent.style.display = c
             },
-            changeGroup(val){
-                let checkedGroup = this.groupOptions.filter((item)=>{
-                    if (item.id === val){
+            changeGroup(val) {
+                let checkedGroup = this.groupOptions.filter((item) => {
+                    if (item.id === val) {
                         return true
                     }
                 })[0]
@@ -116,41 +114,45 @@ function vm() {
                 this.fieldOptions = checkedGroup.child.fields;
 
             },
-            changeSerial(val){
-                this.serialPlaceholder = `请输入${this.getName(this.serialOptions,'serial')}`;
+            changeSerial(val) {
+                this.serialPlaceholder = `请输入${this.getName(this.serialOptions, 'serial')}`;
 
             },
-            changeField(val){
-                this.fieldPlaceholder = `请输入${this.getName(this.fieldOptions,'field')}`;
+            changeField(val) {
+                this.fieldPlaceholder = `请输入${this.getName(this.fieldOptions, 'field')}`;
             },
-            save(){
-                let group,serial,field;
-                group = this.getName(this.groupOptions,'group');
-                serial = this.getName(this.serialOptions,'serial');
-                field = this.getName(this.fieldOptions,'field');
-                if(!this.form.serial_value || !this.form.field_value){
-                    this.$message({type:"warning",message:"请输入序号和字段"});
+            save() {
+                let group, serial, field;
+                group = this.getName(this.groupOptions, 'group');
+                serial = this.getName(this.serialOptions, 'serial');
+                field = this.getName(this.fieldOptions, 'field');
+                if (!this.form.serial_value || !this.form.field_value) {
+                    this.$message({type: "warning", message: "请输入序号和字段"});
                     return
                 }
-                this.extendData.amendments.push({group:group,serial:`${serial}:${this.form.serial_value}`,field_value:`${field}:${this.form.field_value}`})
+                this.extendData.amendments.push({
+                    group: group,
+                    serial: `${serial}:${this.form.serial_value}`,
+                    field_value: `${field}:${this.form.field_value}`
+                })
                 this.controlDialog("none")
             },
-            getName(arr,key){
-                if(!arr||arr.length === 0)return
+            getName(arr, key) {
+                if (!arr || arr.length === 0) return
                 let name = "";
-                arr.forEach((item)=>{
-                    if(item.id === this.form[key]) {
+                arr.forEach((item) => {
+                    if (item.id === this.form[key]) {
                         name = item.name;
                     }
                 });
                 return name
             },
-            deleteRow(index){
-                this.extendData.amendments.splice(index,1);
+            deleteRow(index) {
+                this.extendData.amendments.splice(index, 1);
             },
         },
-        watch:{
-            'form.group':function (val,oldVal) {
+        watch: {
+            'form.group': function (val, oldVal) {
                 this.form.serial = null;
                 this.form.field = null;
                 this.serialPlaceholder = "";
@@ -167,4 +169,5 @@ function vm() {
         field: "__ci",
     };
 }
+
 export {vm}

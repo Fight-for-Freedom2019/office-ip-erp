@@ -1,6 +1,7 @@
 // 变更原因
 let count = 0;
 const uniqueId = () => ++count;
+
 function vm(label) {
     const template = `
         <el-checkbox class="custom-checkbox" v-model="extendData.amendment_notice">
@@ -14,15 +15,13 @@ function vm(label) {
         </el-checkbox>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    amendment_notice:false,
-                    notice_date:"",
-                    notice_name:"",
-                    notice_serial:"",
-                },
-            }
+        data: {
+            extendData: {
+                amendment_notice: false,
+                notice_date: "",
+                notice_name: "",
+                notice_serial: "",
+            },
         },
     };
     return {
@@ -30,7 +29,8 @@ function vm(label) {
         vm: options,
         template: template,
         label: label,
-        field: "__cr"+uniqueId(),
+        field: "__cr" + uniqueId(),
     };
 }
+
 export {vm}

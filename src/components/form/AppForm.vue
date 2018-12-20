@@ -100,6 +100,7 @@
 			<template>
 				<order-detail ref="order" @loaded="panelLoaded"></order-detail>
 			</template>
+        <cpc-editor ref="detail" :id="row.model_id"></cpc-editor>
 			<!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
 			</template>
@@ -147,7 +148,7 @@ export default {
 		},
 		'labelWidth': {
 			type: String,
-			default: '80px',
+			default: '100px',
 		},
 		'labelPosition': {
 			type: String,
@@ -169,6 +170,7 @@ export default {
 			form: {},
 			id: 0,
 			isDetailEnabled : true,
+            type:"",
 		}
 	},
 	computed: {
@@ -190,9 +192,11 @@ export default {
 		},
 		showPanel (type) {
 			this.isDetailEnabled = false;
+			this.type = type;
 			console.log('task detail panel is clicked, type:' + type + ' id: ' + this.row.model_id);
 			switch (type) {
 				case 'order':this.$refs.order.show(this.row.model_id,'edit');break;
+				case 'cpc_editor':this.$refs.detail.showApplicationEditor(this.row.task.id);break;
 			}
 		},
 		initializeForm () {

@@ -20,29 +20,27 @@ function vm(type, field, label) {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                // extendData: {
-                //     amendments: [],
-                // },
-                amendments: [
-                    {
-                        filename: "",
-                        item: "",
-                        position: "",
-                        before: "",
-                        after: "",
-                    }
-                ],
-            }
+        data: {
+            // extendData: {
+            //     amendments: [],
+            // },
+            amendments: [
+                {
+                    filename: "",
+                    item: "",
+                    position: "",
+                    before: "",
+                    after: "",
+                }
+            ],
         },
         computed: {
             extendData: function () {
                 return {amendments: this.amendments};
             }
         },
-        methods:{
-            addLine(){
+        methods: {
+            addLine() {
                 let obj = {
                     filename: "",
                     item: "",
@@ -52,8 +50,8 @@ function vm(type, field, label) {
                 };
                 this.amendments.push(obj);
             },
-            minusLine(){
-                this.amendments.length!==0?this.amendments.pop():"";
+            minusLine() {
+                this.amendments.length !== 0 ? this.amendments.pop() : "";
             },
         },
     };

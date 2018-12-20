@@ -51,12 +51,12 @@ let rule = [
     statement,
     {
         type: 'select', title: '联系人', field: 'contact', value: [],
+        request: true,
+        url: "/contacts",DATA_KEY:"data",
         props: {
             multiple: true,
             filterable: true,
         },
-        request: true,
-        url: '/test',
     },
     {
         type: 'select', title: '代理机构', field: 'agency', value: [],

@@ -18,31 +18,29 @@ const template = `
 `;
 
 const options = {
-    data(){
-        return {
-            extendData:{
-                extend_notice_duetime:false,
-                extend_prohibition:false,
-                notice_date:"",
-                notice_name:"",
-                notice_serial:"",
-            },
-            checked:"",
-            checkboxKey:["extend_notice_duetime","extend_prohibition"],
-        }
+    data: {
+        extendData: {
+            extend_notice_duetime: false,
+            extend_prohibition: false,
+            notice_date: "",
+            notice_name: "",
+            notice_serial: "",
+        },
+        checked: "",
+        checkboxKey: ["extend_notice_duetime", "extend_prohibition"],
     },
-    methods:{
-        change:handleSingle,
+    methods: {
+        change: handleSingle,
     },
-    created(){
+    created() {
         handlePadding(this);
     },
 };
 
 const vm = {
-    custom:true,
-    vm:options,
-    template:template,
-    label:"请求内容",
+    custom: true,
+    vm: options,
+    template: template,
+    label: "请求内容",
 }
 export {vm}

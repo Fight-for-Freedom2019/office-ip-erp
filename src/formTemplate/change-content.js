@@ -56,15 +56,13 @@ function vm(label) {
     </el-dialog>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    amendment_notice: false,
-                    notice_date: "",
-                    notice_name: "",
-                    notice_serial: "",
-                },
-            }
+        data: {
+            extendData: {
+                amendment_notice: false,
+                notice_date: "",
+                notice_name: "",
+                notice_serial: "",
+            },
         },
         methods: {
             add() {

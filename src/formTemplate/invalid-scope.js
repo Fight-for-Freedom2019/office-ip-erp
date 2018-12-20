@@ -53,29 +53,27 @@ const template = `
 `
 
 const options = {
-    data () {
-        return {
-            extendData: {
-                reasons: [],
-            },
-            reasons_copy:[],
-            options: [],
-            isVisible: false,
-            type:'add',
-            index:null,
-            form: {
-                patlaw_article: '',
-                patlaw_paragraph: '',
-                regulation_article: '',
-                regulation_paragraph: '',
-                scope:"",
-                evidence:"",
-            }
+    data: {
+        extendData: {
+            reasons: [],
+        },
+        reasons_copy: [],
+        options: [],
+        isVisible: false,
+        type: 'add',
+        index: null,
+        form: {
+            patlaw_article: '',
+            patlaw_paragraph: '',
+            regulation_article: '',
+            regulation_paragraph: '',
+            scope: "",
+            evidence: "",
         }
     },
     computed: {},
     methods: {
-        add () {
+        add() {
             this.type = 'add';
             this.index = null;
             this.controlDialog('block')
@@ -85,12 +83,12 @@ const options = {
             this.extendData.reasons.splice(index, 1);
         },
         handleEdit(row, index) {
-            this.form = Object.assign({},this.extendData.reasons[index]);
+            this.form = Object.assign({}, this.extendData.reasons[index]);
             this.type = 'edit';
             this.index = index;
             this.controlDialog("block");
         },
-        save () {
+        save() {
             if (this.type === "edit") {
                 for (let key in this.form) {
                     if (this.form.hasOwnProperty(key)) {
@@ -100,19 +98,19 @@ const options = {
             } else {
                 this.extendData.reasons.push(this.form);
                 let obj = {
-                    reason:`专利法第${this.form.patlaw_article}条，第${this.form.patlaw_paragraph}款;\n实施细则第${this.form.regulation_article}条，第${this.form.regulation_paragraph}款;`,
-                    scope:this.form.scope,
-                    evidence:this.form.evidence,
+                    reason: `专利法第${this.form.patlaw_article}条，第${this.form.patlaw_paragraph}款;\n实施细则第${this.form.regulation_article}条，第${this.form.regulation_paragraph}款;`,
+                    scope: this.form.scope,
+                    evidence: this.form.evidence,
                 }
                 this.reasons_copy.push(obj);
             }
 
             this.controlDialog('none');
         },
-        cancel () {
+        cancel() {
             this.controlDialog('none')
         },
-        controlDialog (c) {
+        controlDialog(c) {
             this.isVisible = c === 'block' ? true : false
             const parent = document.getElementsByClassName('priority_dialog')[0].parentNode
             parent.style.display = c

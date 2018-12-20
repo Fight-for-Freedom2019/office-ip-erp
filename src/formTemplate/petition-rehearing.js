@@ -6,12 +6,10 @@ function vm() {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    notice_date:"",
-                },
-            }
+        data: {
+            extendData: {
+                notice_date: "",
+            },
         },
     };
     return {
@@ -20,9 +18,10 @@ function vm() {
         template: template,
         label: "",
         field: "__et",
-        col:{
-            labelWidth:"0px",
+        col: {
+            labelWidth: "0px",
         }
     };
 }
+
 export {vm}

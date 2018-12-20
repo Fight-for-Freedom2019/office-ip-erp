@@ -244,8 +244,7 @@ function vm() {
     </div>
     `;
     const options = {
-        data () {
-            return {
+        data:{
                 extendData: {
                     applicant: [],
                     inventor: [],
@@ -369,8 +368,7 @@ function vm() {
                     after_code:[{ required: true, message: '请输入', trigger: 'blur' },],
                     code:[{ required: true, message: '请选择变更项目', trigger: 'blur' },],
                 }
-            }
-        },
+            },
         computed: {
             itemArr: function () {
                 let arr = []
@@ -500,32 +498,35 @@ function vm() {
                     }
                 }
             },
+            handleCreate(){
+                console.log("this.extendData",this.extendData);
+                console.log("this.extendData",this.extendData.applicant);
+                for (let key in this.extendData) {
+                    if (this.extendData.hasOwnProperty(key)) {
+                        this.extendData[key].forEach((item) => {
+                            this.data.push(this.convertData(item));
+                        })
+                    }
+                }
+                //console.log(this.data);
+                this.mergeData()
+                const url = '/static/js/area.json'
+                axios.get(url).then(response => {
+                    this.area_type = eval(`${response.data}`)
+                })
+                axios.get('/static/js/states.json').then(response => {
+                    this.province_type = eval(`${response.data}`)
+                    this.province_type.forEach((item) => {
+                        item.child.forEach((i) => {
+                            this.city_type.push(i)
+                        })
+                    })
+                })
+            },
         },
 
         created () {
-            console.log("this.extendData",this.extendData);
-            
-            for (let key in this.extendData) {
-                if (this.extendData.hasOwnProperty(key)) {
-                    this.extendData[key].forEach((item) => {
-                        this.data.push(this.convertData(item));
-                    })
-                }
-            }
-            //console.log(this.data);
-            this.mergeData()
-            const url = '/static/js/area.json'
-            axios.get(url).then(response => {
-                this.area_type = eval(`${response.data}`)
-            })
-            axios.get('/static/js/states.json').then(response => {
-                this.province_type = eval(`${response.data}`)
-                this.province_type.forEach((item) => {
-                    item.child.forEach((i) => {
-                        this.city_type.push(i)
-                    })
-                })
-            })
+            this.handleCreate()
         },
         watch: {
             'form.type': function (val, oldVal) {

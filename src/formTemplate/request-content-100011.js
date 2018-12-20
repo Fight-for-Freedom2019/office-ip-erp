@@ -1,9 +1,10 @@
 // 请求内容
 // TODO 样式要改
-import {handleSingle,handlePadding} from "../formConfig/handle/handle";
+import {handleSingle, handlePadding} from "../formConfig/handle/handle";
 
 let count = 0;
 const uniqueId = () => ++count;
+
 function vm() {
     const template = `
         <div class="custom-checkbox">
@@ -21,24 +22,22 @@ function vm() {
         </div>
 `;
     const options = {
-        data(){
-            return {
-                extendData:{
-                    fee_invoice:false,
-                    fee_invoice_unreceived:true,
-                    fee_notice:false,
-                    notice_date:"",
-                    notice_serial:"",
-                    notice_name:"",
-                },
-                checked:"",
-                checkboxKey:["fee_invoice","fee_invoice_unreceived","fee_notice"],
-            }
+        data: {
+            extendData: {
+                fee_invoice: false,
+                fee_invoice_unreceived: true,
+                fee_notice: false,
+                notice_date: "",
+                notice_serial: "",
+                notice_name: "",
+            },
+            checked: "",
+            checkboxKey: ["fee_invoice", "fee_invoice_unreceived", "fee_notice"],
         },
-        methods:{
-            change:handleSingle
+        methods: {
+            change: handleSingle
         },
-        created(){
+        created() {
             handlePadding(this);
         },
     };
@@ -47,9 +46,9 @@ function vm() {
         vm: options,
         template: template,
         label: "",
-        field: "__tmp"+uniqueId(),
-        col:{
-            labelWidth:"1px"
+        field: "__tmp" + uniqueId(),
+        col: {
+            labelWidth: "1px"
         }
     }
 }

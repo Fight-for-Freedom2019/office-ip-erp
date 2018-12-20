@@ -1,4 +1,5 @@
 import {handlePadding, handleSingle} from '../formConfig/handle/handle'
+
 const template = `
 <div class="custom-checkbox">
     <el-checkbox @change="change('amendment_reason_article60')" v-model="extendData.amendment_reason_article60" label="amendment_reason_article60">
@@ -20,34 +21,32 @@ const template = `
 `;
 
 const options = {
-    data(){
-        return {
-            extendData:{
-                amendment_reason_article60:false,
-                tab100904amendment_reason_article66:false,
-                amendment_reason_notice:false,
-                notice_serial:"",
-                notice_name:"",
-                notice_date:"",
-            },
-            checked:"",
-            checkboxKey:["amendment_reason_article60","tab100904amendment_reason_article66","amendment_reason_notice"],
-        }
+    data: {
+        extendData: {
+            amendment_reason_article60: false,
+            tab100904amendment_reason_article66: false,
+            amendment_reason_notice: false,
+            notice_serial: "",
+            notice_name: "",
+            notice_date: "",
+        },
+        checked: "",
+        checkboxKey: ["amendment_reason_article60", "tab100904amendment_reason_article66", "amendment_reason_notice"],
     },
-    methods:{
-        change:handleSingle,
+    methods: {
+        change: handleSingle,
     },
-    created(){
+    created() {
         handlePadding(this);
     },
 };
 
 const vm = {
-    custom:true,
-    vm:options,
-    template:template,
-    label:"补正原因",
-    field:"offset_reason_vm",
+    custom: true,
+    vm: options,
+    template: template,
+    label: "补正原因",
+    field: "offset_reason_vm",
 }
 
 export {vm}

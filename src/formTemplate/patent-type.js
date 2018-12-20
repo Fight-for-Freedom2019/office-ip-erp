@@ -7,15 +7,13 @@ function vm(label) {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    utility: false,
-                    design: false,
-                    utility_title:"",
-                    design_title:"",
-                },
-            }
+        data: {
+            extendData: {
+                utility: false,
+                design: false,
+                utility_title: "",
+                design_title: "",
+            },
         },
     };
     return {
@@ -26,4 +24,5 @@ function vm(label) {
         field: "__pt",
     };
 }
+
 export {vm}

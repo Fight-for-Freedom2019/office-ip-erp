@@ -8,12 +8,10 @@ const template = `
 `;
 
 const options = {
-    data(){
-        return {
-            extendData:{
-                deputy_applicant:"",
-            },
-        }
+    data: {
+        extendData: {
+            deputy_applicant: "",
+        },
     },
 };
 const vm = {

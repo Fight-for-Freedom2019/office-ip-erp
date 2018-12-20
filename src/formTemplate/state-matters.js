@@ -7,19 +7,17 @@ function vm(label) {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    reply_notice:false,
-                    supplemental_opinion:false,
-                    supplemental_reexam:false,
-                    supplemental_invalid:false,
-                    notice_date:"",
-                    notice_name:"",
-                    notice_serial:"",
-                    supplemental_date:"",
-                },
-            }
+        data: {
+            extendData: {
+                reply_notice: false,
+                supplemental_opinion: false,
+                supplemental_reexam: false,
+                supplemental_invalid: false,
+                notice_date: "",
+                notice_name: "",
+                notice_serial: "",
+                supplemental_date: "",
+            },
         },
     };
     return {
@@ -30,4 +28,5 @@ function vm(label) {
         field: "__sm",
     };
 }
+
 export {vm}

@@ -144,22 +144,20 @@ function vm() {
     </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData:{
-                    direct_gather_time:"",
-                    nongather_provider_area:"",
-                    nongather_provider:"",
-                    nongather_provider_contact:"",
-                    gather_address:"",
-                    gatherer:"",
-                    gatherer_contact:"",
-                    gatherer_name:"",
-                    gatherer_contact2:"",
-                    original_source_time:"",
-                    original_source_address:"",
-                },
-            }
+        data: {
+            extendData: {
+                direct_gather_time: "",
+                nongather_provider_area: "",
+                nongather_provider: "",
+                nongather_provider_contact: "",
+                gather_address: "",
+                gatherer: "",
+                gatherer_contact: "",
+                gatherer_name: "",
+                gatherer_contact2: "",
+                original_source_time: "",
+                original_source_address: "",
+            },
         },
     };
     return {
@@ -168,8 +166,8 @@ function vm() {
         template: template,
         label: "",
         field: "__gr",
-        col:{
-            labelWidth:"0px"
+        col: {
+            labelWidth: "0px"
         }
     }
 }

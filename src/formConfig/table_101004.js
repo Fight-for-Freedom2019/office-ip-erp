@@ -19,9 +19,12 @@ let rule = [
         type: "input", title: "加快审查请求人", field: "applicants", value: "",
     },
     {
-        // TODO url要设置
-        type: "select", title: "联系人", field: "contact", value: "", request: true,
-        url: "",
+        type: "select", title: "联系人", field: "contact", value: [], request: true,
+        url: "/contacts",DATA_KEY:"data",
+        props: {
+            multiple: true,
+            filterable: true,
+        },
     },
     {
         // TODO url要设置

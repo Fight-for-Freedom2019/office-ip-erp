@@ -11,21 +11,19 @@ const uniqueId = () => ++count;
 * 参数自定义
 * 所以模板的灵活性会提高
 * */
-function vm(type,field,label) {
+function vm(type, field, label) {
     const template = `
         <jump-select :type="type" v-model="extendData.contacts"></jump-select>
     `;
     const options = {
-        data() {
-            return {
-                /*
-                * 必须！所有需要返回给后端的字段都要放在extendData对象中
-                * */
-                extendData: {
-                    [field]: "",
-                },
-                type: type,
-            }
+        data: {
+            /*
+            * 必须！所有需要返回给后端的字段都要放在extendData对象中
+            * */
+            extendData: {
+                [field]: "",
+            },
+            type: type,
         },
         components: {
             JumpSelect,
@@ -39,7 +37,8 @@ function vm(type,field,label) {
         vm: options,
         template: template,
         label: label,
-        field: "__tmp"+uniqueId(),
+        field: "__tmp" + uniqueId(),
     };
 }
+
 export {vm}

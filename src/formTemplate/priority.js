@@ -50,42 +50,40 @@ const template = `
 `
 
 const options = {
-    data () {
-        return {
-            extendData: {
-                priority: [],
-            },
-            priority_copy:[],
-            priority_options: [],
-            options: [],
-            isVisible: false,
-            form: {
-                area: '',
-                id: '',
-                date: '',
-            }
+    data: {
+        extendData: {
+            priority: [],
+        },
+        priority_copy: [],
+        priority_options: [],
+        options: [],
+        isVisible: false,
+        form: {
+            area: '',
+            id: '',
+            date: '',
         }
     },
     computed: {},
     methods: {
-        add () {
+        add() {
             this.controlDialog('block')
             const url = '/static/js/area.json'
-            axios.get(url).then(response=>{
+            axios.get(url).then(response => {
                 this.options = eval(`${response.data}`);
             })
         },
-        save () {
+        save() {
             let label = `[${this.form.area}]${this.form.id}-${this.form.date}`
             let value = this.form.id
             this.verifyValue(value) ? this.priority_options.push({label: label, value: value}) : ''
-            if(!this.priority_copy.includes(value)){
+            if (!this.priority_copy.includes(value)) {
                 this.priority_copy.push(value);
-                this.extendData.priority.push(Object.assign(this.form,{name:label}));
+                this.extendData.priority.push(Object.assign(this.form, {name: label}));
             }
             this.controlDialog('none')
         },
-        verifyValue (value) {
+        verifyValue(value) {
             let bool = true
             this.priority_options.forEach((item) => {
                 if (item.value === value) {
@@ -94,10 +92,10 @@ const options = {
             })
             return bool
         },
-        cancel () {
+        cancel() {
             this.controlDialog('none')
         },
-        controlDialog (c) {
+        controlDialog(c) {
             this.isVisible = c === 'block' ? true : false
             const parent = document.getElementsByClassName('priority_dialog')[0].parentNode
             parent.style.display = c

@@ -11,29 +11,27 @@ function vm(label) {
         </el-checkbox-group>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    notice:false,
-                    notice_supplemental:false,
-                    active_amendment:false,
-                    reply_to_other:false,
-                    notice_date:"",
-                    notice_date_supplemental:"",
-                    notice_name:"",
-                    notice_name_supplemental:"",
-                    notice_serial:"",
-                    notice_serial_supplemental:"",
+        data: {
+            extendData: {
+                notice: false,
+                notice_supplemental: false,
+                active_amendment: false,
+                reply_to_other: false,
+                notice_date: "",
+                notice_date_supplemental: "",
+                notice_name: "",
+                notice_name_supplemental: "",
+                notice_serial: "",
+                notice_serial_supplemental: "",
 
-                },
-                checked:"",
-                checkboxKey:["notice","notice_supplemental","active_amendment","reply_to_other"],
-            }
+            },
+            checked: "",
+            checkboxKey: ["notice", "notice_supplemental", "active_amendment", "reply_to_other"],
         },
-        methods:{
-            change:handleSingle
+        methods: {
+            change: handleSingle
         },
-        created(){
+        created() {
             handlePadding(this);
         },
     };
@@ -45,4 +43,5 @@ function vm(label) {
         field: "__sm",
     };
 }
+
 export {vm}
