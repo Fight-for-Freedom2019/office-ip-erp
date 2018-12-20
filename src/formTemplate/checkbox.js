@@ -5,12 +5,10 @@ const uniqueId = () => ++count;
 function vm(field, label, col = {}, formItemLabel = "") {
     const template = `<el-checkbox v-model="extendData.${field}">${label}</el-checkbox>`;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    [field]: false,
-                },
-            }
+        data: {
+            extendData: {
+                [field]: false,
+            },
         },
     };
     return {
@@ -19,7 +17,7 @@ function vm(field, label, col = {}, formItemLabel = "") {
         template: template,
         label: formItemLabel,
         field: "__tmp" + uniqueId(),
-        col:col,
+        col: col,
     }
 }
 

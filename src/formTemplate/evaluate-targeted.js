@@ -7,14 +7,12 @@ function vm(label) {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    text_issued: false,
-                    text_invalid: false,
-                    invalid_number:"",
-                },
-            }
+        data: {
+            extendData: {
+                text_issued: false,
+                text_invalid: false,
+                invalid_number: "",
+            },
         },
     };
     return {
@@ -25,4 +23,5 @@ function vm(label) {
         field: "__et",
     };
 }
+
 export {vm}

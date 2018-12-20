@@ -96,16 +96,10 @@
 			</template>
 		</template>
 		<slot name="app-button"></slot>
-		<!-- <app-shrink :visible.sync="isPanelVisible" :title="title" ref="panel"> -->
-			<template>
-				<order-detail ref="order" @loaded="panelLoaded"></order-detail>
-			</template>
-			<template >
-				<contract-detail ref="contract" @loaded="panelLoaded"></contract-detail>
-			</template>
-			<template>
-				<invoice-detail ref="payment_request" @loaded="panelLoaded"></invoice-detail>
-			</template>
+		<order-detail ref="order" @loaded="panelLoaded"></order-detail>
+		<contract-detail ref="contract" @loaded="panelLoaded"></contract-detail>
+		<invoice-detail ref="payment_request" @loaded="panelLoaded"></invoice-detail>
+		<cpc-editor ref="detail" :id="row.model_id"></cpc-editor>
 			<!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
 			</template>
@@ -124,7 +118,6 @@
 			<template v-else-if="this.type == 'sensitive_operation'">
 				<sensitive-operation type="pay" ref="detail" :id="row.model_id"></sensitive-operation>
 			</template> -->
-		<!-- </app-shrink> -->
 	</el-form>
 </template>
 <script>
@@ -153,7 +146,7 @@ export default {
 		},
 		'labelWidth': {
 			type: String,
-			default: '80px',
+			default: '100px',
 		},
 		'labelPosition': {
 			type: String,
@@ -175,6 +168,7 @@ export default {
 			form: {},
 			id: 0,
 			isDetailEnabled : true,
+            type:"",
 		}
 	},
 	computed: {
@@ -196,11 +190,13 @@ export default {
 		},
 		showPanel (type) {
 			this.isDetailEnabled = false;
+			this.type = type;
 			console.log('task detail panel is clicked, type:' + type + ' id: ' + this.row.model_id);
 			switch (type) {
 				case 'order':this.$refs.order.show(this.row.model_id,'edit');break;
 				case 'contract':this.$refs.contract.show(this.row.model_id,'edit');break;
 				case 'payment_request':this.$refs.payment_request.show(this.row.model_id,'edit');break;
+				case 'cpc_editor':this.$refs.detail.showApplicationEditor(this.row.task.id);break;
 			}
 		},
 		initializeForm () {

@@ -40,16 +40,14 @@ const template = `
 </div>
 `;
 const options = {
-    data() {
-        return {
-            isVisible: false,
-            extendData: {
-                amendments: [],
-            },
-            rowData: {},
-            type: "add",
-            index: null,
-        }
+    data: {
+        isVisible: false,
+        extendData: {
+            amendments: [],
+        },
+        rowData: {},
+        type: "add",
+        index: null,
     },
     methods: {
         handleDelete(index, rows) {

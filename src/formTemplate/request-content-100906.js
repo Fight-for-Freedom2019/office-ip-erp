@@ -1,6 +1,7 @@
 // 请求内容
 let count = 0;
 const uniqueId = () => ++count;
+
 function vm(type) {
     const template = `
         <div class="custom-checkbox">
@@ -17,25 +18,23 @@ function vm(type) {
         </div>
 `;
     const options = {
-        data(){
-            return {
-                extendData:{
-                    extend_notice_duetime:false,
-                    extend_other:false,
-                    notice_date:"",
-                    notice_serial:"",
-                    notice_name:"",
-                    extend_other_reason:"",
-                },
-                type:type,
-            }
-        },
-        methods:{
-            extend_other(val){
-                val?this.extendData.extend_notice_duetime = false:"";
+        data: {
+            extendData: {
+                extend_notice_duetime: false,
+                extend_other: false,
+                notice_date: "",
+                notice_serial: "",
+                notice_name: "",
+                extend_other_reason: "",
             },
-            extend_notice(val){
-                val?this.extendData.extend_other = false:"";
+            type: type,
+        },
+        methods: {
+            extend_other(val) {
+                val ? this.extendData.extend_notice_duetime = false : "";
+            },
+            extend_notice(val) {
+                val ? this.extendData.extend_other = false : "";
             },
         },
     };
@@ -44,7 +43,7 @@ function vm(type) {
         vm: options,
         template: template,
         label: '请求内容',
-        field: "__rc-100906"+uniqueId(),
+        field: "__rc-100906" + uniqueId(),
     }
 }
 

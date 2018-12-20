@@ -2,6 +2,7 @@
 // TODO 样式要改
 let count = 0;
 const uniqueId = () => ++count;
+
 function vm(type) {
     const template = `
         <div>
@@ -20,15 +21,13 @@ function vm(type) {
         </div>
 `;
     const options = {
-        data(){
-            return {
-                extendData:{
-                    notice_date:"",
-                    notice_serial:"",
-                    notice_name:"",
-                },
-                type:type,
-            }
+        data: {
+            extendData: {
+                notice_date: "",
+                notice_serial: "",
+                notice_name: "",
+            },
+            type: type,
         },
     };
     return {
@@ -36,7 +35,7 @@ function vm(type) {
         vm: options,
         template: template,
         label: '请求内容',
-        field: "__tmp"+uniqueId(),
+        field: "__tmp" + uniqueId(),
     }
 }
 

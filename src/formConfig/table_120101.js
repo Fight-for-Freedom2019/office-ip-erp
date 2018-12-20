@@ -15,8 +15,11 @@ let rule = [
     },
     statement,
     {
-        // TODO 缺失url
-        type: "select", title: "联系人", field: "contact", value: "", request: true, url: "",
+        type: "select", title: "联系人", field: "contact", value: [], request: true, url: "/contacts",DATA_KEY:"data",
+        props: {
+            multiple: true,
+            filterable: true,
+        },
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "", request: true, url: "",

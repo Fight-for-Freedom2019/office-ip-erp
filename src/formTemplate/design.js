@@ -20,23 +20,21 @@ function vm(label, type) {
         </div>
     `;
     let extendData = {};
-    if(type === 'similar') {
+    if (type === 'similar') {
         extendData = {
             similar_design: false,
-            similar_design_count:false,
+            similar_design_count: false,
         }
-    }else {
+    } else {
         extendData = {
             set_design: false,
-            set_design_count:false,
+            set_design_count: false,
         }
     }
     const options = {
-        data() {
-            return {
-                extendData,
-                type:type
-            }
+        data: {
+            extendData,
+            type: type
         },
     };
 

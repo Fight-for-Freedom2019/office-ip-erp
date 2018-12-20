@@ -19,33 +19,31 @@ const template = `
 `;
 
 const options = {
-    data(){
-        return {
-            extendData:{
-                amendment_active:false,
-                amendment_notice:false,
-                notice_name:"",
-                notice_date:"",
-                notice_serial:"",
-            },
-            checked:"",
-            checkboxKey:["amendment_active","amendment_notice"],
-        }
+    data: {
+        extendData: {
+            amendment_active: false,
+            amendment_notice: false,
+            notice_name: "",
+            notice_date: "",
+            notice_serial: "",
+        },
+        checked: "",
+        checkboxKey: ["amendment_active", "amendment_notice"],
     },
-    methods:{
-        change:handleSingle,
+    methods: {
+        change: handleSingle,
     },
-    created(){
+    created() {
         handlePadding(this);
     },
 };
 
 const vm = {
-    custom:true,
-    vm:options,
-    template:template,
-    label:"补正原因",
-    field:"offset_reason_vm",
+    custom: true,
+    vm: options,
+    template: template,
+    label: "补正原因",
+    field: "offset_reason_vm",
 }
 
 export {vm}

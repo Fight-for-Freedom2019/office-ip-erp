@@ -182,46 +182,42 @@ function vm() {
     </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    fee_return_request: false,
-                    fee_return_law: false,
-                    fee_return_five: false,
-                    feeInfo: {
-                        first: {
-                            type: "",
-                            money: "",
-                            receipt: "",
-                        },
-                        second: {
-                            type: "",
-                            money: "",
-                            receipt: "",
-                        }
+        data: {
+            extendData: {
+                fee_return_request: false,
+                fee_return_law: false,
+                fee_return_five: false,
+                feeInfo: {
+                    first: {
+                        type: "",
+                        money: "",
+                        receipt: "",
                     },
-                    fee_receipt: '',
-                    bank: {
-                        name: '',
-                        branch:"",
-                        account_number:"",
-                        bank_number:"",
-                    },
-                    receive:{
-                        name:"",
-                        province:"",
-                        city:"",
-                        town:"",
-                        post:"",
-                        phone:"",
-                        declaration:false,
+                    second: {
+                        type: "",
+                        money: "",
+                        receipt: "",
                     }
                 },
-            }
+                fee_receipt: '',
+                bank: {
+                    name: '',
+                    branch: "",
+                    account_number: "",
+                    bank_number: "",
+                },
+                receive: {
+                    name: "",
+                    province: "",
+                    city: "",
+                    town: "",
+                    post: "",
+                    phone: "",
+                    declaration: false,
+                }
+            },
         },
-        methods:{
-
-        },
+        methods: {},
     };
     return {
         custom: true,
@@ -229,9 +225,10 @@ function vm() {
         template: template,
         label: "",
         field: "__sm",
-        col:{
-            labelWidth:"1px",
+        col: {
+            labelWidth: "1px",
         }
     };
 }
+
 export {vm}

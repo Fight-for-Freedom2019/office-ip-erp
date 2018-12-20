@@ -78,7 +78,7 @@ export default {
     ]),
     shirnkStyle () {
     	return {
-            'full-screen':`width: ${this.innerWidth-20}px`,
+            'full-screen':`width: ${this.innerWidth-20}px`, // 减掉20的padding
     		'large': 'width: 926px;',
     		'middle': 'width: 600px;',
     		'small': 'width: 460px;',

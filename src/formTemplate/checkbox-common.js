@@ -1,11 +1,12 @@
-import {handleSingle,handlePadding} from "../formConfig/handle/handle";
+import {handleSingle, handlePadding} from "../formConfig/handle/handle";
 
 let count = 0;
 const uniqueId = () => ++count;
 let defaultCol = {
-    labelWidth:"0px",
+    labelWidth: "0px",
 };
-function vm(field, formItemLabel = "", func = "", col = {},hasCustomClass = true) {
+
+function vm(field, formItemLabel = "", func = "", col = {}, hasCustomClass = true) {
     let checkbox = "";
     let extendData = {};
     let checkboxKey = [];
@@ -19,19 +20,16 @@ function vm(field, formItemLabel = "", func = "", col = {},hasCustomClass = true
     let template = `<div :class="{'custom-checkbox':hasCustomClass}">${checkbox}</div>`;
 
     const options = {
-        data() {
-            return {
-                extendData,
-                hasCustomClass,
-                checked:"",
-                checkboxKey,
-
-            }
+        data: {
+            extendData,
+            hasCustomClass,
+            checked: "",
+            checkboxKey,
         },
         methods: {
             change: !func ? handleSingle : func,
         },
-        created(){
+        created() {
             handlePadding(this)
         },
     };
@@ -41,7 +39,7 @@ function vm(field, formItemLabel = "", func = "", col = {},hasCustomClass = true
         template: template,
         label: formItemLabel,
         field: "__checkbox" + uniqueId(),
-        col:Object.keys(col).length !== 0 ? col : defaultCol,
+        col: Object.keys(col).length !== 0 ? col : defaultCol,
     }
 }
 

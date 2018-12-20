@@ -51,8 +51,7 @@ const template = `
 * options为生成vue实例的选项
 * */
 const options = {
-    data(){
-        return {
+    data:{
             isVisible:false,
             /*
             * 必须！所有需要返回给后端的字段都要放在extendData对象中
@@ -63,8 +62,7 @@ const options = {
             rowData:{},
             type:"add",
             index:null,
-        }
-    },
+        },
     methods:{
         handleDelete(index,rows){
             rows.splice(index, 1);

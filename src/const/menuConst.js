@@ -55,7 +55,6 @@ const projectMenu = [
 
 const crmMenu = [
 	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont el-icon-my-customer'},
-	{ type: 'item', text: '电子申请编辑器', path: '/crm/ApplicationEditor', icon: 'iconfont el-icon-my-customer'},
 	{ type: 'item', text: '订单管理', path: '/crm/orders', icon: 'iconfont el-icon-my-order'},
 	{ type: 'item', text: '合同管理', path: '/crm/contracts', icon: 'iconfont el-icon-my-contract'},
 	// { type: 'item', text: '快递管理', path: '/crm/expresses', icon: 'iconfont el-icon-my-express'},

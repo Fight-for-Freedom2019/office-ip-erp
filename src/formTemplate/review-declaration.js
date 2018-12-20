@@ -6,17 +6,18 @@ const defaultCol = {
     labelWidth: "0px"
 }
 const fieldObj = {
-    'exam_basis_spec':["exam_basis_spec_original_page","exam_basis_spec_chapter2_page","exam_basis_spec_article2841_page"],
-    'exam_basis_aclm':["exam_basis_aclm_original_page","exam_basis_aclm_article19_page","exam_basis_aclm_chapter2_page","exam_basis_aclm_article2841_page"],
-    'exam_basis_figs':["exam_basis_figs_original_page","exam_basis_figs_chapter2_page","exam_basis_figs_article2841_page"],
-    'exam_basis_seq':["exam_basis_se_original_page","exam_basis_seq_chapter2_page","exam_basis_seq_article2841_page"],
+    'exam_basis_spec': ["exam_basis_spec_original_page", "exam_basis_spec_chapter2_page", "exam_basis_spec_article2841_page"],
+    'exam_basis_aclm': ["exam_basis_aclm_original_page", "exam_basis_aclm_article19_page", "exam_basis_aclm_chapter2_page", "exam_basis_aclm_article2841_page"],
+    'exam_basis_figs': ["exam_basis_figs_original_page", "exam_basis_figs_chapter2_page", "exam_basis_figs_article2841_page"],
+    'exam_basis_seq': ["exam_basis_se_original_page", "exam_basis_seq_chapter2_page", "exam_basis_seq_article2841_page"],
 }
-function vm(type,col = defaultCol) {
+
+function vm(type, col = defaultCol) {
     let extendData = {};
     for (let key in fieldObj) {
-        if(fieldObj.hasOwnProperty(key)){
-            if(type === key){
-                fieldObj[key].forEach((item)=>{
+        if (fieldObj.hasOwnProperty(key)) {
+            if (type === key) {
+                fieldObj[key].forEach((item) => {
                     extendData[item] = "";
                 })
             }
@@ -51,11 +52,9 @@ function vm(type,col = defaultCol) {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData,
-                type:type,
-            }
+        data: {
+            extendData,
+            type: type,
         },
     };
     return {

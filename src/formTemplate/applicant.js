@@ -8,15 +8,13 @@ function vm(label) {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    applicant_type_patentee: false,
-                    applicant_type_interested_party: false,
-                    applicant:"",
-                    contract_number:""
-                },
-            }
+        data: {
+            extendData: {
+                applicant_type_patentee: false,
+                applicant_type_interested_party: false,
+                applicant: "",
+                contract_number: ""
+            },
         },
     };
     return {
@@ -27,4 +25,5 @@ function vm(label) {
         field: "__applicant",
     };
 }
+
 export {vm}

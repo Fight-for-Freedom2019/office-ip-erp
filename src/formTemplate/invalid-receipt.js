@@ -1,6 +1,6 @@
 import {handlePadding, handleSingle} from '../formConfig/handle/handle'
 
-function vm(label="") {
+function vm(label = "") {
     const template = `
         <div class="custom-checkbox">
             <el-checkbox @change="change('oral_exam_join')" v-model="extendData.oral_exam_join" label="oral_exam_join">参加<el-date-picker value-format="yyyy-MM-dd" placeholder="日期" v-model="extendData.oral_exam_date"></el-date-picker>日<el-input v-model="extendData.oral_exam_hour" placeholder="时间"></el-input>时举行的口头审理</el-checkbox>
@@ -8,22 +8,20 @@ function vm(label="") {
         </div>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    oral_exam_join:false,
-                    oral_exam_not_join:false,
-                    oral_exam_date:"",
+        data: {
+            extendData: {
+                oral_exam_join: false,
+                oral_exam_not_join: false,
+                oral_exam_date: "",
 
-                },
-                checked:"",
-                checkboxKey:["oral_exam_join","oral_exam_not_join"],
-            }
+            },
+            checked: "",
+            checkboxKey: ["oral_exam_join", "oral_exam_not_join"],
         },
-        methods:{
-            change:handleSingle
+        methods: {
+            change: handleSingle
         },
-        created(){
+        created() {
             handlePadding(this);
         },
     };
@@ -35,4 +33,5 @@ function vm(label="") {
         field: "__ir",
     };
 }
+
 export {vm}

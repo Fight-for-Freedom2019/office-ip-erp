@@ -15,9 +15,13 @@ let rule = [
         url: "",
     },
     {
-        // TODO url要设置
-        type: "select", title: "联系人", field: "contact", value: "",request: true,
-        url: "",
+        type: "select", title: "联系人", field: "contact", value: [],request: true,
+        url: "/contacts",DATA_KEY:"data",
+        props: {
+            multiple: true,
+            filterable: true,
+            "value-key":"id",
+        },
     },
     {
         // TODO url要设置

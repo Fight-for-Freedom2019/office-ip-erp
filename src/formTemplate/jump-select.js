@@ -4,20 +4,20 @@
 * 只能在配置表中写死
 * */
 import JumpSelect from '@/components/form/JumpSelect'
+
 let count = 0;
 const uniqueId = () => ++count;
-function vm(type,field,label) {
+
+function vm(type, field, label) {
     const template = `
         <jump-select :type="type" v-model="extendData.contacts"></jump-select>
     `;
     const options = {
-        data() {
-            return {
-                extendData: {
-                    [field]: "",
-                },
-                type: type,
-            }
+        data: {
+            extendData: {
+                [field]: "",
+            },
+            type: type,
         },
         components: {
             JumpSelect,
@@ -28,7 +28,8 @@ function vm(type,field,label) {
         vm: options,
         template: template,
         label: label,
-        field: "__tmp"+uniqueId(),
+        field: "__tmp" + uniqueId(),
     };
 }
+
 export {vm}
