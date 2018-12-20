@@ -4,7 +4,10 @@ import {vm as priority} from '../formTemplate/priority'
 import {vm as checkbox_common_vm} from '../formTemplate/checkbox-common'
 import {vm as checkbox_vm} from '../formTemplate/checkbox'
 import {handleSingle} from './handle/handle'
-
+function change(obj) {
+    this._parentVue.formTypeCollection.push(obj.id);
+    this._parentVue.formList.push(obj);
+}
 const address = [
     {detail: 'ABC-高级生物技术中心', address: '意大利', value: 'ABC'},
     {detail: 'ATCC-美国典型培养物保藏中心', address: '美国', value: 'ATCC'},
@@ -187,8 +190,8 @@ let rule = [
     checkbox_vm("is_utility","声明本申请人对同样的发明创造在申请本发明专利的同日申请了实用新型专利",{labelWidth:"120px"},"同日申请"),
     checkbox_vm("prepubic","请求早日公布该专利申请",{labelWidth:"120px"},"提前公布"),
     checkbox_common_vm(novelty_claims,"不丧失新颖性声明","",{labelWidth:"120px"}),
-    checkbox_vm("subs_exam","同时提出实质审查请求",{labelWidth:"120px"},"实质审查"),
-    checkbox_vm("confidential_exam","向国外申请专利保密审查请求",{labelWidth:"120px"},"保密审查"),
+    checkbox_vm("subs_exam","同时提出实质审查请求",{labelWidth:"120px"},"实质审查",{id: 110401, name: "实质审查请求书"}),
+    checkbox_vm("confidential_exam","向国外申请专利保密审查请求",{labelWidth:"120px"},"保密审查",{id: 100027, name: "向外国申请专利保密审查请求书"}),
     // TODO 附件要配置
     {
         type: 'select', title: '附件（非必填）', field: 'attachments', value: [],

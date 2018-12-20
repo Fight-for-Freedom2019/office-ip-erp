@@ -23,8 +23,9 @@
                                     :class="{'gray-bg':formType === item.id}"
                                     v-on:mouseleave="changeStyle(index,false)"
                                     v-on:mouseenter="changeStyle(index,true)" v-for="(item,index) in formList"
+                                    :title="item.name"
                                     @click="openForm(item.id,index)">
-                                    <span>{{item.name}}</span>
+                                    <span class="form-item-name">{{item.name}}</span>
                                     <el-button @click.stop="removeForm(index,item.id)"
                                                :class="{'show-remove':isShowRemoveBtn && index === isShowIndex}"
                                                type="text"
@@ -123,70 +124,15 @@
                 data: {},
                 save_type: "add",
                 task_id: "",
+                options_collection:new Map(),
+                option_action:[
+                    {url:'/contacts',data_key:"data",map_key:"contact"},
+                    {url:'/inventors',data_key:"data",map_key:"inventors"},
+                    {url:'/applicants',data_key:"data",map_key:"applicants"},
+                    {url:'/users?role_name=Agent&listOnly=1',data_key:"data",map_key:"agents"},
+                    {url:'/contracts',data_key:"data",map_key:"poa"},
+                ],
                 cpc_id: "",
-                data1: {
-                    table100011: {
-                        patent_number: "136403841834",
-                        title: "一种自动驾驶设备",
-                        applicants: 3,
-                        agency: 2,
-                        fee_return_request: true,
-                        fee_return_law: false,
-                        fee_return_five: false,
-                        feeInfo: {
-                            first: {
-                                type: "不知道什么种类",
-                                money: "50块",
-                                receipt: "35641853",
-                            },
-                            second: {
-                                type: "",
-                                money: "",
-                                receipt: "",
-                            }
-                        },
-                        fee_receipt: '',
-                        bank: {
-                            name: '交通银行',
-                            branch: "湖南长沙支行",
-                            account_number: "林熹",
-                            bank_number: "438413814364364634",
-                        },
-                        receive: {
-                            name: "",
-                            province: "",
-                            city: "益阳市",
-                            town: "",
-                            post: "",
-                            phone: "",
-                            declaration: true,
-                        },
-                        fee_invoice: false,
-                        fee_invoice_unreceived: true,
-                        fee_notice: false,
-                        notice_date: "2018-02-21",
-                        notice_serial: "",
-                        notice_name: "",
-                        attachments: "",
-                        filename: "",
-                        fileno: "",
-                        opinion: "<p>不知道这是啥</p><p><em>这是斜体</em></p>",
-                    },
-                    table100016: {
-                        amendment_notice: true,
-                        applicant: [{
-                            after: "421321",
-                            after_code: "421321",
-                            before: "432",
-                            before_code: "432",
-                            code: "gg_zlx_sqr:shenqingrxm",
-                            field: "姓名或名称",
-                            leixin: 2,
-                            no: 2,
-                            type: "applicant",
-                        }],
-                    }
-                },
                 count: 0,
 
             }
@@ -214,10 +160,29 @@
                 return [...this.vm_collection.keys()]
             }
         },
-        mounted() {
 
+        mounted() {
+            this.getOptions();
         },
         methods: {
+            // 获取所有的远程select option
+            getOptions(){
+                this.option_action.forEach((i)=>{
+                    const success = _ => {
+                        let data = _.data[i.data_key].map((item) => {
+                            return {value: item.id, label: item.name?item.name:item.serial}
+                        })
+                        this.options_collection.set(i.map_key,data);
+                        console.log(this.options_collection);
+                    }
+                    this.$axiosGet({
+                        url: i.url,
+                        data: Object.assign({}),
+                        success,
+                    })
+                })
+
+            },
             openForm(id, index, isRemove = false) {
                 if (id === this.formType) return
                 this.$f.validate(this.successValidate(isRemove), this.errorValidate);
@@ -284,7 +249,7 @@
                     } else if (item.custom) {
                         source[index] = this.makeMarker(item)
                     } else if (item.request) {
-                        this.setSelectData(item, index)
+                        //this.setSelectData(item, index)
                     }
                 })
             },
@@ -294,28 +259,20 @@
                 return `${url}/test`
             },
 
-            getOptions() {
-                return new Promise((resolve, reject) => {
-                    const success = _ => {
-                        resolve(_)
-                    }
-                    this.$axiosGet({
-                        url: '/contacts',
-                        data: Object.assign({}),
-                        success,
-                    })
-                })
-            },
 
             setOptions(source) {
-                /*this.getOptions().then((_)=>{
-                    let data = _.data.data.map((item) => {
-                        return {value: {id: item.id, label: item.name}, label: item.name}
-                    })
-                })*/
                 source.forEach((item) => {
                     if (item.type && item.type === 'select') {
-                        !item.options ? this.$set(item, "options", []) : ''
+                        if(!item.options){
+                            let data = this.options_collection.get(item.field);
+                            if(data){
+                                this.$set(item, "options", data);
+                            }else {
+                                this.$set(item, "options", []);
+
+                            }
+                        }
+                        // !item.options ? this.$set(item, "options", []) : ''
                     }
                 })
 
@@ -334,6 +291,7 @@
             // 生成自定义组件
             makeMarker(source) {
                 const vm = new Vue(source.vm)
+                vm._parentVue = this;
                 if (source.field === "__upload") {
                     // 集中处理upload组件的url
                     vm.action = this.handleUploadUrl(vm.action);
@@ -343,6 +301,7 @@
             },
 
             // 设置select打开下拉框事件，因为渲染函数on事件不支持修饰符，所以现在需要频繁请求，解决方法是使用缓存
+            // 现改为打开cpc表单之前获取所有的select option数据
             setSelectData(item) {
                 let func = (bool) => {
                     bool ? this.querySelectData(item.url, item.DATA_KEY).then((d) => {
@@ -384,7 +343,6 @@
             },
 
             renderForm() {
-                this.loading = true
                 this.showAppendForm = false
                 // 直接执行setTimeout中的代码会有阻塞...
                 setTimeout(() => {
@@ -396,6 +354,7 @@
                         this.loadFormData()
                     })
                     this.loading = false;
+                    // console.timeEnd("耗时")
                 }, 50)
             },
 
@@ -518,6 +477,7 @@
             handleTab() {
             },
             showApplicationEditor(id) {
+                this.loading = true
                 this.task_id = id;
                 this.isApplicationEditor = true;
                 this.getData(id);
@@ -527,7 +487,9 @@
             Upload() {
             },
             getData() {
+                // console.time("耗时")
                 this.formTypeCollection = [];
+                this.formList = [];
                 const success = (_) => {
                     //console.log(_)
                     this.data = _.data.data[0].tables;
@@ -643,6 +605,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .form-list .form-item-name {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 210px;
     }
 </style>
 <style>

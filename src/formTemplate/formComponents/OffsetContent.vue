@@ -29,21 +29,23 @@
 <script>
     export default {
         name: 'OffsetContent',
-        data: {
-            offset_content: {
-                filename: "",
-                position: "",
-                beforeAmendment: "",
-                afterAmendment: "",
-            },
-            file_names: [
-                {value: '权利要求书', label: '权利要求书'},
-                {value: '说明书', label: '说明书'},
-                {value: '说明书摘要', label: '说明书摘要'},
-                {value: '摘要附图', label: '摘要附图'},
-                {value: '专利代理委托书', label: '专利代理委托书'},
-                {value: '国际申请进入中国国家阶段声明（PCT）', label: '国际申请进入中国国家阶段声明（PCT）'},
-            ],
+        data() {
+            return {
+                offset_content: {
+                    filename: "",
+                    position: "",
+                    beforeAmendment: "",
+                    afterAmendment: "",
+                },
+                file_names: [
+                    {value: '权利要求书', label: '权利要求书'},
+                    {value: '说明书', label: '说明书'},
+                    {value: '说明书摘要', label: '说明书摘要'},
+                    {value: '摘要附图', label: '摘要附图'},
+                    {value: '专利代理委托书', label: '专利代理委托书'},
+                    {value: '国际申请进入中国国家阶段声明（PCT）', label: '国际申请进入中国国家阶段声明（PCT）'},
+                ],
+            }
         },
         props: {
             rowData: {
