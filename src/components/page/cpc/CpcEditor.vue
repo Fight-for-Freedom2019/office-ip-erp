@@ -343,7 +343,6 @@
             },
 
             renderForm() {
-                this.loading = true
                 this.showAppendForm = false
                 // 直接执行setTimeout中的代码会有阻塞...
                 setTimeout(() => {
@@ -355,6 +354,7 @@
                         this.loadFormData()
                     })
                     this.loading = false;
+                    // console.timeEnd("耗时")
                 }, 50)
             },
 
@@ -477,6 +477,7 @@
             handleTab() {
             },
             showApplicationEditor(id) {
+                this.loading = true
                 this.task_id = id;
                 this.isApplicationEditor = true;
                 this.getData(id);
@@ -486,7 +487,9 @@
             Upload() {
             },
             getData() {
+                // console.time("耗时")
                 this.formTypeCollection = [];
+                this.formList = [];
                 const success = (_) => {
                     //console.log(_)
                     this.data = _.data.data[0].tables;
