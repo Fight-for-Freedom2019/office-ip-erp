@@ -28,7 +28,7 @@ let rule = [
             labelWidth:"100%",
         },
     },
-    checkbox_common_vm(DAS,"",checkboxFunc),
+    checkbox_common_vm(DAS,""),
     // TODO 少个自定义组件,原form报错
 ]
 

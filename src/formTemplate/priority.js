@@ -7,7 +7,7 @@ const template = `
 <div>
     <el-row>
         <el-col :span="20">
-            <el-select style="display: inline-block; width: 90%" type="text" multiple v-model="priority_copy">
+            <el-select style="display: inline-block; width: 90%" type="text" @remove-tag="remove" multiple v-model="priority_copy">
                 <el-option
                     v-for="item in priority_options"
                     :key="item.value"
@@ -64,7 +64,12 @@ const options = {
             date: '',
         }
     },
-    computed: {},
+    created(){
+        this.extendData.priority.forEach((item)=>{
+            this.priority_copy.push(item.id)
+            this.priority_options.push({value:item.id,label:item.name})
+        })
+    },
     methods: {
         add() {
             this.controlDialog('block')
@@ -82,6 +87,13 @@ const options = {
                 this.extendData.priority.push(Object.assign(this.form, {name: label}));
             }
             this.controlDialog('none')
+        },
+        remove(val){
+            this.extendData.priority.forEach((item,index)=>{
+                if(item.id === val) {
+                    this.extendData.priority.splice(index,1);
+                }
+            })
         },
         verifyValue(value) {
             let bool = true

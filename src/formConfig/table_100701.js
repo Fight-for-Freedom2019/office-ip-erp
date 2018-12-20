@@ -1,5 +1,4 @@
 // 专利权评价报告请求书
-//patent-type
 import {vm as patent_type_vm} from '../formTemplate/patent-type'
 import {vm as applicant_vm} from '../formTemplate/applicant'
 import {vm as evaluate_targeted_vm} from '../formTemplate/evaluate-targeted'
