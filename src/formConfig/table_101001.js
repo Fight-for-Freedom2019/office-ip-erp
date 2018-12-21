@@ -20,25 +20,21 @@ let rule = [
         type: "input",title: "专利权人",field: "patentee",value: "",
     },
     {
-        // TODO url要设置
         type: "select",title: "无效宣告请求人",field: "applicants",value: "",request: true,
         url: "",
     },
     {
         type: "select",title: "联系人",field: "contact",value: [],request: true,
-        url: "/contacts",DATA_KEY:"data",
         props: {
             multiple: true,
             filterable: true,
         },
     },
     {
-        // TODO url要设置
         type: "select",title: "代理机构",field: "agency",value: "",request: true,
         url: "",
     },
     {
-        // TODO url要设置
         type: "select",title: "代理人",field: "agents",value: "",request: true,
         url: "",
     },

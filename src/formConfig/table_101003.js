@@ -101,12 +101,10 @@ let rule = [
         type:"span",title:"被委托人",field:"placeholder2",value:"",
     },
     {
-        // TODO url要设置
         type:"select",title:"代理机构",field:"agency",value:"",request: true,
         url: "",
     },
     {
-        // TODO url要设置
         type:"select",title:"代理人",field:"agents",value:"",request: true,
         url: "",
     },

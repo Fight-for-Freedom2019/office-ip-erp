@@ -1,7 +1,5 @@
 // 优先权文件数字接入服务（DAS）请求书
-import {handleSingle} from "./handle/handle";
 import {vm as checkbox_common_vm} from "../formTemplate/checkbox-common";
-import {checkboxFunc} from "./handle/handle";
 import {vm as remove_priority_vm} from "../formTemplate/remove-priority";
 
 const DAS = {
@@ -31,7 +29,6 @@ let rule = [
     },
     checkbox_common_vm(DAS,""),
     remove_priority_vm(true),
-    // TODO 少个自定义组件,原form报错
 ]
 
 const content = {
