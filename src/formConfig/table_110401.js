@@ -17,8 +17,7 @@ let rule = [
         type: "input", title: "发明名称", field: "title", value: "",
     },
     {
-        type: "select", title: "申请人", field: "applicants", value: "", request: true,
-        url: "",
+        type: "select", title: "申请人", field: "applicants", value: [],
         attrs: {
             placeholder: "应当填写第一署名申请人"
         }

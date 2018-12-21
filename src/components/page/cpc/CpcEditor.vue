@@ -131,6 +131,9 @@
                 data: {},
                 save_type: "add",
                 task_id: "",
+                options_collection:new Map(),
+                cpc_id: "",
+                count: 0,
                 common_use:[
                     {id:100007,name:"专利代理委托书",showIcon:false},
                     {id:100006,name:"补正书",showIcon:false},
@@ -142,7 +145,6 @@
                     // {id:10000432,name:"办理文件副本请求书",showIcon:false},
                     {id:100013,name:"撤回专利申请声明",showIcon:false},
                 ],
-                options_collection:new Map(),
                 option_action:[
                     {url:'/contacts',data_key:"data",map_key:"contact"},
                     {url:'/inventors',data_key:"data",map_key:"inventors"},
@@ -150,8 +152,12 @@
                     {url:'/users?role_name=Agent&listOnly=1',data_key:"data",map_key:"agents"},
                     {url:'/contracts',data_key:"data",map_key:"poa"},
                 ],
-                cpc_id: "",
-                count: 0,
+                verifyConfig:{
+                    "patent_number":[
+                        {pattern: /20[0-1]\d{9}\.?(\d|X|x)/, message: "请填写正确的申请号或专利号", trigger: "blur"}
+                    ],
+
+                }
             }
         },
         props: {
@@ -294,12 +300,21 @@
             },
 
 
+            // 验证 patent_number
+            verifyValue(item){
+                let rule = this.verifyConfig[item.field];
+                if(rule){
+                    item.validate = rule;
+                }
+            },
             setOptions(source) {
                 source.forEach((item) => {
+                    this.verifyValue(item);     // 添加验证规则
                     if (item.type && item.type === 'select') {
                         if(!item.options){
                             let data = this.options_collection.get(item.field);
                             if(data){
+                                this.setProps(item);
                                 this.$set(item, "options", data);
                             }else {
                                 this.$set(item, "options", []);
@@ -310,6 +325,16 @@
                     }
                 })
 
+            },
+            // 添加多选、可搜索
+            setProps(o){
+                const obj = {
+                    multiple: true,
+                    filterable: true,
+                }
+
+                !o.props?o.props={}:"";
+                Object.assign(o.props,obj);
             },
 
             setVmCollection(vm) {
@@ -468,6 +493,7 @@
             saveData() {
                 this.$f.validate(this.successValidate, this.errorValidate)
                 console.log(this.submitData);
+                if(!this.isValidate)return
                 let data = {};
                 data.tables = this.handleSubmit(this.submitData);
                 this.save_type === "add" ? data.task_id = this.task_id : "";
@@ -657,7 +683,6 @@
         height: 30px;
         width: 160px;
     }
-
     .custom-checkbox .el-checkbox {
         display: inherit;
     }
@@ -682,5 +707,11 @@
     .form-create .placeholder {
         height: 36px;
         display: block;
+    }
+    .form-create .el-checkbox {
+        white-space: inherit;
+    }
+    .form-create .el-checkbox .el-input__prefix .el-input__icon ,.form-create .el-checkbox .el-input__suffix .el-input__icon{
+        line-height: 30px;
     }
 </style>

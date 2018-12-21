@@ -1,5 +1,4 @@
 // 请求内容
-// TODO 样式要改
 import {handlePadding, handleSingle} from "../formConfig/handle/handle";
 
 function vm() {

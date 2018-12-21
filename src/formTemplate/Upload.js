@@ -10,7 +10,7 @@ const defaultProps = {
     },
 };
 
-function vm({label, url, props = {}, tip = "", type = "picture",field}) {
+function vm({label, url, props = {}, tip = "", type = "picture",field = "attachments"}) {
     const template = `
 <div>
     <template v-if="type === 'file'">
@@ -46,7 +46,7 @@ function vm({label, url, props = {}, tip = "", type = "picture",field}) {
     const options = {
         data: {
             extendData: {
-                [field]:{}
+                [field]:[]
             },
             fileList: [{url: 'http://img1.touxiang.cn/uploads/20131030/30-075657_191.jpg'}],
             action: url,

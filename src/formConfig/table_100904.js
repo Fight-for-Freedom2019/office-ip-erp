@@ -48,7 +48,7 @@ let rule = [
         type: "select", title: "代理机构", field: "agency", value: "",request: true, url: "",
     },
     {
-        type: "select", title: "代理人", field: "agents", value: "",request: true, url: "",
+        type: "select", title: "代理人", field: "agents", value: []
     },
     offset_reason,
     {

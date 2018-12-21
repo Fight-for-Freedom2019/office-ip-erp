@@ -11,7 +11,7 @@ let rule = [
         type: "input",title: "申请号", field: "patent_number",value: "",
     },
     {
-        type: "select",title: "请求人姓名或名称", field: "applicants",value: "",request: true, url: "",
+        type: "select",title: "请求人姓名或名称", field: "applicants",value: []
     },
     {
         type: "input",title: "请求人电子邮箱", field: "email",value: "",

@@ -14,27 +14,23 @@ let rule = [
         type: "input",title: "外观设计名称",field: "title",value: "",
     },
     {
-        type: "select", title: "设计人", field: "inventors", value: "", request: true, url: "",
+        type: "select", title: "设计人", field: "inventors", value: [],
     },
     {
-        type: "select", title: "申请人", field: "applicants", value: "", request: true, url: "",
+        type: "select", title: "申请人", field: "applicants", value: []
     },
     statement,
     {
-        type: "select", title: "联系人", field: "contact", value: [], request: true, url: "/contacts",DATA_KEY:"data",
-        props: {
-            multiple: true,
-            filterable: true,
-        },
+        type: "select", title: "联系人", field: "contact", value: [],
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "", request: true, url: "",
     },
     {
-        type: "select", title: "代理人", field: "agents", value: "", request: true, url: "",
+        type: "select", title: "代理人", field: "agents", value: []
     },
     {
-        type: "select", title: "总委托书编号", field: "poa", value: "", request: true, url: "",
+        type: "select", title: "总委托书编号", field: "poa", value: [],
         attrs:{
             placeholder:"请输入总委托书编号（如果有）"
         }

@@ -16,15 +16,10 @@ let rule = [
         type: "input", title: "发明创造名称", field: "title", value: "",
     },
     {
-        type: "input", title: "加快审查请求人", field: "applicants", value: "",
+        type: "input", title: "加快审查请求人", field: "applicants", value: []
     },
     {
-        type: "select", title: "联系人", field: "contact", value: [], request: true,
-        url: "/contacts",DATA_KEY:"data",
-        props: {
-            multiple: true,
-            filterable: true,
-        },
+        type: "select", title: "联系人", field: "contact", value: [],
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "", request: true,

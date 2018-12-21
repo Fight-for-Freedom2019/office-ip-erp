@@ -8,7 +8,7 @@ const proceeding = [
 ]
 let rule = [
     {
-        type: "select", title: "委托人", field: "applicants", value: "", request: true, url: "",
+        type: "select", title: "委托人", field: "applicants", value: []
     },
     {
         type: "input", title: "委托人英文名称", field: "english_name", value: "",
@@ -30,12 +30,8 @@ let rule = [
     {
         type:"select",title:"代理人",field:"agents",value:[],
         props: {
-            multiple: true,
-            filterable: true,
             "multiple-limit":2,
         },
-        request: true,
-        url: "",
 
     },
     upload_vm({label:"委托书扫描件",url:"/url",tip:"上传专利委托书",type:"file"}),

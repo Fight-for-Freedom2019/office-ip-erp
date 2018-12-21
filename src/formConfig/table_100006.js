@@ -10,10 +10,6 @@ let rule = [
     },
     {
         type: "select", title: "申请人", field: "applicants", value: [],
-        props: {
-            multiple: true,
-            filterable: true,
-        },
     },
     {
         type: "select", title: "代理机构", field: "agency", value: [],

@@ -37,19 +37,19 @@ let rule = [
         },
     },
     {
-        type: "select", title: "请求人", field: "applicants", value: "",request: true, url: "",
+        type: "select", title: "请求人", field: "applicants", value: []
     },
     {
-        type: "select", title: "发明人", field: "inventors", value: "",request: true, url: "",
+        type: "select", title: "发明人", field: "inventors", value: []
     },
     {
-        type: "select", title: "收件人", field: "contact", value: "",request: true, url: "",
+        type: "select", title: "收件人", field: "contact", value: [],
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "",request: true, url: "",
     },
     {
-        type: "select", title: "代理人", field: "agents", value: "",request: true, url: "",
+        type: "select", title: "代理人", field: "agents", value: []
     },
     {
         type: "select", title: "附件", field: "attachments", value: "",request: true, url: "",

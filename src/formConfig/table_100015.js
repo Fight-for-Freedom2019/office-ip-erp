@@ -9,7 +9,7 @@ let rule = [
         type: "input", title: "发明创造名称", field: "title", value: "",
     },
     {
-        type: "input", title: "申请人/权利人", field: "applicants", value: "",
+        type: "input", title: "申请人/权利人", field: "applicants", value: []
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "",request: true, url: "",

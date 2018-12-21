@@ -9,28 +9,24 @@ let rule = [
         type: "input", title: "发明名称", field: "title", value: "",
     },
     {
-        type: "select", title: "发明人", field: "inventors", value: "", request: true, url: "",
+        type: "select", title: "发明人", field: "inventors", value: [],
     },
     {
-        type: "select", title: "申请人", field: "applicants", value: "", request: true, url: "",
+        type: "select", title: "申请人", field: "applicants", value: []
     },
     statement,
     {
-        type: "select", title: "联系人", field: "contact", value: [], request: true, url: "/contacts",DATA_KEY:"data",
-        props: {
-            multiple: true,
-            filterable: true,
-        },
+        type: "select", title: "联系人", field: "contact", value: [],
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "", request: true, url: "",
     },
     {
-        type: "select", title: "代理人", field: "agents", value: "", request: true, url: "",
+        type: "select", title: "代理人", field: "agents", value: []
     },
     checkbox_vm("poa_declaration","声明已经与申请人签订了专利代理委托书且本表中的信息与委托书中相应信息一致",{labelWidth:"120px"},"代理声明"),
     {
-        type: "select", title: "总委托书编号", field: "poa", value: "", request: true, url: "",
+        type: "select", title: "总委托书编号", field: "poa", value: [],
         attrs:{
             placeholder:"请输入总委托书编号（如果有）"
         }

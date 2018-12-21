@@ -105,8 +105,7 @@ let rule = [
         url: "",
     },
     {
-        type:"select",title:"代理人",field:"agents",value:"",request: true,
-        url: "",
+        type:"select",title:"代理人",field:"agents",value:[]
     },
     {
         type:"input",title:"通信地址",field:"agent_address",value:"",

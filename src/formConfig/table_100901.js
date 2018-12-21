@@ -10,25 +10,17 @@ let rule = [
         type: "input", title: "发明创造名称", field: "title", value: "",
     },
     {
-        type: "select", title: "复审请求人", field: "applicants", value: "",request: true,
-        url: "",
+        type: "select", title: "复审请求人", field: "applicants", value: []
     },
     {
-        type: "select", title: "联系人", field: "contact", value: [],request: true,
-        url: "/contacts",DATA_KEY:"data",
-        props: {
-            multiple: true,
-            filterable: true,
-            "value-key":"id",
-        },
+        type: "select", title: "联系人", field: "contact", value: [],
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "",request: true,
         url: "",
     },
     {
-        type: "select", title: "代理人", field: "agents", value: "",request: true,
-        url: "",
+        type: "select", title: "代理人", field: "agents", value: []
     },
     {
         // TODO url要设置

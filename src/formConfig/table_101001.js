@@ -20,23 +20,17 @@ let rule = [
         type: "input",title: "专利权人",field: "patentee",value: "",
     },
     {
-        type: "select",title: "无效宣告请求人",field: "applicants",value: "",request: true,
-        url: "",
+        type: "select",title: "无效宣告请求人",field: "applicants",value: []
     },
     {
-        type: "select",title: "联系人",field: "contact",value: [],request: true,
-        props: {
-            multiple: true,
-            filterable: true,
-        },
+        type: "select",title: "联系人",field: "contact",value: [],
     },
     {
         type: "select",title: "代理机构",field: "agency",value: "",request: true,
         url: "",
     },
     {
-        type: "select",title: "代理人",field: "agents",value: "",request: true,
-        url: "",
+        type: "select",title: "代理人",field: "agents",value: []
     },
     {
         // TODO url要设置

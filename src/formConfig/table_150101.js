@@ -6,6 +6,7 @@ import {vm as review_declaration_vm} from '../formTemplate/review-declaration'
 import {vm as priority_table} from '../formTemplate/priority-table'
 import {vm as invoking_accession_vm} from '../formTemplate/invoking-accession'
 import {vm as review_request_vm} from '../formTemplate/review-request'
+import address from '../formTemplate/address'
 
 // 提前处理
 const early_treatment = {
@@ -88,24 +89,20 @@ let rule = [
         type: "input",title: "发明名称", field: "title",value: "",
     },
     {
-        type: "select",title: "发明人", field: "inventors",value: "",request: true, url: "",
+        type: "select",title: "发明人", field: "inventors",value: [],
     },
     {
-        type: "select",title: "申请人", field: "applicants",value: "",request: true, url: "",
+        type: "select",title: "申请人", field: "applicants",value: []
     },
     statement,
     {
-        type: "select",title: "联系人", field: "contact",value: [],request: true, url: "/contacts",DATA_KEY:"data",
-        props: {
-            multiple: true,
-            filterable: true,
-        },
+        type: "select",title: "联系人", field: "contact",value: [],
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "",request: true, url: "",
     },
     {
-        type: "select", title: "代理人", field: "agents", value: "",request: true, url: "",
+        type: "select", title: "代理人", field: "agents", value: []
     },
     {
         type: "input",title: "权利要求项数", field: "claims_count",value: "",
@@ -222,7 +219,7 @@ let rule = [
     },
     {
         type:"select",title: "",field: "biological_orgnization",value:"",
-        options:[],
+        options:address,
         attrs:{
             placeholder:"请选择保藏单位"
         },

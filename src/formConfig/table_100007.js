@@ -13,12 +13,6 @@ let rule = [
     },
     {
         type:"select",title:"委托人",field:"applicants",value:[],
-        props: {
-            multiple: true,
-            filterable: true,
-        },
-        request: true,
-        url: "",
 
     },
     checkbox_common_vm({poa_application:"代为办理专利申请或专利在专利权有效期内的全部事务",poa_search_report:"代为办理专利权评价报告或者实用新型专利检索报告"},"委托类型","",{labelWidth:"120px"}),
@@ -35,12 +29,8 @@ let rule = [
     {
         type:"select",title:"代理人",field:"agents",value:[],
         props: {
-            multiple: true,
-            filterable: true,
             "multiple-limit":2,
         },
-        request: true,
-        url: "",
     },
     upload_vm({type:"file",tip:"",label:"委托书扫描件"})
 ]

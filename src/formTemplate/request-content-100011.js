@@ -1,5 +1,4 @@
 // 请求内容
-// TODO 样式要改
 import {handleSingle, handlePadding} from "../formConfig/handle/handle";
 
 let count = 0;

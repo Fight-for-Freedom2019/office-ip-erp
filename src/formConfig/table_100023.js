@@ -24,7 +24,7 @@ let rule = [
         type: "input",title: "发明创造名称",field: "title",value: "",
     },
     {
-        type: "select",title: "申请人",field: "applicants",value: "",request: true,url: "",
+        type: "select",title: "申请人",field: "applicants",value: [],
         attrs:{
             placeholder:"应当填写第一署名申请人"
         },
@@ -40,8 +40,8 @@ let rule = [
             labelWidth:"100%",
         },
     },
-    checkbox_common_vm(derive_from,"I、遗传资源取自：",checkboxFunc,{labelWidth:"140px"},false),
-    checkbox_common_vm(other,"II、获取方式：",checkboxFunc,{labelWidth:"140px"},false),
+    checkbox_common_vm(derive_from,"I、遗传资源取自：",()=>{},{labelWidth:"140px"},false),
+    checkbox_common_vm(other,"II、获取方式：",()=>{},{labelWidth:"140px"},false),
     genetic_resources_vm(),
     {
         type: "input",title: "无法说明遗传资源原始来源的理由",field: "opinion",value: "",

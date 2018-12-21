@@ -75,7 +75,7 @@ let rule = [
         type:"input",title:"发明创造名称",field:"patent_title",value:"",
     },
     {
-        type:"select",title:"申请人",field:"applicants",value:"",
+        type:"select",title:"申请人",field:"applicants",value:[],
     },
     {
         type:"select",title:"变更项目",field:"type",value:"",
@@ -107,7 +107,7 @@ let rule = [
             change:changeDocumentsType,
         }
     },
-    // TODO 这个CheckBox的逻辑要改
+    // TODO 这个CheckBox的逻辑要改 select框填充逻辑要改
     checkbox_common_vm(statement,"声明",()=>{},{labelWidth:"120px"},false),
     citations_information_vm(),
     upload_vm({label:"附件",url:"/url",tip:"Note:附件支持PDF格式以及JPG格式，但两种格式只能二选一"}),

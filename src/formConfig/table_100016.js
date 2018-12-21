@@ -22,7 +22,7 @@ let rule = [
         type: "input", title: "发明创造名称", field: "patent_title", value: "",
     },
     {
-        type: "select", title: "申请人", field: "applicants", value: "", request: true, url: "",
+        type: "select", title: "申请人", field: "applicants", value: []
     },
     {
         type: "span", title: "变更后提交人", field: "placeholder", value: "",

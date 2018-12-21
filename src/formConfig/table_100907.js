@@ -19,7 +19,7 @@ let rule = [
         type: "input", title: "发明创造名称", field: "title", value: "",
     },
     {
-        type: "input", title: "复审请求人(委托人）", field: "applicants", value: "",
+        type: "input", title: "复审请求人(委托人）", field: "applicants", value: []
     },
     {
         type: "input", title: "被委托人", field: "agency", value: "",
@@ -28,7 +28,7 @@ let rule = [
         }
     },
     {
-        type: "input", title: "", field: "agents", value: "",
+        type: "input", title: "", field: "agents", value: [],
         attrs:{
             placeholder:"请输入代理人"
         }
