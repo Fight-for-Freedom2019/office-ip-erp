@@ -512,14 +512,11 @@
                 this.formTypeCollection = [];
                 this.formList = [];
                 const success = (_) => {
-                    //console.log(_)
                     this.data = _.data.data[0].tables;
-                    if (Object.keys(this.data).length !== 0) {
+                    if (_.data.data[0].id) {
                         this.save_type = "edit";
                     }
-                    // this.data = this.convertData(_.data.data[0].tables);
                     this.cpc_id = _.data.data[0].id;
-                    //this.convertData(this.data.tables);
                     for (let key in this.data) {
                         if (this.data.hasOwnProperty(key)) {
                             if (key.indexOf('table') !== -1) {
@@ -527,10 +524,8 @@
                             }
                         }
                     }
-                    // console.log(this.formTypeCollection);
                     this.renderForm();
                 }
-                //success(this.data1);
                 this.$axiosGet({url: "/taskCpcs", data: {id: this.task_id}, success})
             },
         },
@@ -538,13 +533,9 @@
             formList:function (val,oldVal) {
                 this.common_use.forEach((item)=>{
                     let arr = val.filter((i)=>{
-                        return i.id === item.id
+                        return i.id === item.id;
                     });
-                    if(arr.length !== 0) {
-                        item.showIcon = true;
-                    }else {
-                        item.showIcon = false;
-                    }
+                    item.showIcon = arr.length !== 0?true:false;
                 })
             }
         },
