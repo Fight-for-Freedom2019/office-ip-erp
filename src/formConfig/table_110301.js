@@ -15,7 +15,6 @@ let rule = [
         type: 'input', title: '发明创造名称', field: 'title', value: '',
     },
     {
-        // TODO url要设置
         type:"select",title:"申请人",field:"applicants",value:"",request: true,
         url: "",
     },

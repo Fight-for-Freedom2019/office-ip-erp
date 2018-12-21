@@ -49,7 +49,6 @@ let rule = [
         }
     },
     {
-        // TODO url要设置
         type:"select",title:"代理机构",field:"agency",value:"",request: true,
         url: "",
     },

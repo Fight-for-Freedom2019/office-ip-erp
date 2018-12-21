@@ -46,10 +46,10 @@ const template = `
                 </el-select>
             </el-form-item>
             <el-form-item label="申请号">
-                <el-input v-model="form.priority_number"></el-input>
+                <el-input placeholder="请输入申请号" v-model="form.priority_number"></el-input>
             </el-form-item>
-            <el-form-item label="申请号">
-                <el-date-picker value-format="yyyy-MM-dd" v-model="form.priority_date"></el-date-picker>
+            <el-form-item label="申请日">
+                <el-date-picker placeholder="请选择申请日" value-format="yyyy-MM-dd" v-model="form.priority_date"></el-date-picker>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="save">保存</el-button>
