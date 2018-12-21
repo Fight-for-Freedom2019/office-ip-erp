@@ -9,7 +9,7 @@ const template = `
 <el-table border :data="extendData.priority">
     <el-table-column
         prop="priority_area"
-        label="在先申请地区"
+        label="原受理机构名称"
         min-width="180">
     </el-table-column>
     <el-table-column
@@ -33,9 +33,9 @@ const template = `
 </el-table>
     
     
-    <el-dialog title="新增优先权" :visible.sync="isVisible" custom-class="priority_dialog" :append-to-body="true" :modal="false">
+    <el-dialog title="新增/编辑补正内容" :visible.sync="isVisible" custom-class="priority_dialog" :append-to-body="true" :modal="false">
         <el-form :model="form" label-position="left" label-width="110px">
-            <el-form-item label="优先权国家">
+            <el-form-item label="原受理机构名称">
                 <el-select v-model="form.priority_area">
                     <el-option 
                         v-for="item in options"
@@ -133,7 +133,7 @@ const vm = {
     custom: true,
     vm: options,
     template: template,
-    label: '优先权声明',
+    label: '申请人声明撤回下列优先权',
     field: 'priority_vm',
 }
 

@@ -68,7 +68,14 @@
                 </div>
             </div>
             <el-dialog title="添加表格" :visible.sync="showAppendForm" :modal="false">
-
+                <div>
+                    <h4>常用表格(可多选)</h4>
+                </div>
+                <ul class="common-use">
+                    <li class="common-use-item" v-for="(item,index) in common_use">
+                        <el-button :type="item.showIcon?'primary':''" @click="choiceCommon(item.id,index)">{{item.name}}<i :class="{'el-icon-check':item.showIcon}" class="el-icon--right"></i></el-button>
+                    </li>
+                </ul>
                 <el-form>
                     <el-form-item label="请选择">
                         <el-select v-model="formTypeCollection" multiple filterable>
@@ -106,7 +113,7 @@
                 isApplicationEditor: false,
                 tabpanel: "application_doc",
                 showAppendForm: false,
-                formList: [],   // 左侧表单列表
+                formList: [],
                 isShowRemoveBtn: true,
                 isShowIndex: 1000,
                 loading: false,
@@ -124,6 +131,17 @@
                 data: {},
                 save_type: "add",
                 task_id: "",
+                common_use:[
+                    {id:100007,name:"专利代理委托书",showIcon:false},
+                    {id:100006,name:"补正书",showIcon:false},
+                    {id:100012,name:"意见陈述书",showIcon:false},
+                    {id:100016,name:"著录项目变更申报书",showIcon:false},
+                    {id:100104,name:"著录项目变更理由证明",showIcon:false},
+                    {id:100701,name:"专利权评价报告请求书",showIcon:false},
+                    {id:100027,name:"向外国申请专利保密审查请求书",showIcon:false},
+                    // {id:10000432,name:"办理文件副本请求书",showIcon:false},
+                    {id:100013,name:"撤回专利申请声明",showIcon:false},
+                ],
                 options_collection:new Map(),
                 option_action:[
                     {url:'/contacts',data_key:"data",map_key:"contact"},
@@ -134,7 +152,6 @@
                 ],
                 cpc_id: "",
                 count: 0,
-
             }
         },
         props: {
@@ -165,6 +182,23 @@
             this.getOptions();
         },
         methods: {
+            choiceCommon(id,index){
+                let bool = this.common_use[index].showIcon;
+                let mark = this.common_use[index].id;
+                // this.common_use[index].showIcon = bool ? false:true;
+                let arr = this.formList.filter((item)=>{
+                    return item.id === mark
+                });
+                if(bool && arr.length === 0){
+                    this.common_use[index].showIcon = false;
+                    let i = this.formTypeCollection.indexOf(id);
+                    this.formTypeCollection.splice(i,1);
+                }else if(!bool && arr.length === 0){
+                    this.common_use[index].showIcon = true;
+                    //this.formList.push({id:mark,name:this.common_use[index].name});
+                    this.formTypeCollection.push(mark);
+                }
+            },
             // 获取所有的远程select option
             getOptions(){
                 this.option_action.forEach((i)=>{
@@ -364,7 +398,6 @@
                 this.rules = handlePlaceholder(target.obj.rule)
                 this.paddingData(this.rules);
                 this.mergeRule(this.rules)
-
                 this.createForm()
                 this.$f.submit()
             },
@@ -381,22 +414,10 @@
                         for (let extendKey in temp) {
                             if (temp.hasOwnProperty(extendKey)) {
                                 data[extendKey] ? temp[extendKey] = data[extendKey] : "";
-                                /*if (Array.isArray(temp[extendKey])) {
-                                    temp[extendKey] = data[extendKey] ? data[extendKey] : []
-                                }else if(typeof temp[extendKey] === 'boolean'){
-                                    temp[extendKey] = data[extendKey] ? data[extendKey] : false
-                                }else {
-                                    temp[extendKey] = data[extendKey] ? data[extendKey] : ''
-                                }*/
                             }
                         }
                     } else {
                         data[rule.field] ? rule.value = data[rule.field] : ""
-                        /*if (Array.isArray(data[rule.field])) {
-                            rule.value = data[rule.field] ? data[rule.field] : []
-                        }else {
-                            rule.value = data[rule.field] ? data[rule.field] : ''
-                        }*/
                     }
                 })
             },
@@ -513,7 +534,20 @@
                 this.$axiosGet({url: "/taskCpcs", data: {id: this.task_id}, success})
             },
         },
-        watch: {},
+        watch: {
+            formList:function (val,oldVal) {
+                this.common_use.forEach((item)=>{
+                    let arr = val.filter((i)=>{
+                        return i.id === item.id
+                    });
+                    if(arr.length !== 0) {
+                        item.showIcon = true;
+                    }else {
+                        item.showIcon = false;
+                    }
+                })
+            }
+        },
         components: {
             AppShrink,
         },
@@ -611,6 +645,16 @@
         white-space: nowrap;
         overflow: hidden;
         width: 210px;
+    }
+    .common-use {
+        /*height: 80px;*/
+        margin-bottom: 20px;
+        display: flex;
+        flex-flow: row wrap;
+    }
+    .common-use-item {
+        margin-left: 10px;
+        margin-top: 10px;
     }
 </style>
 <style>

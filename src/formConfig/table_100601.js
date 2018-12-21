@@ -52,7 +52,7 @@ let rule = [
             span:10
         }
     },
-    statement_content_vm(),
+    statement_content_vm("声明内容"),
     upload_vm({label:"证明",url:"/url",tip:"上传同意放弃证明",type:"file"}),
 ];
 
