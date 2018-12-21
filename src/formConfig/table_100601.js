@@ -34,6 +34,24 @@ let rule = [
         },
         options:[{value:1,label:'全体专利权同意放弃专利权的证明'},{value:2,label:'其它附件'}]
     },
+    {
+        type: "span", title: "备案", field: "records", value: "",
+        col:{
+            span:4
+        }
+    },
+    {
+        type: "input", title: "备案文件名称", field: "filename", value: "",
+        col:{
+            span:10
+        }
+    },
+    {
+        type: "input", title: "备案文件编号", field: "fileno", value: "",
+        col:{
+            span:10
+        }
+    },
     statement_content_vm(),
     upload_vm({label:"证明",url:"/url",tip:"上传同意放弃证明",type:"file"}),
 ];

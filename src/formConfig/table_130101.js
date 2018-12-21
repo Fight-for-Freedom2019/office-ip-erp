@@ -3,7 +3,12 @@ import {vm as statement} from '../formTemplate/statement'
 import {vm as priority} from "../formTemplate/priority";
 import {vm as design} from '../formTemplate/design'
 import {handleSingle} from "./handle/handle";
-
+import {vm as checkbox_common_vm} from "../formTemplate/checkbox-common";
+const novelty_claims = {
+    novelty_exception_exhibition:"已在中国政府主办或承认的国际展览会上首次展出",
+    novelty_exception_published:"已在规定的学术会议或技术会议上首次发表",
+    novelty_exception_leakage:"他人未经申请人同意而泄露其内容",
+}
 let rule = [
     {
         type: "input",title: "外观设计名称",field: "title",value: "",
@@ -66,17 +71,7 @@ let rule = [
     },
     design("相似设计","similar"),
     design("成套设计","set"),
-    {
-        type: 'checkbox', title: '不丧失新颖性声明', field: 'novelty_claims', value: [],
-        options: [
-            {value: "novelty_exception_exhibition", label: '已在中国政府主办或承认的国际展览会上首次展出'},
-            {value: "novelty_exception_published", label: '已在规定的学术会议或技术会议上首次发表'},
-            {value: "novelty_exception_leakage", label: '他人未经申请人同意而泄露其内容'}
-        ],
-        event: {
-            change: handleSingle,
-        },
-    },
+    checkbox_common_vm(novelty_claims,"不丧失新颖性声明","",{labelWidth:"120px"}),
     {
         type: "select", title: "附件", field: "attachments", value: "", request: true, url: "",
     },

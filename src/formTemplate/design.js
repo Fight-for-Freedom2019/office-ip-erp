@@ -23,12 +23,12 @@ function vm(label, type) {
     if (type === 'similar') {
         extendData = {
             similar_design: false,
-            similar_design_count: false,
+            similar_design_count: "",
         }
     } else {
         extendData = {
             set_design: false,
-            set_design_count: false,
+            set_design_count: "",
         }
     }
     const options = {
