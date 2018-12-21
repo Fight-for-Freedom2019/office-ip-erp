@@ -1,36 +1,38 @@
 <template>
   <div class="main">
-  	<el-form :model="form" ref="form" label-width="80px">
-  		<el-form-item label="标题" prop="subject" :rules="{required: true, message: '请输入邮件标题', trigger: 'blur'}">
-  			<el-input v-model="form.subject" placeholder="请输入邮件标题"></el-input>
-  		</el-form-item>
-  		<el-form-item label="收件人" prop="recipients" :rules="{type: 'array', required: true, message: '请选择收件人', trigger: 'change'}">
-				<remote-select type="mail" v-model="form.recipients" ref="recipients" multiple></remote-select>
-  		</el-form-item>
-  		<el-form-item label="抄送" prop="cc">
-  			<remote-select type="mail" v-model="form.cc" ref="cc" multiple></remote-select>
-  		</el-form-item>
-<!--   		<el-form-item label="密送" prop="bcc">
-				<remote-select type="mail" v-model="form.bcc" ref="bcc" multiple></remote-select>
-  		</el-form-item> -->
-  		<el-form-item label="附件" prop="attachments">
-  			<upload v-model="form.attachments" :file-list="attachments"></upload>
-  		</el-form-item>
-  		<el-form-item label="正文" prop="body">
-  			<quill-editor 
-					v-model="form.body"
-          ref="myQuillEditor"
-          :options="editorOption"
-          @blur="onEditorBlur($event)"
-          @focus="onEditorFocus($event)"
-          @ready="onEditorReady($event)"	
-        >
-  			</quill-editor>
-  		</el-form-item>
-  		<el-form-item>
-  			<el-button type="primary" icon="message" @click="send" :disabled="btn_disabled">发送</el-button>
-  		</el-form-item>
-  	</el-form>
+	  <app-shrink :visible.sync="dialogVisible" :modal='false' :title="title">
+		<el-form :model="form" ref="form" label-width="80px" v-loading="loadingVisible" :element-loading-text="loadingText" style="margin-top:10px;">
+			<el-form-item label="标题" prop="subject" :rules="{required: true, message: '请输入邮件标题', trigger: 'blur'}">
+				<el-input v-model="form.subject" placeholder="请输入邮件标题"></el-input>
+			</el-form-item>
+			<el-form-item label="收件人" prop="recipient" :rules="{type: 'array', required: true, message: '请选择收件人', trigger: 'change'}">
+					<remote-select type="mail" v-model="form.recipient" ref="recipient" multiple></remote-select>
+			</el-form-item>
+			<el-form-item label="抄送" prop="cc">
+				<remote-select type="mail" v-model="form.cc" ref="cc" multiple></remote-select>
+			</el-form-item>
+	<!--   		<el-form-item label="密送" prop="bcc">
+					<remote-select type="mail" v-model="form.bcc" ref="bcc" multiple></remote-select>
+			</el-form-item> -->
+			<el-form-item label="附件" prop="attachments">
+				<upload v-model="form.attachments" :file-list="attachments"></upload>
+			</el-form-item>
+			<el-form-item label="正文" prop="body">
+				<quill-editor 
+						v-model="form.body"
+			ref="myQuillEditor"
+			:options="editorOption"
+			@blur="onEditorBlur($event)"
+			@focus="onEditorFocus($event)"
+			@ready="onEditorReady($event)"	
+			>
+				</quill-editor>
+			</el-form-item>
+			<el-form-item>
+				<el-button type="primary" icon="message" @click="send" :disabled="btn_disabled">发送</el-button>
+			</el-form-item>
+		</el-form>
+	  </app-shrink> 
   </div>
 </template>
 
@@ -38,9 +40,22 @@
 import AxiosMixins from '@/mixins/axios-mixins'
 import Upload from '@/components/form/Upload'
 import RemoteSelect from '@/components/form/RemoteSelect'
+import AppShrink from '@/components/common/AppShrink'
 
 const URL = '/mails';
-
+const sceneMap = new Map([
+	['立案通知',1],
+	['发明人看稿',2],
+	['IPR审核',3],
+	['递交文件',4],
+	['官文',5],
+	['纸本文件',6],
+	['报表',7],
+	['年费通知',8],
+	['账单',9],
+	['商务/合同',10],
+	['其它',11],
+]);
 export default {
   name: 'mailAdd',
   props: ['data'],
@@ -48,9 +63,8 @@ export default {
   data () {
 		return {
 			'form':{
-
 				subject: '',
-				recipients: [],
+				recipient: [],
 				cc: [],
 				// bcc: [],
 				body: '',
@@ -78,6 +92,12 @@ export default {
         }
 			},
 			btn_disabled: false,
+			dialogVisible: false,
+			loadingVisible: false,
+			loadingText: '邮件内容加载中',
+			title:'发送邮件',
+			id:0,
+			mail_type:0,
 		}	  
 	},
 	methods: {
@@ -85,9 +105,8 @@ export default {
 			const url = `${URL}/${id}`
 			const success = _=>{
 				const mail = _.mail;
-				this.$tool.coverObj(this.form, mail, {obj: ['cc', 'recipients','attachments']});
-				 this.attachments = _.attachments ? _.attachments : [];
-
+				this.$tool.coverObj(this.form, mail, {obj: ['cc', 'recipient','attachments']});
+				this.attachments = _.attachments ? _.attachments : [];
 			};
 			this.$axiosGet({url, success});
 		},
@@ -108,6 +127,8 @@ export default {
 				const url = URL;
 
 				const data = Object.assign({}, this.form,  this.getMailForm());
+				data.id = this.id;
+				data.mail_type = this.mail_type;
 				
 				const success = _=>{
 					this.$message({message: '发送成功', type: 'success'});
@@ -148,8 +169,44 @@ export default {
 		onEditorReady () {
 
 		},
+		loadTemplateMail(scene,id) {
+			this.title = '发送' + scene + '邮件';
+			const mail_type = sceneMap.get(scene);
+			this.mail_type = mail_type;
+			
+			const data = {id,mail_type};
+			const url = `/mails/templates`;
+			const success = _=>{
+				const mail = _.data;
+				this.$tool.coverObj(this.form, mail, {obj: ['attachments']});
+				this.form.subject = mail.title;
+				this.attachments = _.attachments ? _.attachments : [];
+				this.loadingVisible = false;
+			};
+			this.$axiosGet({url, data, success});
+		},
+		loadMail(id) {
+			this.title = '邮件详情';
+			const url = `/mails/` + id;
+			const success = _=>{
+				const mail = _.mail;
+				this.$tool.coverObj(this.form, mail, {obj: ['attachments']});
+				this.loadingVisible = false;
+			};
+			this.$axiosGet({url, success});
+		},
+		show(scene,id) {
+			this.id = id;
+			this.dialogVisible = true;
+			this.loadingVisible = true;
+			if (scene === 'view') {
+				this.loadMail(id);
+			} else {
+				this.loadTemplateMail(scene,id)
+			}
+		},
 		getMailForm () {
-			const mail_arr = ['recipients', 'cc',];
+			const mail_arr = ['recipient', 'cc',];
 			const mail_form = {};
 
 			mail_arr.forEach(_=>{
@@ -182,13 +239,14 @@ export default {
 	},
 	watch: {
 		data (v) {
-			this.$tool.coverObj(this.form, v, {obj: ['cc', 'recipients','attachments']});
+			this.$tool.coverObj(this.form, v, {obj: ['cc', 'recipient','attachments']});
 			this.attachments = v.attachments ? v.attachments : [];
 		}
 	},
 	components: { 
 		Upload, 
 		RemoteSelect, 
+		AppShrink
 	},
 }
 </script>

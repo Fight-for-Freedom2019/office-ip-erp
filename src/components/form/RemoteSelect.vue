@@ -185,6 +185,11 @@ const map = new Map([
       DATA_KEY: 'data',
       PLACEHOLDER: '请选择用户',
   }],
+  ['mail_roles',{
+      URL: '/mail_roles',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择收件人身份',
+  }],
   ['orders',{
       URL: '/orders?listOnly=1',
       DATA_KEY: 'data',

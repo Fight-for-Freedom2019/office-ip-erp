@@ -310,7 +310,7 @@ const map = new Map([
     ]],
     /* 发票管理 */
     ['invoice_request',[
-        { components: 'remote_select', id: 'customer',                name: '客户', type: 'customer', used: true},
+        { components: 'remote_select', id: 'customer',                name: '客户/供应商', type: 'customer', used: true},
     ]],
     /* 交互>客户端>通知书 */
     ['cpc_notice',[

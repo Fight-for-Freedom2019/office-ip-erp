@@ -1,63 +1,42 @@
-<!-- 回款记录 -->
+<!-- 账单发票 -->
 <template>
-    <div class="ReceivedRecord">
+    <div class="InvoiceVouchers">
         <table-component :tableOption="tableOption" :data="tableData" ref="table"
                          @refreshTableData="refreshTableData"></table-component>
-        <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false" size="small" width="600px">
-            <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-                <!--<el-form-item label="回款确认用户" prop="creator">-->
-                    <!--<jump-select type="user" v-model="form.creator"></jump-select>-->
-                <!--</el-form-item>-->
-                <el-form-item label="回款账户" prop="payment_account">
-                    <jump-select type="payment_accounts" v-model="form.payment_account"></jump-select>
-                </el-form-item>
-                <el-form-item label="回款时间" prop="received_date">
-                    <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="请选择时间" v-model="form.received_date"></el-date-picker>
-                </el-form-item>
-                <el-form-item label="回款金额" prop="amount">
-                    <el-input type="number" v-model="form.amount" placeholder="请输入汇款金额"></el-input>
-                </el-form-item>
-                <el-form-item label="备注" prop="remark">
-                    <el-input type="textarea" v-model="form.remark"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="submitForm">保存</el-button>
-                    <el-button @click="closeDialog">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
+        <invoice-manage-detail ref="voucher" @update="update" @refresh="refresh"></invoice-manage-detail>
     </div>
-
-
-
 </template>
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import JumpSelect from '@/components/form/JumpSelect'
+    import InvoiceManageDetail from '@/components/page_extension/InvoiceManageDetail'
 
     export default {
-        name: "ReceivedRecord",
+        name: "InvoiceVouchers",
         data() {
             return {
                 tableOption: {
-                    'name': 'ReceivedRecordList',
+                    'name': 'InvoiceVouchersList',
                     'url': "",
                     'height': 356,
                     'is_pagination':false,
                     'highlightCurrentRow': true,
                     'is_search': false,
-                    // 'rowClick': this.handleRowClick,
+                    'rowClick': this.handleRowClick,
                     'header_btn': [
-                        {type: 'add',click:this.addRecord},
+                        {type: 'add',click:this.applyVoucher},
                     ],
                     'columns': [
                         // {type: 'selection'},
-                        {type: 'text', label: '回款确认用户', prop: 'creator_user.name', width: '150'},
-                        {type: 'text', label: '回款时间', prop: 'received_date', width: '120'},
-                        {type: 'text', label: '回款金额', prop: 'amount', width: '120'},
-                        {type: 'text', label: '回款账户', prop: 'payment_account.abbr', width: '120'},
-                        {type: 'text', label: '备注', prop: 'remark', min_width: '180'},
+                        {type: 'text', label: '发票号', prop: 'serial', width: '120',render_header:true},
+                        {type: 'text', label: '客户/供应商', prop: 'customer', width: '150',render_simple:"name",render_header:true},
+                        // {type: 'text', label: '关联账单', prop: 'invoice',render_simple:"serial", width: '120',render_header:true},
+                        {type: 'text', label: '发票抬头', prop: 'invoice_target',render_simple:"name", min_width: '150',render_header:true},
+                        {type: 'text', label: '税务票号', prop: 'tax_no', min_width: '120',render_header:true},
+                        {type: 'text', label: '状态', prop: 'status',render_simple:"name", min_width: '120',render_header:true},
+                        {type: 'text', label: '金额', prop: 'amount', width: '100', render_header:true},
+                        {type: 'text', label: '备注', prop: 'remark', width: '120',render_header:true},
                     ],
                 },
                 URL:"/received_payments",
@@ -79,7 +58,7 @@
                     ]
                 },
                 tableData: [],
-                title:"新增回款记录",   // 弹窗title
+                title:"新增账单发票",   // 弹窗title
                 dialogFormVisible:false,
             }
         },
@@ -90,18 +69,23 @@
                 default() {
                     return ""
                 },
-            }
+            },
+            invoice:Object,
         },
         methods: {
             refreshTableData(option) {
-                const url = `/invoices/${this.id}/received_payments`;
+                const url = `/vouchers`;
+                const data = {invoice:id};
                 const success = _ =>{
                     this.tableData = _.data;
                 };
-                this.$axiosGet({url,data:option,success})
+                this.$axiosGet({url,data,success})
             },
-            addRecord(){
-                this.dialogFormVisible = true;
+            handleRowClick(row) {
+                this.$refs.voucher.show(row.id,'edit',this.invoice);
+            },
+            applyVoucher(){
+                this.$refs.voucher.show(0,'add',this.invoice);
             },
             closeDialog(){
                 this.dialogFormVisible = false;
@@ -117,7 +101,7 @@
                         let data = Object.assign({},this.form);
                         data.invoice = this.id;
                         const success = _ =>{
-                            this.$message({type:"success",message:"添加回款记录成功"});
+                            this.$message({type:"success",message:"添加账单发票成功"});
                             this.dialogFormVisible = false;
                             this.refreshTableData();
                             this.clear();
@@ -132,6 +116,12 @@
             clear(){
                 this.$refs.form.resetFields();
             },
+            refresh() {
+                this.refreshTableData();
+            },
+            update() {
+                this.refreshTableData();
+            }
         },
         watch:{
             data:function (val,oldVal) {
@@ -140,7 +130,8 @@
         },
         components: {
             TableComponent,
-            JumpSelect
+            JumpSelect,
+            InvoiceManageDetail,
         },
     }
 </script>

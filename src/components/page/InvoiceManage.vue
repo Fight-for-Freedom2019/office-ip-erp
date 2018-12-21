@@ -3,25 +3,12 @@
     <div class="InvoiceRequest">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
-        <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
-            <span slot="header" style="float: right;">
-                <el-button type="primary" v-if="compileType === 'add'" size="small"
-                           @click="save('add')">申请开具</el-button>
-                <el-button type="primary" v-if="compileType === 'edit'" size="small"
-                           @click="save('edit')">保存</el-button>
-            </span>
-            <invoice-manage-detail ref="detail" @update="update" @refresh="refresh" :rowData="rowData" :compileType="compileType"></invoice-manage-detail>
-            <!-- 这里需要props是因为要修改表单内容 -->
-        </app-shrink>
-        <el-dialog title="发票明细" :visible.sync="dialogFormVisible" :modal="false">
-            <table-component :tableOption="feeDetailOption" :data="feesDetail"></table-component>
-        </el-dialog>
+        <invoice-manage-detail ref="detail" @update="update" @refresh="refresh"></invoice-manage-detail>
     </div>
 </template>
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
-    import AppShrink from '@/components/common/AppShrink'
     import InvoiceManageDetail from '@/components/page_extension/InvoiceManageDetail'
     import TableMixins from '@/mixins/table-mixins'
 
@@ -51,36 +38,21 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer', width: '178',render_simple:"name",render_header:true},
-                        {type: 'text', label: '账单编号', prop: 'invoice',render_simple:"serial", width: '180',render_header:true},
-                        {type: 'text', label: '开票主体', prop: 'invoice_target',render_simple:"name", min_width: '260',render_header:true},
-                        {type: 'text-btn', label: '金额', prop: 'amount', width: '180', click: this.checkFeeDetail,render_header:true},
-                        {type: 'text', label: '申请国家', prop: 'status', width: '120',render_header:true},
-                        {type: 'text', label: '备注', prop: 'remark', width: '320',render_header:true},
+                        {type: 'text', label: '发票号', prop: 'serial', width: '120',render_header:true},
+                        {type: 'text', label: '客户/供应商', prop: 'customer', width: '150',render_simple:"name",render_header:true},
+                        {type: 'text', label: '关联账单', prop: 'invoice',render_simple:"serial", width: '120',render_header:true},
+                        {type: 'text', label: '发票抬头', prop: 'invoice_target',render_simple:"name", min_width: '150',render_header:true},
+                        {type: 'text', label: '税务票号', prop: 'tax_no', min_width: '120',render_header:true},
+                        {type: 'text', label: '状态', prop: 'status',render_simple:"name", min_width: '120',render_header:true},
+                        {type: 'text-btn', label: '金额', prop: 'amount', width: '100', click: this.checkFeeDetail,render_header:true},
+                        // {type: 'text', label: '申请国家', prop: 'status', width: '120',render_header:true},
                         // {type: 'text', label: '扫描件', prop: 'is_scanning_copy', width: '100'},
-                        {type: 'text', label: '扫描件', prop: 'scanning_copy', width: '150',render_header:true},
+                        // {type: 'text', label: '扫描件', prop: 'scanning_copy', width: '150',render_header:true},
+                        {type: 'text', label: '备注', prop: 'remark', width: '120',render_header:true},
                         // {type: 'text', label: '发票明细', prop: 'service_fee', width: '150'},
                     ],
                 },
-                feeDetailOption: {
-                    'name': 'feeDetailList',
-                    'url': "",
-                    'height': 387,
-                    'highlightCurrentRow': true,
-                    'is_search': false,
-                    // 'rowClick': this.handleRowClick,
-                    'header_btn': [
-                        // {type: 'add'},
-                    ],
-                    'columns': [
-                        // {type: 'selection'},
-                        {type: 'text', label: '案号/订单号', prop: 'fee_code.name', min_width: '150'},
-                        {type: 'text', label: '案件名称', prop: 'fee_code.fee_type', width: '130'},
-                        {type: 'text', label: '官费', prop: 'amount', width: '130'},
-                        {type: 'text', label: '代理费', prop: 'currency', width: '130'},
-                        {type: 'text', label: '小计', prop: 'roe', width: '130'},
-                    ],
-                },
+                
                 feesDetail: [],  //费用明细
                 isPanelVisible: false,
                 dialogFormVisible: false,
@@ -90,15 +62,23 @@
                 rowID: {},
             }
         },
+        computed:{
+            defaultParams () {
+                const params = this.$route.meta.params;
+                return params ? params : {};
+            },
+            urlParams () {
+                return this.$route.query;
+            },
+        },
         methods: {
             handleRowClick(row) {
                 this.rowData = row;
                 this.rowID = row.id;
-                this.title = "发票编辑";
-                this.openVisible("isPanelVisible");
-                this.compileType = "edit";
+                this.$refs.detail.show(row.id,'edit',row)
             },
-            refreshTableData(data) {
+            refreshTableData(option) {
+                const data = Object.assign({},option, this.urlParams, this.defaultParams);
                 const url = URL;
                 const success = _ => {
                     this.tableData = _.data;
@@ -111,7 +91,7 @@
                 this.openVisible("isPanelVisible");
                 this.compileType = "add";
                 this.title = "开票申请";
-                this.$refs.detail?this.$refs.detail.clear():"";
+                this.$refs.detail.show(0,'add')
             },
             save(type) {
                 this.compileType = type;
@@ -124,7 +104,6 @@
         },
         components: {
             TableComponent,
-            AppShrink,
             InvoiceManageDetail,
         }
     }

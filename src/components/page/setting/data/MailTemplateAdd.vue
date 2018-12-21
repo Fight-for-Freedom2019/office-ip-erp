@@ -93,16 +93,6 @@ export default {
                         users: {type: 'array', required: true, message: '收件人不能为空', trigger: 'change'},
                     }}
                 ],           
-                cc: [
-                    {type: 'object', required: true, fields: {
-                        users: {type: 'array', required: true, message: '抄送不能为空', trigger: 'change'},
-                    }}
-                ],           
-                bcc: [
-                    {type: 'object', required: true, fields: {
-                        users: {type: 'array', required: true, message: '密送不能为空', trigger: 'change'},
-                    }}
-                ],            
                 title: [
                     {required: true, message: "标题不能为空", trigger: "blur"}
                 ],
@@ -170,13 +160,13 @@ export default {
             this.$refs.form.resetFields();
         },
         coverObj(val){
-            val?this.$tool.coverObj(this.form, val, {skip: ['to','cc']}):"";
-            if(val['to']) {
+            val?this.$tool.coverObj(this.form, val, {obj:['template_type','subtype','scene'],skip: ['to','cc']}):"";
+            if(val['to'].type !== undefined) {
                 this.form.to.type = val['to']['type']['id'];
                 const to_value = val['to']['users']
                 this.form.to.users = to_value;
             }    
-            if(val['cc']) {
+            if(val['cc'].type !== undefined) {
                 this.form.cc.type = val['cc']['type']['id'];
                  const cc_value = val['cc']['users']
                 this.form.cc.users = cc_value;
@@ -216,7 +206,7 @@ export default {
         'form.to.type': {
             handler(val) {
                 if(val === 1 ) {
-                    this.receiver = 'roles';
+                    this.receiver = 'mail_roles';
                 }else {
                     this.receiver = 'user';
                 }
@@ -227,7 +217,7 @@ export default {
         'form.cc.type': {
             handler(val) {
                 if(val === 1 ) {
-                    this.receiver_cc = 'roles';
+                    this.receiver_cc = 'mail_roles';
                 }else {
                     this.receiver_cc = 'user';
                 }
@@ -238,7 +228,7 @@ export default {
         'form.bcc.type': {
             handler(val) {
                 if(val === 1 ) {
-                    this.receiver_bcc = 'roles';
+                    this.receiver_bcc = 'mail_roles';
                 }else {
                     this.receiver_bcc = 'user';
                 }

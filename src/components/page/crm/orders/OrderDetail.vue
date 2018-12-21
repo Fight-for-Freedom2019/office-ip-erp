@@ -6,7 +6,7 @@
                 <el-button type="primary" size="small" @click="save()">保存</el-button>
                 <el-button type="danger"  size="small" @click="deleteOrder" v-if="status === 'audit'">删除</el-button>
                 <el-button type="primary" size="small" v-if="status === 'audit'"
-                           @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
+                           @click="submitCommon(id,'/submit','提交审核')">提交审核</el-button>
             </span>
             <div  v-loading="loadingVisible" :element-loading-text="loadingText">
                 <el-form label-width="75px" ref="form" v-model="form" label-position="left" class="form-information">

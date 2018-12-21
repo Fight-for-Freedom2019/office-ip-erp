@@ -59,10 +59,10 @@
                     ],
                     'columns': [
                         // {type: 'selection'},
-                        {type: 'text', label: '跟催时间', prop: 'remind_date', width: '178'},
-                        {type: 'text', label: '客户', prop: 'customer.name', width: '120'},
+                        {type: 'text', label: '客户', prop: 'customer.name', width: '200'},
+                        {type: 'text', label: '跟催时间', prop: 'remind_date', width: '120'},
                         {
-                            type: 'text', label: '跟催类型', prop: 'remind_type', width: '150', render: (h, item) => {
+                            type: 'text', label: '跟催方式', prop: 'remind_type', width: '120', render: (h, item) => {
                                 let name;
                                 config.get("customer_reminder_type").options.map(function (o) {
                                     if(o.id === item){
@@ -72,7 +72,7 @@
                                 return h("span",name);
                             }
                         },
-                        {type: 'text', label: '跟催结果', prop: 'remark', min_width: '180'},
+                        {type: 'text', label: '跟催结果', prop: 'result', min_width: '180'},
                     ],
                 },
                 form: {

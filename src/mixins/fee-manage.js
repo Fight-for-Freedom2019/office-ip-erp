@@ -15,6 +15,13 @@ export default (statusMap)=>({
             let val = this.row?statusMap.get(this.row.status):"";
             return val?val:"add";
         },
+        defaultParams () {
+            const params = this.$route.meta.params;
+            return params ? params : {};
+        },
+        urlParams () {
+            return this.$route.query;
+        },
     },
     methods:{
         handleRowClick(row) {
@@ -23,10 +30,11 @@ export default (statusMap)=>({
             this.title = `订单编号: ${row.serial}`;
             this.openVisible("isPanelVisible");
         },
-        refreshTableData(data) {
+        refreshTableData(option) {
+            const data = Object.assign({},option, this.urlParams, this.defaultParams);
             const url = this.URL;
             const success = _ => {
-                this.tableData = _.invoice;
+                this.tableData = _.invoices;
             };
             this.$axiosGet({url, data, success})
         },

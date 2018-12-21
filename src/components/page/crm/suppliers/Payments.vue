@@ -3,30 +3,9 @@
     <div class="PaymentManage">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @refresh="refresh" @update="update"
                          @refreshTableData="refreshTableData"></table-component>
-        <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
-            <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" @click="save">保存</el-button>
-                <el-button type="danger" size="small" @click="deleteBill">删除</el-button>
-                <el-button type="primary" size="small" v-if="status === 'audit'"
-                           @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
-                <el-button type="primary" size="small" v-if="status === 'remind'">邮件提醒</el-button>
-                <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button>
-                <el-button type="primary" size="small" v-if="status === 'confirm'" @click="confirm">确认付款</el-button>
-                <!--<el-button type="" size="small">退回修改</el-button>-->
-            </span>
-            <payment-manage-detail type="pay" ref="detail" :id="rowID" @update="update" :rowData="row"></payment-manage-detail>
-        </app-shrink>
-        <el-dialog title="确认付款" :inline="true" :visible.sync="paymentDialog" width="40%">
-            <el-form :rules="rules" v-model="form" label-width="100px" label-position="left" ref="form">
-                <el-form-item label="付款时间" prop="date">
-                    <el-date-picker value-format="yyyy-MM-dd" v-model="form.date"></el-date-picker>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="confirmPayment">确认</el-button>
-                    <el-button @click="()=>{paymentDialog = false}">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
+
+            <payment-manage-detail type="pay" ref="detail" :id="rowID" @update="update" ></payment-manage-detail>
+
     </div>
 </template>
 
@@ -126,17 +105,10 @@
             }
         },
         methods:{
-            confirm(){
-                this.paymentDialog = true;
+            
+            handleRowClick(row) {
+                this.$refs.detail.show(row.id,'pay',row);
             },
-            confirmPayment(){
-                this.$refs.form.validate((valid)=>{
-                    if(valid){
-
-                    }
-                });
-            },
-
         },
         components: {
             TableComponent,

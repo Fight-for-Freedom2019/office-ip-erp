@@ -522,17 +522,21 @@ const router = new Router({
           path: '/finance/vouchers/lists',
           name: 'VouchersLists',
           component: CrmVouchers,
-          props: {
-            'voucher_type':1,
-          }
+          meta:{
+            params:{
+              voucher_type:1,
+            }
+          },
         },
         {
           path: '/finance/vouchers/received',
           name: 'VouchersReceived',
           component: CrmVouchers,
-          props: {
-            'voucher_type':2,
-          }
+          meta:{
+            params:{
+              voucher_type:2,
+            }
+          },
         },
         {
           path: '/finance/points/ready_to_settle',

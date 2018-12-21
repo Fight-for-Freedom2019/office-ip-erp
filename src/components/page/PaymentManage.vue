@@ -3,17 +3,9 @@
     <div class="PaymentManage">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @refresh="refresh" @update="update"
                          @refreshTableData="refreshTableData"></table-component>
-        <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
-            <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" @click="save">保存</el-button>
-                <el-button type="danger" size="small" @click="deleteBill">删除</el-button>
-                <el-button type="primary" size="small" v-if="status === 'audit'"
-                           @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
-                <el-button type="primary" size="small" v-if="status === 'remind'">邮件提醒</el-button>
-                <!--<el-button type="" size="small">退回修改</el-button>-->
-            </span>
-            <payment-manage-detail ref="detail" :id="rowID" @update="update" :rowData="row"></payment-manage-detail>
-        </app-shrink> 
+
+        <payment-manage-detail ref="detail" :id="rowID" @update="update"></payment-manage-detail>
+
     </div>
 </template>
 
@@ -54,18 +46,19 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '请款单号', prop: 'serial', min_width: '178', render_header: true},
-                        {type: 'text', label: '创建人', prop: 'creator_user', render_simple:"name", width: '120', render_header: true},
-                        {type: 'text', label: '创建时间', prop: 'creation_time', width: '150', render_header: true},
-                        {type: 'text', label: '请款对象', prop: 'user', width: '180', render_simple:"name",render_header: true},
-                        {type: 'text', label: '金额', prop: 'amount', width: '120'},
-                        {type: 'text', label: '币别', prop: 'currency', width: '120', render_header: true},
+                        {type: 'text', label: '请款单号', prop: 'serial', min_width: '120', render_header: true},
+                        // {type: 'text', label: '创建人', prop: 'creator_user', render_simple:"name", width: '110', render_header: true},
+                        {type: 'text', label: '负责人', prop: 'pic', render_simple:"name", width: '110', render_header: true},
+                        // {type: 'text', label: '创建时间', prop: 'creation_time', width: '110', render_header: true},
+                        {type: 'text', label: '请款对象', prop: 'user', width: '150', render_simple:"name",render_header: true},
+                        {type: 'text', label: '金额', prop: 'amount', width: '100'},
+                        {type: 'text', label: '币别', prop: 'currency', width: '100', render_header: true},
                         {type: 'text', label: '汇率', prop: 'roe', width: '100'},
-                        {type: 'text', label: '人民币', prop: 'rmb_amount', width: '150', render_header: true},
-                        {type: 'text', label: '请款时间', prop: 'request_time', width: '150', render_header: true},
-                        {type: 'text', label: '回款期限', prop: 'deadline', width: '150', render_header: true},
-                        {type: 'text', label: '回款时间', prop: 'payment_time', width: '150', render_header: true},
-                        {type: 'text', label: '回款金额', prop: 'received_amount', width: '150'},
+                        {type: 'text', label: '人民币', prop: 'rmb_amount', width: '100', render_header: true},
+                        {type: 'text', label: '请款时间', prop: 'request_time', width: '110', render_header: true},
+                        {type: 'text', label: '回款期限', prop: 'deadline', width: '110', render_header: true},
+                        {type: 'text', label: '回款时间', prop: 'payment_time', width: '110', render_header: true},
+                        {type: 'text', label: '回款金额', prop: 'received_amount', width: '110'},
                         {type: 'text', label: '回款确认用户', prop: 'confirmation_user', width: '150', render_header: true},
                         {type: 'text', label: '回款确认时间', prop: 'confirmation_time', width: '150', render_header: true},
                         {
@@ -101,11 +94,16 @@
                         {type: 'text', label: '寄件时间', prop: 'express.date', width: '150'},*/
                         {type: 'text', label: '备注', prop: 'remark', width: '150'},
                     ],
-                },
+                }, 
                 is_deleted: 0,
                 URL:"/invoices",
                 d_URL:"/invoices_delete",
             }
+        },
+        methods: {
+            handleRowClick(row) {
+                this.$refs.detail.show(row.id,'request',row);
+            },
         },
         components: {
             TableComponent,
