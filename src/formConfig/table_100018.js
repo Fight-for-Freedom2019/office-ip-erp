@@ -1,5 +1,5 @@
 // 撤回优先权声明
-import {vm as remove_priority} from '../formTemplate/remove-priority'
+import {vm as remove_priority_vm} from '../formTemplate/remove-priority'
 import {vm as upload_vm} from "../formTemplate/Upload";
 let rule = [
     {
@@ -17,7 +17,7 @@ let rule = [
     {
         type: "select", title: "代理机构", field: "agency", value: "", request: true, url: "",
     },
-    remove_priority,
+    remove_priority_vm(),
     upload_vm({label:"全体申请人同意撤回优先权的证明",url:"/url",field:"picture"}),
     // TODO 原form报错
 ]

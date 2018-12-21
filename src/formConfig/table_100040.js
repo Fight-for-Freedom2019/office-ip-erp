@@ -2,6 +2,7 @@
 import {handleSingle} from "./handle/handle";
 import {vm as checkbox_common_vm} from "../formTemplate/checkbox-common";
 import {checkboxFunc} from "./handle/handle";
+import {vm as remove_priority_vm} from "../formTemplate/remove-priority";
 
 const DAS = {
     DAS_save:"请求使用DAS将本申请电子形式的文件副本作为在先申请文件副本存入国家知识产权局DAS文件数字图书馆，并在适当时候向参与服务的其它专利局传送该文件副本。",
@@ -29,6 +30,7 @@ let rule = [
         },
     },
     checkbox_common_vm(DAS,""),
+    remove_priority_vm(true),
     // TODO 少个自定义组件,原form报错
 ]
 
