@@ -15,7 +15,7 @@ let rule = [
         type: "select", title: "代理机构", field: "agency", value: "",request: true, url: "",
     },
     {
-        type: "select", title: "附件", field: "attachments", value: "",request: true, url: "",
+        type: "select", title: "附件", field: "attachments", value: []
     },
     {
         type: "span", title: "备案", field: "records", value: "",
@@ -33,7 +33,8 @@ let rule = [
         type: "input", title: "备案文件编号", field: "fileno", value: "",
         col:{
             span:10
-        }
+        },
+        class:"label-padding"
     },
     correction_content_vm(),
 ]

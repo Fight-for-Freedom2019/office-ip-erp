@@ -174,11 +174,6 @@ let rule = [
             multiple: true,
             filterable: true,
         },
-        options: [
-            {'value': 104, 'label': '权利要求书'},
-            {'value': 105, 'label': '说明书'},
-            {'value': 106, 'label': '说明书附图'},
-        ],
     },
     {
         type: 'input', title: '证明文件备案号', field: 'document_number', value: [],

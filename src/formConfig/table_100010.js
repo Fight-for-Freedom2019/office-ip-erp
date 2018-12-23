@@ -10,7 +10,7 @@ let rule = [
         type: "input", title: "发明创造名称", field: "title", value: "",
     },
     {
-        type: "input", title: "申请人/权利人", field: "applicants", value: []
+        type: "select", title: "申请人/权利人", field: "applicants", value: []
     },
     {
         type: "select", title: "代理机构", field: "agency", value: "",request: true, url: "",
@@ -33,7 +33,7 @@ let rule = [
         }
     },
     {
-        type: "select", title: "附件", field: "attachments", value: "", request: true, url: "",
+        type: "select", title: "附件", field: "attachments", value: [],
         col:{
             span:20
         }
@@ -54,7 +54,8 @@ let rule = [
         type: "input", title: "备案文件编号", field: "fileno", value: "",
         col:{
             span:10
-        }
+        },
+        class:"label-padding"
     },
 ]
 const content = {

@@ -4,7 +4,7 @@ const uniqueId = () => ++count;
 
 function vm(label) {
     const template = `
-        <el-checkbox class="custom-checkbox" v-model="extendData.amendment_notice">
+        <el-checkbox class="custom-checkbox custom-component" v-model="extendData.amendment_notice">
             <span>针对</span>
             <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="extendData.notification_date" placeholder="请输入通知书日期"></el-date-picker>
             <span>日发出的</span>

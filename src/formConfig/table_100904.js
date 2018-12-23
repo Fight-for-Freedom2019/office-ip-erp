@@ -53,11 +53,6 @@ let rule = [
     offset_reason,
     {
         type: "select", title: "附件", field: "attachment", value: [],
-        props: {
-            multiple: true,
-            filterable: true,
-        },
-        options: [],
     },
     offset_content,
 ];

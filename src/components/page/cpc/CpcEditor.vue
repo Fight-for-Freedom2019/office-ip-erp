@@ -67,6 +67,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 添加表格 start -->
             <el-dialog title="添加表格" :visible.sync="showAppendForm" :modal="false">
                 <div>
                     <h4>常用表格(可多选)</h4>
@@ -94,6 +95,20 @@
                 </el-form>
 
             </el-dialog>
+            <!-- 添加表格 end -->
+            <!-- 添加文件 start -->
+            <el-dialog title="CPC电子编辑器上传文件" :visible.sync="showAppendFile" :modal="false">
+                <el-upload
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :on-preview="handleFileCardPreview"
+                        :on-remove="handleRemoveFile">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="fileListVisible">
+                    <img width="100%" :src="fileListUrl" alt="">
+                </el-dialog>
+            </el-dialog>
+            <!-- 添加文件 end -->
         </app-shrink>
     </div>
 </template>
@@ -113,6 +128,7 @@
                 isApplicationEditor: false,
                 tabpanel: "application_doc",
                 showAppendForm: false,
+                showAppendFile: false,
                 formList: [],
                 isShowRemoveBtn: true,
                 isShowIndex: 1000,
@@ -128,6 +144,8 @@
                 allData: {},
                 submitData: new Map(),
                 isValidate: false,
+                fileListVisible: false,
+                fileListUrl:"",
                 data: {},
                 save_type: "add",
                 task_id: "",
@@ -168,6 +186,7 @@
         computed: {
             ...mapGetters([
                 'innerHeight',
+                'getHashMaps',
             ]),
             selectOptions: function () {
                 return [...formConfig.entries()].map((item) => {
@@ -185,9 +204,21 @@
         },
 
         mounted() {
+            let target = this.getHashMaps.get("cpc_tables");
+            let attachments = [];
+            target.options.forEach((item)=>{
+                if(item.name) {
+                    attachments.push({value:item.id,label:item.name.WENJIANMC})
+                }
+            })
+            this.options_collection.set("attachments",attachments);
             this.getOptions();
         },
         methods: {
+            /****文件列表处理 start****/
+            handleFileCardPreview(){},
+            handleRemoveFile(){},
+            /****文件列表处理 end****/
             choiceCommon(id,index){
                 let bool = this.common_use[index].showIcon;
                 let mark = this.common_use[index].id;
@@ -532,6 +563,7 @@
             turnArchives() {
             },
             Upload() {
+                this.showAppendFile = true;
             },
             getData() {
                 // console.time("耗时")
@@ -696,7 +728,7 @@
         display: initial;
     }
 
-    .form-create .el-date-editor.el-input {
+    .form-create .custom-component .el-date-editor.el-input{
         width: auto;
     }
 

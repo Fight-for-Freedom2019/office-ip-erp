@@ -31,7 +31,7 @@ let rule = [
     },
     evaluate_targeted_vm("评价所针对的文本"),
     {
-        type: "select", title: "附件", field: "attachments", value: "", request: true, url: "",
+        type: "select", title: "附件", field: "attachments", value: []
     },
 ]
 const content = {

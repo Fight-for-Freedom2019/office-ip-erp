@@ -97,7 +97,7 @@ let rule = [
         ],
     },
     {
-        type: "select", title: "附件", field: "attachments", value: "", request: true, url: "",
+        type: "select", title: "附件", field: "attachments", value: []
     },
 ]
 

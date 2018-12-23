@@ -50,7 +50,8 @@ let rule = [
         type: "input", title: "备案文件编号", field: "fileno", value: "",
         col:{
             span:10
-        }
+        },
+        class:"label-padding"
     },
     statement_content_vm("声明内容"),
     upload_vm({label:"证明",url:"/url",tip:"上传同意放弃证明",type:"file"}),

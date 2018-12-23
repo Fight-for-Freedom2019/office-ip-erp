@@ -6,7 +6,7 @@ const uniqueId = () => ++count;
 
 function vm() {
     const template = `
-        <div class="custom-checkbox">
+        <div class="custom-checkbox custom-component">
             <el-checkbox v-model="extendData.fee_invoice" label="fee_invoice" @change="change('fee_invoice')">请求转换费用种类</el-checkbox>
             <el-checkbox v-model="extendData.fee_invoice_unreceived" label="fee_invoice_unreceived" @change="change('fee_invoice_unreceived')">缴纳专利费两个月后尚未收到国家知识产权局开出的费用收据</el-checkbox>
             <el-checkbox v-model="extendData.fee_notice" label="fee_notice" @change="change('fee_notice')">

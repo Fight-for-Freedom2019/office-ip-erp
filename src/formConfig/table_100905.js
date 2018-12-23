@@ -31,7 +31,7 @@ let rule = [
         }
     },
     {
-        type: "select", title: "附件", field: "attachments", value: "",
+        type: "select", title: "附件", field: "attachments", value: [],
         options:[
             {value:"1",label:"其它附件"}
         ]

@@ -26,7 +26,6 @@ let rule = [
             multiple: true,
             filterable: true,
         },
-        options: [],
     },
     {
         type: "span", title: "备案", field: "records", value: "",
@@ -48,12 +47,10 @@ let rule = [
     },
     {
         type: "input", title: "备案文件编号", field: "fileno", value: "",
-        props: {
-            "type": "text",
-        },
         col:{
             span:10
-        }
+        },
+        class:"label-padding"
     },
 
 ];

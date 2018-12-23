@@ -269,7 +269,7 @@ let rule = [
     checkbox_vm("review_request_article25","根据专利合作条约第25条特此向国家知识产权局提出复查请求，并且",{labelWidth:"0px"}),
     checkbox_common_vm(review_request2,"",()=>{},{labelWidth:"30px"}),
     {
-        type:"select",title: "附件（非必填）",field: "attachments", value: "",request: true,url: "",
+        type:"select",title: "附件（非必填）",field: "attachments", value: []
     }
 ]
 

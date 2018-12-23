@@ -17,7 +17,7 @@ let rule = [
     },
     state_matters_vm("陈述事项"),
     {
-        type: "select", title: "附件", field: "attachments", value: "", request: true, url: "",
+        type: "select", title: "附件", field: "attachments", value: []
     },
     {
         type: "span", title: "备案", field: "records", value: "",
@@ -35,7 +35,8 @@ let rule = [
         type: "input", title: "备案文件编号", field: "fileno", value: "",
         col:{
             span:10
-        }
+        },
+        class:"label-padding"
     },
     quill_editor_vm("opinion","陈述意见")
 ]

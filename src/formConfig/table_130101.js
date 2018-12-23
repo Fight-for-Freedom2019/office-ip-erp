@@ -69,7 +69,7 @@ let rule = [
     design("成套设计","set"),
     checkbox_common_vm(novelty_claims,"不丧失新颖性声明","",{labelWidth:"120px"}),
     {
-        type: "select", title: "附件", field: "attachments", value: "", request: true, url: "",
+        type: "select", title: "附件", field: "attachments", value: []
     },
 ]
 

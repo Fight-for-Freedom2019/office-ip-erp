@@ -3,7 +3,7 @@ import {handlePadding, handleSingle} from '../formConfig/handle/handle'
 
 function vm(label) {
     const template = `
-        <div class="custom-checkbox">
+        <div class="custom-checkbox custom-component">
             <el-checkbox @change="change('notice')" v-model="extendData.notice" label="notice">针对国家知识产权局于<el-date-picker value-format="yyyy-MM-dd" placeholder="请输入通知书日期" v-model="extendData.notice_date"></el-date-picker>发出的<el-input v-model="extendData.notice_name" placeholder="请输入通知书名称"></el-input>（发文序号<el-input placeholder="请输入发文序列号" v-model="extendData.notice_serial"></el-input>）陈述意见</el-checkbox>
             <el-checkbox @change="change('notice_supplemental')" v-model="extendData.notice_supplemental" label="notice_supplemental">针对国家知识产权局于<el-date-picker value-format="yyyy-MM-dd" placeholder="请输入通知书日期" v-model="extendData.notice_date_supplemental"></el-date-picker>发出的<el-input v-model="extendData.notice_name_supplemental" placeholder="请输入通知书名称"></el-input>（发文序号<el-input placeholder="请输入发文序列号" v-model="extendData.notice_serial_supplemental"></el-input>）陈述意见</el-checkbox>
             <el-checkbox @change="change('active_amendment')" v-model="extendData.active_amendment" label="active_amendment">主动提出修改（根据专利法实话细则第51条第1、2款的规定）</el-checkbox>

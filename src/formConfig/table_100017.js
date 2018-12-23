@@ -30,7 +30,7 @@ let rule = [
         type: "select", title: "代理人", field: "agents", value: []
     },
     {
-        type: "select", title: "附件", field: "attachments", value: "",request: true, url: "",
+        type: "select", title: "附件", field: "attachments", value: []
     },
 ]
 

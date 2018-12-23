@@ -35,8 +35,7 @@ let rule = [
     },
     {
         // TODO url要设置
-        type: "select",title: "附件",field: "attachments",value: "",request: true,
-        url: "",
+        type: "select",title: "附件",field: "attachments",value: []
     },
 
     invalid_scope_vm,

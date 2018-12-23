@@ -24,8 +24,7 @@ let rule = [
     },
     {
         // TODO url要设置
-        type: "select", title: "附件", field: "attachments", value: "",request: true,
-        url: "",
+        type: "select", title: "附件", field: "attachments", value: []
     },
     quill_editor_vm("opinion","复审请求的理由")
 ];

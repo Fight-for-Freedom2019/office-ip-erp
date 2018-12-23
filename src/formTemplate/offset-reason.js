@@ -1,7 +1,7 @@
 import {handlePadding, handleSingle} from '../formConfig/handle/handle'
 
 const template = `
-<div class="custom-checkbox">
+<div class="custom-checkbox custom-component">
     <el-checkbox @change="change('amendment_active')" v-model="extendData.amendment_active" label="amendment_active">
         <span>根据专利法实施细则第51条的规定，提出主动修改</span>
     </el-checkbox>
