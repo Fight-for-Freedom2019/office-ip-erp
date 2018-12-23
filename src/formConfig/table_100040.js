@@ -26,6 +26,7 @@ let rule = [
         col: {
             labelWidth:"100%",
         },
+        class:"font-bold"
     },
     checkbox_common_vm(DAS,""),
     remove_priority_vm(true),

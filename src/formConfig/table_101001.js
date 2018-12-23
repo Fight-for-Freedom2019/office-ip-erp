@@ -11,7 +11,8 @@ let rule = [
         type: "input",title: "授权公告日",field: "issue_date",value: "",
         col:{
             span:12
-        }
+        },
+        class:"label-padding"
     },
     {
         type: "input",title: "发明创造名称",field: "title",value: "",

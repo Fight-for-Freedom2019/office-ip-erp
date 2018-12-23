@@ -59,6 +59,7 @@ let rule = [
         col:{
             span:12
         },
+        class:"label-padding"
     },
     {
         type: "input",title: "优先权日", field: "pct_priority_date",value: "",
@@ -71,6 +72,7 @@ let rule = [
         col:{
             span:12
         },
+        class:"label-padding"
     },
     {
         type: "input",title: "国际公布日", field: "pct_public_date",value: "",
@@ -83,6 +85,7 @@ let rule = [
         col:{
             span:12
         },
+        class:"label-padding",
         options:language
     },
     {
@@ -116,6 +119,7 @@ let rule = [
         col: {
             labelWidth:"100%",
         },
+        class:"font-bold"
     },
     checkbox_vm("exam_basis_original","以原始申请中的译文为审查基础",{labelWidth:"0px",span:10}),
     checkbox_vm("exam_basis_designated","以下列申请文件为审查基础",{labelWidth:"0px",span:10}),
@@ -135,6 +139,7 @@ let rule = [
         col: {
             labelWidth:"100%",
         },
+        class:"font-bold"
     },
     checkbox_vm("inheritance","本国际申请涉及的发明创造是依赖于遗传资源完成的",{labelWidth:"0px",span:10}),
     {
@@ -144,6 +149,7 @@ let rule = [
         col: {
             labelWidth:"100%",
         },
+        class:"font-bold"
     },
     checkbox_common_vm(invoking_accession),
     checkbox_vm("reference_spec","说明书",{labelWidth:"0px",span:7}),
@@ -159,6 +165,7 @@ let rule = [
         col: {
             labelWidth:"100%",
         },
+        class:"font-bold"
     },
     checkbox_vm("biological","本国际申请涉及的生物材料样品的保藏已在专利合作条约实施细则第13条之2.4规定的期限内以下列形式作出记载：",{labelWidth:"0px"}),
     {
@@ -245,6 +252,7 @@ let rule = [
         col: {
             labelWidth:"100%",
         },
+        class:"font-bold"
     },
     checkbox_common_vm(grace_period),
     {
@@ -254,6 +262,7 @@ let rule = [
         col: {
             labelWidth:"100%",
         },
+        class:"font-bold"
     },
     review_request_vm(),
     checkbox_common_vm(review_request,"",()=>{},{labelWidth:"30px"}),

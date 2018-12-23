@@ -13,7 +13,7 @@ function handleLinkage(checked) {
     address.forEach((item) => {
         if (item.value === checked) {
             content.rule.forEach((i) => {
-                if (i.field === "address") {
+                if (i.field === "bio_desposit_address") {
                     i.value = item.address;
                 }
             })

@@ -538,11 +538,11 @@
                 this.formTypeCollection = [];
                 this.formList = [];
                 const success = (_) => {
-                    this.data = _.data.data[0].tables;
-                    if (_.data.data[0].id) {
+                    this.data = _.data[0].tables;
+                    if (_.data[0].id) {
                         this.save_type = "edit";
                     }
-                    this.cpc_id = _.data.data[0].id;
+                    this.cpc_id = _.data[0].id;
                     for (let key in this.data) {
                         if (this.data.hasOwnProperty(key)) {
                             if (key.indexOf('table') !== -1) {
@@ -552,7 +552,7 @@
                     }
                     this.renderForm();
                 }
-                this.$axiosGet({url: "/taskCpcs", data: {id: this.task_id}, success})
+                this.$axiosGet({url: `/taskCpcs/${this.task_id}`, data:{}, success})
             },
         },
         watch: {
@@ -713,5 +713,25 @@
     }
     .form-create .el-checkbox .el-input__prefix .el-input__icon ,.form-create .el-checkbox .el-input__suffix .el-input__icon{
         line-height: 30px;
+    }
+    .form-create .label-padding .el-form-item__label {
+        padding-left: 10px;
+    }
+    .form-create .separate-bottom {
+        margin-bottom: 20px;
+        position: relative;
+    }
+    .form-create .separate-bottom:after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background-color: #d8d8d8;
+        left: 0;
+        bottom: 0;
+    }
+    .form-create .font-bold {
+        font-weight: bold;
     }
 </style>

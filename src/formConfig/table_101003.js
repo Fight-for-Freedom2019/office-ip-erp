@@ -16,23 +16,29 @@ const two = {
     agent_two_cancel_request:"请求人的代理人代为撤回无效宣告请求",
 };
 
-function checkOneFunc(arr) {
-    if(arr.indexOf("agent_one_cancel_request") !== -1){
-        if(arr.indexOf("agent_one_admit_request") !== -1) {
-            arr.splice(arr.indexOf("agent_one_admit_request"),1);
+function checkOneFunc(target) {
+    if(target === "agent_one_cancel_request"){
+        if(this.extendData.agent_one_cancel_request){
+            this.extendData.agent_one_admit_request = false;
+            this.extendData.agent_one_amend_claims = false;
         }
-        if(arr.indexOf("agent_one_amend_claims") !== -1) {
-            arr.splice(arr.indexOf("agent_one_amend_claims"),1);
+    }
+    if(target === "agent_one_admit_request" || target === "agent_one_amend_claims") {
+        if(this.extendData.agent_one_admit_request||this.extendData.agent_one_amend_claims) {
+            this.extendData.agent_one_cancel_request = false;
         }
     }
 }
-function checkTwoFunc(arr) {
-    if(arr.indexOf("agent_two_cancel_request") !== -1){
-        if(arr.indexOf("agent_two_admit_request") !== -1) {
-            arr.splice(arr.indexOf("agent_two_admit_request"),1);
+function checkTwoFunc(target) {
+    if(target === "agent_two_cancel_request"){
+        if(this.extendData.agent_two_cancel_request){
+            this.extendData.agent_two_admit_request = false;
+            this.extendData.agent_two_amend_claims = false;
         }
-        if(arr.indexOf("agent_two_amend_claims") !== -1) {
-            arr.splice(arr.indexOf("agent_two_amend_claims"),1);
+    }
+    if(target === "agent_two_admit_request" || target === "agent_two_amend_claims") {
+        if(this.extendData.agent_two_admit_request||this.extendData.agent_two_amend_claims) {
+            this.extendData.agent_two_cancel_request = false;
         }
     }
 }

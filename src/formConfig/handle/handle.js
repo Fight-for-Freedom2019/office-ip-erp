@@ -48,7 +48,7 @@ function coverAttribute (source,target) {
 
 const handleSingle = function (val) {
     if(this.checked === val) {
-        this.extendData[val] = false;
+        this.extendData[val] = !!this.extendData[val];
         return
     }
     this.checked = val;

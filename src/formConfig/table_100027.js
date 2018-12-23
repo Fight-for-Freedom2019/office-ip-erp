@@ -10,6 +10,7 @@ let rule = [
     },
     {
         type: "input", title: "发明创造名称", field: "title", value: "",
+        class:"separate-bottom"
     },
     {
         type: "span",
@@ -27,6 +28,7 @@ let rule = [
     },
     {
         type: "input", title: "申请号", field: "apn", value: "",
+        class:"separate-bottom"
     },
     {
         type: "span",
@@ -46,7 +48,8 @@ let rule = [
         type: "select", title: "收件人", field: "contact", value: [],
     },
     {
-        type: "select", title: "代理机构", field: "agency", value: "",request: true, url: "",
+        type: "select", title: "代理机构", field: "agency", value: [],
+        class:"separate-bottom"
     },
     {
         type: "select", title: "代理人", field: "agents", value: []
