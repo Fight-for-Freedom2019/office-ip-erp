@@ -874,7 +874,7 @@ export default {
       console.log(row)
       this.shrinkTitle = row.title; 
       this.currentRow = row;
-      this.refreshProcessDetail({id: row.id});
+      // this.refreshProcessDetail({id: row.id});
       if( !this.dialogShrinkVisible ) this.dialogShrinkVisible = true;
     },
     save () {
