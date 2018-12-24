@@ -110,7 +110,7 @@
         style="margin-left: 5px;"
         type="primary"
         size="small"
-        @click="filterVisible = true">
+        @click="_=>{filterVisible = true;setTrigger('btn')}">
         高级筛选
       </el-button>
       <template v-if="tableOption.header_slot ? true : false">
@@ -132,9 +132,14 @@
         
     </div>
     <div class="table-body">
-      <template class="table-body-left" v-if="tableOption.treeFilter != undefined">
-        <app-tree-filter :type="tableOption.treeFilter" @refresh="handleRefreshTree" ref="appTreeFilter"></app-tree-filter>
-      </template>
+      <div class="table-body-left">
+        <template v-if="tableOption.treeFilter != undefined">
+          <app-tree-filter :style="tableOption.is_view ?{height: tableHeight/2+ 'px',width: '200px'}:{height: tableHeight+ 'px',width: '200px'}" :type="tableOption.treeFilter" @refresh="handleRefreshTree" ref="appTreeFilter"></app-tree-filter>
+        </template>
+        <template v-if="tableOption.is_view != undefined">
+          <app-view :fields="fields" @deliver="handleViewData" @reset="handleResetView" :style="{height: tableHeight/2+ 'px',width: '200px'}"></app-view>
+        </template>
+      </div>
       <template class="table-body-right">
         <app-table
           v-if="refreshRender"
@@ -142,6 +147,7 @@
           :style="tableStyle"
           :isMerge="tableOption.is_merge === undefined?{}:tableOption.is_merge"
           :data="tableData"
+          :fields="fields"
           :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
           :showSummary="tableOption.show_summary!=undefined?tableOption.show_summary: false"
           :filterVisible="filterValueVisible"
@@ -227,6 +233,7 @@ import AppTable from '@/components/common/AppTable'
 import AppExport from '@/components/common/AppExport'
 import ListFilter from '@/components/common/AppListFilter'
 import AppTreeFilter from '@/components/common/AppTreeFilter'
+import AppView from '@/components/common/AppView'
 // import {fieldExceptMap} from '@/const/fieldConfig'
 import { mapGetters } from 'vuex'
 import { mapMutations } from 'vuex'
@@ -266,12 +273,14 @@ export default {
       filterVisible: false,
       filterValueVisible: false,
       strainerParams: {},
+      tableHeight: '',
     };
 
     return data;
   },
   computed: {
     ...mapGetters([
+
       'filterLock',
       'screenVisible',
       'filterForm',
@@ -399,6 +408,7 @@ export default {
         });
 
         //按顺序调整字段
+
         let arr = [];
         c.forEach(_=>{
           const item = o[_.key];
@@ -411,6 +421,9 @@ export default {
         if(a) {arr.push(a)};
         if(static_arr.length != 0) {arr = [...static_arr, ...arr]};
         if(s) {arr.unshift(s)};
+        // console.log(c)
+        // console.log('+++++++columns')
+        // console.log(arr)
         return arr;
       }else {
         return [];
@@ -432,7 +445,32 @@ export default {
     ]),
     ...mapActions([
       'clearFilter',
+      'fillListFilter',
+      'setTrigger',
     ]),
+    handleResetView () {
+      console.log('fdfds')
+      this.$tool.delCookie(this.path);
+      this.initControl();
+      this.clearFilter(true);
+      this.refreshRender = false;
+      this.$nextTick(_=>{
+        this.refreshRender = true;
+      })
+    },
+    handleViewData (val) {
+      console.log(val)
+      // 存在cookie
+      this.clearFilter(true);
+      console.log(typeof this.tableOption.name)
+      this.$tool.setCookie(this.path, JSON.stringify(val.param));
+
+      this.initControl();
+      this.refreshRender = false;
+      this.$nextTick(_=>{
+        this.refreshRender = true;
+      })
+    },
     handleRefreshTree (val) {
       this.strainerParams = val;
     },
@@ -457,14 +495,54 @@ export default {
       }  
       this.optionColumns = columns;
     },
-    initControl () {
-      const d = this;
+    initView () {
+      let fields = [];
       let cols = this.optionColumns;
+      for(let c of cols) {
+        let show_option = c.show_option !== undefined ? c.show_option : true;
+         if(show_option && (c.type == 'text' || c.type == 'array' || c.type == 'text-btn') ) {
+           const item = { key: c.prop, value: c.prop, label: c.label };
+           fields.push(item);
+         }
+      }
+      this.fields = fields;
+    },
+    initControl () {
+      let cols = '';
+      let obj = {};
+      const viewCookie = JSON.parse(this.$tool.getCookie(this.path));
+      console.log(viewCookie)
+      const q = viewCookie && viewCookie.query ? viewCookie.query : [];
+      const  v = viewCookie && viewCookie.fields ? viewCookie.fields.split(',') : [];
+      if(v && v.length != 0) {
+        const o = {};
+        const arr = [];
+        this.optionColumns.forEach(_=>{
+          if(_.prop) {
+              o[_.prop] = _;
+          }
+        });
+        v.forEach(_=>{
+          const item = o[_];
+          if(item) {
+            arr.push(item)
+          }
+        })
+        cols = arr;
+        q.forEach(_=>{
+          obj[_.key] = _;
+        })
+          this.fillListFilter(obj);
+      }else {
+        cols = this.optionColumns;
+      }
+
       let tableCookie = JSON.parse(this.$tool.getLocal(this.tableOption.name));
       // if(this.certificate && this.tableOption.certificate_columns) {
       //     console.log(...this.tableOption.certificate_columns);
       //     cols.push(...this.tableOption.certificate_columns);
       // }
+      // 控制某一页面下字段显示
       if(/bonus/.test(this.feePath)) {
          cols =  cols.filter(_=>_.is_bonus);
       }else if(/subsidy/.test(this.feePath)){
@@ -535,8 +613,6 @@ export default {
           control = tableCookie;
         }
       }
-      
-      this.fields = fields;
       this.control = control;
       this.transferValue = control;
     },
@@ -826,12 +902,15 @@ export default {
   },
   mounted() {
     this.setBreadHeaderHeight(this.bread_header_height);
+    this.tableHeight = this.$refs.table.tableHeight;
   },
   created () {
+    console.log(typeof this.tableOption.name)
     window.setTimeout(()=>{
       this.filterValueVisible = true;
     },0);
     this.initOptionColumns();
+    this.initView();
     this.initControl();
   },
   components: {
@@ -863,6 +942,7 @@ export default {
     AppExport,
     ListFilter,
     AppTreeFilter,
+    AppView,
   },
 }
 </script>
@@ -920,7 +1000,11 @@ export default {
 .table-body {
   display: flex;
 }
-.table-body-left,.table-body-right {
+.table-body-left {
+  // flex: 1;
+  flex-direction: column,
+}
+.table-body-right {
   flex: 1;
 }
 </style>

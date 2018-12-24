@@ -9,6 +9,7 @@ export default {
 	},
 	methods: {
 		handleInput (val, key, index, func) {
+      console.log(val);
   		const arr = this.$tool.deepCopy(this.value);
   		arr[index][key] = func ? func(val) : val;
   		this.$emit('input', arr);

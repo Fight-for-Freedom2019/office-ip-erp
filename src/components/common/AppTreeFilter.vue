@@ -1,6 +1,6 @@
 <template>
   <div class="app-tree-filter">
-    <static-select :type="selectedType" v-model="field_key"></static-select>
+    <static-select :type="selectedType" v-model="field_key" ref="strainerTree"></static-select>
     <el-tree
       style="margin-top: 10px;"
       :data="data"
@@ -15,7 +15,9 @@
 
 <script>
 import StaticSelect from '@/components/form/StaticSelect'
-import { strainerConfig } from '@/const/fieldConfig' 
+import { strainerConfig } from '@/const/fieldConfig'
+import { mapActions } from 'vuex' 
+// 过滤器后台路由配置
 const urlMap = new Map([
   ['process',{ URL: '/processes/filters' }],
   ['patent',{ URL: '/patents/filters' }],
@@ -64,6 +66,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'fillListFilter',
+    ]),
     refreshTreeData () {
       const url = this.config.URL;
       const data = Object.assign({}, {filter_key: this.field_key}, this.defaultParams) ;
@@ -74,7 +79,15 @@ export default {
       this.$axiosGet({ url, data, success })
     },
     refreshTable (data,node) {
-      this.$emit('refresh',data.query);
+      const obj = {};
+      const s = this.$refs.strainerTree.getSelected();
+      const label = s[0].name;
+      const name = data.name;
+      const key = s[0].id;
+      const value = data.query[key];
+      obj[key] = {label, name, key, value}
+      this.fillListFilter(obj);
+      // this.$emit('refresh',data.query);
     },
   },
   data () {
