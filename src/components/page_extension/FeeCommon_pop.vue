@@ -1,7 +1,7 @@
 <template>
   <el-dialog :title=title :visible.sync="dialogVisible" class="dialog-small" @close="$refs.form.resetFields();">
 		<el-form :model="form" ref="form" label-width="80px" >
-			<el-form-item label="相关案件" prop="project" class="is-required">
+			<el-form-item label="案件引用" prop="project" class="is-required">
 				<remote-select type="patent" v-model="form.project"></remote-select>
 			</el-form-item>
 			<el-form-item label="费用对象" prop="target" class="is-required">

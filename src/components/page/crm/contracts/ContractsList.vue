@@ -3,21 +3,14 @@
     <div class="main">
         <table-component :tableOption="option" :data="tableData" @refreshTableData="refreshTableData"
                          ref="table"></table-component>
-        <!-- 新建合同 -->
-        <app-shrink :visible.sync="isContractsAddPanelVisible" :modal="formType==='add'" :title="this.appPanelTitle">
-      <span slot="header" style="float: right;">
-        <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">保存&提交审核</el-button>
-        <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
-      </span>
-            <contracts-list-add ref="contractsAdd" :type='formType' :contracts='contracts' @refresh="refresh" @update="update"></contracts-list-add>
-        </app-shrink>
+        <!-- 合同详情 -->
+        <contracts-list-add ref="contractsAdd" @refresh="refresh" @update="update" ></contracts-list-add>
     </div>
 </template>
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import ContractsListAdd from '@/components/page/crm/contracts/ContractsListAdd'
-    import AppShrink from '@/components/common/AppShrink'
     import TableMixins from '@/mixins/table-mixins'
 
     const URL = '/contracts'
@@ -28,7 +21,6 @@
         data() {
             return {
                 isContractsAddPanelVisible: false,
-                appPanelTitle: '新建合同',
                 formType: 'add',
                 contracts: {},
                 option: {
@@ -74,7 +66,7 @@
                 this.formType = 'add';
                 this.appPanelTitle = '新建合同';
                 this.contracts = {};
-                this.isContractsAddPanelVisible = true;
+                this.$refs.contractsAdd.show(0,'add');
             },
             editPop(col) {
                 this.$refs.pop.show('edit', col);
@@ -107,16 +99,13 @@
                 this.$axiosGet({url, data, success});
             },
             handleRowClick(row) {
-                this.contracts = row;
-                this.formType = 'edit';
-                this.appPanelTitle = '编辑合同>' + row.serial;
-                this.isContractsAddPanelVisible = true;
+                this.$refs.contractsAdd.show(row.id,'edit',row);
             },
             handlePopRefresh(key) {
                 this.refresh();
             }
         },
-        components: {TableComponent, ContractsListAdd, AppShrink}
+        components: {TableComponent, ContractsListAdd}
     }
 </script>
 

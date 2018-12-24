@@ -45,20 +45,20 @@ export default {
                 ],
                 'columns': [
                     {type: 'selection'},
-                    {type: 'text', label: 'ID', prop: 'id', width: '120'},
-                    {type: 'text', label: '默认模型', prop: 'is_default', width: '120', render:(h,item)=>{
+                    {type: 'text', label: 'ID', prop: 'id', width: '60'},
+                    {type: 'text', label: '默认模板', prop: 'is_default', width: '80', render:(h,item)=>{
                         item = item ? '是' : '否';
                         return h('span', item)
                     }},
-                    {type: 'text', label: '所属客户', prop: 'customer', render_simple: 'name', min_width: '200'},
-                    {type: 'text', label: '模板类型', prop: 'template_type', render_simple: 'name', width: '120'},
-                    {type: 'text', label: '子类型', prop: 'subtype', render_simple: 'name', width: '120'},
+                    {type: 'text', label: '所属客户', prop: 'customer', render_simple: 'name', width: '110'},
+                    {type: 'text', label: '模板类型', prop: 'template_type', render_simple: 'name', width: '80'},
+                    {type: 'text', label: '子类型', prop: 'subtype', render_simple: 'name', width: '110'},
                     {type: 'text', label: '场景', prop: 'scene', render_simple: 'name', width: '100'},
                     {type: 'text', label: '标题', prop: 'title', width: '100'},
-                    {type: 'text', label: '收件人', prop: 'to', width: '100', render: this.handleRenderPerson,},
-                    {type: 'text', label: '抄送', prop: 'cc', width: '100', render: this.handleRenderPerson,},
-                    {type: 'text', label: '密送', prop: 'bcc', width: '100', render: this.handleRenderPerson,},
-                    {type: 'text', label: '邮件正文', prop: 'body', width: '100'},
+                    {type: 'text', label: '收件人', prop: 'to', width: '150', render: this.handleRenderPerson,},
+                    {type: 'text', label: '抄送', prop: 'cc', width: '150', render: this.handleRenderPerson,},
+                    // {type: 'text', label: '密送', prop: 'bcc', width: '100', render: this.handleRenderPerson,},
+                    {type: 'text', label: '邮件正文', prop: 'body', min_width: '150'},
                 ],
             },
             compileType: "add",
@@ -91,7 +91,7 @@ export default {
             
         },
         handleRenderPerson (h, item) {
-            if(item == null) return 
+            if(item == null || item.type == null) return 
 
             const type = item.type.name!==undefined? item.type.name : item.type;
             const value = item.users.map(d=>d.name);

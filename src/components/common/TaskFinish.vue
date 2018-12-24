@@ -17,35 +17,35 @@
             <el-form-item label="节点期限"><span class="form-item-text">{{ processData.task.deadline }}</span></el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="代理人助理" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="assistantName">{{ assistantName }}</span></el-form-item>
+            <el-form-item label="代理人" style="height:36px;"><span class="form-item-text"  style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="agentName">{{ agentName }}</span></el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="承办人" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="userName">{{ userName }}</span></el-form-item>
+            <el-form-item label="代理人助理" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="assistantName">{{ assistantName }}</span></el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="10">
           <el-col :span="6">
-            <el-form-item label="管制期限"><span class="form-item-text">{{ processData.filing_deadline }}</span></el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="代理人" style="height:36px;"><span class="form-item-text"  style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="agentName">{{ agentName }}</span></el-form-item>
+            <el-form-item label="承办人" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="userName">{{ userName }}</span></el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="IPR"><span class="form-item-text">{{ iprName }}</span></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="管制期限"><span class="form-item-text">{{ processData.filing_deadline }}</span></el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="官方绝限"><span class="form-item-text">{{ processData.legal_deadline }}</span></el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="10">
+          <el-col :span="12">
+            <el-form-item label="备注"><span class="form-item-text">{{ processData.task.remark }}</span></el-form-item>
+          </el-col>
           <el-col :span="6">
             <el-form-item label="申请日"><span class="form-item-text">{{ processData.application_date }}</span></el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="申请号"><span class="form-item-text">{{ processData.application_number }}</span></el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="备注"><span class="form-item-text">{{ processData.task.remark }}</span></el-form-item>
           </el-col>
         </el-row>
         <el-form-item label="附件">
@@ -55,9 +55,9 @@
       </el-form>
     </el-collapse-item>
     <el-collapse-item title="任务处理" name="2">
-        <app-form :source="sourceForm" :rules="appFormRules" @formData="handleForm" :row="row" ref="appForm">
+        <app-form :source="sourceForm" :rules="appFormRules" :labelWidth="`100px`" @formData="handleForm" :row="row" ref="appForm">
             <el-form-item label="节点描述" v-if="tips">
-              <span style="display:inline-block;padding-top:2px;">{{ tips }}</span>
+              <span style="display:inline-block;line-height:40px;">{{ tips }}</span>
             </el-form-item>
             <el-form-item label='审核意见' v-if="is_review">
               <app-radio
@@ -167,13 +167,15 @@ export default {
       this.loading = true;
       const arr = []; 
       const url = `${URL}/${this.taskId}/form`;
+      this.$refs.appForm.$refs.form.clearValidate();
       const success = d=>{
         const response = d.data;
         this.data = response;
         if(response.review_opinion && response.review_opinion.length != 0) {
           this.review_opinion = response.review_opinion[0];
-          this.tips = response.remark;
         }
+        this.tips = response.remark;
+        this.appFormRules = {};
         if(response.forms && response.forms.length != 0) {
           response.forms.forEach(_=>{
             let staticConfig = formMap.get(_.field_type.id);

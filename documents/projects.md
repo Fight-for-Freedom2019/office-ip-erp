@@ -98,7 +98,7 @@ request {
     application_number:"2017302865763",//申请号
     public_number:"CN10452587A",//公开号
     issue_number:"CN1123231",//公告号
-    relevance:[{id:"id",type:"type"}],//id 相关案件ID，type 相关类型，1 要求优先权，2分案申请，3部分连续案 4相同新型/发明 5相同项目产品 6要求同日送件
+    relevance:[{id:"id",type:"type"}],//id 案件引用ID，type 相关类型，1 要求优先权，2分案申请，3部分连续案 4相同新型/发明 5相同项目产品 6要求同日送件
 
     //委案信息
     agency:"1",//代理机构ID

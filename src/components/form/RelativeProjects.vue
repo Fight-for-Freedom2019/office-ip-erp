@@ -10,12 +10,12 @@
   	>
   		<span>{{ tag['id']['name'] }}</span>
   	</el-tag> -->
-  	<app-card :value="projectsValue" type="relateProjects" @handleCloseTag="handleCloseTag"></app-card>
+  	<app-card :value="olditems" type="relateProjects" @handleCloseTag="handleCloseTag"></app-card>
   	<el-button type="text" @click="relativeVisible = true">{{ pageType == 'add' ? '添加' : '修改'}}</el-button>
   	<el-dialog :visible.sync="relativeVisible" title="编辑相关案件" :modal="false">
-  		<el-row v-for="(item,index) in value" :key="index" style="margin-bottom: 5px">
+  		<el-row v-for="(item,index) in items" :key="index" style="margin-bottom: 5px">
 	  		<el-col :span="6" style="padding-right: 5px">
-	  			<el-select placeholder="案件类型" :value="item['reference_type']" @input="val=>{ handleInput(val, 'reference_type', index) }">
+	  			<el-select placeholder="案件类型" v-model="items[index].reference_type" >
 				    <el-option 
 				    	v-for="item in options"
 				    	:key="item.value"
@@ -25,13 +25,13 @@
 				  </el-select>
 	  		</el-col>
 	  		<el-col :span="16" style="padding: 0 5px">
-	  			<jump-select type="专利" :value-key="`key__${index}`" :value="item['id']['id']" @input="val=>{handleProjects(val, index)}" :ref="`relativeProjects__${index}`"></jump-select>
+	  			<jump-select type="专利" :value-key="`key__${index}`" v-model="items[index].id" :ref="`relativeProjects`"></jump-select>
 	  		</el-col>
 	  		<el-col :span="2" style="padding-left: 5px">
-	  			<el-button type="text" size="mini" @click="dataDelete(index)">删除</el-button>
+	  			<el-button type="text" size="mini" @click="deleteRow(index)">删除</el-button>
 	  		</el-col>
 		</el-row>
-		<el-button type="text" @click="add({'id': {id: '', name: ''}, 'reference_type': '',})">添加相关案件</el-button>
+		<el-button type="text" @click="addRow">添加案件引用</el-button>
 		<el-row>
 			<el-button type="primary" @click="handleAddTag">确认</el-button>
 			<el-button @click="relativeVisible = false">取消</el-button>
@@ -55,46 +55,46 @@ export default {
 				{ label: '要求优先权', value: 1 },
 				{ label: '分案申请', value: 2 },
 				{ label: '部分连续案', value: 3 },
-				{ label: '同套发明与新型', value: 4 },
-				{ label: '不同地区同族', value: 5 },
-				{ label: '要求同日送件', value: 6 },
 			],
 			relativeVisible: false,
-			projectsValue: [],
+			items:[],
+			olditems:[],
 		}
 	},
 	methods: {
-		handleProjects (val, index) {
-			const selected = this.$refs[`relativeProjects__${index}`][0].map.get(val);
-			console.log(selected)
-			const id = selected && selected.id ? selected.id : '';
-			const name = selected && selected.name ? selected.name : '';
-			const reference_type = this.value[index]['reference_type'];
-			console.log(reference_type)
-		  	const arr = this.$tool.deepCopy(this.value);
-	  		arr[index]['id']['id'] = id;
-	  		arr[index]['id']['name'] = name;
-	  		arr[index]['reference_type'] = reference_type; 
-	  		this.$emit('input', arr);	
+		addRow() {
+			this.items.push({'id': {id: '', name: ''}, 'reference_type': '',})
+		},
+		deleteRow(index) {
+			this.items.splice(index, 1);
 		},
 		handleAddTag () {
-			this.projectsValue = this.$tool.deepCopy(this.value);
+			this.olditems = this.$tool.deepCopy(this.items);
+			for(let i=0;i<this.olditems.length;i++) {
+				const ref = this.$refs.relativeProjects;
+				if (ref !== undefined) {
+					const selected = ref[i].getSelected();
+					if (selected.length > 0) {
+						const s = selected[0];
+						const id = s && s.id ? s.id : '';
+						const name = s && s.name ? s.name : '';
+						this.olditems[i]['id'] = {id,name};
+					}
+				}
+			}
+			console.log(this.olditems);
 			this.relativeVisible = false;
 		},
 		handleCloseTag (index) {
-			const arr = this.$tool.deepCopy(this.value);
-			arr.splice(index, 1);
-			this.$emit('input', arr);
+			this.items.splice(index, 1);
+			this.olditems.splice(index, 1);
 		},
 	},
 	watch: {
-		value (val) {
-			console.log(val);
-			this.projectsValue = val;
-			if(val[0] && val[0]['name']) {
-				let arr;
-				arr = val.map(_=>{ return {id: { id: _.id, name: _.name }, reference_type: _.reference_type,} });
-				this.$nextTick(_=>{ this.$emit('input', arr); });				
+		value : {
+			handler: function() {
+				this.items = this.$tool.deepCopy(this.value);
+				this.olditems = this.$tool.deepCopy(this.value);
 			}
 		}
 	},

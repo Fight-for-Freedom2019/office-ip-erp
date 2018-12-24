@@ -10,10 +10,15 @@ const map = new Map([
 	}],	
 	['multiple_attachments',{
 		components: 'upload',
+		rules:{ type: 'array', required: true, message: '附件必须上传', trigger: 'change'},
 	}],
 	['order_detail',{
 		components: 'panel',
 		type: 'order',
+	}],
+	['contract_detail',{
+		components: 'panel',
+		type: 'contract',
 	}],
 	['payment_request_detail',{
 		components: 'panel',

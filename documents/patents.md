@@ -44,7 +44,7 @@ request {
 
     priorities:[{area:"CN",apn:"201510422563.4",date:"2017-01-01"}],//优先权信息
     relates:[{
-        id:"相关案件ID",
+        id:"案件引用ID",
         type:"相关类型",//下拉菜单  1 要求优先权 2 分案申请 3 部分连续案 6 要求同日送件
     }],
     remark:"备注"
@@ -96,7 +96,7 @@ request {
 
     priorities:[{area:"CN",apn:"201510422563.4",date:"2017-01-01"}],//优先权信息
     relates:[{
-        id:"相关案件ID",
+        id:"案件引用ID",
         type:"相关类型",//下拉菜单  1要求优先权 2 分案申请 3部分连续案 6要求同日送件
     }],
     remark:"备注",
@@ -196,16 +196,16 @@ reponse {
 		agent:"代理人信息",//
 		/* [委案信息]结束 */
 		
-		/* [相关案件]开始 */
+		/* [案件引用]开始 */
 		proposals:[],
 		priorities:[{area:"CN",apn:"201510422563.4",date:"2017-01-01"}],
 		relates:[{
-			id:"相关案件ID",
-			serial:"相关案件案号",
-			title:"相关案件标题",
+			id:"案件引用ID",
+			serial:"案件引用案号",
+			title:"案件引用标题",
 			type:"相关类型",//下拉菜单  1 要求优先权 2 分案申请 3 部分连续案 6 要求同日送件
 		}],
-		/* [相关案件]开始 */
+		/* [案件引用]开始 */
 		
 		/* [其他信息及附件]开始 */
 		status:"状态",
@@ -405,9 +405,9 @@ response {
 		products:[{id:"产品ID",name:"产品名称",description:"产品描述"}],
 		proposer:{id: 1, name: "红坚果", mobile: "18098976299", email: "hongjianguo@hongjianguo.com"},
 		relates:[{
-			id:"相关案件ID",
-			serial:"相关案件案号",
-			title:"相关案件标题",
+			id:"案件引用ID",
+			serial:"案件引用案号",
+			title:"案件引用标题",
 			type:"相关类型",//下拉菜单  1 要求优先权 2 分案申请 3 部分连续案 6 要求同日送件
 		}],
 		

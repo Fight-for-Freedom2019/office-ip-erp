@@ -142,7 +142,7 @@
         <el-tag v-if="currentRow.serial">{{ currentRow.serial }}</el-tag>
       </span>
       <span slot="header" style="float: right">
-        <el-button size="small" @click="dialogDelayVisible= true" v-if="menusMap && !menusMap.get('/iprs')">延期</el-button>
+        <!-- <el-button size="small" @click="dialogDelayVisible= true" v-if="menusMap && !menusMap.get('/iprs')">延期</el-button> -->
         <el-button size="small" type="primary" @click="addPop('edit')" v-if="menusMap && !menusMap.get('/iprs')" style="margin-left: 0px;">编辑</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="!currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogCloseVisible = true;">完结</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogActivationVisible = true;">激活</el-button>
@@ -879,7 +879,7 @@ export default {
       if( !this.dialogShrinkVisible ) this.dialogShrinkVisible = true;
     },
     save () {
-      this.$refs.detail.edit();
+      this.$refs.detail.edit(); 
     },
     close () {
       this.taskId = '';

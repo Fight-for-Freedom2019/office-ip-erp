@@ -1,5 +1,6 @@
 <template>
   <div class="static_select">
+    <slot></slot>
     <el-select
       :value="value"
       @input="handleInput"

@@ -96,13 +96,13 @@ export default {
 		this.handleDynamicForm();
 	},
 	watch: {
-		value (val) {
-			val.forEach(_=>{
-				if(!_.visible)  this.$set( _, 'visible', false );
-				this.$set(_, 'type', this.type);
-			});
-			return val;
-		},
+		// value (val) {
+		// 	val.forEach(_=>{
+		// 		if(!_.visible)  this.$set( _, 'visible', false );
+		// 		this.$set(_, 'type', this.type);
+		// 	});
+		// 	return val;
+		// },
 	},
 	methods: {
 		...mapActions([

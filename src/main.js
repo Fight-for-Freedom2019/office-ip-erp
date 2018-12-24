@@ -4,6 +4,7 @@ import Vue from 'vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
+import formCreate from "form-create"
 import $ from 'jquery'
 import VueQuillEditor from 'vue-quill-editor'
 import MyAxios from '@/const/MyAxios'
@@ -29,6 +30,7 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueQuillEditor);
 Vue.use(MyAxios);
+Vue.use(formCreate);
 axios.defaults.headers.common['Authorization'] = window.localStorage.getItem("token");
 // 添加请求拦截器
 axios.interceptors.request.use(config => {

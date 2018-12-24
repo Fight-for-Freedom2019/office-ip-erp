@@ -11,6 +11,7 @@
 		<div v-loading="shrinkLoading" :element-loading-text="shrinkLoadingText">
 			<div class="app-shrink-body" :style="`height: ${shrinkHeight}px; overflow:hidden auto;`" v-if="rendered" >
 				<slot></slot>
+				<slot name="body"></slot>
 			</div>
 		</div>
 	</div>
@@ -74,9 +75,11 @@ export default {
       'shrinkHeight',
       'shrinkLoading',
       'shrinkLoadingText',
+      'innerWidth'
     ]),
     shirnkStyle () {
     	return {
+            'full-screen':`width: ${this.innerWidth-20}px`, // 减掉20的padding
     		'large': 'width: 926px;',
     		'middle': 'width: 600px;',
     		'small': 'width: 460px;',

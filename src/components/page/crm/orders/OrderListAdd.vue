@@ -3,12 +3,12 @@
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <el-form-item label="客户" prop="customer">
-                <remote-select type="customer" v-model="form.customer"></remote-select>
+                <remote-select type="customer" v-model="form.customer" @change="handleCustomerChange"></remote-select>
             </el-form-item>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="联系人" prop="contact">
-                        <jump-select type="contacts" v-model="form.contact"></jump-select>
+                        <jump-select type="contacts" v-model="form.contact" :para="param"></jump-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -154,7 +154,8 @@
                 ** 所以自定义一个唯一标识，以便删除
                 * */
                 mark: 0,
-                URL: "/orders"
+                URL: "/orders",
+                param:{},
             }
         },
         props: {
@@ -166,6 +167,10 @@
             }
         },
         methods: {
+            handleCustomerChange() {
+                const customer = this.form.customer;
+                this.param = {customer};
+            },
             getService() {      // 获取格式化的service数据
                 let arr = [];
                 this.tableData.forEach((item) => {

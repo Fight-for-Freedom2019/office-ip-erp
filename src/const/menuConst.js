@@ -57,7 +57,7 @@ const crmMenu = [
 	{ type: 'item', text: '客户管理', path: '/crm/customers', icon: 'iconfont el-icon-my-customer'},
 	{ type: 'item', text: '订单管理', path: '/crm/orders', icon: 'iconfont el-icon-my-order'},
 	{ type: 'item', text: '合同管理', path: '/crm/contracts', icon: 'iconfont el-icon-my-contract'},
-	{ type: 'item', text: '快递管理', path: '/crm/expresses', icon: 'iconfont el-icon-my-express'},
+	// { type: 'item', text: '快递管理', path: '/crm/expresses', icon: 'iconfont el-icon-my-express'},
 	{ type: 'submenu', text: '客户数据', path: '/crm/data', icon: 'iconfont el-icon-my-data', children:[
 		{ type: 'item', text: '申请人管理', path: '/crm/data/applicants', icon: 'iconfont el-icon-my-people' },
 		{ type: 'item', text: '发明人管理', path: '/crm/data/inventors', icon: 'iconfont el-icon-my-bulb' },
