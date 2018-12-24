@@ -391,6 +391,7 @@ export default {
           { type: 'text', prop: 'spec_rank', label: '说明书评分', render_header: true, width: '110',},
           { type: 'text', prop: 'communication_rank', label: '沟通评分', render_header: true, width: '100',},
           { type: 'text', prop: 'remark', label: '备注', render_header: true, width: '100',},
+          // { type: 'action',fixed: true, width: '100', render_header: true}
         ],
       },
       tableData: [],

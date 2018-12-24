@@ -1,4 +1,5 @@
 <template>
+<div style="display: contents;"> 
 <el-table 
   ref="table"
   stripe
@@ -140,14 +141,16 @@
         </template>
       </el-table-column>
     </template>
-
   </template>
 </el-table>
+    <view-pop type="add" :visible="viewVisible" :fields="fields" @close="v=>{viewVisible = v}"></view-pop>
+</div>
 </template>
 <script>
 import {mapGetters} from 'vuex'
 import FilterValue from '@/components/common/FilterValue'
 import ListsFilter from '@/components/common/ListsFilter'
+import ViewPop from '@/components/common/ViewPop'
 import { map as filterConfig} from '@/const/headerFilterConfig'
 import {mapActions} from 'vuex'
 const labelMap = new Map();
@@ -218,7 +221,13 @@ export default {
     type: {
       type: String,
       default: '',
-    }
+    },
+    fields: {
+      type: Array,
+      default () {
+        return [];
+      },
+    },
   },
   data () {
     return {
@@ -230,6 +239,7 @@ export default {
       spanArr:[],   // 合并行策略数组
       unknownData:[],
       saveLabel: '',
+      viewVisible: false,
       // re_render: true,
     };
   },
@@ -238,7 +248,6 @@ export default {
       'innerHeight',
       'breadHeaderHeight',
     ]),
-    value2() {},
     filterSetting () { //自定义筛选配置项
       const data = filterConfig.get(this.type);
       return data ? data : []
@@ -432,40 +441,57 @@ export default {
       let count = 0;
       let item = column.label;
       let property = '';
-      const sindex =column.property.indexOf('__');
-      if(sindex!== -1) {
-         property = column.property.substring(0,sindex);
-      }else {
-         property = column.property;
-      }        
+      let sindex = '';
+      if(column.property){
+         sindex = column.property.indexOf('__');
+        if(sindex!== -1) {
+           property = column.property.substring(0,sindex);
+        }else {
+           property = column.property;
+        }        
+      }
+
       if(func){
         func();
       }else if(column.type == 'action'){
-        return h('span',{},[h('el-button',{
+        return h('el-dropdown',{
+            style: {
+            paddingLeft: '0',
+            paddingRight: '0',
+            },
+            attrs: {
+              trigger: 'click',
+            },
+            on: {
+              command(command) {
+                if(command == 'view') {
+                  self.viewVisible = true;
+                }
+              },
+            },
+          },[h('el-button',{
           style: {
             float: 'left',
+            height: '14px',
+            lineHeight: '14px',
+            paddingTop: '0',
+            paddingBottom: '0',
           },
           attrs: {
             type: 'text',
-            icon: 'plus'
+            icon: 'el-icon-more'
           },
-          on: {
-            click(e) {
-              e.stopPropagation();
-              self.filterVisible = !self.filterVisible;
-              console.log(self.filterVisible)
-            },
+        },''),h('el-dropdown-menu',{
+          style: {
+            paddingLeft: '0',
+            paddingRight: '0',
           },
-        },''),h('el-button',{
-           style: {
-            float: 'left',
-            display: 'inline-block'
-          },
+          slot: 'dropdown',
+        },[h('el-dropdown-item',{
           attrs: {
-            type: 'text',
-            icon: 'edit'
+            command: 'view',
           },
-        },'')])
+        },'新增视图')])])
       }else{
         const source = this.filterSettingMap.get(property) !== undefined ?
         this.filterSettingMap.get(property) : null;
@@ -603,6 +629,7 @@ export default {
     },
     FilterValue,
     ListsFilter,
+    ViewPop,
   }
 }
 </script>
