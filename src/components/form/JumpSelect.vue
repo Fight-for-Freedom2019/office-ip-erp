@@ -114,6 +114,11 @@ const map = new Map([
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入开票主体',
   }],  
+  ['payment_accounts', {
+    URL: '/payment_accounts?listOnly=1',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择回款账户',
+  }],  
   ['bill', {
     URL: '/invoices',
     DATA_KEY: 'invoices',

@@ -1,7 +1,7 @@
 
 <template>
   <div class="select_list">
-    <app-card :value="selectedValue" :type="type" @handleCloseTag="handleCloseTag"></app-card>
+    <app-card :value="selectedItems" :type="type" @handleCloseTag="handleCloseTag"></app-card>
     <el-button type="text" @click="selectVisible = true" style="line-height: 16px;" :class="[selectedValue.length!=0? 'btn' : '']">{{ pageType == 'add' ? '添加' : '修改' }}</el-button>
     <el-dialog :visible.sync="selectVisible" :modal="false" title="编辑">
       <slot></slot>
@@ -29,7 +29,13 @@
     		>
     		</el-option>
     	</el-select>
-      <el-row style="margin-top: 10px;">
+      <el-form :label-position="`top`" v-if="addType !== ''">
+        <el-form-item style="margin-top:10px;">
+          如果下拉菜单中没选项，请：<a href="#" @click="add">新增</a>
+        </el-form-item>
+        <family-add @onItemAdded="onItemAdded" ref="family"></family-add>
+      </el-form>
+      <el-row style="margin-top: 20px;">
         <el-button type="primary" @click="handleAddTag">确认</el-button>
         <el-button @click="selectVisible = false">取消</el-button>
       </el-row>
@@ -40,6 +46,7 @@
 <script>
 import AxiosMixins from '@/mixins/axios-mixins'
 import AppCard from '@/components/common/AppCard'
+import FamilyAdd from '@/components/page_extension/FamilyAdd'
 
 const map = new Map([
   ['contracts', {
@@ -195,6 +202,16 @@ const map = new Map([
       DATA_KEY: 'data',
       PLACEHOLDER: '请选择订单',
   }],
+  ['patent_family',{
+      URL: '/families?listOnly=1',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择专利族',
+  }],
+  ['tags',{
+      URL: '/tags',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择标签',
+  }],
 ]);
 
 export default {
@@ -224,6 +241,10 @@ export default {
       default () { return [] },
     },
     'pageType':String,
+    'addType': {
+      type: String,
+      default() {return ''},
+    }
   },
   data () {
   	return {
@@ -233,11 +254,21 @@ export default {
       selectVisible: false,
   		selected: [],
       selectedValue: [],
+      selectedItems:[],
   		static_map: [],
       numberHandle: ['member', 'applicant', 'inventor', 'agent', 'agency', 'project', 'proposal', 'patent', 'copyright', 'bill', 'pay'],//需要做number类型处理的数据集合
   	};
   },
   methods: {
+    add() {
+      switch (this.addType) {
+        case 'patent_family':this.$refs.family.show(0,'add');break;
+      }
+    },
+    onItemAdded(item) {
+      console.log(item);
+      this.value2 = item;
+    },
     handleInput (val) {
       if(!this.multiple && !this.single) {
         let v = '';
@@ -256,16 +287,18 @@ export default {
       this.$emit('change', this.map.get(val));
     },
     handleAddTag () {
-      this.selectedValue = this.$tool.deepCopy(this.selected);
+      this.selectedItems = this.$tool.deepCopy(this.selected);
       this.selectVisible = false;
     },
     handleCloseTag (index) {
       if(this.value instanceof Array && this.value.length != 0){
         this.value.splice(index,1);
+        this.selectedItems.splice(index,1);
       }else {
         let arr = [];
         arr.push(this.value)
         arr.splice(index,1)
+        this.selectedItems.splice(index,1)
         return this.value2 = arr
       }
     },    
@@ -487,7 +520,7 @@ export default {
   created () {
     this.value2?this.refreshSelected(this.value2):"";
   },
-  components: { AppCard },
+  components: { AppCard, FamilyAdd },
 }
 </script>
 

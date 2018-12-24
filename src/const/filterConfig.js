@@ -311,10 +311,11 @@ const map = new Map([
     /* 发票管理 */
     ['invoice_request',[
         { components: 'remote_select', id: 'customer',                name: '客户/供应商', type: 'customer', used: true},
+        { components: 'static_select', id: 'status',                  name: '状态', type: 'voucher_status'},
     ]],
     /* 交互>客户端>通知书 */
     ['cpc_notice',[
-        { components: 'remote_select', id: 'customer',                name: '相关案件', type: '专利', used: true},
+        { components: 'remote_select', id: 'customer',                name: '案件引用', type: '专利', used: true},
         { components: 'date',          id: 'creation_time',           name: '上传时间', used: true},
         { components: 'date',          id: 'cpc_mail_date',           name: '发文日', used: true},
         { components: 'date',          id: 'cpc_legal_deadline',      name: '官方绝限', used: true},
@@ -326,7 +327,7 @@ const map = new Map([
     ]],
     /* 交互>客户端>案卷包 */
     ['cpc_archive',[
-        { components: 'remote_select', id: 'customer',                name: '相关案件', type: '专利', used: true},
+        { components: 'remote_select', id: 'customer',                name: '案件引用', type: '专利', used: true},
         { components: 'static-select', id: 'process_definition',      name: '管制事项', type: 'process_definition', used: true},
         { components: 'date',          id: 'filed_date',              name: '送件日',used:true},
         { components: 'static_select', id: 'filing_staus',            name: '送件状态',type:"cpc_archive_status",used:true},

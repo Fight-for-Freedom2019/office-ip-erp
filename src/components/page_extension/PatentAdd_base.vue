@@ -76,10 +76,14 @@
       <el-form-item label="优先权">
         <priorities v-model="form.priorities"></priorities>
       </el-form-item>
-      <el-form-item label="相关案件">
+      <el-form-item label="案件引用">
         <relative-projects v-model="form.references" :page-type="type"></relative-projects>
-      </el-form-item>    
-      <el-form-item label="案件标记">
+      </el-form-item>
+      <el-form-item label="专利族">
+        <remote-select v-model="form.families"  type="patent_family" :page-type="type" :add-type="`patent_family`" multiple></remote-select>
+      </el-form-item>
+
+      <!-- <el-form-item label="案件标记">
         <el-checkbox-group v-model="form.extension" v-if="extensionSet.length != 0" id="extension">
           <el-checkbox 
             v-for="item in extensionSet" 
@@ -88,6 +92,9 @@
           >{{ item.text }}</el-checkbox>
         </el-checkbox-group>
         <span v-else>暂无可选项</span>
+      </el-form-item> -->
+      <el-form-item label="案件标签">
+        <remote-select type="tags" v-model="form.tags" multiple></remote-select>
       </el-form-item>
       
       
@@ -161,6 +168,8 @@ export default {
         // flownode:'',
         // official_status: '',
         references: [],
+        families:[],
+        tags:[],
       },
       titleLock: false, //标题锁 当评审表被上传且标题自动填充后 不再自动填充 
       attachments: [],
@@ -257,6 +266,9 @@ export default {
         }
         this.form.extension = arr;
       }
+      if (form['references']) {
+        this.form.references = form['references'].map(_=>{ return {id: { id: _.id, name: _.name }, reference_type: _.reference_type,} });
+      }
 
       if(upload) {
         if(this.form.inventors && this.form.inventors.length != 0) {
@@ -273,7 +285,7 @@ export default {
     submitForm () {
       if(this.form.references && this.form.references.length != 0) {
         this.form.references.map(_=>{
-          _.id = _.id.id;
+          // _.id = _.id.id;
           _.references_type = _.references_type;
         });
       }
@@ -302,7 +314,7 @@ export default {
     Priorities,
     Inventors,
     Upload,
-    RelativeProjects, 
+    RelativeProjects,
   }
 }
 </script>

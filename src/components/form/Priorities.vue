@@ -25,7 +25,7 @@
 			</el-col>
   	</el-row>
   	<el-row>
-  		<el-button type="text" @click="add({ 'area': '', 'number': '', 'date': '' })">添加优先权</el-button>
+  		<el-button type="text" @click="add({ 'area': '', 'number': '', 'date': '' })">添加</el-button>
   	</el-row>
   </div>
 </template>

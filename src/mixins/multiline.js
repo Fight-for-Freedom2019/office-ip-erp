@@ -10,8 +10,9 @@ export default {
 	methods: {
 		handleInput (val, key, index, func) {
   		const arr = this.$tool.deepCopy(this.value);
-  		arr[index][key] = func ? func(val) : val;
-  		this.$emit('input', arr);
+  		arr[index][key] = func ? func(val,index) : val;
+			this.$emit('input', arr);
+			console.log('here');
   	},
   	dataDelete (index) {
   		const arr = this.$tool.deepCopy(this.value);

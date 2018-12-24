@@ -1,10 +1,10 @@
 <template>
-  <!-- <app-collapse col-title="相关案件"> -->
+  <!-- <app-collapse col-title="案件引用"> -->
       <el-form label-width="120px">
         <el-form-item label="相关提案">
           <remote-select type="proposal" v-model="form.proposals" multiple></remote-select>
         </el-form-item>
-        <el-form-item label="相关案件">
+        <el-form-item label="案件引用">
           <relative-projects v-model="form.relates" :page-type="type"></relative-projects>
         </el-form-item>
       </el-form>

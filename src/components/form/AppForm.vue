@@ -99,6 +99,7 @@
 		<order-detail ref="order" @loaded="panelLoaded"></order-detail>
 		<contract-detail ref="contract" @loaded="panelLoaded"></contract-detail>
 		<invoice-detail ref="payment_request" @loaded="panelLoaded"></invoice-detail>
+		<voucher-detail ref="voucher" @loaded="panelLoaded"></voucher-detail>
 		<cpc-editor ref="detail" :id="row.model_id"></cpc-editor>
 			<!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
@@ -130,7 +131,7 @@ import AppShrink from '@/components/common/AppShrink'
 import OrderDetail from '@/components/page/crm/orders/OrderDetail'
 import InvoiceDetail from '@/components/page_extension/PaymentManageDetail'
 import CustomerPaymentDetail from '@/components/page/crm/suppliers/Payments'
-import InvoiceManageDetail from '@/components/page_extension/InvoiceManageDetail'
+import VoucherDetail from '@/components/page_extension/InvoiceManageDetail'
 import ContractDetail from '@/components/page/crm/contracts/ContractsListAdd'
 import SensitiveOperation from '@/components/page/common/SensitiveOperation'
 import CpcEditor from '@/components/page/cpc/CpcEditor'
@@ -196,6 +197,7 @@ export default {
 				case 'order':this.$refs.order.show(this.row.model_id,'edit');break;
 				case 'contract':this.$refs.contract.show(this.row.model_id,'edit');break;
 				case 'payment_request':this.$refs.payment_request.show(this.row.model_id,'edit');break;
+				case 'voucher':this.$refs.voucher.show(this.row.model_id,'edit');break;
 				case 'cpc_editor':this.$refs.detail.showApplicationEditor(this.row.task.id);break;
 			}
 		},
@@ -224,7 +226,7 @@ export default {
 			})
 		},
 	},
-	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload,OrderDetail,AppShrink, InvoiceDetail, InvoiceManageDetail, ContractDetail, SensitiveOperation, CpcEditor,CustomerPaymentDetail  }
+	components: { StaticSelect, RemoteSelect, JumpSelect, AppSwitch, Upload,OrderDetail,AppShrink, InvoiceDetail, VoucherDetail, ContractDetail, SensitiveOperation, CpcEditor,CustomerPaymentDetail  }
 }
 </script>
 <style lang="scss" scoped>

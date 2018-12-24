@@ -11,27 +11,73 @@
 				<el-form-item label="技术分类">
 					<classification v-model="form.classification" count-type="patent"></classification>
 				</el-form-item>
-        <el-form-item label="代理人">
-          <remote-select type="user" v-model="form.agent"></remote-select>
-        </el-form-item>
-        <el-form-item label="代理人助理">
-          <remote-select type="user" v-model="form.assistant"></remote-select>
-        </el-form-item>
-        <el-form-item label="初审人">
-          <remote-select type="user" v-model="form.first_reviewer"></remote-select>
-        </el-form-item>
-        <el-form-item label="复审人">
-          <remote-select type="user" v-model="form.final_reviewer"></remote-select>
-        </el-form-item>
-        <el-form-item label="代表人">
-          <remote-select type="user" v-model="form.representative"></remote-select>
-        </el-form-item>
-        <el-form-item label="顾问">
-          <remote-select type="user" v-model="form.consultant"></remote-select>
-        </el-form-item>
-        <el-form-item label="销售">
-          <remote-select type="user" v-model="form.sales"></remote-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="代理人">
+              <remote-select type="user" v-model="form.agent"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="代理人助理">
+              <remote-select type="user" v-model="form.assistant"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="挂名代理人">
+              <remote-select type="user" v-model="form.representative"></remote-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="初审人">
+              <remote-select type="user" v-model="form.first_reviewer"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="复审人">
+              <remote-select type="user" v-model="form.final_reviewer"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="财务">
+              <remote-select type="user" v-model="form.flow"></remote-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="客服">
+              <remote-select type="user" v-model="form.consultant"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="销售">
+              <remote-select type="user" v-model="form.sales"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="流程">
+              <remote-select type="user" v-model="form.flow"></remote-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="送件代理所">
+              <remote-select type="user" v-model="form.agency"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="送件代理人">
+              <remote-select type="user" v-model="form.patent_agent"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+          </el-col>
+        </el-row>
+        
+        
       </el-form>
     <!-- </app-collapse> -->
 </template>
