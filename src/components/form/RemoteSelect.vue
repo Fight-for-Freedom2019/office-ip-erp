@@ -212,6 +212,11 @@ const map = new Map([
       DATA_KEY: 'data',
       PLACEHOLDER: '请选择标签',
   }],
+  ['services',{
+      URL: '/services',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择服务类型',
+  }],
 ]);
 
 export default {
@@ -519,6 +524,9 @@ export default {
   },
   created () {
     this.value2?this.refreshSelected(this.value2):"";
+  },
+  mounted () {
+    this.selectedItems = this.value2;
   },
   components: { AppCard, FamilyAdd },
 }

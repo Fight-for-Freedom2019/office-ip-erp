@@ -66,7 +66,7 @@
                 this.formType = 'add';
                 this.appPanelTitle = '新建合同';
                 this.contracts = {};
-                this.isContractsAddPanelVisible = true;
+                this.$refs.contractsAdd.show(0,'add');
             },
             editPop(col) {
                 this.$refs.pop.show('edit', col);

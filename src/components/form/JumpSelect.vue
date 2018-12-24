@@ -194,6 +194,21 @@ const map = new Map([
       DATA_KEY: 'data',
       PLACEHOLDER: '请选择订单',
   }],
+  ['patent_family',{
+      URL: '/families?listOnly=1',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择专利族',
+  }],
+  ['tags',{
+      URL: '/tags',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择标签',
+  }],
+  ['services',{
+      URL: '/services',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择服务类型',
+  }],
 ]);
 
 export default {

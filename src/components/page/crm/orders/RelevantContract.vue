@@ -3,10 +3,8 @@
     <div class="main RelevantContract">
         <table-component :tableOption="tableOption" :data="data" ref="table"></table-component>
         <!-- 新建合同 -->
-        <app-shrink :visible.sync="isContractsAddPanelVisible" :modal="false" :title="`新建订单合同`">
-            <span slot="header" style="float: right;">
-                <el-button type="primary" @click="saveAdd" size="small">保存&提交审核</el-button>
-            </span>
+        <!-- <app-shrink :visible.sync="isContractsAddPanelVisible" :modal="false" :title="`新建订单合同`"> -->
+            
             <contract-add ref="contractsAdd" :type="`add`" :order="order" @refresh="refresh" @update="update"></contract-add>
         </app-shrink>
     </div>
@@ -67,7 +65,7 @@
         methods: {
             showAddContractPanel () {
                 console.log('button order>order_detail>relevant_contract>add is clicked and the contract add panel is shown');
-                this.isContractsAddPanelVisible = true;
+                this.$refs.contractsAdd.show(0,'add');
             },
             saveAdd() {
                 this.$refs.contractsAdd.save('add');

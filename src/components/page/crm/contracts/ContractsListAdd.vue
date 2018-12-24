@@ -92,12 +92,6 @@
     export default {
         name: "ContractsListAdd",
         props: {
-            contracts: {
-                type: Object,
-                default() {
-                    return {};
-                }
-            },
             order: {
                 type: Object,
                 default() {
@@ -121,22 +115,11 @@
                     expire_date: "",
                     status : 1,
                     serial: "",
-                    contact_id: "",
-                    customer_id: "",
                     remark:"",
                     attachments:[],
-                    contact: {
-                        name:"",
-                        id:""
-                    },
-                    customer: {
-                        name:"",
-                        id:"",
-                    },
-                    order: {
-                        name:"",
-                        id:"",
-                    },
+                    contact: '',
+                    customer: '',
+                    order: '',
                 },
                 attachments:[],
                 rules: {
@@ -198,30 +181,14 @@
             coverObj(val) {
                 if (val) {
                     this.$tool.coverObj(this.form, val, {obj: ['type','status']});
-                    this.attachments = [...this.form.attachments];
+                    this.attachments = val.attachments;
                 }
             },
             clear(){
                 this.$refs.form.resetFields();
             },
-            show(id,mode,contract) {
-                this.mode = mode;
-                if (mode == 'add') {
-                    this.title = '新建合同';
-                }
-                if (!this.dialogVisible) {
-                    this.dialogVisible = true;
-                }
-                //如果有传递合同数据，优先以合同数据显示
-                if (contract !== undefined) {
-                    this.id = contract.id;
-                    this.coverObj(contract);
-                    return;
-                }
-                //根据ID加载显示数据
-                this.id = id;
+            load(id) {
                 this.loadingVisible = true;
-                
                 const url = `/contracts/${id}`;
                 const success = _ => {
                     const data = _.data[0];
@@ -233,6 +200,28 @@
                     this.$emit('loaded');
                 };
                 this.$axiosGet({url, success, complete});
+            },
+            show(id,mode,contract) {
+                this.mode = mode;
+                if (mode == 'add') {
+                    this.title = '新建合同';
+                }
+                if (!this.dialogVisible) {
+                    this.dialogVisible = true;
+                }
+
+                //如果有传递合同数据，优先以合同数据显示
+                if (contract !== undefined) {
+                    this.id = contract.id;
+                    this.coverObj(contract);
+                    this.title = '合同详情>' + contract.serial;
+                    return;
+                }
+                //根据ID加载显示数据
+                this.id = id;
+                if (id > 0) {
+                    this.load(id);
+                }
             },
         },
         computed: {
@@ -246,30 +235,12 @@
                 return this.form.order ? 'edit' : 'add';
             },
         },
-        mounted() {
-            this.coverObj(this.contracts);
-            if (this.order.customer !== undefined) {
-                this.form.customer = this.order.customer;
-                this.form.order = this.order;
-                this.form.type = 2;
-            }
-        },
         watch: {
-            contracts: function (val, oldVal) {
-                this.coverObj(val);
-            },
             order: function (val, oldVal) {
-                this.form.customer = val.customer.id;
-                this.form.order = val.id;
+                this.form.customer = val.customer;
+                this.form.order = val;
                 this.form.type = 2;
             },
-            type: function (val, oldVal) {
-                if (val === "add") {
-                    this.form = {}
-                } else {
-                    this.form = Object.assign({},this.contracts);
-                }
-            }
         },
         components: {
             StaticSelect,

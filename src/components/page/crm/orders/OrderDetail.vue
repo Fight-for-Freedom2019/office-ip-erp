@@ -68,7 +68,7 @@
                         <el-tab-pane label="相关账单" name="received_payments">
                             <order-detail-invoice ref="received" :id="id" :data="invoices"></order-detail-invoice>
                         </el-tab-pane>
-                        <el-tab-pane label="案件引用" name="case">
+                        <el-tab-pane label="相关案件" name="case">
                             <order-detail-project ref="received" :id="id" :data="projects"></order-detail-project>
                         </el-tab-pane>
                     </el-tabs>
