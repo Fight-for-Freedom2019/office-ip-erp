@@ -51,7 +51,6 @@ export default {
 	  	// if(this.username && this.password) {
 	  		this.$refs.form.validate(_=>{
 	  			if(_){
-			  	 	console.log('next')
 			  	 	const url = '/login';
 			  	 	const data = {
 			  	 		username: this.form.username, 

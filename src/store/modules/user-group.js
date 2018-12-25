@@ -50,7 +50,6 @@ const actions = {
 				commit('setGroup', d.data.data);
 				if(callback) {callback(d)};
 			}else {
-				console.log(d);
 				// alert('请求用户组数据失败');
 			}
 		})

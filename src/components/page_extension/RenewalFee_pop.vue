@@ -124,7 +124,6 @@ export default {
   		return Object.assign(s, obj);  		
   	},
     setForm(d) {
-      console.log(d)
       this.$tool.coverObj(this.form,d,{
         obj: ['project','fee_code'],
       });

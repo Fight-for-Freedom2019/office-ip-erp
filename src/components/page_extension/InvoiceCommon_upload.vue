@@ -100,7 +100,6 @@ export default {
 			let yFlag = false;
 			let nFlag = false;
 			let color = '';
-			console.log(item);
 			if(item.id === 5) {
 				yFlag = true;
 				color = 'green';

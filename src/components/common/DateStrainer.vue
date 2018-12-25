@@ -13,21 +13,17 @@ export default {
   methods: {
 	startUpdate (val) {
 		this.startTime = val;
-		// console.log(val);
 		const s = this.startTime ? this.startTime : '';
 		const e = this.endTime ? this.endTime : ''; 
 		const arr = [s, e];
-		// console.log('startUpdate');
 		this.$emit("input", arr);
     this.$emit("change",arr);
     },
     endUpdate (val) {
-    	// console.log(val);
     	this.endTime = val;
 		const s = this.startTime ? this.startTime : '';
 		const e = this.endTime ? this.endTime : '';
     	const arr = [s, e];
-    	// console.log('endUpdate');
     	this.$emit("input", arr);
       this.$emit("change",arr);
     },

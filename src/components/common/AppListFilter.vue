@@ -211,7 +211,6 @@ export default {
 			// 'refreshCustomData', //menu-cache
 		]),
 		clearUsedFormField (key) {
-			console.log(key)
 			this.usedForm[key] = this.getDefaultValue(key)
 		},
 		clearTableFilter () {
@@ -342,7 +341,6 @@ export default {
 			}) 
 		},
 		remove (event, index) {
-			console.log(index);
 			this.removeListFilter(index);
 			// this.$nextTick(() => {
 			// 	this.refresh();
@@ -397,7 +395,6 @@ export default {
 			} else if(item.components == 'input') {
 				val = ''
 			}
-			console.log(val)
 			return val
 		}
 	},
@@ -420,12 +417,10 @@ export default {
 						}else {
 							const name = map['name']
 							const str = 'usedForm_' + key
-							console.log(this.$refs)
 							const label = this.$refs[str][0].getLabel()
 							obj[key] = { name, key, label, value }
 						}
 					}
-					console.log(this.trigger)
 					this.trigger === 'pop'?this.fillViewFilter(obj):this.fillListFilter(obj);
 						
 				}, 0)

@@ -102,7 +102,6 @@
                 this.cityInfo.province && names.push(this.cityInfo.province.name + ' ')
                 this.cityInfo.city && names.push(this.cityInfo.city.name + ' ')
                 this.cityInfo.block && names.push(this.cityInfo.block.name + ' ')
-                console.log("cityName", name);
                 return names.join('')
             },
             ...mapGetters([

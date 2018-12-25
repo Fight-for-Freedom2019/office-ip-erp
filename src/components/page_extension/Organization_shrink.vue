@@ -95,7 +95,6 @@ export default {
 			this.$tool.coverObj(this.form,d);
 		},
 		handleSwitchChange (val) {
-			console.log(val)
 			this.rules_name.push(val);
 		},	
 	   show ( type='add', data ) {

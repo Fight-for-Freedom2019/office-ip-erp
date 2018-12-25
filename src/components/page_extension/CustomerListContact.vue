@@ -119,7 +119,6 @@
         watch: {
             itemData() {
                 this.tableData = this.itemData;
-                console.log(this.tableData)
             }
         },
         components: {

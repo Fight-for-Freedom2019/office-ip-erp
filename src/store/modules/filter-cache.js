@@ -53,9 +53,7 @@ const getters = {
 		return data;
 	},
 	listFilterValue: (state, getters, rootState) => { //自定义筛选项请求参数值
-		console.log('---------listFilterValue---------');
 		const listFilter = state.custom;
-		console.log(listFilter)
 		let arr = [];
 		listFilter.forEach(item => {
 			let form = {};
@@ -70,7 +68,6 @@ const getters = {
 			form[item['key']] = value;
 			arr.push(form);
 		})
-		console.log(arr);
 		return {query:arr};
 	},
 	viewFilter: state => state.view,	
@@ -82,7 +79,6 @@ const getters = {
 	filterForm: (stata, getters) => { //合并上传参数
 		// console.log('---------filterForm---------')
 		const form = Object.assign({}, getters.screenValue, getters.listFilterValue);
-		console.log(form);
 		return form;
 	},
 	filterSetting: state => { //自定义筛选配置项
@@ -127,7 +123,6 @@ const mutations = {
 	},
 	fillListFilter (state, obj) {
 		let arr = [...state.custom]
-		console.log(arr);
 		// 尝试删除空项
 		arr = arr.filter(item => obj[item.key] !== false)
 		// 对于添加编辑分类处理
@@ -150,7 +145,6 @@ const mutations = {
 	},	
 	fillViewFilter (state, obj) {
 		let arr = [...state.view]
-		console.log(arr);
 		// 尝试删除空项
 		arr = arr.filter(item => obj[item.key] !== false)
 		// 对于添加编辑分类处理

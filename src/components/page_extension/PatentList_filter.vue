@@ -152,10 +152,8 @@ export default {
   		this.$emit('refreshFilter', this.form);
   	},
   	close () {
-  		console.log("aaaaa");
   		const obj = this.form;
   		const obj_e = this.formData;
-  		console.log(obj, obj_e);
   		for (let key in obj) {
   			
   			if( typeof obj[key] === 'object' ) {

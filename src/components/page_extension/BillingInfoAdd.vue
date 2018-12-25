@@ -144,7 +144,6 @@
                         data.customer_id = data.customer;
                         type === "add" ? this.$axiosPost({url,data,success}) : this.$axiosPut({url,data,success})
                     }else {
-                        console.log("this",this);
                         this.$message({type:"warning",message:"请正确填写"});
                     }
                 })

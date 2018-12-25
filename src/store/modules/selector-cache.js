@@ -13,7 +13,6 @@ const getters = {
 	MergeSelectorMap (state, rootGetters) {
 		// 合并本地静态配置和远程静态配置
 		const map = new Map([...state.config,...[...rootGetters.getHashMaps]])
-		console.log(map)
 		return map
 	},
 	staticSelectorCache (state) {
@@ -51,7 +50,6 @@ const actions = {
       const url = config.url;
       const params = config.params ? config.params : {};
       const success = _=>{
-		  console.log(_)
         const handle = config.handle;
         const value = handle ? handle(_) : _.list;
 
@@ -64,7 +62,6 @@ const actions = {
 					if(d.status){
 						success(d);
 					}else {
-						console.log(response);
 					}
 				})
 				.catch(error=>{console.log(error)});

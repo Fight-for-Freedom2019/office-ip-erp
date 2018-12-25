@@ -100,7 +100,6 @@ export default {
     },
     map () {
       const map = new Map ();
-      console.log(this.options)
       this.options.forEach(_=>{map.set(_.id, _)});
 
       return map;

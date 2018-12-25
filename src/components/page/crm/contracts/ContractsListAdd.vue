@@ -4,8 +4,7 @@
     <div class="main" >
         <app-shrink :visible.sync="dialogVisible"  :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" @click="save(mode)" v-if="mode === 'add'" size="small">保存&提交审核</el-button>
-                <el-button type="primary" @click="save(mode)" v-if="mode === 'edit'" size="small">保存</el-button>
+                <el-button type="primary" @click="save(mode)" size="small">保存</el-button>
             </span>
             
             <el-form label-width="120px" :model="form" :rules="rules" ref="form"  v-loading="loadingVisible" :element-loading-text="loadingText" style="margin-top:10px;">
@@ -20,12 +19,12 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="联系人" prop="contact">
-                            <remote-select type="contacts" :pageType="contactType" v-model="form.contact"></remote-select>
+                            <remote-select type="contacts" :pageType="contactType" v-model="form.contact" :para="customerParam"></remote-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="相关订单" prop="order">
-                            <remote-select type="orders" :pageType="orderType"  v-model="form.order"></remote-select>
+                            <remote-select type="orders" :pageType="orderType"  v-model="form.order" :para="customerParam"></remote-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -139,7 +138,7 @@
                 dialogVisible: false,
                 title:'',
                 loadingVisible:false,
-                loadingText:'合同数据加载中...'
+                loadingText:'合同数据加载中...',
             };
         },
         methods: {
@@ -154,6 +153,7 @@
                                 success: (_) => {
                                     this.$message({type: "success", message: _.info});
                                     this.$emit("refresh");
+                                    this.dialogVisible = false;
                                 }
                             });
                         } else {
@@ -165,6 +165,7 @@
                                 success: (_) => {
                                     this.$message({type: "success", message: _.info});
                                     this.$emit("update");
+                                    this.dialogVisible = false;
                                 }
                             });
                         }
@@ -209,7 +210,7 @@
                 if (!this.dialogVisible) {
                     this.dialogVisible = true;
                 }
-
+                console.log(contract);
                 //如果有传递合同数据，优先以合同数据显示
                 if (contract !== undefined) {
                     this.id = contract.id;
@@ -234,11 +235,15 @@
             orderType () {
                 return this.form.order ? 'edit' : 'add';
             },
+            customerParam () {
+                return this.form.customer ? {customer:this.form.customer} : {};
+            },
         },
         watch: {
             order: function (val, oldVal) {
                 this.form.customer = val.customer;
                 this.form.order = val;
+                this.form.contact = val.contact;
                 this.form.type = 2;
             },
         },

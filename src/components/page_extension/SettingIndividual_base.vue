@@ -29,7 +29,6 @@ export default {
   },
   created () {
     if(this.user) {
-      console.log(this.user);
     }
   },
 

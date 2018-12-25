@@ -103,7 +103,6 @@ export default {
 	  	this.$router.push({path: '/setting/agent/detail', query: {id} })
   	},
     handleRowClick (row) {
-        console.log(row);
         this.currentRow = row;
         if(!this.shrinkVisible) this.shrinkVisible = true;
     },
@@ -115,7 +114,7 @@ export default {
 
   				this.axiosDelete({url, success}); 
   			})
-  			.catch(_=>{console.log(_)})
+  			.catch(_=>{})
   		const url = `${URL}/${id}`;
   	},
   	refreshTableData (option) {

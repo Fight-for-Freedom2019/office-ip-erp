@@ -205,8 +205,6 @@ export default {
         if(this.tableData.length!=0) {
           this.form.file_type = this.tableData[0]['file_type']['id']?this.tableData[0]['file_type']['id']-0:'';
           const v = this.$refs.static.getSelected(this.form.file_type);
-          console.log('----------v---------');
-          console.log(v);
           this.handleTypeChange(v,0);
         }  
        });
@@ -243,7 +241,6 @@ export default {
       copy['show_start_year'] = f.start_year == 1 && this.config.start_year ? true : false;
 
       this.tableData.splice(index, 1, copy);
-      // console.log(this.tableData);
 
       //这里使用强制刷新 无法触发更新（why？可能是数据 不在当前组件强制刷新的作用范围内）
       //只有使用数组截取的方法 让它自动检测刷新了 麻烦一些 比起直接在row上进行修改
@@ -270,7 +267,6 @@ export default {
       for(let i = 0; i < list.length; i++ ) {
         const _ = list[i];
           const obj = this.$tool.shallowCopy(_,{skip:['show_legal_deadline','show_application_number','show_issue_number','show_issue_date','show_mail_date','show_fees', 'show_invoice', 'show_application_date',],date: true});
-        console.log(_);
         const o = {};
         o.file_id = _.file_id;
         o.project = this.detailId;
@@ -397,15 +393,12 @@ export default {
     },
   },
   created () {
-    // console.log(this.tableData[0])
   },
   watch: {
     'form.file_type': {
       handler:function(val,oVal){
         if(val !== "") {  
           const v =  this.$refs.static.getSelected(val);
-          console.log('-------watch v--------')
-          console.log(v)
           this.handleTypeChange(v,0);
         }
       }

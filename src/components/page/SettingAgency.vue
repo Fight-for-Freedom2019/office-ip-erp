@@ -112,7 +112,7 @@ export default {
 
   				this.axiosDelete({url, success}); 
   			})
-  			.catch(_=>{console.log(_)})
+  			.catch(_=>{})
   		const url = `${URL}/${id}`;
   	},
   	refreshTableData (option) {

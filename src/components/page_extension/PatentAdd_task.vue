@@ -94,7 +94,6 @@ export default {
             this.attachments = d;
           }else if(k == 'person_in_charge') {
             this.form[k] = {id: d, name: this.row['person_in_charge_name']};
-            console.log(this.form[k]);
           }else {
             if(d) {
               this.form[k] = d;  

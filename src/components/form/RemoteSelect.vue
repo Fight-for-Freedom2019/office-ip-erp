@@ -257,6 +257,7 @@ export default {
       loading: false,
       keyword: '',
       selectVisible: false,
+      isUserInput:false,
   		selected: [],
       selectedValue: [],
       selectedItems:[],
@@ -271,10 +272,10 @@ export default {
       }
     },
     onItemAdded(item) {
-      console.log(item);
       this.value2 = item;
     },
     handleInput (val) {
+      this.isUserInput = true;
       if(!this.multiple && !this.single) {
         let v = '';
         if(val[0] && val[1]) {
@@ -481,7 +482,6 @@ export default {
         
       },
       set(v) {
-        console.log(v);
         this.$emit('input', v); 
       }
     }
@@ -507,6 +507,7 @@ export default {
           this.$refs.select.visible = false;
         }
         this.refreshSelected(val);   
+        
       },
       deep:true,
   	},
@@ -526,7 +527,11 @@ export default {
     this.value2?this.refreshSelected(this.value2):"";
   },
   mounted () {
-    this.selectedItems = this.value2;
+  },
+  updated () {
+      if (!this.isUserInput) {
+        this.selectedItems = this.selected;
+      }
   },
   components: { AppCard, FamilyAdd },
 }

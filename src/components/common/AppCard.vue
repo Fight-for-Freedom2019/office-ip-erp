@@ -135,9 +135,6 @@ export default {
 			}
 		},
 		async handleCardDetails ({id}) {
-			// console.log(id);
-			// console.log(this.type);
-			// console.log(this.cardForm)
 			await this.initializeCardCache({type: this.type, id: id});
 			// await this.setForm(this.cardCache[this.type]);
 			setTimeout(()=>{

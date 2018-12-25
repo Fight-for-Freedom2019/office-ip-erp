@@ -110,19 +110,15 @@ export default {
 			'setTrigger',
 		]),
 		setData(d) {
-			console.log(d)
 			this.id = d.id;
 			this.query = d.param && d.param.query ? this.$tool.deepCopy(d.param.query) : []; 
 			this.$tool.coverObj(this.form, d, {skip: ['fields']});			
 		},
 		handleClose(tag) {
-			console.log(tag)
-			console.log(this.query.indexOf(tag))
 			if(this.query.indexOf(tag) != -1) {
         		this.query.splice(this.query.indexOf(tag), 1);
 			}else {
 
-				console.log(this.viewFilter.indexOf(tag))
 				this.removeViewFilter(this.viewFilter.indexOf(tag))
 				window.listFilter.clearUsedFormField(tag['key'])
 			}
@@ -173,7 +169,6 @@ export default {
 			this.dialogVisible = v;
 		},
 		viewFilter(v) {
-			console.log(v);
 		},
 	},
 	components: {

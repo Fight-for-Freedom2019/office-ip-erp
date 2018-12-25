@@ -47,7 +47,6 @@ export default {
           if(!_.id) _.id = _.value;
           return _;
         });
-        console.log(_.data);
   			this.options = _.data;
   			if(this.default) {
   				this.options.unshift({id: '', name: '未选择'});

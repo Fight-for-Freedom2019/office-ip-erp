@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     divideSubmit () {
-      console.log(this.id);
       if(!this.id) {
         this.$message({type: 'warning', message: '案件不能为空'});
         return;

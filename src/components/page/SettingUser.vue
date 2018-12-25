@@ -76,7 +76,6 @@ export default {
 
   	},
   	search (val) {
-  		console.log(val);
   	}
   },
   components: { TableComponent, PopForm, Modify },

@@ -73,7 +73,6 @@ export default {
     },
     handleInventor (val) {
     	const selected = this.$refs.inventor.map.get(val);
-      console.log(selected);
       const id = selected && selected.id ? selected.id : '';
       const identity = selected && selected.identity ? selected.identity : '';
       const name = selected && selected.name ? selected.name : '';

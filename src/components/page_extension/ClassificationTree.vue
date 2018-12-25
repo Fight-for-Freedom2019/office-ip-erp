@@ -79,8 +79,6 @@ export default {
     },
     options () {
       const t = this.pageType;
-      console.log(this.$store.getters[`${t}Data`])
-      console.log(this)
       return this.$store.getters[`${t}Data`];
     },
     optionsData () {
@@ -137,9 +135,7 @@ export default {
     },
     handleNodeRefresh (data, node) {
       if(typeof data == 'number') {
-        console.log(this.optionMap)
         data = this.optionMap.get(data);
-        console.log(data)
       }
       this.setCurrent = data.id;
       // this.$emit('input',data);
@@ -149,7 +145,6 @@ export default {
       this.$refs.classification.show('firstAdd');
     },    
     addChildTree (n, d, s) {
-      console.log(n)
       this.parentNode = n;
       this.parentData = d;
       this.currentId = d.id;

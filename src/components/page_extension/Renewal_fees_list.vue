@@ -73,10 +73,8 @@ export default {
 		},
 		confirmEstimate () {
 			const s =this.$refs.table.getSelected();
-			console.log(s)
 			if (s) {
 				this.feeIds = this.$tool.splitObj(s, 'id');
-				console.log(this.feeIds)
 				this.dialogVisible = true;
 			}
 		},
@@ -94,10 +92,8 @@ export default {
 		},
 		deleteRenewal () {
 			const s = this.$refs.table.getSelected();
-			console.log(s)
 			if(s) {
 				const fees = this.$tool.splitObj(s, 'id');
-				console.log(fees)
 				this.$confirm(`确认删除选择的年费？删除操作无法恢复，只能重新添加！`,'删除确认',{
 					type: 'warning',
 				})

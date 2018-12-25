@@ -1,30 +1,34 @@
 <template>
   <div class="main">
-    <el-tabs type="border-card">
-      <el-tab-pane>
-        <span slot="label"><i class="el-icon-info"></i> 案件信息</span>
-        <pa-base ref="base" :type="pageType" @uploadSuccess="handleUploadSuccess"></pa-base>
-      </el-tab-pane>
-      <el-tab-pane>
-        <span slot="label"><i class="el-icon-info"></i> 商务信息</span>
-        <business ref="business" :type="pageType"></business>
-      </el-tab-pane>
-      <el-tab-pane>
-        <span slot="label"><i class="el-icon-date"></i> 日期&号码</span>
-        <person ref="person" :type="pageType"></person>
-      </el-tab-pane>
-      <el-tab-pane v-if="pageType == 'edit'">
-        <span slot="label"><i class="el-icon-menu"></i> 人员信息</span>
-        <classification ref="classification"></classification>
-      </el-tab-pane>
+    <app-shrink :visible.sync="dialogVisible"  :title="title">
+      <span slot="header" style="float: right;">
+          <el-button type="primary" @click="save(mode)" size="small">保存</el-button>
+      </span>
+      <el-tabs type="border-card" v-loading="loadingVisible" :element-loading-text="loadingText" style="margin-top:10px;">
+        <el-tab-pane>
+          <span slot="label"><i class="el-icon-info"></i> 案件信息</span>
+          <pa-base ref="base" :type="pageType" @uploadSuccess="handleUploadSuccess"></pa-base>
+        </el-tab-pane>
+        <el-tab-pane>
+          <span slot="label"><i class="el-icon-info"></i> 商务信息</span>
+          <business ref="business" :type="pageType"></business>
+        </el-tab-pane>
+        <el-tab-pane>
+          <span slot="label"><i class="el-icon-date"></i> 日期&号码</span>
+          <person ref="person" :type="pageType"></person>
+        </el-tab-pane>
+        <el-tab-pane v-if="pageType == 'edit'">
+          <span slot="label"><i class="el-icon-menu"></i> 人员信息</span>
+          <classification ref="classification"></classification>
+        </el-tab-pane>
 
-      <el-tab-pane>
-        <span slot="label"><i class="el-icon-more"></i> 其它信息</span>
-        <other ref="other" :type="pageType" ></other>
-      </el-tab-pane>
+        <el-tab-pane>
+          <span slot="label"><i class="el-icon-more"></i> 其它信息</span>
+          <other ref="other" :type="pageType" ></other>
+        </el-tab-pane>
 
-    </el-tabs>
-
+      </el-tabs>
+    </app-shrink>
   </div>
 </template>
 
@@ -55,7 +59,9 @@ import Case from '@/components/page_extension/PatentAdd_case'
 import Other from '@/components/page_extension/PatentAdd_other'
 import Task from '@/components/page_extension/PatentAdd_task'
 import Business from '@/components/page_extension/PatentAdd_business'
+import AppShrink from '@/components/common/AppShrink'
 import {mapActions} from 'vuex'
+
 export default {
   name: 'patentAdd',
   props: ['pageType'],
@@ -65,7 +71,11 @@ export default {
       pop_type: '',
       btn_disabled: false,
       list: [],
-
+      mode:'edit',
+      dialogVisible: false,
+      title:'',
+      loadingVisible:false,
+      loadingText:'专利数据加载中...',
     }
   },
   methods: {
@@ -110,6 +120,18 @@ export default {
         return this.$axiosPut({url, data, success, complete});
       }
     },
+    show(id) {
+      this.dialogVisible = true;
+      this.loadingVisible = true;
+      const url = `${URL}/${id}`;
+      const success = _=>{ 
+        const patent = _.patent;
+        this.refreshForm(patent);
+        this.loadingVisible = false;
+      };
+      this.$axiosGet({url, success});
+
+    },
     clear () {
       this.$refs.form.resetFields();
       this.attachments = [];
@@ -145,6 +167,7 @@ export default {
       if( this.pageType == 'edit' && this.$tool.getObjLength(val) != 0) {
         const copy = this.$tool.deepCopy(val);
         this.id = copy.id;
+        this.title = val.serial + '-' + val.title;
         setKeys.map(_=>this.$refs[_].setForm(copy));
       }
     },
@@ -260,6 +283,7 @@ export default {
     AppCollapse,
     Task,
     Business,
+    AppShrink,
   }
 }
 </script>
