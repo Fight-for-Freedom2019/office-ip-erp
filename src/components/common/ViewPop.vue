@@ -2,7 +2,7 @@
 	<el-dialog :visible.sync="dialogVisible" title="专利原始视图" @close="close">
 		<el-form label-width="80px" :rules="rules" :model="form" ref="form">
 			<el-form-item label="原始视图字段" prop="fields">
-				<app-transfer-panel v-model="form.fields" placeholder="请输入关键字查询字段" :data="fields" title="原始视图字段控制" :is-move="false" style="width: 100%;"></app-transfer-panel>
+				<app-transfer-panel v-model="form.fields" placeholder="请输入关键字查询字段" :data.sync="fieldData" title="原始视图字段控制"  style="width: 100%;"></app-transfer-panel>
 			</el-form-item>
 			<el-form-item label="名称" prop="name">
 				<el-input v-model="form.name" placeholder="请输入视图名称"></el-input>
@@ -41,7 +41,7 @@ const URL = '/table_views';
 export default {
 	name: 'viewPop',
 	props: {
-		'fields': {
+		'value': {
 			type: Array,
 			default () {
 				return [];
@@ -79,6 +79,7 @@ export default {
 			dialogVisible: false,
 			disabled: false,
 			filterVisible: false,
+			sortedFields: [],
 			rules: {
 				fields: {type: 'array', required: true, message: '请选择视图字段', trigger: 'change'},
 				name: { required: true, message: '请输入视图名称', trigger: 'blur'},
@@ -101,6 +102,20 @@ export default {
 		queryAll () {
 			return [...this.query, ...this.viewFilter];	
 		}, 
+		fieldData: {
+			set(val) {
+				let v = this.$tool.deepCopy(this.value);
+				v = val;
+				this.$emit('input', v);
+			},
+			get() {
+				if(this.value && this.value instanceof Array) {
+					return this.value;
+				}else {
+					return [];
+				}
+			},
+		},
 	},
 	methods: {
 		...mapActions([
@@ -141,7 +156,7 @@ export default {
 					this.disabled = true;
 					const page = this.pageType;
 					const query =  this.$tool.rmDuplicate([...this.listFilter,  ...this.query, ...this.viewFilter]);
-					const param = Object.assign({},{fields: this.form.fields.join(',')}, {query});
+					const param = Object.assign({},{fields: this.sortedFields.join(',')}, {query});
 					const url = this.type == 'add' ? URL : `${URL}/${this.id}`;
 					const data = {
 						...this.$tool.shallowCopy(this.form,{skip:['fields']}),
@@ -174,6 +189,22 @@ export default {
 		},
 		viewFilter(v) {
 			console.log(v);
+		},
+		'fieldData': {
+			handler(val) {
+			this.sortedFields = [];
+			const fields = this.form.fields;
+			val.filter(_=>{
+				for(let item of fields) {
+					const flag = fields.indexOf(_['key']);
+					if(flag > -1) {
+						return this.sortedFields.push(_['key']);
+					}
+				}
+			});
+			console.log(this.sortedFields)
+			},
+			immediate: true,	
 		},
 	},
 	components: {

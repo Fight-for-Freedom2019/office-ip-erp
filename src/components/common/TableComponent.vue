@@ -137,7 +137,7 @@
           <app-tree-filter :style="tableOption.is_view ?{height: tableHeight/2+ 'px',width: '200px'}:{height: tableHeight+ 'px',width: '200px'}" :type="tableOption.treeFilter" @refresh="handleRefreshTree" ref="appTreeFilter"></app-tree-filter>
         </template>
         <template v-if="tableOption.is_view != undefined">
-          <app-view :fields="fields" @deliver="handleViewData" @reset="handleResetView" :style="{height: tableHeight/2+ 'px',width: '200px'}"></app-view>
+          <app-view v-model="fields" @deliver="handleViewData" @reset="handleResetView" :style="{height: tableHeight/2+ 'px',width: '200px'}"></app-view>
         </template>
       </div>
       <template class="table-body-right">
@@ -147,7 +147,7 @@
           :style="tableStyle"
           :isMerge="tableOption.is_merge === undefined?{}:tableOption.is_merge"
           :data="tableData"
-          :fields="fields"
+          v-model="fields"
           :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
           :showSummary="tableOption.show_summary!=undefined?tableOption.show_summary: false"
           :filterVisible="filterValueVisible"

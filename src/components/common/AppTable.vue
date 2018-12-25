@@ -143,7 +143,7 @@
     </template>
   </template>
 </el-table>
-    <view-pop type="add" :visible="viewVisible" :fields="fields" @close="v=>{viewVisible = v}"></view-pop>
+    <view-pop type="add" :visible="viewVisible" v-model="fields" @close="v=>{viewVisible = v}"></view-pop>
 </div>
 </template>
 <script>
@@ -222,12 +222,6 @@ export default {
       type: String,
       default: '',
     },
-    fields: {
-      type: Array,
-      default () {
-        return [];
-      },
-    },
   },
   data () {
     return {
@@ -248,6 +242,20 @@ export default {
       'innerHeight',
       'breadHeaderHeight',
     ]),
+    fields: {
+      set(val) {
+        let v = this.$tool.deepCopy(this.value);
+        v = val;
+        this.$emit('input', v);
+      },
+      get() {
+        if(this.value && this.value instanceof Array) {
+          return this.value;
+        }else {
+          return [];
+        }
+      },
+    },
     filterSetting () { //自定义筛选配置项
       const data = filterConfig.get(this.type);
       return data ? data : []

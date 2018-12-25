@@ -4,7 +4,7 @@
       <span style="width: 100%;display:inline-block;border-bottom: 1px solid #ebeef5">
         <span style="float: left;padding: 6px;">表格视图</span>
         <transition name="fade">
-          <i class="el-icon-refresh" v-if="show" @click="_=>$emit('reset')"  @mouseleave="handleTransition"  style="float: right; padding: 6px; margin-top:5px;margin-right:5px;color:#409EFF;cursor: pointer;" title="重置视图" ></i>
+          <i class="el-icon-refresh" v-if="show" @click="_=>$emit('reset')"  @mouseleave="handleTransition"  style="float: right; padding: 6px; margin-top:5px;margin-right:5px;color:#409EFF;cursor: pointer;" title="重置视图"></i>
         </transition>
       </span>
       <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
@@ -24,7 +24,7 @@
     >
     </el-tree>
   </div>
-  <view-pop type="edit" :visible="viewVisible" :fields="fields" :default="choose" @close="v=>viewVisible = false" ref="viewPop"></view-pop>
+  <view-pop type="edit" :visible="viewVisible" v-model="fields" :default="choose" @close="v=>viewVisible = false" ref="viewPop"></view-pop>
   </div>  
 </template>
 
@@ -36,7 +36,7 @@ const URL = '/table_views';
 export default {
   name: 'viewTree',
   props: {
-    fields: {
+    value: {
       type: Array,
       default () {
         return [];
@@ -51,6 +51,20 @@ export default {
     pageType () {
       const path = this.$route.path;
       return path;
+    },
+    fields: {
+      set(val) {
+        let v = this.$tool.deepCopy(this.value);
+        v = val;
+        this.$emit('input', v);
+      },
+      get() {
+        if(this.value && this.value instanceof Array) {
+          return this.value;
+        }else {
+          return [];
+        }
+      },
     },
   },
   methods: {
