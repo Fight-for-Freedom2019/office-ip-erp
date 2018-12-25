@@ -203,7 +203,6 @@ const store = new Vuex.Store({
       const url = '/hashmap';
       const params = {};
       const success= _=>{
-        console.log(_)
         commit('setHashMaps', _);
       };
       axios.get(url, {params})
@@ -212,7 +211,6 @@ const store = new Vuex.Store({
           if(d.status){
             success(d);
           }else {
-            console.log(response);
           }
         })
         .catch(error=>{console.log(error)});

@@ -57,7 +57,6 @@ export default {
   		this.$refs.email_detail.show(id);
   	},
     edit (row) {
-      console.log(row)
       this.shrinkVisible = true;
           this.$nextTick(_=>{
             this.$refs.mail_add.setForm(row);

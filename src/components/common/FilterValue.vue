@@ -108,7 +108,6 @@ export default {
 	methods: {
 		initialValue () {
 			let val = null;
-			// console.log('这里初始化')
 			if(this.type == 'static_select' || this.type == 'remote_select' || this.type == 'jump_select') {
 				val = this.multiple ? [] : '';
 			}else if(this.type == 'date' ) {
@@ -132,19 +131,15 @@ export default {
 			}
 		},
 		handleInput (val) {
-			// console.log('filterInput')
 			this.$emit('input', val);
 		},
 		async handleChange (val) {
-			// console.log('_________filterhandlechange')
-			// console.log(val);
 			const label = this.type == 'input' ? val : await this.getLabel();
 			const result = [];
 			const obj = {};
 			if(label) {
 				this.labelArr.push({key: this.source['id'], value: label});
 			} 
-			// console.log(this.labelArr);
 			// 反向去重数组对象
 			for (let i =this.labelArr.length-1;i >= 0; i--) {
 				if(!obj[this.labelArr[i]['key']]) {

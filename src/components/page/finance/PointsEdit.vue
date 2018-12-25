@@ -157,8 +157,6 @@
                         data,
                         success: _ =>{
                             this.flowsData = _.processes.data;
-                            console.log('flow data:');
-                            console.log(this.flowsData);
                         }
                     });
                 }

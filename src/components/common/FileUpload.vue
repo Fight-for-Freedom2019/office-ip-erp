@@ -217,7 +217,6 @@ export default {
       this.dialogVisible = false;
     },
     handleTypeChange (selected, index) {
-      console.log(selected, index);
       let f;
       if(!selected) {
         f = {};
@@ -236,7 +235,6 @@ export default {
       copy['show_fees'] = f.fees == 1 && this.config.fees ? true : false;
 
       this.tableData.splice(index, 1, copy);
-      // console.log(this.tableData);
 
       //这里使用强制刷新 无法触发更新（why？可能是数据 不在当前组件强制刷新的作用范围内）
     //只有使用数组截取的方法 让它自动检测刷新了 麻烦一些 比起直接在row上进行修改

@@ -1,5 +1,5 @@
 <template>
-<div v-loading="loading"  element-loading-text="数据加载中" >
+<div v-loading="loading"  element-loading-text="任务数据加载中" >
   <el-steps :space="150" style="padding: 5px 40px;" v-if="data.tips" align-center>
     <el-step v-for="(item, index) in data.tips" :key="index" :title="item.name" :status="item.current ? 'finish' : 'wait'"></el-step>
   </el-steps>
@@ -152,7 +152,7 @@ export default {
     if(this.row) {
       this.refreshDetail();
     }
-    // this.refreshProcessDetail({id: this.id});
+    this.refreshProcessDetail({id: this.id});
   },
   methods: {
     ...mapMutations([
@@ -160,7 +160,6 @@ export default {
     ]),
     ...mapActions([
       'refreshUser',
-      'refreshDetailData',
       'refreshProcessDetail',
     ]),
     refreshData () {
@@ -169,6 +168,7 @@ export default {
       const url = `${URL}/${this.taskId}/form`;
       this.$refs.appForm.$refs.form.clearValidate();
       const success = d=>{
+        this.loading = false;
         const response = d.data;
         this.data = response;
         if(response.review_opinion && response.review_opinion.length != 0) {
@@ -179,7 +179,6 @@ export default {
         if(response.forms && response.forms.length != 0) {
           response.forms.forEach(_=>{
             let staticConfig = formMap.get(_.field_type.id);
-            console.log(staticConfig)
             if(_.is_required) {
               this.$set(this.appFormRules, _.key, staticConfig.rules);
             }
@@ -187,7 +186,6 @@ export default {
             arr.push(obj);  
           })
           this.sourceForm = arr;
-          console.log(this.sourceForm)
         }
       };
       const complete = _=>{ 
@@ -241,17 +239,9 @@ export default {
       this.form = val;
     },
     checkRadio (val) {
-      console.log(val)
     },
     refreshDetail() {
       this.loading = true;
-      this.refreshDetailData({
-      id: this.row.project_id,
-      type: {1: 'patent', 3: 'copyright'}[this.row.category],
-      func: _=>{
-        this.loading = false;
-      }
-      })
     },
   },
   watch: {
@@ -259,10 +249,6 @@ export default {
       this.refreshDetail();
       this.refreshProcessDetail({id: val.id});
     },
-    // id (val) {
-    //   // this.clear();
-    //   this.refreshProcessDetail({id: val});
-    // },
     taskId () {
       this.refreshData(); 
     }
@@ -313,7 +299,6 @@ export default {
       this.pointData.filter(v=>{
         const d = pointMap.get(v);
         arr.push(d);
-        console.log(arr)
       });
       return arr;
     },    

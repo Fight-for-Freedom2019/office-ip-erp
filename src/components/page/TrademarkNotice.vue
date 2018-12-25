@@ -65,14 +65,12 @@ export default {
 		  			  label: '发送',
 		  			  icon: 'message',
 		  			  click (row) {
-		  			  	console.log("发送：",row);
 		  			  }
 	  				},
 	  			{
 	  				label: '忽略',
 	  			  icon: 'close',
 	  			  click (row) {
-	  			  	console.log("忽略：",row);
 	  			  }
 	  			}]
 	  		}]

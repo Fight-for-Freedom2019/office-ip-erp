@@ -94,7 +94,6 @@ export default {
 						this.dialogVisible = false;
 					}
 				}catch (e) {
-					console.log(e);
 				}
 				this.loading = false;
 				

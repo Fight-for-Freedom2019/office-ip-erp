@@ -101,7 +101,7 @@ export default {
   	remove () {
   		if( !this.currentNode ) {this.$alert('请选择需要删除的部门！', {'type': 'warning', 'closeOnClickModal': true}); return;};
 
-  		this.$confirm(`确认删除${this.currentNode.label}?`,{'type': 'info'}).then(()=>{console.log("删除")}).catch(()=>{console.log("取消")});
+  		this.$confirm(`确认删除${this.currentNode.label}?`,{'type': 'info'}).then(()=>{}).catch(()=>{});
   	},
   	filterNode(value, data) {
       if (!value) return true;

@@ -196,8 +196,6 @@ export default {
       'detailBase',
     ]),
     config () {
-      console.log('+++++++++++');
-      console.log(this.type);
       const config = map.get(this.type);
       return config ? config : this.type;
     },

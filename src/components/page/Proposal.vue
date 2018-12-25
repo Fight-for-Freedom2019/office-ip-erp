@@ -61,7 +61,6 @@ export default {
           this.$axios
             .delete(`/api/proposals/${row.id}`)
             .then(response=>{
-              console.log(response);
               const d = response.data;
 
               if(d.status) {

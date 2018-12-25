@@ -103,7 +103,6 @@ export default {
         return this.$refs.date.getLabel();
       }
       if(t == 'text') {
-        // console.log(this.value);
         return this.value;
       }
     },       
@@ -205,8 +204,6 @@ export default {
       this.$refs.tree.filter(val);
     },
     visible (v) {
-      // console.log(v)
-      // console.log(this.field)
       return v && this.filterDataKey && this.filterUrl && this.labelMap.get(this.source.id) ? this.refreshFilterData({key: this.source.id,}) : null;
     },   
   }, 

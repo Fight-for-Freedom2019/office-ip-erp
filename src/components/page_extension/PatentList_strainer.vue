@@ -143,7 +143,6 @@ export default {
 
   			}
   		}
-  		console.log(filter);
   		this.$emit('input', filter);
   		this.$emit('refresh');
   		this.isClose = !this.isClose;

@@ -102,19 +102,19 @@
                             <payment-cost-detail :data="costDetail" :id="id"></payment-cost-detail>
                         </el-tab-pane>
                         <el-tab-pane label="跟催记录" name="reminders">
-                            <reminders-record ref="reminders" :data="remindersData" :id="id"></reminders-record>
+                            <reminders-record ref="reminders" :data="remindersData" :invoice="invoice" :id="id"></reminders-record>
                         </el-tab-pane>
-                        <el-tab-pane label="支付记录" name="received_payments" v-if="mode==='pay'">
-                            <received-record ref="received" :id="id" :data="receivedData"></received-record>
+                        <el-tab-pane label="支付记录" name="payments"  v-if="mode==='pay'">
+                            <received-record ref="payments" :id="id" :invoice="invoice" :data="receivedData"></received-record>
                         </el-tab-pane>
                         <el-tab-pane label="回款记录" name="received_payments" v-else>
-                            <received-record ref="received" :id="id" :data="receivedData" @received="received"></received-record>
+                            <received-record ref="receivedPayments" :id="id" :data="receivedData" :invoice="invoice" @received="received"></received-record>
                         </el-tab-pane>
                         <el-tab-pane label="发票" name="vouchers">
-                            <invoice-vouchers :data="vouchers" :invoice="invoice" :id="id"></invoice-vouchers>
+                            <invoice-vouchers :data="vouchers" ref="vouchers" :invoice="invoice" :id="id"></invoice-vouchers>
                         </el-tab-pane>
                         <el-tab-pane label="邮件" name="mails">
-                            <invoice-mails :data="mails"  :invoice="invoice" :id="id"></invoice-mails>
+                            <invoice-mails :data="mails" ref="mails" :invoice="invoice" :id="id"></invoice-mails>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -131,7 +131,7 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-        <mail-add ref="mail" ></mail-add>
+        <mail-add ref="mail" @refresh="refreshMail"></mail-add>
     </div>
 </template>
 
@@ -215,6 +215,9 @@
             }
         },
         methods: {
+            refreshMail() {
+                this.$refs.mails.refreshTableData();
+            },
             submitCommon(id,suffix,hint) {
                 this.$confirm(`是否${hint}`, '提示', {
                     confirmButtonText: '确定',

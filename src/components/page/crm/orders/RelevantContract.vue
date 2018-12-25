@@ -27,6 +27,7 @@
                     'height': 425,
                     'is_search': false,
                     'is_pagination': false,
+                    'rowClick': this.handleRowClick,
                     'header_btn': [
                         {type: 'add', click: this.showAddContractPanel},
                     ],
@@ -35,7 +36,7 @@
                         {type: 'text', label: '联系人', prop: 'contact', width: '170', render_simple: "name"},
                         {type: 'text', label: '合同编号', prop: 'serial', width: '145'},
                         {type: 'text', label: '合同类型', prop: 'type',render_simple:'name', width: '145'},
-                        {type: 'text', label: '附件', prop: 'attachments', width: '145'},
+                        // {type: 'text', label: '附件', prop: 'attachments', width: '145'},
                         {type: 'text', label: '备注', prop: 'remark'},
                     ]
                 },
@@ -63,6 +64,9 @@
             }
         },
         methods: {
+            handleRowClick (row) {
+                this.$refs.contractsAdd.show(row.id,'edit',row);
+            },
             showAddContractPanel () {
                 console.log('button order>order_detail>relevant_contract>add is clicked and the contract add panel is shown');
                 this.$refs.contractsAdd.show(0,'add');

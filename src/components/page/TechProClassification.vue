@@ -168,7 +168,6 @@ export default {
   },
   methods: {
     receive (val) {
-      console.log(val)
       this.mark = val.fullname +':' + val.description;
       this.filter_id = val.id;
     },
@@ -185,7 +184,6 @@ export default {
 	    const data = Object.assign({},option, extraParams,{listRows: 10000});
 	   
 	    const success = _=>{
-	        console.log(_)
 	        this.tableData = _.patents.data;
 	    };
 	    this.$axiosGet({ url, data, success });

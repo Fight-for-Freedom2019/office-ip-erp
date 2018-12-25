@@ -49,7 +49,6 @@ const actions = {
 		rootState.axios
 			.get(url)
 			.then(response=>{
-				console.log(response);
 				const d = response.data;
 				if(d.status){
 					commit('setBranch', d);

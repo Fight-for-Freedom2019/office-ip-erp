@@ -137,7 +137,6 @@
         },
         watch: {
             row(val) {
-                console.log(val);
                 this.map = {};
                 this.refreshData();
             },

@@ -282,7 +282,6 @@ export default {
       }, 0);
     }, 
     refreshRow () {
-      console.log(this.row);
       if(this.type == 'edit') {
         this.$tool.coverObj(this.form,this.row,{
           obj: ['process_flow','process_definition',],
@@ -408,7 +407,6 @@ export default {
       }else {
        for (let i = 0; i < this.flowsData.length; i++) {
            if(this.flowsData[i].id == f ) {
-            console.log(this.flowsData[i].Process_definition);
             return arr = this.flowsData[i].Process_definition;
             break;
           }
@@ -423,7 +421,6 @@ export default {
       }else {
        for (let i = 0; i < this.flowsData.length; i++) {
            if(this.flowsData[i].id == f ) {
-            console.log(this.flowsData[i].process_action);
             return arr = this.flowsData[i].process_action;
             break;
           }

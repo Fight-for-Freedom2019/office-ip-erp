@@ -60,7 +60,6 @@ const actions = {
 							if(d.status){
 								success(d);
 							}else {
-								console.log(response);
 							}
 						})
 						.catch(error=>{console.log(error)});

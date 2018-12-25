@@ -48,7 +48,6 @@ export default {
 
       this.axiosGet({url, success});
     }
-    console.log(this.options);
   },
   computed: {
   	value2 () {

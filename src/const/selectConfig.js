@@ -326,7 +326,7 @@ const config = [
     placeholder: '请选择服务类型',
     url: '/services',
     handle (data) {
-      return data.services.data.map(_=>{return {id: _.id, name: _.name}});
+      return data.data.data.map(_=>{return {id: _.id, name: _.name}});
     },
   }],
   

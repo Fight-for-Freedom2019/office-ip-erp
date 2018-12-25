@@ -63,7 +63,6 @@ export default {
 			}
 		},
 		setForm (d) {
-			console.log(d);
 			if(d.parent_id) {
 				this.form.parent = d.parent_id
 			}else {

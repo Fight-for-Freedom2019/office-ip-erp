@@ -115,7 +115,6 @@ export default {
     },
     keepSameTime (val) {
       this.form.receipt_date = val;
-      console.log(val)
     },
     confirmFunc () {
       if( !this.form.receipt_date ) { return this.$message({type: 'warning', message: '请选择收文日期'});  }

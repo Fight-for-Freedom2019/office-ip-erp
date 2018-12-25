@@ -93,10 +93,8 @@ export default{
 				return this.menusMap.get(i.path);	
 			})
 			if(menuVisible && menuVisible !== undefined){
-				console.log('aaa');
 				return !v.path;
 			}else {
-				console.log('bbb');
 				return !this.menusMap.get(v.path);
 			}
 		});

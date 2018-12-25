@@ -91,7 +91,6 @@
             },
             clientDelete({id}) {
                 const url = `/contracts?id[]=${id}`;
-                console.log(url);
                 this.$confirm(
                     '此操作将永久删除该信息, 是否继续?', '提示', {
                         confirmButtonText: '确定',

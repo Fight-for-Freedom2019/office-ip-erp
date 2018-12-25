@@ -56,7 +56,6 @@ export default {
   methods: {
   	fetchData() {
   		const d = this;
-  		console.log("请求数据" + d.$route.query.id);
   	}
   },
   data () {

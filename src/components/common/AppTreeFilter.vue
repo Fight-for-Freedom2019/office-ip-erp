@@ -50,7 +50,6 @@ export default {
     },
     selectedType () {
       const singleStrainer = this.type ? this.strainerMap.get(this.type) : [];
-      console.log(singleStrainer)
       return {
         placeholder: '请选择过滤属性',
         options: singleStrainer,
@@ -73,7 +72,6 @@ export default {
       const url = this.config.URL;
       const data = Object.assign({}, {filter_key: this.field_key}, this.defaultParams) ;
       const success = _=>{
-        console.log(_);
         if(_) this.data = _.data;
       };
       this.$axiosGet({ url, data, success })

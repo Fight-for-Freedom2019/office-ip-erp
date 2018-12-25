@@ -82,7 +82,6 @@ export default {
 					}
 				}
 			}
-			console.log(this.olditems);
 			this.relativeVisible = false;
 		},
 		handleCloseTag (index) {

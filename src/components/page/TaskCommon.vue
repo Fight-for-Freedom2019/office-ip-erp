@@ -423,7 +423,6 @@ export default {
       set (val) {
         this.$nextTick(_=>{
           this.deleteStatus = val;
-          console.log(val)
           this.$emit('input',val);
         })
       },
@@ -529,8 +528,6 @@ export default {
       }
     },
     handleNext (val) {
-      console.log('-------next');
-      console.log(val);
       if(val&&val.length != 0){
          this.nextValue = false;
       }else{
@@ -664,7 +661,6 @@ export default {
           //找出对应的对象,然后插入
           const s1 = this.filters.filter(_=>_.key == 'flow_node_id')[0];
           const s2 = s1['items'].filter(_=>_.value == this.install);
-          console.log(s1, s2);
           this.addScreen({name: s1.label, key: s1.key, items: s2 });
           //只触发一次
           this.install = '';
@@ -872,10 +868,9 @@ export default {
       }
     },
     handleRowClick (row) {
-      console.log(row)
       this.shrinkTitle = row.title; 
       this.currentRow = row;
-      this.refreshProcessDetail({id: row.id});
+      // this.refreshProcessDetail({id: row.id});
       if( !this.dialogShrinkVisible ) this.dialogShrinkVisible = true;
     },
     save () {
@@ -887,7 +882,6 @@ export default {
   },  
   watch: {
     deleteStatus(val) {
-      console.log(val)
       if(val) {
         this.$forceUpdate();
       }

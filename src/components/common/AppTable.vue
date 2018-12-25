@@ -284,8 +284,6 @@ export default {
           })
         }
       })
-      // console.log('------------------------table-data------------------------');
-      // console.log(r);
       if(Object.keys(this.isMerge).length !== 0) {
         this.getSpanArr(r);
       };
@@ -341,7 +339,6 @@ export default {
     },
   },
   mounted() {
-    // console.log('渲染开的')
     // if(this.filterVisible) {
     //   this.handleDynamicData();
     // }
@@ -358,7 +355,6 @@ export default {
     //     // const item = this.getDefaultValue(_.id);
     //     this.$set(this.filters,_.id,false);
     //   });
-    //   console.log(this.filters);
     //   return this.filters;
     // },
     toggle() {
@@ -366,7 +362,6 @@ export default {
     },
     handleRowClick (row, event, column) {
       event.stopPropagation();
-      console.log(row);
       if(column.type == 'selection' || column.type == 'action') return false;
           
       this.$emit('row-click', row, event, column);
@@ -436,7 +431,6 @@ export default {
         }
     },
     handleHeaderClose(key) {
-      console.log(this.$refs);
       /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
       this.$refs.table.$refs.tableHeader.$refs[`popover-${key}`].doClose();
     },
@@ -444,7 +438,6 @@ export default {
       return btn[key] ? btn[key](row) : false; 
     },
     handleRenderHeader (h,{column,$index},func) {
-      console.log('aaa');
       let self = this;
       let count = 0;
       let item = column.label;
@@ -517,7 +510,6 @@ export default {
                self.handleHeaderClose(property);
             },
             order(val) {
-              console.log(val)
               self.$emit('order',val);
             }
           },

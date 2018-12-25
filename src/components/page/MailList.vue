@@ -5,10 +5,7 @@
           <el-option v-for="item in options.mailbox" :label="item.label" :value="item.value" :key="item.value"></el-option>
         </el-select> -->
       </table-component>
-      <Detail ref="mail_detail"></Detail>
-      <app-shrink :visible.sync="shrinkVisible" :title="`邮件`">
-        <mail-add @refresh="handleRefresh" ref="mail_add"></mail-add>
-      </app-shrink>
+      <mail-add @refresh="handleRefresh" ref="mail_add"></mail-add>
   </div>
 </template>
 
@@ -16,7 +13,6 @@
 import TableComponent from '@/components/common/TableComponent'
 import Strainer from '@/components/page_extension/MailList_strainer'
 import AxiosMixins from '@/mixins/axios-mixins'
-import Detail from '@/components/page_extension/Email_detail'
 import MailAdd from '@/components/page/MailAdd'
 import AppShrink from '@/components/common/AppShrink'
 
@@ -44,7 +40,7 @@ export default {
         'url': URL,
 		  	'header_btn': [
 		  		{ type: 'custom', label: '写邮件', icon: 'edit', click: this.add },
-		  		{ type: 'delete' },
+		  		// { type: 'delete' },
           {type: 'control'},
 		  	],
         'height': 'default',
@@ -52,20 +48,21 @@ export default {
 		  	// 'is_search': false,
 		  	'columns': [
 		  		{ type: 'selection'},
-		  		 {type: 'text', label: '邮件类型', prop: 'mail_type', render_simple: 'name', width: '100' },
-          {type: 'text', label: '邮件标题', prop: 'subject', min_width: '120'},
-          {type: 'text', label: '发送时间', prop: 'sent_time', width: '200'},
-          {type: 'text', label: '发件人', prop: 'sender', render_simple: 'name', width: '160'},
-          {type: 'array', label: '收件人', prop: 'recipients', width: '160'},
-          {type: 'array', label: '抄送', prop: 'cc', render:_=>_.map(_=>`${_.title}_${_.email}`), width: '160'},
-		  		{ 
-		  			type: 'action',
-            width: '150',
-		  			btns: [
-              { type: 'custom', click: this.edit, label: '编辑&补发', },
-		  				{ type: 'delete', click: this.mailDelete },
-		  			],  
-		  		}
+		  		 {type: 'text', label: '类型', prop: 'mail_type', width: '100' },
+		  		 {type: 'text', label: '场景', prop: 'mail_scene',render_simple:'name', width: '100' },
+          {type: 'text', label: '标题', prop: 'subject', min_width: '120'},
+          {type: 'text', label: '发件人', prop: 'sender', render_simple: 'name', min_width: '160'},
+          {type: 'array', label: '收件人', prop: 'recipient', render:_=>_.map(_=>`${_.title}`), min_width: '200'},
+          {type: 'array', label: '抄送', prop: 'cc', render:_=>_.map(_=>`${_.title}`), min_width: '200'},
+          {type: 'text', label: '发送时间', prop: 'sent_time', width: '110'},
+		  		// { 
+		  		// 	type: 'action',
+          //   width: '150',
+		  		// 	btns: [
+          //     { type: 'custom', click: this.edit, label: '编辑&补发', },
+		  		// 		{ type: 'delete', click: this.mailDelete },
+		  		// 	],  
+		  		// }
 		  	],
         rowClick: this.handleRowClick,
 
@@ -78,17 +75,13 @@ export default {
   },
   methods: {
   	add () {
-      this.shrinkVisible = true;
+      this.$refs.mail_add.show('add',0);
   	},
     edit (row) {
-      this.shrinkVisible = true;
-      this.$nextTick(_=>{
-        this.$refs.mail_add.setForm(row);
-      })
+      this.$refs.mail_add.show('view',row.id);
     },
     handleRefresh () {
       this.refresh();
-      this.shrinkVisible = false;
     },
     refreshTableData (option) {
       const url = URL;
@@ -133,7 +126,7 @@ export default {
         })
     },
     handleRowClick ({id}) {
-      this.$refs.mail_detail.show(id);
+      this.$refs.mail_add.show('view',id);
     }
   },
   watch: {
@@ -144,7 +137,7 @@ export default {
   mounted () {
     this.refresh();
   },
-  components: { TableComponent, Strainer, Detail, MailAdd, AppShrink },
+  components: { TableComponent, Strainer, MailAdd, AppShrink },
 }
 </script>
 

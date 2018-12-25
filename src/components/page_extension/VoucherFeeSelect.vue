@@ -61,7 +61,6 @@
             data: Array,
         },
         created() {
-            console.log(this.data);
         },
         methods: {
             refreshTableData(option) {

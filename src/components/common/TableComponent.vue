@@ -326,7 +326,7 @@ export default {
       return o ? o : e;      
     },
     totalNumber () {
-      const d = this.data;console.log(d);
+      const d = this.data;
       if(d instanceof Array) {
         return d.length;
       }else {
@@ -449,7 +449,6 @@ export default {
       'setTrigger',
     ]),
     handleResetView () {
-      console.log('fdfds')
       this.$tool.delCookie(this.path);
       this.initControl();
       this.clearFilter(true);
@@ -459,10 +458,8 @@ export default {
       })
     },
     handleViewData (val) {
-      console.log(val)
       // 存在cookie
       this.clearFilter(true);
-      console.log(typeof this.tableOption.name)
       this.$tool.setCookie(this.path, JSON.stringify(val.param));
 
       this.initControl();
@@ -475,7 +472,6 @@ export default {
       this.strainerParams = val;
     },
     handleInput(val) {
-      console.log(val);
     },
     initOptionColumns () {
       let columns = this.tableOption.columns;
@@ -511,7 +507,6 @@ export default {
       let cols = '';
       let obj = {};
       const viewCookie = JSON.parse(this.$tool.getCookie(this.path));
-      console.log(viewCookie)
       const q = viewCookie && viewCookie.query ? viewCookie.query : [];
       const  v = viewCookie && viewCookie.fields ? viewCookie.fields.split(',') : [];
       if(v && v.length != 0) {
@@ -883,8 +878,6 @@ export default {
       this.refresh();    
     },
     filterValueVisible(val) {
-      console.log('重新渲染')
-      console.log(val);
       // if(val == false) {
       //   // 因为关闭测试筛选时，视图数据无法及时更新，则强制刷新当前路由加载数据
       //    this.reload(); 
@@ -905,7 +898,6 @@ export default {
     this.tableHeight = this.$refs.table.tableHeight;
   },
   created () {
-    console.log(typeof this.tableOption.name)
     window.setTimeout(()=>{
       this.filterValueVisible = true;
     },0);
