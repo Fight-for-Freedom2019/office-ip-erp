@@ -15,7 +15,7 @@ let rule = [
         type: "select",title: "申请人/权利人",field: "applicants",value: []
     },
     {
-        type: "select",title: "代理机构",field: "agency",value: "",request: true,url: "",
+        type: "select",title: "代理机构",field: "agency",value: []
     },
     {
         type: "span",

@@ -13,10 +13,6 @@ let rule = [
     },
     {
         type: "select", title: "代理机构", field: "agency", value: [],
-        props: {
-            multiple: true,
-            filterable: true,
-        },
     },
     offset_reason,
     offset_content,

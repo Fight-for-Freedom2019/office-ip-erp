@@ -22,8 +22,7 @@ let rule = [
         type: "select", title: "联系人", field: "contact", value: [],
     },
     {
-        type: "select", title: "代理机构", field: "agency", value: "", request: true,
-        url: "",
+        type: "select", title: "代理机构", field: "agency", value: []
     },
     {
         type: "input", title: "通知书编号", field: "notice_number", value: "",

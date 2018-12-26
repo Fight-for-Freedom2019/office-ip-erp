@@ -32,7 +32,7 @@ let rule = [
         }
     },
     {
-        type: "select", title: "代理机构", field: "agency", value: "", request: true, url: "",
+        type: "select", title: "代理机构", field: "agency", value: []
     },
     invalid_receipt_vm("参加口审"),
     {

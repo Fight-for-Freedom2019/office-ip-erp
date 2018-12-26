@@ -48,12 +48,6 @@ let rule = [
     },
     {
         type: 'select', title: '代理机构', field: 'agency', value: [],
-        request: true,
-        url: '/test',
-        props: {
-            multiple: true,
-            filterable: true,
-        },
     },
     {
         type: 'select', title: '代理人', field: 'agents', value: [],
