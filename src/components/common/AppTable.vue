@@ -342,6 +342,10 @@ export default {
     // if(this.filterVisible) {
     //   this.handleDynamicData();
     // }
+    this.$nextTick(_=>{
+    console.log('挂载数据完成')
+      
+    })
   },
 
   methods: {
@@ -439,7 +443,6 @@ export default {
     },
     handleRenderHeader (h,{column,$index},func) {
       let self = this;
-      let count = 0;
       let item = column.label;
       let property = '';
       let sindex = '';
