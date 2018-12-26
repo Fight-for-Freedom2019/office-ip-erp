@@ -42,7 +42,8 @@
         name: "RemindersRecord",
         props: {
             data: Array,
-            id: [Number, String]
+            id: [Number, String],
+            invoice:Object,
         },
         data() {
             return {
@@ -141,6 +142,9 @@
         watch: {
             data: function (val) {
                 this.tableData = val;
+            },
+            invoice: function(val) {
+                this.form.customer = val.user;
             }
         },
         components: {

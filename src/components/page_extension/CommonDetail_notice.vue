@@ -274,11 +274,9 @@ export default {
       'refreshDetailData',
     ]),
     handleBeforeUpload (a) {
-      console.log(123);
       this.isNotice = true;
     },
     handleBeforeUploads (a) {
-      console.log(456);
       this.isNotice =false;
     },
     handleSuccess (a,b,c) {
@@ -347,10 +345,8 @@ export default {
     },
     handlePatentSuccess (a,b,c) {
        if(a.status) {
-        console.log(a);
         this.dialogPatentVisible = true;
         this.tableData3.push(a.data.list[0]);
-        console.log(this.tableData3);
         const d = a.data.list[0];
         for(let k in this.patentForm) {
           if(k == 'code') {
@@ -460,7 +456,6 @@ export default {
   watch: {
     types: function(val){
       if(val){
-        console.log(val);
         return val;
       }
     },

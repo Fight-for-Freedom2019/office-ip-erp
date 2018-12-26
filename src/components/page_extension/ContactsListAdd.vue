@@ -1,35 +1,40 @@
-<!-- 添加联系人表单 -->
+<!-- 添加合两只 -->
 <template>
-    <div class="main" style="margin-top:10px;">
-        <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-            <el-form-item label="所属客户" prop="customer">
-                <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
-            </el-form-item>
-            <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name" placeholder="请填写联系人姓名（必填）"></el-input>
-            </el-form-item>
-            <el-form-item label="尊称" prop="title">
-                <el-input v-model="form.title" placeholder=""></el-input>
-            </el-form-item>
+    <app-shrink :visible.sync="dialogVisible" :modal="false" :title="title">
+        <span slot="header" style="float: right;">
+            <el-button type="primary" @click="saveAdd" size="small">保存&提交审核</el-button>
+        </span>
+        <div class="main" style="margin-top:10px;" v-loading="loadingVisible" :element-loading-text="loadingText">
+            <el-form label-width="120px" :model="form" :rules="rules" ref="form">
+                <el-form-item label="所属客户" prop="customer">
+                    <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
+                </el-form-item>
+                <el-form-item label="姓名" prop="name">
+                    <el-input v-model="form.name" placeholder="请填写联系人姓名（必填）"></el-input>
+                </el-form-item>
+                <el-form-item label="尊称" prop="title">
+                    <el-input v-model="form.title" placeholder=""></el-input>
+                </el-form-item>
 
-            <el-form-item label="类型" prop="contact_type">
-                <static-select type="contacts_type" v-model="form.contact_type"></static-select>
-            </el-form-item>
+                <el-form-item label="类型" prop="contact_type">
+                    <static-select type="contacts_type" v-model="form.contact_type"></static-select>
+                </el-form-item>
 
-            <el-form-item label="邮件地址 " prop="email_address">
-                <el-input v-model="form.email_address" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="电话号码" prop="phone_number">
-                <el-input v-model="form.phone_number" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="地址" prop="address">
-                <el-input v-model="form.address" placeholder=""></el-input>
-            </el-form-item>
-            <el-form-item label="备注" prop="remark">
-                <el-input v-model="form.remark" placeholder=""></el-input>
-            </el-form-item>
-        </el-form>
-    </div>
+                <el-form-item label="邮件地址 " prop="email_address">
+                    <el-input v-model="form.email_address" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="电话号码" prop="phone_number">
+                    <el-input v-model="form.phone_number" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="地址" prop="address">
+                    <el-input v-model="form.address" placeholder=""></el-input>
+                </el-form-item>
+                <el-form-item label="备注" prop="remark">
+                    <el-input v-model="form.remark" placeholder=""></el-input>
+                </el-form-item>
+            </el-form>
+        </div>
+    </app-shrink>
 </template>
 
 <script>
@@ -37,6 +42,7 @@
     import AppSwitch from "@/components/form/AppSwitch";
     import Config from "@/const/selectConfig";
     import RemoteSelect from "@/components/form/RemoteSelect";
+    import AppShrink from '@/components/common/AppShrink'
 
     const URL = "/contacts";
     const map = new Map(Config);
@@ -88,7 +94,13 @@
                             required:true,message:"请选择联系人", trigger: "blur"
                         }
                     ],
-                }
+                },
+                title:'新建订单合同',
+                dialogVisible:false,
+                loadingVisible:false,
+                loadingText:'合同数据加载中',
+                mode:'add',
+                id:0,
             };
         },
         methods: {
@@ -136,7 +148,16 @@
                 if (val) {
                     this.$tool.coverObj(this.form, val);
                 }
-            }
+            },
+            show(id,mode,data) {
+                this.id = id;
+                this.title = mode === 'edit' ? '编辑合同' : '新增合同';
+                this.dialogVisible = true;
+                this.mode = mode;
+                if (data !== undefined) {
+                    this.coverObj(data);
+                }
+            },
         },
         created() {
             this.coverObj(this.contacts);
@@ -157,6 +178,7 @@
             StaticSelect,
             AppSwitch,
             RemoteSelect,
+            AppShrink,
         }
     };
 </script>

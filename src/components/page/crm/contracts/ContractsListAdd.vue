@@ -4,8 +4,7 @@
     <div class="main" >
         <app-shrink :visible.sync="dialogVisible"  :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" @click="save(mode)" v-if="mode === 'add'" size="small">保存&提交审核</el-button>
-                <el-button type="primary" @click="save(mode)" v-if="mode === 'edit'" size="small">保存</el-button>
+                <el-button type="primary" @click="save(mode)" size="small">保存</el-button>
             </span>
             
             <el-form label-width="120px" :model="form" :rules="rules" ref="form"  v-loading="loadingVisible" :element-loading-text="loadingText" style="margin-top:10px;">
@@ -20,12 +19,12 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="联系人" prop="contact">
-                            <remote-select type="contacts" :pageType="contactType" v-model="form.contact"></remote-select>
+                            <remote-select type="contacts" :pageType="contactType" v-model="form.contact" :para="customerParam"></remote-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="相关订单" prop="order">
-                            <remote-select type="orders" :pageType="orderType"  v-model="form.order"></remote-select>
+                            <remote-select type="orders" :pageType="orderType"  v-model="form.order" :para="customerParam"></remote-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -92,12 +91,6 @@
     export default {
         name: "ContractsListAdd",
         props: {
-            contracts: {
-                type: Object,
-                default() {
-                    return {};
-                }
-            },
             order: {
                 type: Object,
                 default() {
@@ -121,22 +114,11 @@
                     expire_date: "",
                     status : 1,
                     serial: "",
-                    contact_id: "",
-                    customer_id: "",
                     remark:"",
                     attachments:[],
-                    contact: {
-                        name:"",
-                        id:""
-                    },
-                    customer: {
-                        name:"",
-                        id:"",
-                    },
-                    order: {
-                        name:"",
-                        id:"",
-                    },
+                    contact: '',
+                    customer: '',
+                    order: '',
                 },
                 attachments:[],
                 rules: {
@@ -156,7 +138,7 @@
                 dialogVisible: false,
                 title:'',
                 loadingVisible:false,
-                loadingText:'合同数据加载中...'
+                loadingText:'合同数据加载中...',
             };
         },
         methods: {
@@ -171,6 +153,7 @@
                                 success: (_) => {
                                     this.$message({type: "success", message: _.info});
                                     this.$emit("refresh");
+                                    this.dialogVisible = false;
                                 }
                             });
                         } else {
@@ -182,6 +165,7 @@
                                 success: (_) => {
                                     this.$message({type: "success", message: _.info});
                                     this.$emit("update");
+                                    this.dialogVisible = false;
                                 }
                             });
                         }
@@ -198,30 +182,14 @@
             coverObj(val) {
                 if (val) {
                     this.$tool.coverObj(this.form, val, {obj: ['type','status']});
-                    this.attachments = [...this.form.attachments];
+                    this.attachments = val.attachments;
                 }
             },
             clear(){
                 this.$refs.form.resetFields();
             },
-            show(id,mode,contract) {
-                this.mode = mode;
-                if (mode == 'add') {
-                    this.title = '新建合同';
-                }
-                if (!this.dialogVisible) {
-                    this.dialogVisible = true;
-                }
-                //如果有传递合同数据，优先以合同数据显示
-                if (contract !== undefined) {
-                    this.id = contract.id;
-                    this.coverObj(contract);
-                    return;
-                }
-                //根据ID加载显示数据
-                this.id = id;
+            load(id) {
                 this.loadingVisible = true;
-                
                 const url = `/contracts/${id}`;
                 const success = _ => {
                     const data = _.data[0];
@@ -234,6 +202,28 @@
                 };
                 this.$axiosGet({url, success, complete});
             },
+            show(id,mode,contract) {
+                this.mode = mode;
+                if (mode == 'add') {
+                    this.title = '新建合同';
+                }
+                if (!this.dialogVisible) {
+                    this.dialogVisible = true;
+                }
+                console.log(contract);
+                //如果有传递合同数据，优先以合同数据显示
+                if (contract !== undefined) {
+                    this.id = contract.id;
+                    this.coverObj(contract);
+                    this.title = '合同详情>' + contract.serial;
+                    return;
+                }
+                //根据ID加载显示数据
+                this.id = id;
+                if (id > 0) {
+                    this.load(id);
+                }
+            },
         },
         computed: {
             customerType () {
@@ -245,31 +235,17 @@
             orderType () {
                 return this.form.order ? 'edit' : 'add';
             },
-        },
-        mounted() {
-            this.coverObj(this.contracts);
-            if (this.order.customer !== undefined) {
-                this.form.customer = this.order.customer;
-                this.form.order = this.order;
-                this.form.type = 2;
-            }
+            customerParam () {
+                return this.form.customer ? {customer:this.form.customer} : {};
+            },
         },
         watch: {
-            contracts: function (val, oldVal) {
-                this.coverObj(val);
-            },
             order: function (val, oldVal) {
-                this.form.customer = val.customer.id;
-                this.form.order = val.id;
+                this.form.customer = val.customer;
+                this.form.order = val;
+                this.form.contact = val.contact;
                 this.form.type = 2;
             },
-            type: function (val, oldVal) {
-                if (val === "add") {
-                    this.form = {}
-                } else {
-                    this.form = Object.assign({},this.contracts);
-                }
-            }
         },
         components: {
             StaticSelect,

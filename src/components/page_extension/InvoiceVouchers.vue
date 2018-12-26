@@ -3,7 +3,7 @@
     <div class="InvoiceVouchers">
         <table-component :tableOption="tableOption" :data="tableData" ref="table"
                          @refreshTableData="refreshTableData"></table-component>
-        <invoice-manage-detail ref="voucher" @update="update" @refresh="refresh"></invoice-manage-detail>
+        <invoice-manage-detail ref="voucher" :invoice="invoice" @update="update" @refresh="refresh"></invoice-manage-detail>
     </div>
 </template>
 
@@ -75,7 +75,7 @@
         methods: {
             refreshTableData(option) {
                 const url = `/vouchers`;
-                const data = {invoice:id};
+                const data = {invoice:this.id};
                 const success = _ =>{
                     this.tableData = _.data;
                 };

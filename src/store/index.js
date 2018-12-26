@@ -27,6 +27,7 @@ import treeCache from '@/store/modules/tree-cache.js'
 import cardCache from '@/store/modules/card-cache.js'
 import processDetail from '@/store/modules/process-detail.js'
 import estimateDetail from '@/store/modules/estimate-detail.js'
+import tableView from '@/store/modules/view.js'
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -48,6 +49,7 @@ const store = new Vuex.Store({
     hashMaps: '',
     bread_header_height: '',
     token: null,
+    trigger: '',
   },
   modules: {
     action,
@@ -77,6 +79,7 @@ const store = new Vuex.Store({
     processDetail,
     estimateDetail,
     userGroup,
+    tableView,
   },
   getters: {
     getDragId: state=>state.dragId,
@@ -96,10 +99,14 @@ const store = new Vuex.Store({
     getHashMaps: state=>state.hashMaps,
     breadHeaderHeight: state=>state.bread_header_height,
     getToken: state=> state.token,
+    getTrigger: state=> state.trigger,
   },
   mutations: {
     setDragId (state, id) {
       state.dragId = id;
+    },
+    setTrigger (state, d) {
+      state.trigger = d;
     },
     LOGIN (state, d) {
       window.localStorage.setItem('token', d);
@@ -177,6 +184,9 @@ const store = new Vuex.Store({
     },
   },
   actions: {
+    setTrigger({commit},d) {
+      commit('setTrigger',d)
+    },
     onShrinkLoading({state, commit},text="加载中...") {
       commit('setShrinkLoadingText', text);
       commit('setShrinkLoading', true);
@@ -193,7 +203,6 @@ const store = new Vuex.Store({
       const url = '/hashmap';
       const params = {};
       const success= _=>{
-        console.log(_)
         commit('setHashMaps', _);
       };
       axios.get(url, {params})
@@ -202,7 +211,6 @@ const store = new Vuex.Store({
           if(d.status){
             success(d);
           }else {
-            console.log(response);
           }
         })
         .catch(error=>{console.log(error)});

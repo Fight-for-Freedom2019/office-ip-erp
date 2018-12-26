@@ -1,4 +1,5 @@
 <template>
+<div style="display: contents;"> 
 <el-table 
   ref="table"
   stripe
@@ -140,14 +141,16 @@
         </template>
       </el-table-column>
     </template>
-
   </template>
 </el-table>
+    <view-pop type="add" :visible="viewVisible" v-model="fields" @close="v=>{viewVisible = v}"></view-pop>
+</div>
 </template>
 <script>
 import {mapGetters} from 'vuex'
 import FilterValue from '@/components/common/FilterValue'
 import ListsFilter from '@/components/common/ListsFilter'
+import ViewPop from '@/components/common/ViewPop'
 import { map as filterConfig} from '@/const/headerFilterConfig'
 import {mapActions} from 'vuex'
 const labelMap = new Map();
@@ -218,7 +221,7 @@ export default {
     type: {
       type: String,
       default: '',
-    }
+    },
   },
   data () {
     return {
@@ -230,6 +233,7 @@ export default {
       spanArr:[],   // 合并行策略数组
       unknownData:[],
       saveLabel: '',
+      viewVisible: false,
       // re_render: true,
     };
   },
@@ -238,7 +242,20 @@ export default {
       'innerHeight',
       'breadHeaderHeight',
     ]),
-    value2() {},
+    fields: {
+      set(val) {
+        let v = this.$tool.deepCopy(this.value);
+        v = val;
+        this.$emit('input', v);
+      },
+      get() {
+        if(this.value && this.value instanceof Array) {
+          return this.value;
+        }else {
+          return [];
+        }
+      },
+    },
     filterSetting () { //自定义筛选配置项
       const data = filterConfig.get(this.type);
       return data ? data : []
@@ -267,8 +284,6 @@ export default {
           })
         }
       })
-      // console.log('------------------------table-data------------------------');
-      // console.log(r);
       if(Object.keys(this.isMerge).length !== 0) {
         this.getSpanArr(r);
       };
@@ -324,10 +339,13 @@ export default {
     },
   },
   mounted() {
-    // console.log('渲染开的')
     // if(this.filterVisible) {
     //   this.handleDynamicData();
     // }
+    // this.$nextTick(_=>{
+    // console.log('挂载数据完成')
+      
+    // })
   },
 
   methods: {
@@ -341,7 +359,6 @@ export default {
     //     // const item = this.getDefaultValue(_.id);
     //     this.$set(this.filters,_.id,false);
     //   });
-    //   console.log(this.filters);
     //   return this.filters;
     // },
     toggle() {
@@ -349,7 +366,6 @@ export default {
     },
     handleRowClick (row, event, column) {
       event.stopPropagation();
-      console.log(row);
       if(column.type == 'selection' || column.type == 'action') return false;
           
       this.$emit('row-click', row, event, column);
@@ -419,7 +435,6 @@ export default {
         }
     },
     handleHeaderClose(key) {
-      console.log(this.$refs);
       /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
       this.$refs.table.$refs.tableHeader.$refs[`popover-${key}`].doClose();
     },
@@ -427,45 +442,60 @@ export default {
       return btn[key] ? btn[key](row) : false; 
     },
     handleRenderHeader (h,{column,$index},func) {
-      console.log('aaa');
       let self = this;
-      let count = 0;
       let item = column.label;
       let property = '';
-      const sindex =column.property.indexOf('__');
-      if(sindex!== -1) {
-         property = column.property.substring(0,sindex);
-      }else {
-         property = column.property;
-      }        
+      let sindex = '';
+      if(column.property){
+         sindex = column.property.indexOf('__');
+        if(sindex!== -1) {
+           property = column.property.substring(0,sindex);
+        }else {
+           property = column.property;
+        }        
+      }
+
       if(func){
         func();
       }else if(column.type == 'action'){
-        return h('span',{},[h('el-button',{
+        return h('el-dropdown',{
+            style: {
+            paddingLeft: '0',
+            paddingRight: '0',
+            },
+            attrs: {
+              trigger: 'click',
+            },
+            on: {
+              command(command) {
+                if(command == 'view') {
+                  self.viewVisible = true;
+                }
+              },
+            },
+          },[h('el-button',{
           style: {
             float: 'left',
+            height: '14px',
+            lineHeight: '14px',
+            paddingTop: '0',
+            paddingBottom: '0',
           },
           attrs: {
             type: 'text',
-            icon: 'plus'
+            icon: 'el-icon-more'
           },
-          on: {
-            click(e) {
-              e.stopPropagation();
-              self.filterVisible = !self.filterVisible;
-              console.log(self.filterVisible)
-            },
+        },''),h('el-dropdown-menu',{
+          style: {
+            paddingLeft: '0',
+            paddingRight: '0',
           },
-        },''),h('el-button',{
-           style: {
-            float: 'left',
-            display: 'inline-block'
-          },
+          slot: 'dropdown',
+        },[h('el-dropdown-item',{
           attrs: {
-            type: 'text',
-            icon: 'edit'
+            command: 'view',
           },
-        },'')])
+        },'新增视图')])])
       }else{
         const source = this.filterSettingMap.get(property) !== undefined ?
         this.filterSettingMap.get(property) : null;
@@ -483,7 +513,6 @@ export default {
                self.handleHeaderClose(property);
             },
             order(val) {
-              console.log(val)
               self.$emit('order',val);
             }
           },
@@ -603,6 +632,7 @@ export default {
     },
     FilterValue,
     ListsFilter,
+    ViewPop,
   }
 }
 </script>

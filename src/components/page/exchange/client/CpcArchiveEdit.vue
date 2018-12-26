@@ -2,8 +2,8 @@
 <template>
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-            <el-form-item label="相关案件" prop="project">
-                <remote-select type="专利" placeholder="请选择相关案件" v-model="form.project"></remote-select>
+            <el-form-item label="案件引用" prop="project">
+                <remote-select type="专利" placeholder="请选择案件引用" v-model="form.project"></remote-select>
             </el-form-item>
 
             <el-form-item label="导入状态" prop="is_imported">

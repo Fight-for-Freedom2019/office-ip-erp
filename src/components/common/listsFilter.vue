@@ -66,7 +66,6 @@ export default {
 		this.filterSetting.forEach(v => {
 			map.set(v.id, v)
 		})
-		// console.log(map);
 		return map
 	},
 	source () {

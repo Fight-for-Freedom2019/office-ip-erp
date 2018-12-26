@@ -114,6 +114,11 @@ const map = new Map([
     DATA_KEY: 'data',
     PLACEHOLDER: '请输入开票主体',
   }],  
+  ['payment_accounts', {
+    URL: '/payment_accounts?listOnly=1',
+    DATA_KEY: 'data',
+    PLACEHOLDER: '请选择回款账户',
+  }],  
   ['bill', {
     URL: '/invoices',
     DATA_KEY: 'invoices',
@@ -188,6 +193,21 @@ const map = new Map([
       URL: '/orders?listOnly=1',
       DATA_KEY: 'data',
       PLACEHOLDER: '请选择订单',
+  }],
+  ['patent_family',{
+      URL: '/families?listOnly=1',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择专利族',
+  }],
+  ['tags',{
+      URL: '/tags',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择标签',
+  }],
+  ['services',{
+      URL: '/services',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择服务类型',
   }],
 ]);
 

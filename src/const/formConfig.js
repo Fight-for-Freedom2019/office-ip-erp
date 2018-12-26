@@ -40,5 +40,21 @@ const map = new Map([
 		components: 'panel',
 		type: 'cpc_editor',
 	}],
+	['patent_add',{
+		components: 'panel',
+		type: 'patent_add',
+	}],
+	['patent',{
+		components: 'panel',
+		type: 'patent',
+	}],
+	['trademark',{
+		components: 'panel',
+		type: 'trademark',
+	}],
+	['copyright',{
+		components: 'panel',
+		type: 'copyright',
+	}],
 ]);
 export { map };

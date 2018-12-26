@@ -113,20 +113,14 @@ export default {
       }
     },
     refreshTreeData (node,str,form,children) {
-      console.log('调用了');
-      console.log(node);
-      console.log(this.$refs.userTree);
-      console.log(children)
       if(str == 'add') {
         const oldChildren = node.childNodes;
         oldChildren.splice(0,oldChildren.length);
 
         if(!node.isLeaf) {
-          console.log('非')
            node.doCreateChildren(children);
           // this.$refs.userTree.updateKeyChildren(node.data.id,children)
         }else{
-          console.log('叶子')
           node.doCreateChildren(children);
           node.isLeaf = false;
         }
@@ -137,7 +131,6 @@ export default {
       }
     },
     handleLoadNode (node, resolve) {
-      console.log(node);
       this.parentNode = node;
       if(node.level === 0) return this.loadRootNode(resolve);
       if(node.level >= 1) {
@@ -161,7 +154,6 @@ export default {
       this.$axiosGet({ url, data, success, error});
     },
     loadChildrenNode (node,resolve) {
-      console.log(node)
       const url = this.radio == 'organization' ? this.URL : urlMap.get('roles')['URL'];
       const data_key =this.radio == 'organization' ? this.DATA_KEY : urlMap.get('roles')['DATA_KEY'];
       const data =this.radio == 'organization' ? { parent_id: node.data.id } : { role_group_id: node.data.id };
@@ -208,7 +200,6 @@ export default {
       this.$refs.organization.show('add');
     },
     editChildTree (n,d,s) {
-      console.log(d);
       this.parentNode = n;
       if(this.radio === 'rolegroups' && n.level == 1) {
         this.setType = ''
@@ -217,7 +208,6 @@ export default {
       this.$refs.organization.show('edit',d);
     },
     remove (node,data) {
-      console.log(node)
       const children = node.parent.childNodes;
 
       for(var i=0;i< children.length;i++) {

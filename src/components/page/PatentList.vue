@@ -101,6 +101,7 @@ export default {
         'highlightCurrentRow': true,
         'rowClick': this.handleRowClick,
         // 'is_filter': true,
+        'is_view': true,
         'is_list_filter': true,
         'treeFilter': 'patent',
         'list_type': 'patent',
@@ -175,7 +176,7 @@ export default {
           { type: 'text', label: '技术分类', width: '160' , prop: 'classification',  is_import: true, render_simple: 'name',render_header: true},
           { type: 'array', label: '优先权', prop: 'priorities', width: '145',render: _=>_.map(_=>_.number), render_header: true},
           { type: 'array', label: '产品分类', width: '160', prop: 'products',  render: _=>_.map(_=>_.name), render_header: true,},
-          { type: 'array', label: '相关案件', prop: 'references', width: '200', render: _=>_.map(_=>_.title), render_header: true,},
+          { type: 'array', label: '案件引用', prop: 'references', width: '200', render: _=>_.map(_=>_.title), render_header: true,},
           { type: 'text', label: '委案日', prop: 'entrusting_time',  render_header: true, is_import: true, width: '123',         
             render: (h,item)=>{
               let t = item;
@@ -233,11 +234,12 @@ export default {
           { type: 'text', label: '序列表', prop: 'is_sequence',  width: '145', render:this.booleanRender , render_header: true},          
           { type: 'text', label: '同日申请发明/新型', prop: 'is_utility_or_invention',  width: '178', render:this.booleanRender , render_header: true},  
           // { type: 'text', label: '技术领域', prop: 'technical_field',  width: '130', is_import: true, is_agency: true, render_simple: 'name', render_header: true},
-        // {
-        //     type: 'action',
-        //     width: '90',
-        //     render_header: true
-        //   },
+          {
+            type: 'action',
+            width: '40',
+            // fixed: false,
+            render_header: true
+          },
         ] 
       },
       tableData: [],
@@ -268,7 +270,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'refreDetailData',
+      'refreshDetailData',
       'initializeSelectorCache',
       'refreshFlows',
     ]),
@@ -289,7 +291,7 @@ export default {
     },
     mailCallBack() {
       this.mailVisible = false;
-      this.refreDetailData();
+      this.refreshDetailData();
     },
     dropAdd () {
       this.$refs['caseForm'].validate((v)=>{

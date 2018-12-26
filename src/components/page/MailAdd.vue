@@ -127,12 +127,13 @@ export default {
 				const url = URL;
 
 				const data = Object.assign({}, this.form,  this.getMailForm());
-				data.id = this.id;
-				data.mail_type = this.mail_type;
+				data.model_id = this.id;
+				data.mail_scene = this.mail_type;
 				
 				const success = _=>{
 					this.$message({message: '发送成功', type: 'success'});
 					this.$emit('refresh');
+					this.dialogVisible = false;
 				}
 				const complete = _=>{ this.btn_disabled = false };
 
@@ -146,6 +147,7 @@ export default {
 
 				const success = _=>{
 					this.$message({message: '保存成功', type: 'success'});
+					this.$emit('refresh');
 					this.$router.push('/news/mailList');
 				}
 				const complete = _=>{ this.btn_disabled = false };
@@ -198,6 +200,9 @@ export default {
 		show(scene,id) {
 			this.id = id;
 			this.dialogVisible = true;
+			if (scene == "add") {
+				return;
+			}
 			this.loadingVisible = true;
 			if (scene === 'view') {
 				this.loadMail(id);
@@ -212,7 +217,6 @@ export default {
 			mail_arr.forEach(_=>{
 
 				let selected = this.$refs[_].getSelected();
-				console.log(selected)
 				// selected = selected.map(d=>{
 				// 	if( !d['value'] ) {
 				// 		return {value: d['id'], label: d['name']};

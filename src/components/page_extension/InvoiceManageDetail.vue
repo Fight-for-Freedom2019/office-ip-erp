@@ -8,7 +8,7 @@
                         @click="save('edit')">保存</el-button>
         </span>
 
-            <el-form label-width="60px" :model="form" :rules="rules" ref="form" slot="body" class="InvoiceManageDetail" style="margin-top: 10px;" v-loading="loadingVisible" :element-loading-text="loadingText">
+            <el-form label-width="75px" :model="form" :rules="rules" ref="form" slot="body" class="InvoiceManageDetail" style="margin-top: 10px;" v-loading="loadingVisible" :element-loading-text="loadingText">
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="客户" prop="customer">
@@ -27,6 +27,9 @@
                             <jump-select type="invoice_target" v-model="form.invoice_target" :disabled="this.mode === 'edit'"></jump-select>
                         </el-form-item>
                     </el-col>
+                    <el-form-item label="税务票号" prop="tax_no">
+                        <el-input type="text" v-model="form.tax_no" placeholder="请输入税务票号"></el-input>
+                    </el-form-item>
                     <!-- <el-col :span="12">
                         <el-form-item label="金额" prop="amount">
                             <el-input type="number" v-model="form.amount" placeholder="请输入金额"></el-input>
@@ -114,6 +117,7 @@
                     amount: "",
                     status: "",
                     attachments:[],
+                    tax_no:'',
                 },
                 attachments:[],
                 para:{
@@ -248,6 +252,7 @@
                     return {}
                 }
             },
+            invoice: Object,
         },
         
         methods: {
@@ -280,6 +285,7 @@
                         const success = _ => {
                             this.$message({type: "success", message: _.info});
                             this.$emit(fun);
+                            this.dialogVisible = false;
                         };
                         this.mode === "add" ? this.$axiosPost({url, data, success}) : this.$axiosPut({url, data, success});
                     } else {
@@ -352,7 +358,7 @@
                     
                     this.title = this.mode ==='add' ? '开票申请' : '';
                     if (invoice !== undefined ) {
-                        this.form.customer = invoice.customer;
+                        this.form.customer = invoice.user;
                         this.form.invoice = {id:invoice.id,name:invoice.serial};
                     }
                     this.load();
@@ -367,6 +373,9 @@
                 this.coverObj(val);
                 this.attachments = [...this.form.attachments];
             },
+            invoice: function(val) {
+                this.form.customer = val.user;
+            }
         },
         mounted() {
             this.coverObj(this.rowData);

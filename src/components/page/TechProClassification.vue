@@ -95,7 +95,7 @@ export default {
           { type: 'text', label: '技术分类', width: '160' , prop: 'classification',  is_import: true, render_simple: 'name',render_header: true},
           { type: 'array', label: '优先权', prop: 'priorities', width: '145',render: _=>_.map(_=>_.number), render_header: true},
           { type: 'array', label: '产品分类', width: '160', prop: 'products',  render: _=>_.map(_=>_.name), render_header: true,},
-          { type: 'array', label: '相关案件', prop: 'references', width: '200',  render_header: true,},
+          { type: 'array', label: '案件引用', prop: 'references', width: '200',  render_header: true,},
           { type: 'text', label: '委案日', prop: 'entrusting_time',  render_header: true, is_import: true, width: '123',         
             render: (h,item)=>{
               let t = item;
@@ -168,7 +168,6 @@ export default {
   },
   methods: {
     receive (val) {
-      console.log(val)
       this.mark = val.fullname +':' + val.description;
       this.filter_id = val.id;
     },
@@ -185,7 +184,6 @@ export default {
 	    const data = Object.assign({},option, extraParams,{listRows: 10000});
 	   
 	    const success = _=>{
-	        console.log(_)
 	        this.tableData = _.patents.data;
 	    };
 	    this.$axiosGet({ url, data, success });

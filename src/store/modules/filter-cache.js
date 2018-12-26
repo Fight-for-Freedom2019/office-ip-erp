@@ -4,6 +4,7 @@ const state = {
 	shortcut: [],
 	shortcutVisible: false,
 	custom: [],
+	view: [],
 	type: '',
 	lock: false
 }
@@ -52,11 +53,10 @@ const getters = {
 		return data;
 	},
 	listFilterValue: (state, getters, rootState) => { //自定义筛选项请求参数值
-		console.log('---------listFilterValue---------');
 		const listFilter = state.custom;
-		let form = {};
 		let arr = [];
 		listFilter.forEach(item => {
+			let form = {};
 			let value = item['value'];
 			if(Array.isArray(value)) {
 				if(value.length == 2 && (value[0] instanceof Date || value[1] instanceof Date )) value = value.map(v => rootState.tool.getDate(v));
@@ -68,9 +68,9 @@ const getters = {
 			form[item['key']] = value;
 			arr.push(form);
 		})
-		console.log(arr);
 		return {query:arr};
-	},	
+	},
+	viewFilter: state => state.view,	
 	filterLock: state => state.lock, //刷新数据锁,在watch函数中使用(TableComponent)
 	navLabel: (state,getters) => { //合并显示
 		// console.log('---------navlabel---------');
@@ -79,7 +79,6 @@ const getters = {
 	filterForm: (stata, getters) => { //合并上传参数
 		// console.log('---------filterForm---------')
 		const form = Object.assign({}, getters.screenValue, getters.listFilterValue);
-		console.log(form);
 		return form;
 	},
 	filterSetting: state => { //自定义筛选配置项
@@ -124,7 +123,6 @@ const mutations = {
 	},
 	fillListFilter (state, obj) {
 		let arr = [...state.custom]
-		console.log(arr);
 		// 尝试删除空项
 		arr = arr.filter(item => obj[item.key] !== false)
 		// 对于添加编辑分类处理
@@ -144,17 +142,45 @@ const mutations = {
 			}
 		}
 		state.custom = arr
+	},	
+	fillViewFilter (state, obj) {
+		let arr = [...state.view]
+		// 尝试删除空项
+		arr = arr.filter(item => obj[item.key] !== false)
+		// 对于添加编辑分类处理
+		const map = new Map()
+		arr.forEach((item, index) => {
+			map.set(item.key, index)
+		})
+		for (let key in obj) {
+			const item = obj[key]
+			if (item !== false) {
+				const index = map.get(item.key)
+				if (index === undefined) {
+					arr.push(item)
+				} else {
+					arr[index] = item
+				}
+			}
+		}
+		state.view = arr
 	},
 	removeListFilter (state, index) {
 		state.custom.splice(index, 1);
+	},	
+	removeViewFilter (state, index) {
+		state.view.splice(index, 1);
 	},
 	setFilterLock (state, bool) {
 		state.lock = bool;
 	},
-	clearFilter () {
+	clearFilter (state) {
 		state.shortcut = [];
 		state.custom = [];
-	}
+	},
+	clearViewFilter (state) {
+		state.view = [];
+	},
 }
 
 const actions = {
@@ -178,6 +204,9 @@ const actions = {
 			}, 0);
 		}		
 	},
+	clearViewFilter({commit}) {
+		commit('clearViewFilter');
+	},
 	//设置快捷筛选面板是否显示
 	setScreenVisible ({commit}, item) {
 		if(typeof item != 'boolean') return;
@@ -192,6 +221,10 @@ const actions = {
 	removeScreen ({commit}, index) {
 		if(typeof index != 'number') return;
 		commit('removeScreen', index);
+	},	
+	removeViewFilter ({commit}, index) {
+		if(typeof index != 'number') return;
+		commit('removeViewFilter', index);
 	},
 	setListFilter ({commit}, data) {
 		// console.log('--------setListFilter-------')
@@ -224,6 +257,9 @@ const actions = {
 	// 填充列表筛选项
 	fillListFilter ({commit}, obj) {
 		commit('fillListFilter', obj)
+	},
+	fillViewFilter ({commit}, obj) {
+		commit('fillViewFilter', obj);
 	},
 	// 编辑列表筛选项
 	editListFilter({state, commit}, {key, item}={}) {

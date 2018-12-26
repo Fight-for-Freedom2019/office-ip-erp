@@ -70,7 +70,7 @@ const map = new Map([
         { type: 'static_select',    id: 'project_state',                 name: '案件状态',     map_type: 'project_type'},
         { type: 'static_select',    id: 'ipr',                   name: '负责IPR',      map_type: 'ipr_para',    url: true,},
         { type: 'text',             id: 'priorities',            name: '优先权'},
-        { type: 'text',             id: 'references',            name: '相关案件'},
+        { type: 'text',             id: 'references',            name: '案件引用'},
         { type: 'text',             id: 'das',                   name: 'DAS码'},
         { type: 'text',         	id: 'order',                   name: '订单号'},
     

@@ -96,13 +96,13 @@ export default {
 		this.handleDynamicForm();
 	},
 	watch: {
-		value (val) {
-			val.forEach(_=>{
-				if(!_.visible)  this.$set( _, 'visible', false );
-				this.$set(_, 'type', this.type);
-			});
-			return val;
-		},
+		// value (val) {
+		// 	val.forEach(_=>{
+		// 		if(!_.visible)  this.$set( _, 'visible', false );
+		// 		this.$set(_, 'type', this.type);
+		// 	});
+		// 	return val;
+		// },
 	},
 	methods: {
 		...mapActions([
@@ -135,9 +135,6 @@ export default {
 			}
 		},
 		async handleCardDetails ({id}) {
-			// console.log(id);
-			// console.log(this.type);
-			// console.log(this.cardForm)
 			await this.initializeCardCache({type: this.type, id: id});
 			// await this.setForm(this.cardCache[this.type]);
 			setTimeout(()=>{

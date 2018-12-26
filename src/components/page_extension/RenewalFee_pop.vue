@@ -6,7 +6,7 @@
       </span>  
   	<el-form label-width="80px" ref="form" :model="form" :rules="rules">
   		
-  		<el-form-item label="相关案件" prop="project">
+  		<el-form-item label="案件引用" prop="project">
 				<remote-select type="project" v-model="form.project"></remote-select>
 			</el-form-item>
 <!-- 			<el-form-item label="年费对象" prop="target">
@@ -84,7 +84,7 @@ export default {
       	// target: '',
       },
       rules: {
-        'project': { type: 'number', required: true, message: '请选择相关案件' ,trigger: 'change',},
+        'project': { type: 'number', required: true, message: '请选择案件引用' ,trigger: 'change',},
       	// 'area': { required: true, message: '请选择年费地区',trigger: 'change',},
       	'fee_code': { type: 'number', required: true, message: '请选择年费类型',trigger: 'change', },
       	// 'target': { type: 'number', required: true, message: '请选择年费对象',trigger: 'change', },
@@ -124,7 +124,6 @@ export default {
   		return Object.assign(s, obj);  		
   	},
     setForm(d) {
-      console.log(d)
       this.$tool.coverObj(this.form,d,{
         obj: ['project','fee_code'],
       });

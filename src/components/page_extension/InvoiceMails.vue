@@ -3,7 +3,7 @@
     <div class="InvoiceMails">
         <table-component :tableOption="tableOption" :data="tableData" ref="table"
                          @refreshTableData="refreshTableData"></table-component>
-        <mail-edit ref="mail"></mail-edit>
+        <mail-edit ref="mail" @refresh="refresh"></mail-edit>
     </div>
 </template>
 
@@ -29,7 +29,7 @@
                     ],
                     'columns': [
                         // {type: 'selection'},
-                        {type: 'text', label: '发件人', prop: 'sender', width: '200'},
+                        {type: 'text', label: '发件人', prop: 'sender',render_simple:'name', width: '200'},
                         {type: 'text', label: '发送时间', prop: 'sent_time', width: '120'},
                         {type: 'text', label: '标题', prop: 'subject', min_width: '200'},
                     ],
@@ -51,8 +51,8 @@
         },
         methods: {
             refreshTableData(option) {
-                const url = URL;
-                const data = {invoice:this.id};
+                const url = this.URL;
+                const data = {model:'Invoice',model_id:this.id};
                 const success = _ =>{
                     this.tableData = _.data;
                 };
@@ -64,7 +64,9 @@
             refreshData(){
                 this.tableData = this.$tool.deepCopy(this.data);
             },
-            
+            refresh() {
+                console.log('event refresh');
+            }
         },
         watch:{
             data:function (val,oldVal) {

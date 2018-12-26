@@ -64,16 +64,12 @@ export default {
 		// },
 		except: {
 			set (val) {
-				console.log('===ceshi');
-				console.log(val);
 				const map = new Map();
 				val.forEach(v => {map.set(v, true)});
 				this.checkedFields = this.fields.filter(v => !map.get(v.value)).map(v => v.value);
 			},
 			get () {
 				const map = new Map();
-				console.log('++++++++++++++++++')
-				console.log(this.checkedFields)
 				this.checkedFields.forEach(v => {map.set(v, true)});
 				return this.fields.filter(v => !map.get(v.value)).map(v => v.value);
 			}
@@ -100,7 +96,6 @@ export default {
 			if(group_id == '' || model == '') return;
 			
 			let except = this.cache[group_id][model];
-			console.log(except);
 			if(!except) {
 				this.listLoading = true;
 				try {
@@ -163,7 +158,6 @@ export default {
 	},
 	watch: {
 		tableType (val) {
-			console.log(val);
 			this.refreshExcept({group_id: this.currentId, model: val});
 		}
 	},

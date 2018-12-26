@@ -3,7 +3,7 @@
     <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
             <template v-if="this.type == 'add'">
-            <el-form-item label="相关案件" prop="project">
+            <el-form-item label="案件引用" prop="project">
                 <remote-select type="专利" v-model="form.project" @change="onProjectChange"></remote-select>
             </el-form-item>
             <el-form-item label="用户" prop="user">
@@ -157,8 +157,6 @@
                         data,
                         success: _ =>{
                             this.flowsData = _.processes.data;
-                            console.log('flow data:');
-                            console.log(this.flowsData);
                         }
                     });
                 }

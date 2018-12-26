@@ -19,8 +19,8 @@
 					<div class="filter-editor-condition-cell-field">
 						<div class="filter-editor-condition-cell-field-operate">{{ item.name }}</div>
 						<div class="filter-editor-condition-cell-field-status">
-							<el-button icon="edit" type="text" size="mini" @click="(e) => { edit(e, index) }"></el-button>
-							<el-button icon="close" type="text" size="mini" @click="(e) => {remove(e, item.key); }"></el-button>
+							<el-button icon="el-icon-edit" type="text" size="mini" @click="(e) => { edit(e, index) }"></el-button>
+							<el-button icon="el-icon-close" type="text" size="mini" @click="(e) => {remove(e, item.key); }"></el-button>
 						</div>
 					</div>
 					<div class="filter-editor-condition-cell-value">
@@ -38,7 +38,7 @@
 			
 		</shrink>
 
-		<el-dialog :title="selectedKey ? '编辑筛选条件' : '新增筛选条件'" :visible.sync="dialogVisible" class="dialog-small" @close="clear">
+		<el-dialog :title="selectedKey ? '编辑筛选条件' : '新增筛选条件'" :visible.sync="dialogVisible" :modal="false" class="dialog-small" @close="clear">
 			<el-form label-position="top">
 				<el-form-item label="字段" prop="key">
 					<static-select :type="selectType" v-model="key" ref="key" :skip="selectSkip"></static-select>
@@ -90,7 +90,7 @@ export default {
 		refresh: {
 			type: Function,
 			required: true,
-		}
+		},
 	},
 	data () {
 		return {
@@ -111,9 +111,13 @@ export default {
 		...mapGetters([
 			'listFilter',
 			'innerHeight',
+			'getTrigger',
 		]),
 		path() {
 			return this.$route.path;
+		},
+		trigger () {
+			return this.getTrigger;
 		},
 		filterSetting () { //自定义筛选配置项
 			const data = filterConfig.get(this.type)
@@ -199,10 +203,10 @@ export default {
 			'addListFilter',
 			'removeListFilter',
 			'fillListFilter',
+			'fillViewFilter',
 			'editListFilter',
 			'clearFilter',
 			'setFilterType', //filter-cachef
-
 			// 'getCustomFilter',
 			// 'refreshCustomData', //menu-cache
 		]),
@@ -337,7 +341,6 @@ export default {
 			}) 
 		},
 		remove (event, index) {
-			console.log(index);
 			this.removeListFilter(index);
 			// this.$nextTick(() => {
 			// 	this.refresh();
@@ -358,17 +361,21 @@ export default {
 				this.$message({ type: 'warning', message: '筛选条件不能为空' });
 				return;
 			}
-
+			const obj = {};
 			const name = this.$refs.key.map.get(this.key).name;
 			const key =  this.key;
 			const label = this.$refs.value.getLabel();
 			const value =  this.value;
 			const item = { name, key, label, value };
-
-			if(this.selectedKey) {
-				this.editListFilter({key: this.selectedKey, item});
+			if (this.trigger === 'btn') {
+				if(this.selectedKey) {
+					this.editListFilter({key: this.selectedKey, item});
+				}else {
+					this.addListFilter(item);
+				}
 			}else {
-				this.addListFilter(item);
+				obj[key] = {name, key, label, value};
+				this.fillViewFilter(obj);	
 			}
 
 			this.dialogVisible = false;
@@ -410,15 +417,15 @@ export default {
 						}else {
 							const name = map['name']
 							const str = 'usedForm_' + key
-							console.log(this.$refs)
 							const label = this.$refs[str][0].getLabel()
 							obj[key] = { name, key, label, value }
 						}
 					}
-					this.fillListFilter(obj)
+					this.trigger === 'pop'?this.fillViewFilter(obj):this.fillListFilter(obj);
+						
 				}, 0)
 			}
-		}
+		},
 	},
 	created () {
 		if (this.usedFlag) {
@@ -441,7 +448,7 @@ export default {
 		}
 	},
 	destroyed () {
-		window.listFilter = null
+		window.listFilter = null;
 	},
 	components: {
 		StaticSelect,
