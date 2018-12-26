@@ -25,6 +25,10 @@ function handlePlaceholder (rules) {
 
 
 function handleLayout (obj,custom) {  // typeof custom === Object
+    if(Object.keys(obj).length > 1) {
+        handleMultiple(obj,custom);
+        return
+    }
     let rules = obj.rule;
     rules.forEach((rule)=>{
         if(!rule.col){
@@ -33,6 +37,21 @@ function handleLayout (obj,custom) {  // typeof custom === Object
             coverAttribute(rule.col,custom);
         }
     })
+    return obj
+}
+function handleMultiple(obj,custom){
+    for (let key in obj){
+        if(obj.hasOwnProperty(key)) {
+            let rules = obj[key];
+            rules.forEach((rule)=>{
+                if(!rule.col){
+                    rule.col = custom;
+                }else {
+                    coverAttribute(rule.col,custom);
+                }
+            })
+        }
+    }
     return obj
 }
 function coverAttribute (source,target) {

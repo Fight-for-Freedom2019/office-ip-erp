@@ -1,4 +1,5 @@
-// 著录项目变更申报书 附件
+// 附件
+import UploadFile from '@/components/page/cpc/UploadFile'
 const defaultProps = {
     handlePreview: () => {
     },
@@ -40,9 +41,11 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
     </template>
+    <template v-if="type === 'custom'">
+        <upload-file :tip="tip" :isSave="isSave" @getFileList="getFileList"></upload-file>
+    </template>
 </div>
-        
-    `;
+`;
     const options = {
         data: {
             extendData: {
@@ -52,7 +55,9 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
             action: url,
             dialogImageUrl: "",
             dialogVisible: false,
-            type: type
+            type: type,
+            tip,
+            isSave:false,
         },
         methods: {
             submitUpload() {
@@ -66,7 +71,11 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
+            getFileList(val){
+                console.log(val);
+            },
         },
+        components: { UploadFile }
     };
     return {
         custom: true,

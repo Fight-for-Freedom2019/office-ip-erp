@@ -49,8 +49,7 @@ let rule = [
         }
     },
     {
-        type:"select",title:"代理机构",field:"agency",value:"",request: true,
-        url: "",
+        type:"select",title:"代理机构",field:"agency",value:[]
     },
     checkbox_common_vm({patentee_join:"专利权人",applicant_join:"无效宣告请求人"},"是否参加","",{labelWidth:"120px"}),
     invalid_receipt_vm(),

@@ -13,12 +13,12 @@ function vm(isDAS) {
         min-width="180">
     </el-table-column>
     <el-table-column
-        prop="apd"
+        prop="apn"
         label="在先申请号"
         width="180">
     </el-table-column>
     <el-table-column
-        prop="apn"
+        prop="apd"
         label="在先申请日"
         width="180">
     </el-table-column>
@@ -54,10 +54,10 @@ function vm(isDAS) {
                 </el-select>
             </el-form-item>
             <el-form-item label="申请号">
-                <el-input placeholder="请输入申请号" v-model="form.apd"></el-input>
+                <el-input placeholder="请输入申请号" v-model="form.apn"></el-input>
             </el-form-item>
             <el-form-item label="申请日">
-                <el-date-picker placeholder="请选择申请日" value-format="yyyy-MM-dd" v-model="form.apn"></el-date-picker>
+                <el-date-picker placeholder="请选择申请日" value-format="yyyy-MM-dd" v-model="form.apd"></el-date-picker>
             </el-form-item>
             <template v-if="isDAS">
                 <el-form-item label="接入码">

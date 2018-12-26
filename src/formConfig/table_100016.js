@@ -49,7 +49,7 @@ let rule = [
         }
     },
     {
-        type: "select", title: "代理机构", field: "agency", value: "", request: true, url: "",
+        type: "select", title: "代理机构", field: "agency", value: []
     },
     change_reason_vm("变更原因"),
     change_content_vm(),

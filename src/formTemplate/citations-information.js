@@ -4,7 +4,7 @@ function vm() {
     const template = `
 <div>
         <el-button type="text" @click = "add">新增</el-button>
-        <el-table :data="extendData.amendments">
+        <el-table :data="amendments">
             <el-table-column prop="group" label="分组"></el-table-column>
             <el-table-column prop="serial" label="序号"></el-table-column>
             <el-table-column prop="field_value" label="字段及值"></el-table-column>
@@ -20,15 +20,15 @@ function vm() {
         <el-dialog :visible.sync="isVisible" title="编辑著录项目变更理由证明题录信息" custom-class="citations_information_dialog" :append-to-body="true" :modal="false">
             <el-form :model="form" label-width="120px" label-position="left">
                 <el-form-item label="分组序号">
-                    <el-select v-model="form.group" @change="changeGroup">
-                        <el-option v-for="item in groupOptions" :value="item.id" :label="item.name" :key="item.id"></el-option>
+                    <el-select v-model="form.group" value-key="id" @change="changeGroup">
+                        <el-option v-for="item in groupOptions" :value="item" :label="item.name" :key="item.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="序号">
-                            <el-select v-model="form.serial" @change="changeSerial">
-                                <el-option v-for="item in serialOptions" :value="item.id" :label="item.name" :key="item.id"></el-option>
+                            <el-select v-model="form.serial" value-key="id" @change="changeSerial">
+                                <el-option v-for="item in serialOptions" :value="item" :label="item.name" :key="item.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -41,8 +41,8 @@ function vm() {
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="字段">
-                            <el-select v-model="form.field" @change="changeField">
-                                <el-option v-for="item in fieldOptions" :value="item.id" :label="item.name" :key="item.id"></el-option>
+                            <el-select v-model="form.field" value-key="id" @change="changeField">
+                                <el-option v-for="item in fieldOptions" :value="item" :label="item.name" :key="item.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -64,6 +64,7 @@ function vm() {
             extendData: {
                 amendments: [],
             },
+            amendments:[],
             isVisible: false,
             form: {
                 group: "",
@@ -77,7 +78,17 @@ function vm() {
             fieldOptions: [],
             serialPlaceholder: "",
             fieldPlaceholder: "",
+            type:"",
             //citations_info:citations_info,
+        },
+        created(){
+            this.extendData.amendments.forEach((item)=>{
+                this.amendments.push({
+                    group:item.group,
+                    serial:`${item.serial}:${item.serial_value}`,
+                    field_value:`${item.field}:${item.field_value}`
+                })
+            })
         },
         methods: {
             reset() {
@@ -89,6 +100,9 @@ function vm() {
                 this.serialPlaceholder = "";
                 this.fieldPlaceholder = "";
             },
+            clear(){
+                this.$refs.form?this.$refs.form.resetFields():"";
+            },
             add() {
                 this.reset();
                 let info = window.$fc_citations_info;
@@ -96,6 +110,7 @@ function vm() {
                     this.$message({type: "warning", message: "请先选中变更项目"})
                     return
                 }
+                this.type = info.id.toString().substr(0,1);
                 this.groupOptions = info.child;
                 this.controlDialog("block");
             },
@@ -103,10 +118,11 @@ function vm() {
                 this.isVisible = c === 'block' ? true : false
                 const parent = document.getElementsByClassName('citations_information_dialog')[0].parentNode
                 parent.style.display = c
+                c === "block"?this.clear():"";
             },
             changeGroup(val) {
                 let checkedGroup = this.groupOptions.filter((item) => {
-                    if (item.id === val) {
+                    if (item.id === val.id) {
                         return true
                     }
                 })[0]
@@ -115,40 +131,37 @@ function vm() {
 
             },
             changeSerial(val) {
-                this.serialPlaceholder = `请输入${this.getName(this.serialOptions, 'serial')}`;
+                this.serialPlaceholder = `请输入${val.name}`;
 
             },
             changeField(val) {
-                this.fieldPlaceholder = `请输入${this.getName(this.fieldOptions, 'field')}`;
+                this.fieldPlaceholder = `请输入${val.name}`;
             },
             save() {
-                let group, serial, field;
-                group = this.getName(this.groupOptions, 'group');
-                serial = this.getName(this.serialOptions, 'serial');
-                field = this.getName(this.fieldOptions, 'field');
                 if (!this.form.serial_value || !this.form.field_value) {
                     this.$message({type: "warning", message: "请输入序号和字段"});
                     return
                 }
+                //console.log("form",this.form);
                 this.extendData.amendments.push({
-                    group: group,
-                    serial: `${serial}:${this.form.serial_value}`,
-                    field_value: `${field}:${this.form.field_value}`
-                })
-                this.controlDialog("none")
-            },
-            getName(arr, key) {
-                if (!arr || arr.length === 0) return
-                let name = "";
-                arr.forEach((item) => {
-                    if (item.id === this.form[key]) {
-                        name = item.name;
-                    }
+                    group:this.form.group.name,
+                    serial:this.form.serial.name,
+                    field:this.form.field.name,
+                    serial_value:this.form.serial_value,
+                    field_value:this.form.field_value,
+                    type:this.type,
                 });
-                return name
+                this.amendments.push({
+                    group: this.form.group.name,
+                    serial: `${this.form.serial.name}:${this.form.serial_value}`,
+                    field_value: `${this.form.field.name}:${this.form.field_value}`
+                })
+                console.log(this.extendData.amendments);
+                this.controlDialog("none")
             },
             deleteRow(index) {
                 this.extendData.amendments.splice(index, 1);
+                this.amendments.splice(index, 1);
             },
         },
         watch: {

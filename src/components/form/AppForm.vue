@@ -200,7 +200,7 @@ export default {
 				case 'contract':this.$refs.contract.show(this.row.model_id,'edit');break;
 				case 'payment_request':this.$refs.payment_request.show(this.row.model_id,'edit');break;
 				case 'voucher':this.$refs.voucher.show(this.row.model_id,'edit');break;
-				case 'cpc_editor':this.$refs.detail.showApplicationEditor(this.row.task.id);break;
+				case 'cpc_editor':this.$refs.cpc_editor.showApplicationEditor(this.row.task.id);break;
 				case 'patent':this.$refs.patent.show(this.row.model_id, type);break;
 			}
 		},
