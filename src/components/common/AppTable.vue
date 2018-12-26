@@ -342,10 +342,10 @@ export default {
     // if(this.filterVisible) {
     //   this.handleDynamicData();
     // }
-    this.$nextTick(_=>{
-    console.log('挂载数据完成')
+    // this.$nextTick(_=>{
+    // console.log('挂载数据完成')
       
-    })
+    // })
   },
 
   methods: {

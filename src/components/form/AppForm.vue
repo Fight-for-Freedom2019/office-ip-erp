@@ -100,7 +100,7 @@
 		<contract-detail ref="contract" @loaded="panelLoaded"></contract-detail>
 		<invoice-detail ref="payment_request" @loaded="panelLoaded"></invoice-detail>
 		<voucher-detail ref="voucher" @loaded="panelLoaded"></voucher-detail>
-		<patent-add ref="patent_add" pageType="edit"></patent-add>
+		<patent-detail ref="patent" pageType="edit"></patent-detail>
 		<cpc-editor ref="cpc_editor" :id="row.model_id"></cpc-editor>
 			<!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
@@ -137,6 +137,7 @@ import ContractDetail from '@/components/page/crm/contracts/ContractsListAdd'
 import SensitiveOperation from '@/components/page/common/SensitiveOperation'
 import CpcEditor from '@/components/page/cpc/CpcEditor'
 import PatentAdd from '@/components/page/PatentAdd'
+import PatentDetail from '@/components/page_extension/PatentShrink'
 
 export default {
 	name: 'appForm',
@@ -200,7 +201,7 @@ export default {
 				case 'payment_request':this.$refs.payment_request.show(this.row.model_id,'edit');break;
 				case 'voucher':this.$refs.voucher.show(this.row.model_id,'edit');break;
 				case 'cpc_editor':this.$refs.detail.showApplicationEditor(this.row.task.id);break;
-				case 'patent_add':this.$refs.patent_add.show(this.row.model_id);break;
+				case 'patent':this.$refs.patent.show(this.row.model_id, type);break;
 			}
 		},
 		initializeForm () {
@@ -243,6 +244,7 @@ export default {
 		CpcEditor,
 		CustomerPaymentDetail,
 		PatentAdd,
+		PatentDetail,
 	}
 }
 </script>

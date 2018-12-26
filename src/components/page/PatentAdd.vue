@@ -1,9 +1,5 @@
 <template>
   <div class="main">
-    <app-shrink :visible.sync="dialogVisible"  :title="title">
-      <span slot="header" style="float: right;">
-          <el-button type="primary" @click="save(mode)" size="small">保存</el-button>
-      </span>
       <el-tabs type="border-card" v-loading="loadingVisible" :element-loading-text="loadingText" style="margin-top:10px;">
         <el-tab-pane>
           <span slot="label"><i class="el-icon-info"></i> 案件信息</span>
@@ -28,7 +24,6 @@
         </el-tab-pane>
 
       </el-tabs>
-    </app-shrink>
   </div>
 </template>
 
@@ -59,7 +54,7 @@ import Case from '@/components/page_extension/PatentAdd_case'
 import Other from '@/components/page_extension/PatentAdd_other'
 import Task from '@/components/page_extension/PatentAdd_task'
 import Business from '@/components/page_extension/PatentAdd_business'
-import AppShrink from '@/components/common/AppShrink'
+
 import {mapActions} from 'vuex'
 
 export default {
@@ -119,18 +114,6 @@ export default {
         this.btn_disabled = true;
         return this.$axiosPut({url, data, success, complete});
       }
-    },
-    show(id) {
-      this.dialogVisible = true;
-      this.loadingVisible = true;
-      const url = `${URL}/${id}`;
-      const success = _=>{ 
-        const patent = _.patent;
-        this.refreshForm(patent);
-        this.loadingVisible = false;
-      };
-      this.$axiosGet({url, success});
-
     },
     clear () {
       this.$refs.form.resetFields();
@@ -283,7 +266,6 @@ export default {
     AppCollapse,
     Task,
     Business,
-    AppShrink,
   }
 }
 </script>
