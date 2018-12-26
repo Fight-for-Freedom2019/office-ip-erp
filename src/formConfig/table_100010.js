@@ -13,7 +13,7 @@ let rule = [
         type: "select", title: "申请人/权利人", field: "applicants", value: []
     },
     {
-        type: "select", title: "代理机构", field: "agency", value: "",request: true, url: "",
+        type: "select", title: "代理机构", field: "agency", value: []
     },
     content_vm('100010'),
     checkbox_common_vm({right_reason:"正当理由",reason_irresistible:"不可抗拒事由"},"声明",()=>{},{labelWidth:"120px"},false),

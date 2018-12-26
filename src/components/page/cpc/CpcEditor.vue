@@ -47,7 +47,17 @@
                         </div>
                         <div class="append-form-list">
                             <ul class="form-list">
-                                <!--<li class="form-list-item justify-between"></li>-->
+                                <li class="form-list-item justify-between"
+                                    v-on:mouseleave="changeStyle(index,false,'file')"
+                                    v-on:mouseenter="changeStyle(index,true,'file')" v-for="(item,index) in submitFileList"
+                                    @click="viewFile(item.response)"
+                                    :title="item.name">
+                                    <span class="form-item-name">{{item.name}}</span>
+                                    <el-button @click.stop="removeFile(index,item.response)"
+                                               :class="{'show-remove':isShowFileRemoveBtn && index === isShowFileIndex}"
+                                               type="text"
+                                               size="mini" icon="el-icon-close"></el-button>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -74,7 +84,8 @@
                 </div>
                 <ul class="common-use">
                     <li class="common-use-item" v-for="(item,index) in common_use">
-                        <el-button :type="item.showIcon?'primary':''" @click="choiceCommon(item.id,index)">{{item.name}}<i :class="{'el-icon-check':item.showIcon}" class="el-icon--right"></i></el-button>
+                        <el-button :type="item.showIcon?'primary':''" @click="choiceCommon(item.id,index)">{{item.name}}<i
+                                :class="{'el-icon-check':item.showIcon}" class="el-icon--right"></i></el-button>
                     </li>
                 </ul>
                 <el-form>
@@ -98,28 +109,30 @@
             <!-- 添加表格 end -->
             <!-- 添加文件 start -->
             <el-dialog title="CPC电子编辑器上传文件" :visible.sync="showAppendFile" :modal="false">
-                <el-upload
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :on-preview="handleFileCardPreview"
-                        :on-remove="handleRemoveFile">
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="fileListVisible">
-                    <img width="100%" :src="fileListUrl" alt="">
-                </el-dialog>
+                <upload-file @getFileList="getFileList"></upload-file>
             </el-dialog>
             <!-- 添加文件 end -->
+            <!-- 转档 start -->
+            <el-dialog :visible.sync="showTurnArchives" :modal="false" top="8vh">
+                <div slot="title" class="el-dialog__title">
+                    <span>电子申请编辑器说明书转档</span>
+                    <el-button type="text" style="padding: 0;">(说明书撰写模板下载)</el-button>
+                </div>
+                <turn-archives></turn-archives>
+            </el-dialog>
+            <!-- 转档 end -->
         </app-shrink>
     </div>
 </template>
 
 <script>
     import AppShrink from '@/components/common/AppShrink'
+    import TurnArchives from '@/components/page/cpc/TurnArchives'
+    import UploadFile from '@/components/page/cpc/UploadFile'
     import formConfig from '@/formConfig/main'
     import {handlePlaceholder, handleSingle} from '@/formConfig/handle/handle'
     import Vue from 'vue'
     import {mapGetters} from 'vuex'
-
     export default {
         name: 'CpcEditor',
         data() {
@@ -129,15 +142,20 @@
                 tabpanel: "application_doc",
                 showAppendForm: false,
                 showAppendFile: false,
+                showTurnArchives: false,
                 formList: [],
                 isShowRemoveBtn: true,
+                isShowFileRemoveBtn: true,
                 isShowIndex: 1000,
+                isShowFileIndex: 1000,
                 loading: false,
                 $f: null,
                 instance_arr: [],
                 model: {},
                 current: '',
                 formType: '',
+                turnArchivesForm:{},
+                submitFileList: [],
                 formTypeCollection: [],
                 rules: [],
                 vm_collection: new Map(),
@@ -145,33 +163,37 @@
                 submitData: new Map(),
                 isValidate: false,
                 fileListVisible: false,
-                fileListUrl:"",
+                fileListUrl: "",
+                fileType: "",
                 data: {},
                 save_type: "add",
                 task_id: "",
-                options_collection:new Map(),
+                options_collection: new Map(),
                 cpc_id: "",
                 count: 0,
-                common_use:[
-                    {id:100007,name:"专利代理委托书",showIcon:false},
-                    {id:100006,name:"补正书",showIcon:false},
-                    {id:100012,name:"意见陈述书",showIcon:false},
-                    {id:100016,name:"著录项目变更申报书",showIcon:false},
-                    {id:100104,name:"著录项目变更理由证明",showIcon:false},
-                    {id:100701,name:"专利权评价报告请求书",showIcon:false},
-                    {id:100027,name:"向外国申请专利保密审查请求书",showIcon:false},
+                form: {},
+                copy_form:[100104,1001042,1001043,1001044,1001045,1001046,1001047,1001048,1001049,10010410],
+                common_use: [
+                    {id: 100007, name: "专利代理委托书", showIcon: false},
+                    {id: 100006, name: "补正书", showIcon: false},
+                    {id: 100012, name: "意见陈述书", showIcon: false},
+                    {id: 100016, name: "著录项目变更申报书", showIcon: false},
+                    {id: 100104, name: "著录项目变更理由证明", showIcon: false},
+                    {id: 100701, name: "专利权评价报告请求书", showIcon: false},
+                    {id: 100027, name: "向外国申请专利保密审查请求书", showIcon: false},
                     // {id:10000432,name:"办理文件副本请求书",showIcon:false},
-                    {id:100013,name:"撤回专利申请声明",showIcon:false},
+                    {id: 100013, name: "撤回专利申请声明", showIcon: false},
                 ],
-                option_action:[
-                    {url:'/contacts',data_key:"data",map_key:"contact"},
-                    {url:'/inventors',data_key:"data",map_key:"inventors"},
-                    {url:'/applicants',data_key:"data",map_key:"applicants"},
-                    {url:'/users?role_name=Agent&listOnly=1',data_key:"data",map_key:"agents"},
-                    {url:'/contracts',data_key:"data",map_key:"poa"},
+                option_action: [
+                    {url: '/contacts', data_key: "data", map_key: "contact"},
+                    {url: '/inventors', data_key: "data", map_key: "inventors"},
+                    {url: '/applicants', data_key: "data", map_key: "applicants"},
+                    {url: '/users?role_name=Agent&listOnly=1', data_key: "data", map_key: "agents"},
+                    {url: '/contracts', data_key: "data", map_key: "poa"},
+                    {url: '/agencies', data_key: "data", map_key: "agency"},
                 ],
-                verifyConfig:{
-                    "patent_number":[
+                verifyConfig: {
+                    "patent_number": [
                         {pattern: /20[0-1]\d{9}\.?(\d|X|x)/, message: "请填写正确的申请号或专利号", trigger: "blur"}
                     ],
 
@@ -194,6 +216,7 @@
                         return item.id;
                     })
                     let bool = idList.indexOf(item[0]) !== -1 ? true : false;
+                    if(item[0] === 100104) bool = false;
                     return {value: item[0], label: item[1].name, disabled: bool}
                 })
             },
@@ -206,45 +229,57 @@
         mounted() {
             let target = this.getHashMaps.get("cpc_tables");
             let attachments = [];
-            target.options.forEach((item)=>{
-                if(item.name) {
-                    attachments.push({value:item.id,label:item.name.WENJIANMC})
+            target.options.forEach((item) => {
+                if (item.name) {
+                    attachments.push({value: item.id, label: item.name.WENJIANMC})
                 }
             })
-            this.options_collection.set("attachments",attachments);
+            this.options_collection.set("attachments", attachments);
             this.getOptions();
         },
         methods: {
-            /****文件列表处理 start****/
-            handleFileCardPreview(){},
-            handleRemoveFile(){},
-            /****文件列表处理 end****/
-            choiceCommon(id,index){
+            /*****文件相关 start*****/
+            getFileList(result){
+                this.submitFileList = this.submitFileList.concat(result);
+                this.showAppendFile = false;
+            },
+            viewFile(r){
+                const success = (_)=>{
+                    console.log("view",_);
+                }
+                this.$axiosGet({url:`/file/${r.data.file.id}/preview`,data:{},success});
+                // https://zhiquan.hongjianguo.com
+                // window.open(`https://zhiquan.hongjianguo.com/${r.data.file.viewUrl}`)
+            },
+            removeFile(r){
+
+            },
+            /*****文件相关 end*****/
+            choiceCommon(id, index) {
                 let bool = this.common_use[index].showIcon;
                 let mark = this.common_use[index].id;
                 // this.common_use[index].showIcon = bool ? false:true;
-                let arr = this.formList.filter((item)=>{
+                let arr = this.formList.filter((item) => {
                     return item.id === mark
                 });
-                if(bool && arr.length === 0){
+                if (bool && arr.length === 0) {
                     this.common_use[index].showIcon = false;
                     let i = this.formTypeCollection.indexOf(id);
-                    this.formTypeCollection.splice(i,1);
-                }else if(!bool && arr.length === 0){
+                    this.formTypeCollection.splice(i, 1);
+                } else if (!bool && arr.length === 0) {
                     this.common_use[index].showIcon = true;
                     //this.formList.push({id:mark,name:this.common_use[index].name});
                     this.formTypeCollection.push(mark);
                 }
             },
             // 获取所有的远程select option
-            getOptions(){
-                this.option_action.forEach((i)=>{
+            getOptions() {
+                this.option_action.forEach((i) => {
                     const success = _ => {
                         let data = _.data[i.data_key].map((item) => {
-                            return {value: item.id, label: item.name?item.name:item.serial}
+                            return {value: item.id, label: item.name ? item.name : item.serial}
                         })
-                        this.options_collection.set(i.map_key,data);
-                        console.log(this.options_collection);
+                        this.options_collection.set(i.map_key, data);
                     }
                     this.$axiosGet({
                         url: i.url,
@@ -256,21 +291,42 @@
             },
             openForm(id, index, isRemove = false) {
                 if (id === this.formType) return
+                window.$fc_citations_info = null;
                 this.$f.validate(this.successValidate(isRemove), this.errorValidate);
                 if (!this.isValidate) return
-                //this.loading = true
+                this.loading = true
                 this.current = index
-                let target = formConfig.get(id)
-                this.rules = handlePlaceholder(target.obj.rule)
+                let target = null;
+                let rule = null;
+                if(String(id).length>6){
+                    target = formConfig.get(100104);
+                    rule = target.obj[`rule_${id}`];
+                    this.triggerEvent(rule);
+                }else {
+                    target = formConfig.get(id);
+                    rule = target.obj.rule;
+                    id === 100104?this.triggerEvent(rule):"";
+                }
+                this.rules = handlePlaceholder(rule)
                 this.formType = id
                 this.mergeRule(this.rules)
                 this.paddingData(this.rules);
                 this.createForm()
-
             },
-            changeStyle(index, isShow) {
-                this.isShowRemoveBtn = isShow
-                this.isShowIndex = index
+            // 只针对table100104以及它的复制品
+            triggerEvent(rule){
+                if(rule[3].value !== "") {
+                    rule[3].event.change(rule[3].value);
+                }
+            },
+            changeStyle(index, isShow, type) {
+                if(type === "file") {
+                    this.isShowFileIndex = index
+                    this.isShowFileRemoveBtn = isShow
+                }else {
+                    this.isShowRemoveBtn = isShow
+                    this.isShowIndex = index
+                }
             },
             removeForm(index, id) {
                 this.$confirm('是否继续?', '提示', {
@@ -298,6 +354,10 @@
                         prev_id = Number(el[0].attributes['data-id'].value)
                         this.openForm(prev_id, index - 1, true)
                     }
+                }
+
+                if(String(id).length>6) {
+                    this.copy_form.push(id);
                 }
 
                 this.submitData.delete(id)
@@ -332,9 +392,9 @@
 
 
             // 验证 patent_number
-            verifyValue(item){
+            verifyValue(item) {
                 let rule = this.verifyConfig[item.field];
-                if(rule){
+                if (rule) {
                     item.validate = rule;
                 }
             },
@@ -342,12 +402,12 @@
                 source.forEach((item) => {
                     this.verifyValue(item);     // 添加验证规则
                     if (item.type && item.type === 'select') {
-                        if(!item.options){
+                        if (!item.options) {
                             let data = this.options_collection.get(item.field);
-                            if(data){
+                            if (data) {
                                 this.setProps(item);
                                 this.$set(item, "options", data);
-                            }else {
+                            } else {
                                 this.$set(item, "options", []);
 
                             }
@@ -358,14 +418,14 @@
 
             },
             // 添加多选、可搜索
-            setProps(o){
+            setProps(o) {
                 const obj = {
                     multiple: true,
                     filterable: true,
                 }
 
-                !o.props?o.props={}:"";
-                Object.assign(o.props,obj);
+                !o.props ? o.props = {} : "";
+                Object.assign(o.props, obj);
             },
 
             setVmCollection(vm) {
@@ -436,10 +496,22 @@
                 this.showAppendForm = false
                 // 直接执行setTimeout中的代码会有阻塞...
                 setTimeout(() => {
-                    this.formTypeCollection.filter((item) => {
-                        return JSON.stringify(this.formList).indexOf(item) === -1
-                    }).forEach((item) => {
-                        this.formList.push({id: item, name: formConfig.get(item).name})
+                    let temp = this.formTypeCollection.filter((item) => {
+                        return JSON.stringify(this.formList).indexOf(item) === -1 || item === 100104
+                    });
+                    temp.forEach((item,index)=>{
+                        if(item === 100104) {
+                            temp.splice(index,1,this.copy_form.shift())
+                        }
+                    })
+                    temp.forEach((item) => {
+                        let name = "";
+                        if(String(item).length>6){
+                            name = "著录项目变更理由证明";
+                        }else {
+                            name = formConfig.get(item).name;
+                        }
+                        this.formList.push({id: item, name: name})
                         this.formType = item
                         this.loadFormData()
                     })
@@ -450,8 +522,17 @@
 
             // 点击确定时加载表单生成规则
             loadFormData() {
-                let target = formConfig.get(this.formType)
-                this.rules = handlePlaceholder(target.obj.rule)
+                let target = null;
+                let rule = null;
+                if(String(this.formType).length>6){
+                    target = formConfig.get(100104);
+                    rule = target.obj[`rule_${this.formType}`];
+                }else {
+                    target = formConfig.get(this.formType);
+                    rule = target.obj.rule
+                }
+
+                this.rules = handlePlaceholder(rule);
                 this.paddingData(this.rules);
                 this.mergeRule(this.rules)
                 this.createForm()
@@ -490,7 +571,7 @@
                         resetBtn: false,
                         submitBtn: false,
                         mounted: () => {
-                            //_this.loading = false
+                            _this.loading = false
                         },
                         onSubmit: function (formData) {
                             // TODO 每次加载带自定义组件的表单时，数据才会双向绑定
@@ -524,7 +605,7 @@
             saveData() {
                 this.$f.validate(this.successValidate, this.errorValidate)
                 console.log(this.submitData);
-                if(!this.isValidate)return
+                if (!this.isValidate) return
                 let data = {};
                 data.tables = this.handleSubmit(this.submitData);
                 this.save_type === "add" ? data.task_id = this.task_id : "";
@@ -561,6 +642,7 @@
                 this.getData(id);
             },
             turnArchives() {
+                this.showTurnArchives = true;
             },
             Upload() {
                 this.showAppendFile = true;
@@ -578,27 +660,36 @@
                     for (let key in this.data) {
                         if (this.data.hasOwnProperty(key)) {
                             if (key.indexOf('table') !== -1) {
-                                this.formTypeCollection.push(Number(key.replace(/[^0-9]/ig, "")));
+                                let id = Number(key.replace(/[^0-9]/ig, ""));
+                                let index = this.copy_form.indexOf(id);
+                                if(index !== -1 && id !== 100104) {
+                                    this.copy_form.splice(index,1);
+                                }
+                                console.log("copy_form",this.copy_form);
+                                this.formTypeCollection.push(id);
                             }
                         }
                     }
                     this.renderForm();
+
                 }
-                this.$axiosGet({url: `/taskCpcs/${this.task_id}`, data:{}, success})
+                this.$axiosGet({url: `/taskCpcs/${this.task_id}`, data: {}, success})
             },
         },
         watch: {
-            formList:function (val,oldVal) {
-                this.common_use.forEach((item)=>{
-                    let arr = val.filter((i)=>{
+            formList: function (val, oldVal) {
+                this.common_use.forEach((item) => {
+                    let arr = val.filter((i) => {
                         return i.id === item.id;
                     });
-                    item.showIcon = arr.length !== 0?true:false;
+                    item.showIcon = arr.length !== 0 ? true : false;
                 })
             }
         },
         components: {
             AppShrink,
+            TurnArchives,
+            UploadFile,
         },
     }
 </script>
@@ -695,12 +786,14 @@
         overflow: hidden;
         width: 210px;
     }
+
     .common-use {
         /*height: 80px;*/
         margin-bottom: 20px;
         display: flex;
         flex-flow: row wrap;
     }
+
     .common-use-item {
         margin-left: 10px;
         margin-top: 10px;
@@ -715,6 +808,7 @@
         height: 30px;
         width: 160px;
     }
+
     .custom-checkbox .el-checkbox {
         display: inherit;
     }
@@ -728,7 +822,7 @@
         display: initial;
     }
 
-    .form-create .custom-component .el-date-editor.el-input{
+    .form-create .custom-component .el-date-editor.el-input {
         width: auto;
     }
 
@@ -740,19 +834,24 @@
         height: 36px;
         display: block;
     }
+
     .form-create .el-checkbox {
         white-space: inherit;
     }
-    .form-create .el-checkbox .el-input__prefix .el-input__icon ,.form-create .el-checkbox .el-input__suffix .el-input__icon{
+
+    .form-create .el-checkbox .el-input__prefix .el-input__icon, .form-create .el-checkbox .el-input__suffix .el-input__icon {
         line-height: 30px;
     }
+
     .form-create .label-padding .el-form-item__label {
         padding-left: 10px;
     }
+
     .form-create .separate-bottom {
         margin-bottom: 20px;
         position: relative;
     }
+
     .form-create .separate-bottom:after {
         content: "";
         display: block;
@@ -763,6 +862,7 @@
         left: 0;
         bottom: 0;
     }
+
     .form-create .font-bold {
         font-weight: bold;
     }

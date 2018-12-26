@@ -15,7 +15,7 @@ let rule = [
         type: "select", title: "申请人", field: "applicants", value:[]
     },
     {
-        type: "select", title: "代理机构", field: "agency", value: "", request: true, url: "",
+        type: "select", title: "代理机构", field: "agency", value: []
     },
     remove_priority_vm(),
     upload_vm({label:"全体申请人同意撤回优先权的证明",url:"/url",field:"picture"}),
