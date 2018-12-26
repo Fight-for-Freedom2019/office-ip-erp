@@ -40,7 +40,7 @@
       </el-row>
       <el-row>
           <el-form-item label="案件状态">
-              <static-select type="project_stage" v-model="form.project_stage"></static-select>
+              <jump-select type="project_stage" v-model="form.project_stage"></jump-select>
           </el-form-item>
 <!--         <el-col :span="8">
           <el-form-item label="群组号">
@@ -62,12 +62,12 @@
         </el-col>
       </el-row>
       <el-form-item label="申请人">
-        <remote-select type="applicant" :page-type="type" v-model="form.applicants" multiple></remote-select>
+        <remote-select type="applicant" :page-type="type" v-model="form.applicants" :para="customerParam" multiple></remote-select>
       </el-form-item >
 
       <el-form-item label="发明人" prop="inventors" v-if="!menusMap.get('/iprs')">
         <!-- <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors> -->
-         <remote-select type="inventor" :page-type="type" v-model="form.inventors" multiple></remote-select>
+         <remote-select type="inventor" :page-type="type" v-model="form.inventors" :para="customerParam" multiple></remote-select>
       </el-form-item>
 
 <!--       <el-form-item label="送件发明人">
@@ -77,10 +77,10 @@
         <priorities v-model="form.priorities"></priorities>
       </el-form-item>
       <el-form-item label="案件引用">
-        <relative-projects v-model="form.references" :page-type="type"></relative-projects>
+        <relative-projects v-model="form.references"  :customer="customerParam" :page-type="type"></relative-projects>
       </el-form-item>
       <el-form-item label="专利族">
-        <remote-select v-model="form.families"  type="patent_family" :page-type="type" :add-type="`patent_family`" multiple></remote-select>
+        <remote-select v-model="form.families"  :para="customerParam"  type="patent_family" :page-type="type" :add-type="`patent_family`" multiple></remote-select>
       </el-form-item>
 
       <!-- <el-form-item label="案件标记">
@@ -122,6 +122,7 @@ import Priorities from '@/components/form/Priorities'
 import Inventors from '@/components/form/Inventors'
 import Upload from '@/components/form/Upload'
 import RelativeProjects from '@/components/form/RelativeProjects'
+import JumpSelect from '@/components/form/JumpSelect'
 import {mapGetters,mapActions} from 'vuex'
 import { checkInventors } from '@/const/validator.js'
 
@@ -142,7 +143,10 @@ const extensionHash = [
 
 export default {
   name: 'patentAddBase',
-  props: ['type'],
+  props: {
+    type:String,
+    customer:Number,
+  },
   data () {
     return {
       form: {
@@ -229,7 +233,10 @@ export default {
         obj.action = 'parseDisclosure';
       }
       return obj;
-    }
+    },
+    customerParam() {
+      return this.customer ? {customer:this.customer} : null;
+    },
   },
   methods: {
     ...mapActions([
@@ -246,7 +253,7 @@ export default {
     setForm (form, upload=false, disclosureType='') {
       const t = this.type;
       this.$tool.coverObj(this.form, form, {
-        obj: [ 'attachments', 'area', 'subtype','level', 'project_stage','agency_type'], 
+        obj: [ 'attachments', 'area', 'subtype','level', 'agency_type'], 
         skip:[ 'extension', 'title'],
       });
 
@@ -315,6 +322,7 @@ export default {
     Inventors,
     Upload,
     RelativeProjects,
+    JumpSelect,
   }
 }
 </script>

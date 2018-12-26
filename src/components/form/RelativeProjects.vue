@@ -25,7 +25,7 @@
 				  </el-select>
 	  		</el-col>
 	  		<el-col :span="16" style="padding: 0 5px">
-	  			<jump-select type="专利" :value-key="`key__${index}`" v-model="items[index].id" :ref="`relativeProjects`"></jump-select>
+	  			<jump-select type="专利" :value-key="`key__${index}`" v-model="items[index].id" :ref="`relativeProjects`" :para="customer"></jump-select>
 	  		</el-col>
 	  		<el-col :span="2" style="padding-left: 5px">
 	  			<el-button type="text" size="mini" @click="deleteRow(index)">删除</el-button>
@@ -60,6 +60,9 @@ export default {
 			items:[],
 			olditems:[],
 		}
+	},
+	props: {
+		customer:Object,
 	},
 	methods: {
 		addRow() {

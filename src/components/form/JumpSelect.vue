@@ -209,6 +209,11 @@ const map = new Map([
       DATA_KEY: 'data',
       PLACEHOLDER: '请选择服务类型',
   }],
+  ['project_stage',{
+      URL: '/project_stages',
+      DATA_KEY: 'data',
+      PLACEHOLDER: '请选择案件状态',
+  }],
 ]);
 
 export default {

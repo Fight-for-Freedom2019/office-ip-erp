@@ -2,97 +2,99 @@
 	<el-form :model="form" :label-width="labelWidth" :label-position="labelPosition" :rules="rules" ref="form">
 		<slot></slot>
 		<template v-for="(item, index) in source">
-			<template v-if="item.components == 'static_select'">
-				<el-form-item :label="item.name" :prop="item.key" :key="index">
-					<static-select 
-						ref="static-select"
-						:type="item.type"
-						:multiple="item.multiple"
-						v-model="form[item.key]"
-						@input="handleInput"
-					>
-					</static-select>
-				</el-form-item>
-			</template>			
-			<template v-else-if="item.components == 'remote_select'">
-				<el-form-item :label="item.name" :prop="item.key" :key="index">
-					<remote-select 
-						ref="remote-select"
-						:multiple="item.multiple"
-						v-model="form[item.key]"
-						@input="handleInput"
-						:type="item.type"
-					>
-					</remote-select>
-				</el-form-item>
-			</template>
-			<template v-else-if="item.components == 'date'">
-				<el-form-item :label="item.name" :prop="item.key" :key="index">
-					<el-date-picker
-						ref="date"
-						v-model="form[item.key]"
-						@input="handleInput"
-						:type="item.type"
-						:placeholder="item.placeholder"
-					>
-					</el-date-picker>
-				</el-form-item>
-			</template>
-			<template v-else-if="item.components == 'input'">
-				<el-form-item :label="item.name" :prop="item.key" :key="index">
-					<el-input
-						ref="input"
-						v-model="form[item.key]"
-						@input="handleInput"
-						:type="item.type"
-						:placeholder="item.placeholder"
-					>
-					</el-input>
-				</el-form-item>
-			</template>
-			<template v-else-if="item.components == 'switch'">
-				<el-form-item :label="item.name" :prop="item.key" :key="index">
-					<app-switch
-						ref="switch"
-						v-model="form[item.key]"
-						@input="handleInput"
-						:type="item.type"
-					>
-					</app-switch>
-				</el-form-item>
-			</template>
-			<template v-else-if="item.components == 'slider'">
-				<el-form-item :label="item.name" :prop="item.key" :key="index">
-					<el-slider
-						ref="slider"
-						v-model="form[item.key]"
-						@input="handleInput"
-						show-input
-					>
-					</el-slider>
-				</el-form-item>
-			</template>
-			<template v-else-if="item.components == 'upload'">
-				<el-form-item :label="item.name" :prop="item.key" :key="index">
-					<upload 
-						ref="upload"
-						v-model="form[item.key]"
-						@input="handleInput"
-					>
-					</upload>
-				</el-form-item>
-			</template>
-			<template v-else-if="item.components == 'panel'">
-				<el-form-item :label="item.name" :prop="item.key" :key="index">
-					<a ref="panel"
-						href="#"
-						v-model="form[item.key]"
-						@click="showPanel(item.type)"
-						:type="item.type"
-						disabled="isDetailEnabled"
-						>{{"点我查看" + item.name}}
-					</a>
-				</el-form-item>
+			<template v-if="shouldDisplay(item.if)">
+				<template v-if="item.components == 'static_select'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<static-select 
+							ref="static-select"
+							:type="item.type"
+							:multiple="item.multiple"
+							v-model="form[item.key]"
+							@input="handleInput"
+						>
+						</static-select>
+					</el-form-item>
+				</template>			
+				<template v-else-if="item.components == 'remote_select'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<remote-select 
+							ref="remote-select"
+							:multiple="item.multiple"
+							v-model="form[item.key]"
+							@input="handleInput"
+							:type="item.type"
+						>
+						</remote-select>
+					</el-form-item>
+				</template>
+				<template v-else-if="item.components == 'date'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<el-date-picker
+							ref="date"
+							v-model="form[item.key]"
+							@input="handleInput"
+							:type="item.type"
+							:placeholder="item.placeholder"
+						>
+						</el-date-picker>
+					</el-form-item>
+				</template>
+				<template v-else-if="item.components == 'input'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<el-input
+							ref="input"
+							v-model="form[item.key]"
+							@input="handleInput"
+							:type="item.type"
+							:placeholder="item.placeholder"
+						>
+						</el-input>
+					</el-form-item>
+				</template>
+				<template v-else-if="item.components == 'switch'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<app-switch
+							ref="switch"
+							v-model="form[item.key]"
+							@input="handleInput"
+							:type="item.type"
+						>
+						</app-switch>
+					</el-form-item>
+				</template>
+				<template v-else-if="item.components == 'slider'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<el-slider
+							ref="slider"
+							v-model="form[item.key]"
+							@input="handleInput"
+							show-input
+						>
+						</el-slider>
+					</el-form-item>
+				</template>
+				<template v-else-if="item.components == 'upload'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<upload 
+							ref="upload"
+							v-model="form[item.key]"
+							@input="handleInput"
+						>
+						</upload>
+					</el-form-item>
+				</template>
+				<template v-else-if="item.components == 'panel'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<a ref="panel"
+							href="#"
+							v-model="form[item.key]"
+							@click="showPanel(item.type)"
+							:type="item.type"
+							disabled="isDetailEnabled"
+							>{{"点我查看" + item.name}}
+						</a>
+					</el-form-item>
+				</template>
 			</template>
 		</template>
 		<slot name="app-button"></slot>
@@ -147,6 +149,10 @@ export default {
 				return []
 			}
 		},
+		'opinion': {
+			type: String,
+			default:'pass',
+		},
 		'labelWidth': {
 			type: String,
 			default: '100px',
@@ -171,7 +177,8 @@ export default {
 			form: {},
 			id: 0,
 			isDetailEnabled : true,
-            type:"",
+			type:"",
+			conditions:{}
 		}
 	},
 	computed: {
@@ -183,6 +190,10 @@ export default {
 		},
 	},
 	methods: {
+		shouldDisplay(vif) {
+			if (vif === undefined) return true;
+			return eval(vif);
+		},
 		panelLoaded() {
 			this.isDetailPanelEnabled = true;
 		},
@@ -207,12 +218,13 @@ export default {
 			let val = null;
 			this.source.forEach((_)=>{
 				if(_.components == 'remote_select' || _.components == 'static_select') {
-					val = _.multiple ? [] : '';
+					val = _.multiple ? [] : (_.default !== undefined ? _.default : '');
 				}else if (_.components == 'upload'){
 					val = [];
 				}else {
 					val = '';
 				}
+				console.log(val)
 				this.$set(this.form, _.key, val);
 			});
 		},

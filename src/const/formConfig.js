@@ -56,5 +56,28 @@ const map = new Map([
 		components: 'panel',
 		type: 'copyright',
 	}],
+	['assign_type',{
+		components: 'static_select',
+		type: 'assign_type',
+		if:"this.opinion == 'pass'",
+		default:1
+	}],
+	['assigner',{
+		components: 'remote_select',
+		type: 'user',
+		rules:{ type: 'number', required: true, message: '派案人不能为空', trigger: 'change'},
+		if:"this.opinion == 'pass' && this.form.assign_type === 2",
+	}],	
+	['pic',{
+		components: 'remote_select',
+		type: 'user',
+		rules:{ type: 'number', required: true, message: '承办人不能为空', trigger: 'change'},
+		if:"this.opinion == 'pass' && this.form.assign_type === 1",
+	}],	
+	['patent_mail',{
+		components: 'remote_select',
+		type: 'user',
+		if:"false",
+	}],	
 ]);
 export { map };

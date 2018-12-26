@@ -55,7 +55,7 @@
       </el-form>
     </el-collapse-item>
     <el-collapse-item title="任务处理" name="2">
-        <app-form :source="sourceForm" :rules="appFormRules" :labelWidth="`100px`" @formData="handleForm" :row="row" ref="appForm">
+        <app-form :source="sourceForm" :rules="appFormRules" :labelWidth="`100px`" @formData="handleForm" :opinion="review_opinion" :row="row" ref="appForm">
             <el-form-item label="节点描述" v-if="tips">
               <span style="display:inline-block;line-height:40px;">{{ tips }}</span>
             </el-form-item>
@@ -109,10 +109,11 @@ export default {
   data () {
     return {
       sourceForm: [],
+      isShowPatentMailBtn: false,
       tips: '',
       activeName:['1', '2'],
       'data': {},
-      'review_opinion': '',
+      'review_opinion': 'pass',
       'appFormRules': {},
       'description': '',
       'tasksData': '',
@@ -177,14 +178,20 @@ export default {
         this.tips = response.remark;
         this.appFormRules = {};
         if(response.forms && response.forms.length != 0) {
+          let mailscene = '';
           response.forms.forEach(_=>{
             let staticConfig = formMap.get(_.field_type.id);
             if(_.is_required) {
               this.$set(this.appFormRules, _.key, staticConfig.rules);
             }
             const obj = Object.assign({}, staticConfig, _);
+            //发送邮件
+            if (_.key == 'patent_mail') {
+              mailscene = 'patent';
+            }
             arr.push(obj);  
           })
+          this.$emit('showmailbtn',mailscene);
           this.sourceForm = arr;
         }
       };
@@ -269,7 +276,7 @@ export default {
       return this.processData.assistant != null ? this.processData.assistant.name : '';
     },
     userName () {
-      return this.processData.user != null ? this.processData.user.name : '';
+      return this.processData.task.user != null ? this.processData.task.user.name : '';
     },
     agentName () {
       return this.processData.agent != null ? this.processData.user.name : '';

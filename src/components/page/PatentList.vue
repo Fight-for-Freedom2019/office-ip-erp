@@ -18,12 +18,7 @@
         @sendEmail="handleSendMail">
       </common-detail>
 
-    <app-shrink :visible.sync="patentAddVisible" :modal='true' title="新增专利">
-      <span slot="header" style="float: right;">
-        <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
-      </span>
-      <patent-add page-type="add" ref="patentAdd" @addSuccess="handleAddSuccess"></patent-add>
-    </app-shrink>  
+    <patent-add page-type="add" ref="patentAdd" @addSuccess="handleAddSuccess"></patent-add> 
     
     <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">
       <mail-edit style="margin-top: 10px; " ref="mailEdit" @sendSuccess="mailCallBack" @cancelSending="mailCallBack"></mail-edit>
@@ -303,13 +298,14 @@ export default {
       })
     },    
     add () {
-      this.selectData = this.$refs.table.getSelection();
-      if (this.selectData.length != 0) {
-        this.caseVisible = true;
-      }else {
-        // this.$router.push('/patent/add');
-        this.patentAddVisible = true;
-      }
+      // this.selectData = this.$refs.table.getSelection();
+      // if (this.selectData.length != 0) {
+      //   this.caseVisible = true;
+      // }else {
+      //   // this.$router.push('/patent/add');
+      //   this.patentAddVisible = true;
+      // }
+      this.$refs.patentAdd.show('add');
     },
     saveAdd () {
       this.$refs.patentAdd.add();

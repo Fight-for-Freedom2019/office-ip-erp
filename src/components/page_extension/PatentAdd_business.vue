@@ -1,13 +1,13 @@
 <template>
   <el-form label-width="120px" ref="bussinessForm" :model="form" :rules="rules">
       <el-form-item label="客户" prop="customer">
-        <remote-select type="customer" :page-type="type" v-model="form.customer"></remote-select>
+        <remote-select type="customer" :page-type="type" v-model="form.customer" :para="customerParam" @input="customerChanged"></remote-select>
       </el-form-item >
       <el-form-item label="IPR" prop="ipr">
-        <remote-select type="ipr_para" :page-type="type" v-model="form.ipr"></remote-select>
+        <remote-select type="ipr_para" :page-type="type" v-model="form.ipr" :para="customerParam"></remote-select>
       </el-form-item>      
       <el-form-item label="联系人">
-        <remote-select type="contacts" :page-type="type" v-model="form.contact"></remote-select>
+        <remote-select type="contacts" :page-type="type" v-model="form.contact" :para="customerParam"></remote-select>
       </el-form-item>
       <el-form-item label="客户案号" prop="customer_serial">
         <el-input v-model="form.customer_serial" placeholder="请填写客户案号"></el-input>
@@ -19,7 +19,7 @@
         <static-select type="contract_mode" v-model="form.contract_type"></static-select>
       </el-form-item>
       <el-form-item label="相关合同" prop="contract">
-        <jump-select type="contracts" v-model="form.contract" multiple></jump-select>
+        <jump-select type="contracts" v-model="form.contract" multiple :para="customerParam"></jump-select>
       </el-form-item>      
       <el-form-item label="费用策略" prop="fee_policy">
         <static-select type="fee_mode" v-model="form.fee_policy"></static-select>
@@ -28,7 +28,7 @@
         <fee-list v-model="form.fees"></fee-list>
       </el-form-item>
       <el-form-item label="关联订单" prop="order" v-if="form.fee_policy == 2">
-        <jump-select type="orders" v-model="form.order"></jump-select>
+        <jump-select type="orders" v-model="form.order" :para="customerParam"></jump-select>
       </el-form-item>  
   </el-form>
 </template>
@@ -41,7 +41,10 @@ import FeeList from '@/components/form/FeeList'
 
 export default {
   name: 'patentAddBusiness',
-  props: ['type'],
+  props: {
+    type:String,
+    customer:Number,
+  },
   data () {
     return {
       contractObj: {},
@@ -63,10 +66,18 @@ export default {
         'contract_type':{type: 'number', required: true, message: '合同类型不能为空', trigger: 'change'},
         'fee_policy':{type: 'number', required: true, message: '费用策略不能为空', trigger: 'change'},
         'fees':{type: 'array', required: true, message: '费用清单不能为空', trigger: 'change'},
-      }
+      },
     }
   },
+  computed: {
+    customerParam() {
+      return this.customer ? {customer:this.customer} : null;
+    },
+  },
   methods: {
+    customerChanged() {
+      this.$emit('customerChanged',this.form.customer);
+    },
     setForm (data) {
       this.$tool.coverObj(this.form, data, {
         obj: [ 'service', 'contract_type', 'fee_policy', 'contract'], 

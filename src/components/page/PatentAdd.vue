@@ -2,16 +2,16 @@
   <div class="main">
     <app-shrink :visible.sync="dialogVisible"  :title="title">
       <span slot="header" style="float: right;">
-          <el-button type="primary" @click="save(mode)" size="small">保存</el-button>
+          <el-button type="primary" @click="edit" size="small">保存</el-button>
       </span>
       <el-tabs type="border-card" v-loading="loadingVisible" :element-loading-text="loadingText" style="margin-top:10px;">
         <el-tab-pane>
-          <span slot="label"><i class="el-icon-info"></i> 案件信息</span>
-          <pa-base ref="base" :type="pageType" @uploadSuccess="handleUploadSuccess"></pa-base>
+          <span slot="label"><i class="el-icon-info"></i> 商务信息</span>
+          <business ref="business" :type="pageType" :customer="customer" @customerChanged="customerChanged"></business>
         </el-tab-pane>
         <el-tab-pane>
-          <span slot="label"><i class="el-icon-info"></i> 商务信息</span>
-          <business ref="business" :type="pageType"></business>
+          <span slot="label"><i class="el-icon-info"></i> 案件信息</span>
+          <pa-base ref="base" :type="pageType" :customer="customer" @uploadSuccess="handleUploadSuccess"></pa-base>
         </el-tab-pane>
         <el-tab-pane>
           <span slot="label"><i class="el-icon-date"></i> 日期&号码</span>
@@ -76,12 +76,16 @@ export default {
       title:'',
       loadingVisible:false,
       loadingText:'专利数据加载中...',
+      customer:0,
     }
   },
   methods: {
     ...mapActions([
       'refreshUser',
     ]),
+    customerChanged (val) {
+      this.customer = val;
+    },
     async add (form) {
       const flag = await this.formCheck();
       if(flag) {
@@ -122,6 +126,10 @@ export default {
     },
     show(id) {
       this.dialogVisible = true;
+      if (id == 'add') {
+        this.title = '新专利立案';
+        return;
+      }
       this.loadingVisible = true;
       const url = `${URL}/${id}`;
       const success = _=>{ 
@@ -168,7 +176,10 @@ export default {
         const copy = this.$tool.deepCopy(val);
         this.id = copy.id;
         this.title = val.serial + '-' + val.title;
-        setKeys.map(_=>this.$refs[_].setForm(copy));
+        this.$nextTick( _ => {
+          console.log(this.$refs);
+          setKeys.map(_=>this.$refs[_].setForm(copy));
+        })
       }
     },
     fillForm ([val,type]) {

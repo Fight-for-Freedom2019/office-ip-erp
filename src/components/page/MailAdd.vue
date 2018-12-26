@@ -55,6 +55,8 @@ const sceneMap = new Map([
 	['账单',9],
 	['商务/合同',10],
 	['其它',11],
+	['发明人补充材料',12],
+	['检索报告',13],
 ]);
 export default {
   name: 'mailAdd',
@@ -173,10 +175,10 @@ export default {
 		},
 		loadTemplateMail(scene,id) {
 			this.title = '发送' + scene + '邮件';
-			const mail_type = sceneMap.get(scene);
-			this.mail_type = mail_type;
+			const mail_scene = sceneMap.get(scene);
+			this.mail_scene = mail_scene;
 			
-			const data = {id,mail_type};
+			const data = {id,mail_scene};
 			const url = `/mails/templates`;
 			const success = _=>{
 				const mail = _.data;

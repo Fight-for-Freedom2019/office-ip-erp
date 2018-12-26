@@ -148,11 +148,22 @@
         <el-button size="small" style="margin-left: 0px;" v-if="currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogActivationVisible = true;">激活</el-button>
         <el-button size="small" style="margin-left: 0px;" v-if="menusMap && !menusMap.get('/tasks/transfer')" @click="dialogTranserVisible = true; transfer_person = {id: currentRow.person_in_charge, name: currentRow.person_in_charge_name }">移交</el-button>
         <el-button size="small" @click="handleReject" style="margin-left: 0px;" type="danger" v-if="menusMap && !menusMap.get('/iprs')">退回</el-button>
+        <el-dropdown  @command="handleCommandSendMail" trigger="click" style="margin-left: 5px;" size="small" v-if="mailbtn == 'patent'">
+          <el-button size="small">
+            发送邮件<i class="el-icon-caret-bottom el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown" class="app-dropdown-menu" >
+            <el-dropdown-item command="inventor_supplement">发明人补充材料</el-dropdown-item>
+            <el-dropdown-item command="inventor_review" >发明人看稿</el-dropdown-item>
+            <el-dropdown-item command="search_report" >检索报告</el-dropdown-item>
+            <el-dropdown-item command="ipr_review">IPR看稿</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </span>
       <el-tabs v-model="activeName">   
         <el-tab-pane label="前往处理" name="finish">
           <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">  
-            <task-finish :id="currentRow.id" :row="currentRow" @submitSuccess="finishSuccess" @more="handleMore" @refreshNext="handleNext" v-show="!nextValue"></task-finish>
+            <task-finish :id="currentRow.id" :row="currentRow" @submitSuccess="finishSuccess" @showmailbtn="showmailbtn" @more="handleMore" @refreshNext="handleNext" v-show="!nextValue"></task-finish>
           </div>   
         </el-tab-pane>
 <!--         <el-tab-pane label="详细信息" name="edit">   
@@ -191,9 +202,7 @@
       ref="detail">
     </common-detail>
 
-    <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">
-      <mail-edit style="margin-top: 10px; " ref="mailEdit" @sendSuccess="mailCallBack" @cancelSending="mailCallBack"></mail-edit>
-    </app-shrink>
+    <mail-add style="margin-top: 10px; " ref="mailEdit" @sendSuccess="mailCallBack" @cancelSending="mailCallBack"></mail-add>
 
   </div>
 </template>
@@ -219,7 +228,7 @@ import CommonDetail from '@/components/page_extension/Common_detail'
 import Delay from '@/components/page_extension/TaskCommon_delay'
 import AppointCase from '@/components/page_extension/AppointCase'
 
-import MailEdit from '@/components/common/MailEditForm'
+import MailAdd from '@/components/page/MailAdd'
 
 import { mapMutations } from 'vuex'
 import { mapGetters } from 'vuex'
@@ -242,6 +251,12 @@ const typeMap = new Map([
   [4, '项目'],
   [5, '账单'],
   [6, '发文'],
+]);
+const mailMap = new Map([
+  ['inventor_supplement', '发明人补充材料'],
+  ['inventor_review', '发明人看稿'],
+  ['search_report', '检索报告'],
+  ['ipr_review', 'IPR审核'],
 ]);
 // messageBox组件，单独提出来，vue监测不到value的改变导致radio无法即时更新
  const MessageContent = {
@@ -308,6 +323,7 @@ export default {
       activation_reason:'',
       days:'5',
       deleteId: '',
+      mailbtn:'',
       tableOption: {
         'name': 'taskList',
         'url': URL,
@@ -361,7 +377,7 @@ export default {
             item = item != null ? item.process_action.name: '';
             return h('span',item);
           }},
-          { type: 'text', prop: 'user', label: '承办人', render_simple: 'name', render_header: true, width: '110',},
+          { type: 'text', prop: 'user', label: '承办人', render_obj: 'task', render_simple: 'name', render_header: true, width: '110',},
           { type: 'text', prop: 'agent', label: '代理人', render_simple: 'name', render_header: true, width: '110',},
           { type: 'text', prop: 'assistant', label: '代理人助理', render_simple: 'name', render_header: true, width: '110',},
           { type: 'text', prop: 'first_reviewer', label: '初审人', render_simple: 'name', render_header: true, width: '110',},
@@ -496,6 +512,13 @@ export default {
       'refreshAction',
       'refreshProcessDetail',
     ]),   
+    showmailbtn(scene) {
+      this.mailbtn = scene;
+    },
+    handleCommandSendMail (command) {
+      const scene = mailMap.get(command);
+      this.$refs.mailEdit.show(scene,this.currentRow.id);
+    },
     tagRender(arr){
       arr.map(_ => {
         _.classname = 'tag-color-' + _.color;
@@ -939,7 +962,7 @@ export default {
     CommonDetail,
     Detail,
     Delay,
-    MailEdit,
+    MailAdd,
     AppointCase,
     MessageContent,
   },
