@@ -27,7 +27,8 @@ const config = [
     placeholder: '请选择收件人类型',
     options: [
         { name: '基于身份', id: 1 },
-        { name: '固定人员', id: 2 },
+        { name: '固定人员（内部）', id: 2 },
+        { name: '固定人员（外部）', id: 3 },
     ]
   }],
   ['status',{

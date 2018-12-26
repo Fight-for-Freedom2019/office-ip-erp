@@ -183,8 +183,6 @@ export default {
 		visible(v) {
 			this.dialogVisible = v;
 		},
-		viewFilter(v) {
-		},
 		'fieldData': {
 			handler(val) {
 			this.sortedFields = [];
@@ -197,7 +195,6 @@ export default {
 					}
 				}
 			});
-			console.log(this.sortedFields)
 			},
 			immediate: true,	
 		},

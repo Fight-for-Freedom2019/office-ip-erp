@@ -207,8 +207,10 @@ export default {
             handler(val) {
                 if(val === 1 ) {
                     this.receiver = 'mail_roles';
-                }else {
+                }else if(val === 2){
                     this.receiver = 'user';
+                }else {
+                    this.receiver = 'contacts';
                 }
             },
             immediate: true,
@@ -218,8 +220,10 @@ export default {
             handler(val) {
                 if(val === 1 ) {
                     this.receiver_cc = 'mail_roles';
-                }else {
+                }else if(val === 2){
                     this.receiver_cc = 'user';
+                }else {
+                    this.receiver_cc = 'contacts';
                 }
             },
             immediate: true,
@@ -229,8 +233,10 @@ export default {
             handler(val) {
                 if(val === 1 ) {
                     this.receiver_bcc = 'mail_roles';
-                }else {
+                }else if(val === 2){
                     this.receiver_bcc = 'user';
+                }else {
+                    this.receiver_bcc = 'contacts';
                 }
             },
             immediate: true,

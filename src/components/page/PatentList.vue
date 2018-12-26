@@ -265,7 +265,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'refreDetailData',
+      'refreshDetailData',
       'initializeSelectorCache',
       'refreshFlows',
     ]),
@@ -286,7 +286,7 @@ export default {
     },
     mailCallBack() {
       this.mailVisible = false;
-      this.refreDetailData();
+      this.refreshDetailData();
     },
     dropAdd () {
       this.$refs['caseForm'].validate((v)=>{

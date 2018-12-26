@@ -28,7 +28,6 @@
         </el-tab-pane>
 
       </el-tabs>
-    </app-shrink>
   </div>
 </template>
 
@@ -59,7 +58,7 @@ import Case from '@/components/page_extension/PatentAdd_case'
 import Other from '@/components/page_extension/PatentAdd_other'
 import Task from '@/components/page_extension/PatentAdd_task'
 import Business from '@/components/page_extension/PatentAdd_business'
-import AppShrink from '@/components/common/AppShrink'
+
 import {mapActions} from 'vuex'
 
 export default {
@@ -294,7 +293,6 @@ export default {
     AppCollapse,
     Task,
     Business,
-    AppShrink,
   }
 }
 </script>
