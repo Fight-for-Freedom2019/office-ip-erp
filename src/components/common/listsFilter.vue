@@ -103,6 +103,7 @@ export default {
   		const obj = {};
   		const name = this.source.name;
   		const key =  this.field;
+      let extraOption = '';
   		let [label,value]= [null,null];
   		if(this.source.type == "date" || this.source.type == "text") {
   			value = this.filters[this.source.id];
@@ -113,10 +114,11 @@ export default {
   			label = this.$tool.splitObj(nodeArr,'name');
   		}
   		if(this.source.type != 'date'){
-  			const extraOption = {operation:this.contain_relate};
+  			extraOption = { operation: this.contain_relate };
   			obj[key] = { name, key, label, value,extraOption };
   		}else {
-  		  obj[key] = { name, key, label, value};
+        extraOption = { operation: 1 };
+  		  obj[key] = { name, key, label, value, extraOption };
   		}
   		this.fillListFilter(obj);
       this.$nextTick(()=>{

@@ -83,7 +83,8 @@ export default {
       const name = data.name;
       const key = s[0].id;
       const value = data.query[key];
-      obj[key] = {label, name, key, value}
+      const extraOption = { operation: 1 };
+      obj[key] = {label, name, key, value, extraOption };
       this.fillListFilter(obj);
       // this.$emit('refresh',data.query);
     },

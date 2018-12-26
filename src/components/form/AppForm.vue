@@ -96,12 +96,16 @@
 			</template>
 		</template>
 		<slot name="app-button"></slot>
-		<order-detail ref="order" @loaded="panelLoaded"></order-detail>
-		<contract-detail ref="contract" @loaded="panelLoaded"></contract-detail>
-		<invoice-detail ref="payment_request" @loaded="panelLoaded"></invoice-detail>
-		<voucher-detail ref="voucher" @loaded="panelLoaded"></voucher-detail>
-		<patent-detail ref="patent" pageType="edit"></patent-detail>
-		<cpc-editor ref="cpc_editor" :id="row.model_id"></cpc-editor>
+		<order-detail ref="order" @loaded="panelLoaded"></order-detail> <!-- 订单详情 -->
+		<contract-detail ref="contract" @loaded="panelLoaded"></contract-detail> <!-- 合同详情 -->
+		<invoice-detail ref="payment_request" @loaded="panelLoaded"></invoice-detail> <!-- 账单详情 -->
+		<voucher-detail ref="voucher" @loaded="panelLoaded"></voucher-detail> <!-- 发票详情 -->
+		<renewal-fee ref="renewal_fee"></renewal-fee> <!-- 年费详情 -->
+		<renewal-estimate-detail ref="renewal_estimate_detail"></renewal-estimate-detail> <!-- 年费评估单详情 -->
+		<patent-add ref="patent_add" pageType="edit"></patent-add><!-- 专利基本信息 --> 
+		<common-detail ref="common_detail" :title="row.title"></common-detail> <!-- 专利、商标、版权详情 -->
+		<cpc-editor ref="cpc_editor" :id="row.model_id"></cpc-editor> <!-- CPC编辑器 -->
+
 			<!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
 			</template>
@@ -136,8 +140,10 @@ import VoucherDetail from '@/components/page_extension/InvoiceManageDetail'
 import ContractDetail from '@/components/page/crm/contracts/ContractsListAdd'
 import SensitiveOperation from '@/components/page/common/SensitiveOperation'
 import CpcEditor from '@/components/page/cpc/CpcEditor'
-import PatentAdd from '@/components/page/PatentAdd'
-import PatentDetail from '@/components/page_extension/PatentShrink'
+import PatentAdd from '@/components/page_extension/PatentShrink'
+import CommonDetail from '@/components/page_extension/Common_detail'
+import RenewalEstimateDetail from '@/components/page_extension/RenewalEstimate_detail'
+import RenewalFee from '@/components/page_extension/RenewalFee_pop'
 
 export default {
 	name: 'appForm',
@@ -201,7 +207,10 @@ export default {
 				case 'payment_request':this.$refs.payment_request.show(this.row.model_id,'edit');break;
 				case 'voucher':this.$refs.voucher.show(this.row.model_id,'edit');break;
 				case 'cpc_editor':this.$refs.detail.showApplicationEditor(this.row.task.id);break;
-				case 'patent':this.$refs.patent.show(this.row.model_id, type);break;
+				case 'patent_add':this.$refs.patent_add.show(this.row.model_id, type);break;
+				case 'patent':this.$refs.common_detail.show(this.row.model_id, type);break;
+				case 'renewal_estimate':this.$refs.renewal_estimate_detail.show(this.row.model_id);break;
+				case 'renewal_fee':this.$refs.renewal_fee.show('edit', this.row);break;
 			}
 		},
 		initializeForm () {
@@ -244,7 +253,9 @@ export default {
 		CpcEditor,
 		CustomerPaymentDetail,
 		PatentAdd,
-		PatentDetail,
+		CommonDetail,
+		RenewalEstimateDetail,
+		RenewalFee,
 	}
 }
 </script>

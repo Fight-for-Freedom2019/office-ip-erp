@@ -206,7 +206,7 @@ export default {
 			'fillViewFilter',
 			'editListFilter',
 			'clearFilter',
-			'setFilterType', //filter-cachef
+			'setFilterType', //filter-cache
 			// 'getCustomFilter',
 			// 'refreshCustomData', //menu-cache
 		]),
@@ -366,7 +366,8 @@ export default {
 			const key =  this.key;
 			const label = this.$refs.value.getLabel();
 			const value =  this.value;
-			const item = { name, key, label, value };
+			const extraOption = { operation: 1 };
+			const item = { name, key, label, value, extraOption };
 			if (this.trigger === 'btn') {
 				if(this.selectedKey) {
 					this.editListFilter({key: this.selectedKey, item});
@@ -374,7 +375,7 @@ export default {
 					this.addListFilter(item);
 				}
 			}else {
-				obj[key] = {name, key, label, value};
+				obj[key] = {name, key, label, value, extraOption};
 				this.fillViewFilter(obj);	
 			}
 
@@ -418,7 +419,8 @@ export default {
 							const name = map['name']
 							const str = 'usedForm_' + key
 							const label = this.$refs[str][0].getLabel()
-							obj[key] = { name, key, label, value }
+							const extraOption = { operation: 1 }
+							obj[key] = { name, key, label, value, extraOption }
 						}
 					}
 					this.trigger === 'pop'?this.fillViewFilter(obj):this.fillListFilter(obj);

@@ -9,9 +9,6 @@
     
       <common-detail
         :title="currentRow.title"
-        :visible.sync="shrinkVisible" 
-        type="patent" 
-        :id="currentRow.id" 
         ref="detail"
         :status="defaultStatus"
         @editSuccess="refresh"
@@ -366,7 +363,7 @@ export default {
     handleRowClick (row) {
       if( this.menusMap && !this.menusMap.get('/patent/detail_panel') ) {
         this.currentRow = row;
-        if(!this.shrinkVisible) this.shrinkVisible = true;
+        this.$refs.detail.show(row.id, 'patent');
       }
     },
     close () {
