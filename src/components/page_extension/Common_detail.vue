@@ -1,6 +1,6 @@
 <template>
 <div>
-  <app-shrink :title="title" :visible="visibleAuth" @update:visible="handleVisible">
+  <app-shrink :title="title" :visible.sync="visibleAuth">
     <span slot="header" style="float: right">
         <el-button size="small" type="primary" class="table-header-btn" @click="edit" :loading="saveLoading" v-if="!menusMap.get('/agency')">{{ saveLoading ? '保存中...' : '保存' }}</el-button>
         <el-dropdown  @command="handleCommandSend" trigger="click" style="margin-left: 5px;" size="small" v-if="type == 'patent' && !menusMap.get('/iprs')">
@@ -161,12 +161,12 @@ const map = new Map(config);
 export default {
   name: 'commonDetailShrink',
   props: {
-    'type': String,
-    'id': Number,
-    'visible': {
-      type: Boolean,
-      default: false,
-    },
+    // 'type': String,
+    // 'id': Number,
+    // 'visible': {
+    //   type: Boolean,
+    //   default: false,
+    // },
     'title': String,
     'refreshSwitch': {//是否开启自动刷新
       type: Boolean,
@@ -176,6 +176,8 @@ export default {
   },
   data () {
     return {
+      id: '',
+      type: '',
       activeName: 'base',
       rendered: false,
       dialogClosed: false,
@@ -184,6 +186,7 @@ export default {
       dialogDivide: false,
       dialogTask: false,
       saveLoading: false,
+      visible: false,
       dialogAppointVisible: false,
     }
   },
@@ -207,19 +210,27 @@ export default {
 
       return s;
     },
-    visibleAuth () {
-
-      if( this.menusMap && !this.menusMap.get(this.config.auth) ) {
-        return this.visible;
-      }
-
-      return false;
+    visibleAuth : {
+      get() {
+        if( this.menusMap && !this.menusMap.get(this.config.auth) ) {
+          return this.visible;
+        }
+        return false;
+      },
+      set(val) {
+        this.visible = val;
+      },
     }
   },
   methods: {
     ...mapActions([
       'refreshDetailData',
     ]),
+    show(id, type='patent') {
+      this.type = type;
+      this.visible = true;
+      this.id = id;
+    },
     handleSendEmail (id) {
       this.$emit('sendEmail', id);
     },
@@ -251,9 +262,9 @@ export default {
       // this.$emit('update:visible', false);
       this.$emit('editSuccess');
     },
-    handleVisible (val) {
-      this.$emit('update:visible', val);
-    },
+    // handleVisible (val) {
+    //   this.$emit('update:visible', val);
+    // },
     closeSuccess () {
       this.dialogClosed = false;
       this.refreshDetailData();
@@ -342,7 +353,7 @@ export default {
       if(this.type) {
         this.refreshDetail();
       }else {
-        this.$emit('update:visible', false);
+        this.$emit('update:visibleAuth', false);
       }
     }
   },

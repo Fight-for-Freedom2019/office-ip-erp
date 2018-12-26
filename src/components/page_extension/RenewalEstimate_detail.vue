@@ -1,5 +1,5 @@
 <template>
-	<app-shrink :visible="visible" :title="`年费评估单>${row.serial}`"@update:visible="handleVisible">	
+	<app-shrink :visible.sync="visible" :title="`年费评估单>${row.serial}`">	
 		<span style="float: right;" slot="header">
 			<el-button size="small" type="primary" @click="save">保存</el-button>
 			<el-button size="small" type="danger" @click="deleteEstimate">删除</el-button>
@@ -66,10 +66,6 @@ const URL = '/renewal_confirmation_sheets'
 export default {
 	name: 'renewalEstimateDetail',
 	props: {
-		'visible': {
-	  		type: Boolean,
-	  		default: false,
-	  	},
 	  	'row': {
 	  		type: Object,
 	  		default(){
@@ -80,7 +76,9 @@ export default {
 	data () {
 		return {
 			loading: false,
+			id: '',
 			backData: '',
+			visible: false,
 			shrinkVisible: false,
 			active: 'fees_list',
 			form: {
@@ -93,9 +91,6 @@ export default {
 		...mapGetters([
 			'estimateDetail',
 		]),
-		id () {
-			return this.row ? this.row.id : '';  
-		},
 		info () {
 			return this.estimateDetail;
 		},
@@ -104,8 +99,12 @@ export default {
 		...mapActions([
 			'refreshEstimateDetail',
 		]),
-		handleVisible (val) {
-			this.$emit('update:visible', val);
+		// handleVisible (val) {
+		// 	this.$emit('update:visible', val);
+		// },
+		show(id) {
+			this.visible = true;
+			this.id = id;
 		},	
 		handleRefresh () {
 			this.shrinkVisible = false;

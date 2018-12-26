@@ -6,7 +6,7 @@
 				<el-option label="已处理" :value="1"></el-option>
 			</el-select>
 		</table-component>
-		<detail :row="currentRow" :visible.sync="shrinkVisible" @refresh="update"></detail>
+		<detail :row="currentRow" @refresh="update" ref="detail"></detail>
 	</div>
 </template>
 <script>
@@ -57,7 +57,6 @@ export default {
 			},
 			tableData: [{id: 1, serial: '124'}],
 			currentRow: {},
-			shrinkVisible: false,
 		};
 	},
 	methods: {
@@ -76,8 +75,8 @@ export default {
 		},
 		handleRowClick (row) {
 			this.currentRow = row;
-			this.shrinkVisible = true;
-		}
+			this.$refs.detail.show(row.id);
+		}	
 	},
 	mounted () {
 		this.refresh();
