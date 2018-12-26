@@ -164,7 +164,6 @@
                     }, {value: "身份证明文件的公证文件", label: "身份证明文件的公证文件"}, {value: "解除/辞去委托证明", label: "解除/辞去委托证明"},
 
                 ],
-                fileList: [],
                 submitFileList: [],
             }
         },
@@ -278,6 +277,12 @@
             }
         },
         props: {
+            fileList:{
+                type:Array,
+                default(){
+                    return []
+                }
+            },
             type: {
                 type: String,
                 default() {

@@ -42,7 +42,7 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
         </el-dialog>
     </template>
     <template v-if="type === 'custom'">
-        <upload-file :tip="tip" :isSave="isSave" @getFileList="getFileList"></upload-file>
+        <upload-file :tip="tip" :isSave="isSave" :fileList="fileList" @getFileList="getFileList"></upload-file>
     </template>
 </div>
 `;
@@ -51,7 +51,7 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
             extendData: {
                 [field]:[]
             },
-            fileList: [{url: 'http://img1.touxiang.cn/uploads/20131030/30-075657_191.jpg'}],
+            fileList: [{url: 'http://img1.touxiang.cn/uploads/20131030/30-075657_191.jpg',name:"test"}],
             action: url,
             dialogImageUrl: "",
             dialogVisible: false,
@@ -72,7 +72,7 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
                 this.dialogVisible = true;
             },
             getFileList(val){
-                console.log(val);
+                this.extendData[field] = val;
             },
         },
         components: { UploadFile }

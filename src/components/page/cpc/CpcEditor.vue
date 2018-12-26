@@ -48,13 +48,13 @@
                         <div class="append-form-list">
                             <ul class="form-list">
                                 <li class="form-list-item justify-between"
-                                    v-on:mouseleave="changeStyle(index,false)"
-                                    v-on:mouseenter="changeStyle(index,true)" v-for="(item,index) in submitFileList"
+                                    v-on:mouseleave="changeStyle(index,false,'file')"
+                                    v-on:mouseenter="changeStyle(index,true,'file')" v-for="(item,index) in submitFileList"
                                     @click="viewFile(item.response)"
                                     :title="item.name">
                                     <span class="form-item-name">{{item.name}}</span>
                                     <el-button @click.stop="removeFile(index,item.response)"
-                                               :class="{'show-remove':isShowRemoveBtn && index === isShowIndex}"
+                                               :class="{'show-remove':isShowFileRemoveBtn && index === isShowFileIndex}"
                                                type="text"
                                                size="mini" icon="el-icon-close"></el-button>
                                 </li>
@@ -145,7 +145,9 @@
                 showTurnArchives: false,
                 formList: [],
                 isShowRemoveBtn: true,
+                isShowFileRemoveBtn: true,
                 isShowIndex: 1000,
+                isShowFileIndex: 1000,
                 loading: false,
                 $f: null,
                 instance_arr: [],
@@ -317,9 +319,14 @@
                     rule[3].event.change(rule[3].value);
                 }
             },
-            changeStyle(index, isShow) {
-                this.isShowRemoveBtn = isShow
-                this.isShowIndex = index
+            changeStyle(index, isShow, type) {
+                if(type === "file") {
+                    this.isShowFileIndex = index
+                    this.isShowFileRemoveBtn = isShow
+                }else {
+                    this.isShowRemoveBtn = isShow
+                    this.isShowIndex = index
+                }
             },
             removeForm(index, id) {
                 this.$confirm('是否继续?', '提示', {
