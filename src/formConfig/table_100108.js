@@ -5,7 +5,7 @@ let rule = [
     {
         type: "input",title: "申请人",field: "patent_number",value: "",
     },
-    upload_vm({label:"图片",url:"/url",tip:"",type:"picture"}),
+    upload_vm({label:"图片",url:"/url",tip:"",type:"custom",field:"files"}),
 
 ]
 const content = {

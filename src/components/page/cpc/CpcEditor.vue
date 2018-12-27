@@ -665,7 +665,6 @@
                                 if(index !== -1 && id !== 100104) {
                                     this.copy_form.splice(index,1);
                                 }
-                                console.log("copy_form",this.copy_form);
                                 this.formTypeCollection.push(id);
                             }
                         }

@@ -54,7 +54,7 @@ let rule = [
         class:"label-padding"
     },
     statement_content_vm("声明内容"),
-    upload_vm({label:"证明",url:"/url",tip:"上传同意放弃证明",type:"file"}),
+    upload_vm({label:"证明",url:"/url",tip:"上传同意放弃证明",type:"custom",common:true,accept:".jpg",field:"picture",limit:1}),
 ];
 
 const content = {

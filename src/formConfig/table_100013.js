@@ -39,7 +39,7 @@ let rule = [
         },
         class:"label-padding"
     },
-    upload_vm({type:"file",tip:"上传同意撤回证明",label:"证明"})
+    upload_vm({type:"custom",tip:"上传同意撤回证明",label:"证明",limit:1,common:true})
 
 ]
 
