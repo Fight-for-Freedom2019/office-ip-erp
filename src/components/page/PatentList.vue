@@ -47,12 +47,17 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+    <el-dialog title="摘要附图详情" :visible.sync="figureVisible">
+      <app-table :columns="figureColumns" :data="figures"></app-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import AppFilter from '@/components/common/AppFilter'
 import TableComponent from '@/components/common/TableComponent'
+import AppTable from '@/components/common/AppTable'
 import AppTree from '@/components/common/AppTree'
 import AppDatePicker from '@/components/common/AppDatePicker'
 import AppShrink from '@/components/common/AppShrink'
@@ -80,6 +85,8 @@ export default {
       caseForm:{
         caseType: '',
       },
+      figures: [],
+      figureVisible: false,
       currentRow: '',
       selectData: [],
       shrinkVisible: false,
@@ -90,6 +97,28 @@ export default {
       downloadLoading: false,
       patentAddVisible: false,
       mailVisible: false,
+      figureColumns: [
+        {type: 'text', label: '附图名称', prop: 'name'},
+        {type: 'text', label: '附图格式', prop: 'ext'},
+        {type: 'text', label: '附图大小 ', prop: 'size'},
+        {
+          type: 'action',
+          label: '操作',
+          width: '100',
+          btns: [
+              {
+                  type: 'view', click: ({viewUrl}) => {
+                      window.open(viewUrl)
+                  }
+              },
+              {
+                  type: 'download', click: ({downloadUrl}) => {
+                     window.open(downloadUrl)
+                  }
+              },
+          ],
+        }
+      ],
       tableOption: {
         'name': 'patentList',
         'url': URL,
@@ -183,7 +212,9 @@ export default {
               return h('span', t);
             },
           },
-          { type: 'text', label: '摘要附图', prop: 'figure_file', is_import: true, width: '160',}, 
+          { type: 'text-btn', label: '摘要附图', prop: 'figure_file', click: this.handleFigure, is_import: true, width: '160',render_text_btn: (row) =>{
+            return row.figure_file?row.figure_file.name:''}
+          }, 
           { type: 'text', label: '是否申请实质审查', prop: 'is_subexam_request', is_import: true, width: '160', render_header: true,}, 
           // { type: 'text', label: '返发明人稿时间', prop: 'first_edition_to_inventor_time', is_import: true, width: '160', show: false , render_header: true},
           // { type: 'text', label: '发明人审核时间', prop: 'inventor_review_time', is_import: true, width: '160', show: false , render_header: true},
@@ -285,6 +316,13 @@ export default {
     handleAddSuccess(val) {
       this.patentAddVisible = false;
       this.refresh();
+    },
+    handleFigure (row) {
+      this.figureVisible = true;
+      // this.figures.push(row);
+      this.figures.splice(row.length,0,row.figure_file);
+      console.log(this.figures)
+
     },
     mailCallBack() {
       this.mailVisible = false;
@@ -450,6 +488,7 @@ export default {
     MailEdit,
     AppDate,
     PatentAdd,
+    AppTable,
   },
 }
 </script>
