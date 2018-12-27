@@ -1,7 +1,6 @@
 // 著录项目变更申报书
 import {vm as change_reason_vm} from '../formTemplate/change-reason'
 import {vm as change_content_vm} from '../formTemplate/change-content-100016'
-import {vm as upload_vm} from '../formTemplate/Upload'
 
 const attachments = [{value: 1, label: '双方当事人签章的权利转移协议书'}, {value: 2, label: '全体权利人同意转让的证明材料'}, {value: 3, label: '全体权利人同意赠与的证明材料'}, {
     value: 4,

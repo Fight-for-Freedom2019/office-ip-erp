@@ -28,7 +28,7 @@ let rule = [
         },
 
     },
-    upload_vm({label:"委托书扫描件",url:"/url",tip:"上传专利委托书",type:"file"}),
+    upload_vm({label:"委托书扫描件",url:"/url",tip:"上传专利委托书",type:"custom",limit:1,field:"picture",common:true}),
 ]
 
 
