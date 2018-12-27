@@ -79,8 +79,8 @@ export default {
     refreshTable (data,node) {
       const obj = {};
       const s = this.$refs.strainerTree.getSelected();
-      const label = s[0].name;
-      const name = data.name;
+      const label = data.name;
+      const name = s[0].name;
       const key = s[0].id;
       const value = data.query[key];
       const extraOption = { operation: 1 };

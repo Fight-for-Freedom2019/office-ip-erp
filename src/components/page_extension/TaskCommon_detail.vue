@@ -5,7 +5,7 @@
       <el-collapse-item v-for="item in collapse" :key="item.id" :title="`流程节点：${item.process_action.name} | 承办人：${item.user.name} | 完成时间：${item.completion_time ? item.completion_time : '正在处理中'}`">
         <el-form label-width="100px">
           <el-form-item label="流程节点：" style="margin-bottom: 0;">{{ item.process_action.name }}</el-form-item>
-          <el-form-item label="开始时间：" style="margin-bottom: 0;">{{ item.start_time }}</el-form-item>
+          <el-form-item label="开始时间：" style="margin-bottom: 0;">{{ item.creation_time }}</el-form-item>
           <el-form-item label="结束时间：" style="margin-bottom: 0;">{{ item.completion_time ? item.completion_time : '正在处理中' }}</el-form-item>
           <el-form-item label="承办人：" style="margin-bottom: 0;">{{ item.user.name }}</el-form-item>
           <el-form-item label="备注：" style="margin-bottom: 0;">{{ item.remark }}</el-form-item>

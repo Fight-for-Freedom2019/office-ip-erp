@@ -41,7 +41,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="财务">
-              <remote-select type="user" v-model="form.flow"></remote-select>
+              <remote-select type="user" v-model="form.finance"></remote-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -105,6 +105,10 @@ export default {
         representative: '',
         consultant: '',
         sales: '',
+        agency: '',
+        finance: '',
+        flow: '',
+        patent_agent: '',
 			}
     }
   },

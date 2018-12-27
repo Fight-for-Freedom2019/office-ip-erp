@@ -3,13 +3,13 @@
     <div class="CpcArchive">
         <table-component :tableOption="tableOption" :data="tableData" ref="table" @update="update" @refresh="refresh"
                          @refreshTableData="refreshTableData"></table-component>
-        <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
+        <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title" size="middle">
             <span slot="header" style="float: right;">
                 <el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>
                 <el-button type="primary" size="small" v-if="compileType === 'edit'"
                            @click="save('edit')">保存</el-button>
             </span>
-            <cpc-notice-edit :type="compileType" :data = "rowData" ref="CpcArchiveEdit" @update="update" @refresh="refresh"></cpc-notice-edit>
+            <cpc-archive-edit :type="compileType" :data="rowData" ref="CpcArchiveEdit" @update="update" @refresh="refresh"></cpc-archive-edit>
         </app-shrink>
     </div>
 </template>
@@ -100,7 +100,7 @@
                 this.rowID = row.id;
                 this.openVisible("isPanelVisible");
                 this.compileType = "edit";
-                this.title = `编辑CPC通知书>${row.cpc_serial}-${row.cpc_file_type.name}`
+                this.title = `编辑CPC通知书>${row.serial}-${row.title}`
             },
             // add() {
             //     this.rowData = {};

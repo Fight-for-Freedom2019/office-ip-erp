@@ -11,6 +11,7 @@
         :data="cacheData"
         :props="props"
         node-key="id"
+        check-strictly
         show-checkbox
         highlight-current
         :expand-on-click-node="false"
