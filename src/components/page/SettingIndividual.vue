@@ -13,6 +13,9 @@
 			<el-form-item label="邮箱地址" prop="email_address">
 				<el-input v-model="form.email_address" placeholder="请输入邮箱地址"></el-input>
 			</el-form-item>
+			<el-form-item label="邮箱密码" prop="email_password">
+				<el-input type="password" v-model="form.email_password" placeholder="请输入邮箱密码"></el-input>
+			</el-form-item>
 			<el-form-item label="POP服务器" prop="pop_server">
 				<el-input v-model="form.pop_server" placeholder="请输入POP服务器地址"></el-input>
 			</el-form-item>

@@ -29,7 +29,7 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="基本信息" name="base" >
           <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
-            <detail-patent style="height: 100%;" page-type="edit" v-if="type == 'patent'" @editSuccess="editSuccess" ref="patent"></detail-patent>
+            <detail-patent style="height: 100%;" page-type="edit" :is-child="true" v-if="type == 'patent'" @editSuccess="editSuccess" ref="patent"></detail-patent>
             <detail-trademark style="height: 100%;" page-type="edit" v-if="type == 'trademark'" @editSuccess="editSuccess" ref="trademark"></detail-trademark>
             <detail-copyright style="height: 100%;" page-type="edit" v-if="type == 'copyright'" @editSuccess="editSuccess" ref="copyright"></detail-copyright>
           </div>
@@ -354,6 +354,12 @@ export default {
         this.refreshDetail();
       }else {
         this.$emit('update:visibleAuth', false);
+      }
+    },
+    detailBase () {
+      const ref = this.$refs[this.type];
+      if (ref !== undefined) {
+        ref.show(this.id,this.detailBase);
       }
     }
   },

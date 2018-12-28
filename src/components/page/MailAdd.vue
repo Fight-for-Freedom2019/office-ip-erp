@@ -19,7 +19,7 @@
 			</el-form-item>
 			<el-form-item label="正文" prop="body">
 				<quill-editor 
-						v-model="form.body"
+						v-html="form.body"
 			ref="myQuillEditor"
 			:options="editorOption"
 			@blur="onEditorBlur($event)"
@@ -130,7 +130,7 @@ export default {
 
 				const data = Object.assign({}, this.form,  this.getMailForm());
 				data.model_id = this.id;
-				data.mail_scene = this.mail_type;
+				data.mail_scene = this.mail_scene;
 				
 				const success = _=>{
 					this.$message({message: '发送成功', type: 'success'});

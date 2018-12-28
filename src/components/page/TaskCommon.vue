@@ -373,6 +373,7 @@ export default {
           { type: 'text', prop: 'project_type', label: '案件类型', render_simple: 'name', render_header: true, width: '100'},
           { type: 'text', prop: 'subtype', label: '案件子类型', render_simple: 'name', render_header: true, width: '110'},
           { type: 'text', prop: 'process_definition', label: '管制事项', render_simple: 'name', render_header: true, width: '110',},
+          { type: 'text', prop: 'process_stage', label: '当前阶段', render_simple: 'name', render_header: true, width: '110',},
           { type: 'text', prop: 'task', label: '当前节点', render_header: true, width: '110', render: function(h,item){
             item = item != null ? item.process_action.name: '';
             return h('span',item);
