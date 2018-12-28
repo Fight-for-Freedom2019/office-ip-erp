@@ -276,7 +276,10 @@ const router = new Router({
           name: 'TaskPending',
           component: TaskCommon,
           meta: { 
-            params: { is_review_action: 0 }, 
+            params: { 
+              is_review_action: 0,
+              is_completed: 0
+            }, 
           },
         },   
         {
@@ -287,6 +290,7 @@ const router = new Router({
             params: { 
               is_review_action: 1,
               is_sender: 1,
+              is_completed: 0,
             },
           },
         },    
@@ -298,6 +302,7 @@ const router = new Router({
             params: { 
               is_review_action: 1,
               is_sender: 0,
+              is_completed: 0,
             },
           },
         },
@@ -308,6 +313,7 @@ const router = new Router({
           meta: {
             params: { 
               stage: 1,
+              is_completed: 0,
               relevance:'agent',
             },
           },
@@ -319,6 +325,7 @@ const router = new Router({
           meta: {
             params: { 
               stage: '2,3,4,5',
+              is_completed: 0,
               relevance:'assistant',
             },
           },
@@ -330,6 +337,7 @@ const router = new Router({
           meta: {
             params: { 
               stage: 'other',
+              is_completed: 0,
               relevance:'first_reviewer',
             },
           },
@@ -341,6 +349,7 @@ const router = new Router({
           meta: {
             params: { 
               stage: 'other',
+              is_completed: 0,
               relevance:'final_reviewer',
             },
           },
@@ -350,7 +359,10 @@ const router = new Router({
           name: 'TaskPendingAll',
           component: TaskCommon,
           meta: { 
-            params: { scope: 'all' }, 
+            params: { 
+              scope: 'all', 
+              is_completed: 0, 
+            }, 
           },
         },   
         {

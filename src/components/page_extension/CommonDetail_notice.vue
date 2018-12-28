@@ -19,6 +19,7 @@
         :action="notice_upload_url"
         :on-success="handleSuccess"
         :before-upload="handleBeforeUpload"
+        :headers="auth"
         :show-file-list="false"
         style="display: inline-block;"
       >
@@ -46,6 +47,7 @@
           <el-upload
           :action="upload_url"
           :on-success="handleSuccess"
+          :headers="auth"
           :before-upload="handleBeforeUploads"
           :show-file-list="false"
         >
@@ -56,6 +58,7 @@
           <el-upload
             drag
             :action="upload_url"
+            :headers="auth"
             :on-success="handleDragSuccess"
             multiple
             :show-file-list="false"
@@ -223,6 +226,9 @@ export default {
       'title',
       'detailId',
     ]),
+    auth () {
+      return { Authorization: window.localStorage.getItem('token')}
+    },
     detailNoticesSearch () {
       if(this.searchValue === '') {
         return this.detailNotices; 

@@ -3,9 +3,13 @@
       :on-success="handleUploadSuccess"
       :on-remove="handleUploadRemove"
       action="/api/files"
+      :headers="auth"
       :on-preview="onPreview"
+      :on-progress="onProgress"
+      :on-exceed="handleExceed"
       :before-upload="handleUploadBefore"
       :file-list="uploadList"
+      :limit="limit"
       multiple
       ref="upload"
       class="app-upload"
@@ -32,6 +36,12 @@
             }
         },
         'uploadText': String,
+        'limit': Number,
+      },
+      computed: {
+        auth () {
+          return { Authorization: window.localStorage.getItem('token') }
+        },
       },
       data () {
         return {
@@ -52,6 +62,10 @@
           }else {
             return true;
           }
+        },
+        handleExceed (f, fl) {
+          console.log(f)
+           // this.$message({type: 'warning',message:'上传文件大小不能超过200M！'});
         },
         handleUploadSuccess (p, f, fl) {
           // console.log(fl);
@@ -75,6 +89,8 @@
         onPreview (file) {
             window.location.href = file.downloadUrl;
         },
+        onProgress (e, f, fl) {
+        }, 
         handleUploadRemove (f) {
           const id = f.id;
           const v = this.value;

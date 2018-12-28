@@ -27,7 +27,7 @@
                         {type: 'add', click: this.addPop},
                     ],
                     columns: [
-                        {type: 'text', label: '类型', prop: 'type', width: '150'},
+                        {type: 'text', label: '类型', prop: 'type', width: '150',render_simple:"name"},
                         {type: 'text', label: '备注人', prop: 'user.name', width: '145'},
                         {type: 'text', label: '备注时间', prop: 'creation_time', width: '240'},
                         {type: 'text', label: '备注内容', prop: 'content'},

@@ -78,21 +78,15 @@
                             min_width: '178',
                             render_header: true
                         },
-                        {type: 'text', label: '标题', prop: 'title', width: '150', render_header: true},
+                        {type: 'text', label: '标题', prop: 'project.title',width: '150', render_header: true},
                         {type: 'text', label: '申请号', prop: 'application_number', width: '150', render_header: true},
                         {type: 'text', label: '申请日', prop: 'application_date', width: '160', render_header: true},
-                        {type: 'text', label: '案号', prop: 'serial', width: '120', render_header: true},
+                        {type: 'text', label: '案号', prop: 'project.serial',width: '120', render_header: true},
                         {type: 'text', label: '订单号', prop: 'order.serial', width: '120', render_header: true},
                         {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160', render_header: true},
                         {
                             type: 'text', label: '费用类型', prop: 'fee_code', width: '100', render: (h, item) => {
-                                let name = "";
-                                config.get("fee_type").options.map(function (o) {
-                                    if (item && o.id === item.fee_type) {
-                                        name = o.name;
-                                    }
-                                });
-                                return h("span", name);
+                                return h("span", item?item.fee_type.name:"");
                             },
                             render_header: true
                         },
@@ -107,15 +101,7 @@
                             prop: 'policy',
                             width: '150',
                             render_header: true,
-                            render: (h, item) => {
-                                let name = "";
-                                config.get("policy").options.map(function (o) {
-                                    if (o.id === item) {
-                                        name = o.name;
-                                    }
-                                });
-                                return h("span", name);
-                            }
+                            render_simple:"name",
                         },
                         {
                             type: 'text', label: '费用状态', prop: 'status', width: '150', render: (h, item) => {

@@ -15,10 +15,10 @@
                 <el-input v-model="form.phone_number"></el-input>
             </el-form-item>
             <el-form-item label="所属销售" prop="sales">
-                <static-select type="skip" v-model="form.sales"></static-select>
+                <jump-select type="user" v-model="form.sales"></jump-select>
             </el-form-item>
             <el-form-item label="所属顾问" prop="consultant">
-                <static-select type="skip" v-model="form.consultant"></static-select>
+                <jump-select type="user" v-model="form.consultant"></jump-select>
             </el-form-item>
             <el-form-item label="默认联系人" prop="contact">
                 <remote-select :pageType="popType" v-if="popType ==='edit'" type="contacts" v-model="form.contact"></remote-select>
@@ -43,6 +43,7 @@
     import {mapActions} from 'vuex'
     import PopMixins from '@/mixins/pop-mixins'
     import StaticSelect from '@/components/form/StaticSelect'
+    import JumpSelect from '@/components/form/JumpSelect'
     import RemoteSelect from "@/components/form/RemoteSelect";
     import ProvincialLinkage from '@/components/form/City'
     import LinkmanPop from '@/components/form/LinkmanPop'
@@ -50,19 +51,19 @@
     export default {
         name: 'CustomerListAdd',
         mixins: [PopMixins],
-        props: ['customer', 'row','popType','URL'],
+        props: ['customer', 'row','popType','URL','is_suppliers'],
         data() {
             return {
                 cityInfo: [],
                 form: {
                     name: '',
-                    sales_id: '',
-                    consultant_id: 0,
                     email_address: '',
                     phone_number: '',
                     address: '',
                     province_code: '',
                     city_code: '',
+                    consultant:"",
+                    sales:"",
                     contact:null,
                 },
                 contact:null,   // 新增的默认联系人数据
@@ -124,6 +125,7 @@
                     const url = this.URL;
                     this.form.contact = this.contact;
                     const data = Object.assign({}, this.form);
+                    this.is_suppliers?this.deleteField(data):"";
                     const success = _ => {
                         this.dialogVisible = false;
                         this.refresh();
@@ -137,10 +139,19 @@
             },
             getDefaultContacts(val){
                 this.contact = val;
+                this.is_suppliers?this.deleteField(this.contact):"";
+                console.log("this.contact",this.contact)
+
+            },
+            deleteField(obj){
+                delete obj.first_name;
+                delete obj.last_name;
+                delete obj.identity;
             },
             edit() {
                 const url = `${this.URL}/${this.customer.id}`;
                 const data = Object.assign({}, this.form);
+                this.is_suppliers?this.deleteField(data):"";
                 const success = _ => {
                     this.dialogVisible = false;
                     this.refresh();
@@ -170,7 +181,8 @@
             StaticSelect,
             ProvincialLinkage,
             RemoteSelect,
-            LinkmanPop
+            LinkmanPop,
+            JumpSelect
         },
         watch: {
             customer: function (val, oldVal) {

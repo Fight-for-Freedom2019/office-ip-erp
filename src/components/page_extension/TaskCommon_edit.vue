@@ -19,7 +19,7 @@
         </el-select> -->
       </el-form-item>
       <el-form-item label="绑定流程" prop="process_flow"  v-if="form.model != null">
-        <el-select v-model="form.process_flow" placeholder="请选择绑定流程" @visible-change.once="initFlows">
+        <el-select v-model="form.process_flow" clearable placeholder="请选择绑定流程" @visible-change.once="initFlows">
           <el-option
             v-for="item in flowOptions"
             :key="item.id"
@@ -30,7 +30,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="开始节点" prop="process_action" v-if="form.model != null">
-        <el-select v-model="form.process_action" placeholder="请选择开始">
+        <el-select v-model="form.process_action" clearable placeholder="请选择开始">
           <el-option
             v-for="item in actionOptions"
             :key="item.id"
@@ -289,7 +289,10 @@ export default {
           'internal_amending_period','internal_final_edition_time','customer_amending_period','customer_reviewing_period','customer_edition_time','filing_time','customer_first_edition_period','customer_final_edition_time'],
         })
         if(this.row.task.process_action) {
+          this.$nextTick(_=>{
+
           this.form.process_action = this.row.task.process_action['id'];
+          })
         }else if (this.row.task.remark) {
           this.form.remark = this.row.task.remark; 
         }else if (this.row.task.attachments && this.row.task.attachments.length != 0) {
@@ -431,15 +434,34 @@ export default {
   watch: {
     'row.id': {
       handler () {
-        this.refreshRow();
+        this.$nextTick(_=>{
+          window.setTimeout(_=>{
+            this.refreshRow();
+          },0)
+        });
       },
     },
+    'form.process_flow': {
+      handler (val) {
+        if(!val) {
+          this.form.process_action = '';
+        }
+      },
+      deep: true,
+    },
     type (val) {
-      if(val == 'edit') this.refreshRow();
+      if(val == 'edit') {
+        this.$nextTick(_=>{
+                    window.setTimeout(_=>{
+            this.refreshRow();
+          },0)
+        })
+      } 
     }
   },
   mounted () {
     this.refreshRow();
+    this.initFlows();
   },
   components: { Upload, RemoteSelect, JumpSelect, StaticSelect, }
 }

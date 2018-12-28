@@ -127,12 +127,13 @@ export default {
 				type: 'warning',
 			})
 			.then(_=>{
-				const url = `${URL}/${this.id}`;
+				const url = URL;
+				const data = {id: this.id};
 				const success = _=> {
 					this.$emit('refresh');
 					this.$message({type: 'success', message: _.info });
 				};
-				this.$axiosDelete({ url, success });
+				this.$axiosDelete({ url, data, success });
 
 			}).catch(_=>{
 

@@ -5,8 +5,8 @@
             <el-form-item label="申请人名称" prop="name">
                 <el-input v-model="form.name" placeholder="请填写申请人名称（必填）"></el-input>
             </el-form-item>
-            <el-form-item label="申请人类型" prop="applicant_type">
-                <static-select type="applicant_type" v-model="form.applicant_type"></static-select>
+            <el-form-item label="申请人类型" prop="type">
+                <static-select type="applicant_type" v-model="form.type"></static-select>
             </el-form-item>
             <el-form-item label="证件号码" prop="identity">
                 <el-input v-model="form.identity" placeholder="请填写申请人证件号码（可选）"></el-input>
@@ -112,7 +112,7 @@
                 cityInfo: [],
                 form: {
                     name: "",
-                    applicant_type: "",
+                    type: "",
                     identity: "",
                     citizenship: "",
                     address: "",
@@ -220,7 +220,6 @@
                     if(valid){
                         const url = `${URL}/${this.customer.id}/applicants`;
                         const data = Object.assign({}, this.submitForm());
-                        data.type = data.applicant_type;
                         const success = _ => {
                             this.dialogVisible = false;
                             this.refresh();
@@ -234,7 +233,6 @@
             edit() {
                 const url = `${URL}/${this.customer.id}/applicants/${this.presentId}`;
                 const data = Object.assign({}, this.submitForm());
-                data.type = data.applicant_type;
                 const success = _ => {
                     this.dialogVisible = false;
                     this.update();

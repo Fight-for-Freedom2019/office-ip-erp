@@ -6,7 +6,7 @@
  		 	width="400"
 			placement="right"
 			trigger="manual"
-			:ref="`popover_${tag.type}_${tag.id}`"
+			:ref="`popover_${tag.id}`"
 			v-model="tag.visible"
 			@show.once="handleCardDetails(tag)"
  		>
@@ -115,11 +115,11 @@ export default {
 			if(this.cardFields && this.cardFields.length != 0 ) {
 				//手动关闭el-popover，还存在缺陷，无法关闭不是同一个字段,因为$refs只有当前字段的
 				for (let k in this.$refs) {
-					if(k !== `popover_${tag.type}_${tag.id}`) {
+					if(k !== `popover_${tag.id}`) {
 						this.$refs[k][0].doClose();
 					}
 				}
-				this.$refs[`popover_${tag.type}_${tag.id}`][0].doToggle();
+				this.$refs[`popover_${tag.id}`][0].doToggle();
 			}else {
 				return false;
 			}

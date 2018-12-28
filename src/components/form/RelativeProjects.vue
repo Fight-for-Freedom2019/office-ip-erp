@@ -25,7 +25,7 @@
 				  </el-select>
 	  		</el-col>
 	  		<el-col :span="16" style="padding: 0 5px">
-	  			<jump-select type="专利" :value-key="`key__${index}`" v-model="items[index].id" :ref="`relativeProjects`" :para="customer"></jump-select>
+	  			<jump-select type="专利" :value-key="`key-${index}`" v-model="items[index].id" :ref="`relativeProjects`" :para="customer"></jump-select>
 	  		</el-col>
 	  		<el-col :span="2" style="padding-left: 5px">
 	  			<el-button type="text" size="mini" @click="deleteRow(index)">删除</el-button>
@@ -66,7 +66,7 @@ export default {
 	},
 	methods: {
 		addRow() {
-			this.items.push({'id': {id: '', name: ''}, 'reference_type': '',})
+			this.items.push({'id': '', 'reference_type': '',})
 		},
 		deleteRow(index) {
 			this.items.splice(index, 1);
@@ -94,7 +94,8 @@ export default {
 	},
 	watch: {
 		value : {
-			handler: function() {
+			handler: function(v) {
+				console.log(v)
 				this.items = this.$tool.deepCopy(this.value);
 				this.olditems = this.$tool.deepCopy(this.value);
 			}

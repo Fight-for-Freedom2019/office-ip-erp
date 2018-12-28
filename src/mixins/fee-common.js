@@ -28,7 +28,7 @@ export default (module) => ({
         handleRowClick(row) {
             this.compileType = "edit";
             this.row = row;
-            this.title = `订单编号: ${row.serial}`;
+            this.title = `订单编号: ${row.project?row.project.serial:""}`;
             this.isPanelVisible = true;
         },
         createNewOrder() {   // 创建新的请/付款单

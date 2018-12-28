@@ -4,11 +4,15 @@
                          @refreshTableData='refreshTableData'></table-component>
         <pop @refresh="refresh" @update="update" ref="pop" :URL="URL" :customer="customer" :contractsID="contractsID"
              :popType="popType"></pop>
+        <el-dialog :visible.sync="dialogVisible" class="dialog-small" title="附件详情" :modal="false">
+            <app-table :columns="uploadColumns" :data="uploadData"></app-table>
+        </el-dialog>
     </div>
 </template>
 <script>
     import TableComponent from '@/components/common/TableComponent'
     import Pop from '@/components/page_extension/ContractListPop'
+    import AppTable from '@/components/common/AppTable'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -16,6 +20,24 @@
         props: ['customer', 'itemData','URL'],
         data() {
             return {
+                uploadColumns: [
+                    { type: 'text', label: '文件名称', prop: 'name', min_width: '120'},
+                    { type: 'text', label: '上传日期', prop: 'create_time', min_width: '120'},
+                    { type: 'text', label: '上传人', prop: 'uploader', min_width: '100', render_simple: 'name'},
+                    { type: 'text', label: '大小', prop: 'size', min_width: '80'},
+                    {
+                        type: 'action',
+                        label: '操作',
+                        fixed: false,
+                        min_width: '120',
+                        btns: [
+                            { type: 'download', click: ({downloadUrl})=>{window.open(downloadUrl)}},
+                            { type: 'view', click:({viewUrl})=>{window.open(viewUrl)}}
+                        ]
+                    }
+                ],
+                uploadData: [],
+                dialogVisible:false,
                 option: {
                     URL: this.url,
                     is_search: true,
@@ -27,18 +49,20 @@
                             type: 'text',
                             prop: 'serial',
                             label: '合同编号',
-                            // render_text: _=>this.caseMap.get(Number.parseInt(_)),
                         },
-                        {type: 'text', prop: 'type', label: '合同类型'},
+                        {type: 'text', prop: 'type', label: '合同类型',render_simple:"name"},
                         {
-                            type: 'text', prop: 'is_effective', label: '状态', render: (h, item) => {
-                                item = item === 1 ? "生效中" : "已失效";
-                                return h("span", item);
-                            }
+                            type: 'text', prop: 'status', label: '状态', render_simple:"name"
                         },
                         {type: 'text', prop: 'signing_date', label: '签订日期'},
                         {type: 'text', prop: 'expire_date', label: '届满日期'},
-                        {type: 'text', prop: 'accessory', label: '附件'},
+                        {
+                            type: 'text',
+                            label: '附件',
+                            width: '178',
+                            prop: 'attachments',
+                            render: this.attachmentsRender,
+                        },
                         {type: 'text', prop: 'remark', label: '备注'},
                         {
                             type: 'action',
@@ -78,6 +102,41 @@
             },
             update() {
                 this.$refs.table.update();
+            },
+            attachmentsRender (h, item) {
+                let body;
+
+                if(item.length == 0) {
+                    body = '';
+                }else if(item.length == 1) {
+                    const obj = {
+                        attrs: { href: item[0]['downloadUrl'] },
+                    };
+                    body = [h('a', obj, item[0].name )];
+                }else if(item.length > 1) {
+                    body = [];
+                    const obj = {
+                        attrs: { href: item[0]['downloadUrl'] },
+                        style: { width: '120px', display: 'inline-block',overflow: 'hidden',textOverflow:'ellipsis',
+                            whiteSpace : 'nowrap' },
+                    };
+
+                    body.push(h('a', obj, item[0].name ));
+                    body.push(h('el-button', {
+                        props: {
+                            type: 'text',
+                            size: 'mini',
+                        },
+                        on: {
+                            click: () => {
+                                this.dialogVisible = true;
+                                this.uploadData = item;
+                            }
+                        }
+                    }, '更多'));
+                }
+
+                return h('span',{style:{display: 'flex',justifyContent:'flex-start',}}, body);
             },
             refreshTableData(option) {
                 const success = _ => {
@@ -125,6 +184,7 @@
         components: {
             TableComponent,
             Pop,
+            AppTable,
         },
 
     }

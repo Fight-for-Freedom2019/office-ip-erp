@@ -4,6 +4,7 @@
       :action="upload_url"
       :on-success="handleSuccess"
       drag
+      :headers="auth"
       multiple
       style="line-height: 40px;display:inline-block;width:200px;"
       :show-file-list="false"
@@ -14,6 +15,7 @@
       :action="zip_upload_url"
       :on-success="handleSuccess"
       drag
+      :headers="auth"
       multiple
       style="line-height: 40px;display:inline-block;width:200px;"
       :show-file-list="false"
@@ -178,6 +180,9 @@ export default {
     ...mapGetters([
       'menusMap',
     ]),
+    auth () {
+      return { Authorization: window.localStorage.getItem('token') }
+    },
     config () {
       const config = map.get(this.type);
       return config ? config : this.type;
