@@ -292,10 +292,11 @@ export default {
     submitForm () {
       if(this.form.references && this.form.references.length != 0) {
         this.form.references.map(_=>{
-          // _.id = _.id.id;
+          _.id = _.id;
           _.references_type = _.references_type;
         });
       }
+      console.log(this.form.references)
       return this.$tool.shallowCopy(this.form, { 'date': true });
     },
     handleUploadSuccess (a, b, c) {

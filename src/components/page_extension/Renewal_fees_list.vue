@@ -102,6 +102,7 @@ export default {
 					const data = {fees};
 					const success = _=> {
 						this.$emit('refresh');
+						this.$refs.table.refresh();
 						this.$message({type: 'success', message: _.info });
 					};
 					this.$axiosDelete({ url, data, success });

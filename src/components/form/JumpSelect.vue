@@ -282,14 +282,16 @@ export default {
   	},
     refreshSelected (val) {
       val = this.single ? [val] : val;
-
       if(this.staticMap.length > 0) {
         this.static_map = this.staticMap;
       }
       if( val[0] && val[0] instanceof Object ) {
-        
+        //过滤掉id为空的值
+        // const v = val.filter(_=>{return _.id && _.name}); 
+
         this.static_map = val;
         const arr = val.map(_=>_.id);
+
         if(this.multiple) {
           this.$emit('input', arr);
         }else {
@@ -450,6 +452,7 @@ export default {
   },
   watch: {
   	value2 (val) {
+      console.log(val)
       // 通过监听value2的变化来对remote-select因tag文字超出input变大样式的hack
       // var aEle=document.getElementsByTagName('input');
       // for(var i=0;i<aEle.length;i++){
@@ -478,7 +481,7 @@ export default {
     }
   },
   created () {
-      this.value2?this.refreshSelected(this.value2):"";
+      this.value2 ?this.refreshSelected(this.value2):"";
   }
 }
 </script>

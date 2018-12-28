@@ -58,7 +58,7 @@
       </el-menu>
     </div>
     <div v-loading="loading" :element-loading-text="loadingText" >
-      <div :style="`height: ${innerHeight-10}px; padding: 10px 15px 0; background-color: #F9FAFC;overflow:auto;`">
+      <div :style="`height: ${innerHeight-10}px; padding: 10px 15px 0; background-color: #F9FAFC;`">
         <div class="container">
           <!-- <h1 class="container-menu"><i :class="select.icon"></i><span>{{ select.text }}</span></h1> -->
           <div class="container-nav" v-if="!noMenu">
