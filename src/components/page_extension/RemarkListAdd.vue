@@ -105,7 +105,7 @@
             coverObj(val) {
                 if (val) {
                     this.$tool.coverObj(this.form, val, {
-                        obj: ["consultant"],
+                        obj: ["type"],
                         skip: []
                     });
                 }
