@@ -11,7 +11,7 @@ const defaultProps = {
     },
 };
 
-function vm({label, url, props = {}, tip = "", type = "picture",field = "attachments"}) {
+function vm({label, url, props = {}, tip = "", type = "custom",field = "attachments", common = false, accept = "", limit = 1000}) {    // common:不出现选择类型弹窗
     const template = `
 <div>
     <template v-if="type === 'file'">
@@ -42,7 +42,7 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
         </el-dialog>
     </template>
     <template v-if="type === 'custom'">
-        <upload-file :tip="tip" :isSave="isSave" :fileList="fileList" @getFileList="getFileList"></upload-file>
+        <upload-file :tip="tip" :customAccept="accept" :isSave="isSave" :userDefined="userDefined" :customLimit="limit" :common="common" :fileListProp="fileList" @getFileList="getFileList"></upload-file>
     </template>
 </div>
 `;
@@ -51,13 +51,21 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
             extendData: {
                 [field]:[]
             },
-            fileList: [{url: 'http://img1.touxiang.cn/uploads/20131030/30-075657_191.jpg',name:"test"}],
+            fileList: [],
             action: url,
             dialogImageUrl: "",
             dialogVisible: false,
             type: type,
             tip,
+            common,
+            limit,
+            accept,
+            userDefined:true,
             isSave:false,
+        },
+        created(){
+            // this.extendData[field] = [];
+            this.fileList = this.extendData[field];
         },
         methods: {
             submitUpload() {
@@ -73,6 +81,7 @@ function vm({label, url, props = {}, tip = "", type = "picture",field = "attachm
             },
             getFileList(val){
                 this.extendData[field] = val;
+                console.log("extendData",this.extendData[field]);
             },
         },
         components: { UploadFile }

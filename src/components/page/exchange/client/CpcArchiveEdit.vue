@@ -1,7 +1,7 @@
 <!-- 编辑CPC通知书案件关联 -->
 <template>
     <div class="main" style="margin-top:10px;">
-        <el-form label-width="120px" :model="form" :rules="rules" ref="form">
+        <el-form label-width="80px" :model="form" :rules="rules" ref="form">
             <el-form-item label="案件引用" prop="project">
                 <remote-select type="专利" placeholder="请选择案件引用" v-model="form.project"></remote-select>
             </el-form-item>
@@ -53,6 +53,7 @@
         },
         watch: {
             data: function (val, oldVal) {
+                console.log(val)
                 this.coverObj(val);
             },
         },
@@ -93,7 +94,7 @@
             },
             coverObj(val){
                 val?this.$tool.coverObj(this.form,val,{obj:[
-                    'project','is_imported'
+                    'project',
                 ]}):"";
             },
         },

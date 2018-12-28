@@ -44,7 +44,7 @@
                     @ready="onEditorReady($event)"    
                 >
                 </quill-editor>
-            </el-form-item>        
+            </el-form-item> 
         </el-form>
     </div>
 </template>
@@ -115,11 +115,6 @@ export default {
     mounted() {
         this.coverObj(this.data);
     },
-    watch: {
-        data: function (val, oldVal) {
-            this.coverObj(val);
-        },
-    },
     methods: {
         submitForm(type, id) {
             if(this.form.is_default) {
@@ -188,6 +183,9 @@ export default {
         },
     },
     watch: {
+        data: function (val, oldVal) {
+            this.coverObj(val);
+        },
         'form.is_default': {
             handler (val) {
                 this.rules.customer[0].required = !this.rules.customer[0].required

@@ -159,6 +159,7 @@ export default {
         pre_exam_ok_date: '',
         publication_date: '',
         publication_number: '',
+        pct_application_date: '',
         sub_exam_start_date: '',
         issue_date: '',
         issue_number: '',

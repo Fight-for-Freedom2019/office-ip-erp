@@ -80,7 +80,7 @@ export default {
     },
     setForm (data) {
       this.$tool.coverObj(this.form, data, {
-        obj: [ 'service', 'contract_type', 'fee_policy', 'contract'], 
+        obj: [ 'service', 'contract_type', 'fee_policy',], 
       });
     },
     submitForm () {

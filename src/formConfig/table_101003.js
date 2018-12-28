@@ -120,7 +120,7 @@ let rule = [
     },
     checkbox_common_vm(one,"第一代理人权限",checkOneFunc,{labelWidth:"120px"},false),
     checkbox_common_vm(two,"第二代理人权限",checkTwoFunc,{labelWidth:"120px"},false),
-    upload_vm({label:"委托书扫描件",type:"file",tip:"上传专利委托书"}),
+    upload_vm({label:"委托书扫描件",tip:"上传专利委托书",type:"custom",limit:1,field:"picture",common:true}),
 ]
 
 const content = {

@@ -32,7 +32,7 @@ let rule = [
             "multiple-limit":2,
         },
     },
-    upload_vm({type:"file",tip:"",label:"委托书扫描件"})
+    upload_vm({type:"custom",tip:"",label:"委托书扫描件",field:"pictures",common:true})
 ]
 const content = {
     rule
