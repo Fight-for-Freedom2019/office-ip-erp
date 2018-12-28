@@ -58,7 +58,6 @@
                     // 'is_list_filter': true,
                     'list_type': 'orders',
                     'treeFilter': 'orders',
-                    'search_placeholder': '',
                     'rowClick': this.handleRowClick,
                     'search_placeholder': '搜索客户名称、订单号码',
                     'header_btn': [

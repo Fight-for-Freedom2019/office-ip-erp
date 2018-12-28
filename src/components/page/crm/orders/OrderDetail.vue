@@ -151,6 +151,7 @@
                 const success = _ => {
                     this.$message({type: "success", message: "删除订单成功!"});
                     this.$emit("update");
+                    this.dialogVisible = false;
                 };
                 this.$axiosDelete({url, data, success});
             },

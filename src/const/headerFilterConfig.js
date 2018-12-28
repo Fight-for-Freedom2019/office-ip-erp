@@ -405,7 +405,7 @@ const map = new Map([
     [
       {
         type: "static_select",
-        id: "applicant_type",
+        id: "type",
         name: "申请人类型",
         map_type: "applicant_type"
       },
@@ -524,7 +524,7 @@ const map = new Map([
         name: "类型",
         map_type: "remark_type"
       },
-      { type: "remote_select", id: "user", name: "备注人", data_key: "data" },
+      { type: "remote_select", id: "user", name: "备注人", data_key: "data", url: "/users" },
       { type: "date", id: "creation_time", name: "备注时间" },
       { type: "text", id: "content", name: "备注内容" }
     ]
