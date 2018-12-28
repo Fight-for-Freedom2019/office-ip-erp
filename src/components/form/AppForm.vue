@@ -104,7 +104,7 @@
 		<voucher-detail ref="voucher" @loaded="panelLoaded"></voucher-detail> <!-- 发票详情 -->
 		<renewal-fee ref="renewal_fee"></renewal-fee> <!-- 年费详情 -->
 		<renewal-estimate-detail ref="renewal_estimate_detail"></renewal-estimate-detail> <!-- 年费评估单详情 -->
-		<patent-add ref="patent_add" pageType="edit"></patent-add><!-- 专利基本信息 --> 
+		<patent-add ref="patent_add" pageType="edit" :is-child="false"></patent-add><!-- 专利基本信息 --> 
 		<common-detail ref="common_detail" :title="row.title"></common-detail> <!-- 专利、商标、版权详情 -->
 		<cpc-editor ref="cpc_editor" :id="row.model_id"></cpc-editor> <!-- CPC编辑器 -->
 
@@ -142,7 +142,7 @@ import VoucherDetail from '@/components/page_extension/InvoiceManageDetail'
 import ContractDetail from '@/components/page/crm/contracts/ContractsListAdd'
 import SensitiveOperation from '@/components/page/common/SensitiveOperation'
 import CpcEditor from '@/components/page/cpc/CpcEditor'
-import PatentAdd from '@/components/page_extension/PatentShrink'
+import PatentAdd from '@/components/page/PatentAdd' 
 import CommonDetail from '@/components/page_extension/Common_detail'
 import RenewalEstimateDetail from '@/components/page_extension/RenewalEstimate_detail'
 import RenewalFee from '@/components/page_extension/RenewalFee_pop'
@@ -177,7 +177,13 @@ export default {
 		'row':{
 			type: Object,
 			default: {},
-		}
+		},
+		'process':{
+			type: Object,
+			default () {
+				return {}
+			},
+		},
 	},
 	data () {
 		return {
@@ -218,7 +224,7 @@ export default {
 				case 'payment_request':this.$refs.payment_request.show(this.row.model_id,'edit');break;
 				case 'voucher':this.$refs.voucher.show(this.row.model_id,'edit');break;
 				case 'cpc_editor':this.$refs.cpc_editor.showApplicationEditor(this.row.task.id);break;
-				case 'patent_add':this.$refs.patent_add.show(this.row.model_id, type);break;
+				case 'patent_add':this.$refs.patent_add.show(this.row.model_id);break;
 				case 'patent':this.$refs.common_detail.show(this.row.model_id, type);break;
 				case 'renewal_estimate':this.$refs.renewal_estimate_detail.show(this.row.model_id);break;
 				case 'renewal_fee':this.$refs.renewal_fee.show('edit', this.row);break;
@@ -234,7 +240,10 @@ export default {
 				}else {
 					val = '';
 				}
-				console.log(val)
+				if (this.process[_.key] !== undefined) {
+					val = this.process[_.key];
+					this.$set(this.form, _.key, val);
+				}
 				this.$set(this.form, _.key, val);
 			});
 		},

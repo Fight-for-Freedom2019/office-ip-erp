@@ -55,7 +55,7 @@
       </el-form>
     </el-collapse-item>
     <el-collapse-item title="任务处理" name="2">
-        <app-form :source="sourceForm" :rules="appFormRules" :labelWidth="`100px`" @formData="handleForm" :opinion="review_opinion" :row="row" ref="appForm">
+        <app-form :source="sourceForm" :rules="appFormRules" :labelWidth="`100px`" @formData="handleForm" :opinion="review_opinion" :process="processData" :row="row" ref="appForm">
             <el-form-item label="节点描述" v-if="tips">
               <span style="display:inline-block;line-height:40px;">{{ tips }}</span>
             </el-form-item>
