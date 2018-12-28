@@ -34,12 +34,6 @@
         mixins: [PopMixins],
         props: {
             customer: Object,
-            contracts: {
-                type: Object,
-                default() {
-                    return {};
-                }
-            },
             popType: {
                 type:String,
                 default(){
@@ -102,6 +96,14 @@
             update() {
                 this.$emit('update');
             },
+            show ( type='add', data ) {
+                this.type = type;
+                this.dialogVisible = true;
+                this.$nextTick(_=>{
+                    this.$refs.form.resetFields();
+                    this.coverObj(data);
+                });
+            },
             add() {
                 //if (this.form.name !== '') {
                 const url = `${this.URL}/${this.customer.id}/remarks`;
@@ -140,15 +142,14 @@
             cancel() {
                 this.dialogVisible = false;
             },
-        },
-        watch:{
-            contracts:function (val,oldVal) {
-                this.form = val;
+            coverObj(val) {
+                if (val) {
+                    this.$tool.coverObj(this.form, val, {
+                        obj: ["type"],
+                        skip: []
+                    });
+                }
             }
-            // form:function (val,oldVal) {
-            //     console.log("每次都会经过这吗?")
-            //     val.is_publish_name = val.is_publish_name=== "是"?1:0;
-            // }
         },
         components: {
             StaticSelect,

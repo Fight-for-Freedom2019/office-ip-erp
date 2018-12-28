@@ -160,7 +160,7 @@
                 this.$refs.form.resetFields();
             },
             coverObj(val){
-                val?this.$tool.coverObj(this.form,val,{obj:["fee_code","project"]}):"";
+                val?this.$tool.coverObj(this.form,val,{obj:["fee_code","policy","status"],skip:["project"]}):"";
             },
         },
         watch:{

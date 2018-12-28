@@ -9,7 +9,7 @@
           <span slot="header" style="float: right;">
             <el-button type="primary" @click="saveAdd" size="small">新建</el-button>
           </span>
-            <customer-list-add ref="customerAdd" :URL="URL" @refresh="addSuccess" popType="add"></customer-list-add>
+            <customer-list-add ref="customerAdd" :is_suppliers="is_suppliers" :URL="URL" @refresh="addSuccess" popType="add"></customer-list-add>
         </app-shrink>
 
         <!-- 供应商详情面板 -->
