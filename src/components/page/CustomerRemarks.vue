@@ -47,7 +47,7 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '类型', prop: 'type', width: '150',render_header:true},
+                        {type: 'text', label: '类型', prop: 'type', width: '150',render_header:true,render_simple:"name"},
                         {type: 'text', label: '备注人', prop: 'user', width: '145',render_simple:"name",render_header:true},
                         {type: 'text', label: '备注时间', prop: 'creation_time', width: '240',render_header:true},
                         {type: 'text', label: '备注内容', prop: 'content',render_header:true},
