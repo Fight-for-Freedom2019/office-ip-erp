@@ -9,8 +9,8 @@
                 <el-input v-model="form.name" placeholder="请填写申请人名称（必填）"></el-input>
             </el-form-item>
 
-            <el-form-item label="申请人类型" prop="applicant_type">
-                <static-select type="applicant_type" v-model="form.applicant_type"></static-select>
+            <el-form-item label="申请人类型" prop="type">
+                <static-select type="applicant_type" v-model="form.type"></static-select>
             </el-form-item>
 
             <el-form-item label="证件号码" prop="identity">
@@ -121,7 +121,7 @@
             return {
                 form: {
                     customer:"",
-                    applicant_type: "",
+                    type: "",
                     name: "",
                     identity: "",
                     citizenship: "",
@@ -181,7 +181,6 @@
                 this.$refs.form.validate((valid) => {
                     if(valid){
                         const data = this.submitForm();
-                        data.type = data.applicant_type;
                         if (type === "add") {
                             this.$axiosPost({
                                 url: URL,

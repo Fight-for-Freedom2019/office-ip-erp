@@ -337,13 +337,13 @@
             removeFile(id,isRemind = true){
                 const success = (_) => {
                     isRemind?this.$message({type: "success", message: "删除成功!"}):"";
+                    !this.isSave ? this.saveCpcFile() : ""
                 };
                 this.$axiosDelete({url: `/files/${id}`, data: {}, success});
             },
             handleRemoveFile(file, fileList) {
-                console.log("remove", file);
+                // console.log("remove", file);
                 this.fileList = fileList;
-                !this.isSave ? this.saveCpcFile() : ""
                 // let id = 5880;
                 let id = !this.common ? file.response.data.file.id : file.response ? file.response.data.file.id : file.id;
                 this.removeFile(id);

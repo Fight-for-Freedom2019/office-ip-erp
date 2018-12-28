@@ -55,7 +55,7 @@
                         {
                             type: 'text',
                             label: '申请人类型',
-                            prop: 'applicant_type',
+                            prop: 'type',
                             render_header:true,
                             width: '200',
                             render_text:(item)=>{
@@ -142,7 +142,7 @@
             },
             handleRowClick(row) {
                 let copy = this.$tool.deepCopy(row);
-                copy.applicant_type === 0 ? copy.applicant_type = "" : ""
+                copy.type === 0 ? copy.type = "" : ""
                 this.applicant = copy;
                 this.formType = 'edit';
                 copy.province_city = [copy.province_code - 0, copy.city_code + ""];

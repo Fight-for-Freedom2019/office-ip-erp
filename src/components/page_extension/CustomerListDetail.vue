@@ -9,7 +9,7 @@
 			</span>
             <el-tabs v-model="activeName" @tab-click="onTabPageClicked">
                 <el-tab-pane label="基本信息" name="base">
-                    <customer-add ref="basicInfo" popType="edit" :customer="row"
+                    <customer-add ref="basicInfo" :URL="URL" popType="edit" :customer="row"
                                   @refresh="handleRefresh"></customer-add>
                 </el-tab-pane>
                 <template v-if="!is_suppliers"><!-- 供应商管理不需要申请人和发明人 -->

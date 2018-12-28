@@ -23,7 +23,7 @@
             <el-form-item label="默认联系人" prop="contact">
                 <remote-select :pageType="popType" v-if="popType ==='edit'" type="contacts" v-model="form.contact"></remote-select>
                 <div v-else>
-                    <el-tag closable v-if="contact">{{contact?contact.name:""}}</el-tag>
+                    <el-tag closable v-if="contact" @close="handleClose()">{{contact?contact.name:""}}</el-tag>
                     <el-button type="text" @click="createDefaultContact">添加</el-button>
                 </div>
             </el-form-item>
@@ -58,7 +58,6 @@
                     name: '',
                     sales_id: '',
                     consultant_id: 0,
-                    contact_id: 0,
                     email_address: '',
                     phone_number: '',
                     address: '',
@@ -111,7 +110,9 @@
             ]),
         },
         methods: {
-
+            handleClose(){
+                this.contact = null;
+            },
             // submitForm () {
             // 	return Object.assign({}, this.form, {customer_id: this.customerId});
             // },
@@ -139,7 +140,6 @@
             },
             edit() {
                 const url = `${this.URL}/${this.customer.id}`;
-                this.form.contact_id = this.form.contact;
                 const data = Object.assign({}, this.form);
                 const success = _ => {
                     this.dialogVisible = false;
