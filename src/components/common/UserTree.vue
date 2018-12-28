@@ -142,7 +142,7 @@ export default {
           node.isLeaf = false;
         }
       } else if (str == "edit") {
-        node.data.name = children.name;
+        node.data = children;
         this.$emit("refresh", node.data, this.radio);
       }
     },
