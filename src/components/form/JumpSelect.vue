@@ -482,6 +482,7 @@ export default {
   },
   created () {
       this.value2 ?this.refreshSelected(this.value2):"";
+      this.remoteMethod("");
   }
 }
 </script>
