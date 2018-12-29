@@ -144,7 +144,7 @@ export default {
           { type: 'text', label: '案号', prop: 'serial', is_agency: true,  width: '160',render: this.serialRender, render_header: true},
           { type: 'text', label: '标题', prop: 'title',  is_import: true, width: '200', is_agency: true, render_header: true},
           { type: 'text', label: '英文标题', prop: 'english_title',  is_import: true, width: '200', is_agency: true, render_header: true},
-  
+          { type: 'text', prop: 'process_stage', label: '任务阶段', render_simple: 'name', render_header: true, width: '110',},
           { type: 'text', label: '案件类型', prop: 'subtype', is_agency: true, render_simple: 'name', is_import: true, width: '120',render_header:true},
           { type: 'text', label: '申请国家', prop: 'area',  is_import: true, width: '120', render_simple: 'name', is_agency: true, render_header: true },
           { type: 'array', label: '申请人', prop: 'applicants', width: '200', is_import: true,render: _=>{ return _.map(_=>_.name);},render_header: true},

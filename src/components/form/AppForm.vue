@@ -95,6 +95,19 @@
 						</a>
 					</el-form-item>
 				</template>
+				<template v-else-if="item.components == 'points'">
+					<el-form-item :label="item.name" :prop="item.key" :key="index">
+						<el-input
+							ref="input"
+							v-model="form[item.key]"
+							@input="handleInput"
+							:type="item.type"
+							:placeholder="item.placeholder"
+						>
+						</el-input>
+						<span>注意此点数是原始点数，实际点数需要计算成熟度</span>
+					</el-form-item>
+				</template>
 			</template>
 		</template>
 		<slot name="app-button"></slot>

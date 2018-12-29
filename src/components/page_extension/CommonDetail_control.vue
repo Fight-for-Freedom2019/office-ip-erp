@@ -211,7 +211,7 @@ export default {
     taskdefRender (h,item,data) {
       return ( 
         <span>
-          {data.status?<i class="el-icon-check" style="color: #3c3;margin-right:10px;"></i>:<i class="el-icon-loading" style="color: #f90;margin-right:10px;"></i>}
+          {data.is_completed?<i class="el-icon-check" style="color: #3c3;margin-right:10px;"></i>:<i class="el-icon-loading" style="color: #f90;margin-right:10px;"></i>}
             <span>{ data.process_definition.name }</span>
         </span>
       );

@@ -5,7 +5,6 @@ import router from "./router";
 import store from "./store";
 import ElementUI from "element-ui";
 import formCreate from "form-create";
-import $ from "jquery";
 import VueQuillEditor from "vue-quill-editor";
 import MyAxios from "@/const/MyAxios";
 import "element-ui/lib/theme-chalk/index.css";

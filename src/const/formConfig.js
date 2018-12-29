@@ -156,10 +156,10 @@ const map = new Map([
   [
     "points",
     {
-      components: "input",
+      components: "points",
       type: "text",
       rules: {
-        type: "string",
+        type: "number",
         required: true,
         message: "点数不能为空",
         trigger: "change"
