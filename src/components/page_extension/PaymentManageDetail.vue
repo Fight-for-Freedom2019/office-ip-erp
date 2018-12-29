@@ -7,7 +7,7 @@
                 <el-button type="danger" size="small" @click="deleteInvoice">删除</el-button>
                 <el-button type="primary" size="small" v-if="status === 'audit'"
                            @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
-                <el-button type="primary" size="small" v-if="showSendmailBtn" @click="sendmail" >发送邮件</el-button>
+                <el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail" >发送邮件</el-button>
                 <!-- <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button> -->
                 <!-- <el-button type="primary" size="small" v-if="status === 'confirm'" @click="confirm">确认付款</el-button> -->
                 <!--<el-button type="" size="small">退回修改</el-button>-->
@@ -205,7 +205,7 @@
                         {required:true,message:"请选择付款时间",trigger: 'blur' }
                     ]
                 },
-                showSendmailBtn:true,
+                showSendMailBtn:true,
                 invoice: {},
             }
         },
@@ -264,7 +264,7 @@
                     this.form.received_amount = this.getAllReceived(this.receivedData);
                     this.attachments = d.attachments;
                     this.title = (this.mode ==='pay' ? '付款单' : '请款单') + '详情>' + d.serial;
-                    this.status = statusMap.get(d.status.id);
+                    this.status = statusMap.get(d.status);  // 之前status是个Object，现在变成了一个Number类型
                     this.invoice = d;
                 };
                 const complete = () => {
