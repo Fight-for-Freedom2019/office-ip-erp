@@ -64,11 +64,11 @@
           }
         },
         handleExceed (f, fl) {
-          console.log(f)
-           // this.$message({type: 'warning',message:'上传文件大小不能超过200M！'});
+           this.$message({type: 'warning',message:`限制上传${this.limit}个文件`});
         },
         handleUploadSuccess (p, f, fl) {
           // console.log(fl);
+          console.log(this.value)
           if(p.status) {
             const id = p.data.file.id;
             const copy = [...this.value];
