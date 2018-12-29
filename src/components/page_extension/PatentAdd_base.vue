@@ -39,9 +39,16 @@
         </el-col>
       </el-row>
       <el-row>
+        <el-col :span="12">
           <el-form-item label="案件状态">
               <jump-select type="project_stage" v-model="form.project_stage"></jump-select>
           </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="任务阶段">
+              <jump-select type="process_stage" v-model="form.process_stage"></jump-select>
+          </el-form-item>
+        </el-col>
 <!--         <el-col :span="8">
           <el-form-item label="群组号">
               <static-select  type="group_number" v-model="form.group_number" placeholder="请填写群组号" @visible-change="handleVisibleChange"></static-select>
@@ -52,14 +59,14 @@
               <static-select type="family_number" v-model="form.family_number" placeholder="请填写专利族号" @visible-change="handleVisibleChange"></static-select>
           </el-form-item>
         </el-col> -->
-        <el-col :span="8">
+        <!-- <el-col :span="8"> -->
      <!--      <el-form-item label="法律状态">
               <static-select type="legal_status" v-model="form.official_status"></static-select>
           </el-form-item> -->
-        </el-col>
+ <!--        </el-col>
          <el-col :span="8"> 
       
-        </el-col>
+        </el-col> -->
       </el-row>
       <el-form-item label="申请人">
         <remote-select type="applicant" :page-type="type" v-model="form.applicants" :para="customerParam" multiple></remote-select>
@@ -157,6 +164,7 @@ export default {
         subtype: '',
         // ipr: '',
         project_stage: '',
+        process_stage: '',
         level: '',
         applicants: [],
         inventors: [],
@@ -292,11 +300,10 @@ export default {
     submitForm () {
       if(this.form.references && this.form.references.length != 0) {
         this.form.references.map(_=>{
-          _.id = _.id;
-          _.references_type = _.references_type;
+          _.id = _.id.id;
+          _.reference_type = _.reference_type;
         });
       }
-      console.log(this.form.references)
       return this.$tool.shallowCopy(this.form, { 'date': true });
     },
     handleUploadSuccess (a, b, c) {

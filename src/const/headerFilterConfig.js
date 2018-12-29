@@ -185,6 +185,13 @@ const map = new Map([
       },
       {
         type: "remote_select",
+        id: "process_stage",
+        name: "任务阶段",
+        url: "/stages",
+        data_key: "data"
+      },
+      {
+        type: "remote_select",
         id: "customer",
         name: "客户",
         url: "/customers",

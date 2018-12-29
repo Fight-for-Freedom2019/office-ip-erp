@@ -73,6 +73,8 @@ export default {
 		},
 		handleAddTag () {
 			this.olditems = this.$tool.deepCopy(this.items);
+			// 将值通过事件emit出去 实现绑值
+			this.$emit('input', this.olditems) 
 			for(let i=0;i<this.olditems.length;i++) {
 				const ref = this.$refs.relativeProjects;
 				if (ref !== undefined) {
@@ -95,11 +97,10 @@ export default {
 	watch: {
 		value : {
 			handler: function(v) {
-				console.log(v)
 				this.items = this.$tool.deepCopy(this.value);
 				this.olditems = this.$tool.deepCopy(this.value);
 			}
-		}
+		},
 	},
 	components: { RemoteSelect, JumpSelect, AppCard },
 }
