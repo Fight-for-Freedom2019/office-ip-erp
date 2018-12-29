@@ -187,7 +187,6 @@
             edit() {
                 const url = `${this.URL}/${this.customer.id}/contracts/${this.contractsID}`;
                 const data = Object.assign({}, this.form);
-                console.log("data",data);
                 const success = _ => {
                     this.dialogVisible = false;
                     this.update();

@@ -4,13 +4,14 @@
         <table-component :tableOption="option" :data="tableData" @refresh="refresh" @update="update" @refreshTableData="refreshTableData"
                          ref="table"></table-component>
         <!-- 新建联系人 -->
-        <app-shrink :visible.sync="isContactsAddPanelVisible" :modal='formType === "add"' :title="this.appPanelTitle">
+        <!--<app-shrink :visible.sync="isContactsAddPanelVisible" :modal='formType === "add"' :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
         <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
             <contacts-list-add ref="contactsAdd" :type='formType' :contacts='contacts' @refresh="refresh" @update="update"></contacts-list-add>
-        </app-shrink>
+        </app-shrink>-->
+        <contacts-list-add ref="contactsAdd" :type='formType' :contacts='contacts' @refresh="refresh" @update="update"></contacts-list-add>
     </div>
 </template>
 
@@ -83,12 +84,8 @@
         methods: {
             addPop() {
                 this.formType = 'add';
-                this.appPanelTitle = '新建联系人';
-                this.applicant = {};
-                this.isContactsAddPanelVisible = true;
-            },
-            editPop(col) {
-                this.$refs.pop.show('edit', col);
+                this.contacts = {};
+                this.$refs.contactsAdd.show(0,this.formType);
             },
             deleteSingle({id, name}) {
                 this.$confirm(`删除后不可恢复，确认删除联系人‘${name}’？`)
@@ -104,8 +101,10 @@
                     .catch(_ => {
                     });
             },
-            saveAdd() {
-                this.$refs.contactsAdd.save(this.formType);
+            handleRowClick (row) {
+                this.formType = 'edit';
+                this.contacts = row;
+                this.$refs.contactsAdd.show(row.id,this.formType);
             },
             refreshTableData(option) {
                 const url = URL;
@@ -117,7 +116,7 @@
 
                 this.$axiosGet({url, data, success});
             },
-            handleRowClick(row) {
+            saveAdd (row) {
                 let copy = this.$tool.deepCopy(row);
                 copy.contact_type === 1 || copy.contact_type=== "未知身份" ? copy.contact_type = "" : "";  // 因为定义的类型里面没有1
                 this.contacts = copy;
