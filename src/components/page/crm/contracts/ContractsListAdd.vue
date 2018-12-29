@@ -145,7 +145,7 @@
             save(type) {
                 this.$refs['form'].validate((valid)=>{
                     if(valid){
-                        const data = this.form;
+                        const data = Object.assign({},this.form);
                         if (type === "add") {
                             this.$axiosPost({
                                 url: URL,
@@ -157,6 +157,7 @@
                                 }
                             });
                         } else {
+                            data.attachments = this.form.attachments.map((item)=>item.id);  // 更新至于要附件的id
                             let url = "/contracts/" + this.id;
                             data.id = this.id;
                             this.$axiosPut({
@@ -171,7 +172,6 @@
                         }
                     } else {
                         this.$message({type: 'warning', message: '请正确填写'});
-                        return;
                     }
                 })
                 
@@ -186,7 +186,20 @@
                 }
             },
             clear(){
-                this.$refs.form.resetFields();
+                this.form = {
+                    type: "",
+                    signing_date: "",
+                    expire_date: "",
+                    status : 1,
+                    serial: "",
+                    remark:"",
+                    attachments:[],
+                    contact: '',
+                    customer: '',
+                    order: '',
+                }
+                this.attachments = [];
+                // this.$refs.form.resetFields();
             },
             load(id) {
                 this.loadingVisible = true;
@@ -217,6 +230,8 @@
                     this.coverObj(contract);
                     this.title = '合同详情>' + contract.serial;
                     return;
+                }else {
+                    this.clear();
                 }
                 //根据ID加载显示数据
                 this.id = id;
