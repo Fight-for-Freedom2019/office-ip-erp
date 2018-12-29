@@ -52,10 +52,7 @@
                         },
                         {type: 'text', prop: 'type', label: '合同类型',render_simple:"name"},
                         {
-                            type: 'text', prop: 'is_effective', label: '状态', render: (h, item) => {
-                                item = item === 1 ? "生效中" : "已失效";
-                                return h("span", item);
-                            }
+                            type: 'text', prop: 'status', label: '状态', render_simple:"name"
                         },
                         {type: 'text', prop: 'signing_date', label: '签订日期'},
                         {type: 'text', prop: 'expire_date', label: '届满日期'},

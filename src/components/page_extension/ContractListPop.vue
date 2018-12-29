@@ -47,8 +47,8 @@
             <el-form-item label="备注" prop="remark">
                 <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item label="状态" prop="status">
-                <app-switch :type="switch_type" simple="true" v-model="form.is_effective" @input="getStatus"></app-switch>
+            <el-form-item label="状态" prop="status" v-if="popType === 'edit'">
+                <static-select type="contract_status" v-model="form.status" placeholder=""></static-select>
             </el-form-item>
             <el-form-item label="附件" prop="attachments">
                 <upload v-model="form.attachments" :file-list="attachments"></upload><!-- TODO 合同上传 -->
@@ -110,11 +110,9 @@
                     type: "",
                     signing_date: "",
                     expire_date: "",
-                    status: 0,
+                    status: "",
                     serial: "",
                     is_effective:1,
-                    contact_id: "",
-                    customer_id: "",
                     remark: "",
                     contact: {
                         name: "",
@@ -170,8 +168,6 @@
                 //if (this.form.name !== '') {
                 const url = `${this.URL}/${this.customer.id}/contracts`;
                 const data = Object.assign({}, this.form);
-                data.customer_id = this.customer.id;
-                data.contact_id = data.contact;
                 data.attachments = this.form.attachments.map((d)=>{d.id});
                 delete data.customer;
                 const success = _ => {
@@ -191,15 +187,7 @@
             edit() {
                 const url = `${this.URL}/${this.customer.id}/contracts/${this.contractsID}`;
                 const data = Object.assign({}, this.form);
-                data.customer_id = this.customer.id;
-                data.contact_id = data.contact;
-                delete data.customer;
-                delete data.status;
-                map.get("contract_type").options.forEach((_) => {
-                    if (_.name === data.type) {
-                        data.type = _.id;
-                    }
-                });
+                console.log("data",data);
                 const success = _ => {
                     this.dialogVisible = false;
                     this.update();
@@ -207,17 +195,26 @@
                 }
                 this.$axiosPut({url, data, success});
             },
+            show ( type='add', data ) {
+                this.dialogVisible = true;
+                this.$refs.form?this.$refs.form.resetFields():"";
+                this.coverObj(data);
+
+            },
             cancel() {
                 this.dialogVisible = false;
             },
+            coverObj(val){
+                val?this.$tool.coverObj(this.form,val,{obj:["status","type","contact","customer"]}):""
+            }
         },
         // created() {
         //     this.$tool.coverObj(this.form,this.contracts)
         // },
         watch: {
             contracts: function (val, oldVal) {
-                this.$tool.coverObj(this.form,val);
-
+                this.coverObj(this.form,val);
+                console.log("form",this.form)
             },
         },
         components: {
