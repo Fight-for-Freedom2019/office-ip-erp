@@ -452,7 +452,7 @@ export default {
     type (val) {
       if(val == 'edit') {
         this.$nextTick(_=>{
-                    window.setTimeout(_=>{
+          window.setTimeout(_=>{
             this.refreshRow();
           },0)
         })

@@ -72,7 +72,7 @@ const map = new Map([
   ['task', '请正确填写任务信息'],  
 ]);
 
-const getKeys = ['base', 'person', 'other', 'business'];
+const getKeys = ['base', 'person', 'other', 'classification', 'business'];
 const setKeys = ['base', 'person', 'classification', 'other', 'business'];
 
 const URL = '/patents';

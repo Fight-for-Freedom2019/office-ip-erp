@@ -20,7 +20,7 @@
           <el-input v-model="form.abstract" type="textarea" placeholder="请填写案件摘要"></el-input>
         </el-form-item>
         <el-form-item label="摘要附图">
-          <upload v-model="form.figure_file" :fileList="figure_file"></upload>
+          <upload v-model="form.figure_file" :limit="1" :fileList="figure_file"></upload>
         </el-form-item>
       </el-form>
 </template>
@@ -59,7 +59,7 @@ export default {
   methods: {
     setForm (data) {
       this.$tool.coverObj(this.form, data);
-       this.figure_file = data.attachments ? data.attachments : [];
+       this.figure_file = data.figure_file ? data.figure_file : [];
     },
     submitForm () {
       return this.form;
