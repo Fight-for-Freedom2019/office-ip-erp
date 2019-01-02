@@ -171,7 +171,9 @@ export default {
       if (flag) {
         const url = URL;
         const data = Object.assign(
-          ...getKeys.map( _ => this.$refs[_] !== undefined ? this.$refs[_].submitForm() : false),
+          ...getKeys.map(_ =>
+            this.$refs[_] !== undefined ? this.$refs[_].submitForm() : false
+          ),
           { list: this.list }
         );
 

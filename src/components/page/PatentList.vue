@@ -257,12 +257,12 @@ export default {
           { type: 'text', label: '序列表', prop: 'is_sequence',  width: '145', render:this.booleanRender , render_header: true},          
           { type: 'text', label: '同日申请发明/新型', prop: 'is_utility_or_invention',  width: '178', render:this.booleanRender , render_header: true},  
           // { type: 'text', label: '技术领域', prop: 'technical_field',  width: '130', is_import: true, is_agency: true, render_simple: 'name', render_header: true},
-          {
-            type: 'action',
-            width: '40',
-            // fixed: false,
-            render_header: true
-          },
+          // {
+          //   type: 'action',
+          //   width: '40',
+          //   // fixed: false,
+          //   render_header: true
+          // },
         ] 
       },
       tableData: [],

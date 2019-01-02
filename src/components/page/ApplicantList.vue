@@ -51,7 +51,12 @@
                         {type: 'selection'},
                         {type: 'text', label: '客户', prop: 'customer', render_header:true, width: '250',render:(h,item)=>{return h("span",item?item.name:"")}},
                         {type: 'text', label: '申请人姓名', prop: 'name', render_header:true,sortable: true, width: '250'},
-                        {type: 'text', label: '国籍', prop: 'citizenship',render_header:true},
+                        {type: 'text', label: '国籍', prop: 'citizenship',render_header:true,
+                            render: (h, item) => {
+                                const d = this.areaMap.get(item);
+                                return h('span', d ? d : '');
+                            }
+                        },
                         {
                             type: 'text',
                             label: '申请人类型',

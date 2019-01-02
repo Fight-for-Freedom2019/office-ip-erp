@@ -289,7 +289,9 @@ const actions = {
 		}else if(item.type == 'listFilter') {
 			console.log('____closetag')
 			console.log(item);
-			if(window.listHeaderFilter != null && window.listHeaderFilter.filters[item['key']] ) {
+			console.log(window.listHeaderFilter)
+			if(window.listHeaderFilter != null ) {
+				console.log('清除表头')
 				window.listHeaderFilter.clearRenderHeaderField(item['key']);
 			}
 			if (window.listFilter != null && window.listFilter.usedFlag && window.listFilter.usedForm[item['key']] ) {

@@ -29,6 +29,7 @@ export default {
       'refreshProduct', //product
       'refreshClassification', //classification
       'refreshBranch', //branch
+      'refreshGroup',//user-group
       'refreshArea', //area
       'refreshCity', //city
       'refreshUser',
@@ -51,6 +52,7 @@ export default {
       //  2.localStorage动态关联 
       this.refreshProduct();
       this.refreshBranch();
+      this.refreshGroup();
       this.refreshClassification();
       // this.$store.dispatch('refreshIpr');
       
@@ -99,6 +101,7 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
 #app {
     height: 100%;
     width: 100%;
+    font-size: 14px;//规范默认字体大小
   .el-menu--horizontal {
     border: none;
   } 

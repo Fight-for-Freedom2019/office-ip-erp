@@ -137,7 +137,7 @@
                             });
                         }
                     }else {
-                        this.$message({type: 'warning', message: '必选项不能为空！'});
+                        this.$message({type: 'warning', message: '请正确填写！'});
                     }
                 })
 

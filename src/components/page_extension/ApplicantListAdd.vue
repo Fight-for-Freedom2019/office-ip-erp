@@ -46,12 +46,12 @@
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="邮箱" prop="email_address">
-                        <el-input v-model="form.email_address"></el-input>
+                        <el-input v-model="form.email_address" placeholder="请填写邮箱（可选）"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="电话" prop="phone_number">
-                        <el-input v-model="form.phone_number"></el-input>
+                        <el-input v-model="form.phone_number" placeholder="请填写电话（可选）"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>

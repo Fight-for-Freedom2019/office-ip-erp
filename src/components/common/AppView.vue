@@ -3,16 +3,14 @@
     <div style="width: 200px;background: #fff;">
       <span style="width: 100%;display:inline-block;border-bottom: 1px solid #ebeef5">
         <span style="float: left;padding: 6px;">表格视图</span>
-        <transition name="fade">
-          <i class="el-icon-refresh" v-if="show" @click="_=>$emit('reset')"  @mouseleave="handleTransition"  style="float: right; padding: 6px; margin-top:5px;margin-right:5px;color:#409EFF;cursor: pointer;" title="重置视图"></i>
-        </transition>
+          <i class="el-icon-plus" @click="_=>{type = 'add';viewVisible = true}" style="float: right; padding: 6px; margin-top:5px;margin-right:5px;color:#409EFF;cursor: pointer;" title="新建视图"></i>
       </span>
       <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
   </div>
   <div class="view-tree">
     <el-tree
       :props="defaultProps"
-      :data="viewOptions"
+      :data="MergeOptions"
       node-key="id" 
       :expand-on-click-node="false"
       :render-content="renderContent"  
@@ -24,7 +22,7 @@
     >
     </el-tree>
   </div>
-  <view-pop type="edit" :visible="viewVisible" v-model="fields" :default="choose" @close="v=>viewVisible = false" ref="viewPop"></view-pop>
+  <view-pop :type="type" :visible="viewVisible" v-model="fields" :default="choose" @close="v=>viewVisible = false" ref="viewPop"></view-pop>
   </div>  
 </template>
 
@@ -51,6 +49,10 @@ export default {
     pageType () {
       const path = this.$route.path;
       return path;
+    },
+    MergeOptions () {
+      const defaultView = [{id: 0, name: '默认视图'}];
+      return [...this.viewOptions, ...defaultView]
     },
     fields: {
       set(val) {
@@ -86,19 +88,24 @@ export default {
           <span style="flex: 1;display: flex;align-items: center;justify-content: space-between;">
             <span>{node.label}</span>
             <span class={this.treeBtn}>
-            <el-button type="text" title="编辑" icon="el-icon-edit" size="mini" onClick={(e)=>{e.stopPropagation();this.editChildTree(node,data,store)}}></el-button>
-            <el-button type="text" title="删除" icon="el-icon-delete" size="mini" onClick={(e)=>{e.stopPropagation();this.deleteChildTree(node,data,store)}}></el-button>
+            <el-button type="text" title="编辑" disabled={!data.id} icon="el-icon-edit" size="mini" onClick={(e)=>{e.stopPropagation();this.editChildTree(node,data,store)}}></el-button>
+            <el-button type="text" title="删除" disabled={!data.id} icon="el-icon-delete" size="mini" onClick={(e)=>{e.stopPropagation();this.deleteChildTree(node,data,store)}}></el-button>
             </span>
           </span>
         )
     },
     handleNodeRefresh (data, node) {
-      this.$emit('deliver', data);
+      if(data.id){
+       this.$emit('deliver', data);
+      }else {
+        this.$emit('reset');
+      }
     },   
     editChildTree (n, d, s) {
       this.currentId = d.id;
       this.choose = d.param.fields.split(',');
       this.$refs.viewPop.setData(d);
+      this.type = 'edit';
       this.viewVisible = true;
 
     },
@@ -130,6 +137,7 @@ export default {
       setCurrent: '',
       choose: [],
       loading: false,
+      type: '',
       viewVisible: false,
       defaultProps: {
         children: 'children',

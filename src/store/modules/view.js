@@ -1,6 +1,6 @@
 let url = '/table_views';
 const state = {
-  data: undefined,
+  data: [],
 }
 
 const getters = {

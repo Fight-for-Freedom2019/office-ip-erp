@@ -541,7 +541,7 @@ const map = new Map([
       { type: "text", id: "content", name: "备注内容" }
     ]
   ],
-  /* 合同管理 */
+  /* 开票信息 */
   [
     "invoice_targets",
     [
@@ -567,7 +567,7 @@ const map = new Map([
       { type: "text", id: "remark", name: "备注" }
     ]
   ],
-  /* 开票信息 */
+  /* 合同管理 */
   [
     "contracts",
     [
@@ -594,9 +594,9 @@ const map = new Map([
       },
       {
         type: "static_select",
-        id: "is_effective",
-        name: "状态",
-        map_type: "bool"
+        id: "status",
+        name: "合同状态",
+        map_type: "contract_status"
       },
       { type: "date", id: "signing_date", name: "签订日期" },
       { type: "date", id: "expire_date", name: "届满日期" },
@@ -625,7 +625,7 @@ const map = new Map([
         url: "/projects"
       },
       { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
-      { type: "text", id: "order.serial", name: "订单号" },
+      { type: "text", id: "order", name: "订单号" },
       {
         type: "static_select",
         id: "fee_code.name",
@@ -870,6 +870,22 @@ const map = new Map([
         name: "状态",
         map_type: "order_status"
       }
+    ]
+  ],
+  [
+    'user_manage', [
+      {
+        type: "static_select",
+        id: "roles",
+        name: "用户组",
+        map_type: "group"
+      },
+      {
+        type: "static_select",
+        id: "organization_units",
+        name: "部门",
+        map_type: "branch"
+      },
     ]
   ]
 ]);
