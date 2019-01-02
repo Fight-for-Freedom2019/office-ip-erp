@@ -3,7 +3,8 @@
     <template v-if="!isChild">
     <app-shrink :visible.sync="dialogVisible"  :title="title">
       <span slot="header" style="float: right;">
-          <el-button type="primary" @click="edit" size="small">保存</el-button>
+          <el-button type="primary"v-if="pageType == 'edit'" @click="edit" size="small">保存</el-button>
+          <el-button type="primary" v-else @click="add" size="small">新建</el-button>
       </span>
       <el-tabs type="border-card" v-loading="loadingVisible" :element-loading-text="loadingText" style="margin-top:10px;">
         <el-tab-pane>
@@ -18,7 +19,7 @@
           <span slot="label"><i class="el-icon-date"></i> 日期&号码</span>
           <person ref="person" :type="pageType"></person>
         </el-tab-pane>
-        <el-tab-pane v-if="pageType == 'edit'">
+        <el-tab-pane v-if="pageType =='edit'">
           <span slot="label"><i class="el-icon-menu"></i> 人员信息</span>
           <classification ref="classification"></classification>
         </el-tab-pane>
@@ -160,6 +161,7 @@ export default {
       }
     },
     show(id, data) {
+
       this.dialogVisible = true;
       if (id == 'add') {
         this.title = '新专利立案';

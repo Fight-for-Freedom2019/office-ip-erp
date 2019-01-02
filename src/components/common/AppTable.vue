@@ -1,5 +1,4 @@
 <template>
-<div style="display: contents;"> 
 <el-table 
   ref="table"
   stripe
@@ -143,8 +142,7 @@
     </template>
   </template>
 </el-table>
-    <view-pop type="add" :visible="viewVisible" v-model="fields" @close="v=>{viewVisible = v}"></view-pop>
-</div>
+    <!-- <view-pop type="add" :visible="viewVisible" v-model="fields" @close="v=>{viewVisible = v}"></view-pop> -->
 </template>
 <script>
 import {mapGetters} from 'vuex'
@@ -458,44 +456,44 @@ export default {
       if(func){
         func();
       }else if(column.type == 'action'){
-        return h('el-dropdown',{
-            style: {
-            paddingLeft: '0',
-            paddingRight: '0',
-            },
-            attrs: {
-              trigger: 'click',
-            },
-            on: {
-              command(command) {
-                if(command == 'view') {
-                  self.viewVisible = true;
-                }
-              },
-            },
-          },[h('el-button',{
-          style: {
-            float: 'left',
-            height: '14px',
-            lineHeight: '14px',
-            paddingTop: '0',
-            paddingBottom: '0',
-          },
-          attrs: {
-            type: 'text',
-            icon: 'el-icon-more'
-          },
-        },''),h('el-dropdown-menu',{
-          style: {
-            paddingLeft: '0',
-            paddingRight: '0',
-          },
-          slot: 'dropdown',
-        },[h('el-dropdown-item',{
-          attrs: {
-            command: 'view',
-          },
-        },'新增视图')])])
+        // return h('el-dropdown',{
+        //     style: {
+        //     paddingLeft: '0',
+        //     paddingRight: '0',
+        //     },
+        //     attrs: {
+        //       trigger: 'click',
+        //     },
+        //     on: {
+        //       command(command) {
+        //         if(command == 'view') {
+        //           self.viewVisible = true;
+        //         }
+        //       },
+        //     },
+        //   },[h('el-button',{
+        //   style: {
+        //     float: 'left',
+        //     height: '14px',
+        //     lineHeight: '14px',
+        //     paddingTop: '0',
+        //     paddingBottom: '0',
+        //   },
+        //   attrs: {
+        //     type: 'text',
+        //     icon: 'el-icon-more'
+        //   },
+        // },''),h('el-dropdown-menu',{
+        //   style: {
+        //     paddingLeft: '0',
+        //     paddingRight: '0',
+        //   },
+        //   slot: 'dropdown',
+        // },[h('el-dropdown-item',{
+        //   attrs: {
+        //     command: 'view',
+        //   },
+        // },'新增视图')])])
       }else{
         const source = this.filterSettingMap.get(property) !== undefined ?
         this.filterSettingMap.get(property) : null;
