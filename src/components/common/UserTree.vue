@@ -40,7 +40,7 @@
 
 <script>
 import OrganizationShrink from "@/components/page_extension/Organization_shrink";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 const urlMap = new Map([
   [
     "organization",
@@ -105,6 +105,10 @@ export default {
     },*/
   },
   methods: {
+    ...mapActions([
+      'addListFilter',
+      'removeListFilter',
+    ]),
     addRoleGroups() {
       this.$emit("close");
       this.$refs.organization.show("add");
@@ -238,7 +242,16 @@ export default {
     refreshUserListData(data) {
       /*判断是否是首次点击*/
       if (this.lastIndex != data.id) {
-        this.$emit("refresh", data, this.radio);
+        console.log(data)
+        this.removeListFilter(0)
+        const name = this.radio == 'organization' ? '组织架构' : '角色';
+        const label = data.name;
+        const key = this.radio == 'organization' ? 'organization_units' : 'roles';
+        const value = data.id;
+        const extraOption = { operation: 1 };
+        const obj = { name, label, key, value, extraOption };
+        this.addListFilter(obj);
+        // this.$emit("refresh", data, this.radio);
       } else {
         return false;
       }

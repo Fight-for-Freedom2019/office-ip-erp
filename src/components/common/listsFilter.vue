@@ -97,7 +97,9 @@ export default {
   		this.filters[key] = val;
   	},
     clearRenderHeaderField (key) {
+      console.log(key)
       this.filters[key] = this.getDefaultValue(key); 
+      console.log(this.filters[key])
     },   	
   	handleFilter () {
   		const obj = {};

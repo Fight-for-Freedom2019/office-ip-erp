@@ -183,6 +183,11 @@ export default {
 		visible(v) {
 			this.dialogVisible = v;
 		},
+		'form.fields': {
+			handler(val) {
+				this.sortedFields = val;
+			},
+		},
 		'fieldData': {
 			handler(val) {
 			this.sortedFields = [];

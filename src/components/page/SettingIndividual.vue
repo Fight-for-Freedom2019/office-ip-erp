@@ -90,10 +90,16 @@ export default {
   		if(this.id) {
   			const url = `${URL}/${this.id}/config`;
   			const success = _=>{ 
-  				for(let k in this.form) {
-  					const d = _.data['data'][0][k];
-  					this.form[k] = d;
-  				} 
+          if(_.data['data'] && _.data['data'].length != 0) {
+    				for(let k in this.form) {
+    					const d = _.data['data'][0][k];
+              if(d != undefined) {
+    				  	this.form[k] = d;
+              }else {
+                continue;
+              } 
+    				} 
+          }
   			};
   			const complete = _=>{
   				window.setTimeout(_=>{this.loading = false}, 300);

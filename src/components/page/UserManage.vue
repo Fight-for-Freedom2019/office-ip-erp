@@ -172,11 +172,11 @@ export default {
     refreshTableData(option) {
       const url = URL;
       const data = Object.assign({}, option, { listRows: 10000 });
-      if (this.roleType === "organization") {
-        data.organization_units = this.nodeData.id;
-      } else if (this.roleType === "rolegroups") {
-        data.roles = this.nodeData.id;
-      }
+      // if (this.roleType === "organization") {
+      //   data.organization_units = this.nodeData.id;
+      // } else if (this.roleType === "rolegroups") {
+      //   data.roles = this.nodeData.id;
+      // }
       const success = _ => {
         console.log(_);
         this.tableData = _.data;
