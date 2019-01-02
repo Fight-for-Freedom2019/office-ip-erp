@@ -66,7 +66,7 @@
                         {type: 'text', label: '邮件地址', prop: 'email_address', width: '145',render_header:true},
                         {type: 'text', label: '电话号码', prop: 'phone_number',width: '145',render_header:true},
                         {type: 'text', label: '地址', prop: 'address', width: '240',render_header:true},
-                        {type: 'text', label: '备注', prop: 'remark', width: '200',render_header:true},
+                        {type: 'text', label: '备注', prop: 'remark', min_width: '200',render_header:true},
                         // 	{
                         // 		type: 'action',
                         // width: '200',

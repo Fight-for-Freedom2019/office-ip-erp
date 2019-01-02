@@ -79,8 +79,8 @@
                             render_header: true
                         },
                         {type: 'text', label: '标题', prop: 'project.title',width: '150', render_header: true},
-                        {type: 'text', label: '申请号', prop: 'application_number', width: '150', render_header: true},
-                        {type: 'text', label: '申请日', prop: 'application_date', width: '160', render_header: true},
+                        {type: 'text', label: '申请号', prop: 'project.application_number', width: '150', render_header: true},
+                        {type: 'text', label: '申请日', prop: 'project.application_date', width: '160', render_header: true},
                         {type: 'text', label: '案号', prop: 'project.serial',width: '120', render_header: true},
                         {type: 'text', label: '订单号', prop: 'order.serial', width: '120', render_header: true},
                         {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160', render_header: true},
@@ -104,15 +104,7 @@
                             render_simple:"name",
                         },
                         {
-                            type: 'text', label: '费用状态', prop: 'status', width: '150', render: (h, item) => {
-                                let name = "";
-                                config.get("fee_status").options.map(function (o) {
-                                    if (o.id === item) {
-                                        name = o.name;
-                                    }
-                                });
-                                return h("span", name);
-                            },
+                            type: 'text', label: '费用状态', prop: 'status', width: '150', render_simple:"name",
                             render_header: true
                         },
                         {
