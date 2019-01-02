@@ -67,7 +67,7 @@
             refreshTableData(option) {
                 const success = _ => {
                     this.compileType === "add" ? this.closeVisible("isPanelVisible") : "";
-                    this.tableData = _.services;
+                    this.tableData = _.data;
                 };
                 const data = Object.assign({}, option);
                 this.$axiosGet({

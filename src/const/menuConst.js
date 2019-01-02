@@ -221,13 +221,13 @@ const crmMenu = [
         text: "开票信息",
         path: "/crm/data/invoice_targets",
         icon: "iconfont el-icon-my-voucher"
-      },
-      {
-        type: "item",
-        text: "报价管理",
-        path: "/crm/data/quotations",
-        icon: "iconfont el-icon-my-quotation"
       }
+      // {
+      //   type: "item",
+      //   text: "报价管理",
+      //   path: "/crm/data/quotations",
+      //   icon: "iconfont el-icon-my-quotation"
+      // }
     ]
   },
 
@@ -248,13 +248,13 @@ const crmMenu = [
         text: "供应商管理",
         path: "/crm/suppliers/lists",
         icon: "iconfont el-icon-my-supplier"
-      },
-      {
-        type: "item",
-        text: "报价管理",
-        path: "/crm/suppliers/quotations",
-        icon: "iconfont el-icon-my-quotation"
       }
+      // {
+      //   type: "item",
+      //   text: "报价管理",
+      //   path: "/crm/suppliers/quotations",
+      //   icon: "iconfont el-icon-my-quotation"
+      // }
     ]
   }
 ];

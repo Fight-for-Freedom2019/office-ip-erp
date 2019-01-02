@@ -148,261 +148,260 @@ const map = new Map([
   [
     "patent",
     [
-      { type: "text", id: "serial", name: "案号" },
-      { type: "text", id: "english_title", name: "英文名称" },
-      { type: "text", id: "proposal_title", name: "客户标题" },
-      { type: "text", id: "words_count", name: "说明书字数" },
-      { type: "text", id: "claims_count", name: "权利要求项数" },
-      { type: "text", id: "start_year", name: "首次年费年度" },
-      {
-        type: "remote_select",
-        id: "applicants",
-        name: "申请人",
-        url: "applicants",
-        data_key: "data"
-      },
-      { type: "text", id: "application_number", name: "申请号" },
-      { type: "date", id: "application_date", name: "申请日" },
-      { type: "date", id: "entrusting_time", name: "委案日" },
-      {
-        type: "static_select",
-        id: "subtype",
-        name: "案件类型",
-        map_type: "patent_type_strainer"
-      },
-      { type: "static_select", id: "area", name: "申请地区", map_type: "area" },
-      { type: "text", id: "title", name: "标题" },
-      { type: "text", id: "abstract", name: "摘要" },
-      { type: "date", id: "publication_date", name: "公开日" },
-      { type: "text", id: "publication_number", name: "公开号" },
-      { type: "text", id: "customer_serial", name: "客户案号" },
-      {
-        type: "remote_select",
-        id: "inventors",
-        name: "发明人",
-        url: "/inventors",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "process_stage",
-        name: "任务阶段",
-        url: "/stages",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "customer",
-        name: "客户",
-        url: "/customers",
-        data_key: "data"
-      },
-      {
-        type: "static_select",
-        id: "organization_unit",
-        name: "承办部门",
-        map_type: "branch"
-      },
-      {
-        type: "static_select",
-        id: "classification",
-        name: "技术分类",
-        map_type: "classification"
-      },
-      {
-        type: "static_select",
-        id: "products",
-        name: "产品分类",
-        map_type: "product"
-      },
-      {
-        type: "static_select",
-        id: "level",
-        name: "案件等级",
-        map_type: "case_level"
-      },
-      {
-        type: "static_select",
-        id: "project_stage",
-        name: "案件状态",
-        map_type: "project_stage",
-        url: true
-      },
-      {
-        type: "static_select",
-        id: "ipr",
-        name: "负责IPR",
-        map_type: "ipr_para",
-        url: true
-      },
-      { type: "text", id: "priorities", name: "优先权" },
-      { type: "text", id: "references", name: "案件引用" },
-      { type: "text", id: "das", name: "DAS码" },
-      { type: "text", id: "order", name: "订单号" },
-
-      {
-        type: "remote_select",
-        id: "agent",
-        name: "代理人",
-        url: "/users",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "assistant",
-        name: "代理人助理",
-        url: "/users",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "contact",
-        name: "联系人",
-        url: "/contacts",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "first_reviewer",
-        name: "初审人",
-        url: "/users",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "final_reviewer",
-        name: "复审人",
-        url: "/users",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "representative",
-        name: "代表人",
-        url: "/users",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "consultant",
-        name: "顾问",
-        url: "/users",
-        data_key: "data"
-      },
-      {
-        type: "remote_select",
-        id: "sales",
-        name: "销售",
-        url: "/users",
-        data_key: "data"
-      },
-      { type: "date", id: "pre_exam_ok_date", name: "初审合格日" },
-      { type: "date", id: "sub_exam_start_date", name: "进入实审日" },
-      { type: "date", id: "sub_exam_start_date", name: "进入实审日" },
-      { type: "date", id: "issue_date", name: "公告日" },
-      { type: "text", id: "issue_number", name: "公告号" },
-      { type: "date", id: "pct_application_date", name: "国际申请日" },
-      { type: "date", id: "pct19_expire_date", name: "PCT19条修改期限" },
-      {
-        type: "date",
-        id: "pct_national_stage_expire_date",
-        name: "PCT进入国家阶段期限"
-      },
-      {
-        type: "date",
-        id: "pct_pre_exam_expire_date",
-        name: "PCT国际初步审查期限"
-      },
-      { type: "date", id: "pct_search_date", name: "国际检索日期" },
-      { type: "date", id: "priority_expire_date", name: "优先权届满期限" },
-      { type: "text", id: "pct_application_number", name: "国际申请号" },
-      { type: "date", id: "pct_priority_date", name: "国际优先权日" },
-      { type: "date", id: "pct_publication_date", name: "国际公开日" },
-      {
-        type: "static_select",
-        id: "pct_publication_language",
-        name: "国际公开语言",
-        map_type: "language"
-      },
-      { type: "text", id: "pct_publication_number", name: "国际公开号" },
-      {
-        type: "static_select",
-        id: "is_biological",
-        name: "是否与生物相关",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_division",
-        name: "是否是分案申请",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_subexam_request",
-        name: "是否提出实质审查请求",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_genetic",
-        name: "是否依赖于遗传资源",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_leakage",
-        name: "是否不丧失新颖性公开",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_pre_publication",
-        name: "是否提前公开",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_priority",
-        name: "是否要求优先权",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_amended",
-        name: "是否变更",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_secure_examination",
-        name: "是否保密审查",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_sequence",
-        name: "是否有序列表",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_utility_or_invention",
-        name: "是否同实用新型/发明",
-        map_type: "bool"
-      },
-      {
-        type: "static_select",
-        id: "is_continuation",
-        name: "连续案",
-        map_type: "bool"
-      },
-      {
-        type: "date",
-        id: "active_supplement_expire_date",
-        name: "主动修改期限"
-      },
-      { type: "text", id: "remark", name: "备注" }
+      // { type: "text", id: "serial", name: "案号" },
+      // { type: "text", id: "english_title", name: "英文名称" },
+      // { type: "text", id: "proposal_title", name: "客户标题" },
+      // { type: "text", id: "words_count", name: "说明书字数" },
+      // { type: "text", id: "claims_count", name: "权利要求项数" },
+      // { type: "text", id: "start_year", name: "首次年费年度" },
+      // {
+      //   type: "remote_select",
+      //   id: "applicants",
+      //   name: "申请人",
+      //   url: "applicants",
+      //   data_key: "data"
+      // },
+      // { type: "text", id: "application_number", name: "申请号" },
+      // { type: "date", id: "application_date", name: "申请日" },
+      // { type: "date", id: "entrusting_time", name: "委案日" },
+      // {
+      //   type: "static_select",
+      //   id: "subtype",
+      //   name: "案件类型",
+      //   map_type: "patent_type_strainer"
+      // },
+      // { type: "static_select", id: "area", name: "申请地区", map_type: "area" },
+      // { type: "text", id: "title", name: "标题" },
+      // { type: "text", id: "abstract", name: "摘要" },
+      // { type: "date", id: "publication_date", name: "公开日" },
+      // { type: "text", id: "publication_number", name: "公开号" },
+      // { type: "text", id: "customer_serial", name: "客户案号" },
+      // {
+      //   type: "remote_select",
+      //   id: "inventors",
+      //   name: "发明人",
+      //   url: "/inventors",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "process_stage",
+      //   name: "任务阶段",
+      //   url: "/stages",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "customer",
+      //   name: "客户",
+      //   url: "/customers",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "organization_unit",
+      //   name: "承办部门",
+      //   map_type: "branch"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "classification",
+      //   name: "技术分类",
+      //   map_type: "classification"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "products",
+      //   name: "产品分类",
+      //   map_type: "product"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "level",
+      //   name: "案件等级",
+      //   map_type: "case_level"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "project_stage",
+      //   name: "案件状态",
+      //   map_type: "project_stage",
+      //   url: true
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "ipr",
+      //   name: "负责IPR",
+      //   map_type: "ipr_para",
+      //   url: true
+      // },
+      // { type: "text", id: "priorities", name: "优先权" },
+      // { type: "text", id: "references", name: "案件引用" },
+      // { type: "text", id: "das", name: "DAS码" },
+      // { type: "text", id: "order", name: "订单号" },
+      // {
+      //   type: "remote_select",
+      //   id: "agent",
+      //   name: "代理人",
+      //   url: "/users",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "assistant",
+      //   name: "代理人助理",
+      //   url: "/users",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "contact",
+      //   name: "联系人",
+      //   url: "/contacts",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "first_reviewer",
+      //   name: "初审人",
+      //   url: "/users",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "final_reviewer",
+      //   name: "复审人",
+      //   url: "/users",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "representative",
+      //   name: "代表人",
+      //   url: "/users",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "consultant",
+      //   name: "顾问",
+      //   url: "/users",
+      //   data_key: "data"
+      // },
+      // {
+      //   type: "remote_select",
+      //   id: "sales",
+      //   name: "销售",
+      //   url: "/users",
+      //   data_key: "data"
+      // },
+      // { type: "date", id: "pre_exam_ok_date", name: "初审合格日" },
+      // { type: "date", id: "sub_exam_start_date", name: "进入实审日" },
+      // { type: "date", id: "sub_exam_start_date", name: "进入实审日" },
+      // { type: "date", id: "issue_date", name: "公告日" },
+      // { type: "text", id: "issue_number", name: "公告号" },
+      // { type: "date", id: "pct_application_date", name: "国际申请日" },
+      // { type: "date", id: "pct19_expire_date", name: "PCT19条修改期限" },
+      // {
+      //   type: "date",
+      //   id: "pct_national_stage_expire_date",
+      //   name: "PCT进入国家阶段期限"
+      // },
+      // {
+      //   type: "date",
+      //   id: "pct_pre_exam_expire_date",
+      //   name: "PCT国际初步审查期限"
+      // },
+      // { type: "date", id: "pct_search_date", name: "国际检索日期" },
+      // { type: "date", id: "priority_expire_date", name: "优先权届满期限" },
+      // { type: "text", id: "pct_application_number", name: "国际申请号" },
+      // { type: "date", id: "pct_priority_date", name: "国际优先权日" },
+      // { type: "date", id: "pct_publication_date", name: "国际公开日" },
+      // {
+      //   type: "static_select",
+      //   id: "pct_publication_language",
+      //   name: "国际公开语言",
+      //   map_type: "language"
+      // },
+      // { type: "text", id: "pct_publication_number", name: "国际公开号" },
+      // {
+      //   type: "static_select",
+      //   id: "is_biological",
+      //   name: "是否与生物相关",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_division",
+      //   name: "是否是分案申请",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_subexam_request",
+      //   name: "是否提出实质审查请求",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_genetic",
+      //   name: "是否依赖于遗传资源",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_leakage",
+      //   name: "是否不丧失新颖性公开",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_pre_publication",
+      //   name: "是否提前公开",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_priority",
+      //   name: "是否要求优先权",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_amended",
+      //   name: "是否变更",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_secure_examination",
+      //   name: "是否保密审查",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_sequence",
+      //   name: "是否有序列表",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_utility_or_invention",
+      //   name: "是否同实用新型/发明",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "static_select",
+      //   id: "is_continuation",
+      //   name: "连续案",
+      //   map_type: "bool"
+      // },
+      // {
+      //   type: "date",
+      //   id: "active_supplement_expire_date",
+      //   name: "主动修改期限"
+      // },
+      // { type: "text", id: "remark", name: "备注" }
     ]
   ],
   ["notices", [{ type: "text", id: "project.serial", name: "案号" }]],
@@ -531,7 +530,13 @@ const map = new Map([
         name: "类型",
         map_type: "remark_type"
       },
-      { type: "remote_select", id: "user", name: "备注人", data_key: "data", url: "/users" },
+      {
+        type: "remote_select",
+        id: "user",
+        name: "备注人",
+        data_key: "data",
+        url: "/users"
+      },
       { type: "date", id: "creation_time", name: "备注时间" },
       { type: "text", id: "content", name: "备注内容" }
     ]
