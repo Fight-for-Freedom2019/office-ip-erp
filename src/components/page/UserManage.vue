@@ -34,6 +34,7 @@ export default {
         height: "noPagination",
         is_pagination: false,
         // 'is_search': false,
+        'list_type': 'user_manage',
         header_btn: [
           {
             type: "add",
@@ -52,7 +53,8 @@ export default {
             render: _ => {
               return _.map(_ => _.name);
             },
-            width: "110"
+            width: "110",
+            render_header: true,
           },
           {
             type: "array",
@@ -61,7 +63,8 @@ export default {
             render: _ => {
               return _.map(_ => _.name);
             },
-            width: "110"
+            width: "110",
+            render_header: true,
           },
           { type: "text", label: "名称", prop: "name", width: "110" },
           { type: "text", label: "用户名", prop: "user_name", width: "145" },

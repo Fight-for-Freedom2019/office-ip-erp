@@ -866,6 +866,22 @@ const map = new Map([
         map_type: "order_status"
       }
     ]
+  ],
+  [
+    'user_manage', [
+      {
+        type: "static_select",
+        id: "roles",
+        name: "用户组",
+        map_type: "group"
+      },
+      {
+        type: "static_select",
+        id: "organization_units",
+        name: "部门",
+        map_type: "branch"
+      },
+    ]
   ]
 ]);
 export { map };
