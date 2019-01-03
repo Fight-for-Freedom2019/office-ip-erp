@@ -290,7 +290,7 @@ const actions = {
 			console.log('____closetag')
 			console.log(item);
 			console.log(window.listHeaderFilter)
-			if(window.listHeaderFilter != null ) {
+			if(window.listHeaderFilter !== null ) {
 				console.log('清除表头')
 				window.listHeaderFilter.clearRenderHeaderField(item['key']);
 			}
