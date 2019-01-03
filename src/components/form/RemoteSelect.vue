@@ -390,10 +390,18 @@ export default {
     }
   },
   created() {
-    if (this.value !== "" && this.value !== null) {
-      const v = this.value instanceof Object ? [this.value] : this.value;
-      this.refreshSelected(v);
+    if (
+      (this.value instanceof String || this.value instanceof Array) &&
+      this.value.length == 0
+    ) {
+      return;
     }
+    if (this.value instanceof Array && this.value[0].visible) {
+      return;
+    }
+
+    const v = this.value instanceof Object ? [this.value] : this.value;
+    this.refreshSelected(v);
   },
   mounted() {},
   updated() {},
