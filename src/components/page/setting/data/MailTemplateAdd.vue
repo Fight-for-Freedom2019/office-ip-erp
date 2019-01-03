@@ -35,7 +35,8 @@
                 </remote-select>
             </el-form-item> -->
             <el-form-item label="邮件正文" prop="body">
-                <quill-editor 
+                <vue-neditor-wrap v-model="form.body"></vue-neditor-wrap>
+                <!--<quill-editor
                     v-model="form.body"
                     ref="myQuillEditor"
                     :options="editorOption"
@@ -43,7 +44,7 @@
                     @focus="onEditorFocus($event)"
                     @ready="onEditorReady($event)"    
                 >
-                </quill-editor>
+                </quill-editor>-->
             </el-form-item> 
         </el-form>
     </div>
@@ -53,6 +54,7 @@
 import RemoteSelect from "@/components/form/RemoteSelect";
 import StaticSelect from "@/components/form/StaticSelect";
 import AppSwitch from "@/components/form/AppSwitch";
+import VueNeditorWrap from 'vue-neditor-wrap'
 
 export default {
     name: "ServiceAdd",
@@ -245,6 +247,7 @@ export default {
         RemoteSelect,
         StaticSelect,
         AppSwitch,
+        VueNeditorWrap
     },
 }
 </script>
