@@ -47,7 +47,7 @@
 import AxiosMixins from "@/mixins/axios-mixins";
 import AppCard from "@/components/common/AppCard";
 import FamilyAdd from "@/components/page_extension/FamilyAdd";
-import  map  from '@/const/remoteConfig'
+import map from "@/const/remoteConfig";
 
 export default {
   name: "remoteSelect",
@@ -94,6 +94,7 @@ export default {
       keyword: "",
       selectVisible: false,
       isUserInput: false,
+      initialized: false,
       selected: [],
       selectedValue: [],
       selectedItems: [],
@@ -388,7 +389,12 @@ export default {
       this.selectedValue = val;
     }
   },
-  created() {},
+  created() {
+    if (this.value !== "" && this.value !== null) {
+      const v = this.value instanceof Object ? [this.value] : this.value;
+      this.refreshSelected(v);
+    }
+  },
   mounted() {},
   updated() {},
   components: { AppCard, FamilyAdd }
