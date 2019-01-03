@@ -18,8 +18,7 @@
 				<upload v-model="form.attachments" :file-list="attachments"></upload>
 			</el-form-item>
 			<el-form-item label="正文" prop="body">
-                <vue-neditor-wrap v-model="form.body"></vue-neditor-wrap>
-				<!--<quill-editor
+				<quill-editor 
 						v-html="form.body"
 			ref="myQuillEditor"
 			:options="editorOption"
@@ -27,7 +26,7 @@
 			@focus="onEditorFocus($event)"
 			@ready="onEditorReady($event)"	
 			>
-				</quill-editor>-->
+				</quill-editor>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" icon="message" @click="send" :disabled="btn_disabled">发送</el-button>
@@ -38,12 +37,10 @@
 </template>
 
 <script>
-window.UEDITOR_HOME_URL = "/static/UEditor/";
 import AxiosMixins from '@/mixins/axios-mixins'
 import Upload from '@/components/form/Upload'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import AppShrink from '@/components/common/AppShrink'
-import VueNeditorWrap from 'vue-neditor-wrap'
 
 const URL = '/mails';
 const sceneMap = new Map([
@@ -255,8 +252,7 @@ export default {
 	components: { 
 		Upload, 
 		RemoteSelect, 
-		AppShrink,
-        VueNeditorWrap
+		AppShrink
 	},
 }
 </script>
