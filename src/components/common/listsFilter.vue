@@ -13,7 +13,7 @@
 		</el-row>				
 		<el-row class="common">
 			<el-col :span="24">
-				<filter-condition  :source="source" :label-map="labelMap" :value="filters[source.id]" :field="field" :visible="filterConditionVisible" @input="handleInput" ref="filterCondition"></filter-condition>
+				<filter-condition  :source="source" :label-map="labelMap" v-model="filters[source.id]" :field="field" :visible="filterConditionVisible" ref="filterCondition"></filter-condition>
 	  	 </el-col>
 		</el-row>
 		<el-row>
@@ -98,8 +98,9 @@ export default {
   	},
     clearRenderHeaderField (key) {
       console.log(key)
+      console.log(this.filters)
       this.filters[key] = this.getDefaultValue(key); 
-      console.log(this.filters[key])
+      // console.log(this.filters[key])
     },   	
   	handleFilter () {
   		const obj = {};
@@ -144,6 +145,7 @@ export default {
 	},
   },
   created () {
+    console.log('重新加载')
   	this.handleDynamicData();
   	window.listHeaderFilter = this;
   },
@@ -157,6 +159,12 @@ export default {
       },
       immediate: true,
     },
+    // filters: {
+    //   handler(form) {
+    //     console.log(form);
+    //   },
+    //   deep: true,
+    // }
   },
   components:{
   	StaticSelect,

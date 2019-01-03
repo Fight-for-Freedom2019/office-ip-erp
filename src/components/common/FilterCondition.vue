@@ -206,7 +206,7 @@ export default {
     },
     visible (v) {
       return v && this.filterDataKey && this.filterUrl && this.labelMap.get(this.source.id) ? this.refreshFilterData({key: this.source.id,}) : null;
-    },   
+    },
   }, 
   components: {
     AppDate,

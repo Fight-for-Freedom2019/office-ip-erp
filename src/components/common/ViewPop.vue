@@ -1,5 +1,5 @@
 <template>
-	<el-dialog :visible.sync="dialogVisible" title="专利原始视图" @close="close">
+	<el-dialog :visible.sync="dialogVisible" title="新建视图" @close="close">
 		<el-form label-width="80px" :rules="rules" :model="form" ref="form">
 			<el-form-item label="字段" prop="fields">
 				<app-transfer-panel v-model="form.fields" placeholder="请输入关键字查询字段" :data.sync="fieldData" title="原始视图字段控制"  style="width: 100%;"></app-transfer-panel>
