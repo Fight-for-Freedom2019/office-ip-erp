@@ -38,14 +38,15 @@
         <app-switch v-model="form.is_ssl" type="is"></app-switch>
       </el-form-item>
       <el-form-item label="邮件签名" prop="signature">
-        <quill-editor
+        <vue-neditor-wrap v-model="form.signature"></vue-neditor-wrap>
+        <!--<quill-editor
           v-model="form.signature"
           ref="myQuillEditor"
           :options="editorOption"
           @blur="onEditorBlur($event)"
           @focus="onEditorFocus($event)"
           @ready="onEditorReady($event)"
-        ></quill-editor>
+        ></quill-editor>-->
       </el-form-item>
       <el-form-item>
         <el-button @click="save" type="primary" :disabled="btn_disabled">保存</el-button>
@@ -59,7 +60,7 @@ import AppTag from "@/components/common/AppTag";
 import RemoteSelect from "@/components/form/RemoteSelect";
 import EditPassword from "@/components/form/EditPassword";
 import AppSwitch from "@/components/form/AppSwitch";
-
+import VueNeditorWrap from 'vue-neditor-wrap'
 const URL = "/users";
 
 export default {
@@ -158,7 +159,8 @@ export default {
   components: {
     RemoteSelect,
     EditPassword,
-    AppSwitch
+    AppSwitch,
+    VueNeditorWrap
   }
 };
 </script>
