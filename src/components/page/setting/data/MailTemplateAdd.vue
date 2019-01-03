@@ -51,7 +51,6 @@
 </template>
 
 <script>
-window.UEDITOR_HOME_URL = "/static/UEditor/";
 import RemoteSelect from "@/components/form/RemoteSelect";
 import StaticSelect from "@/components/form/StaticSelect";
 import AppSwitch from "@/components/form/AppSwitch";

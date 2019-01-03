@@ -22,7 +22,7 @@ import tool from "./const/tool";
 
 Vue.prototype.$axios = axios;
 Vue.prototype.$tool = tool;
-window.UEDITOR_HOME_URL = "/static/UEditor/";
+
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueQuillEditor);
