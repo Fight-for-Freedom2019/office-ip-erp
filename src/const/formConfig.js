@@ -157,9 +157,9 @@ const map = new Map([
     "points",
     {
       components: "points",
-      type: "text",
+      type: "number",
       rules: {
-        type: "number",
+        type: "string",
         required: true,
         message: "点数不能为空",
         trigger: "change"
