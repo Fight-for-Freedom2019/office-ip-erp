@@ -1,6 +1,6 @@
-<!-- 收款账户 -->
+<!-- 代理人 -->
 <template>
-  <div class="BonusRule">
+  <div class="Agents">
     <table-component
       :tableOption="tableOption"
       :data="tableData"
@@ -19,13 +19,13 @@
           @click="save('edit')"
         >保存</el-button>
       </span>
-      <rule-add
+      <agent-detail
         :type="compileType"
         :data="rowData"
-        ref="RuleAdd"
+        ref="detail"
         @update="update"
         @refresh="refresh"
-      ></rule-add>
+      ></agent-detail>
     </app-shrink>
   </div>
 </template>
@@ -33,7 +33,7 @@
 <script>
 import TableComponent from "@/components/common/TableComponent";
 import AppShrink from "@/components/common/AppShrink";
-import RuleAdd from "@/components/page/setting/bonus/RuleAdd";
+import AgentDetail from "@/components/page/setting/agencies/AgentDetail";
 import TableMixins from "@/mixins/table-mixins";
 import Config from "@/const/selectConfig";
 import { mapActions } from "vuex";
@@ -41,20 +41,20 @@ import { mapActions } from "vuex";
 const config = new Map(Config);
 
 export default {
-  name: "BonusRule",
+  name: "Agents",
   mixins: [TableMixins],
   data() {
     return {
-      URL: "/bonus_rules",
+      URL: "/agents",
       tableOption: {
-        name: "BonusRuleList",
-        url: "/bonus_rules",
+        name: "AgentsList",
+        url: "/agents",
         height: "default",
         highlightCurrentRow: true,
         is_search: true,
         is_list_filter: false,
         list_type: "serial",
-        search_placeholder: "提成规则名称、备注",
+        search_placeholder: "代理人名称、备注",
         rowClick: this.handleRowClick,
         header_btn: [
           { type: "add", click: this.add },
@@ -64,87 +64,33 @@ export default {
         ],
         columns: [
           { type: "selection" },
-          { type: "text", label: "规则名称", prop: "name", min_width: "150" },
           {
             type: "text",
-            label: "案件类型",
-            prop: "project_type",
+            label: "代理机构",
+            prop: "agency",
             render_simple: "name",
-            width: "100"
+            min_width: "120"
+          },
+          { type: "text", label: "姓名", prop: "name", min_width: "150" },
+          {
+            type: "text",
+            label: "执业证号",
+            prop: "certificate",
+            min_width: "100"
           },
           {
             type: "text",
-            label: "案件子类型",
-            prop: "project_subtype",
+            label: "电话",
+            prop: "phone_number",
+            min_width: "120"
+          },
+          {
+            type: "text",
+            label: "状态",
+            prop: "status",
             render_simple: "name",
-            width: "120"
-          },
-          {
-            type: "text",
-            label: "国家/地区",
-            prop: "area",
-            render_simple: "name",
-            width: "100"
-          },
-          {
-            type: "text",
-            label: "管制事项",
-            prop: "process_definition",
-            render_simple: "name",
-            width: "120"
-          },
-          {
-            type: "text",
-            label: "提成类型",
-            prop: "bonus_type",
-            render_simple: "name",
-            width: "100"
-          },
-          {
-            type: "text",
-            label: "生成时机",
-            prop: "timing",
-            render_simple: "name",
-            width: "120"
-          },
-          { type: "text", label: "点数", prop: "points", width: "100" },
-          {
-            type: "text",
-            label: "客户",
-            prop: "customer",
-            render_simple: "name",
-            width: "100"
-          },
-          {
-            type: "array",
-            label: "案件标签",
-            prop: "project_tags",
-            min_width: "150",
-            render: _ => _.map(_ => _.name)
-          },
-          {
-            type: "array",
-            label: "管制事项标签",
-            prop: "process_tags",
-            min_width: "150",
-            render: _ => _.map(_ => _.name)
-          },
-          { type: "text", label: "优先级", prop: "priority", width: "120" },
-          {
-            type: "text",
-            label: "流程节点",
-            prop: "process_action",
-            render_simple: "name",
-            width: "120"
-          },
-          {
-            type: "text",
-            label: "是否折扣",
-            prop: "is_discount",
-            width: "100",
-            render: (h, item) => h("span", item ? "是" : "否")
-          },
-          { type: "text", label: "备注", prop: "remark", width: "100" }
+            min_width: "100"
+          }
         ]
       },
       compileType: "add",
@@ -180,23 +126,23 @@ export default {
       this.rowID = row.id;
       this.openVisible("isPanelVisible");
       this.compileType = "edit";
-      this.title = `编辑提成规则>${row.name}`;
+      this.title = `编辑代理人>${row.name}`;
     },
     add() {
       this.rowData = {};
-      this.title = "新增提成规则";
+      this.title = "新增代理人";
       this.compileType = "add";
       this.openVisible("isPanelVisible");
-      this.$refs.RuleAdd ? this.$refs.RuleAdd.clear() : "";
+      this.$refs.detail ? this.$refs.detail.clear() : "";
     },
     save(type) {
-      this.$refs.RuleAdd.submitForm(type, this.rowID);
+      this.$refs.detail.submitForm(type, this.rowID);
     }
   },
   components: {
     TableComponent,
     AppShrink,
-    RuleAdd
+    AgentDetail
   }
 };
 </script>

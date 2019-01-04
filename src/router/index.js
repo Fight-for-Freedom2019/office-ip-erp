@@ -147,6 +147,9 @@ const SettingFields = () => import("@/components/page/setting/flow/Field");
 const SettingTags = () => import("@/components/page/setting/data/Tag");
 const SettingUserRatio = () =>
   import("@/components/page/setting/bonus/UserRatio");
+const SettingAgencies = () =>
+  import("@/components/page/setting/agencies/Agencies");
+const SettingAgents = () => import("@/components/page/setting/agencies/Agents");
 const SettingBonusRule = () => import("@/components/page/setting/bonus/Rule");
 
 //#################
@@ -704,6 +707,16 @@ const router = new Router({
           path: "/setting/bonus/rules",
           name: "SettingBonusRule",
           component: SettingBonusRule
+        },
+        {
+          path: "/setting/agencies/lists",
+          name: "SettingAgencies",
+          component: SettingAgencies
+        },
+        {
+          path: "/setting/agencies/agents",
+          name: "SettingAgents",
+          component: SettingAgents
         },
         {
           path: "/setting/system",
