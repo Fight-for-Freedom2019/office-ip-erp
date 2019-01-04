@@ -57,137 +57,133 @@
 	</span>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
-import { mapMutations } from 'vuex'	
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
-	'name': 'appCard',
-	props:{
-		'value': {
-			type: Array,
-			default() {
-				return []
-			}
-		},
-		'type': String,
-	},
-	data() {
-		return {
-			cardForm: {},
-			saveIndentity: '', 
-		}
-	},
-	computed: {
-		...mapGetters([
-			'cardCache',
-			'cardMap',
-		]),
-		staticCardData () {
-			const val = this.type ? this.cardMap.get(this.type) : {};
-			return val;
-		},
-		cardFields () {
-			const fields = this.staticCardData != undefined ? this.staticCardData['FIELDS'] : [];
-			return fields;
-		},
-	},
-	created() {
-		this.handleDynamicForm();
-	},
-	watch: {
-		// value (val) {
-		// 	val.forEach(_=>{
-		// 		if(!_.visible)  this.$set( _, 'visible', false );
-		// 		this.$set(_, 'type', this.type);
-		// 	});
-		// 	return val;
-		// },
-	},
-	methods: {
-		...mapActions([
-			'initializeCardCache',
-		]),
-		handleCloseTag (tag) {
-			this.$emit('handleCloseTag', tag);
-		},
-		handleCardVisible(tag,e) {
-			if(this.cardFields && this.cardFields.length != 0 ) {
-				//手动关闭el-popover，还存在缺陷，无法关闭不是同一个字段,因为$refs只有当前字段的
-				for (let k in this.$refs) {
-					if(k !== `popover_${tag.id}`) {
-						this.$refs[k][0].doClose();
-					}
-				}
-				this.$refs[`popover_${tag.id}`][0].doToggle();
-			}else {
-				return false;
-			}
-			// return	this.cardFields && this.cardFields.length != 0 ? tag.visible = !tag.visible : false;
-		},
-		setForm (data) {
-			for ( let k  in this.cardForm) {
-				if( k  == 'province_city') {
-					this.cardForm[k] = `${data['province_name']}/${data['city_name']}`;
-				}else {
-					this.cardForm[k] = data[k];
-				}
-			}
-		},
-		async handleCardDetails ({id}) {
-			await this.initializeCardCache({type: this.type, id: id});
-			// await this.setForm(this.cardCache[this.type]);
-			setTimeout(()=>{
-				this.setForm(this.cardCache[this.type]);
-			},100)
-		},
-		handleDynamicForm () {
-			if(this.cardFields && this.cardFields.length != 0) {
-				this.cardFields.forEach(_=>{
-					this.$set(this.cardForm, _.key, '');
-				});
-			}
-		},
-	},
-	components: {
-		'CardRender': {
-			render: function(h) {
-				return	this.render(h,this.scopeForm[this.fieldKey]);
-			},
-			props: {
-				'render': null,
-				'fieldKey': {
-					type: String,
-					default: '',
-				},
-				'scopeForm': null,
-			},	
-		}
-	}
-}
+  name: "appCard",
+  props: {
+    value: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    type: String
+  },
+  data() {
+    return {
+      cardForm: {},
+      saveIndentity: ""
+    };
+  },
+  computed: {
+    ...mapGetters(["cardCache", "cardMap"]),
+    staticCardData() {
+      const val = this.type ? this.cardMap.get(this.type) : {};
+      return val;
+    },
+    cardFields() {
+      const fields =
+        this.staticCardData != undefined ? this.staticCardData["FIELDS"] : [];
+      return fields;
+    }
+  },
+  created() {
+    this.handleDynamicForm();
+  },
+  watch: {
+    // value (val) {
+    // 	val.forEach(_=>{
+    // 		if(!_.visible)  this.$set( _, 'visible', false );
+    // 		this.$set(_, 'type', this.type);
+    // 	});
+    // 	return val;
+    // },
+  },
+  methods: {
+    ...mapActions(["initializeCardCache"]),
+    handleCloseTag(tag) {
+      this.$emit("handleCloseTag", tag);
+    },
+    handleCardVisible(tag, e) {
+      if (this.cardFields && this.cardFields.length != 0) {
+        //手动关闭el-popover，还存在缺陷，无法关闭不是同一个字段,因为$refs只有当前字段的
+        for (let k in this.$refs) {
+          if (k !== `popover_${tag.id}`) {
+            this.$refs[k][0].doClose();
+          }
+        }
+        this.$refs[`popover_${tag.id}`][0].doToggle();
+      } else {
+        return false;
+      }
+      // return	this.cardFields && this.cardFields.length != 0 ? tag.visible = !tag.visible : false;
+    },
+    setForm(data) {
+      for (let k in this.cardForm) {
+        if (k == "province_city") {
+          this.cardForm[k] = `${data["province_name"]}/${data["city_name"]}`;
+        } else {
+          this.cardForm[k] = data[k];
+        }
+      }
+    },
+    async handleCardDetails({ id }) {
+      await this.initializeCardCache({ type: this.type, id: id });
+      // await this.setForm(this.cardCache[this.type]);
+      setTimeout(() => {
+        this.setForm(this.cardCache[this.type]);
+      }, 100);
+    },
+    handleDynamicForm() {
+      if (this.cardFields && this.cardFields.length != 0) {
+        this.cardFields.forEach(_ => {
+          this.$set(this.cardForm, _.key, "");
+        });
+      }
+    }
+  },
+  components: {
+    CardRender: {
+      render: function(h) {
+        return this.render(h, this.scopeForm[this.fieldKey]);
+      },
+      props: {
+        render: null,
+        fieldKey: {
+          type: String,
+          default: ""
+        },
+        scopeForm: null
+      }
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .name_card {
-	height: 200px;
-	background: url('../../assets/card.jpg') center center no-repeat;
-	position: relative;
-	text-align: center;
-	width: 100%;
+  height: 200px;
+  background: url("../../assets/card.jpg") center center no-repeat;
+  position: relative;
+  text-align: center;
+  width: 100%;
 }
 .name_card img {
-	text-align: center;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	z-index: 1;
-	margin-left: -50px;
-	margin-top: -50px;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  margin-left: -50px;
+  margin-top: -50px;
 }
 .name_card .name_email {
-	width: 100%;
-	position: absolute;
-	left: 0px;;
-	bottom: 10%;
-	color: #fff;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  bottom: 10%;
+  color: #fff;
 }
 </style>

@@ -609,6 +609,26 @@ const settingMenu = [
     ]
   },
   {
+    type: "submenu",
+    text: "代理机构",
+    path: "/setting/agencies",
+    icon: "iconfont el-icon-my-organization",
+    children: [
+      {
+        type: "item",
+        text: "代理机构",
+        path: "/setting/agencies/lists",
+        icon: "iconfont el-icon-my-organization"
+      },
+      {
+        type: "item",
+        text: "代理人",
+        path: "/setting/agencies/agents",
+        icon: "iconfont el-icon-my-people"
+      }
+    ]
+  },
+  {
     type: "item",
     text: "系统设置",
     path: "/setting/system",

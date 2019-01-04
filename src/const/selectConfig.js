@@ -527,6 +527,26 @@ const config = [
     }
   ],
   [
+    "agency",
+    {
+      placeholder: "请选择管制事项阶段",
+      url: "/agencies?listOnly=1",
+      handle(data) {
+        return data.data.data;
+      }
+    }
+  ],
+  [
+    "agent",
+    {
+      placeholder: "请选择管制事项阶段",
+      url: "/agents?listOnly=1",
+      handle(data) {
+        return data.data.data;
+      }
+    }
+  ],
+  [
     "mail_template",
     {
       placeholder: "请选择邮件模板",

@@ -18,6 +18,7 @@
 				<upload v-model="form.attachments" :file-list="attachments"></upload>
 			</el-form-item>
 			<el-form-item label="正文" prop="body">
+                <tinymce-editor :api-key="api_key" v-model="form.body" :init="editorInit"></tinymce-editor>
 				<!--<quill-editor
 						v-html="form.body"
 			ref="myQuillEditor"
@@ -41,7 +42,8 @@ import AxiosMixins from '@/mixins/axios-mixins'
 import Upload from '@/components/form/Upload'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import AppShrink from '@/components/common/AppShrink'
-
+import TinymceEditor from '@tinymce/tinymce-vue';
+import Tinymce from "@/mixins/tinymce"
 const URL = '/mails';
 const sceneMap = new Map([
 	['立案通知',1],
@@ -61,7 +63,7 @@ const sceneMap = new Map([
 export default {
   name: 'mailAdd',
   props: ['data'],
-  mixins: [ AxiosMixins ],
+  mixins: [ AxiosMixins, Tinymce ],
   data () {
 		return {
 			'form':{
@@ -253,6 +255,7 @@ export default {
 		Upload, 
 		RemoteSelect, 
 		AppShrink,
+        TinymceEditor
 	},
 }
 </script>

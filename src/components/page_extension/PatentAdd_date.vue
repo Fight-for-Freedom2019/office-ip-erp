@@ -52,6 +52,40 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
+        <el-form-item label="主动修改期限">
+          <el-date-picker
+            size="small"
+            v-model="form.active_supplement_expire_date"
+            type="date"
+            placeholder="主动修改期限"
+            class="input-min-width"
+          ></el-date-picker>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8">
+        <el-form-item label="公开号">
+          <el-input
+            size="small"
+            v-model="form.publication_number"
+            placeholder="公开号"
+            class="input-min-width"
+          ></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="公开日">
+          <el-date-picker
+            size="small"
+            v-model="form.publication_date"
+            type="date"
+            placeholder="公开日"
+            class="input-min-width"
+          ></el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
         <el-form-item label="初审合格日">
           <el-date-picker
             size="small"
@@ -86,11 +120,12 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="PCT检索日">
+        <el-form-item label="进入实审日">
           <el-date-picker
             size="small"
-            v-model="form.pct_search_date"
-            placeholder="PCT检索日"
+            v-model="form.sub_exam_start_date"
+            type="date"
+            placeholder="进入实审日"
             class="input-min-width"
           ></el-date-picker>
         </el-form-item>
@@ -108,7 +143,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="PCT申请日">
+        <el-form-item label="国际申请日">
           <el-date-picker
             size="small"
             v-model="form.pct_application_date"
@@ -118,6 +153,7 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
+
       <el-col :span="8">
         <el-form-item label="PCT优先权日">
           <el-date-picker
@@ -165,6 +201,16 @@
     </el-row>
     <el-row>
       <el-col :span="8">
+        <el-form-item label="PCT检索日">
+          <el-date-picker
+            size="small"
+            v-model="form.pct_search_date"
+            placeholder="PCT检索日"
+            class="input-min-width"
+          ></el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
         <el-form-item label="PCT国家阶段">
           <el-date-picker
             size="small"
@@ -197,19 +243,6 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="8">
-        <el-form-item label="进入实审日">
-          <el-date-picker
-            size="small"
-            v-model="form.sub_exam_start_date"
-            type="date"
-            placeholder="进入实审日"
-            class="input-min-width"
-          ></el-date-picker>
-        </el-form-item>
-      </el-col>
       <el-col :span="8">
         <el-form-item label="优先权期限">
           <el-date-picker
@@ -221,41 +254,8 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
-      <el-col :span="8">
-        <el-form-item label="主动修改期限">
-          <el-date-picker
-            size="small"
-            v-model="form.active_supplement_expire_date"
-            type="date"
-            placeholder="主动修改期限"
-            class="input-min-width"
-          ></el-date-picker>
-        </el-form-item>
-      </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="8">
-        <el-form-item label="公开号">
-          <el-input
-            size="small"
-            v-model="form.publication_number"
-            placeholder="公开号"
-            class="input-min-width"
-          ></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="公开日">
-          <el-date-picker
-            size="small"
-            v-model="form.publication_date"
-            type="date"
-            placeholder="公开日"
-            class="input-min-width"
-          ></el-date-picker>
-        </el-form-item>
-      </el-col>
-    </el-row>
+    <el-row></el-row>
   </el-form>
   <!-- </app-collapse> -->
 </template>

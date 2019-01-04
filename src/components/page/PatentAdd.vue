@@ -42,7 +42,7 @@
           </el-tab-pane>
           <el-tab-pane v-if="pageType == 'edit'">
             <span slot="label">
-              <i class="el-icon-menu"></i> 分类信息
+              <i class="el-icon-menu"></i> 分类&人员
             </span>
             <classification ref="classification"></classification>
           </el-tab-pane>
@@ -88,7 +88,7 @@
         </el-tab-pane>
         <el-tab-pane v-if="pageType == 'edit'">
           <span slot="label">
-            <i class="el-icon-menu"></i> 分类信息
+            <i class="el-icon-menu"></i> 分类&人员
           </span>
           <classification ref="classification"></classification>
         </el-tab-pane>
