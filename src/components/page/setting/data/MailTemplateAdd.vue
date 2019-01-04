@@ -35,7 +35,7 @@
                 </remote-select>
             </el-form-item> -->
             <el-form-item label="邮件正文" prop="body">
-                <vue-neditor-wrap v-model="form.body"></vue-neditor-wrap>
+                <tinymce-editor :api-key="api_key" v-model="form.body" :init="editorInit"></tinymce-editor>
                 <!--<quill-editor
                     v-model="form.body"
                     ref="myQuillEditor"
@@ -54,10 +54,11 @@
 import RemoteSelect from "@/components/form/RemoteSelect";
 import StaticSelect from "@/components/form/StaticSelect";
 import AppSwitch from "@/components/form/AppSwitch";
-import VueNeditorWrap from 'vue-neditor-wrap'
-
+import TinymceEditor from '@tinymce/tinymce-vue';
+import Tinymce from "@/mixins/tinymce"
 export default {
     name: "ServiceAdd",
+    mixins:[Tinymce],
     data() {
         return {
             URL: "/message_templates",
@@ -247,7 +248,7 @@ export default {
         RemoteSelect,
         StaticSelect,
         AppSwitch,
-        VueNeditorWrap
+        TinymceEditor,
     },
 }
 </script>

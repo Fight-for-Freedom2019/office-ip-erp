@@ -11,14 +11,13 @@
     "analyz": "set NODE_ENV=production && set npm_config_report=true && npm run build"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^1.1.0",
     "axios": "^0.17.0",
     "echarts": "^3.7.2",
     "element-ui": "^2.4.7",
     "event-source-polyfill": "0.0.16",
     "form-create": "^1.5.1",
     "vue": "^2.5.2",
-    "vue-neditor-wrap": "^1.0.4",
-    "vue-quill-editor": "^2.3.3",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.0"
