@@ -45,13 +45,13 @@
 		        closable
 		        disable-transitions
 		        @close="handleCloseTag(index)"
-		        style="margin-right: 5px; cursor: pointer; max-width: 200px;"
+		        style="margin-right: 5px; cursor: pointer; max-width: 120px;"
 		        slot="reference"
 		        @click.native="(e)=>{handleCardVisible(tag,e)}"
 	    	>
 	    		<span v-if="type == 'inventor' && tag.share!=undefined">{{ `${tag.name};贡献率：${tag.share}%` }}</span>
-	    		<span v-else-if="type == 'relateProjects'">{{ tag['id']['name'] }}</span>
-	      		<span v-else>{{tag.name}}</span>
+	    		<span v-else-if="type == 'relateProjects'" :title="tag['id']['name']">{{ tag['id']['name'] }}</span>
+	      		<span v-else :title="tag.name">{{tag.name}}</span>
 	    	</el-tag>
 		</el-popover>					
 	</span>
