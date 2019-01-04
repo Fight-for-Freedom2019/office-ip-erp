@@ -135,6 +135,9 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     right: 15px;
     top: 2px;
 }
+.el-table td, .el-table th {
+  padding: 8px 0;
+}
   // .el-tree-node__expand-icon.expanded {
   //   -ms-transform: rotate(90deg);
   //   transform: rotate(90deg);

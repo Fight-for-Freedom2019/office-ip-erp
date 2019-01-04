@@ -45,7 +45,7 @@
 		        closable
 		        disable-transitions
 		        @close="handleCloseTag(index)"
-		        style="margin-right: 5px; cursor: pointer;"
+		        style="margin-right: 5px; cursor: pointer; max-width: 200px;"
 		        slot="reference"
 		        @click.native="(e)=>{handleCardVisible(tag,e)}"
 	    	>

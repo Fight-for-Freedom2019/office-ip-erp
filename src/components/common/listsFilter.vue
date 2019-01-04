@@ -145,7 +145,6 @@ export default {
 	},
   },
   created () {
-    console.log('重新加载')
   	this.handleDynamicData();
   	window.listHeaderFilter = this;
   },
