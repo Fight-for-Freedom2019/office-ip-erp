@@ -1,82 +1,93 @@
 <template>
   <div class="app-tree-filter">
-    <static-select :type="selectedType" v-model="field_key" ref="strainerTree"></static-select>
+    <static-select
+      :type="selectedType"
+      v-model="field_key"
+      ref="strainerTree"
+      :square="true"
+      border="bottom"
+    ></static-select>
     <el-tree
-      style="margin-top: 10px;"
+      :style="{height: (parseInt(height) - 53) + 'px', margin:'10px 0 0 0', 'overflow-y':'auto'}"
       :data="data"
       :props="defaultProps"
       highlight-current
       @node-click="refreshTable"
       ref="filterTree"
-    >
-    </el-tree>
+    ></el-tree>
   </div>
 </template>
 
 <script>
-import StaticSelect from '@/components/form/StaticSelect'
-import { strainerConfig } from '@/const/fieldConfig'
-import { mapActions } from 'vuex' 
+import StaticSelect from "@/components/form/StaticSelect";
+import { strainerConfig } from "@/const/fieldConfig";
+import { mapActions } from "vuex";
 // 过滤器后台路由配置
 const urlMap = new Map([
-  ['process',{ URL: '/processes/filters' }],
-  ['patent',{ URL: '/patents/filters' }],
-  ['applicants',{ URL: '/applicants/filters' }],
-  ['inventors',{ URL: '/inventors/filters' }],
-  ['contacts',{ URL: '/contacts/filters' }],
-  ['remarks',{ URL: '/remarks/filters' }],
-  ['contracts',{ URL: '/contracts/filters' }],
-  ['invoice_targets',{ URL: '/invoice_targets/filters' }],
-  ['fees',{ URL: '/fees/filters' }],
-  ['invoices',{ URL: '/invoices/filters' }],
-  ['received_payments',{ URL: '/received_payments/filters' }],
-  ['invoice_request',{ URL: '/vouchers/filters' }],
-  ['cpc_notice',{ URL: '/cpc_notices/filters' }],
-  ['cpc_archive',{ URL: '/cpc_archives/filters' }],
-  ['orders',{ URL: '/orders/filters' }],
+  ["process", { URL: "/processes/filters" }],
+  ["patent", { URL: "/patents/filters" }],
+  ["applicants", { URL: "/applicants/filters" }],
+  ["inventors", { URL: "/inventors/filters" }],
+  ["contacts", { URL: "/contacts/filters" }],
+  ["remarks", { URL: "/remarks/filters" }],
+  ["contracts", { URL: "/contracts/filters" }],
+  ["invoice_targets", { URL: "/invoice_targets/filters" }],
+  ["fees", { URL: "/fees/filters" }],
+  ["invoices", { URL: "/invoices/filters" }],
+  ["received_payments", { URL: "/received_payments/filters" }],
+  ["invoice_request", { URL: "/vouchers/filters" }],
+  ["cpc_notice", { URL: "/cpc_notices/filters" }],
+  ["cpc_archive", { URL: "/cpc_archives/filters" }],
+  ["orders", { URL: "/orders/filters" }]
 ]);
 export default {
-  name: 'filterTree',
+  name: "filterTree",
   props: {
     type: {
       type: String,
-      default: '',
+      default: ""
     },
+    height: {
+      type: Number,
+      default: 0
+    }
   },
   computed: {
-    strainerMap () {
+    strainerMap() {
       const map = new Map(strainerConfig);
       return map;
     },
-    selectedType () {
+    selectedType() {
       const singleStrainer = this.type ? this.strainerMap.get(this.type) : [];
       return {
-        placeholder: '请选择过滤属性',
-        options: singleStrainer,
-      }
+        placeholder: "请选择过滤属性",
+        options: singleStrainer
+      };
     },
-    config () {
+    config() {
       const val = this.type ? urlMap.get(this.type) : undefined;
       return val;
     },
-    defaultParams () {
+    defaultParams() {
       const params = this.$route.meta.params;
       return params ? params : {};
-    },
+    }
   },
   methods: {
-    ...mapActions([
-      'fillListFilter',
-    ]),
-    refreshTreeData () {
+    ...mapActions(["fillListFilter"]),
+    refreshTreeData() {
       const url = this.config.URL;
-      const data = Object.assign({}, {filter_key: this.field_key}, this.defaultParams) ;
-      const success = _=>{
-        if(_) this.data = _.data;
+      const data = Object.assign(
+        {},
+        { filter_key: this.field_key },
+        this.defaultParams
+      );
+      const success = _ => {
+        if (_) this.data = _.data;
       };
-      this.$axiosGet({ url, data, success })
+      this.$axiosGet({ url, data, success });
     },
-    refreshTable (data,node) {
+    refreshTable(data, node) {
       const obj = {};
       const s = this.$refs.strainerTree.getSelected();
       const label = data.name;
@@ -84,38 +95,38 @@ export default {
       const key = s[0].id;
       const value = data.query[key];
       const extraOption = { operation: 1 };
-      obj[key] = {label, name, key, value, extraOption };
+      obj[key] = { label, name, key, value, extraOption };
       this.fillListFilter(obj);
       // this.$emit('refresh',data.query);
-    },
+    }
   },
-  data () {
-		return {
-		  field_key: '',
+  data() {
+    return {
+      field_key: "",
       data: [],
       defaultProps: {
-        children: 'children',
+        children: "children",
         label(d) {
-          return `${d.name}(${d.count})`
-        },  
-      },
-		}
+          return `${d.name}(${d.count})`;
+        }
+      }
+    };
   },
-  created () {
-    this.strainerMap.get(this.type).filter((v,i,arr)=>{
-      if(v['default']) this.field_key = v.id;
-    })
+  created() {
+    this.strainerMap.get(this.type).filter((v, i, arr) => {
+      if (v["default"]) this.field_key = v.id;
+    });
   },
   watch: {
     field_key: {
-      handler (val) {
+      handler(val) {
         this.refreshTreeData();
       },
       deep: true
-    },
+    }
   },
-  components: { StaticSelect },
-}
+  components: { StaticSelect }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

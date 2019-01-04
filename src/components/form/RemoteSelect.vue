@@ -399,8 +399,12 @@ export default {
     if (this.value instanceof Array && this.value[0].visible) {
       return;
     }
+    if (this.value == "") {
+      return;
+    }
 
-    const v = this.value instanceof Object ? [this.value] : this.value;
+    const v = this.value instanceof Array ? this.value : [this.value];
+    console.log(v);
     this.refreshSelected(v);
   },
   mounted() {},
