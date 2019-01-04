@@ -73,7 +73,7 @@
             </el-form-item> 
             <template slot="app-button">
               <el-form-item style="margin-bottom: 0px;">
-                <el-button type="primary" @click="submitFunc" :loading="btn_disabled">{{ btn_disabled ? '提交中...' : '提交' }}</el-button>
+                <el-button type="primary" @click="submitFunc" :disabled="btn_disabled" :loading="btn_disabled">{{ btn_disabled ? '提交中...' : '提交' }}</el-button>
               </el-form-item>
             </template>
         </app-form>

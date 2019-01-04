@@ -3,7 +3,7 @@
     <template v-if="!isChild">
       <app-shrink :visible.sync="dialogVisible" :title="title">
         <span slot="header" style="float: right;">
-          <el-button type="primary" @click="edit" size="small" v-if="pageType == 'edit'">保存</el-button>
+          <el-button type="primary" @click="edit" :disabled="btn_disabled"  size="small" v-if="pageType == 'edit'">保存</el-button>
           <el-button type="primary" @click="add" size="small" v-if="pageType == 'add'">新建</el-button>
         </span>
         <el-tabs

@@ -140,7 +140,7 @@ export default {
 					this.dialogVisible = false;
 				}
 				const complete = _=>{ this.btn_disabled = false };
-
+				this.btn_disabled = true;
 				this.axiosPost({url, data, success, complete});
 			}
 		},

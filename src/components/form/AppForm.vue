@@ -273,12 +273,10 @@ export default {
           val = _.multiple ? [] : _.default !== undefined ? _.default : "";
         } else if (_.components == "upload") {
           val = [];
-        } else {
-          val = "";
-        }
-        if (this.process[_.key] !== undefined) {
+        } else if (this.process[_.key] !== undefined && _.key != 'remark') {
           val = this.process[_.key];
-          this.$set(this.form, _.key, val);
+        }else {
+          val = "";
         }
         this.$set(this.form, _.key, val);
       });

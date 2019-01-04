@@ -55,7 +55,7 @@ export default {
 					{ type: 'text', label: '备注', prop: 'remark', min_width: '200'},
 				]
 			},
-			tableData: [{id: 1, serial: '124'}],
+			tableData: [],
 			currentRow: {},
 		};
 	},

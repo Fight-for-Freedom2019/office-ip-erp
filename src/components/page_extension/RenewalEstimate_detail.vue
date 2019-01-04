@@ -1,8 +1,8 @@
 <template>
 	<app-shrink :visible.sync="visible" :title="`年费评估单>${row.serial}`">	
 		<span style="float: right;" slot="header">
-			<el-button size="small" type="primary" @click="save">保存</el-button>
-			<el-button size="small" type="danger" @click="deleteEstimate">删除</el-button>
+			<el-button size="small" type="primary" :disabled="btn_disabled" @click="save">保存</el-button>
+			<el-button size="small" type="danger" :disabled="btn_disabled" @click="deleteEstimate">删除</el-button>
 			<el-button size="small" @click="sendMail">发送邮件</el-button>
 		</span>
 		<el-form :model="form" label-width="80px" label-position="left" class="form-information" v-loading="loading" element-loading-text="加载评估单信息中..." style="padding: 0px 20px;" ref="form">
@@ -47,9 +47,7 @@
 				<mails :id="id"></mails>
 			</el-tab-pane>
 		</el-tabs>
-		<app-shrink :visible.sync="shrinkVisible" :title="`邮件`">
-        	<mail-add @refresh="handleRefresh" ref="mail_add" :data="backData"></mail-add>
-      	</app-shrink>
+        	<mail-add  ref="mail_add"></mail-add>
 	</app-shrink>
 </template>
 
@@ -77,9 +75,9 @@ export default {
 		return {
 			loading: false,
 			id: '',
+			btn_disabled: false,
 			backData: '',
 			visible: false,
-			shrinkVisible: false,
 			active: 'fees_list',
 			form: {
 				price: '',
@@ -106,9 +104,9 @@ export default {
 			this.visible = true;
 			this.id = id;
 		},	
-		handleRefresh () {
-			this.shrinkVisible = false;
-		},
+		// handleRefresh () {
+		// 	this.shrinkVisible = false;
+		// },
 		save () {
 			this.$refs['form'].validate(_=>{
 				if(_) {
@@ -118,7 +116,11 @@ export default {
 						this.$emit('refresh');
 						this.$message({type: 'success', message: _.info });
 					};
-					this.$axiosPut({ url, data, success });
+					const complete = _=>{
+						this.btn_disabled = false;
+					}
+					this.btn_disabled = true;
+					this.$axiosPut({ url, data, success, complete });
 				}
 			})
 		},
@@ -133,6 +135,10 @@ export default {
 					this.$emit('refresh');
 					this.$message({type: 'success', message: _.info });
 				};
+				const complete = _=>{
+					this,btn_disabled = false;
+				};
+				this.btn_disabled = true;
 				this.$axiosDelete({ url, data, success });
 
 			}).catch(_=>{
@@ -140,13 +146,7 @@ export default {
 			})
 		},
 		sendMail () {
-			const url = `/mails/templates?mail_type=8&id=${this.id}`;
-			const success = _=>{
-				this.backData = _.data;
-				this.shrinkVisible = true;
-
-			};
-			this.$axiosGet({ url, success });
+			this.$refs.mail_add.show('年费通知', this.id);
 		},	
 	},
 	created () {

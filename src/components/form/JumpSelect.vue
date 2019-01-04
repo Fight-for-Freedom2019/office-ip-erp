@@ -344,11 +344,10 @@ export default {
 .select_jump_list .el-select__tags::-webkit-scrollbar-corner {
   background: #f6f6f6;
 }
-/*.select_jump_list .el-tag{
+/*.select_jump_list .el-select__tags>span{
     min-height: 24px; 
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: 0 20px 0 5px;
   }*/
 .select_jump_list .el-select .el-tag {
   height: auto;
@@ -364,7 +363,6 @@ export default {
 /*.select_jump_list .el-tag .el-icon-close {
     border-radius: 50%;
     text-align: center;
-    position: absolute;
     cursor: pointer;
     font-size: 12px;
     -ms-transform: scale(.75,.75);
@@ -373,8 +371,9 @@ export default {
     width: 18px;
     line-height: 18px;
     vertical-align: middle;
+    position: absolute;
     top: 5px;
-    right: 0px;
+    right: 2px;
 }*/
 .select_jump_list .el-select__input {
   border: none;
