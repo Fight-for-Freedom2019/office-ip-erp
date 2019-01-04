@@ -6,37 +6,62 @@
       :model="form"
       label-width="100px"
     >
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
-      </el-form-item>
-      <el-form-item label="手机" prop="phone_number">
-        <el-input v-model="form.phone_number" placeholder="请输入手机号码"></el-input>
-      </el-form-item>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="手机" prop="phone_number">
+            <el-input v-model="form.phone_number" placeholder="请输入手机号码"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="邮箱地址" prop="email_address">
+            <el-input v-model="form.email_address" placeholder="请输入邮箱地址"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="邮箱密码" prop="email_password">
+            <el-input type="password" v-model="form.email_password" placeholder="请输入邮箱密码"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="POP服务器" prop="pop_server">
+            <el-input v-model="form.pop_server" placeholder="请输入POP服务器地址"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="POP端口" prop="pop_port">
+            <el-input v-model="form.pop_port" placeholder="请输入POP端口"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="SMTP服务器" prop="smtp_server">
+            <el-input v-model="form.smtp_server" placeholder="请输入SMTP服务器地址"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="SMTP端口" prop="smtp_port">
+            <el-input v-model="form.smtp_port" placeholder="请输入SMTP端口"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="是否使用SSL" prop="is_ssl">
+            <!-- 	<el-checkbox label="连接使用SSL (若POP端口为110不需要勾选，若POP端口为995必须勾选)" v-model="form.is_ssl" :true-label="1" :false-label="0"></el-checkbox> -->
+            <app-switch v-model="form.is_ssl" type="is"></app-switch>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      
       <!-- <el-form-item label="邮件通知" prop="message_subscribe">
 				<el-checkbox label="是否订阅邮件通知" v-model="form.message_subscribe" :true-label="1" :false-label="0"></el-checkbox>
       </el-form-item>-->
-      <el-form-item label="邮箱地址" prop="email_address">
-        <el-input v-model="form.email_address" placeholder="请输入邮箱地址"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱密码" prop="email_password">
-        <el-input type="password" v-model="form.email_password" placeholder="请输入邮箱密码"></el-input>
-      </el-form-item>
-      <el-form-item label="POP服务器" prop="pop_server">
-        <el-input v-model="form.pop_server" placeholder="请输入POP服务器地址"></el-input>
-      </el-form-item>
-      <el-form-item label="POP端口" prop="pop_port">
-        <el-input v-model="form.pop_port" placeholder="请输入POP端口"></el-input>
-      </el-form-item>
-      <el-form-item label="SMTP服务器" prop="smtp_server">
-        <el-input v-model="form.smtp_server" placeholder="请输入SMTP服务器地址"></el-input>
-      </el-form-item>
-      <el-form-item label="SMTP端口" prop="smtp_port">
-        <el-input v-model="form.smtp_port" placeholder="请输入SMTP端口"></el-input>
-      </el-form-item>
-      <el-form-item label="是否使用SSL" prop="is_ssl">
-        <!-- 	<el-checkbox label="连接使用SSL (若POP端口为110不需要勾选，若POP端口为995必须勾选)" v-model="form.is_ssl" :true-label="1" :false-label="0"></el-checkbox> -->
-        <app-switch v-model="form.is_ssl" type="is"></app-switch>
-      </el-form-item>
       <el-form-item label="邮件签名" prop="signature">
         <!--<quill-editor
           v-model="form.signature"
@@ -46,7 +71,7 @@
           @focus="onEditorFocus($event)"
           @ready="onEditorReady($event)"
         ></quill-editor>-->
-          <tinymce-editor :api-key="api_key" v-model="form.signature" :init="editorInit"></tinymce-editor>
+          <tinymce-editor :api-key="api_key" v-model="form.signature" :init="editorInit" :height="600"></tinymce-editor>
       </el-form-item>
       <el-form-item>
         <el-button @click="save" type="primary" :disabled="btn_disabled">保存</el-button>

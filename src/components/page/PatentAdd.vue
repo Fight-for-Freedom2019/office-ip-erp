@@ -25,7 +25,7 @@
           </el-tab-pane>
           <el-tab-pane>
             <span slot="label">
-              <i class="el-icon-info"></i> 案件信息
+              <i class="el-icon-dispatch"></i> 案件信息
             </span>
             <pa-base
               ref="base"
@@ -71,7 +71,7 @@
         </el-tab-pane>
         <el-tab-pane>
           <span slot="label">
-            <i class="el-icon-info"></i> 案件信息
+            <i class="el-icon-dispatch"></i> 案件信息
           </span>
           <pa-base
             ref="base"

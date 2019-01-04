@@ -379,7 +379,7 @@ export default {
             return h('span',item);
           }},
           { type: 'text', prop: 'process_action', render_obj: 'task', render_simple: 'name', label: '当前节点', render_header: true, width: '110',},
-          { type: 'text', prop: 'user', label: '承办人', render_simple: 'name', render_header: true, width: '110',},
+          { type: 'text', prop: 'user', label: '承办人', render_obj: 'task', render_simple: 'name', render_header: true, width: '110',},
           { type: 'text', prop: 'agent', label: '代理人', render_simple: 'name', render_header: true, width: '110',},
           { type: 'text', prop: 'assistant', label: '代理人助理', render_simple: 'name', render_header: true, width: '110',},
           { type: 'text', prop: 'first_reviewer', label: '初审人', render_simple: 'name', render_header: true, width: '110',},
