@@ -3,7 +3,8 @@ export default {
         return {
             editorInit: {
                 menubar:false,
-                plugins:"image",
+                plugins:"image autoresize",
+                autoresize_max_height:500,
                 language:"zh_CN",
                 language_url:"/static/tinymce_lang/zh_CN.js",
                 image_title: true,
