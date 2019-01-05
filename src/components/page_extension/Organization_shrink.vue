@@ -28,7 +28,7 @@
       <el-form-item label="送件接口人" prop="notice" v-if="roleType == 'organization'">
         <remote-select type="user" v-model="form.filing" placeholder="请选择部门送件接口人"></remote-select>
       </el-form-item>
-      <app-collapse
+<!--       <app-collapse
         v-for="(item,index) in group_rules"
         :col-title="item.name"
         :key="index"
@@ -41,7 +41,17 @@
             @input="(val)=>{handleSwitchChange(val)}"
           ></app-switch>
         </el-form-item>
-      </app-collapse>
+      </app-collapse> -->
+      <el-form-item label="权限控制" v-if="roleType == 'roles' && type == 'edit'">
+        <static-select :type="selectedType" v-model="selected"></static-select>
+      </el-form-item>
+      <el-form-item v-for="value in limitData" :label="value.label" :key="value.id">
+        <app-switch
+            type="status"
+            v-model="value.checked"
+            @input="(val)=>{handleSwitchChange(val)}"
+          ></app-switch>
+      </el-form-item>
     </el-form>
     <template>
       <span slot="header" style="float: right;">
@@ -94,6 +104,7 @@ const map = new Map([
     }
   ]
 ]);
+const switchMap = new Map();
 export default {
   name: "organization_shrink",
   props: ["currentId", "roleType"],
@@ -104,6 +115,9 @@ export default {
       btn_disabled: false,
       dialogVisible: false,
       group_rules: [],
+      selected: '',
+      checked: false,
+      limitData: [],
       rules_name: [],
       form: {
         name: "",
@@ -112,7 +126,7 @@ export default {
         flow: "",
         finance: "",
         notice: "",
-        filing: ""
+        filing: "",
       }
     };
   },
@@ -127,7 +141,16 @@ export default {
       return this.type && this.type == "add"
         ? `新增${this.REMINDER_TEXT}`
         : `编辑${this.REMINDER_TEXT}`;
-    }
+    },
+    selectedType () {
+      return {
+        placeholder: '请选择页面',
+        options: this.rules_name
+      }
+    },
+    // limitData () {
+    //   return switchMap.get(this.selected);
+    // },
   },
   methods: {
     addForm() {
@@ -143,7 +166,7 @@ export default {
       this.$tool.coverObj(this.form, d);
     },
     handleSwitchChange(val) {
-      this.rules_name.push(val);
+      this.$emit('input', val)
     },
     show(type = "add", data) {
       this.type = type;
@@ -222,11 +245,31 @@ export default {
       const url = `${this.URL}/${data.id}`;
       const success = _ => {
         this.group_rules = _.data.rules;
+        this.group_rules.map(_=>{
+          this.rules_name.push({id: _.name, name: _.name});
+          switchMap.set(_.name, _.children);
+        })
+
       };
       this.$axiosGet({ url, success });
     },
     close() {
       this.dialogVisible = false;
+    },
+  },
+  mounted () {
+    if(this.selected) this.limitData = switchMap.get(this.selected);
+    console.log(this.selected)
+  },
+  watch: {
+    selected: {
+      handler(val) {
+        this.limitData = switchMap.get(val);
+      },
+      immediate: true,
+    },
+    currentId (val) {
+      this.selected = '';
     },
   },
   components: {

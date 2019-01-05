@@ -105,7 +105,7 @@
     </template>
 
     <template v-else-if="col.type == 'action'">
-      <el-table-column type="action" :label="col.label ? col.label : '操作'" :align="col.align ? col.align : 'left'" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''" header-align="center" :fixed="col.fixed === false ? false : 'right'" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined  ?handleRenderHeader:null">
+      <el-table-column type="action" :label="col.label ? col.label : '操作'"  :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''" header-align="center" :fixed="col.fixed === false ? false : 'right'" :class-name="col.className? col.className : ''" >
         <template slot-scope="scope">
           <template v-if="col.btns_render ? true : false">
             <slot name="row_action" :row="scope.row">

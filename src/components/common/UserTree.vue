@@ -267,6 +267,7 @@ export default {
       this.$refs.organization.show("add");
     },
     editChildTree(n, d, s) {
+      this.currentId = d.id;
       this.parentNode = n;
       if (this.radio === "rolegroups" && n.level == 1) {
         this.setType = "";
