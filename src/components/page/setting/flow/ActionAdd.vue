@@ -171,6 +171,12 @@
             },
             coverObj(val){
                 val?this.$tool.coverObj(this.form,val,{obj:['creation_template','completion_template','creation_process_stage','completion_process_stage']}):"";
+                const arr = ['pass_logic', 'rejection_logic', 'completion_logic', 'creation_logic'];
+                for (let key in val) {
+                    if(arr.includes(key)) {
+                        this.form[key] = val[key].join(',');
+                    }
+                }
             },
         },
         components: {
