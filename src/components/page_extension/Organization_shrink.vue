@@ -224,7 +224,10 @@ export default {
         this.group_rules = _.data.rules;
       };
       this.$axiosGet({ url, success });
-    }
+    },
+    close() {
+      this.dialogVisible = false;
+    },
   },
   components: {
     AppShrink,

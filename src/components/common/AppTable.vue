@@ -322,7 +322,7 @@ export default {
           height = this.innerHeight - 200;
           height = height < 300 ? 300 : height;
         }else if(hk === 'noPagination') {
-          height = this.innerHeight - this.breadHeaderHeight;
+          height = this.innerHeight - this.breadHeaderHeight - 4;
           height = height < 300 ? 300 : height;
         }else if(hk === 'flowActions') {
           height = this.innerHeight - 280;

@@ -79,24 +79,24 @@ export default {
         let val = "";
         if (!this.setType) {
           if (this.radio === "organization") {
-            return (val = "organization");
+            return val = "organization";
           } else if (
             this.radio === "rolegroups" &&
             this.parentNode.level == 1
           ) {
-            return (val = "rolegroups");
+            return val = "rolegroups";
           } else if (
             this.radio === "rolegroups" &&
             this.parentNode.level == 2
           ) {
-            return (val = "roles");
+            return val = "roles";
           }
         } else {
           return this.setType;
         }
       },
       set(v) {
-        return (this.setType = v);
+        return this.setType = v;
       }
     }
     /*inputGroupHeight(){
@@ -334,6 +334,7 @@ export default {
   watch: {
     radio(val) {
       this.switchTree = false;
+      if(this.$refs.organization.dialogVisible) this.$refs.organization.close();
       this.$nextTick(_ => {
         this.switchTree = true;
         this.inputGroupHeight = this.getInputGroupHeight();
