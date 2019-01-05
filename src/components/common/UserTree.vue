@@ -1,7 +1,7 @@
 <template>
-  <div class="user_manage">
+  <div class="user-manage__tree">
     <div ref="inputGroup" style="width:300px;background: #fff;border: 1px solid #ebeef5">
-      <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
+      <el-input placeholder="请输入关键字进行过滤" v-model="filterText" class="user-tree__input"></el-input>
       <div style="position: relative;padding: 5px 0 5px; text-align: center;width: 100%;">
         <el-radio-group v-model="radio" size="small">
           <el-radio-button label="organization">组织架构</el-radio-button>
@@ -375,15 +375,15 @@ export default {
 #app .user-tree .el-tree-node__children {
   overflow: inherit;
 }
-#app .user_manage .el-input .el-input__inner {
+#app .user-manage__tree .el-input.user-tree__input .el-input__inner {
   border-radius: 0px;
   border: none;
   border-bottom: 1px solid #dcdfe6;
 }
-#app .user_manage .el-input .el-input__inner:hover{
+#app .user-manage__tree .el-input.user-tree__input .el-input__inner:hover{
     border-color: rgba(192, 196, 204);
 }
-#app .user_manage .el-input .el-input__inner:focus{
+#app .user-manage__tree .el-input.user-tree__input .el-input__inner:focus{
     border-color: #409EFF;
 }
 </style>
