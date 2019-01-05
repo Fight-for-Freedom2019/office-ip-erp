@@ -22,7 +22,7 @@
 			</el-col>
   	</el-row>
   	<el-row>
-  		<el-button type="text" @click="add({ 'fee_type': '', 'amount': '', 'currency': '' , 'request_timing': ''})">添加</el-button>
+  		<el-button type="text" @click="add({ 'fee_type': 99, 'amount': '', 'currency': 'CNY' , 'request_timing': 2})">添加</el-button>
   	</el-row>
   </div>
 </template>

@@ -297,7 +297,6 @@ const map = new Map([
       },
       { type: "date", id: "pre_exam_ok_date", name: "初审合格日" },
       { type: "date", id: "sub_exam_start_date", name: "进入实审日" },
-      { type: "date", id: "sub_exam_start_date", name: "进入实审日" },
       { type: "date", id: "issue_date", name: "公告日" },
       { type: "text", id: "issue_number", name: "公告号" },
       { type: "date", id: "pct_application_date", name: "国际申请日" },

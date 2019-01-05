@@ -579,7 +579,7 @@ export default {
     bread_header_height() {
       // 计算出面包屑和table-header所在宽度
       return this.$refs.table_header
-        ? this.$refs.table_header.clientHeight + 64
+        ? this.$refs.table_header.clientHeight + 68
         : "";
     },
     //计算列表项
