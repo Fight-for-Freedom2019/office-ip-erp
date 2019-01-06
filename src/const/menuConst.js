@@ -646,12 +646,12 @@ const homeMenu = [
 ];
 
 menu.source = [
-  {
-    text: "首页",
-    key: "home",
-    path: "/home",
-    menu: homeMenu
-  },
+  // {
+  //   text: "首页",
+  //   key: "home",
+  //   path: "/home",
+  //   menu: homeMenu
+  // },
   {
     text: "工作流",
     key: "task",

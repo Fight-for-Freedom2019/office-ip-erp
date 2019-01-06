@@ -34,7 +34,7 @@ export default {
         height: "noPagination",
         is_pagination: false,
         // 'is_search': false,
-        'list_type': 'user_manage',
+        list_type: "user_manage",
         header_btn: [
           {
             type: "add",
@@ -54,7 +54,7 @@ export default {
               return _.map(_ => _.name);
             },
             width: "110",
-            render_header: true,
+            render_header: true
           },
           {
             type: "array",
@@ -64,7 +64,18 @@ export default {
               return _.map(_ => _.name);
             },
             width: "110",
-            render_header: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "是否激活",
+            prop: "is_active",
+            width: "100",
+            render: (h, item) => {
+              item = item == true ? "是" : "否";
+              return h("span", item);
+            },
+            render_header: true
           },
           { type: "text", label: "名称", prop: "name", width: "110" },
           { type: "text", label: "用户名", prop: "user_name", width: "145" },
@@ -77,16 +88,7 @@ export default {
             render_simple: "name",
             width: "110"
           },
-          {
-            type: "text",
-            label: "是否激活",
-            prop: "is_active",
-            width: "80",
-            render: (h, item) => {
-              item = item == true ? "是" : "否";
-              return h("span", item);
-            }
-          },
+
           {
             type: "text",
             label: "POP收信服务器",
@@ -137,7 +139,7 @@ export default {
           {
             type: "action",
             label: "操作",
-            width: "130",
+            width: "100",
             align: "center",
             btns: [
               {

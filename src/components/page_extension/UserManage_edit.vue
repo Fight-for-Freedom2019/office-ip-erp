@@ -99,13 +99,13 @@ export default {
       rules: {
         roles: {
           type: "array",
-          required: true,
+          required: false,
           message: "请输入用户组",
           trigger: "change"
         },
         organization_units: {
           type: "array",
-          required: true,
+          required: false,
           message: "请输入部门",
           trigger: "change"
         },
@@ -118,7 +118,7 @@ export default {
             pattern: /^[A-Za-z0-9]+([._\\-]*[A-Za-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
             message: "邮件地址格式不正确",
             trigger: "blur",
-            required: true
+            required: false
           }
         ]
       }

@@ -63,9 +63,9 @@ export default {
           { type: "selection" },
           {
             type: "text",
-            label: "所属客户",
+            label: "客户",
             prop: "customer",
-            width: "150",
+            width: "200",
             render_simple: "name",
             render_header: true
           },
@@ -88,14 +88,14 @@ export default {
             type: "text",
             label: "姓名",
             prop: "name",
-            width: "110",
+            width: "80",
             render_header: true
           },
           {
             type: "text",
             label: "尊称",
             prop: "title",
-            width: "100",
+            width: "80",
             render_header: true
           },
           {

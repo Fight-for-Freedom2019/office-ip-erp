@@ -43,7 +43,7 @@
                     'header_btn': [
                         // {type: 'add', click: this.add},
                         // {type: 'delete'},
-                        {type: 'export'},
+                        // {type: 'export'},
                         {type: 'control'},
                     ],
                     'columns': [

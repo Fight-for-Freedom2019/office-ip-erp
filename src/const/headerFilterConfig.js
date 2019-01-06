@@ -404,15 +404,52 @@ const map = new Map([
     ]
   ],
   ["notices", [{ type: "text", id: "project.serial", name: "案号" }]],
+  //点数规则
+  [
+    "bonus_rule",
+    [
+      {
+        type: "static_select",
+        id: "project_type",
+        name: "案件类型",
+        map_type: "project_type"
+      },
+      {
+        type: "static_select",
+        id: "project_subtype",
+        name: "案件子类型",
+        map_type: "project_subtype"
+      },
+      {
+        type: "static_select",
+        id: "process_definition",
+        name: "管制事项",
+        map_type: "process_definition",
+        url: true
+      },
+      {
+        type: "static_select",
+        id: "area",
+        name: "国家",
+        map_type: "area"
+      }
+    ]
+  ],
   /* 申请人 */
   [
     "applicants",
     [
       {
         type: "static_select",
-        id: "type",
+        id: "province_code",
+        name: "省份",
+        map_type: "province_code"
+      },
+      {
+        type: "static_select",
+        id: "city_code",
         name: "申请人类型",
-        map_type: "applicant_type"
+        map_type: "city_code"
       },
       {
         type: "remote_select",
@@ -885,6 +922,12 @@ const map = new Map([
         id: "organization_units",
         name: "部门",
         map_type: "branch"
+      },
+      {
+        type: "static_select",
+        id: "is_active",
+        name: "用户状态",
+        map_type: "status"
       }
     ]
   ]

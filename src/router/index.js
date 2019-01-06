@@ -169,7 +169,7 @@ const router = new Router({
   // mode: 'history',
   routes: [
     //###重定向###
-    { path: "/", redirect: "/task/pending" },
+    { path: "/", redirect: "/login" },
     { path: "/index", redirect: "/task/pending" },
     { path: "/task", redirect: "/task/pending" },
     { path: "/patents", redirect: "/patent/list" },

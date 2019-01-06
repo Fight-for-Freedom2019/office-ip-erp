@@ -53,13 +53,13 @@ export default {
         highlightCurrentRow: true,
         is_search: true,
         is_list_filter: false,
-        list_type: "serial",
+        list_type: "bonus_rule",
         search_placeholder: "提成规则名称、备注",
         rowClick: this.handleRowClick,
         header_btn: [
           { type: "add", click: this.add },
           { type: "delete" },
-          { type: "export" },
+          // { type: "export" },
           { type: "control" }
         ],
         columns: [
@@ -70,33 +70,37 @@ export default {
             label: "案件类型",
             prop: "project_type",
             render_simple: "name",
-            width: "100"
+            width: "90",
+            render_header: true
           },
           {
             type: "text",
             label: "案件子类型",
             prop: "project_subtype",
             render_simple: "name",
-            width: "120"
+            width: "110",
+            render_header: true
           },
           {
             type: "text",
             label: "国家/地区",
             prop: "area",
             render_simple: "name",
-            width: "100"
+            width: "100",
+            render_header: true
           },
           {
             type: "text",
             label: "管制事项",
             prop: "process_definition",
             render_simple: "name",
-            width: "120"
+            width: "120",
+            render_header: true
           },
           {
             type: "text",
             label: "提成类型",
-            prop: "bonus_type",
+            prop: "bonus_rule_type",
             render_simple: "name",
             width: "100"
           },
@@ -105,9 +109,23 @@ export default {
             label: "生成时机",
             prop: "timing",
             render_simple: "name",
-            width: "120"
+            width: "80"
           },
-          { type: "text", label: "点数", prop: "points", width: "100" },
+          { type: "text", label: "点数", prop: "points", width: "60" },
+          {
+            type: "text",
+            label: "点数对象",
+            prop: "bonus_target",
+            render_simple: "name",
+            width: "80"
+          },
+          {
+            type: "text",
+            label: "是否折扣",
+            prop: "is_discount",
+            width: "80",
+            render: (h, item) => h("span", item ? "是" : "否")
+          },
           {
             type: "text",
             label: "客户",
@@ -129,7 +147,7 @@ export default {
             min_width: "150",
             render: _ => _.map(_ => _.name)
           },
-          { type: "text", label: "优先级", prop: "priority", width: "120" },
+          { type: "text", label: "优先级", prop: "priority", width: "90" },
           {
             type: "text",
             label: "流程节点",
@@ -137,13 +155,7 @@ export default {
             render_simple: "name",
             width: "120"
           },
-          {
-            type: "text",
-            label: "是否折扣",
-            prop: "is_discount",
-            width: "100",
-            render: (h, item) => h("span", item ? "是" : "否")
-          },
+
           { type: "text", label: "备注", prop: "remark", width: "100" }
         ]
       },

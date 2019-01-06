@@ -73,7 +73,11 @@
           <remote-select type="agent" v-model="form.patent_agent"></remote-select>
         </el-form-item>
       </el-col>
-      <el-col :span="8"></el-col>
+      <el-col :span="8">
+        <el-form-item label="技术挖掘人">
+          <remote-select type="user" v-model="form.digger"></remote-select>
+        </el-form-item>
+      </el-col>
     </el-row>
   </el-form>
   <!-- </app-collapse> -->
@@ -96,6 +100,7 @@ export default {
         products: [],
         classification: "",
         agent: "",
+        digger: "",
         assistant: "",
         first_reviewer: "",
         final_reviewer: "",
