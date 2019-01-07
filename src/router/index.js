@@ -6,7 +6,7 @@ const Login = () => import("@/components/page/Login");
 const Index = () => import("@/components/page/Index");
 //首页
 const Home = () => import("@/components/page/Home");
-const Refresh = () => import("@/components/page/refresh");
+const RefreshPage = () => import("@/components/page/refreshPage");
 
 //工作流
 const TaskCommon = () => import("@/components/page/TaskCommon");
@@ -192,7 +192,7 @@ const router = new Router({
       meta: { requiresAuth: true }, //进入路由需要登录验证
       children: [
         { path: "/statistics", name: "Home", component: Home },
-        { path: "/refresh", name: "Refresh", component: Refresh },
+        { path: "/refreshPage", name: "RefreshPage", component: RefreshPage },
         //################### CRM router begin ################
         {
           path: "/crm/customers",
