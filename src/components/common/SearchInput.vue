@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import lodash from "lodash"
+import debounce from "lodash/debounce"
 export default {
   name: 'searchInput',
   props: {
@@ -21,7 +21,7 @@ export default {
     }
   },
   methods: {
-    handleInput:lodash.debounce(function(event){    // 防抖
+    handleInput:debounce(function(event){    // 防抖
       this.$emit('input', event.target.value);
     },200),
     handleEnter () {

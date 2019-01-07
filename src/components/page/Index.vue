@@ -240,14 +240,21 @@ export default {
       "setInnerWidth", //index
       "setUser" //current-user
     ]),
+    refreshPage () {
+      this.$router.replace({
+          path: '/refresh',
+      })
+    },
     loginas() {
       const url = "/loginas/" + this.form.user;
       const success = _ => {
+        this.dialogVisible = false;
         this.$message({ message: "切换登陆成功", type: "success" });
         this.$store.commit("LOGIN", _.data.token);
-        this.dialogVisible = false;
+        this.$axios.defaults.headers.common["Authorization"] = _.data.token;
+        this.refreshUser();
+        this.refreshPage();
       };
-
       this.$axiosPost({ url, success });
     },
     reload() {

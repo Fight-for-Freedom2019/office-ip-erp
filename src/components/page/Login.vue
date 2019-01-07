@@ -60,7 +60,8 @@ export default {
 			  	 		if(d && d.data && d.data.token){
 			  	 			window.appCache = this;
 			  	 			this.$store.commit('LOGIN',d.data.token);
-			  	 			await new Promise((resolve,reject)=>{
+                            this.$axios.defaults.headers.common["Authorization"] = d.data.token;
+                            await new Promise((resolve,reject)=>{
 			  	 				// if(!this.$store.getters.getToken) {
 				  	 				this.getUserInfos();
 			  	 				// }
