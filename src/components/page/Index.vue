@@ -242,7 +242,7 @@ export default {
     ]),
     refreshPage () {
       this.$router.replace({
-          path: '/refresh',
+          path: '/refreshPage',
       })
     },
     loginas() {
