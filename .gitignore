@@ -1,6 +1,7 @@
 .DS_Store
 MOVE.BAT
 node_modules/
+.cache/
 dist/
 UEditor_remove/
 debug.log*
