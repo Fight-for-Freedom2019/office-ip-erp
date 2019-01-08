@@ -68,7 +68,7 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '订单号', prop: 'serial', min_width: '120'},
+                        {type: 'text', label: '订单号', prop: 'name', min_width: '120'},
                         {type: 'text', label: '客户名称', prop: 'customer', render_simple:"name", min_width: '178', render_header: true},
                         {type: 'text', label: '联系人', prop: 'contact', render_simple:"name", min_width: '110', render_header: true},
                         {type: 'text', label: '销售', prop: 'sales' ,render_simple:"name",render_header: true, min_width: '110'},
