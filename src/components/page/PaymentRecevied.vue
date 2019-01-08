@@ -6,7 +6,8 @@
         <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
                 <el-button type="primary" size="small" v-if="compileType === 'edit'" @click="save('edit')">保存</el-button>
-                <el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>
+                <!--<el-button type="primary" size="small" v-if="compileType === 'add'" @click="save('add')">新建</el-button>-->
+                <app-button-loading :func="save" v-if="compileType === 'add'" ref="loadingBtn"></app-button-loading>
             </span>
             <payment-recevied-detail ref="detail" @update="update" @refresh="refresh" :rowData="rowData" @closeVisible="closeVisible('isPanelVisible')"></payment-recevied-detail>
         </app-shrink>

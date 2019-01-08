@@ -6,7 +6,8 @@
         <!-- 新建客户备注 -->
         <app-shrink :visible.sync="isRemarkAddPanelVisible" :modal='formType === "add"' :title="this.appPanelTitle">
       <span slot="header" style="float: right;">
-        <el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>
+        <!--<el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>-->
+          <app-button-loading :func="saveAdd" v-if="formType === 'add'" ref="loadingBtn"></app-button-loading>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
             <remark-list-add ref="remarkAdd" :type='formType' :contacts='contacts' @refresh="refresh" @update="update"></remark-list-add>

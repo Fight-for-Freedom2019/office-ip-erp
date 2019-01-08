@@ -33,6 +33,20 @@ const catchFunct = function(d, t) {
 };
 
 const completeFunc = function(d, t) {};
+const completeFuncCloseLoading = function(d, t) {
+    handleLoading(t,false)
+};
+const beforeRequestOpenLoading = function (t) {
+    handleLoading(t,true)
+}
+const handleLoading = function (t,b){
+    if(t.$refs.btn){
+        t.$refs.loadingBtn.loading = b;
+    }else if(t.$parent.$parent.$refs.btn) {
+        t.$parent.$parent.$refs.loadingBtn.loading = b;
+    }
+}
+
 //------------------默认配置项end-------------------------
 
 function axiosGet({
@@ -116,20 +130,22 @@ function axiosPost({
     catchFunct(_, this);
   },
   complete = _ => {
-    completeFunc(_, this);
+      completeFuncCloseLoading(_, this);
   }
 }) {
+  let _this = this;
+  beforeRequestOpenLoading(_this);
   const res = this.$axios.post(url, data);
   res
     .then(response => {
       const d = response.data;
       d.status > 0 ? success(d) : error(d);
 
-      complete(d);
+      complete(d,_this);
     })
     .catch(error => {
       catchFunc(error);
-      complete(error);
+      complete(error, _this);
     });
 
   return res;

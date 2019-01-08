@@ -30,12 +30,10 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    /*new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap: true
-    }),*/
+      new webpack.DllReferencePlugin({
+          context: __dirname,
+          manifest: require('./vendor-manifest.json')
+      }),
       new ParallelUglifyPlugin({
           cacheDir: '.cache/',
           uglifyJS:{
