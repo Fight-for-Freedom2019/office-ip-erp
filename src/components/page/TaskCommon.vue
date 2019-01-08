@@ -1,29 +1,9 @@
 <template>
   <div class="main" id="task_common">
     <table-component :tableOption="tableOption" :data="tableData" :refreshTableData="refreshTableData" ref="table">
-      <!-- <el-select v-if="menusMap && !menusMap.get('Pages.Tasks.All')" slot="toggle" v-model="task_toggle" style="width: 110px; margin-left: 5px;">
-        <el-option key="mine" label="我的待办" value="my"></el-option>
-        <el-option key="all" label="所有待办" value="all"></el-option>
-      </el-select> -->
-        <!-- <el-button type="primary" slot="test" @click="toggle">测试</el-button> -->
     </table-component>
  
     <el-dialog title="申请委案" :visible.sync="dialogAgenVisible" class="dialog-small">
-<!--       <el-form :form="agen" ref="agen" label-width="80px" :model="agen">
-        <el-form-item label="代理机构" prop="agency_id" :rules="{required: true, type: 'number', message: '代理机构必填', trigger: 'change' }">
-          <remote-select type="agency_poa" v-model="agen.agency_id" poa="1"></remote-select><el-button size="mini" type="text" @click="showAgencyLoad">负载</el-button>
-        </el-form-item>
-        <el-form-item label="代理人" prop="agency_agent" v-show="agen.agency_id !== '' ? true : false">
-          <remote-select type="agent" v-model="agen.agency_agent" :para="{'agency': agen.agency_id}" ref="agent"></remote-select>
-        </el-form-item>
-        <el-form-item label="代理类型" prop="agency_type" :rules="{ required: true, type: 'number', message: '代理类型必填', trigger: 'change' }">
-          <static-select type="agency_type" v-model="agen.agency_type"></static-select>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="agen.remark" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item style="margin-bottom: 0px"><el-button @click="agenSubmit" type="primary" :disabled="btn_disabled">申请委案</el-button></el-form-item>
-      </el-form> -->
       <appoint-case ref="appointCase" @appointSuccess="appointSuccess" :task-ids="taskIds" type="task"></appoint-case>
     </el-dialog>
 
@@ -142,12 +122,10 @@
         <el-tag v-if="currentRow.serial">{{ currentRow.serial }}</el-tag>
       </span>
       <span slot="header" style="float: right">
-        <!-- <el-button size="small" @click="dialogDelayVisible= true" v-if="menusMap && !menusMap.get('/iprs')">延期</el-button> -->
-        <el-button size="small" type="primary" @click="addPop('edit')" v-if="menusMap && !menusMap.get('/iprs')" style="margin-left: 0px;">编辑</el-button>
-        <el-button size="small" style="margin-left: 0px;" v-if="!currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogCloseVisible = true;">完结</el-button>
-        <el-button size="small" style="margin-left: 0px;" v-if="currentRow.status && menusMap && !menusMap.get('/tasks/close')" @click="dialogActivationVisible = true;">激活</el-button>
-        <el-button size="small" style="margin-left: 0px;" v-if="menusMap && !menusMap.get('/tasks/transfer')" @click="dialogTranserVisible = true; transfer_person = {id: currentRow.person_in_charge, name: currentRow.person_in_charge_name }">移交</el-button>
-        <el-button size="small" @click="handleReject" style="margin-left: 0px;" type="danger" v-if="menusMap && !menusMap.get('/iprs')">退回</el-button>
+        <el-button size="small" type="primary" @click="addPop('edit')" v-if="menusMap && menusMap.get('/task/btn/save')" style="margin-left: 0px;">编辑</el-button>
+        <el-button size="small" style="margin-left: 0px;" v-if="!currentRow.status && menusMap && menusMap.get('/task/btn/close')" @click="dialogCloseVisible = true;">完结</el-button>
+        <el-button size="small" style="margin-left: 0px;" v-if="menusMap && menusMap.get('/task/btn/transfer')" @click="dialogTranserVisible = true; transfer_person = {id: currentRow.person_in_charge, name: currentRow.person_in_charge_name }">移交</el-button>
+        <el-button size="small" @click="handleReject" style="margin-left: 0px;" type="danger" v-if="menusMap && menusMap.get('/task/btn/reject')">退回</el-button>
         <el-dropdown  @command="handleCommandSendMail" trigger="click" style="margin-left: 5px;" size="small" v-if="mailbtn == 'patent'">
           <el-button size="small">
             发送邮件<i class="el-icon-caret-bottom el-icon--right"></i>
@@ -792,19 +770,7 @@ export default {
       const t = this.task_status;
       const h = this.tableOption;
       const menusMap = this.menusMap;
-
-
-      // menusMap && !menusMap.get('/tasks/add_btn') ? h.header_btn.splice(0,1,{ type: 'add', click: this.addPop }) : h.header_btn.splice(0,1,{}); 
-      // if( t === 0 ) {
-      //   menusMap && !menusMap.get('/tasks/pause_btn') ? h.header_btn.splice(3,1,{type: 'custom', label: '暂停处理', click: _=>{ this.handleTask('/api/tasks/pause') }}) : false;
-      // }else if( t === -1 ) {
-      //   menusMap && !menusMap.get('/tasks/resume_btn') ? h.header_btn.splice(3,1,{type: 'custom', label: '恢复处理', click: _=>{ this.handleTask('/api/tasks/resume') }}) : false;
-      // }
-      // menusMap && !menusMap.get('/tasks/add_btn') ? h.header_btn.splice(0,1,{ type: 'add', click: this.addPop }) : h.header_btn.splice(0,1,{}); 
-
-      menusMap && !menusMap.get('/tasks/delete_btn') ? h.header_btn.splice(1,1,{ type: 'delete', click: this.taskDelete, callback: this.refreshUser }) : h.header_btn.splice(1,1,{});
-      // menusMap && !menusMap.get('/tasks/agency_btn') && t != 1 ? h.header_btn.splice(2,1,{type: 'custom', label: '申请委案', click: this.agenPop}) : h.header_btn.splice(2,1,{});
-
+      menusMap && menusMap.get('/task/btn/delete') ? h.header_btn.splice(1,1,{ type: 'delete', click: this.taskDelete, callback: this.refreshUser }) : h.header_btn.splice(1,1,{});
       this.$forceUpdate();
     },
     handleTask(url) {

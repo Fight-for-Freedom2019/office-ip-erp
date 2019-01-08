@@ -286,9 +286,9 @@ export default {
     },
     ifMore () {
       if(this.row && this.row.category == 1) {
-        return (this.menusMap && !this.menusMap.get('/patent/detail_panel'));
+        return (this.menusMap && this.menusMap.get('/patent/read'));
       }else if(this.row && this.row.category == 3){
-        return (this.menusMap && !this.menusMap.get('/copyright/detail_panel'));
+        return (this.menusMap && this.menusMap.get('/copyright/read'));
       }else {
         return false;
       }

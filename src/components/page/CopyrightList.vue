@@ -128,7 +128,7 @@ export default {
       this.$router.push( path );
     },
     handleRowClick (row) {
-      if( this.menusMap && !this.menusMap.get('/copyright/detail_panel') ) {
+      if( this.menusMap && this.menusMap.get('/copyright/read') ) {
         this.currentRow = row;
         if(!this.shrinkVisible) this.shrinkVisible = true;
       }

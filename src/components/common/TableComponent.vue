@@ -835,7 +835,7 @@ export default {
     },
     headerBtnIf(_) {
       if (_.map_if) {
-        if (this.menusMap && !this.menusMap.get(_.map_if)) {
+        if (this.menusMap && this.menusMap.get(_.map_if)) {
           if (_.btn_if) {
             if (/draftbox/.test(this.path)) {
               return true;

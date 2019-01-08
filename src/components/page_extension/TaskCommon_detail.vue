@@ -43,7 +43,7 @@ export default {
             btns: [
               {type: 'view', click: ({viewUrl})=>{window.open(viewUrl)}},
               {type: 'download', click: ({downloadUrl})=>{window.location.href = downloadUrl}},
-              {type: 'delete', click: this.handleDelete,btn_if:_=>{return this.menusMap && !this.menusMap.get('/flows')? true :false}},
+              {type: 'delete', click: this.handleDelete,btn_if:_=>{return this.menusMap && this.menusMap.get('/role/flow')? true :false}},
             ],
           }
         ]

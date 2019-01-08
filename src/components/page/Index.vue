@@ -46,7 +46,7 @@
             <el-dropdown-item command="login_as" v-if="isAdmin">登陆为</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-dialog title="登陆为" :visible.sync="dialogVisible" width="30%">
+        <el-dialog title="登陆为" :visible.sync="dialogVisible" width="30%" :modal="false">
           <span>
             <jump-select type="user" v-model="form.user"></jump-select>
           </span>

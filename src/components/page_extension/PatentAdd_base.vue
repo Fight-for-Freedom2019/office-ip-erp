@@ -79,7 +79,7 @@
       ></remote-select>
     </el-form-item>
 
-    <el-form-item label="发明人" prop="inventors" v-if="!menusMap.get('/iprs')">
+    <el-form-item label="发明人" prop="inventors">
       <!-- <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors> -->
       <remote-select
         type="inventor"

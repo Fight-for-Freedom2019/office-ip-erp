@@ -63,7 +63,7 @@
 		>
 		 	<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 		</el-upload>
-		<el-form v-if="!menusMap.get('/patent/upload')">
+		<el-form v-if="menusMap.get('/patent/upload')">
 			<el-form-item prop="is_trigger_task" label="是否触发任务" v-if="config.is_trigger_task">
 				<el-radio-group v-model="is_trigger_task">
 					<el-radio-button label="触发"></el-radio-button>
