@@ -22,6 +22,10 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': config.dev.env
     }),
+      new webpack.DllReferencePlugin({
+          context: __dirname,
+          manifest: require('./vendor-manifest.json')
+      }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
