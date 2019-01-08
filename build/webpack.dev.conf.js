@@ -16,11 +16,16 @@ module.exports = merge(baseWebpackConfig, {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
   // cheap-module-eval-source-map is faster for development
-  devtool: '#cheap-module-eval-source-map',
+  devtool: 'eval',
+  // devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env
     }),
+      new webpack.DllReferencePlugin({
+          context: __dirname,
+          manifest: require('./vendor-manifest.json')
+      }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
