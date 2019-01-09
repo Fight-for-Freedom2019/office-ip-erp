@@ -40,9 +40,9 @@ const beforeRequestOpenLoading = function (t) {
     handleLoading(t,true)
 }
 const handleLoading = function (t,b){
-    if(t.$refs.btn){
+    if(t.$refs.loadingBtn){
         t.$refs.loadingBtn.loading = b;
-    }else if(t.$parent.$parent.$refs.btn) {
+    }else if(t.$parent.$parent.$refs.loadingBtn) {
         t.$parent.$parent.$refs.loadingBtn.loading = b;
     }
 }

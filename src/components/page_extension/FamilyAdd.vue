@@ -4,7 +4,8 @@
     <div class="main" >
         <app-shrink :visible.sync="dialogVisible"  :title="title" :size="`small`">
             <span slot="header" style="float: right;">
-                <el-button type="primary" @click="save(mode)" v-if="mode === 'add'" size="small">新建</el-button>
+                <!--<el-button type="primary" @click="save(mode)" v-if="mode === 'add'" size="small">新建</el-button>-->
+                <app-button-loading :func="save" :param="mode" v-if="mode === 'add'" ref="loadingBtn"></app-button-loading>
                 <el-button type="primary" @click="save(mode)" v-if="mode === 'edit'" size="small">保存</el-button>
             </span>
             
