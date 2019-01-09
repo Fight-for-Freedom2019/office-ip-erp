@@ -398,7 +398,7 @@ export default {
             click: () => {
               this.addPop();
             },
-            map_if: "/tasks/add_btn"
+            map_if: "/task/btn/save"
           }, //部分顶部按钮在refreshOption中渲染
           {},
           {},

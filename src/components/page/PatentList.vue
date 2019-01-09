@@ -151,12 +151,12 @@ export default {
           {
             type: "add",
             click: this.add,
-            map_if: "/patent/add",
+            map_if: "/patent/btn/save",
             btn_if: "draftbox"
           },
-          { type: "delete", map_if: "/patent/delete" },
+          { type: "delete", map_if: "/patent/btn/save" },
           // { type: 'import', map_if: '/patent/import' },
-          { type: "export2", map_if: "/patent/export" },
+          { type: "export2", map_if: "/patent/list" },
           // { type: 'batch_upload', map_if: '/patent/upload' },
           { type: "control", label: "字段" }
           // { type: 'test', label: '测试'}

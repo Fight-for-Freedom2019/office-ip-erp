@@ -2,7 +2,7 @@
 <template>
     <div class="PaymentCostDetail">
         <table-component :tableOption="tableOption" :data="data" @getRowData="getRowData"></table-component>
-        <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false">
+        <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false" width="60%">
             <table-component :tableOption="feeDetailOption" :data="feesDetail"></table-component>
         </el-dialog>
         <el-dialog :title="attachmentsTitle" :visible.sync="attachmentsVisible" :modal="false">
@@ -32,7 +32,7 @@
                     'highlightCurrentRow': true,
                     'is_search': false,
                     'is_pagination': false,
-                    // 'rowClick': this.handleRowClick,
+                    'rowClick': this.handleRowClick,
                     'header_btn': [
                         // {type: 'add'},
                     ],
@@ -40,11 +40,6 @@
                         {type: 'selection'},
                         {type: 'text', label: '客户', prop: 'customer.name', min_width: '120'},
                         {type: 'text', label: '订单号', prop: 'order.serial', width: '120'},
-                        {type: 'text', label: '案号', prop: 'project.serial', width: '120'},
-                        {type: 'text', label: '标题', prop: 'project.title', width: '120'},
-                        // {type: 'text', label: '申请国家', prop: 'area', width: '180'},
-                        {type: 'text', label: '申请号', prop: 'application_number', width: '120'},
-                        {type: 'text', label: '申请日', prop: 'application_date', width: '100'},
                         {
                             type: 'text-btn',
                             label: '代理费',
@@ -65,6 +60,12 @@
                                 return row.official_fee.sum;
                             }
                         },
+                        {type: 'text', label: '案号', prop: 'project.serial', width: '120'},
+                        {type: 'text', label: '标题', prop: 'project.title', width: '120'},
+                        // {type: 'text', label: '申请国家', prop: 'area', width: '180'},
+                        {type: 'text', label: '申请号', prop: 'application_number', width: '120'},
+                        {type: 'text', label: '申请日', prop: 'application_date', width: '100'},
+                        
                         // {
                         //     type: 'text', label: '费用策略', prop: 'policy', width: '150', render: (h, item) => {
                         //         let name = "";
@@ -102,43 +103,26 @@
                     'highlightCurrentRow': true,
                     'is_search': false,
                     'is_footer': true,
-                    // 'rowClick': this.handleRowClick,
+                    'rowClick': this.handleRowClick,
                     'header_btn': [
                         // {type: 'add'},
                     ],
                     'columns': [
                         // {type: 'selection'},
-                        {type: 'text', label: '费用名称', prop: 'feecode.name', min_width: '178'},
+                        {type: 'text', label: '费用名称', prop: 'feecode.name', min_width: '120'},
                         {
                             type: 'text',
                             label: '费用类型',
-                            prop: 'feecode.fee_type',
-                            width: '120',
-                            render_text: (item, row) => {
-                                let name;
-                                config.get("fee_type").options.map(function (o) {
-                                    if (o.id === row.feecode.fee_type) {
-                                        name = o.name;
-                                    }
-                                });
-                                return name;
-                            }
+                            prop: 'fee_type',
+                            render_obj: "feecode",
+                            width: '100',
+                            render_simple:'name',
                         },
-                        {type: 'text', label: '金额', prop: 'amount', width: '150'},
-                        {type: 'text', label: '币别', prop: 'currency', width: '180'},
-                        {type: 'text', label: '汇率', prop: 'roe', width: '120'},
-                        {type: 'text', label: '人民币', prop: 'rmb_amount', width: '120'},
-                        {
-                            type: 'text', label: '费用状态', prop: 'status', width: '100', render_text: (item) => {
-                                let name;
-                                config.get("fee_status").options.map(function (o) {
-                                    if (o.id === item) {
-                                        name = o.name;
-                                    }
-                                });
-                                return name;
-                            }
-                        },
+                        {type: 'text', label: '金额', prop: 'amount', width: '80'},
+                        {type: 'text', label: '币别', prop: 'currency', width: '80'},
+                        {type: 'text', label: '汇率', prop: 'roe', width: '80'},
+                        {type: 'text', label: '人民币', prop: 'rmb_amount', width: '90'},
+                        {type: 'text', label: '费用状态', prop: 'status',render_simple:'name', width: '100', },
                         {type: 'text', label: '备注', prop: 'remark', width: '150'},
                     ],
                 },
@@ -202,6 +186,9 @@
         },
         methods: {
             refreshTableData(option) {
+            },
+            handleRowClick(row) {
+
             },
             checkFeeDetail(row, e, col) {
                 this.dialogFormVisible = true;
