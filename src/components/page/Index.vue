@@ -247,14 +247,15 @@ export default {
       const url = "/loginas/" + this.form.user;
       const success = _ => {
         this.dialogVisible = false;
-        this.$message({ message: "切换登陆成功,2秒后跳转...", type: "success" });
+        this.$message({ message: "切换登陆成功,正在跳转...", type: "success" });
         this.$store.commit("LOGOUT");
         this.$store.commit("LOGIN", _.data.token);
         this.$axios.defaults.headers.common["Authorization"] = _.data.token;
         this.refreshUser();
         setTimeout(()=>{
-          this.$router.go(0);
-        },2000)
+          this.reload();
+        },1000)
+
       };
       this.$axiosPost({ url, success });
     },
