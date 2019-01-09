@@ -177,6 +177,7 @@ const router = new Router({
     { path: "/copyrights", redirect: "/copyright/list" },
     { path: "/crm", redirect: "/crm/customers" },
     { path: "/setting", redirect: "/setting/my" },
+    // { path: "/finance", redirect: "/finance/points/lists" },
     { path: "/report", redirect: "/report/task" },
     //###重定向###
     {

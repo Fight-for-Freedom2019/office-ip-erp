@@ -1,25 +1,40 @@
  <template>
   <div class="main">
-    
-    <table-component :tableOption="tableOption" :data="tableData" @refreshTableData="refreshTableData" ref="table" :refresh-proxy="refreshProxy">
-      <!-- <el-button v-if="!!(menusMap && !menusMap.get('/patent/download') )" slot="download" :loading="downloadLoading" icon="share" @click="downloadPop" type="primary" style="margin-left: 5px;">批量下载</el-button> -->
+    <table-component
+      :tableOption="tableOption"
+      :data="tableData"
+      @refreshTableData="refreshTableData"
+      ref="table"
+      :refresh-proxy="refreshProxy"
+    >
+      <!-- <el-button v-if="!!(menusMap && menusMap.get('/patent/download') )" slot="download" :loading="downloadLoading" icon="share" @click="downloadPop" type="primary" style="margin-left: 5px;">批量下载</el-button> -->
       <!-- <el-button type="primary" slot="test" @click="toggle">测试</el-button> -->
     </table-component>
-    
-    
-      <common-detail
-        :title="currentRow.title"
-        ref="detail"
-        :status="defaultStatus"
-        @editSuccess="refresh"
-        @sendEmail="handleSendMail">
-      </common-detail>
 
-    <patent-add page-type="add" ref="patentAdd" @addSuccess="handleAddSuccess"></patent-add> 
-    
-    <app-shrink :visible.sync="mailVisible" :modal="true" :modal-click="false" :is-close="false" title="发送邮件">
-      <mail-edit style="margin-top: 10px; " ref="mailEdit" @sendSuccess="mailCallBack" @cancelSending="mailCallBack"></mail-edit>
-    </app-shrink> 
+    <common-detail
+      :title="currentRow.title"
+      ref="detail"
+      :status="defaultStatus"
+      @editSuccess="refresh"
+      @sendEmail="handleSendMail"
+    ></common-detail>
+
+    <patent-add page-type="add" ref="patentAdd" @addSuccess="handleAddSuccess"></patent-add>
+
+    <app-shrink
+      :visible.sync="mailVisible"
+      :modal="true"
+      :modal-click="false"
+      :is-close="false"
+      title="发送邮件"
+    >
+      <mail-edit
+        style="margin-top: 10px; "
+        ref="mailEdit"
+        @sendSuccess="mailCallBack"
+        @cancelSending="mailCallBack"
+      ></mail-edit>
+    </app-shrink>
 
     <el-dialog title="批量下载" :visible.sync="downloadVisible">
       <el-form>
@@ -34,7 +49,11 @@
 
     <el-dialog title="案件类型" :visible.sync="caseVisible">
       <el-form ref="caseForm" :model="caseForm">
-        <el-form-item label="案件类型" prop="caseType" :rules="{type: 'number',required: true, message: '案件类型不能为空', trigger: 'change'}">
+        <el-form-item
+          label="案件类型"
+          prop="caseType"
+          :rules="{type: 'number',required: true, message: '案件类型不能为空', trigger: 'change'}"
+        >
           <static-select type="relative_projects_type" v-model="caseForm.caseType"></static-select>
         </el-form-item>
         <el-form-item>
@@ -50,39 +69,37 @@
 </template>
 
 <script>
-import AppFilter from '@/components/common/AppFilter'
-import TableComponent from '@/components/common/TableComponent'
-import AppTable from '@/components/common/AppTable'
-import AppTree from '@/components/common/AppTree'
-import AppDatePicker from '@/components/common/AppDatePicker'
-import AppShrink from '@/components/common/AppShrink'
-import CommonDetail from '@/components/page_extension/Common_detail'
-import StaticSelect from '@/components/form/StaticSelect'
-import RemoteSelect from '@/components/form/RemoteSelect'
-import MailEdit from '@/components/common/MailEditForm'
-import AppDate from '@/components/common/AppDate'
-import PatentAdd from '@/components/page/PatentAdd'
-import { mapGetters,mapActions } from 'vuex'
+import AppFilter from "@/components/common/AppFilter";
+import TableComponent from "@/components/common/TableComponent";
+import AppTable from "@/components/common/AppTable";
+import AppTree from "@/components/common/AppTree";
+import AppDatePicker from "@/components/common/AppDatePicker";
+import AppShrink from "@/components/common/AppShrink";
+import CommonDetail from "@/components/page_extension/Common_detail";
+import StaticSelect from "@/components/form/StaticSelect";
+import RemoteSelect from "@/components/form/RemoteSelect";
+import MailEdit from "@/components/common/MailEditForm";
+import AppDate from "@/components/common/AppDate";
+import PatentAdd from "@/components/page/PatentAdd";
+import { mapGetters, mapActions } from "vuex";
 
-const URL = '/patents';
-const PATENT_TYPE = ['发明专利', '实用新型', '外观设计']; 
+const URL = "/patents";
+const PATENT_TYPE = ["发明专利", "实用新型", "外观设计"];
 
-const renderMap = new Map([
-  ['serial', this.serialRender],
-]);
+const renderMap = new Map([["serial", this.serialRender]]);
 
 export default {
-  name: 'patentList',
-  data () {
+  name: "patentList",
+  data() {
     return {
-      value6: '',
-      refreshProxy: '',
-      caseForm:{
-        caseType: '',
+      value6: "",
+      refreshProxy: "",
+      caseForm: {
+        caseType: ""
       },
       figures: [],
       figureVisible: false,
-      currentRow: '',
+      currentRow: "",
       selectData: [],
       shrinkVisible: false,
       caseVisible: false,
@@ -93,124 +110,454 @@ export default {
       patentAddVisible: false,
       mailVisible: false,
       figureColumns: [
-        {type: 'text', label: '附图名称', prop: 'name'},
-        {type: 'text', label: '附图格式', prop: 'ext'},
-        {type: 'text', label: '附图大小 ', prop: 'size'},
+        { type: "text", label: "附图名称", prop: "name" },
+        { type: "text", label: "附图格式", prop: "ext" },
+        { type: "text", label: "附图大小 ", prop: "size" },
         {
-          type: 'action',
-          label: '操作',
-          width: '100',
+          type: "action",
+          label: "操作",
+          width: "100",
           btns: [
-              {
-                  type: 'view', click: ({viewUrl}) => {
-                      window.open(viewUrl)
-                  }
-              },
-              {
-                  type: 'download', click: ({downloadUrl}) => {
-                     window.open(downloadUrl)
-                  }
-              },
-          ],
+            {
+              type: "view",
+              click: ({ viewUrl }) => {
+                window.open(viewUrl);
+              }
+            },
+            {
+              type: "download",
+              click: ({ downloadUrl }) => {
+                window.open(downloadUrl);
+              }
+            }
+          ]
         }
       ],
       tableOption: {
-        'name': 'patentList',
-        'url': URL,
-        'height': 'default',
-        'search_placeholder': '搜索案号、标题、申请号、提案号', 
-        'highlightCurrentRow': true,
-        'rowClick': this.handleRowClick,
+        name: "patentList",
+        url: URL,
+        height: "default",
+        search_placeholder: "搜索案号、标题、申请号、提案号",
+        highlightCurrentRow: true,
+        rowClick: this.handleRowClick,
         // 'is_filter': true,
-        'is_view': true,
-        'is_list_filter': true,
-        'treeFilter': 'patent',
-        'list_type': 'patent',
-        'import_type': 'patent',
+        is_view: true,
+        is_list_filter: true,
+        treeFilter: "patent",
+        list_type: "patent",
+        import_type: "patent",
         // 'upload_type': 'patent',
-        'header_btn': [
-          { type: 'add', click: this.add, map_if: '/patent/add', btn_if: 'draftbox'},
-          { type: 'delete', map_if: '/patent/delete' }, 
+        header_btn: [
+          {
+            type: "add",
+            click: this.add,
+            map_if: "/patent/add",
+            btn_if: "draftbox"
+          },
+          { type: "delete", map_if: "/patent/delete" },
           // { type: 'import', map_if: '/patent/import' },
-          { type: 'export2', map_if: '/patent/export' },
+          { type: "export2", map_if: "/patent/export" },
           // { type: 'batch_upload', map_if: '/patent/upload' },
-          { type: 'control', label: '字段' },
+          { type: "control", label: "字段" }
           // { type: 'test', label: '测试'}
         ],
-        'header_slot': ['download',],
-        'columns': [
+        header_slot: ["download"],
+        columns: [
+          { type: "selection" },
+          {
+            type: "text",
+            label: "案号",
+            prop: "serial",
+            is_agency: true,
+            width: "160",
+            render: this.serialRender
+          },
+          {
+            type: "text",
+            label: "标题",
+            prop: "title",
+            is_import: true,
+            width: "200",
+            is_agency: true
+          },
+          {
+            type: "text",
+            label: "案件类型",
+            prop: "subtype",
+            is_agency: true,
+            render_simple: "name",
+            is_import: true,
+            width: "120",
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "申请国家",
+            prop: "area",
+            is_import: true,
+            width: "120",
+            render_simple: "name",
+            is_agency: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "案件状态",
+            width: "130",
+            prop: "project_stage",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "任务阶段",
+            prop: "process_stage",
+            render_simple: "name",
+            render_header: true,
+            width: "110"
+          },
 
-          { type: 'selection' },
-          { type: 'text', label: '案号', prop: 'serial', is_agency: true,  width: '160',render: this.serialRender, render_header: true},
-          { type: 'text', label: '标题', prop: 'title',  is_import: true, width: '200', is_agency: true, render_header: true},
-          { type: 'text', label: '英文标题', prop: 'english_title',  is_import: true, width: '200', is_agency: true, render_header: true},
-          { type: 'text', prop: 'process_stage', label: '任务阶段', render_simple: 'name', render_header: true, width: '110',},
-          { type: 'text', label: '案件类型', prop: 'subtype', is_agency: true, render_simple: 'name', is_import: true, width: '120',render_header:true},
-          { type: 'text', label: '申请国家', prop: 'area',  is_import: true, width: '120', render_simple: 'name', is_agency: true, render_header: true },
-          { type: 'array', label: '申请人', prop: 'applicants', width: '200', is_import: true,render: _=>{ return _.map(_=>_.name);},render_header: true},
-          { type: 'text', label: '申请号', prop: 'application_number',  is_import: true, width: '140', is_agency: true, render_header: true},
-          { type: 'text', label: '申请日', prop: 'application_date',  is_import: true, width: '123', is_agency: true,render_header: true},
-  
-          { type: 'text', label: 'IPR', prop: 'ipr', render_simple: 'name',  is_import: true, width: '90', is_agency: true, render_header: true},
-          { type: 'text', label: '客户', prop: 'customer', render_simple: 'name',  is_import: true, width: '90', is_agency: true, render_header: true},
-          { type: 'text', label: '客户案号', prop: 'customer_serial',  width: '140', render_header: true },
-          { type: 'text', label: '提案标题', prop: 'proposal_title',  width: '140', render_header: true },
-          { type: 'array', label: '发明人', width: '198', prop: 'inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>_.name)},render_header: true},          
-          { type: 'text', label: '代理人', width: '90', prop: 'agent', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '代理人助理', width: '130', prop: 'assistant', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '联系人', width: '90', prop: 'contact', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '初审人', width: '90', prop: 'first_reviewer', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '复审人', width: '90', prop: 'final_reviewer', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '代表人', width: '90', prop: 'representative', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '顾问', width: '90', prop: 'consultant', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '销售', width: '90', prop: 'sales', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '订单号', width: '160', prop: 'order', render_simple: 'serial', is_import: true, render_header: true},
-          { type: 'text', label: '案件状态', width: '130', prop: 'project_stage', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '承办部门', width: '130', prop: 'organization_unit', render_simple: 'name', is_import: true, render_header: true},
+          {
+            type: "text",
+            label: "申请号",
+            prop: "application_number",
+            is_import: true,
+            width: "140",
+            is_agency: true
+          },
+          {
+            type: "text",
+            label: "申请日",
+            prop: "application_date",
+            is_import: true,
+            width: "123",
+            is_agency: true,
+            render_header: true
+          },
+
+          {
+            type: "text",
+            label: "IPR",
+            prop: "ipr",
+            render_simple: "name",
+            is_import: true,
+            width: "90",
+            is_agency: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "客户",
+            prop: "customer",
+            render_simple: "name",
+            is_import: true,
+            width: "90",
+            is_agency: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "客户案号",
+            prop: "customer_serial",
+            width: "140"
+          },
+          {
+            type: "text",
+            label: "提案标题",
+            prop: "proposal_title",
+            width: "140"
+          },
+          {
+            type: "array",
+            label: "申请人",
+            prop: "applicants",
+            width: "200",
+            is_import: true,
+            render: _ => {
+              return _.map(_ => _.name);
+            }
+          },
+          {
+            type: "array",
+            label: "发明人",
+            width: "198",
+            prop: "inventors",
+            is_import: true,
+            is_agency: true,
+            render: _ => {
+              return _.map(_ => _.name);
+            }
+          },
+          {
+            type: "text",
+            label: "代理人",
+            width: "90",
+            prop: "agent",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "代理人助理",
+            width: "130",
+            prop: "assistant",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "联系人",
+            width: "90",
+            prop: "contact",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "初审人",
+            width: "90",
+            prop: "first_reviewer",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "复审人",
+            width: "90",
+            prop: "final_reviewer",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "挂名代理人",
+            width: "110",
+            prop: "representative",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "顾问",
+            width: "90",
+            prop: "consultant",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "销售",
+            width: "90",
+            prop: "sales",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "订单号",
+            width: "160",
+            prop: "order",
+            render_simple: "serial",
+            is_import: true
+          },
+
+          {
+            type: "text",
+            label: "承办部门",
+            width: "130",
+            prop: "organization_unit",
+            render_simple: "name",
+            is_import: true,
+            render_header: true
+          },
 
           // { type: 'text', label: '技术理解评分', prop: 'tech_rank', is_import: true,  width: '130', show: true, render_header: true},
           // { type: 'text', label: '撰写质量评分', prop: 'draft_rank', is_import: true, width: '130', show: true, render_header: true},
           // { type: 'text', label: '服务态度评分', prop: 'service_rank', is_import: true,  width: '130', show: true, render_header: true},
           // { type: 'text', label: '特别评价', prop: 'negative_flag', is_import: true, width: '110', show: true, render_header: true},
           // { type: 'text', label: '评价详情', prop: 'negative_comment', is_import: true, width: '110', show: true, render_header: true},
-          { type: 'text', label: '摘要', prop: 'abstract',  width: '200', render_header: true},
-          { type: 'text', label: '公开日', prop: 'publication_date',  is_import: true, width: '110',  render_header: true},
-          { type: 'text', label: '公开号', prop: 'publication_number',  is_import: true, width: '110',  render_header: true},
-          { type: 'text', label: '初审合格日', prop: 'pre_exam_ok_date',  width: '140',  render_header: true},
-          { type: 'text', label: '进入实审日', prop: 'sub_exam_start_date',  width: '140',  render_header: true},
-          { type: 'text', label: '公告日', prop: 'issue_date',  is_import: true, width: '110',  render_header: true},
-          { type: 'text', label: '公告号', prop: 'issue_number',  is_import: true, width: '110',  render_header: true},
+          {
+            type: "text",
+            label: "摘要",
+            prop: "abstract",
+            width: "200"
+          },
+          {
+            type: "text",
+            label: "公开日",
+            prop: "publication_date",
+            is_import: true,
+            width: "110",
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "公开号",
+            prop: "publication_number",
+            is_import: true,
+            width: "110"
+          },
+          {
+            type: "text",
+            label: "初审合格日",
+            prop: "pre_exam_ok_date",
+            width: "140"
+          },
+          {
+            type: "text",
+            label: "进入实审日",
+            prop: "sub_exam_start_date",
+            width: "140"
+          },
+          {
+            type: "text",
+            label: "公告日",
+            prop: "issue_date",
+            is_import: true,
+            width: "110",
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "公告号",
+            prop: "issue_number",
+            is_import: true,
+            width: "110"
+          },
           // { type: 'text', label: '主国际分类号', prop: 'main_ipc',  width: '160',  render_header: true},
-          { type: 'text', label: '国际申请日', prop: 'pct_application_date',  width: '140',  render_header: true},
-          { type: 'text', label: '国际申请号', prop: 'pct_application_number',  width: '140',  render_header: true},
-          { type: 'text', label: '国际优先权日', prop: 'pct_priority_date',  width: '160',  render_header: true},
-          { type: 'text', label: '国际公开日', prop: 'pct_publication_date',  width: '140',  render_header: true},
-          { type: 'text', label: '国际公开语言', prop: 'pct_publication_language',  width: '160',  render_header: true},
-          { type: 'text', label: '国际公开号', prop: 'pct_publication_number',  width: '140',  render_header: true},
+          {
+            type: "text",
+            label: "国际申请日",
+            prop: "pct_application_date",
+            width: "140"
+          },
+          {
+            type: "text",
+            label: "国际申请号",
+            prop: "pct_application_number",
+            width: "140"
+          },
+          {
+            type: "text",
+            label: "国际优先权日",
+            prop: "pct_priority_date",
+            width: "160"
+          },
+          {
+            type: "text",
+            label: "国际公开日",
+            prop: "pct_publication_date",
+            width: "140"
+          },
+          {
+            type: "text",
+            label: "国际公开语言",
+            prop: "pct_publication_language",
+            width: "160"
+          },
+          {
+            type: "text",
+            label: "国际公开号",
+            prop: "pct_publication_number",
+            width: "140"
+          },
           // { type: 'text', label: '复审委内编号', prop: 'board_number',  width: '160',  render_header: true},
           // { type: 'text', label: '证书编号', prop: 'certificate_no',  width: '160',  render_header: true},
-          { type: 'text', label: '说明书字数', prop: 'words_count',  width: '140',  render_header: true},
-          { type: 'text', label: '权利要求项数', prop: 'claims_count',  width: '140',  render_header: true},
+          {
+            type: "text",
+            label: "说明书字数",
+            prop: "words_count",
+            width: "140"
+          },
+          {
+            type: "text",
+            label: "权利要求项数",
+            prop: "claims_count",
+            width: "140"
+          },
           // { type: 'array', label: '标签', prop: 'tags', render: _=>_.map(_=>_.name), is_import: true, width: '123',render_header: true},
-          { type: 'text', label: '案件等级', prop: 'level', render_simple: 'name',width: '100', render_header: true},
+          // {
+          //   type: "text",
+          //   label: "案件等级",
+          //   prop: "level",
+          //   render_simple: "name",
+          //   width: "100",
+          // },
 
-          { type: 'text', label: '技术分类', width: '160' , prop: 'classification',  is_import: true, render_simple: 'name',render_header: true},
-          { type: 'array', label: '优先权', prop: 'priorities', width: '145',render: _=>_.map(_=>_.number), render_header: true},
-          { type: 'array', label: '产品分类', width: '160', prop: 'products',  render: _=>_.map(_=>_.name), render_header: true,},
-          { type: 'array', label: '案件引用', prop: 'references', width: '200', render: _=>_.map(_=>_.title), render_header: true,},
-          { type: 'text', label: '委案日', prop: 'entrusting_time',  render_header: true, is_import: true, width: '123',         
-            render: (h,item)=>{
+          {
+            type: "text",
+            label: "技术分类",
+            width: "160",
+            prop: "classification",
+            is_import: true,
+            render_simple: "name",
+            render_header: true
+          },
+          {
+            type: "array",
+            label: "优先权",
+            prop: "priorities",
+            width: "145",
+            render: _ => _.map(_ => _.number)
+          },
+          {
+            type: "array",
+            label: "产品分类",
+            width: "160",
+            prop: "products",
+            render: _ => _.map(_ => _.name),
+            render_header: true
+          },
+          {
+            type: "array",
+            label: "案件引用",
+            prop: "references",
+            width: "200",
+            render: _ => _.map(_ => _.title)
+          },
+          {
+            type: "text",
+            label: "委案日",
+            prop: "entrusting_time",
+            render_header: true,
+            is_import: true,
+            width: "90",
+            render: (h, item) => {
               let t = item;
-              if(t) {
+              if (t) {
                 t = this.$tool.getDate(new Date(t));
               }
-              return h('span', t);
-            },
+              return h("span", t);
+            }
           },
-          { type: 'text-btn', label: '摘要附图', prop: 'figure_file', click: this.handleFigure, is_import: true, width: '160',render_text_btn: (row) =>{
-            return row.figure_file?row.figure_file.name:''}
-          }, 
-          { type: 'text', label: '是否申请实质审查', prop: 'is_subexam_request', is_import: true, width: '160', render_header: true,}, 
+          {
+            type: "text-btn",
+            label: "摘要附图",
+            prop: "figure_file",
+            click: this.handleFigure,
+            is_import: true,
+            width: "90",
+            render_text_btn: row => {
+              return row.figure_file ? row.figure_file.name : "";
+            }
+          },
+          {
+            type: "text",
+            label: "实质审查",
+            prop: "is_subexam_request",
+            is_import: true,
+            width: "90",
+            render: this.booleanRender
+          },
           // { type: 'text', label: '返发明人稿时间', prop: 'first_edition_to_inventor_time', is_import: true, width: '160', show: false , render_header: true},
           // { type: 'text', label: '发明人审核时间', prop: 'inventor_review_time', is_import: true, width: '160', show: false , render_header: true},
           // { type: 'text', label: '发明人审核次数', prop: 'inventor_review_times', is_import: true, width: '160', show: false , render_header: true},
@@ -225,84 +572,184 @@ export default {
           // { type: 'text', label: 'IPR审核耗时', prop: 'ipr_review_period', is_import: true, width: '160', show: false , render_header: true},
           // { type: 'text', label: '代理人修改耗时', prop: 'amending_period', is_import: true, width: '170', show: false , render_header: true},
           // { type: 'text', label: '详细状态', prop: 'flownode',  width: '180', is_agency: true, render_simple: 'name' , render_header: true},
-          { type: 'text', label: '备注', prop: 'remark',  width: '123'  , render_header: true},
+          {
+            type: "text",
+            label: "备注",
+            prop: "remark",
+            width: "123",
+            render_header: true
+          },
           // { type: 'array', label: '项目/奖项名称', prop: 'awards',  render: _=>{ return _.map(_=>_.name);}, width: '200' , render_header: true},
-          { type: 'text', label: '主动修改届满日', prop: 'active_supplement_expire_date',  width: '145'  , render_header: true},
+          {
+            type: "text",
+            label: "主动修改届满日",
+            prop: "active_supplement_expire_date",
+            width: "145"
+          },
           // { type: 'text', label: '委案类型', prop: 'agency_type',  width: '145' , render_simple: 'name' , render_header: true},
           // { type: 'text', label: '代理人修改时间', prop: 'agent_amending_period',  width: '160' , render_header: true },
           // { type: 'text', label: '立案时间', prop: 'create_time',  width: '145'  , render_header: true},
-          { type: 'text', label: 'DAS码', prop: 'das',  width: '145' , render_header: true },
+          {
+            type: "text",
+            label: "DAS码",
+            prop: "das",
+            width: "80"
+          },
           // { type: 'text', label: '专利族号', prop: 'family_number',  width: '145'  , render_header: true},
           // { type: 'text', label: '群组号', prop: 'group_number',  width: '145' , render_header: true },
           // { type: 'text', label: 'IPR审核次数', prop: 'ipr_review_times',  width: '145'  , render_header: true},
-          { type: 'text', label: 'PCT19条修改届满日', prop: 'pct19_expire_date',  width: '198'  , render_header: true},
-          { type: 'text', label: 'PCT国家阶段届满日', prop: 'pct_national_stage_expire_date',  width: '198'  , render_header: true},
-          { type: 'text', label: 'PCT国际初步审查届满日', prop: 'pct_pre_exam_expire_date',  width: '198' , render_header: true },
-          { type: 'text', label: '国际检索日', prop: 'pct_search_date',  width: '145'  , render_header: true},
-          { type: 'text', label: '优先权届满日', prop: 'priority_expire_date',  width: '178'  , render_header: true},
+          {
+            type: "text",
+            label: "PCT19条期限",
+            prop: "pct19_expire_date",
+            width: "198"
+          },
+          {
+            type: "text",
+            label: "PCT国家阶段期限",
+            prop: "pct_national_stage_expire_date",
+            width: "198"
+          },
+          {
+            type: "text",
+            label: "PCT国际初步审查期限",
+            prop: "pct_pre_exam_expire_date",
+            width: "198"
+          },
+          {
+            type: "text",
+            label: "国际检索日",
+            prop: "pct_search_date",
+            width: "145"
+          },
+          {
+            type: "text",
+            label: "优先权期限",
+            prop: "priority_expire_date",
+            width: "130"
+          },
           // { type: 'text', label: '项目名称', prop: 'project_name',  width: '145'  , render_header: true},
           // { type: 'text', label: '项目编号', prop: 'project_serial',  width: '145' , render_header: true },
-          { type: 'text', label: '首次年费年度', prop: 'start_year',  width: '145'  , render_header: true},
+          {
+            type: "text",
+            label: "首次年费年度",
+            prop: "start_year",
+            width: "130"
+          },
           // { type: 'text', label: '详细类型', prop: 'type_name',  width: '145' },
-          { type: 'text', label: '是否变更', prop: 'is_amended',  width: '178', render:this.booleanRender , render_header: true},         
-          { type: 'text', label: '生物相关', prop: 'is_biological',  width: '198', render:this.booleanRender,render_header: true , render_header: true},          
-          { type: 'text', label: '分案申请', prop: 'is_division',  width: '178',render:this.booleanRender , render_header: true},         
-          { type: 'text', label: '连续案', prop: 'is_continuation',  width: '178', render:this.booleanRender , render_header: true},         
-          { type: 'text', label: '遗传相关', prop: 'is_genetic',  width: '198', render:this.booleanRender , render_header: true},         
-          { type: 'text', label: '不丧失新颖性公开', prop: 'is_leakage',  width: '198', render:this.booleanRender , render_header: true},         
-          // { type: 'text', label: '是否许可备案', prop: 'is_licensed',  width: '145',render:this.booleanRender , render_header: true},         
-          { type: 'text', label: '提前公开', prop: 'is_pre_publication',  width: '145',render:this.booleanRender , render_header: true},          
-          { type: 'text', label: '要求优先权', prop: 'is_priority',  width: '178', render:this.booleanRender , render_header: true},          
-          { type: 'text', label: '保密审查', prop: 'is_secure_examination',  width: '145',render:this.booleanRender , render_header: true},         
-          { type: 'text', label: '序列表', prop: 'is_sequence',  width: '145', render:this.booleanRender , render_header: true},          
-          { type: 'text', label: '同日申请发明/新型', prop: 'is_utility_or_invention',  width: '178', render:this.booleanRender , render_header: true},  
-          // { type: 'text', label: '技术领域', prop: 'technical_field',  width: '130', is_import: true, is_agency: true, render_simple: 'name', render_header: true},
-          // {
-          //   type: 'action',
-          //   width: '40',
-          //   // fixed: false,
-          //   render_header: true
-          // },
-        ] 
+          {
+            type: "text",
+            label: "是否变更",
+            prop: "is_amended",
+            width: "90",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "生物相关",
+            prop: "is_biological",
+            width: "90",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "分案申请",
+            prop: "is_division",
+            width: "90",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "连续案",
+            prop: "is_continuation",
+            width: "90",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "遗传相关",
+            prop: "is_genetic",
+            width: "90",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "不丧失新颖性公开",
+            prop: "is_leakage",
+            width: "140",
+            render: this.booleanRender
+          },
+          // { type: 'text', label: '是否许可备案', prop: 'is_licensed',  width: '145',render:this.booleanRender , render_header: true},
+          {
+            type: "text",
+            label: "提前公开",
+            prop: "is_pre_publication",
+            width: "90",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "要求优先权",
+            prop: "is_priority",
+            width: "100",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "保密审查",
+            prop: "is_secure_examination",
+            width: "90",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "序列表",
+            prop: "is_sequence",
+            width: "90",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "发明+新型",
+            prop: "is_utility_or_invention",
+            width: "100",
+            render: this.booleanRender
+          }
+        ]
       },
-      tableData: [],
+      tableData: []
     };
   },
   computed: {
-    ...mapGetters([
-      'areaMap',
-      'menusMap',
-      'nextUser',
-      'userrole',
-    ]),
-    defaultParams () {
+    ...mapGetters(["areaMap", "menusMap", "nextUser", "userrole"]),
+    defaultParams() {
       const params = this.$route.meta.params;
       return params ? params : {};
     },
-    defaultStatus () {
-      return  this.defaultParams.status;
+    defaultStatus() {
+      return this.defaultParams.status;
     },
-    custom () {
+    custom() {
       const custom = this.$route.meta.custom;
       return custom !== undefined ? custom : false;
-    },
+    }
     // certificateParams () {
     //   const certificate = this.$route.params.id;
-    //   return  certificate !== undefined ? certificate : false; 
+    //   return  certificate !== undefined ? certificate : false;
     // }
   },
   methods: {
     ...mapActions([
-      'refreshDetailData',
-      'initializeSelectorCache',
-      'refreshFlows',
+      "refreshDetailData",
+      "initializeSelectorCache",
+      "refreshFlows"
     ]),
     // toggle() {
     //   console.log('aa')
     //   this.filterVisible = !this.filterVisible;
     //   console.log(this.filterVisible)
     // },
-    handleSendMail (id) {
+    handleSendMail(id) {
       this.mailVisible = true;
       this.$nextTick(() => {
         this.$refs.mailEdit.initForm(id);
@@ -312,28 +759,30 @@ export default {
       this.patentAddVisible = false;
       this.refresh();
     },
-    handleFigure (row) {
+    handleFigure(row) {
       this.figureVisible = true;
       // this.figures.push(row);
-      this.figures.splice(row.length,0,row.figure_file);
-      console.log(this.figures)
-
+      this.figures.splice(row.length, 0, row.figure_file);
+      console.log(this.figures);
     },
     mailCallBack() {
       this.mailVisible = false;
       this.refreshDetailData();
     },
-    dropAdd () {
-      this.$refs['caseForm'].validate((v)=>{
-        if(v){
+    dropAdd() {
+      this.$refs["caseForm"].validate(v => {
+        if (v) {
           this.caseVisible = false;
-          this.$router.push({ path: '/patent/add', query: {s:this.selectData,t:this.caseForm.caseType}});
-        }else{
-          this.$message({type: 'warning',message: '案件类型不能为空'});
+          this.$router.push({
+            path: "/patent/add",
+            query: { s: this.selectData, t: this.caseForm.caseType }
+          });
+        } else {
+          this.$message({ type: "warning", message: "案件类型不能为空" });
         }
-      })
-    },    
-    add () {
+      });
+    },
+    add() {
       // this.selectData = this.$refs.table.getSelection();
       // if (this.selectData.length != 0) {
       //   this.caseVisible = true;
@@ -341,100 +790,103 @@ export default {
       //   // this.$router.push('/patent/add');
       //   this.patentAddVisible = true;
       // }
-      this.$refs.patentAdd.show('add');
+      this.$refs.patentAdd.show("add");
     },
-    saveAdd () {
+    saveAdd() {
       this.$refs.patentAdd.add();
     },
-    ifAgency () {
+    ifAgency() {
       const r = this.userrole;
-      if( r == 5 || r == 6 ) {
-        
+      if (r == 5 || r == 6) {
         const arr = this.tableOption.columns;
         let i = arr.length;
-        while(i--) {
-          if( !arr[i]['is_agency'] ) {
+        while (i--) {
+          if (!arr[i]["is_agency"]) {
             arr.splice(i, 1);
           }
         }
         this.$forceUpdate();
-      } 
+      }
     },
-    booleanRender(h,item) {
-      item == 1 ? item = '是' : item = '否';
-      return h('span', item);
+    booleanRender(h, item) {
+      item == 1 ? (item = "是") : (item = "否");
+      return h("span", item);
     },
-    refreshTableData (option) {
+    refreshTableData(option) {
       const url = URL;
       const data = Object.assign({}, option, this.defaultParams);
-      const success = d=>{
-        if(data['format'] == 'excel') {
+      const success = d => {
+        if (data["format"] == "excel") {
           window.location.href = d.patents.downloadUrl;
-        }else {
+        } else {
           this.tableData = d.patents;
         }
       };
 
-      this.refreshProxy = this.$axiosGet({url, data, success});
+      this.refreshProxy = this.$axiosGet({ url, data, success });
     },
-    refresh () {
+    refresh() {
       // this.$refs.table.refresh();
       this.$refs.table.update();
     },
-    deletePatent ({ title, id }) {
+    deletePatent({ title, id }) {
       this.$confirm(`删除后不可恢复，确认删除‘${title}’吗？`)
-        .then(()=>{
-          const url=`${URL}/${id}`;
-          const success = _=>{this.$refs.table.update()};
-          this.$axiosDelete({url, success});    
+        .then(() => {
+          const url = `${URL}/${id}`;
+          const success = _ => {
+            this.$refs.table.update();
+          };
+          this.$axiosDelete({ url, success });
         })
-        .catch(()=>{});
+        .catch(() => {});
     },
-    detail ({id}) {
-      const path = `/patent/list/detail/${id}`; 
-      this.$router.push( path );
+    detail({ id }) {
+      const path = `/patent/list/detail/${id}`;
+      this.$router.push(path);
     },
-    handleRowClick (row) {
-      if( this.menusMap && !this.menusMap.get('/patent/detail_panel') ) {
+    handleRowClick(row) {
+      if (this.menusMap && this.menusMap.get("/patent/read")) {
         this.currentRow = row;
-        this.$refs.detail.show(row.id, 'patent');
+        this.$refs.detail.show(row.id, "patent");
       }
     },
-    close () {
+    close() {
       this.$refs.table.setCurrentRow();
     },
-    downloadPop () {
+    downloadPop() {
       const select = this.$refs.table.getSelect();
-      
-      if(select) {
-        this.downloadIds = this.$tool.splitObj(select, 'id');
+
+      if (select) {
+        this.downloadIds = this.$tool.splitObj(select, "id");
         this.downloadVisible = true;
       }
     },
-    downloadAxios () {
-      if(this.downloadFileType == '') {
-        this.$message({message: '请选择文件类型', type: 'warning'});
+    downloadAxios() {
+      if (this.downloadFileType == "") {
+        this.$message({ message: "请选择文件类型", type: "warning" });
         return;
       }
 
-      const url = '/patents/documents/download';
-      const data = {ids: this.downloadIds, type: this.downloadFileType };
-      const success = _=>{ 
+      const url = "/patents/documents/download";
+      const data = { ids: this.downloadIds, type: this.downloadFileType };
+      const success = _ => {
         window.location.href = _.url;
       };
-      const complete = _=>{ this.downloadLoading = false; };
+      const complete = _ => {
+        this.downloadLoading = false;
+      };
 
       this.downloadVisible = false;
       this.downloadLoading = true;
-      this.$axiosPost({url, data, success, complete})
+      this.$axiosPost({ url, data, success, complete });
     },
-    save () {
+    save() {
       this.$refs.detail.edit();
     },
-    rateRender (h,item) {
+    rateRender(h, item) {
       item = item ? item : 0;
       // return (
-      //   <el-rate 
+      //   <el-rate
       //     value={item}
       //     disabled
       //     show-text
@@ -442,51 +894,61 @@ export default {
       //     text-template="{value}">
       //   </el-rate>
       // );
-      return h('el-rate', {
+      return h("el-rate", {
         attrs: {
           value: item,
           disabled: true,
           // showText: true,
-          textColor: '#f90',
-          textTemplate: item +'',
+          textColor: "#f90",
+          textTemplate: item + ""
         }
-      })
+      });
     },
-    serialRender (h,item,data) {
-      return(
+    serialRender(h, item, data) {
+      return (
         <span>
-           {data.icon&&data.icon.length==2?<i class="el-icon-my-keyPoint" style="color: #ff2121"><i class="el-icon-my-award" style="color: #f2be45"></i></i>:data.icon&&data.icon.length==1&&data.icon[0]==1?<i class="el-icon-my-keyPoint" style="color: #ff2121"></i>:data.icon&&data.icon.length==1&&data.icon[0]==2?<i class="el-icon-my-award" style="color: #f2be45"></i>:<i></i>}
-           <span>{ item }</span>
+          {data.icon && data.icon.length == 2 ? (
+            <i class="el-icon-my-keyPoint" style="color: #ff2121">
+              <i class="el-icon-my-award" style="color: #f2be45" />
+            </i>
+          ) : data.icon && data.icon.length == 1 && data.icon[0] == 1 ? (
+            <i class="el-icon-my-keyPoint" style="color: #ff2121" />
+          ) : data.icon && data.icon.length == 1 && data.icon[0] == 2 ? (
+            <i class="el-icon-my-award" style="color: #f2be45" />
+          ) : (
+            <i />
+          )}
+          <span>{item}</span>
         </span>
-      )
-    },
+      );
+    }
   },
-  created () {
-    this.ifAgency()
-    this.initializeSelectorCache({type: 'file_type_patent_notice'});
+  created() {
+    this.ifAgency();
+    this.initializeSelectorCache({ type: "file_type_patent_notice" });
     this.refreshFlows();
     // this.refreshTaskDefs();
   },
-  mounted () {
-    if(!this.custom) {
+  mounted() {
+    if (!this.custom) {
       this.refresh();
     }
   },
-  components: {  
-    AppFilter, 
-    TableComponent, 
-    AppTree, 
+  components: {
+    AppFilter,
+    TableComponent,
+    AppTree,
     AppDatePicker,
-    AppShrink, 
+    AppShrink,
     CommonDetail,
     StaticSelect,
     RemoteSelect,
     MailEdit,
     AppDate,
     PatentAdd,
-    AppTable,
-  },
-}
+    AppTable
+  }
+};
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">

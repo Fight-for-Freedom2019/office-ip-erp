@@ -235,7 +235,7 @@ export default {
         this.projects = projects ? projects : [];
         this.invoices = invoices ? invoices : [];
         this.status = statusMap.get(target.status.id);
-        this.title = this.mode == "edit" ? "订单详情>" + target.name : "";
+        this.title = this.mode == "edit" ? "订单详情>" + target.serial : "";
       };
       const complete = () => {
         this.closeLoading();

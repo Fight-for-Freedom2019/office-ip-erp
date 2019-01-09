@@ -215,10 +215,10 @@ export default {
       'menusMap',
     ]),
     ifMorePatent () {
-      return (this.menusMap && !this.menusMap.get('/patent/detail_panel'));
+      return (this.menusMap && this.menusMap.get('/patent/read'));
     },
     ifMoreCopyright () {
-      return (this.menusMap && !this.menusMap.get('/copyright/detail_panel'));
+      return (this.menusMap && this.menusMap.get('/copyright/read'));
     }
   },
   methods: {

@@ -8,7 +8,7 @@
 							<static-select type="role" v-model="form.role"></static-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="6"  v-if="menusMap && !menusMap.get('/iprs')">
+					<el-col :span="6"  v-if="menusMap && menusMap.get('/role/flow')">
 						<el-form-item label="代理机构" prop="agency" v-show="form.role == '6'">
 							<remote-select type="agency" v-model="form.agency" class="no_wrap"></remote-select>
 						</el-form-item>
@@ -18,7 +18,7 @@
 								<static-select type="get_stage"  v-model="form.nstage"></static-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="6"  v-if="menusMap && !menusMap.get('/iprs')">
+					<el-col :span="6"  v-if="menusMap && menusMap.get('/role/flow')">
 						<el-form-item label="案件等级" prop="level">
 							<static-select type="case_level" v-model="form.level"></static-select>
 						</el-form-item>

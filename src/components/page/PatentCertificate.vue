@@ -2,7 +2,7 @@
   <div class="main">
     
     <table-component :tableOption="tableOption" :data="tableData" @refreshTableData="refreshTableData" ref="table" :refresh-proxy="refreshProxy">
-<!--       <el-button v-if="!!(menusMap && !menusMap.get('/patent/download') )" slot="download" :loading="downloadLoading" icon="share" @click="downloadPop" type="primary" style="margin-left: 5px;">批量下载</el-button> -->
+<!--       <el-button v-if="!!(menusMap && menusMap.get('/patent/download') )" slot="download" :loading="downloadLoading" icon="share" @click="downloadPop" type="primary" style="margin-left: 5px;">批量下载</el-button> -->
 	<template slot='row_action' slot-scope="scope">
 		<el-button type="text"  icon="view" size="mini" @click="viewCertificate(scope.row)" v-if="scope.row.certificate.file.is_view">查看</el-button>
 		<el-button type="text"  icon="my-download" size="mini" @click="downloadCertificate(scope.row)">下载</el-button> 
