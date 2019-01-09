@@ -74,7 +74,7 @@
                         {
                             type: 'text',
                             label: '客户',
-                            prop: 'customer',
+                            prop: 'user',
                             render_simple: "name",
                             min_width: '178',
                             render_header: true

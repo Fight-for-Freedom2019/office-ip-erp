@@ -22,6 +22,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm">保存</el-button>
+                    <app-button-loading :func="submitForm"  ref="loadingBtn" text="保存"></app-button-loading>
                     <el-button @click="closeDialog">取消</el-button>
                 </el-form-item>
             </el-form>

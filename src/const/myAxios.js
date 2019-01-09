@@ -34,24 +34,24 @@ const catchFunct = function(d, t) {
 
 const completeFunc = function(d, t) {};
 const completeFuncCloseLoading = function(d, t) {
-    handleLoading(t,false)
+  handleLoading(t, false);
 };
-const beforeRequestOpenLoading = function (t) {
-    handleLoading(t,true)
-}
-const handleLoading = function (t,b){
-    /*
-    * TODO 这里有问题
-    * 需要加loading的按钮应当在当前组件发送post请求
-    * 下面的else分支是解决之前把shrink组件中的按钮写在了父组件，请求却在子组件中的问题
-    * 如果组件中自己有写completeFunc，需在自己组件中close loading
-    * */
-    if(t.$refs.loadingBtn){
-        t.$refs.loadingBtn.loading = b;
-    }else if(t.$parent.$parent.$refs.loadingBtn) {
-        t.$parent.$parent.$refs.loadingBtn.loading = b;
-    }
-}
+const beforeRequestOpenLoading = function(t) {
+  handleLoading(t, true);
+};
+const handleLoading = function(t, b) {
+  /*
+   * TODO 这里有问题
+   * 需要加loading的按钮应当在当前组件发送post请求
+   * 下面的else分支是解决之前把shrink组件中的按钮写在了父组件，请求却在子组件中的问题
+   * 如果组件中自己有写completeFunc，需在自己组件中close loading
+   * */
+  if (t.$refs.loadingBtn) {
+    t.$refs.loadingBtn.loading = b;
+  } else if (t.$parent.$parent.$refs.loadingBtn) {
+    t.$parent.$parent.$refs.loadingBtn.loading = b;
+  }
+};
 
 //------------------默认配置项end-------------------------
 
@@ -136,7 +136,7 @@ function axiosPost({
     catchFunct(_, this);
   },
   complete = _ => {
-      completeFuncCloseLoading(_, this);
+    completeFuncCloseLoading(_, this);
   }
 }) {
   let _this = this;
@@ -147,7 +147,7 @@ function axiosPost({
       const d = response.data;
       d.status > 0 ? success(d) : error(d);
 
-      complete(d,_this);
+      complete(d, _this);
     })
     .catch(error => {
       catchFunc(error);
@@ -170,9 +170,11 @@ function axiosPut({
     catchFunct(_, this);
   },
   complete = _ => {
-    completeFunc(_, this);
+    completeFuncCloseLoading(_, this);
   }
 }) {
+  let _this = this;
+  beforeRequestOpenLoading(_this);
   const res = this.$axios.put(url, data);
   res
     .then(response => {
