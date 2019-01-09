@@ -1,5 +1,5 @@
 <template>
-    <el-button @click="click" type="primary" size="small" :loading="loading">{{text}}</el-button>
+    <el-button @click="click" :disabled="disabled" type="primary" size="small" :loading="loading">{{text}}</el-button>
 </template>
 
 <script>
@@ -11,6 +11,12 @@
             }
         },
         props:{
+            disabled:{
+                type:Boolean,
+                default(){
+                    return false
+                },
+            },
             text:{
                 type:String,
                 default(){
@@ -30,14 +36,14 @@
                 },
             }
         },
+        computed:{
+            multiple:function () {
+                return /,/.test(this.param);
+            }
+        },
         methods:{
             click(){
-                this.func(this.param);
-            },
-            isJson(){
-                if (/{|\[/.test(this.param)) {
-
-                }
+                this.multiple?this.func(...this.param.split(",")):this.func(this.param);
             },
         }
     }

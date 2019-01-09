@@ -10,7 +10,8 @@
             size="small"
             v-if="pageType == 'edit'"
           >保存</el-button>
-          <el-button type="primary" @click="add" size="small" v-if="pageType == 'add'">新建</el-button>
+          <!--<el-button type="primary" @click="add" size="small" v-if="pageType == 'add'">新建</el-button>-->
+          <app-button-loading :func="add" v-if="pageType == 'add'" ref="loadingBtn"></app-button-loading>
         </span>
         <el-tabs
           type="border-card"

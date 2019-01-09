@@ -23,7 +23,9 @@
 				<el-button type="text" @click="_=>{filterVisible = true;setTrigger('pop')}">添加</el-button>
 			</el-form-item>
 			<el-form-item style="margin-bottom: 0px;">
-				<el-button type="primary" @click="submitView" :disabled="disabled">{{this.type == 'add'? '新建' : '保存'}}</el-button>
+				<!--<el-button type="primary" @click="submitView" :disabled="disabled">{{this.type == 'add'? '新建' : '保存'}}</el-button>-->
+                <app-button-loading :func="submitView" :disabled="disabled" v-if="type === 'add'" ref="loadingBtn"></app-button-loading>
+                <el-button type="primary" size="small" :disabled="disabled" v-if="type !== 'add'" @click="submitView">保存</el-button>
 				<el-button @click="close">取消</el-button>
 			</el-form-item>
 		</el-form>

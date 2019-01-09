@@ -2,7 +2,10 @@
 <template>
     <app-shrink :visible.sync="dialogVisible" :modal="false" :title="title">
         <span slot="header" style="float: right;">
-            <el-button type="primary" @click="save" size="small">{{type==='add'?'新建':'保存'}}</el-button>
+            <!--<el-button type="primary" @click="save" size="small">{{type==='add'?'新建':'保存'}}</el-button>-->
+            <app-button-loading :func="save" v-if="type === 'add'" ref="loadingBtn"></app-button-loading>
+            <el-button type="primary" size="small" v-if="type !== 'add'" @click="save">保存</el-button>
+
         </span>
         <div class="main" style="margin-top:10px;" v-loading="loadingVisible" :element-loading-text="loadingText">
             <el-form label-width="120px" :model="form" :rules="rules" ref="form">
