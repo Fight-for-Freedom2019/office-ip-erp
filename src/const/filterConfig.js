@@ -273,11 +273,10 @@ const map = new Map([
     ]],
     /* 客户备注 */
     ['remarks',[
-        { components: 'remote_select', id: 'customer',               name: '客户', type: 'customer', used: true},
+        { components: 'remote_select', id: 'user',               name: '备注人', type: 'user', used: true},
         { components: 'static_select', id: 'type',                   name: '类型', type: 'remark_type', used: true},
         { components: 'date',          id: 'creation_time',          name: '备注时间'},
         { components: 'input',         id: 'content',                name: '备注内容'},
-
     ]],
     /* 合同管理 */
     ['contracts',[

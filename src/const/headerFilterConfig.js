@@ -568,10 +568,10 @@ const map = new Map([
       },
       {
         type: "remote_select",
-        id: "customer",
+        id: "user",
         name: "备注人",
         data_key: "data",
-        url: "/customers"
+        url: "/users"
       },
       { type: "date", id: "creation_time", name: "备注时间" },
       { type: "text", id: "content", name: "备注内容" }
