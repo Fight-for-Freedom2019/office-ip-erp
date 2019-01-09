@@ -10,7 +10,13 @@
     ></table-component>
 
     <!-- 新建客户 -->
-      <customer-list-add ref="customerAdd" :URL="URL" @refresh="addSuccess" popType="add"></customer-list-add>
+      <app-shrink :visible.sync="isCustomerAddPanelVisible" :modal="true" title="新建客户">
+          <span slot="header" style="float: right;">
+                <!--<el-button type="primary" @click="add" size="small" ref="btn">新建</el-button>-->
+                <app-button-loading :func="saveAdd" ref="loadingBtn"></app-button-loading>
+            </span>
+          <customer-list-add ref="customerAdd" :URL="URL" @refresh="addSuccess" popType="add"></customer-list-add>
+      </app-shrink>
 
     <!-- 客户详情面板 -->
     <customer-list-detail
@@ -125,7 +131,7 @@ export default {
     // },
     refreshTableData(option) {
       const success = _ => {
-          this.$refs.customerAdd.hide();
+        this.isCustomerAddPanelVisible = false;
         this.tableData = _.data;
       };
       this.$axiosGet({
@@ -143,7 +149,7 @@ export default {
         this.caseVisible = true;
       } else {
         // this.$router.push('/patent/add');
-          this.$refs.customerAdd.show();
+        this.isCustomerAddPanelVisible = true;
       }
     },
     saveAdd() {

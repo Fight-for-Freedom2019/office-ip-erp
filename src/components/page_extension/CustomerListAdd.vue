@@ -1,11 +1,5 @@
 <template>
-    <div>
-        <app-shrink :visible.sync="isCustomerAddPanelVisible" :modal="true" title="新建客户">
-            <span slot="header" style="float: right;">
-                <!--<el-button type="primary" @click="add" size="small" ref="btn">新建</el-button>-->
-                <app-button-loading :func="add" ref="loadingBtn"></app-button-loading>
-            </span>
-            <div class="main" style="margin-top:10px;">
+    <div class="main" style="margin-top:10px;">
                 <el-form label-width="100px" ref="form" :model="form" :rules="rules">
 
                     <el-form-item label="客户名称" prop="name">
@@ -42,9 +36,6 @@
                 </el-form>
                 <linkman-pop @refresh="refresh" ref="pop" :URL="URL" isDefaultContacts = "true" @getDefaultContacts = "getDefaultContacts"></linkman-pop>
             </div>
-        </app-shrink>
-    </div>
-
 </template>
 
 <script>
@@ -172,12 +163,6 @@
             },
             cancel() {
                 this.dialogVisible = false;
-            },
-            show(){
-                this.isCustomerAddPanelVisible = true;
-            },
-            hide(){
-                this.isCustomerAddPanelVisible = false;
             },
             // 新建客户时可以新建联系人
             createDefaultContact(){
