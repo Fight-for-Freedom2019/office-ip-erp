@@ -20,7 +20,7 @@
       </ul>
       <a href="javascript::void(0)" @click="$router.push('/news/systemMessage');sysPopVisible = false">查看更多...</a>
       </template>
-      <div v-else style="color: #ccc; margin-top: 10px; margin-left: 20px;">暂无系统消息...</div>      
+      <div v-else style="color: #ccc; margin-top: 10px; margin-left: 20px;">暂无系统消息...</div>
     </div>
     </el-popover>-->
     <nav>
@@ -46,7 +46,7 @@
             <el-dropdown-item command="login_as" v-if="isAdmin">登陆为</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-dialog title="登陆为" :visible.sync="dialogVisible" width="30%">
+        <el-dialog title="登陆为" :visible.sync="dialogVisible" width="30%" :modal="false">
           <span>
             <jump-select type="user" v-model="form.user"></jump-select>
           </span>
@@ -56,12 +56,12 @@
           </span>
         </el-dialog>
 
-        <!--         <img 
-          v-popover:popover  
-          style="cursor: pointer; float: right; margin-right: 20px; margin-top: 12px; font-size: 24px;" 
+        <!--         <img
+          v-popover:popover
+          style="cursor: pointer; float: right; margin-right: 20px; margin-top: 12px; font-size: 24px;"
           title="系统消息"
           :src="sysmesg.length != 0 ? '/static/static_img/news_in.png' : '/static/static_img/news.png'"
-        />   
+        />
           <el-badge :value="pendingTaskCount" class="task-pending-top">
             <el-button size="mini" icon="el-icon-warning" type="primary" @click="$router.push('/task/pending')" title="待办任务"></el-button>
           </el-badge>
@@ -241,19 +241,20 @@ export default {
       "setUser" //current-user
     ]),
     refreshPage () {
-      this.$router.replace({
-          path: '/refreshPage',
-      })
+        this.reload();
     },
     loginas() {
       const url = "/loginas/" + this.form.user;
       const success = _ => {
         this.dialogVisible = false;
-        this.$message({ message: "切换登陆成功", type: "success" });
+        this.$message({ message: "切换登陆成功,2秒后跳转...", type: "success" });
+        this.$store.commit("LOGOUT");
         this.$store.commit("LOGIN", _.data.token);
         this.$axios.defaults.headers.common["Authorization"] = _.data.token;
         this.refreshUser();
-        this.refreshPage();
+        setTimeout(()=>{
+          this.$router.go(0);
+        },2000)
       };
       this.$axiosPost({ url, success });
     },
@@ -270,9 +271,11 @@ export default {
       if (command == "login_out") {
         const url = "/logout";
         const success = _ => {
-          this.$message({ message: "登出成功", type: "success" });
+          this.$message({ message: "登出成功,2秒后跳转...", type: "success" });
           this.$store.commit("LOGOUT");
-          window.location.href = "/login";
+          setTimeout(()=>{
+            window.location.href = "/login";
+          },2000)
           // this.$router.push( {name: 'Login'})
         };
 

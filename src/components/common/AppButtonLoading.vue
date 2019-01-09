@@ -34,6 +34,11 @@
             click(){
                 this.func(this.param);
             },
+            isJson(){
+                if (/{|\[/.test(this.param)) {
+
+                }
+            },
         }
     }
 </script>

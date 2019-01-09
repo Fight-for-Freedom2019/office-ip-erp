@@ -58,7 +58,8 @@ export default {
 			  	 	};
 			  	 	const success = async d=>{
 			  	 		if(d && d.data && d.data.token){
-			  	 			window.appCache = this;
+                            this.$message({ message: "登录成功,正在跳转...", type: "success" });
+                            window.appCache = this;
 			  	 			this.$store.commit('LOGIN',d.data.token);
                             this.$axios.defaults.headers.common["Authorization"] = d.data.token;
                             await new Promise((resolve,reject)=>{
@@ -68,7 +69,9 @@ export default {
 				  	 			resolve(); 
 
 			  	 			});
-			  	 			this.$router.push({path: '/index'});
+                            setTimeout(()=>{
+                                this.$router.push({path: '/index'});
+                            },1000)
 		          		}
 			  	 	};
 			  	 	this.$axiosPost({url, data, success});
