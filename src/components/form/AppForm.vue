@@ -77,7 +77,7 @@
           <el-form-item :label="item.name" :prop="item.key" :key="index">
             <a
               ref="panel"
-              href="#"
+              style="cursor: pointer"
               v-model="form[item.key]"
               @click="showPanel(item.type)"
               :type="item.type"

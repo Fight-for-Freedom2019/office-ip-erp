@@ -314,7 +314,7 @@ export default {
   },
   created() {
     // this.leftMenuActive = this.path;
-
+      this.initializeHashMapsCache();
     const refreshWindow = _ => {
       this.setInnerHeight(window.innerHeight);
       this.setInnerWidth(window.innerWidth);
