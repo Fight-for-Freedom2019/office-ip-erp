@@ -32,7 +32,7 @@ axios.interceptors.response.use(
         case -1:
           window.localStorage.removeItem("token");
           router.replace({
-            path: "/login",
+            path: "/",
             query: { redirect: router.currentRoute.fullPath } //登录成功后跳入浏览的当前页面
           });
       }

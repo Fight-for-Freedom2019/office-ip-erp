@@ -19,6 +19,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      "getToken"
+    ]),
     path () {
       return this.$route.path;
     },
@@ -49,18 +52,21 @@ export default {
       
       //避免每次F5都发送请求的方法：
       //  1.每次使用相关数据的位置添加一个尝试初始化的函数
-      //  2.localStorage动态关联 
-      this.refreshProduct();
-      this.refreshBranch();
-      this.refreshGroup();
-      this.refreshClassification();
-      // this.$store.dispatch('refreshIpr');
-      
-      //使用localStorage进行本地缓存
+      //  2.localStorage动态关联
+           if(this.getToken !== null){
+               this.refreshProduct();
+               this.refreshBranch();
+               this.refreshGroup();
+               this.refreshClassification();
+               // this.$store.dispatch('refreshIpr');
+
+               //使用localStorage进行本地缓存
+
+               // this.refreshUser();
+               this.initializeHashMapsCache();
+           }
       this.refreshArea();
       this.refreshCity();
-      // this.refreshUser();
-      this.initializeHashMapsCache();
       // this.$store.dispatch('refreshFeeCode');
       // this.$store.dispatch('refreshEntity');
       // this.$store.dispatch('refreshGroup');

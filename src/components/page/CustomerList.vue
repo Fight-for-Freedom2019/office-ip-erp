@@ -10,13 +10,7 @@
     ></table-component>
 
     <!-- 新建客户 -->
-      <app-shrink :visible.sync="isCustomerAddPanelVisible" :modal="true" title="新建客户">
-          <span slot="header" style="float: right;">
-                <!--<el-button type="primary" @click="add" size="small" ref="btn">新建</el-button>-->
-                <app-button-loading :func="saveAdd" ref="loadingBtn"></app-button-loading>
-            </span>
-          <customer-list-add ref="customerAdd" :URL="URL" @refresh="addSuccess" popType="add"></customer-list-add>
-      </app-shrink>
+    <customer-list-add ref="customerAdd" :URL="URL" @refresh="addSuccess" popType="add"></customer-list-add>
 
     <!-- 客户详情面板 -->
     <customer-list-detail
@@ -143,14 +137,8 @@ export default {
     addSuccess() {
       this.refreshTableData();
     },
-    add(row) {
-      this.selectData = this.$refs.table.getSelection();
-      if (this.selectData.length != 0) {
-        this.caseVisible = true;
-      } else {
-        // this.$router.push('/patent/add');
-        this.isCustomerAddPanelVisible = true;
-      }
+    add() {
+      this.$refs.customerAdd.show();
     },
     saveAdd() {
       this.$refs.customerAdd.add();
