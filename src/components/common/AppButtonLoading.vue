@@ -1,3 +1,10 @@
+<!--
+    父组件中只能存在本组件，
+    因为关闭loading是通过$refs来寻找的，
+    虽然可以在下面的click事件中添加本组件的实例作为参数传递给执行的方法，
+    但是这样就需要在每个请求里面也加上这个实例作为参数，
+    改动太大
+ -->
 <template>
     <el-button @click="click" :disabled="disabled" type="primary" size="small" :loading="loading">{{text}}</el-button>
 </template>

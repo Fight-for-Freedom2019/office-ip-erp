@@ -651,11 +651,11 @@ const map = new Map([
         url: "/customers"
       },
       { type: "text", id: "title", name: "标题" },
-      { type: "text", id: "application_number", name: "申请号" },
-      { type: "date", id: "application_date", name: "申请日" },
+      { type: "text", id: "project.application_number", name: "申请号" },
+      { type: "date", id: "project.application_date", name: "申请日" },
       {
         type: "remote_select",
-        id: "serial",
+        id: "project.serial",
         name: "案号",
         data_key: "projects",
         url: "/projects"
