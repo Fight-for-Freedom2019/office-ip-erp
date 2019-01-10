@@ -289,16 +289,16 @@ const actions = {
 		}else if(item.type == 'listFilter') {
 			console.log('____closetag')
 			console.log(item);
-			console.log(window.listHeaderFilter)
-			if(window.listHeaderFilter !== null ) {
-				console.log('清除表头')
-				window.listHeaderFilter.clearRenderHeaderField(item['key']);
-			}
-			if (window.listFilter != null && window.listFilter.usedFlag && window.listFilter.usedForm[item['key']] ) {
-				window.listFilter.clearUsedFormField(item['key'])
-			}else {
+			console.log(window.listHeaderFilter )
+			// if(window.listHeaderFilter !== null && window.listHeaderFilter.clearRenderHeaderField(item['key'])) {
+			// 	console.log('清除表头')
+			// 	window.listHeaderFilter.clearRenderHeaderField(item['key']);
+			// }
+			// if (window.listFilter != null && window.listFilter.usedFlag && window.listFilter.usedForm[item['key']] ) {
+			// 	window.listFilter.clearUsedFormField(item['key'])
+			// }else {
 				dispatch('removeListFilter', item.index);
-			}
+			// }
 		}
 	}
 }

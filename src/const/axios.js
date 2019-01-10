@@ -41,5 +41,5 @@ axios.interceptors.response.use(
   }
 );
 export default axios.create({
-  baseURL: '/api', //打包的时候需要注释
+  baseURL: process.env.API_BASEURL, 
 });

@@ -253,7 +253,8 @@
             v-model="fields"
             @deliver="handleViewData"
             @reset="handleResetView"
-            :style="{height: tableHeight/2+ 'px',width: '200px'}"
+            :height="tableHeight/2"
+            :style="{maxHeight: tableHeight/2+ 'px',width: '200px',}"
           ></app-view>
         </template>
       </div>

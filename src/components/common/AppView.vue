@@ -3,11 +3,11 @@
     <div style="width: 200px;background: #fff;">
       <span style="width: 100%;display:inline-block;border-bottom: 1px solid #ebeef5">
         <span style="float: left;padding: 6px;">表格视图</span>
-          <i class="el-icon-plus" @click="_=>{type = 'add';viewVisible = true}" style="float: right; padding: 6px; margin-top:5px;margin-right:5px;color:#409EFF;cursor: pointer;" title="新建视图"></i>
+          <i class="el-icon-plus" @click="handleAdd" style="float: right; padding: 6px; margin-top:5px;margin-right:5px;color:#409EFF;cursor: pointer;" title="新建视图"></i>
       </span>
       <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
   </div>
-  <div class="view-tree">
+  <div class="view-tree" :style="{overflow: 'auto',height: height-76 + 'px'}">
     <el-tree
       :props="defaultProps"
       :data="MergeOptions"
@@ -39,6 +39,9 @@ export default {
       default () {
         return [];
       }
+    },
+    height: {
+      type: [String, Number],
     },
   },
   computed: {
@@ -101,6 +104,13 @@ export default {
         this.$emit('reset');
       }
     },   
+    handleAdd () {
+      this.type = 'add';
+      this.viewVisible = true;
+      this.$nextTick(_=>{
+        this.$refs.viewPop.clear();
+      })
+    },
     editChildTree (n, d, s) {
       this.currentId = d.id;
       this.choose = d.param.fields.split(',');
