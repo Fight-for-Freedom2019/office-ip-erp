@@ -147,6 +147,9 @@ export default {
 			this.clearViewFilter();
 			this.$emit('close', false)
 		},
+		clear () {
+			this.$refs.form.resetFields();
+		},
 		submitView () {
 			this.$refs.form.validate(_=>{
 				if(_){

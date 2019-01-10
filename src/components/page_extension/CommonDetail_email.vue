@@ -2,9 +2,7 @@
   <div class="main">
 		<app-table :columns="columns" :data="detailMails" @row-click="handleRowClick"></app-table>
 		<email-detail  ref="email_detail"></email-detail>
-    <app-shrink :visible.sync="shrinkVisible" :title="`邮件`">
-         <mail-add  ref="mail_add"></mail-add>
-    </app-shrink>
+    <mail-add  ref="mail_add"></mail-add>
   </div>
 </template>
 
@@ -18,7 +16,6 @@ export default {
   name: 'commonDetailEmail',
   data () {
 		return {
-      shrinkVisible: false,
 	  	columns: [
 	  		// { type: 'text', label: '发件人邮箱', prop: 'from', render_simple: 'label' },
 	  		{ 
@@ -57,10 +54,7 @@ export default {
   		this.$refs.email_detail.show(id);
   	},
     edit (row) {
-      this.shrinkVisible = true;
-          this.$nextTick(_=>{
-            this.$refs.mail_add.setForm(row);
-      })
+      this.$refs.mail_add.show('view',row.id);
     },
     sendMail ({id}) {
       this.$emit('sendMail', id);
