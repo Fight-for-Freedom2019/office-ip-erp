@@ -1223,8 +1223,10 @@ export default {
     handleRowClick(row) {
       this.shrinkTitle = row.title;
       this.currentRow = row;
-      // this.refreshProcessDetail({id: row.id});
-      if (!this.dialogShrinkVisible) this.dialogShrinkVisible = true;
+      this.refreshProcessDetail({id: row.id});
+      window.setTimeout(_=>{
+       if (!this.dialogShrinkVisible) this.dialogShrinkVisible = true;
+      },0)
     },
     save() {
       this.$refs.detail.edit();

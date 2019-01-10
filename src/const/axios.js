@@ -41,5 +41,5 @@ axios.interceptors.response.use(
   }
 );
 export default axios.create({
-  baseURL: process.env.API_BASEURL, 
+  baseURL: process.env.API_BASEURL,//only work at development mode,doesn't infect production mode  
 });

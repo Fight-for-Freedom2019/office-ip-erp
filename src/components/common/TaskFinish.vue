@@ -153,7 +153,7 @@ export default {
     if(this.row) {
       this.refreshDetail();
     }
-    this.refreshProcessDetail({id: this.id});
+    // this.refreshProcessDetail({id: this.id});
   },
   methods: {
     ...mapMutations([
@@ -254,9 +254,9 @@ export default {
   watch: {
     row(val) {
       this.refreshDetail();
-      this.refreshProcessDetail({id: val.id});
+      // this.refreshProcessDetail({id: val.id});
     },
-    taskId () {
+    taskId (val) {
       this.refreshData(); 
     }
   },
