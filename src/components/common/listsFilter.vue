@@ -101,11 +101,20 @@ export default {
       console.log(this.filters)
       this.filters[key] = this.getDefaultValue(key); 
       // console.log(this.filters[key])
-    },   	
+    },
+    // 如果字段使用的是.语法，使用这个方法获取最后一个关键字
+    handleField(field){
+  	    if(/\./.test(field)) {
+  	        let fields = field.split(".");
+  	        return fields[fields.length - 1];
+        }else {
+  	        return field;
+        }
+    },
   	handleFilter () {
   		const obj = {};
   		const name = this.source.name;
-  		const key =  this.field;
+  		const key =  this.handleField(this.field);
       let extraOption = '';
   		let [label,value]= [null,null];
   		if(this.source.type == "date" || this.source.type == "text") {

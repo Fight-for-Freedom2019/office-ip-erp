@@ -133,6 +133,7 @@
     import {handlePlaceholder, handleSingle} from '@/formConfig/handle/handle'
     import Vue from 'vue'
     import {mapGetters} from 'vuex'
+    import {mapActions} from 'vuex'
     export default {
         name: 'CpcEditor',
         data() {
@@ -238,6 +239,9 @@
             this.getOptions();
         },
         methods: {
+            ...mapActions([
+                "initializeHashMapsCache"
+            ]),
             /*****文件相关 start*****/
             getFileList(result){
                 this.submitFileList = this.submitFileList.concat(result);
