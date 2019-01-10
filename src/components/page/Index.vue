@@ -230,6 +230,7 @@ export default {
       "refreshBranch", //branch
       "refreshArea", //area
       "refreshCity", //city
+      "refreshGroup ",
       "refreshUser",
       "closeTag", //filter-cache
       "initializeHashMapsCache" //index
@@ -275,7 +276,7 @@ export default {
           this.$message({ message: "登出成功,2秒后跳转...", type: "success" });
           this.$store.commit("LOGOUT");
           setTimeout(()=>{
-            window.location.href = "/login";
+            window.location.href = "/";
           },2000)
           // this.$router.push( {name: 'Login'})
         };

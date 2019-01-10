@@ -22,7 +22,7 @@ export default {
         .then(response => {
           const d = response.data;
           if (d.status == -1) {
-            window.location.href = "/login";
+            window.location.href = "/";
             return false;
             // console.log(url);
           }

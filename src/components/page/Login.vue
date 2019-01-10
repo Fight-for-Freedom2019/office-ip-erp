@@ -99,7 +99,7 @@ export default {
 			     //  	console.log(window.appCache.userinfo)
 			      	this.setUser(_.member);
 			    }else {
-			     this.$router.push({path: '/login'})
+			     this.$router.push({path: '/'})
 			    }
   			}
   		})
