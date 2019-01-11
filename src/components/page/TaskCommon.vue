@@ -387,6 +387,7 @@ export default {
         url: URL,
         height: "default",
         is_view: true,
+        import_type: "process",
         treeFilter: "process",
         is_list_filter: true,
         list_type: "task",
@@ -406,7 +407,7 @@ export default {
           {},
           {},
           {},
-          { type: "export" },
+          { type: "export2" },
           // { type: 'custom', label: '转出', icon: '', click: ()=>{ this.dialogTurnoutVisible = true; } },
           { type: "control", label: "字段" },
           // { type: 'custom', label: '设定', icon: '', click: ()=>{ this.dialogSettingVisible = true; } }
@@ -1228,10 +1229,8 @@ export default {
     handleRowClick(row) {
       this.shrinkTitle = row.title;
       this.currentRow = row;
-      this.refreshProcessDetail({ id: row.id });
-      window.setTimeout(_ => {
+      // this.refreshProcessDetail({ id: row.id });
         if (!this.dialogShrinkVisible) this.dialogShrinkVisible = true;
-      }, 0);
     },
     save() {
       this.$refs.detail.edit();

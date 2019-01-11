@@ -31,9 +31,10 @@
       <el-form :label-position="`top`" v-if="addType !== ''">
         <el-form-item style="margin-top:10px;">
           如果下拉菜单中没选项，请：
-          <a href="#" @click="add">新增</a>
+          <a style="cursor: pointer;" @click="add">新增</a>
         </el-form-item>
         <family-add @onItemAdded="onItemAdded" ref="family"></family-add>
+        <inventor-add @onItemAdded="onItemAdded" ref="inventor"></inventor-add>
       </el-form>
       <el-row style="margin-top: 20px;">
         <el-button type="primary" @click="handleAddTag">确认</el-button>
@@ -47,6 +48,8 @@
 import AxiosMixins from "@/mixins/axios-mixins";
 import AppCard from "@/components/common/AppCard";
 import FamilyAdd from "@/components/page_extension/FamilyAdd";
+import InventorAdd from "@/components/form/InventorPop"
+
 import map from "@/const/remoteConfig";
 
 export default {
@@ -119,6 +122,9 @@ export default {
       switch (this.addType) {
         case "patent_family":
           this.$refs.family.show(0, "add");
+          break; 
+        case "inventor":
+          this.$refs.inventor.show("add");
           break;
       }
     },
@@ -409,7 +415,11 @@ export default {
   },
   mounted() {},
   updated() {},
-  components: { AppCard, FamilyAdd }
+  components: { 
+    AppCard, 
+    FamilyAdd,
+    InventorAdd,
+  }
 };
 </script>
 

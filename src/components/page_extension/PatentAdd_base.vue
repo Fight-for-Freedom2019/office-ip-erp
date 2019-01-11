@@ -84,6 +84,7 @@
       <remote-select
         type="inventor"
         :page-type="type"
+        add-type="inventor"
         v-model="form.inventors"
         :para="customerParam"
         multiple

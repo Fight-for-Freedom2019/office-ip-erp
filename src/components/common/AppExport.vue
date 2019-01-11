@@ -10,7 +10,6 @@
 		</el-form-item>
 		<el-form-item style="margin-bottom: 0px;">
 			<el-button type="primary" @click="exportClick" :loading="loading">{{loading ? '导出中' : '确认导出' }}</el-button>
-			<el-button type="primary" @click="exportClick" :loading="loading">{{'保存数据视图' }}</el-button>
 		</el-form-item>
 	</el-form>
 </template>
