@@ -65,7 +65,7 @@ export default {
                 message: "登录成功,正在跳转...",
                 type: "success"
               });
-              window.appCache = this;
+              // window.appCache = this;
               this.$store.commit("LOGIN", d.data.token);
               this.$axios.defaults.headers.common["Authorization"] =
                 d.data.token;
@@ -104,6 +104,7 @@ export default {
             //  	window.appCache.userinfo = _.member;
             //  	console.log(window.appCache.userinfo)
             this.setUser(_.member);
+            window.localStorage.setItem("userinfo",JSON.stringify(_.member));
           } else {
             window.localStorage.removeItem("token");
             this.$router.push({ path: "/" });

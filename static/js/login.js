@@ -11,10 +11,11 @@
       },
       success: function (_) {
         if (_.status) {
-          if(!window.appCache) {
+          /*if(!window.appCache) {
             window.appCache = {};
-          }
-          window.appCache.userinfo = _.member;
+          }*/
+          window.localStorage.setItem("userinfo",JSON.stringify(_.member));
+          //window.appCache.userinfo = _.member;
         }else {
          window.location.href = '/';
         }

@@ -162,7 +162,7 @@ const strainerConfig = [
       { name: "回款时间", id: "payment_time" }
     ]
   ],
-  ["received_payments", [{ name: "客户", id: "customer", default: true }]],
+  ["received_payments", [{ name: "客户", id: "user", default: true }]],
   [
     "invoice_request",
     [
