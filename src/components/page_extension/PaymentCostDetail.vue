@@ -38,7 +38,7 @@
                     ],
                     'columns': [
                         {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer.name', min_width: '120'},
+                        // {type: 'text', label: '客户', prop: 'customer.name', min_width: '120'},
                         {type: 'text', label: '订单号', prop: 'order.serial', width: '120'},
                         {
                             type: 'text-btn',

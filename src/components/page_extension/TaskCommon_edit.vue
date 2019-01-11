@@ -285,8 +285,8 @@ export default {
       if(this.type == 'edit') {
         this.$tool.coverObj(this.form,this.row,{
           obj: ['process_flow','process_definition',],
-          date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline','internal_reviewing_times','internal_drafting_period',
-          'internal_amending_period','internal_final_edition_time','customer_amending_period','customer_reviewing_period','customer_edition_time','filing_time','customer_first_edition_period','customer_final_edition_time'],
+          date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline',
+          'internal_final_edition_time','customer_edition_time','filing_time','customer_final_edition_time'],
         })
         if(this.row.task.process_action) {
           this.$nextTick(_=>{

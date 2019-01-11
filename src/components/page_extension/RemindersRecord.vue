@@ -19,8 +19,8 @@
                     <el-input type="textarea" v-model="form.result"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="save">保存</el-button>
-                    <el-button @click="cancel">取消</el-button>
+                    <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
+                    <el-button @click="cancel" size="small">取消</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -60,7 +60,7 @@
                     ],
                     'columns': [
                         // {type: 'selection'},
-                        {type: 'text', label: '客户', prop: 'customer.name', width: '200'},
+                        // {type: 'text', label: '客户', prop: 'customer.name', width: '200'},
                         {type: 'text', label: '跟催时间', prop: 'remind_date', width: '120'},
                         {
                             type: 'text', label: '跟催方式', prop: 'remind_type', width: '120', render: (h, item) => {

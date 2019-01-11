@@ -30,8 +30,8 @@
                     'columns': [
                         // {type: 'selection'},
                         {type: 'text', label: '发件人', prop: 'sender',render_simple:'name', width: '200'},
-                        {type: 'text', label: '发送时间', prop: 'sent_time', width: '120'},
                         {type: 'text', label: '标题', prop: 'subject', min_width: '200'},
+                        {type: 'text', label: '发送时间', prop: 'sent_time', width: '120'},
                     ],
                 },
                 URL:"/mails",

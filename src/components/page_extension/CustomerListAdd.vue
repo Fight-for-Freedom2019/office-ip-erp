@@ -6,65 +6,100 @@
           <!--<el-button type="primary" @click="add" size="small" ref="btn">新建</el-button>-->
           <app-button-loading :func="add" ref="loadingBtn"></app-button-loading>
         </span>
-        <slot name="form"></slot>
+        <el-form label-width="100px" ref="form" :model="form" :rules="rules">
+          <el-form-item label="客户名称" prop="name">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <!-- <el-form-item label="客户代码" prop="code">
+                                        <el-input v-model="form.code" ></el-input>
+          </el-form-item>-->
+          <el-form-item label="邮箱" prop="email_address">
+            <el-input v-model="form.email_address"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="phone_number">
+            <el-input v-model="form.phone_number"></el-input>
+          </el-form-item>
+          <el-form-item label="所属销售" prop="sales">
+            <jump-select type="user" v-model="form.sales"></jump-select>
+          </el-form-item>
+          <el-form-item label="所属顾问" prop="consultant">
+            <jump-select type="user" v-model="form.consultant"></jump-select>
+          </el-form-item>
+          <el-form-item label="默认联系人" prop="contact">
+            <remote-select
+              :pageType="popType"
+              v-if="popType ==='edit'"
+              type="contacts"
+              v-model="form.contact"
+            ></remote-select>
+            <div v-else>
+              <el-tag closable v-if="contact" @close="handleClose()">{{contact?contact.name:""}}</el-tag>
+              <el-button type="text" @click="createDefaultContact">添加</el-button>
+            </div>
+          </el-form-item>
+          <el-form-item label="地区">
+            <provincial-linkage :value="cityInfo" class="select-city" @input="chooseAddress"></provincial-linkage>
+          </el-form-item>
+          <el-form-item label="地址" prop="address">
+            <el-input v-model="form.address"></el-input>
+          </el-form-item>
+          <el-form-item label="客户代码" prop="abbr">
+            <el-input v-model="form.abbr"></el-input>
+          </el-form-item>
+          <el-form-item label="案件人员授权" prop="users">
+            <remote-select type="user" v-model="form.users" multiple></remote-select>
+          </el-form-item>
+        </el-form>
       </app-shrink>
     </template>
     <template v-else>
-      <slot name="form"></slot>
-    </template>
-    <div slot="form">
-      <el-form label-width="100px" ref="form" :model="form" :rules="rules">
-        <el-form-item label="客户名称" prop="name">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <!-- <el-form-item label="客户代码" prop="code">
+      <div style="margin-top:10px;">
+        <el-form label-width="100px" ref="form" :model="form" :rules="rules">
+          <el-form-item label="客户名称" prop="name">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <!-- <el-form-item label="客户代码" prop="code">
                                         <el-input v-model="form.code" ></el-input>
-        </el-form-item>-->
-        <el-form-item label="邮箱" prop="email_address">
-          <el-input v-model="form.email_address"></el-input>
-        </el-form-item>
-        <el-form-item label="电话" prop="phone_number">
-          <el-input v-model="form.phone_number"></el-input>
-        </el-form-item>
-        <el-form-item label="所属销售" prop="sales">
-          <jump-select type="user" v-model="form.sales"></jump-select>
-        </el-form-item>
-        <el-form-item label="所属顾问" prop="consultant">
-          <jump-select type="user" v-model="form.consultant"></jump-select>
-        </el-form-item>
-        <el-form-item label="默认联系人" prop="contact">
-          <remote-select
-            :pageType="popType"
-            v-if="popType ==='edit'"
-            type="contacts"
-            v-model="form.contact"
-          ></remote-select>
-          <div v-else>
-            <el-tag closable v-if="contact" @close="handleClose()">{{contact?contact.name:""}}</el-tag>
-            <el-button type="text" @click="createDefaultContact">添加</el-button>
-          </div>
-        </el-form-item>
-        <el-form-item label="地区">
-          <provincial-linkage :value="cityInfo" class="select-city" @input="chooseAddress"></provincial-linkage>
-        </el-form-item>
-        <el-form-item label="地址" prop="address">
-          <el-input v-model="form.address"></el-input>
-        </el-form-item>
-        <el-form-item label="客户代码" prop="abbr">
-          <el-input v-model="form.abbr"></el-input>
-        </el-form-item>
-        <el-form-item label="案件人员授权" prop="users">
-          <remote-select type="user" v-model="form.users" multiple></remote-select>
-        </el-form-item>
-      </el-form>
-      <linkman-pop
-        @refresh="refresh"
-        ref="pop"
-        :URL="URL"
-        isDefaultContacts="true"
-        @getDefaultContacts="getDefaultContacts"
-      ></linkman-pop>
-    </div>
+          </el-form-item>-->
+          <el-form-item label="邮箱" prop="email_address">
+            <el-input v-model="form.email_address"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="phone_number">
+            <el-input v-model="form.phone_number"></el-input>
+          </el-form-item>
+          <el-form-item label="所属销售" prop="sales">
+            <jump-select type="user" v-model="form.sales"></jump-select>
+          </el-form-item>
+          <el-form-item label="所属顾问" prop="consultant">
+            <jump-select type="user" v-model="form.consultant"></jump-select>
+          </el-form-item>
+          <el-form-item label="默认联系人" prop="contact">
+            <remote-select
+              :pageType="popType"
+              v-if="popType ==='edit'"
+              type="contacts"
+              v-model="form.contact"
+            ></remote-select>
+            <div v-else>
+              <el-tag closable v-if="contact" @close="handleClose()">{{contact?contact.name:""}}</el-tag>
+              <el-button type="text" @click="createDefaultContact">添加</el-button>
+            </div>
+          </el-form-item>
+          <el-form-item label="地区">
+            <provincial-linkage :value="cityInfo" class="select-city" @input="chooseAddress"></provincial-linkage>
+          </el-form-item>
+          <el-form-item label="地址" prop="address">
+            <el-input v-model="form.address"></el-input>
+          </el-form-item>
+          <el-form-item label="客户代码" prop="abbr">
+            <el-input v-model="form.abbr"></el-input>
+          </el-form-item>
+          <el-form-item label="案件人员授权" prop="users">
+            <remote-select type="user" v-model="form.users" multiple></remote-select>
+          </el-form-item>
+        </el-form>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -226,6 +261,7 @@ export default {
       const success = _ => {
         this.dialogVisible = false;
         this.refresh();
+        this.$emit("saved");
         this.$message({ message: "编辑成功！", type: "success" });
       };
       this.$axiosPut({ url, data, success });

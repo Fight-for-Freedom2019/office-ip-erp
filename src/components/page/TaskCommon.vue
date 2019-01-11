@@ -62,13 +62,13 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="移交任务" :visible.sync="dialogTranserVisible" class="dialog-medium">
+    <el-dialog title="移交任务" :visible.sync="dialogTranserVisible" class="dialog-medium" width="50%">
       <el-form label-width="80px">
         <el-form-item label="承办人">
-          <remote-select type="member" v-model="transfer_person"></remote-select>
+          <jump-select type="user" v-model="transfer_person"></jump-select>
         </el-form-item>
         <el-form-item style="margin-bottom: 0px;">
-          <el-button type="primary" @click="transferTask" style="margin-bottom: 0px;">提交</el-button>
+          <app-button-loading :func="transferTask" ref="loadingBtn" text="保存"></app-button-loading>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -159,13 +159,13 @@
           v-if="menusMap && menusMap.get('/task/btn/transfer')"
           @click="dialogTranserVisible = true; transfer_person = {id: currentRow.person_in_charge, name: currentRow.person_in_charge_name }"
         >移交</el-button>
-        <el-button
+        <!-- <el-button
           size="small"
           @click="handleReject"
           style="margin-left: 0px;"
           type="danger"
           v-if="menusMap && menusMap.get('/task/btn/reject')"
-        >退回</el-button>
+        >退回</el-button>-->
         <el-dropdown
           @command="handleCommandSendMail"
           trigger="click"
@@ -173,7 +173,8 @@
           size="small"
           v-if="mailbtn == 'patent'"
         >
-          <el-button size="small">发送邮件
+          <el-button size="small">
+            发送邮件
             <i class="el-icon-caret-bottom el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown" class="app-dropdown-menu">
@@ -213,11 +214,11 @@
             ></detail>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="延期历史" name="delay">
+        <!-- <el-tab-pane label="延期历史" name="delay">
           <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">
             <delay :row="currentRow"></delay>
           </div>
-        </el-tab-pane>
+        </el-tab-pane>-->
       </el-tabs>
     </app-shrink>
 
@@ -269,6 +270,7 @@
 import AxiosMixins from "@/mixins/axios-mixins";
 import Detail from "@/components/page_extension/TaskCommon_detail";
 import RemoteSelect from "@/components/form/RemoteSelect";
+import JumpSelect from "@/components/form/JumpSelect";
 import StaticSelect from "@/components/form/StaticSelect";
 
 import AppFilter from "@/components/common/AppFilter";
@@ -384,6 +386,7 @@ export default {
         name: "taskList",
         url: URL,
         height: "default",
+        is_view: true,
         treeFilter: "process",
         is_list_filter: true,
         list_type: "task",
@@ -1018,11 +1021,11 @@ export default {
     },
     transferTask() {
       const url = `${URL}/${this.currentRow.id}/transfer`;
-      const data = { person_in_charge: this.transfer_person };
+      const data = { user: this.transfer_person };
       const success = _ => {
         this.dialogTranserVisible = false;
         this.dialogShrinkVisible = false;
-        this.$message({ message: "移交成功", type: "success" });
+        this.$message({ message: "任务移交成功", type: "success" });
         this.refreshUser();
 
         this.update();
@@ -1223,10 +1226,10 @@ export default {
     handleRowClick(row) {
       this.shrinkTitle = row.title;
       this.currentRow = row;
-      this.refreshProcessDetail({id: row.id});
-      window.setTimeout(_=>{
-       if (!this.dialogShrinkVisible) this.dialogShrinkVisible = true;
-      },0)
+      this.refreshProcessDetail({ id: row.id });
+      window.setTimeout(_ => {
+        if (!this.dialogShrinkVisible) this.dialogShrinkVisible = true;
+      }, 0);
     },
     save() {
       this.$refs.detail.edit();
@@ -1283,6 +1286,7 @@ export default {
   components: {
     RemoteSelect,
     StaticSelect,
+    JumpSelect,
     AppFilter,
     TableComponent,
     AppDatePicker,
