@@ -16,11 +16,12 @@
           }
           window.appCache.userinfo = _.member;
         }else {
-         window.location.href = '/login';
+         window.location.href = '/';
         }
       },
-      error: function (_) {
-        window.location.href = '/login';
+      error: function (xhr,status,error) {
+        window.localStorage.removeItem("token");
+        window.location.href = '/';
       }
     })
     
