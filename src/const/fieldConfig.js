@@ -108,7 +108,7 @@ const strainerConfig = [
       { name: "当前节点", id: "process_action" },
       { name: "承办人", id: "user" },
       { name: "代理人", id: "agent" },
-      { name: "代理人助理", id: "assistant" },
+      // { name: "代理人助理", id: "assistant" },
       { name: "初审人", id: "first_reviewer" },
       { name: "复审人", id: "final_reviewer" },
       { name: "所属部门", id: "organization_unit" },

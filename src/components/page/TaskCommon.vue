@@ -528,14 +528,14 @@ export default {
             render_header: true,
             width: "110"
           },
-          {
-            type: "text",
-            prop: "assistant",
-            label: "代理人助理",
-            render_simple: "name",
-            render_header: true,
-            width: "110"
-          },
+          // {
+          //   type: "text",
+          //   prop: "assistant",
+          //   label: "代理人助理",
+          //   render_simple: "name",
+          //   render_header: true,
+          //   width: "110"
+          // },
           {
             type: "text",
             prop: "first_reviewer",

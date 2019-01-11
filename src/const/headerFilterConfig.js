@@ -78,13 +78,13 @@ const map = new Map([
         data_key: "data",
         url: "/users"
       },
-      {
-        type: "remote_select",
-        id: "assistant",
-        name: "代理人助理",
-        data_key: "data",
-        url: "/users"
-      },
+      // {
+      //   type: "remote_select",
+      //   id: "assistant",
+      //   name: "代理人助理",
+      //   data_key: "data",
+      //   url: "/users"
+      // },
       {
         type: "remote_select",
         id: "first_reviewer",
@@ -246,13 +246,13 @@ const map = new Map([
         url: "/users",
         data_key: "data"
       },
-      {
-        type: "remote_select",
-        id: "assistant",
-        name: "代理人助理",
-        url: "/users",
-        data_key: "data"
-      },
+      // {
+      //   type: "remote_select",
+      //   id: "assistant",
+      //   name: "代理人助理",
+      //   url: "/users",
+      //   data_key: "data"
+      // },
       {
         type: "remote_select",
         id: "contact",

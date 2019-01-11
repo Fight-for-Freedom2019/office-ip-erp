@@ -47,12 +47,12 @@ const taskMenu = [
         path: "/task/monitor/agent",
         icon: "iconfont el-icon-my-people"
       },
-      {
-        type: "item",
-        text: "我为代理人助理",
-        path: "/task/monitor/assistant",
-        icon: "iconfont el-icon-my-proposer"
-      },
+      // {
+      //   type: "item",
+      //   text: "我为代理人助理",
+      //   path: "/task/monitor/assistant",
+      //   icon: "iconfont el-icon-my-proposer"
+      // },
       {
         type: "item",
         text: "我为初审人",
@@ -64,6 +64,12 @@ const taskMenu = [
         text: "我为复审人",
         path: "/task/monitor/final_reviewer",
         icon: "iconfont el-icon-my-patent-applied"
+      },
+      {
+        type: "item",
+        text: "我为对外代理人",
+        path: "/task/monitor/representative",
+        icon: "iconfont el-icon-my-patent-proposer"
       }
     ]
   },
@@ -389,7 +395,7 @@ const reportMenu = [
   },
   {
     type: "item",
-    text: "财务报表",
+    text: "费用报表",
     path: "/report/finance",
     icon: "el-icon-my-report"
   }
@@ -695,7 +701,7 @@ menu.source = [
     menu: crmMenu
   },
   {
-    text: "财务",
+    text: "费用",
     key: "fees",
     path: "/finance",
     icon: "iconfont el-icon-my-fee",

@@ -92,7 +92,7 @@ const map = new Map([
         { components: 'static_select',    id: 'project_state',                 name: '案件状态',     type: 'project_type'},
         // { components: 'remote_select', id: 'agency',                         name: '代理机构', type: 'agency', used: true}, //代理机构
         { components: 'remote_select', id: 'agent',                          name: '代理人', type: 'user'}, //代理人
-        { components: 'remote_select', id: 'assistant',                          name: '代理人助理', type: 'user'}, //代理人
+        // { components: 'remote_select', id: 'assistant',                          name: '代理人助理', type: 'user'}, //代理人
         { components: 'remote_select', id: 'contact',                          name: '联系人', type: 'user'}, //代理人
         { components: 'remote_select', id: 'first_reviewer',                          name: '初审人', type: 'user'}, //代理人
         { components: 'remote_select', id: 'final_reviewer',                          name: '复审人', type: 'user'}, //代理人
