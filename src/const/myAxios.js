@@ -22,6 +22,9 @@ const responseText = function (status) {
     case 404:
       text = "您请求的页面不存在，请联系管理员！";
       break;
+    case 504:
+      text = "接口请求超时啦，请联系管理员！";
+      break;
     default:
       text = "接口出错啦，请联系管理员！";
       break;
@@ -35,7 +38,7 @@ const successFunc = function(d, t) {};
 const errorFunc = function(d, t) {
   if (d.info) {
     t.$message({ message: d.info, type: "warning" });
-  } else if(d.response.status){
+  } else if(d.response){
     t.$message({ message: responseText(d.response.status), type: "warning" });
   } else {
     t.$message({ message: "接口出错啦，请联系管理员！", type: "warning" });
@@ -46,7 +49,7 @@ const catchFunct = function(d, t) {
   console.log(d);
   if (d.info) {
     t.$message({ message: d.info, type: "warning" });
-  }else if(d.response.status){
+  }else if(d.response){
     t.$message({ message: responseText(d.response.status), type: "warning" });
   } else {
     t.$message({ message: "接口出错啦，请联系管理员！", type: "warning" });
