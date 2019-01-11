@@ -386,6 +386,7 @@ export default {
         name: "taskList",
         url: URL,
         height: "default",
+        is_view: true,
         treeFilter: "process",
         is_list_filter: true,
         list_type: "task",
