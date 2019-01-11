@@ -105,10 +105,21 @@ const pointMap = new Map([
 ]);
 export default {
   name: 'taskFinish',
-  props: ['id','row'],
+  props: {
+    'id': {
+      type: Number,
+    },
+    'row': {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+  },
   data () {
     return {
       sourceForm: [],
+      task_id: '',
       isShowPatentMailBtn: false,
       tips: '',
       activeName:['1', '2'],
@@ -150,10 +161,6 @@ export default {
     }
   },
   created () {
-    if(this.row) {
-      this.refreshDetail();
-    }
-    // this.refreshProcessDetail({id: this.id});
   },
   methods: {
     ...mapMutations([
@@ -163,13 +170,27 @@ export default {
       'refreshUser',
       'refreshProcessDetail',
     ]),
+    async getDetail () {
+      console.log('jin')
+      await this.getProcessDetail();
+      this.refreshData();
+    },
+    getProcessDetail () {
+      return new Promise(resolve=>{
+        const url = `/processes/${this.id}`;
+        const success = _=>{
+          this.task_id = _.process.task.id;
+          resolve(this.task_id);
+        };
+        this.$axiosGet({ url, success});
+      })
+    },
     refreshData () {
-      this.loading = true;
+      // this.loading = true;
       const arr = []; 
       const url = `${URL}/${this.taskId}/form`;
       this.$refs.appForm.$refs.form.clearValidate();
       const success = d=>{
-        this.loading = false;
         const response = d.data;
         this.data = response;
         if(response.review_opinion && response.review_opinion.length != 0) {
@@ -252,11 +273,17 @@ export default {
     },
   },
   watch: {
-    row(val) {
-      this.refreshDetail();
-      // this.refreshProcessDetail({id: val.id});
+    row: {
+      handler(val){
+        console.log('watch_row')
+        this.refreshDetail();
+        this.refreshProcessDetail({id: val.id});
+        // this.getDetail();
+      },
+      immediate: true
     },
     taskId (val) {
+      console.log('watch_taskid')
       this.refreshData(); 
     }
   },

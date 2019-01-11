@@ -1,6 +1,6 @@
 <template>
     <el-dialog :title="title" :visible.sync="dialogVisible" width="50%" :modal="false" class="dialog-small">
-        <el-form label-width="100px" ref="form" :model="form" :rules="rules">
+        <el-form label-width="80px" ref="form" :model="form" :rules="rules">
 
             <el-row>
                 <el-col :span="12">
@@ -95,9 +95,9 @@
                     'name': [{required: true, message: '发明名称不能为空', trigger: 'blur'},
                         {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
                     ],
-                    'identity': [{required: true, message: '证件号码不能为空', trigger: 'blur'},
-                        {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
-                    ],
+                    // 'identity': [{required: true, message: '证件号码不能为空', trigger: 'blur'},
+                    //     {min: 1, max: 50, message: '长度不超过50个字符', trigger: 'blur'},
+                    // ],
                     'citizenship':{
                         required:true,
                         message:"请选择国籍"
@@ -142,6 +142,7 @@
                         const success = _ => {
                             this.dialogVisible = false;
                             this.refresh();
+                            this.$emit('onItemAdded', _.data);
                             this.$message({message: '添加成功！', type: 'success'})
                         };
                         this.$axiosPost({url, data, success});

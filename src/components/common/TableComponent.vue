@@ -503,6 +503,13 @@ export default {
             key: "patents",
             title: "导出专利"
           }
+        ],    
+        [
+          "process",
+          {
+            key: "processes",
+            title: "导出工作流"
+          }
         ],
         [
           "certificate",
