@@ -14,7 +14,7 @@
 			>
 			</el-tree>
 			<div class="filter-visible-body-right">
-				<static-select type="table_type" v-model="tableType" @change="refreshFields"></static-select>
+				<static-select type="table_type" v-model="tableType" ></static-select>
 				<app-transfer-panel v-loading="listLoading" element-loading-text="加载中..." style="width: 100%; margin-top: 10px;"  :is-move="false" title="权限控制" placeholder="查询字段..." :data="fields" v-model="checkedFields"></app-transfer-panel>
 				<!-- <app-transfer style="margin-top: 10px;" ref="transfer" title1="有权限" title2="无权限" placeholder="查询字段..." v-model="transferValue"></app-transfer> -->
 				<div style="margin-top: 10px;" v-if="currentId != '' && tableType != ''">
@@ -33,7 +33,7 @@ import StaticSelect from '@/components/form/StaticSelect';
 import AppTransferPanel from '@/components/common/AppTransferPanel';
 
 const URL = '/roles';
-const map = new Map(config);
+// const map = new Map(config);
 
 export default {
 	name: 'filterVisible',
@@ -80,12 +80,21 @@ export default {
 			'refreshGroup',
 			'refreshUser',
 		]),
+		async getFields (val) {
+			// 采取异步promise先请求字段数据在做权限字段的填充，保证this.fields是最新的值
+			await this.refreshFields();
+			await this.refreshExcept({group_id: this.currentId, model: val})
+		},
 		async refreshFields () {
+			return new Promise(resolve=>{
 			const url = `/model_fields?model=${this.tableType}`;
 			const success = _=>{
 				this.fields = _.data;
+				resolve(true);
 			};
 			this.$axiosGet({url, success});
+				
+			})
 
 		},
 		async handleCurrentChange (data) {
@@ -111,6 +120,7 @@ export default {
 				this.listLoading = false;
 			}
 			if(except) {
+				console.log(except)
 				this.except = except;
 			}
 		},
@@ -158,7 +168,7 @@ export default {
 	},
 	watch: {
 		tableType (val) {
-			this.refreshExcept({group_id: this.currentId, model: val});
+			this.getFields(val);
 		}
 	},
 	components: {
