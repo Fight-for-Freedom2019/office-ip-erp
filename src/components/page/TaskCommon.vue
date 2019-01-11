@@ -433,12 +433,29 @@ export default {
             type: "text",
             prop: "model",
             label: "模块",
-            render_header: true,
+            // render_header: true,
             render_simple: "name",
-            width: "80"
+            width: "60"
           },
           { type: "text", prop: "serial", label: "案号", width: "160" },
           { type: "text", prop: "title", label: "标题", width: "200" },
+          {
+            type: "text",
+            prop: "process_definition",
+            label: "管制事项",
+            render_simple: "name",
+            render_header: true,
+            width: "110"
+          },
+          {
+            type: "text",
+            prop: "process_action",
+            render_obj: "task",
+            render_simple: "name",
+            label: "当前节点",
+            render_header: true,
+            width: "110"
+          },
           {
             type: "array",
             prop: "project_tags",
@@ -484,14 +501,7 @@ export default {
             render_header: true,
             width: "110"
           },
-          {
-            type: "text",
-            prop: "process_definition",
-            label: "管制事项",
-            render_simple: "name",
-            render_header: true,
-            width: "110"
-          },
+
           {
             type: "text",
             prop: "process_stage",
@@ -504,15 +514,7 @@ export default {
           //   item = item != null ? item.process_action.name: '';
           //   return h('span',item);
           // }},
-          {
-            type: "text",
-            prop: "process_action",
-            render_obj: "task",
-            render_simple: "name",
-            label: "当前节点",
-            render_header: true,
-            width: "110"
-          },
+
           {
             type: "text",
             prop: "user",
@@ -530,14 +532,14 @@ export default {
             render_header: true,
             width: "110"
           },
-          {
-            type: "text",
-            prop: "assistant",
-            label: "代理人助理",
-            render_simple: "name",
-            render_header: true,
-            width: "110"
-          },
+          // {
+          //   type: "text",
+          //   prop: "assistant",
+          //   label: "代理人助理",
+          //   render_simple: "name",
+          //   render_header: true,
+          //   width: "110"
+          // },
           {
             type: "text",
             prop: "first_reviewer",

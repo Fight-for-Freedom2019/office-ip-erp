@@ -378,6 +378,18 @@ const router = new Router({
           }
         },
         {
+          path: "/task/monitor/representative",
+          name: "TaskMonitorFinalReviewer",
+          component: TaskCommon,
+          meta: {
+            params: {
+              stage: "other",
+              is_completed: 0,
+              relevance: "representative"
+            }
+          }
+        },
+        {
           path: "/task/all",
           name: "TaskPendingAll",
           component: TaskCommon,

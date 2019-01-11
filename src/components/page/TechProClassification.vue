@@ -55,7 +55,7 @@ export default {
           { type: 'text', label: '提案标题', prop: 'proposal_title',  width: '140', render_header: true },
           { type: 'array', label: '发明人', width: '238', prop: 'inventors', is_import: true, is_agency: true, render: _=>{ return _.map(_=>`${_.name}_${_.email}:${_.share}%`)},render_header: true},          
           { type: 'text', label: '代理人', width: '90', prop: 'agent', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '代理人助理', width: '130', prop: 'assistant', render_simple: 'name', is_import: true, render_header: true},
+          // { type: 'text', label: '代理人助理', width: '130', prop: 'assistant', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '联系人', width: '90', prop: 'contact', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '初审人', width: '90', prop: 'first_reviewer', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '复审人', width: '90', prop: 'final_reviewer', render_simple: 'name', is_import: true, render_header: true},

@@ -336,8 +336,8 @@ export default {
       this.userinfoLoading = false;
 
       //设置个人信息
-      if (window.appCache.userinfo) {
-        this.setUser(window.appCache.userinfo);
+      if (window.localStorage.getItem("userinfo")) {
+        this.setUser(JSON.parse(window.localStorage.getItem("userinfo")));
       }
     };
     success();

@@ -219,7 +219,7 @@ const config = [
     "ipr_para",
     {
       placeholder: "请选择IPR",
-      url: "contacts?listRows=10000&cotatct_type=2",
+      url: "contacts?listRows=10000&contact_type=2",
       handle(data) {
         return data.data.data;
       }

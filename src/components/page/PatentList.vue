@@ -298,15 +298,15 @@ export default {
             is_import: true,
             render_header: true
           },
-          {
-            type: "text",
-            label: "代理人助理",
-            width: "130",
-            prop: "assistant",
-            render_simple: "name",
-            is_import: true,
-            render_header: true
-          },
+          // {
+          //   type: "text",
+          //   label: "代理人助理",
+          //   width: "130",
+          //   prop: "assistant",
+          //   render_simple: "name",
+          //   is_import: true,
+          //   render_header: true
+          // },
           {
             type: "text",
             label: "联系人",
@@ -336,7 +336,7 @@ export default {
           },
           {
             type: "text",
-            label: "挂名代理人",
+            label: "对外代理人",
             width: "110",
             prop: "representative",
             render_simple: "name",

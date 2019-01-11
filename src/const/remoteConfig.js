@@ -5,7 +5,7 @@ const map = new Map([
   [
     "contracts",
     {
-      URL: "/contracts",
+      URL: "/contracts?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请输入合同关键词"
     }
@@ -13,7 +13,7 @@ const map = new Map([
   [
     "member",
     {
-      URL: "/members",
+      URL: "/members?listOnly=1",
       DATA_KEY: "members",
       PLACEHOLDER: "请输入用户关键词"
     }
@@ -21,7 +21,7 @@ const map = new Map([
   [
     "applicant",
     {
-      URL: "/applicants",
+      URL: "/applicants?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请输入申请人关键词"
     }
@@ -29,7 +29,7 @@ const map = new Map([
   [
     "inventor",
     {
-      URL: "/inventors",
+      URL: "/inventors?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请输入发明人关键词"
     }
@@ -37,7 +37,7 @@ const map = new Map([
   [
     "agency",
     {
-      URL: "/agencies",
+      URL: "/agencies?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请输入代理机构关键词"
     }
@@ -45,7 +45,7 @@ const map = new Map([
   [
     "agent",
     {
-      URL: "/agents",
+      URL: "/agents?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请输入代理人关键词"
     }
@@ -53,7 +53,7 @@ const map = new Map([
   [
     "ipr",
     {
-      URL: "/iprs",
+      URL: "/iprs?listOnly=1",
       DATA_KEY: "members",
       PLACEHOLDER: "请输入IPR关键词"
     }
@@ -61,7 +61,7 @@ const map = new Map([
   [
     "oa",
     {
-      URL: "/projects",
+      URL: "/projects?listOnly=1",
       DATA_KEY: "projects",
       PLACEHOLDER: "请输入OA关键词"
     }
@@ -69,7 +69,7 @@ const map = new Map([
   [
     "voucher",
     {
-      URL: "/projects",
+      URL: "/projects?listOnly=1",
       DATA_KEY: "projects",
       PLACEHOLDER: "请输入费用单据关键词"
     }
@@ -77,7 +77,7 @@ const map = new Map([
   [
     "other",
     {
-      URL: "/projects",
+      URL: "/projects?listOnly=1",
       DATA_KEY: "projects",
       PLACEHOLDER: "请输入一般文件关键词"
     }
@@ -85,7 +85,7 @@ const map = new Map([
   [
     "cpc",
     {
-      URL: "/projects",
+      URL: "/projects?listOnly=1",
       DATA_KEY: "projects",
       PLACEHOLDER: "请输入CPC关键词"
     }
@@ -101,7 +101,7 @@ const map = new Map([
   [
     "专利",
     {
-      URL: "/projects",
+      URL: "/projects?listOnly=1",
       DATA_KEY: "projects",
       PLACEHOLDER: "请输入专利关键词",
       PARAMS: {
@@ -112,7 +112,7 @@ const map = new Map([
   [
     "商标",
     {
-      URL: "/projects",
+      URL: "/projects?listOnly=1",
       DATA_KEY: "projects",
       PLACEHOLDER: "请输入商标关键词",
       PARAMS: {
@@ -123,7 +123,7 @@ const map = new Map([
   [
     "版权",
     {
-      URL: "/projects",
+      URL: "/projects?listOnly=1",
       DATA_KEY: "projects",
       PLACEHOLDER: "请输入版权关键词",
       PARAMS: {
@@ -134,7 +134,7 @@ const map = new Map([
   [
     "invoices",
     {
-      URL: "/invoices",
+      URL: "/invoices?listOnly=1",
       DATA_KEY: "invoices",
       PLACEHOLDER: "请输入账单关键词"
     }
@@ -142,7 +142,7 @@ const map = new Map([
   [
     "invoice_target",
     {
-      URL: "/invoice_targets",
+      URL: "/invoice_targets?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请输入开票主体"
     }
@@ -158,7 +158,7 @@ const map = new Map([
   [
     "bill",
     {
-      URL: "/invoices",
+      URL: "/invoices?listOnly=1",
       DATA_KEY: "invoices",
       PLACEHOLDER: "请输入请款单关键词",
       PARAMS: {
@@ -169,7 +169,7 @@ const map = new Map([
   [
     "pay",
     {
-      URL: "/invoices",
+      URL: "/invoices?listOnly=1",
       DATA_KEY: "invoices",
       PLACEHOLDER: "请输入付款单关键词",
       PARAMS: {
@@ -186,43 +186,9 @@ const map = new Map([
     }
   ],
   [
-    "mail",
+    "customer?listOnly=1",
     {
-      URL: "/mailAddress",
-      DATA_KEY: "data",
-      PLACEHOLDER: "请输入邮箱",
-      dynamicCreate: true,
-      defaultFirstOption: true
-    }
-  ],
-  [
-    "group_number",
-    {
-      URL: "/gnumbers",
-      DATA_KEY: "data",
-      PLACEHOLDER: "请输入群组号"
-    }
-  ],
-  [
-    "family_number",
-    {
-      URL: "/fnumbers",
-      DATA_KEY: "data",
-      PLACEHOLDER: "请输入专利族号"
-    }
-  ],
-  [
-    "award",
-    {
-      URL: "/award",
-      DATA_KEY: "awards",
-      PLACEHOLDER: "请输入奖项名称"
-    }
-  ],
-  [
-    "customer",
-    {
-      URL: "/customers",
+      URL: "/customers?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择客户"
     }
@@ -230,7 +196,7 @@ const map = new Map([
   [
     "user",
     {
-      URL: "/users",
+      URL: "/users?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择人员"
     }
@@ -238,7 +204,7 @@ const map = new Map([
   [
     "contacts",
     {
-      URL: "/contacts",
+      URL: "/contacts?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择联系人"
     }
@@ -246,18 +212,18 @@ const map = new Map([
   [
     "ipr_para",
     {
-      URL: "/contacts",
+      URL: "/contacts?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请输入IPR关键词",
       PARAMS: {
-        cotatct_type: 2
+        contact_type: 2
       }
     }
   ],
   [
     "definitions",
     {
-      URL: "/definitions",
+      URL: "/definitions?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择触发的默认管制事项"
     }
@@ -265,7 +231,7 @@ const map = new Map([
   [
     "roles",
     {
-      URL: "/roles",
+      URL: "/roles?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择用户"
     }
@@ -273,7 +239,7 @@ const map = new Map([
   [
     "mail_roles",
     {
-      URL: "/mail_roles",
+      URL: "/mail_roles?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择收件人身份"
     }
@@ -297,7 +263,7 @@ const map = new Map([
   [
     "tags",
     {
-      URL: "/tags",
+      URL: "/tags?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择标签"
     }
@@ -305,7 +271,7 @@ const map = new Map([
   [
     "services",
     {
-      URL: "/services",
+      URL: "/services?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择服务类型"
     }
@@ -313,7 +279,7 @@ const map = new Map([
   [
     "project_stage",
     {
-      URL: "/project_stages",
+      URL: "/project_stages?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择案件状态"
     }
