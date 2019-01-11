@@ -13,11 +13,30 @@ const URLDEFAULT = "";
 
 const dd = {};
 
+const responseText = function (status) {
+  let text = "";
+  switch (status) {
+    case 401:
+      text = "接口没有权限，请联系管理员！";
+      break;
+    case 404:
+      text = "您请求的页面不存在，请联系管理员！";
+      break;
+    default:
+      text = "接口出错啦，请联系管理员！";
+      break;
+  }
+  return text
+}
+
+
 const successFunc = function(d, t) {};
 
 const errorFunc = function(d, t) {
   if (d.info) {
     t.$message({ message: d.info, type: "warning" });
+  } else if(d.response.status){
+    t.$message({ message: responseText(d.response.status), type: "warning" });
   } else {
     t.$message({ message: "接口出错啦，请联系管理员！", type: "warning" });
   }
@@ -27,6 +46,8 @@ const catchFunct = function(d, t) {
   console.log(d);
   if (d.info) {
     t.$message({ message: d.info, type: "warning" });
+  }else if(d.response.status){
+    t.$message({ message: responseText(d.response.status), type: "warning" });
   } else {
     t.$message({ message: "接口出错啦，请联系管理员！", type: "warning" });
   }
