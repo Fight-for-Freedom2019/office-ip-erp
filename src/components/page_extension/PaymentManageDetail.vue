@@ -3,8 +3,8 @@
     <div class="PaymentRequestDetail">
         <app-shrink :visible.sync="dialogVisible" :modal='false' :title="title">
             <span slot="header" style="float: right;">
-                <el-button type="primary" size="small" @click="save">保存</el-button>
-                <el-button type="danger" size="small" @click="deleteInvoice">删除</el-button>
+                <app-button-loading :func="save"  ref="loadingBtn" text="保存"></app-button-loading>
+                <!-- <el-button type="danger" size="small" @click="deleteInvoice">删除</el-button> -->
                 <el-button type="primary" size="small" v-if="status === 'audit'"
                            @click="submitCommon(rowID,'/submit','提交审核')">提交审核</el-button>
                 <el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail" >发送邮件</el-button>

@@ -2,8 +2,8 @@
 <template>
   <app-shrink :visible.sync="dialogVisible" :modal="false" :title="title" ref="top">
     <span slot="header" style="float: right;">
-      <el-button type="primary" v-if="mode === 'add'" size="small" @click="save('add')">申请开票</el-button>
-      <el-button type="primary" v-if="mode === 'edit'" size="small" @click="save('edit')">保存</el-button>
+      <app-button-loading :func="save" v-if="mode === 'add'" ref="loadingBtn" text="申请开票"></app-button-loading>
+      <app-button-loading :func="save" v-if="mode === 'edit'" ref="loadingBtn" text="保存"></app-button-loading>
     </span>
 
     <el-form

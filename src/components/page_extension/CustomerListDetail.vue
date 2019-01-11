@@ -21,6 +21,7 @@
             popType="edit"
             :customer="row"
             @refresh="handleRefresh"
+            @saved="saved"
           ></customer-add>
         </el-tab-pane>
         <template v-if="!is_suppliers">
@@ -131,11 +132,11 @@ export default {
     handleVisible(val) {
       this.$emit("update:visible", val);
     },
-    async edit() {
+    edit() {
       this.saveLoading = true;
-      try {
-        await this.$refs.basicInfo.edit();
-      } catch (e) {}
+      this.$refs.basicInfo.edit();
+    },
+    saved() {
       this.saveLoading = false;
     },
     onTabPageClicked() {
