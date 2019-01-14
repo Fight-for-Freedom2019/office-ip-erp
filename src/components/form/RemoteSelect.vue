@@ -48,7 +48,8 @@
 import AxiosMixins from "@/mixins/axios-mixins";
 import AppCard from "@/components/common/AppCard";
 import FamilyAdd from "@/components/page_extension/FamilyAdd";
-import InventorAdd from "@/components/form/InventorPop"
+import InventorAdd from "@/components/form/InventorPop";
+import CusAdd from "@/components/form/InventorPop";
 
 import map from "@/const/remoteConfig";
 
@@ -122,7 +123,7 @@ export default {
       switch (this.addType) {
         case "patent_family":
           this.$refs.family.show(0, "add");
-          break; 
+          break;
         case "inventor":
           this.$refs.inventor.show("add");
           break;
@@ -415,10 +416,10 @@ export default {
   },
   mounted() {},
   updated() {},
-  components: { 
-    AppCard, 
+  components: {
+    AppCard,
     FamilyAdd,
-    InventorAdd,
+    InventorAdd
   }
 };
 </script>

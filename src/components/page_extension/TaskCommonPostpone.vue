@@ -1,4 +1,4 @@
-<!-- 新增报价 -->
+<!-- 新增延期记录 -->
 <template>
   <div class="main">
     <app-shrink :visible.sync="isPanelVisible" :modal="false" :title="title">
@@ -6,28 +6,18 @@
         <app-button-loading :func="submitForm" ref="loadingBtn" text="保存"></app-button-loading>
       </span>
       <el-form label-width="160px" :model="form" :rules="rules" ref="form" style="margin-top:10px;">
-        <el-form-item label="客户" prop="customer">
-          <jump-select type="customer" v-model="form.customer"></jump-select>
+        <el-form-item label="说明" prop="intro">
+          <span>同一管制事项申请期限延期次数不得超过2次，如果延长后的期限已过客户期限，必须在附件里上传客户的沟通记录</span>
         </el-form-item>
-
-        <el-form-item label="服务项目" prop="service">
-          <jump-select type="services" v-model="form.service"></jump-select>
+        <el-form-item label="申请延期天数" prop="days">
+          <el-input type="text" placeholder="请输入要申请延期的天数" v-model="form.days"></el-input>
         </el-form-item>
-
-        <el-form-item label="代理费" prop="service_fee">
-          <el-input type="text" placeholder="请输入代理费" v-model="form.service_fee"></el-input>
-        </el-form-item>
-
-        <el-form-item label="代理费币别" prop="service_fee_currency">
-          <static-select type="currency" v-model="form.service_fee_currency"></static-select>
-        </el-form-item>
-
-        <el-form-item label="官费" prop="official_fee">
-          <el-input type="text" placeholder="请输入官费" v-model="form.official_fee"></el-input>
-        </el-form-item>
-
-        <el-form-item label="官费币别" prop="official_fee_currency">
-          <static-select type="currency" v-model="form.official_fee_currency"></static-select>
+        <el-form-item label="附件" prop="days">
+          <upload
+            @uploadSuccess="handleUploadSuccess"
+            v-model="form.attachments"
+            :file-list="attachments"
+          ></upload>
         </el-form-item>
 
         <el-form-item label="备注" prop="remark">
@@ -43,32 +33,29 @@ import RemoteSelect from "@/components/form/RemoteSelect";
 import StaticSelect from "@/components/form/StaticSelect";
 import JumpSelect from "@/components/form/JumpSelect";
 import AppShrink from "@/components/common/AppShrink";
+import Upload from "@/components/form/Upload";
 
 export default {
-  name: "QuotationAdd",
+  name: "PostponeEdit",
+  props: {
+    row: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
   data() {
     return {
-      URL: "/quotations",
+      URL: "/process_postpones",
       form: {
-        customer: "",
-        service: "",
-        service_fee: "",
-        service_fee_currency: "CNY",
-        official_fee: "",
-        official_fee_currency: "CNY",
+        days: "",
+        attachments: [],
         remark: ""
       },
+      attachments: [],
       rules: {
-        customer: [{ required: true, message: "请选择客户", trigger: "blur" }],
-        service: [
-          { required: true, message: "请选择服务项目", trigger: "blur" }
-        ],
-        service_fee: [
-          { required: true, message: "请输入代理费", trigger: "blur" }
-        ],
-        service_fee_currency: [
-          { required: true, message: "请选择代理费币别", trigger: "blur" }
-        ]
+        days: [{ required: true, message: "请输入延期天数", trigger: "blur" }]
       },
       isPanelVisible: false,
       title: "",
@@ -76,17 +63,8 @@ export default {
       id: 0
     };
   },
-  props: {
-    data: Object
-  },
-  mounted() {
-    this.coverObj(this.data);
-  },
-  watch: {
-    data: function(val, oldVal) {
-      this.coverObj(val);
-    }
-  },
+  mounted() {},
+  watch: {},
   methods: {
     submitForm() {
       this.$refs["form"].validate(valid => {
@@ -106,6 +84,8 @@ export default {
             msg = "更新";
             fun = "update";
           }
+          data.process_id = this.row.id;
+          data.task_id = this.row.task.id;
           const success = _ => {
             this.$message({ type: "success", message: `${msg}成功!` });
             this.$emit(fun);
@@ -123,34 +103,32 @@ export default {
       this.$refs.form.resetFields();
     },
     coverObj(val) {
-      val
-        ? this.$tool.coverObj(this.form, val, { obj: ["customer", "service"] })
-        : "";
+      val ? this.$tool.coverObj(this.form, val, { obj: [] }) : "";
     },
     show(mode, data) {
       this.mode = mode;
       this.isPanelVisible = true;
       if (mode == "add") {
-        this.title = "新增报价";
-        this.form.customer = "";
-        this.form.service = "";
-        this.form.service_fee = "";
-        this.form.service_fee_currency = "CNY";
-        this.form.official_fee = "";
-        this.form.official_fee_currency = "CNY";
+        this.title = "申请延期";
+        this.form.days = "";
+        this.form.attachments = [];
         this.form.remark = "";
       } else {
-        this.title = "编辑报价";
+        this.title = "延期记录详情";
         this.coverObj(data);
         this.id = data.id;
       }
+    },
+    handleUploadSuccess(a, b, c) {
+      this.$emit("uploadSuccess", a, b, c);
     }
   },
   components: {
     RemoteSelect,
     StaticSelect,
     AppShrink,
-    JumpSelect
+    JumpSelect,
+    Upload
   }
 };
 </script>

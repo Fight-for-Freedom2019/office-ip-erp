@@ -667,7 +667,7 @@ const map = new Map([
         id: "fee_code.name",
         name: "费用名称",
         map_type: "fee_code",
-        url:"/feecode"
+        url: "/feecode"
       },
       {
         type: "static_select",
@@ -929,6 +929,25 @@ const map = new Map([
         id: "is_active",
         name: "用户状态",
         map_type: "status"
+      }
+    ]
+  ],
+  [
+    "quotations",
+    [
+      {
+        type: "remote_select",
+        id: "customer",
+        name: "客户",
+        map_type: "customers",
+        url: true
+      },
+      {
+        type: "static_select",
+        id: "service",
+        name: "服务项目",
+        map_type: "services",
+        url: true
       }
     ]
   ]

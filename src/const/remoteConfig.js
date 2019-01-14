@@ -186,7 +186,7 @@ const map = new Map([
     }
   ],
   [
-    "customer?listOnly=1",
+    "customer",
     {
       URL: "/customers?listOnly=1",
       DATA_KEY: "data",

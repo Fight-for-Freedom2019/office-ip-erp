@@ -3,16 +3,6 @@
   <el-form label-width="100px" :model="form" ref="form">
     <el-row>
       <el-col :span="8">
-        <el-form-item label="立案日">
-          <el-date-picker
-            size="small"
-            v-model="form.creation_time"
-            placeholder="立案日"
-            class="input-min-width"
-          ></el-date-picker>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
         <el-form-item label="委案日">
           <el-date-picker
             size="small"
@@ -24,8 +14,51 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
+        <el-form-item label="立案日">
+          <el-date-picker
+            size="small"
+            v-model="form.creation_time"
+            placeholder="立案日"
+            class="input-min-width"
+          ></el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
         <el-form-item label="DAS码">
           <el-input size="small" v-model="form.das" placeholder="DAS码" class="input-min-width"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row v-if="type == 'add'">
+      <el-col :span="8">
+        <el-form-item label="初稿期限">
+          <el-date-picker
+            size="small"
+            v-model="form.first_edition_deadline"
+            type="date"
+            placeholder="初稿期限"
+            class="input-min-width"
+          ></el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="递交期限">
+          <el-date-picker
+            size="small"
+            v-model="form.filing_deadline"
+            placeholder="递交期限"
+            class="input-min-width"
+          ></el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="官方绝限">
+          <el-date-picker
+            size="small"
+            v-model="form.legal_deadline"
+            placeholder="官方绝限"
+            class="input-min-width"
+          ></el-date-picker>
         </el-form-item>
       </el-col>
     </el-row>
@@ -275,6 +308,9 @@ export default {
   data() {
     return {
       form: {
+        first_edition_deadline: "",
+        filing_deadline: "",
+        legal_deadline: "",
         creation_time: "",
         entrusting_time: "",
         das: "",

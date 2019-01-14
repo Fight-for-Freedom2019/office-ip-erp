@@ -148,7 +148,7 @@ export default {
           name: ""
         },
         services: [
-          { service: { id: "", name: "" }, unit_price: "", amount: "", sum: "" }
+          { service: { id: "", name: "" }, service_fee: "", amount: "", sum: "" }
         ],
         attachments: []
       },

@@ -195,7 +195,7 @@ export default {
         title: "",
         english_title: "",
         area: this.type == "add" ? ["CN"] : "",
-        subtype: "",
+        subtype: 1,
         // ipr: '',
         project_stage: "",
         process_stage: "",

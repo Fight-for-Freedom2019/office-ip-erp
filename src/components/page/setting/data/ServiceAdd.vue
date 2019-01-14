@@ -21,8 +21,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="单价" prop="unit_price">
-                        <el-input type="text" placeholder="请输入单价" v-model="form.unit_price"></el-input>
+                    <el-form-item label="单价" prop="service_fee">
+                        <el-input type="text" placeholder="请输入单价" v-model="form.service_fee"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -59,7 +59,7 @@
                     area: '',
                     project_type: '',
                     name: '',
-                    unit_price: '',
+                    service_fee: '',
                     process_definition: '',
                     remark:'',
                 },
@@ -73,7 +73,7 @@
                     name: [
                         {required: true, message: "请输入服务名称", trigger: "blur"}
                     ],
-                    unit_price: [
+                    service_fee: [
                         {required: true, message: "请输入单价", trigger: "blur"}
                     ],
                     process_definition: [

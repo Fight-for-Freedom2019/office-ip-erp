@@ -28,7 +28,7 @@
 <script>
 import TableComponent from "@/components/common/TableComponent";
 import AxiosMixins from "@/mixins/axios-mixins";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "taskEdit",
   mixins: [AxiosMixins],
@@ -86,7 +86,7 @@ export default {
   methods: {
     refreshData() {
       this.loading = true;
-      const url = `/processes/${this.id}/tasks`;
+      const url = `/processes/${this.row.id}/tasks`;
       const success = _ => {
         this.collapse = _.tasks.data;
         this.$emit("refreshSiblings", this.collapse);

@@ -47,8 +47,8 @@
                 <el-form-item label="服务项目" prop="temp">
                     <jump-select type="services" ref="jumpSelect" v-model="servicesForm.temp"></jump-select>
                 </el-form-item>
-                <el-form-item label="单价" prop="unit_price">
-                    <el-input type="text" v-model.number="servicesForm.unit_price"></el-input>
+                <el-form-item label="单价" prop="service_fee">
+                    <el-input type="text" v-model.number="servicesForm.service_fee"></el-input>
                 </el-form-item>
                 <el-form-item label="预收官费" prop="collected_official_fee">
                     <el-input type="text" v-model.number="servicesForm.collected_official_fee"></el-input>
@@ -101,7 +101,7 @@
                         id: "",
                         name: ""
                     },
-                    unit_price: "",
+                    service_fee: "",
                     collected_official_fee: "",
                     amount: "",
                     temp: "",
@@ -111,7 +111,7 @@
                     temp: [
                         {required: true, message: "请选择服务项目", trigger: "blur"}
                     ],
-                    unit_price: [
+                    service_fee: [
                         {required: true, message: "请输入单价", trigger: "blur"},
                         {type: "number", message: "请输入数字", trigger: "blur"}
                     ],
@@ -136,7 +136,7 @@
                             min_width: '178',
                             render_header: true
                         },
-                        {type: 'text', label: '单价', prop: 'unit_price', width: '120'},
+                        {type: 'text', label: '单价', prop: 'service_fee', width: '120'},
                         {type: 'text', label: '预收官费', prop: 'collected_official_fee', width: '120'},
                         {type: 'text', label: '数量', prop: 'amount', width: '150'},
                         {type: 'text', label: '小计', prop: 'sum', width: '180'},
@@ -177,7 +177,7 @@
                     let obj = {
                         id: item.service.id,
                         amount: item.amount,
-                        unit_price: item.unit_price,
+                        service_fee: item.service_fee,
                         collected_official_fee: item.collected_official_fee,
                     };
                     arr.push(obj);
@@ -207,10 +207,10 @@
                             id: this.servicesForm.temp,
                             name: this.getName()
                         };
-                        const unit_price = this.servicesForm.unit_price;
+                        const service_fee = this.servicesForm.service_fee;
                         const collected_official_fee = this.servicesForm.collected_official_fee;
                         const amount = this.servicesForm.amount;
-                        this.servicesForm.sum = unit_price * amount + collected_official_fee * amount;
+                        this.servicesForm.sum = service_fee * amount + collected_official_fee * amount;
                         this.servicesForm.mark = this.mark;
                         this.mark++;
                         this.tableData.push(Object.assign({}, this.servicesForm));
