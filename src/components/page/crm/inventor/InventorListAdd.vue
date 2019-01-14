@@ -75,7 +75,7 @@
   import StaticSelect from "@/components/form/StaticSelect";
   import AppSwitch from "@/components/form/AppSwitch";
   import Config from "@/const/selectConfig";
-  import RemoteSelect from "@/components/form/RemoteSelect";
+  // import RemoteSelect from "@/components/form/RemoteSelect";
   import JumpSelect from "@/components/form/JumpSelect";
   import AppShrink from "@/components/common/AppShrink";
   import isRequest from "../mixins/is_request"
@@ -208,7 +208,8 @@
     components: {
       StaticSelect,
       AppSwitch,
-      RemoteSelect,
+      // RemoteSelect,
+      RemoteSelect: () => import('@/components/form/RemoteSelect'),
       JumpSelect,
       AppShrink
     }
