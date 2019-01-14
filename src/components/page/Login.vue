@@ -104,7 +104,7 @@ export default {
             //  	window.appCache.userinfo = _.member;
             //  	console.log(window.appCache.userinfo)
             this.setUser(_.member);
-            window.localStorage.setItem("userinfo",JSON.stringify(_.member));
+            // window.localStorage.setItem("userinfo",JSON.stringify(_.member));
           } else {
             window.localStorage.removeItem("token");
             this.$router.push({ path: "/" });

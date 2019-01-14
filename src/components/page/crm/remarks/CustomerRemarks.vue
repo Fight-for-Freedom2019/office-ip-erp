@@ -17,7 +17,7 @@
 
 <script>
     import TableComponent from '@/components/common/TableComponent'
-    import RemarkListAdd from '@/components/page_extension/RemarkListAdd'
+    import RemarkListAdd from '@/components/page/crm/remarks/RemarkListAdd'
     import AppShrink from '@/components/common/AppShrink'
     import TableMixins from '@/mixins/table-mixins'
 

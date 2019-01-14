@@ -357,6 +357,7 @@ const getters = {
 const mutations = {
   setUser(state, d) {
     state.data = d;
+    window.localStorage.setItem("userinfo",JSON.stringify(d));
   },
   setUserLoading(state, boolean) {
     state.loading = boolean;
