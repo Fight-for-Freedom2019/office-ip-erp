@@ -15,12 +15,12 @@ export default {
       delayData: [],
       loading: false,
       columns: [
-        { type: "text", label: "操作人", prop: "days" },
+        { type: "text", label: "操作人", prop: "creator_user",render_simple:'name' },
         { type: "text", label: "申请时间", prop: "creation_time" },
         { type: "text", label: "延期后期限", prop: "deadline" },
         { type: "text", label: "审批人", prop: "reviewer",render_simple:'name' },
         { type: "text", label: "审批时间", prop: "last_modification_time" },
-        { type: "text", label: "状态", prop: "status" },
+        { type: "text", label: "状态", prop: "status",render_simple:'name' },
         { type: "text", label: "备注", prop: "remark", min_width: "200" }
       ]
     };
