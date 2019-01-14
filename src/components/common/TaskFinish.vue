@@ -134,8 +134,8 @@
               @change="checkRadio"
             >{{ item.label }}</app-radio>
           </el-form-item>
-          <template slot="app-button" v-if="isShowSubmitBtn">
-            <el-form-item style="margin-bottom: 0px;">
+          <template slot="app-button" >
+            <el-form-item style="margin-bottom: 0px;" v-if="isShowSubmitBtn">
               <el-button
                 type="primary"
                 @click="submitFunc"
@@ -367,7 +367,7 @@ export default {
     isShowSubmitBtn() {
       if (
         this.userid != this.tasksDetail.user.id &&
-        !menusMap.get("/task/btn/save")
+        !this.menusMap.get("/task/btn/save")
       ) {
         return false;
       } else {
