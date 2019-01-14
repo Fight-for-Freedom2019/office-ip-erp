@@ -1,199 +1,232 @@
-<template>  
-  	<el-form label-width="110px" :model="form" ref="form" :rules="rules">
-      <el-form-item label="案件类型" prop="project_type" v-if="type == 'add'">
-        <static-select type="project_type" v-model="form.project_type"></static-select>
-      </el-form-item>
-      <el-form-item label="案件引用" prop="model" v-if="type == 'add' && form.project_type != null">
-        <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>
-      </el-form-item>  
-      <el-form-item label="管制事项" prop="process_definition"  v-if="form.model != null">
-        <static-select type="process_definition" v-model="form.process_definition"></static-select>
-        <!-- <el-select v-model="form.process_definition" placeholder="请选择事件名称">
-          <el-option
-            v-for="item in defOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          >
-          </el-option>
-        </el-select> -->
-      </el-form-item>
-      <el-form-item label="绑定流程" prop="process_flow"  v-if="form.model != null">
-        <el-select v-model="form.process_flow" clearable placeholder="请选择绑定流程" @visible-change.once="initFlows">
-          <el-option
-            v-for="item in flowOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="开始节点" prop="process_action" v-if="form.model != null">
-        <el-select v-model="form.process_action" clearable placeholder="请选择开始">
-          <el-option
-            v-for="item in actionOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item> 
-      <el-row>
-        <el-col :span="8" v-if="form.model != null">
-          <el-form-item  label="承办人" prop="user">
-            <remote-select type="user" v-model="form.user"></remote-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item  label="代理人" prop="agent">
-            <remote-select type="user" v-model="form.agent"></remote-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item  label="代理人助理" prop="assistant">
-            <remote-select type="user" v-model="form.assistant"></remote-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item  label="初审人" prop="first_reviewer">
-            <remote-select type="user" v-model="form.first_reviewer"></remote-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item  label="复审人" prop="final_reviewer">
-            <remote-select type="user" v-model="form.final_reviewer"></remote-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="初稿时间" prop="first_edition_deadline">
-            <el-date-picker type="date" v-model="form.first_edition_deadline" placeholder="请选择初稿时间"></el-date-picker>
-          </el-form-item> 
-        </el-col>        
-        <el-col :span="8">
-          <el-form-item label="递交期限" prop="filing_deadline">
-            <el-date-picker type="date" v-model="form.filing_deadline" placeholder="请选择递交期限"></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="官方绝限" prop="legal_deadline">
-            <el-date-picker type="date" v-model="form.legal_deadline" placeholder="请选择官方绝限"></el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-row> 
-      <template v-if="type == 'edit'">
+<template>
+    <app-shrink :visible.sync="dialogAddVisible" :title="mode == 'add'?'新增管制事项':'编辑管制事项'">
+      <span slot="header" style="float: right;">
+        <el-button
+          type="primary"
+          size="small"
+          v-if="mode == 'add'"
+          :loading="loading"
+          @click="add"
+        >新增</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          v-if="mode == 'edit'"
+          :loading="loading"
+          @click="edit"
+        >保存</el-button>
+      </span>
+      <el-form label-width="110px" :model="form" ref="form" :rules="rules" style="margin-top:10px;">
+        <el-form-item label="案件类型" prop="project_type" v-if="mode == 'add'">
+          <static-select type="project_type" v-model="form.project_type"></static-select>
+        </el-form-item>
+        <el-form-item label="关联案件" prop="model" v-if="mode == 'add' && form.project_type != null">
+          <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>
+        </el-form-item>  
+        <el-form-item label="管制事项" prop="process_definition"  v-if="form.model != null">
+          <static-select type="process_definition" v-model="form.process_definition"></static-select>
+          <!-- <el-select v-model="form.process_definition" placeholder="请选择事件名称">
+            <el-option
+              v-for="item in defOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select> -->
+        </el-form-item>
+        <el-form-item label="事项流程" prop="process_flow"  v-if="form.model != null">
+          <el-select v-model="form.process_flow" clearable placeholder="请选择事项流程" @visible-change.once="initFlows">
+            <el-option
+              v-for="item in flowOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="开始节点" prop="process_action" v-if="form.model != null">
+          <el-select v-model="form.process_action" clearable placeholder="请选择开始">
+            <el-option
+              v-for="item in actionOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item> 
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="初稿日" prop="first_edition_time">
-              <el-date-picker type="date" v-model="form.first_edition_time" placeholder="请选择初稿日"></el-date-picker>
-            </el-form-item>      
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="内部定稿日" prop="internal_final_edition_time">
-              <el-date-picker type="date" v-model="form.internal_final_edition_time" placeholder="请选择内部定稿日"></el-date-picker>
-            </el-form-item>      
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="返稿日" prop="customer_edition_time">
-              <el-date-picker type="date" v-model="form.customer_edition_time" placeholder="请选择返稿日"></el-date-picker>
-            </el-form-item>      
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="客户定稿日" prop="customer_final_edition_time">
-              <el-date-picker type="date" v-model="form.customer_final_edition_time" placeholder="请选择客户定稿日"></el-date-picker>
-            </el-form-item>      
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="递交日" prop="filing_time">
-              <el-date-picker type="date" v-model="form.filing_time" placeholder="请选择递交日"></el-date-picker>
-            </el-form-item>      
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="内部撰稿时长" prop="internal_drafting_period">
-              <el-input v-model="form.internal_drafting_period" placeholder="请输入内部撰稿时长"></el-input>
-            </el-form-item>      
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="内部修改时长" prop="internal_amending_period">
-              <el-input v-model="form.internal_amending_period" placeholder="请输入内部修改时长"></el-input>
-            </el-form-item>  
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="内部审核时长" prop="internal_reviewing_period">
-              <el-input v-model="form.internal_reviewing_period" placeholder="请输入内部审核时长"></el-input>
-            </el-form-item>  
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="返稿时长" prop="customer_first_edition_period">
-              <el-input v-model="form.customer_first_edition_period" placeholder="请输入返稿时长"></el-input>
-            </el-form-item>  
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="客户审核时长" prop="customer_amending_period">
-              <el-input v-model="form.customer_amending_period" placeholder="请输入客户审核时长"></el-input>
-            </el-form-item>  
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="客户修改时长" prop="customer_reviewing_period">
-              <el-input v-model="form.customer_reviewing_period" placeholder="请输入客户修改时长"></el-input>
+          <el-col :span="8" v-if="form.model != null">
+            <el-form-item  label="承办人" prop="user">
+              <remote-select type="user" v-model="form.user"></remote-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
+            <el-form-item  label="代理人" prop="agent">
+              <remote-select type="user" v-model="form.agent"></remote-select>
+            </el-form-item>
           </el-col>
-        </el-row>    
-          <el-form-item label="内部审核次数" prop="internal_reviewing_times">
-            <el-select v-model="form.internal_reviewing_times" placeholder="请填写内部审核次数">
-              <el-option
-                v-for="item in timeOptions"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item> 
-          <el-form-item label="客户审核次数" prop="customer_reviewing_times">
-            <el-select v-model="form.customer_reviewing_times" placeholder="请填写客户审核次数">
-              <el-option
-                v-for="item in timeOptions"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              >
-              </el-option>
-            </el-select>            
-          </el-form-item>
-          <el-form-item label="技术评分" prop="technical_rank">
-            <el-slider v-model="form.technical_rank" show-input></el-slider>
-          </el-form-item>
-          <el-form-item label="权利要求评分" prop="claims_rank">
-            <el-slider v-model="form.claims_rank" show-input></el-slider>
-          </el-form-item>
-          <el-form-item label="说明书评分" prop="spec_rank">
-            <el-slider v-model="form.spec_rank" show-input></el-slider>
-          </el-form-item>
-          <el-form-item label="沟通交流评分" prop="communication_rank">
-            <el-slider v-model="form.communication_rank" show-input></el-slider>
-          </el-form-item>
-        </template>        
-        <el-form-item label="附件" prop="attachments">
-          <upload v-model="form.attachments" :file-list="attachments"></upload>
-        </el-form-item>  
-        <el-form-item label="备注" prop="remark">
-          <el-input type="textarea" v-model="form.remark" placeholder="请填写备注"></el-input>
-        </el-form-item>   
-  	</el-form>  
+          <el-col :span="8">
+            <el-form-item  label="代理人助理" prop="assistant">
+              <remote-select type="user" v-model="form.assistant"></remote-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item  label="初审人" prop="first_reviewer">
+              <remote-select type="user" v-model="form.first_reviewer"></remote-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item  label="复审人" prop="final_reviewer">
+              <remote-select type="user" v-model="form.final_reviewer"></remote-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="初稿期限" prop="first_edition_deadline">
+              <el-date-picker type="date" v-model="form.first_edition_deadline" placeholder="请选择初稿时间"></el-date-picker>
+            </el-form-item> 
+          </el-col>        
+          <el-col :span="8">
+            <el-form-item label="递交期限" prop="filing_deadline">
+              <el-date-picker type="date" v-model="form.filing_deadline" placeholder="请选择递交期限"></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="官方绝限" prop="legal_deadline">
+              <el-date-picker type="date" v-model="form.legal_deadline" placeholder="请选择官方绝限"></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row> 
+        <template v-if="mode == 'edit'">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="初稿日" prop="first_edition_time">
+                <el-date-picker type="date" v-model="form.first_edition_time" placeholder="请选择初稿日"></el-date-picker>
+              </el-form-item>      
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="内部定稿日" prop="internal_final_edition_time">
+                <el-date-picker type="date" v-model="form.internal_final_edition_time" placeholder="请选择内部定稿日"></el-date-picker>
+              </el-form-item>      
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="返稿日" prop="customer_edition_time">
+                <el-date-picker type="date" v-model="form.customer_edition_time" placeholder="请选择返稿日"></el-date-picker>
+              </el-form-item>      
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="客户定稿日" prop="customer_final_edition_time">
+                <el-date-picker type="date" v-model="form.customer_final_edition_time" placeholder="请选择客户定稿日"></el-date-picker>
+              </el-form-item>      
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="递交日" prop="filing_time">
+                <el-date-picker type="date" v-model="form.filing_time" placeholder="请选择递交日"></el-date-picker>
+              </el-form-item>      
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="内部撰稿时长" prop="internal_drafting_period">
+                <el-input v-model="form.internal_drafting_period" placeholder="请输入内部撰稿时长"></el-input>
+              </el-form-item>      
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="内部修改时长" prop="internal_amending_period">
+                <el-input v-model="form.internal_amending_period" placeholder="请输入内部修改时长"></el-input>
+              </el-form-item>  
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="内部审核时长" prop="internal_reviewing_period">
+                <el-input v-model="form.internal_reviewing_period" placeholder="请输入内部审核时长"></el-input>
+              </el-form-item>  
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="返稿时长" prop="customer_first_edition_period">
+                <el-input v-model="form.customer_first_edition_period" placeholder="请输入返稿时长"></el-input>
+              </el-form-item>  
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="客户审核时长" prop="customer_amending_period">
+                <el-input v-model="form.customer_amending_period" placeholder="请输入客户审核时长"></el-input>
+              </el-form-item>  
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="客户修改时长" prop="customer_reviewing_period">
+                <el-input v-model="form.customer_reviewing_period" placeholder="请输入客户修改时长"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="内部审核次数" prop="internal_reviewing_times">
+                <el-select v-model="form.internal_reviewing_times" placeholder="请填写内部审核次数">
+                  <el-option
+                    v-for="item in timeOptions"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>    
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="客户审核次数" prop="customer_reviewing_times">
+                <el-select v-model="form.customer_reviewing_times" placeholder="请填写客户审核次数">
+                  <el-option
+                    v-for="item in timeOptions"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </el-select>            
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="沟通交流评分" prop="communication_rank">
+                <el-input v-model="form.communication_rank" show-input></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="技术评分" prop="technical_rank">
+                <el-input v-model="form.technical_rank" show-input></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="权利要求评分" prop="claims_rank">
+                <el-input v-model="form.claims_rank" show-input></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="说明书评分" prop="spec_rank">
+                <el-input v-model="form.spec_rank" show-input></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          </template>
+          <el-form-item label="附件" prop="attachments">
+            <upload v-model="form.attachments" :file-list="attachments"></upload>
+          </el-form-item>  
+          <el-form-item label="备注" prop="remark">
+            <el-input type="textarea" v-model="form.remark" placeholder="请填写备注"></el-input>
+          </el-form-item>   
+      </el-form>
+    </app-shrink>
+  	  
 </template>
 
 <script>
@@ -202,6 +235,7 @@ import AxiosMixins from '@/mixins/axios-mixins'
 import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import JumpSelect from '@/components/form/JumpSelect'
+import AppShrink from "@/components/common/AppShrink";
 import {mapActions} from 'vuex'
 
 const URL = '/processes';
@@ -213,13 +247,26 @@ const typeMap = new Map([
 export default {
   name: 'taskEdit',
   mixins: [ AxiosMixins ],
-  props: [ 'type', 'row' ],
+  props: [ 'type'],
   
   methods: {
     ...mapActions([
       'refreshUser',
       'refreshFlows'
     ]),
+    show(mode, row) {
+      this.mode = mode;
+      this.dialogAddVisible = true;
+      if (mode == 'add') {
+        this.$nextTick(_ => {
+          // add为了重置表单 强制重新渲染表单
+          this.clear();
+        });
+      } else if (row != undefined) {
+        this.row = row;
+        this.refreshRow();
+      }
+    },
     initFlows () {
       this.refreshFlows({type:this.projectType});
     },
@@ -235,6 +282,7 @@ export default {
       })
     },
     async add () {
+      this.loading = true;
       await this.checkForm()
       const url = URL;
       const data = this.$tool.shallowCopy(this.form, {'date': true,});
@@ -243,12 +291,13 @@ export default {
         this.$emit('addSuccess');
         this.refreshUser();
       };
-      const complete = _=>{ this.btn_disabled = false };
+      const complete = _=>{ this.btn_disabled = false; this.loading = false; this.dialogAddVisible = false;};
 
       this.btn_disabled = true;
       await this.$axiosPost({url, data, success, complete});  
     },
     async edit () {
+      this.loading = true;
       await this.checkForm()
       if(this.form.project_type) {
         this.form.project_type = this.form.project_type['id'];
@@ -256,8 +305,8 @@ export default {
 
       const url = `${URL}/${this.row.id}`;
       const data = this.$tool.shallowCopy(this.form, {'date': true,'skip': ['model']});
-      const success = _=>{ this.$emit('editSuccess') };
-      const complete = _=>{ this.btn_disabled = false };
+      const success = _=>{ this.$emit('editSuccess', _.process) };
+      const complete = _=>{ this.btn_disabled = false; this.loading = false; this.dialogAddVisible = false; };
       this.btn_disabled = true;
 
       await this.$axiosPut({url, data, success, complete });
@@ -282,7 +331,7 @@ export default {
       }, 0);
     }, 
     refreshRow () {
-      if(this.type == 'edit') {
+      if(this.mode == 'edit') {
         this.$tool.coverObj(this.form,this.row,{
           obj: ['process_flow','process_definition',],
           date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline',
@@ -352,10 +401,10 @@ export default {
         customer_reviewing_period: '',
         internal_reviewing_times: '',
         customer_reviewing_times: '',
-        technical_rank: 0,
-        claims_rank: 0,
-        spec_rank: 0,
-        communication_rank: 0,        
+        technical_rank: '',
+        claims_rank: '',
+        spec_rank: '',
+        communication_rank: '',
         attachments: [],
         remark: '',
       },    
@@ -367,11 +416,6 @@ export default {
         process_definition: getRules('管制事项不能为空', 'number'),
         process_flow: getRules('流程不能为空', 'number'),
         process_action: getRules('开始节点不能为空', 'number'),
-        user: getRules('承办人不能为空', 'number'),
-        agent: getRules('代理人不能为空', 'number'),
-        first_reviewer: getRules('初审人不能为空', 'number'),
-        first_edition_deadline: getRules('初稿时间不能为空', 'date'),
-        filing_deadline: getRules('递交期限不能为空', 'date'),
       },
        timeOptions: [
         { id: 1, name: '1'},
@@ -385,11 +429,15 @@ export default {
         { id: 9, name: '9'},
         { id: 10, name: '10'},
       ],
+      dialogAddVisible:false,
+      mode:'add',
+      row:{},
+      loading:false,
   	}
   },
   computed: {
     projectType () {
-      const config = this.type == 'add'? typeMap.get(this.form.project_type) : '';
+      const config = this.mode == 'add'? typeMap.get(this.form.project_type) : '';
       return config;
     },
     flowsData () {
@@ -463,7 +511,7 @@ export default {
     this.refreshRow();
     this.initFlows();
   },
-  components: { Upload, RemoteSelect, JumpSelect, StaticSelect, }
+  components: { Upload, RemoteSelect, JumpSelect, StaticSelect,AppShrink }
 }
 </script>
 

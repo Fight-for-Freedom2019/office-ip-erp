@@ -10,7 +10,7 @@
         <el-button
           size="small"
           type="primary"
-          @click="addPop('edit')"
+          @click="editBtnClicked"
           v-if="menusMap && menusMap.get('/task/btn/save')"
           style="margin-left: 0px;"
         >编辑</el-button>
@@ -120,6 +120,7 @@
           :visible.sync="dialogTranserVisible"
           class="dialog-medium"
           width="50%"
+          :modal="false"
         >
           <el-form label-width="80px">
             <el-form-item label="承办人">
@@ -130,7 +131,7 @@
             </el-form-item>
           </el-form>
         </el-dialog>
-        <el-dialog title="完结任务" :visible.sync="dialogCloseVisible" class="dialog-medium">
+        <el-dialog title="完结任务" :visible.sync="dialogCloseVisible" size="50%" :modal="false">
           <el-form label-width="80px">
             <el-form-item label="完结备注">
               <el-form-item>
@@ -170,7 +171,20 @@
             </el-form-item>
           </el-form>
         </el-dialog>
+        <!-- 任务延期记录添加 -->
         <task-postpone ref="postpone" @refresh="refreshPostpone" :row="row"></task-postpone>
+
+        <!-- 任务新增、编辑 -->
+        <task-common-edit ref="taskEdit" @editSuccess="editSuccess"></task-common-edit>
+        
+
+        <!-- 发送邮件 -->
+    <mail-add
+      style="margin-top: 10px; "
+      ref="mailEdit"
+      @sendSuccess="mailCallBack"
+      @cancelSending="mailCallBack"
+    ></mail-add>
       </div>
     </app-shrink>
   </div>
@@ -193,6 +207,7 @@ import AppShrink from "@/components/common/AppShrink";
 import DelayHistory from "@/components/page_extension/TaskCommon_delay";
 import AppointCase from "@/components/page_extension/AppointCase";
 import TaskPostpone from "@/components/page_extension/TaskCommonPostpone";
+import TaskCommonEdit from "@/components/page_extension/TaskCommon_edit";
 
 import MailAdd from "@/components/page/MailAdd";
 
@@ -227,14 +242,7 @@ const mailMap = new Map([
 export default {
   name: "TaskCommonDetail",
   mixins: [AxiosMixins],
-  props: {
-    row: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
+  props: [],
   data() {
     return {
       isTaskDetailVisible: false,
@@ -284,7 +292,8 @@ export default {
       pageType: "",
       loadingVisible: false,
       loadingText: "任务数据加载中",
-      url: URL
+      url: URL,
+      row:{},
     };
   },
   computed: {
@@ -301,7 +310,7 @@ export default {
       }
     },
     title() {
-      if (this.row.id == undefined) return "";
+      if (this.row == undefined || this.row.id == undefined) return "";
       return this.row.model.id == "Patent" ||
         this.row.model.id == "Trademark" ||
         this.row.model.id == "Copyright"
@@ -378,12 +387,16 @@ export default {
       "refreshAction",
       "refreshProcessDetail"
     ]),
-    show(id) {
+    show(row) {
       this.isTaskDetailVisible = true;
+      this.row = row;
       //调用完成任务显示
       this.$nextTick(() => {
         this.$refs.finish.show();
       });
+    },
+    editBtnClicked() {
+      this.$refs.taskEdit.show('edit',this.row);
     },
     refreshPostpone() {
       this.$refs.delay.refreshData();
@@ -415,7 +428,7 @@ export default {
     },
     appointSuccess() {
       this.dialogAgenVisible = false;
-      this.update();
+      this.$emit('update');
     },
     mailCallBack() {
       this.mailVisible = false;
@@ -496,7 +509,7 @@ export default {
         this.$message({ message: "任务移交成功", type: "success" });
         this.refreshUser();
 
-        this.update();
+        this.$emit('update');
       };
 
       this.$axiosPost({ url, data, success });
@@ -510,7 +523,7 @@ export default {
         this.$message({ message: "完结任务成功", type: "success" });
         this.refreshUser();
 
-        this.update();
+        this.$emit('update');
       };
 
       this.$axiosPost({ url, data, success });
@@ -524,7 +537,7 @@ export default {
         this.$message({ message: "重新激活任务成功", type: "success" });
         this.refreshUser();
 
-        this.update();
+        this.$emit('update');
       };
 
       this.$axiosPost({ url, data, success });
@@ -546,7 +559,7 @@ export default {
         this.dialogShrinkVisible = false;
         this.btn_disabled = true;
         this.$message({ message: "延期成功", type: "success" });
-        this.update();
+        this.$emit('update');
         this.refreshTaskDelay(this.row.id);
       };
       const complete = _ => {
@@ -565,25 +578,15 @@ export default {
         this.dialogRejectVisible = false;
         window.setTimeout(_ => {
           this.dialogShrinkVisible = false;
-          this.update();
+          this.$emit('update');
         }, 0);
       };
       this.$axiosPost({ url, data, success });
     },
-    addSuccess() {
-      this.dialogAddVisible = false;
-      this.$message({ message: "添加成功", type: "success" });
-      this.refresh();
-    },
-    editSuccess() {
-      this.dialogEditVisible = false;
-      this.dialogShrinkVisible = false;
-      this.$message({ message: "编辑成功", type: "success" });
-
-      this.update();
-    },
-    editProjectSuccess() {
-      this.update();
+    editSuccess(process) {
+      this.$message({ message: "编辑管制事项成功", type: "success" });
+      this.$emit('update');
+      this.row = process;
     },
     refreshOption() {},
     handleTask(url) {
@@ -592,7 +595,7 @@ export default {
         const data = { ids: this.$tool.splitObj(s, "id") };
         const success = _ => {
           this.$message({ type: "success", message: "操作成功" });
-          this.update();
+          this.$emit('update');
           this.refreshUser();
         };
 
@@ -602,7 +605,7 @@ export default {
 
     finishSuccess(data) {
       this.dialogShrinkVisible = false;
-      this.refresh();
+      this.$emit('refresh');
       this.$refs.taskDetail.refreshData();
       // if(data.is_send_mail) {
       //   this.mailVisible = true;
@@ -677,7 +680,8 @@ export default {
     DelayHistory,
     MailAdd,
     AppointCase,
-    TaskPostpone
+    TaskPostpone,
+    TaskCommonEdit
   }
 };
 </script>
