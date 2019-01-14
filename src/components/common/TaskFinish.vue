@@ -24,7 +24,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="节点期限">
-                <span class="form-item-text">{{ row.task.deadline }}</span>
+                <span class="form-item-text">{{ row.task != undefined ? row.task.deadline : '' }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -105,6 +105,7 @@
       <el-collapse-item title="任务处理" name="2">
         <app-form
           :source="sourceForm"
+          :map="detailMap"
           :rules="appFormRules"
           :labelWidth="`100px`"
           @formData="handleForm"
@@ -179,6 +180,7 @@ export default {
   data() {
     return {
       sourceForm: [],
+      detailMap: {},
       task_id: "",
       isShowPatentMailBtn: false,
       tips: "",
@@ -237,7 +239,9 @@ export default {
     },
     refreshData() {
       this.loading = true;
+      const list = ['cpc_editor','order_detail','payment_request_detail','outgo_payment_detail','voucher_detail','contract_detail','patent_add','patent'];
       const arr = [];
+      const map = {};
       const url = `${URL}/${this.taskId}/form`;
       this.$refs.appForm.$refs.form.clearValidate();
       const success = d => {
@@ -261,6 +265,10 @@ export default {
               mailscene = "patent";
             }
             arr.push(obj);
+            if (list.indexOf(_.field_type.id) != -1) {
+              map[_.field_type.id] = true;
+            }
+            this.detailMap = map;
           });
           this.$emit("showmailbtn", mailscene);
           this.sourceForm = arr;

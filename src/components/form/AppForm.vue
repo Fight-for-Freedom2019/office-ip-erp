@@ -100,23 +100,23 @@
       </template>
     </template>
     <slot name="app-button"></slot>
-    <order-detail ref="order" @loaded="panelLoaded"></order-detail>
+    <order-detail ref="order" @loaded="panelLoaded" v-if="map['order_detail'] != undefined"></order-detail>
     <!-- 订单详情 -->
-    <contract-detail ref="contract" @loaded="panelLoaded"></contract-detail>
+    <contract-detail ref="contract" @loaded="panelLoaded" v-if="map['contract_detail'] != undefined"></contract-detail>
     <!-- 合同详情 -->
-    <invoice-detail ref="payment_request" @loaded="panelLoaded"></invoice-detail>
+    <invoice-detail ref="payment_request" @loaded="panelLoaded" v-if="map['payment_request_detail'] != undefined"></invoice-detail>
     <!-- 账单详情 -->
-    <voucher-detail ref="voucher" @loaded="panelLoaded"></voucher-detail>
+    <voucher-detail ref="voucher" @loaded="panelLoaded" v-if="map['voucher_detail'] != undefined"></voucher-detail>
     <!-- 发票详情 -->
-    <renewal-fee ref="renewal_fee"></renewal-fee>
+    <renewal-fee ref="renewal_fee" v-if="map['renewal_fee_detail'] != undefined"></renewal-fee>
     <!-- 年费详情 -->
-    <renewal-estimate-detail ref="renewal_estimate_detail"></renewal-estimate-detail>
+    <renewal-estimate-detail ref="renewal_estimate_detail" v-if="map['renewal_estimate_detail'] != undefined"></renewal-estimate-detail>
     <!-- 年费评估单详情 -->
-    <patent-add ref="patent_add" :title="row.title" :status="0"></patent-add>
+    <patent-add ref="patent_add" :title="row.title" :status="0" v-if="map['patent_add'] != undefined"></patent-add>
     <!-- 专利基本信息 -->
-    <common-detail ref="common_detail" :title="row.title"></common-detail>
+    <common-detail ref="common_detail" :title="row.title" v-if="map['patent'] != undefined"></common-detail>
     <!-- 专利、商标、版权详情 -->
-    <cpc-editor ref="cpc_editor" :id="row.model_id"></cpc-editor>
+    <cpc-editor ref="cpc_editor" :id="row.model_id" v-if="map['cpc_editor'] != undefined"></cpc-editor>
     <!-- CPC编辑器 -->
     <!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
@@ -164,6 +164,12 @@ export default {
       type: Array,
       default() {
         return [];
+      }
+    },
+    map: {
+      type: Object,
+      default() {
+        return {};
       }
     },
     opinion: {
@@ -236,6 +242,7 @@ export default {
       switch (type) {
         case "order":
           this.$refs.order.show(this.row.model_id, "edit");
+          console.log('here');
           break;
         case "contract":
           this.$refs.contract.show(this.row.model_id, "edit");
