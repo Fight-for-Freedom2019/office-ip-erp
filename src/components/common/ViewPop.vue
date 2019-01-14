@@ -169,6 +169,7 @@ export default {
 						this.refreshView({ page });
 					};
 					const complete = d=>{
+					  this.$refs.loadingBtn.loading = false;
 						this.loading = false;
 						this.disabled = false;
 						this.$emit('close', false)

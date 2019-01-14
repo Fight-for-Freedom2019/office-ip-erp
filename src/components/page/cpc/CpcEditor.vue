@@ -137,7 +137,7 @@
         name: 'CpcEditor',
         data() {
             return {
-                title: "CPC电子申请编辑器（PI20180006-一种左乙拉西坦药物组合物及其制备方法；补正）",
+                title: "",
                 isApplicationEditor: false,
                 tabpanel: "application_doc",
                 showAppendForm: false,

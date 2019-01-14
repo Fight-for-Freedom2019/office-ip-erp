@@ -86,7 +86,7 @@ import { mapGetters, mapActions } from "vuex";
 const URL = "/patents";
 const PATENT_TYPE = ["发明专利", "实用新型", "外观设计"];
 
-const renderMap = new Map([["serial", this.serialRender]]);
+// const renderMap = new Map([["serial", this.serialRender]]);
 
 export default {
   name: "patentList",
