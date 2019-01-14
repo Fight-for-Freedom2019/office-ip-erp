@@ -231,7 +231,7 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     padding-left: 40px;
   }
   .form-information .el-form-item {
-    // margin-bottom: 0px;
+    margin-bottom: 0px;
     border-bottom: 1px solid #f2f2f2; 
   }
   .form-information .el-form-item__label {

@@ -44,8 +44,9 @@
 			<el-tag
 		        closable
 		        disable-transitions
+            class="card-list__tag"
 		        @close="handleCloseTag(index)"
-		        style="margin-right: 5px; cursor: pointer; max-width: 140px;"
+		        style="margin-right: 5px; cursor: pointer;"
 		        slot="reference"
 		        @click.native="(e)=>{handleCardVisible(tag,e)}"
 	    	>
