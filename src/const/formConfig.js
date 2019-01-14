@@ -109,6 +109,13 @@ const map = new Map([
     }
   ],
   [
+    "postpone",
+    {
+      components: "panel",
+      type: "postpone"
+    }
+  ],
+  [
     "assign_type",
     {
       components: "static_select",

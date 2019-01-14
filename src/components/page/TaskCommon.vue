@@ -660,6 +660,7 @@ export default {
     TaskCommonDetail,
     TaskCommonEdit,
     MailAdd,
+    MessageContent,
   }
 };
 </script>

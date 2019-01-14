@@ -117,6 +117,8 @@
     <common-detail ref="common_detail" :title="row.title" v-if="map['patent'] != undefined"></common-detail>
     <!-- 专利、商标、版权详情 -->
     <cpc-editor ref="cpc_editor" :id="row.model_id" v-if="map['cpc_editor'] != undefined"></cpc-editor>
+    <!-- 延期记录 -->
+    <postpone ref="postpone" :id="row.model_id" v-if="map['postpone'] != undefined"></postpone>
     <!-- CPC编辑器 -->
     <!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
@@ -156,6 +158,7 @@ import PatentAdd from "@/components/page_extension/Common_detail";
 import CommonDetail from "@/components/page_extension/Common_detail";
 import RenewalEstimateDetail from "@/components/page_extension/RenewalEstimate_detail";
 import RenewalFee from "@/components/page_extension/RenewalFee_pop";
+import Postpone from "@/components/page_extension/TaskCommonPostpone";
 
 export default {
   name: "appForm",
@@ -242,7 +245,6 @@ export default {
       switch (type) {
         case "order":
           this.$refs.order.show(this.row.model_id, "edit");
-          console.log('here');
           break;
         case "contract":
           this.$refs.contract.show(this.row.model_id, "edit");
@@ -267,6 +269,9 @@ export default {
           break;
         case "renewal_fee":
           this.$refs.renewal_fee.show("edit", this.row);
+          break;
+        case "postpone":
+          this.$refs.postpone.show('edit', this.row.model_id);
           break;
       }
     },
@@ -317,7 +322,8 @@ export default {
     PatentAdd,
     CommonDetail,
     RenewalEstimateDetail,
-    RenewalFee
+    RenewalFee,
+    Postpone
   }
 };
 </script>

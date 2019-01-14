@@ -239,7 +239,7 @@ export default {
     },
     refreshData() {
       this.loading = true;
-      const list = ['cpc_editor','order_detail','payment_request_detail','outgo_payment_detail','voucher_detail','contract_detail','patent_add','patent'];
+      const list = ['cpc_editor','order_detail','payment_request_detail','outgo_payment_detail','voucher_detail','contract_detail','patent_add','patent','postpone'];
       const arr = [];
       const map = {};
       const url = `${URL}/${this.taskId}/form`;
