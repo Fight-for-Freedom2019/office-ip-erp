@@ -103,7 +103,7 @@
 
 <script>
 import StaticSelect from "@/components/form/StaticSelect";
-import RemoteSelect from "@/components/form/RemoteSelect";
+// import RemoteSelect from "@/components/form/RemoteSelect";
 import City from "@/components/form/City";
 import AppShrink from "@/components/common/AppShrink";
 import AppSwitch from "@/components/form/AppSwitch";
@@ -256,7 +256,8 @@ export default {
   },
   components: {
     StaticSelect,
-    RemoteSelect,
+    // RemoteSelect,
+    RemoteSelect: () => import('@/components/form/RemoteSelect'),
     City,
     AppSwitch,
     AppShrink

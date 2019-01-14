@@ -10,7 +10,7 @@
       <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
           <el-form-item label="所属客户" prop="customer">
-            <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
+            <remote-select type="customer" :page-type="type" v-model="form.customer"></remote-select>
           </el-form-item>
           <el-row>
             <el-col :span="12">
@@ -75,7 +75,7 @@
   import StaticSelect from "@/components/form/StaticSelect";
   import AppSwitch from "@/components/form/AppSwitch";
   import Config from "@/const/selectConfig";
-  import RemoteSelect from "@/components/form/RemoteSelect";
+  // import RemoteSelect from "@/components/form/RemoteSelect";
   import JumpSelect from "@/components/form/JumpSelect";
   import AppShrink from "@/components/common/AppShrink";
   import isRequest from "../mixins/is_request"
@@ -208,7 +208,8 @@
     components: {
       StaticSelect,
       AppSwitch,
-      RemoteSelect,
+      // RemoteSelect,
+      RemoteSelect: () => import('@/components/form/RemoteSelect'),
       JumpSelect,
       AppShrink
     }

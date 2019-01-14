@@ -176,7 +176,8 @@
     components: {
       StaticSelect,
       AppSwitch,
-      RemoteSelect,
+      // RemoteSelect,
+      RemoteSelect: () => import('@/components/form/RemoteSelect'),
       AppShrink,
     }
   };

@@ -33,8 +33,10 @@
           如果下拉菜单中没选项，请：
           <a style="cursor: pointer;" @click="add">新增</a>
         </el-form-item>
-        <family-add @onItemAdded="onItemAdded" ref="family"></family-add>
-        <inventor-add @onItemAdded="onItemAdded" ref="inventor"></inventor-add>
+        <family-add @onItemAdded="onItemAdded" ref="family" v-if="addType == 'family'"></family-add>
+        <inventor-add  ref="inventor" v-if="addType == 'inventor'"></inventor-add>
+        <contact-add ref="contact" v-if="addType == 'contact'"></contact-add>
+        <applicant-add ref="applicant" v-if="addType == 'applicant'"></applicant-add>
       </el-form>
       <el-row style="margin-top: 20px;">
         <el-button type="primary" @click="handleAddTag">确认</el-button>
@@ -48,8 +50,9 @@
 import AxiosMixins from "@/mixins/axios-mixins";
 import AppCard from "@/components/common/AppCard";
 import FamilyAdd from "@/components/page_extension/FamilyAdd";
-import InventorAdd from "@/components/form/InventorPop";
-import CusAdd from "@/components/form/InventorPop";
+import InventorAdd from "@/components/page/crm/inventor/InventorListAdd";
+import ContactAdd from "@/components/page/crm/contacts/ContactsListAdd"
+import ApplicantAdd from "@/components/page/crm/applicant/ApplicantListAdd"
 
 import map from "@/const/remoteConfig";
 
@@ -125,7 +128,13 @@ export default {
           this.$refs.family.show(0, "add");
           break;
         case "inventor":
-          this.$refs.inventor.show("add");
+          this.$refs.inventor.show();
+          break;
+        case "contact":
+          this.$refs.contact.show();
+          break;
+        case "applicant":
+          this.$refs.applicant.show();
           break;
       }
     },
@@ -414,12 +423,12 @@ export default {
     console.log(v);
     this.refreshSelected(v);
   },
-  mounted() {},
-  updated() {},
   components: {
     AppCard,
     FamilyAdd,
-    InventorAdd
+    InventorAdd,
+    ContactAdd,
+    ApplicantAdd,
   }
 };
 </script>
