@@ -6,97 +6,99 @@
           <app-button-loading :func="save" param="add" v-if="type == 'add'" ref="loadingBtn"></app-button-loading>
         <el-button type="primary" @click="save('edit')" v-if="type == 'edit'" size="small">保存</el-button>
       </span>
-      <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-        <el-form-item label="所属客户" prop="customer">
-          <remote-select type="customer" v-model="form.customer"></remote-select>
-        </el-form-item>
+      <div>
+        <el-form label-width="120px" :model="form" :rules="rules" ref="form">
+          <el-form-item label="所属客户" prop="customer">
+            <remote-select type="customer" v-model="form.customer"></remote-select>
+          </el-form-item>
 
-        <el-form-item label="申请人名称" prop="name">
-          <el-input v-model="form.name" placeholder="请填写申请人名称（必填）"></el-input>
-        </el-form-item>
+          <el-form-item label="申请人名称" prop="name">
+            <el-input v-model="form.name" placeholder="请填写申请人名称（必填）"></el-input>
+          </el-form-item>
 
-        <el-form-item label="申请人类型" prop="type">
-          <static-select type="applicant_type" v-model="form.type"></static-select>
-        </el-form-item>
+          <el-form-item label="申请人类型" prop="type">
+            <static-select type="applicant_type" v-model="form.type"></static-select>
+          </el-form-item>
 
-        <el-form-item label="证件号码" prop="identity">
-          <el-input v-model="form.identity" placeholder="请填写申请人证件号码（可选）"></el-input>
-        </el-form-item>
+          <el-form-item label="证件号码" prop="identity">
+            <el-input v-model="form.identity" placeholder="请填写申请人证件号码（可选）"></el-input>
+          </el-form-item>
 
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="申请人国籍" prop="citizenship">
-              <!-- <el-input v-model="form.citizenship" ></el-input> -->
-              <static-select v-model="form.citizenship" type="area"></static-select>
-            </el-form-item>
-          </el-col>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="申请人国籍" prop="citizenship">
+                <!-- <el-input v-model="form.citizenship" ></el-input> -->
+                <static-select v-model="form.citizenship" type="area"></static-select>
+              </el-form-item>
+            </el-col>
 
-          <el-col :span="8">
-            <el-form-item label="住所所在地" prop="residence">
-              <static-select v-model="form.residence" type="area"></static-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="申请人城市" prop="province_city">
-              <city :value="form.province_city" @input="chooseAddress"></city>
-            </el-form-item>
-          </el-col>
-        </el-row>
+            <el-col :span="8">
+              <el-form-item label="住所所在地" prop="residence">
+                <static-select v-model="form.residence" type="area"></static-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="申请人城市" prop="province_city">
+                <city :value="form.province_city" @input="chooseAddress"></city>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="邮编" prop="postcode">
-              <el-input v-model="form.postcode" placeholder="请填写邮编（可选）"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="邮箱" prop="email_address">
-              <el-input v-model="form.email_address" placeholder="请填写邮箱（可选）"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="电话" prop="phone_number">
-              <el-input v-model="form.phone_number" placeholder="请填写电话（可选）"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="邮编" prop="postcode">
+                <el-input v-model="form.postcode" placeholder="请填写邮编（可选）"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="邮箱" prop="email_address">
+                <el-input v-model="form.email_address" placeholder="请填写邮箱（可选）"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="电话" prop="phone_number">
+                <el-input v-model="form.phone_number" placeholder="请填写电话（可选）"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-        <el-form-item label="详细地址" prop="address">
-          <el-input v-model="form.address" placeholder="请填写申请人详细地址（可选）"></el-input>
-        </el-form-item>
+          <el-form-item label="详细地址" prop="address">
+            <el-input v-model="form.address" placeholder="请填写申请人详细地址（可选）"></el-input>
+          </el-form-item>
 
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="是否费减备案" prop="is_fee_discount">
-              <el-switch
-                  style="display: block; margin-top:9px;"
-                  v-model="form.is_fee_discount"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-              ></el-switch>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="是否默认申请人" prop="is_default">
-              <el-switch
-                  style="display: block; margin-top:9px;"
-                  v-model="form.is_default"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-              ></el-switch>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8"></el-col>
-        </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="是否费减备案" prop="is_fee_discount">
+                <el-switch
+                    style="display: block; margin-top:9px;"
+                    v-model="form.is_fee_discount"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                ></el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="是否默认申请人" prop="is_default">
+                <el-switch
+                    style="display: block; margin-top:9px;"
+                    v-model="form.is_default"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                ></el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8"></el-col>
+          </el-row>
 
-        <el-form-item label="英文姓名" prop="english_name">
-          <el-input v-model="form.english_name" placeholder="请填写申请人英文姓名（可选）"></el-input>
-        </el-form-item>
+          <el-form-item label="英文姓名" prop="english_name">
+            <el-input v-model="form.english_name" placeholder="请填写申请人英文姓名（可选）"></el-input>
+          </el-form-item>
 
-        <el-form-item label="英文地址" prop="english_address">
-          <el-input v-model="form.english_address" placeholder="请填写申请人英文地址（可选）"></el-input>
-        </el-form-item>
-      </el-form>
+          <el-form-item label="英文地址" prop="english_address">
+            <el-input v-model="form.english_address" placeholder="请填写申请人英文地址（可选）"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
     </app-shrink>
   </div>
 </template>
@@ -132,24 +134,7 @@ export default {
   },
   data() {
     return {
-      form: {
-        customer: "",
-        type: "",
-        name: "",
-        identity: "",
-        citizenship: "",
-        address: "",
-        postcode: "",
-        residence: "",
-        is_fee_discount: false,
-        is_default: false,
-        english_name: "",
-        english_address: "",
-        email_address: "",
-        phone_number: "",
-        province_city: [],
-        domicile: ""
-      },
+      form: {},
       formType: "add",
       rules: {
         customer: {
@@ -243,8 +228,29 @@ export default {
       }
     },
     clear() {
-      this.$refs.form.resetFields();
+      this.form = {
+        customer: "",
+        type: "",
+        name: "",
+        identity: "",
+        citizenship: "",
+        address: "",
+        postcode: "",
+        residence: "",
+        is_fee_discount: false,
+        is_default: false,
+        english_name: "",
+        english_address: "",
+        email_address: "",
+        phone_number: "",
+        province_city: [],
+        domicile: ""
+      };
+      this.$refs.form?this.$refs.form.resetFields():"";
     },
+  },
+  created(){
+    this.coverObj(this.form);
   },
   mounted() {
     this.coverObj(this.applicant);

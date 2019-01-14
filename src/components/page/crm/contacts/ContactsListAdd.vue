@@ -75,17 +75,7 @@
     data() {
       return {
         switch_type: "is",
-        form: {
-          customer_id: "",
-          customer: "",
-          name: "",
-          title: "",
-          contact_type: "",
-          email_address: "",
-          phone_number: "",
-          address: "",
-          remark: "",
-        },
+        form: {},
         rules: {
           name: {
             required: true,
@@ -162,7 +152,18 @@
         }
       },
       clear() {
-        this.$refs.form.resetFields();
+        this.form = {
+          customer_id: "",
+          customer: "",
+          name: "",
+          title: "",
+          contact_type: "",
+          email_address: "",
+          phone_number: "",
+          address: "",
+          remark: "",
+        };
+        this.$refs.form?this.$refs.form.resetFields():"";
       },
     },
     created() {

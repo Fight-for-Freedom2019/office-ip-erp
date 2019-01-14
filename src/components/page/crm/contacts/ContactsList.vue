@@ -145,7 +145,6 @@ export default {
       this.formType = "add";
       this.contacts = {};
       this.appPanelTitle = "新建联系人";
-      this.$refs.contactsAdd.clear();
       this.$refs.contactsAdd.show();
     },
     deleteSingle({ id, name }) {
@@ -170,7 +169,6 @@ export default {
       copy.customer === null ? (copy.customer = { name: "", id: "" }) : "";
       this.formType = "edit";
       this.appPanelTitle = "编辑联系人>" + copy.name;
-      this.$refs.contactsAdd.clear();
       this.$refs.contactsAdd.show();
     },
     refreshTableData(option) {
