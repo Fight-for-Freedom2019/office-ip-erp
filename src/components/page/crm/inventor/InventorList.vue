@@ -164,10 +164,6 @@ export default {
       this.formType = "add";
       this.appPanelTitle = "新建发明人";
       this.$refs.inventorsAdd.show();
-      this.$refs.inventorsAdd ? this.$refs.inventorsAdd.clear() : "";
-    },
-    editPop(col) {
-      this.$refs.pop.show("edit", col);
     },
     deleteSingle({ id, name }) {
       this.$confirm(`删除后不可恢复，确认删除发明人‘${name}’？`)
@@ -181,9 +177,6 @@ export default {
           this.$axiosDelete({ url, success });
         })
         .catch(_ => {});
-    },
-    saveAdd() {
-      this.$refs.inventorsAdd.save(this.formType);
     },
     refreshTableData(option) {
       const url = URL;
@@ -204,9 +197,6 @@ export default {
       this.appPanelTitle = "编辑发明人>" + copy.name;
       this.$refs.inventorsAdd.show();
     },
-    handlePopRefresh(key) {
-      this.refresh();
-    }
   },
   components: { TableComponent, InventorListAdd, AppShrink }
 };

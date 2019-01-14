@@ -238,7 +238,7 @@ export default {
       this.formType = "add";
       this.appPanelTitle = "新建申请人";
       this.$refs.applicantAdd.show();
-      this.$refs.applicantAdd.clear();
+      // this.$refs.applicantAdd.clear();
     },
     saveAdd() {
       this.$refs.applicantAdd.save(this.formType);
@@ -256,7 +256,7 @@ export default {
       const url = URL;
       const data = Object.assign({}, option);
       const success = _ => {
-        if (this.formType === "add") this.isApplicantAddPanelVisible = false;
+        if (this.formType === "add") this.$refs.applicantAdd.hide();
         this.tableData = _.data;
       };
       this.axiosGet({ url, data, success });

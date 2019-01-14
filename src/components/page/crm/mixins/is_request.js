@@ -27,6 +27,7 @@ export default (url) => ({
     },
     show(){
       this.is_show = true;
+      this.clear();
     },
     hide(){
       this.is_show = false;
