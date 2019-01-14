@@ -95,7 +95,12 @@
       title:{
         type:String,
       },
-      type: String
+      type: {
+        type:String,
+        default(){
+          return "add"
+        },
+      }
     },
     data() {
       return {
