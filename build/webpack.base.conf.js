@@ -2,7 +2,7 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
-
+const { VueLoaderPlugin } = require('vue-loader')
 const webpack = require('webpack')
 const HappyPack = require('happypack')
 // const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
@@ -46,6 +46,7 @@ module.exports = {
     'jquery': 'jQuery'
   },
   plugins: [
+    new VueLoaderPlugin(),
     createHappyPlugin('happy-babel-js', ['babel-loader?cacheDirectory=true']),
     createHappyPlugin('happy-babel-vue', ['babel-loader?cacheDirectory=true']),
     createHappyPlugin('happy-css', ['css-loader', 'vue-style-loader']),
