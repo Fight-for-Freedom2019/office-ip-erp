@@ -10,7 +10,7 @@
       <div class="main" style="margin-top:10px;">
         <el-form label-width="120px" :model="form" :rules="rules" ref="form">
           <el-form-item label="所属客户" prop="customer">
-            <remote-select type="customer" :pageType="type" v-model="form.customer"></remote-select>
+            <remote-select type="customer" :page-type="type" v-model="form.customer"></remote-select>
           </el-form-item>
           <el-row>
             <el-col :span="12">
