@@ -335,7 +335,6 @@ const router = new Router({
           component: TaskCommon,
           meta: {
             params: {
-              stage: 1,
               is_completed: 0,
               relevance: "agent"
             }
@@ -347,7 +346,6 @@ const router = new Router({
           component: TaskCommon,
           meta: {
             params: {
-              stage: "2,3,4,5",
               is_completed: 0,
               relevance: "assistant"
             }
@@ -359,7 +357,6 @@ const router = new Router({
           component: TaskCommon,
           meta: {
             params: {
-              stage: "other",
               is_completed: 0,
               relevance: "first_reviewer"
             }
@@ -371,7 +368,6 @@ const router = new Router({
           component: TaskCommon,
           meta: {
             params: {
-              stage: "other",
               is_completed: 0,
               relevance: "final_reviewer"
             }
@@ -379,11 +375,10 @@ const router = new Router({
         },
         {
           path: "/task/monitor/representative",
-          name: "TaskMonitorFinalReviewer",
+          name: "TaskMonitorRepresentative",
           component: TaskCommon,
           meta: {
             params: {
-              stage: "other",
               is_completed: 0,
               relevance: "representative"
             }

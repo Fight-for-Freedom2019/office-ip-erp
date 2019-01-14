@@ -503,7 +503,7 @@ export default {
             key: "patents",
             title: "导出专利"
           }
-        ],    
+        ],
         [
           "process",
           {

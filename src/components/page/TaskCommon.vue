@@ -7,112 +7,6 @@
       ref="table"
     ></table-component>
 
-    <el-dialog title="申请委案" :visible.sync="dialogAgenVisible" class="dialog-small">
-      <appoint-case
-        ref="appointCase"
-        @appointSuccess="appointSuccess"
-        :task-ids="taskIds"
-        type="task"
-      ></appoint-case>
-    </el-dialog>
-
-    <el-dialog title="设置任务提醒偏好" :visible.sync="dialogSettingVisible" class="dialog-mini">
-      <el-form label-position="top">
-        <el-form-item label="请输入要提前标红色任务超期天数">
-          <el-input></el-input>
-        </el-form-item>
-        <el-form-item label="请输入要顶部显示的任务超期天数">
-          <el-input></el-input>
-        </el-form-item>
-        <el-form-item label="编辑任务时的默认案件类型">
-          <el-input></el-input>
-        </el-form-item>
-        <el-form-item style="margin-bottom: 0">
-          <el-button type="primary">保存</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <el-dialog title="任务延期" :visible.sync="dialogDelayVisible" class="dialog-medium">
-      <el-form label-width="80px">
-        <el-form-item label="延期天数">
-          <el-select v-model="days" placeholder="请选择延期天数">
-            <el-option value="1"></el-option>
-            <el-option value="2"></el-option>
-            <el-option value="3"></el-option>
-            <el-option value="4"></el-option>
-            <el-option value="5"></el-option>
-            <el-option value="6"></el-option>
-            <el-option value="7"></el-option>
-            <el-option value="8"></el-option>
-            <el-option value="9"></el-option>
-            <el-option value="10"></el-option>
-          </el-select>
-          <ul style="padding: 0">
-            <li style="color:rgba(187,187,187,1);">备注：延期时间单位为工作日天数，遇假期/周末自动延长</li>
-          </ul>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input type="textarea" v-model="remark" placeholder="请填写备注"></el-input>
-          <!-- <ul style="padding: 0">
-            <li style="color:rgba(187,187,187,1);">延期的任务将会自动延期5个工作日</li>
-          </ul>-->
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="delayTask" :disabled="btn_disabled">提交</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <el-dialog title="移交任务" :visible.sync="dialogTranserVisible" class="dialog-medium" width="50%">
-      <el-form label-width="80px">
-        <el-form-item label="承办人">
-          <jump-select type="user" v-model="transfer_person"></jump-select>
-        </el-form-item>
-        <el-form-item style="margin-bottom: 0px;">
-          <app-button-loading :func="transferTask" ref="loadingBtn" text="保存"></app-button-loading>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <el-dialog title="完结任务" :visible.sync="dialogCloseVisible" class="dialog-medium">
-      <el-form label-width="80px">
-        <el-form-item label="完结备注">
-          <el-form-item>
-            <el-input v-model="close_reason"></el-input>
-          </el-form-item>
-        </el-form-item>
-        <el-form-item style="margin-bottom: 0px;">
-          <el-button type="primary" @click="closeTask" style="margin-bottom: 0px;">提交</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <el-dialog title="重新激活任务" :visible.sync="dialogActivationVisible" class="dialog-medium">
-      <el-form label-width="80px">
-        <el-form-item label="重新激活任务备注">
-          <el-form-item>
-            <el-input v-model="activation_reason"></el-input>
-          </el-form-item>
-        </el-form-item>
-        <el-form-item style="margin-bottom: 0px;">
-          <el-button type="primary" @click="activateTask" style="margin-bottom: 0px;">提交</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-    <el-dialog
-      title="退回任务"
-      :visible.sync="dialogRejectVisible"
-      class="dialog-medium"
-      @close="close"
-    >
-      <el-form label-width="80px" ref="reject">
-        <el-form-item label="流程节点">
-          <static-select :type="selectSibling" v-model="taskId"></static-select>
-        </el-form-item>
-        <el-form-item style="margin-bottom: 0px;">
-          <el-button type="primary" @click="rejectTask" style="margin-bottom: 0px;">提交</el-button>
-          <el-button @click="dialogRejectVisible = false" style="margin-bottom: 0px;">取消</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-
     <el-dialog title="将选中任务转给以下任务处理人" :visible.sync="dialogTurnoutVisible" class="dialog-mini">
       <el-form label-position="top">
         <el-form-item label="任务处理人">
@@ -130,97 +24,8 @@
       </el-form>
     </el-dialog>
 
-    <app-shrink
-      :visible.sync="dialogShrinkVisible"
-      :title="isCommon ? detailBase.title : shrinkTitle"
-      @close="handleShrinkClose"
-    >
-      <span slot="header" style="margin-left: 10px;">
-        <el-tag v-if="currentRow.taskdef">{{ currentRow.taskdef.name }}</el-tag>
-        <el-tag v-if="currentRow.serial">{{ currentRow.serial }}</el-tag>
-      </span>
-      <span slot="header" style="float: right">
-        <el-button
-          size="small"
-          type="primary"
-          @click="addPop('edit')"
-          v-if="menusMap && menusMap.get('/task/btn/save')"
-          style="margin-left: 0px;"
-        >编辑</el-button>
-        <el-button
-          size="small"
-          style="margin-left: 0px;"
-          v-if="!currentRow.status && menusMap && menusMap.get('/task/btn/close')"
-          @click="dialogCloseVisible = true;"
-        >完结</el-button>
-        <el-button
-          size="small"
-          style="margin-left: 0px;"
-          v-if="menusMap && menusMap.get('/task/btn/transfer')"
-          @click="dialogTranserVisible = true; transfer_person = {id: currentRow.person_in_charge, name: currentRow.person_in_charge_name }"
-        >移交</el-button>
-        <!-- <el-button
-          size="small"
-          @click="handleReject"
-          style="margin-left: 0px;"
-          type="danger"
-          v-if="menusMap && menusMap.get('/task/btn/reject')"
-        >退回</el-button>-->
-        <el-dropdown
-          @command="handleCommandSendMail"
-          trigger="click"
-          style="margin-left: 5px;"
-          size="small"
-          v-if="mailbtn == 'patent'"
-        >
-          <el-button size="small">
-            发送邮件
-            <i class="el-icon-caret-bottom el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown" class="app-dropdown-menu">
-            <el-dropdown-item command="inventor_supplement">发明人补充材料</el-dropdown-item>
-            <el-dropdown-item command="inventor_review">发明人看稿</el-dropdown-item>
-            <el-dropdown-item command="search_report">检索报告</el-dropdown-item>
-            <el-dropdown-item command="ipr_review">IPR看稿</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </span>
-      <el-tabs v-model="activeName">
-        <el-tab-pane label="前往处理" name="finish">
-          <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">
-            <task-finish
-              :id="currentRow.id"
-              :row="currentRow"
-              @submitSuccess="finishSuccess"
-              @showmailbtn="showmailbtn"
-              @more="handleMore"
-              @refreshNext="handleNext"
-              v-show="!nextValue"
-            ></task-finish>
-          </div>
-        </el-tab-pane>
-        <!--         <el-tab-pane label="详细信息" name="edit">   
-          <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">         
-            <information :row="currentRow" @more="handleMore"></information> 
-          </div>         
-        </el-tab-pane>-->
-        <el-tab-pane label="相关任务" name="relative_tasks">
-          <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">
-            <detail
-              :row="currentRow"
-              style="margin: 10px 0;"
-              @refreshSiblings="handleSiblings"
-              ref="taskDetail"
-            ></detail>
-          </div>
-        </el-tab-pane>
-        <!-- <el-tab-pane label="延期历史" name="delay">
-          <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">
-            <delay :row="currentRow"></delay>
-          </div>
-        </el-tab-pane>-->
-      </el-tabs>
-    </app-shrink>
+    <!-- 任务详情 -->
+    <task-common-detail :row="currentRow" ref="task"></task-common-detail>
 
     <app-shrink :visible.sync="dialogAddVisible" :title="pageType == 'add'?'新增任务':'编辑任务'">
       <span slot="header" style="float: right;">
@@ -237,14 +42,14 @@
           @click="handleTasks('edit')"
         >保存</el-button>
       </span>
-      <edit
+      <task-common-edit
         :type="pageType"
         @addSuccess="addSuccess"
         ref="processes_task"
         :row="currentRow"
         @editSuccess="editSuccess"
         v-if="rerender"
-      ></edit>
+      ></task-common-edit>
     </app-shrink>
     <common-detail
       :type="categoryType"
@@ -278,13 +83,14 @@ import AppCollapse from "@/components/common/AppCollapse";
 import TableComponent from "@/components/common/TableComponent";
 import AppDatePicker from "@/components/common/AppDatePicker";
 
-import Edit from "@/components/page_extension/TaskCommon_edit";
+import TaskCommonEdit from "@/components/page_extension/TaskCommon_edit";
 import Information from "@/components/page_extension/TaskCommon_information";
 
 import TaskFinish from "@/components/common/TaskFinish";
 import Strainer from "@/components/page_extension/TaskCommon_strainer";
 import AppShrink from "@/components/common/AppShrink";
 import CommonDetail from "@/components/page_extension/Common_detail";
+import TaskCommonDetail from "@/components/page_extension/TaskCommonDetail";
 import Delay from "@/components/page_extension/TaskCommon_delay";
 import AppointCase from "@/components/page_extension/AppointCase";
 
@@ -1227,10 +1033,8 @@ export default {
       }
     },
     handleRowClick(row) {
-      this.shrinkTitle = row.title;
       this.currentRow = row;
-      // this.refreshProcessDetail({ id: row.id });
-        if (!this.dialogShrinkVisible) this.dialogShrinkVisible = true;
+      this.$refs.task.show(row.id);
     },
     save() {
       this.$refs.detail.edit();
@@ -1291,7 +1095,7 @@ export default {
     AppFilter,
     TableComponent,
     AppDatePicker,
-    Edit,
+    TaskCommonEdit,
     AppCollapse,
     TaskFinish,
     AppShrink,
@@ -1301,7 +1105,8 @@ export default {
     Delay,
     MailAdd,
     AppointCase,
-    MessageContent
+    MessageContent,
+    TaskCommonDetail
   }
 };
 </script>

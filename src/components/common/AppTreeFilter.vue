@@ -38,7 +38,8 @@ const urlMap = new Map([
   ["invoice_request", { URL: "/vouchers/filters" }],
   ["cpc_notice", { URL: "/cpc_notices/filters" }],
   ["cpc_archive", { URL: "/cpc_archives/filters" }],
-  ["orders", { URL: "/orders/filters" }]
+  ["orders", { URL: "/orders/filters" }],
+  ["quotations", { URL: "/quotations/filters" }]
 ]);
 export default {
   name: "filterTree",
