@@ -28,7 +28,7 @@
       >
         <el-option v-for="item in option_in" :key="item.id" :label="item.name" :value="item.id"></el-option>
       </el-select>
-      <el-form :label-position="`top`" v-if="addType !== ''">
+      <el-form  v-if="addType !== ''">
         <el-form-item style="margin-top:10px;">
           如果下拉菜单中没选项，请：
           <a style="cursor: pointer;" @click="add">新增</a>

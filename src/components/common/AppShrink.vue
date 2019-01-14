@@ -9,7 +9,7 @@
 			<slot name="header"></slot>
 		</div>
 		<div v-loading="shrinkLoading" :element-loading-text="shrinkLoadingText">
-			<div class="app-shrink-body" :style="`height: ${shrinkHeight}px; overflow:hidden auto;`" > <!-- v-if="rendered" -->
+			<div class="app-shrink-body" :style="`height: ${shrinkHeight}px; overflow:hidden auto;`" v-if="rendered">
 				<slot></slot>
 			</div>
 		</div>
@@ -52,7 +52,7 @@ export default {
 	},
 	data () {
 		return {
-			rendered: false,  // 移除默认不渲染
+			rendered: false,  
 		}
 	},
 	methods: {

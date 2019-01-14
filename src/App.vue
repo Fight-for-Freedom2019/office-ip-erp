@@ -197,6 +197,9 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     font-family: "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
     padding: 0 20px;
   }
+  .el-form-item {
+    margin-bottom: 22px;
+  }
   .el-dialog {
     border-radius: 6px;
     -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
@@ -228,7 +231,7 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     padding-left: 40px;
   }
   .form-information .el-form-item {
-    margin-bottom: 0px;
+    // margin-bottom: 0px;
     border-bottom: 1px solid #f2f2f2; 
   }
   .form-information .el-form-item__label {
