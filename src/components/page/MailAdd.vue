@@ -18,17 +18,17 @@
         </el-form-item>
         <el-form-item
           label="收件人"
-          prop="recipient"
+          prop="recipient" 
           :rules="{type: 'array', required: true, message: '请选择收件人', trigger: 'change'}"
         >
-          <remote-select type="mail" v-model="form.recipient" ref="recipient" multiple></remote-select>
+          <jump-select type="user" v-model="form.recipient" ref="recipient" multiple></jump-select>
         </el-form-item>
         <el-form-item label="抄送" prop="cc">
-          <remote-select type="mail" v-model="form.cc" ref="cc" multiple></remote-select>
+          <jump-select type="user" v-model="form.cc" ref="cc" multiple></jump-select>
         </el-form-item>
-        <!--   		<el-form-item label="密送" prop="bcc">
-					<remote-select type="mail" v-model="form.bcc" ref="bcc" multiple></remote-select>
-        </el-form-item>-->
+          <el-form-item label="密送" prop="bcc">
+					  <jump-select type="user" v-model="form.bcc" ref="bcc" multiple></jump-select>
+          </el-form-item>
         <el-form-item label="附件" prop="attachments">
           <upload v-model="form.attachments" :file-list="attachments"></upload>
         </el-form-item>
@@ -56,6 +56,7 @@
 import AxiosMixins from "@/mixins/axios-mixins";
 import Upload from "@/components/form/Upload";
 import RemoteSelect from "@/components/form/RemoteSelect";
+import JumpSelect from "@/components/form/JumpSelect";
 import AppShrink from "@/components/common/AppShrink";
 import TinymceEditor from "@tinymce/tinymce-vue";
 import Tinymce from "@/mixins/tinymce";
@@ -85,7 +86,7 @@ export default {
         subject: "",
         recipient: [],
         cc: [],
-        // bcc: [],
+        bcc: [],
         body: "",
         attachments: []
       },
@@ -125,7 +126,7 @@ export default {
       const success = _ => {
         const mail = _.mail;
         this.$tool.coverObj(this.form, mail, {
-          obj: ["cc", "recipient", "attachments"]
+          obj: ["cc","bcc","recipient", "attachments"]
         });
         this.attachments = _.attachments ? _.attachments : [];
       };
@@ -271,7 +272,8 @@ export default {
     Upload,
     RemoteSelect,
     AppShrink,
-    TinymceEditor
+    TinymceEditor,
+    JumpSelect
   }
 };
 </script>
