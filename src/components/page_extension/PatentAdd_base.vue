@@ -75,6 +75,7 @@
         :page-type="type"
         v-model="form.applicants"
         :para="customerParam"
+        add-type="applicant"
         multiple
       ></remote-select>
     </el-form-item>
