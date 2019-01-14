@@ -20,6 +20,7 @@
     <contacts-list-add
       ref="contactsAdd"
       :type="formType"
+      :title="appPanelTitle"
       :contacts="contacts"
       @refresh="refresh"
       @update="update"
@@ -29,7 +30,7 @@
 
 <script>
 import TableComponent from "@/components/common/TableComponent";
-import ContactsListAdd from "@/components/page_extension/ContactsListAdd";
+import ContactsListAdd from "@/components/page/crm/contacts/ContactsListAdd";
 import AppShrink from "@/components/common/AppShrink";
 import Config from "@/const/selectConfig";
 import TableMixins from "@/mixins/table-mixins";
@@ -42,7 +43,6 @@ export default {
   mixins: [TableMixins],
   data() {
     return {
-      isContactsAddPanelVisible: false,
       appPanelTitle: "新建联系人",
       formType: "add",
       contacts: {},
@@ -144,7 +144,9 @@ export default {
     addPop() {
       this.formType = "add";
       this.contacts = {};
-      this.$refs.contactsAdd.show(0, this.formType);
+      this.appPanelTitle = "新建联系人";
+      this.$refs.contactsAdd.clear();
+      this.$refs.contactsAdd.show();
     },
     deleteSingle({ id, name }) {
       this.$confirm(`删除后不可恢复，确认删除联系人‘${name}’？`)
@@ -160,21 +162,6 @@ export default {
         .catch(_ => {});
     },
     handleRowClick(row) {
-      this.formType = "edit";
-      this.contacts = row;
-      this.$refs.contactsAdd.show(row.id, this.formType);
-    },
-    refreshTableData(option) {
-      const url = URL;
-      const data = Object.assign({}, option);
-      const success = _ => {
-        this.tableData = _.data;
-        this.formType === "add" ? (this.isContactsAddPanelVisible = false) : "";
-      };
-
-      this.$axiosGet({ url, data, success });
-    },
-    saveAdd(row) {
       let copy = this.$tool.deepCopy(row);
       copy.contact_type === 1 || copy.contact_type === "未知身份"
         ? (copy.contact_type = "")
@@ -183,7 +170,18 @@ export default {
       copy.customer === null ? (copy.customer = { name: "", id: "" }) : "";
       this.formType = "edit";
       this.appPanelTitle = "编辑联系人>" + copy.name;
-      this.isContactsAddPanelVisible = true;
+      this.$refs.contactsAdd.clear();
+      this.$refs.contactsAdd.show();
+    },
+    refreshTableData(option) {
+      const url = URL;
+      const data = Object.assign({}, option);
+      const success = _ => {
+        this.tableData = _.data;
+        this.formType === "add" ? (this.$refs.contactsAdd.hide()) : "";
+      };
+
+      this.$axiosGet({ url, data, success });
     },
     handlePopRefresh(key) {
       this.refresh();

@@ -8,13 +8,13 @@
     ></table-component>
 
     <!-- 新建申请人 -->
-    <app-shrink
+    <!--<app-shrink
       :visible.sync="isApplicantAddPanelVisible"
       :modal="formType==='add'"
       :title="this.appPanelTitle"
     >
       <span slot="header" style="float: right;">
-        <!--<el-button type="primary" @click="saveAdd" v-if="formType == 'add'" size="small">新建</el-button>-->
+        &lt;!&ndash;<el-button type="primary" @click="saveAdd" v-if="formType == 'add'" size="small">新建</el-button>&ndash;&gt;
           <app-button-loading :func="saveAdd" v-if="formType == 'add'" ref="loadingBtn"></app-button-loading>
         <el-button type="primary" @click="saveAdd" v-if="formType == 'edit'" size="small">保存</el-button>
       </span>
@@ -25,14 +25,22 @@
         @refresh="refresh"
         @update="update"
       ></applicant-list-add>
-    </app-shrink>
+    </app-shrink>-->
+    <applicant-list-add
+        ref="applicantAdd"
+        :type="formType"
+        :applicant="applicant"
+        @refresh="refresh"
+        @update="update"
+        :title="appPanelTitle"
+    ></applicant-list-add>
   </div>
 </template>
 
 <script>
 import AxiosMixins from "@/mixins/axios-mixins";
 import TableComponent from "@/components/common/TableComponent";
-import ApplicantListAdd from "@/components/page_extension/ApplicantListAdd";
+import ApplicantListAdd from "@/components/page/crm/applicant/ApplicantListAdd";
 import AppShrink from "@/components/common/AppShrink";
 import Config from "@/const/selectConfig";
 const config = new Map(Config);
@@ -229,8 +237,8 @@ export default {
     add() {
       this.formType = "add";
       this.appPanelTitle = "新建申请人";
-      this.isApplicantAddPanelVisible = true;
-      this.$refs.applicantAdd ? this.$refs.applicantAdd.clear() : "";
+      this.$refs.applicantAdd.show();
+      this.$refs.applicantAdd.clear();
     },
     saveAdd() {
       this.$refs.applicantAdd.save(this.formType);
@@ -242,7 +250,7 @@ export default {
       this.formType = "edit";
       copy.province_city = [copy.province_code - 0, copy.city_code + ""];
       this.appPanelTitle = "编辑申请人>" + copy.name;
-      this.isApplicantAddPanelVisible = true;
+      this.$refs.applicantAdd.show();
     },
     refreshTableData(option) {
       const url = URL;

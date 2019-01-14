@@ -8,30 +8,32 @@
       ref="table"
     ></table-component>
     <!-- 新建发明人 -->
-    <app-shrink
+    <!--<app-shrink
       :visible.sync="isInventorsAddPanelVisible"
       :modal="formType === 'add'"
       :title="this.appPanelTitle"
     >
       <span slot="header" style="float: right;">
-        <!--<el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>-->
+        &lt;!&ndash;<el-button type="primary" @click="saveAdd" v-if="formType === 'add'" size="small">新建</el-button>&ndash;&gt;
           <app-button-loading :func="saveAdd" v-if="formType === 'add'" ref="loadingBtn"></app-button-loading>
         <el-button type="primary" @click="saveAdd" v-if="formType === 'edit'" size="small">保存</el-button>
       </span>
-      <inventor-list-add
+
+    </app-shrink>-->
+    <inventor-list-add
         ref="inventorsAdd"
         :type="formType"
+        :title="appPanelTitle"
         :inventors="inventors"
         @refresh="refresh"
         @update="update"
-      ></inventor-list-add>
-    </app-shrink>
+    ></inventor-list-add>
   </div>
 </template>
 
 <script>
 import TableComponent from "@/components/common/TableComponent";
-import InventorListAdd from "@/components/page_extension/InventorListAdd";
+import InventorListAdd from "@/components/page/crm/inventor/InventorListAdd";
 import AppShrink from "@/components/common/AppShrink";
 import TableMixins from "@/mixins/table-mixins";
 
@@ -161,7 +163,7 @@ export default {
     addPop() {
       this.formType = "add";
       this.appPanelTitle = "新建发明人";
-      this.isInventorsAddPanelVisible = true;
+      this.$refs.inventorsAdd.show();
       this.$refs.inventorsAdd ? this.$refs.inventorsAdd.clear() : "";
     },
     editPop(col) {
@@ -189,7 +191,7 @@ export default {
       const success = _ => {
         this.tableData = _.data;
         this.formType === "add"
-          ? (this.isInventorsAddPanelVisible = false)
+          ? (this.$refs.inventorsAdd.hide())
           : "";
       };
 
@@ -200,7 +202,7 @@ export default {
       this.inventors = copy;
       this.formType = "edit";
       this.appPanelTitle = "编辑发明人>" + copy.name;
-      this.isInventorsAddPanelVisible = true;
+      this.$refs.inventorsAdd.show();
     },
     handlePopRefresh(key) {
       this.refresh();

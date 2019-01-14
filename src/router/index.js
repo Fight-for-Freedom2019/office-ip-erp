@@ -28,10 +28,10 @@ const NoticeCommon = () => import("@/components/page/NoticeCommon");
 const CustomerList = () => import("@/components/page/CustomerList");
 const Orders = () => import("@/components/page/crm/orders/Orders");
 const CustomerQuotation = () => import("@/components/page/crm/data/Quotation"); //报价管理
-const ApplicantList = () => import("@/components/page/ApplicantList");
-const InventorList = () => import("@/components/page/InventorList");
-const ContactsList = () => import("@/components/page/ContactsList");
-const CustomerRemarks = () => import("@/components/page/CustomerRemarks");
+const ApplicantList = () => import("@/components/page/crm/applicant/ApplicantList");
+const InventorList = () => import("@/components/page/crm/inventor/InventorList");
+const ContactsList = () => import("@/components/page/crm/contacts/ContactsList");
+const CustomerRemarks = () => import("@/components/page/crm/remarks/CustomerRemarks");
 const ContractsList = () =>
   import("@/components/page/crm/contracts/ContractsList");
 const InvoiceTargets = () => import("@/components/page/InvoiceTargets");
