@@ -580,7 +580,7 @@ const config = [
   [
     "currency",
     {
-      placeholder: "请选择费用类型",
+      placeholder: "请选择币别",
       options: [
         { name: "人民币[CNY]", id: "CNY" },
         { name: "美元[USD]", id: "USD" },

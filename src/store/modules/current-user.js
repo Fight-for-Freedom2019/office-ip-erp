@@ -69,6 +69,9 @@ const nodePermissionMap = new Map([
   ["/crm/data/invoice_targets", "Pages.InvoiceTargets.Index"],
   ["/crm/data/invoice_targets/btn/save", "Pages.InvoiceTargets.Save"],
   ["/crm/data/invoice_targets/btn/delete", "Pages.InvoiceTargets.Delete"],
+  ["/crm/data/quotations", "Pages.Quotations.Save"],
+  ["/crm/data/quotations/btn/save", "Pages.Quotations.Save"],
+  ["/crm/data/quotations/btn/delete", "Pages.Quotations.Delete"],
   ["/crm/suppliers", "Pages.Suppliers.Delete"],
   ["/crm/suppliers/lists", "Pages.Suppliers.Index"],
   ["/crm/suppliers/lists/btn/save", "Pages.Suppliers.Save"],
@@ -354,6 +357,7 @@ const getters = {
 const mutations = {
   setUser(state, d) {
     state.data = d;
+    window.localStorage.setItem("userinfo",JSON.stringify(d));
   },
   setUserLoading(state, boolean) {
     state.loading = boolean;

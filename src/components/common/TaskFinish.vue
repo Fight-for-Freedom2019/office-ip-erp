@@ -1,15 +1,7 @@
 <template>
   <div v-loading="loading" element-loading-text="任务数据加载中">
-    <el-steps :space="150" style="padding: 5px 40px;" v-if="data.tips" align-center>
-      <el-step
-        v-for="(item, index) in data.tips"
-        :key="index"
-        :title="item.name"
-        :status="item.current ? 'finish' : 'wait'"
-      ></el-step>
-    </el-steps>
     <el-collapse v-model="activeName">
-      <el-collapse-item name="1" v-if="processData">
+      <el-collapse-item name="1">
         <template slot="title">任务详情
           <el-button
             size="mini"
@@ -32,7 +24,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="节点期限">
-                <span class="form-item-text">{{ processData.task.deadline }}</span>
+                <span class="form-item-text">{{ row.task.deadline }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -74,39 +66,39 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="管制期限">
-                <span class="form-item-text">{{ processData.filing_deadline }}</span>
+                <span class="form-item-text">{{ row.filing_deadline }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="官方绝限">
-                <span class="form-item-text">{{ processData.legal_deadline }}</span>
+                <span class="form-item-text">{{ row.legal_deadline }}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col :span="12">
               <el-form-item label="备注">
-                <span class="form-item-text">{{ processData.task.remark }}</span>
+                <span class="form-item-text">{{ row.task.remark }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="申请日">
-                <span class="form-item-text">{{ processData.application_date }}</span>
+                <span class="form-item-text">{{ row.application_date }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="申请号">
-                <span class="form-item-text">{{ processData.application_number }}</span>
+                <span class="form-item-text">{{ row.application_number }}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-form-item label="附件">
             <app-table
-              v-if="processData.task.attachments.length > 0"
+              v-if="row.task.attachments.length > 0"
               :columns="columns"
-              :data="processData.task.attachments"
+              :data="row.task.attachments"
             ></app-table>
-            <span v-if="processData.task.attachments.length == 0">无附件</span>
+            <span v-if="row.task.attachments.length == 0">无附件</span>
           </el-form-item>
         </el-form>
       </el-collapse-item>
@@ -117,7 +109,7 @@
           :labelWidth="`100px`"
           @formData="handleForm"
           :opinion="review_opinion"
-          :process="processData"
+          :process="row"
           :row="row"
           ref="appForm"
         >
@@ -237,25 +229,14 @@ export default {
   },
   created() {},
   methods: {
-    ...mapMutations(["showAgencyLoad"]),
-    ...mapActions(["refreshUser", "refreshProcessDetail"]),
-    async getDetail() {
-      console.log("jin");
-      await this.getProcessDetail();
+    ...mapMutations([]),
+    ...mapActions(["refreshUser"]),
+    show() {
+      console.log("finish panel shown " + this.row.id);
       this.refreshData();
     },
-    getProcessDetail() {
-      return new Promise(resolve => {
-        const url = `/processes/${this.id}`;
-        const success = _ => {
-          this.task_id = _.process.task.id;
-          resolve(this.task_id);
-        };
-        this.$axiosGet({ url, success });
-      });
-    },
     refreshData() {
-      // this.loading = true;
+      this.loading = true;
       const arr = [];
       const url = `${URL}/${this.taskId}/form`;
       this.$refs.appForm.$refs.form.clearValidate();
@@ -344,29 +325,18 @@ export default {
       this.loading = true;
     }
   },
-  watch: {
-    row: {
-      handler(val) {
-        console.log("watch_row");
-        this.refreshDetail();
-        this.refreshProcessDetail({ id: val.id });
-        // this.getDetail();
-      },
-      immediate: true
-    },
-    taskId(val) {
-      console.log("watch_taskid");
-      this.refreshData();
-    }
-  },
+  watch: {},
   computed: {
-    ...mapGetters(["menusMap", "tasksDetail", "processData", "userid"]),
+    ...mapGetters(["menusMap"]),
     taskId() {
-      return this.tasksDetail.id;
+      return this.row.task.id;
     },
     isShowSubmitBtn() {
       if (
-        this.userid != this.tasksDetail.user.id &&
+        this.userid &&
+        this.row.task &&
+        this.userid != this.row.task.user.id &&
+        this.menusMap &&
         !this.menusMap.get("/task/btn/save")
       ) {
         return false;
@@ -375,31 +345,24 @@ export default {
       }
     },
     actionName() {
-      return this.processData.task &&
-        this.processData.task.process_action != null
-        ? this.processData.task.process_action.name
+      return this.row.task && this.row.task.process_action != null
+        ? this.row.task.process_action.name
         : "";
     },
     assistantName() {
-      return this.processData.assistant != null
-        ? this.processData.assistant.name
-        : "";
+      return this.row.assistant != null ? this.row.assistant.name : "";
     },
     userName() {
-      return this.processData.task.user != null
-        ? this.processData.task.user.name
-        : "";
+      return this.row.task.user != null ? this.row.task.user.name : "";
     },
     agentName() {
-      return this.processData.agent != null ? this.processData.user.name : "";
+      return this.row.agent != null ? this.row.user.name : "";
     },
     customerSerial() {
-      return this.processData.project != null
-        ? this.processData.project.customer_serial
-        : "";
+      return this.row.project != null ? this.row.project.customer_serial : "";
     },
     iprName() {
-      return this.processData.ipr != null ? this.processData.ipr.name : "";
+      return this.row.ipr != null ? this.row.ipr.name : "";
     },
     ifMore() {
       if (this.row && this.row.category == 1) {

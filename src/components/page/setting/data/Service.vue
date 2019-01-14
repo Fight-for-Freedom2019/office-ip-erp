@@ -51,7 +51,7 @@
                         {type: 'text', label: '国家', prop: 'area', min_width: '80'},
                         {type: 'text', label: '案件类型', prop: 'project_type', min_width: '110'},
                         {type: 'text', label: '服务名称', prop: 'name', min_width: '150'},
-                        {type: 'text', label: '单价', prop: 'unit_price', min_width: '100'},
+                        {type: 'text', label: '单价', prop: 'service_fee', min_width: '100'},
                         {type: 'text', label: '触发的默认管制事项', prop: 'process_definition', render_simple: 'name', min_width: '178'},
                         {type: 'text', label: '备注', prop: 'remark', min_width: '160'},
                     ],

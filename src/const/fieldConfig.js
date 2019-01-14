@@ -189,6 +189,13 @@ const strainerConfig = [
       { name: "官方绝限", id: "legal_deadline" }
     ]
   ],
-  ["orders", [{ name: "订单状态", id: "status", default: true }]]
+  ["orders", [{ name: "订单状态", id: "status", default: true }]],
+  [
+    "quotations",
+    [
+      { name: "客户", id: "customer", default: true },
+      { name: "服务项目", id: "service" }
+    ]
+  ]
 ];
 export { config, fieldExceptMap, strainerConfig };

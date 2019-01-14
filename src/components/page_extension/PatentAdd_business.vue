@@ -7,13 +7,26 @@
         v-model="form.customer"
         :para="customerParam"
         @input="customerChanged"
+        add-type="customer"
       ></remote-select>
     </el-form-item>
     <el-form-item label="IPR" prop="ipr">
-      <remote-select type="ipr_para" :page-type="type" v-model="form.ipr" :para="customerParam"></remote-select>
+      <remote-select
+        type="ipr_para"
+        :page-type="type"
+        v-model="form.ipr"
+        :para="customerParam"
+        add-type="contact"
+      ></remote-select>
     </el-form-item>
     <el-form-item label="技术联系人">
-      <remote-select type="contacts" :page-type="type" v-model="form.contact" :para="customerParam"></remote-select>
+      <remote-select
+        type="contacts"
+        :page-type="type"
+        v-model="form.contact"
+        :para="customerParam"
+        add-type="contact"
+      ></remote-select>
     </el-form-item>
     <el-form-item label="客户案号" prop="customer_serial">
       <el-input v-model="form.customer_serial" placeholder="请填写客户案号"></el-input>
@@ -62,10 +75,11 @@ export default {
         customer_serial: "",
         contract_type: 1,
         contracts: [],
-        fee_policy: "",
+        fee_policy: 1,
         fees: [],
         order: ""
       },
+      fees: [],
       rules: {
         customer: {
           type: "number",
@@ -135,6 +149,79 @@ export default {
         flag = _;
         callback(flag);
       });
+    },
+    loadDefaultFees() {
+      if (!(this.form.customer && this.form.service)) {
+        return;
+      }
+      if (this.form.customer == "") {
+        return;
+      }
+
+      const url =
+        "/quotations?customer=" +
+        this.form.customer +
+        "&service=" +
+        this.form.service;
+      const success = _ => {
+        //有客户报价
+        if (_.data.data.length > 0) {
+          this.form.fees = [];
+          const fee = _.data.data[0];
+          if (fee.service_fee > 0) {
+            this.form.fees.push({
+              fee_type: _.data.service_fee_code,
+              amount: fee.service_fee,
+              currency: fee.service_fee_currency,
+              request_timing: 1
+            });
+          }
+          if (fee.official_fee > 0) {
+            this.form.fees.push({
+              fee_type: _.data.official_fee_code,
+              amount: fee.official_fee,
+              currency: fee.official_fee_currency,
+              request_timing: 1
+            });
+          }
+        } else {
+          console.log("load service data");
+          this.loadDefaultServiceQuotation();
+        }
+      };
+      this.$axiosGet({
+        url: url,
+        success
+      });
+    },
+    loadDefaultServiceQuotation() {
+      const url = "/services/" + this.form.service;
+      const success = _ => {
+        if (_.status) {
+          this.form.fees = [];
+          const fee = _.services;
+          if (fee.service_fee > 0) {
+            this.form.fees.push({
+              fee_type: fee.service_fee_code,
+              amount: fee.service_fee,
+              currency: fee.service_fee_currency,
+              request_timing: 1
+            });
+          }
+          if (fee.official_fee > 0) {
+            this.form.fees.push({
+              fee_type: fee.official_fee_code,
+              amount: fee.official_fee,
+              currency: fee.official_fee_currency,
+              request_timing: 1
+            });
+          }
+        }
+      };
+      this.$axiosGet({
+        url: url,
+        success
+      });
     }
   },
   watch: {
@@ -156,6 +243,16 @@ export default {
         const obj = {};
         obj.type = val;
         this.contractObj = obj;
+      }
+    },
+    "form.service": {
+      handler(val) {
+        this.loadDefaultFees();
+      }
+    },
+    "form.customer": {
+      handler(val) {
+        this.loadDefaultFees();
       }
     }
   },
