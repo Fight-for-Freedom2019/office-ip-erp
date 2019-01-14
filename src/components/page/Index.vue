@@ -275,7 +275,7 @@ export default {
         const success = _ => {
           this.$message({ message: "登出成功,2秒后跳转...", type: "success" });
           this.$store.commit("LOGOUT");
-          window.localStorage.removeItem("userifo");
+          window.localStorage.removeItem("userinfo");
           setTimeout(()=>{
             window.location.href = "/";
           },2000)
