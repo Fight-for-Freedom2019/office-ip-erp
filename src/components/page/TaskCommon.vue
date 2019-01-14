@@ -25,7 +25,7 @@
     </el-dialog>
 
     <!-- 任务详情 -->
-    <task-common-detail ref="task" @refresh="refresh" @update="update"></task-common-detail>
+    <task-common-detail ref="taskDetail" @refresh="refresh" @update="update"></task-common-detail>
     <!-- 任务新增 -->
     <task-common-edit ref="taskEdit" @addSuccess="refresh"></task-common-edit>
   </div>
@@ -623,7 +623,7 @@ export default {
     },
     handleRowClick(row) {
       this.currentRow = row;
-      this.$refs.task.show(row);
+      this.$refs.taskDetail.show(row);
     },
   },
   watch: {

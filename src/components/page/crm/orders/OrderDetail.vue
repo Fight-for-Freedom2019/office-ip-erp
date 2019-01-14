@@ -214,6 +214,7 @@ export default {
       this.$axiosPut({ url, data, success });
     },
     show(id, mode) {
+      console.log('here');
       this.id = id;
       this.mode = mode;
       this.openLoading();

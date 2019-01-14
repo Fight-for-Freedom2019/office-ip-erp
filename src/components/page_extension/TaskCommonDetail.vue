@@ -65,6 +65,7 @@
                 @more="handleMore"
                 @refreshNext="handleNext"
                 ref="finish"
+                v-if="row.task != undefined"
               ></task-finish>
             </div>
           </el-tab-pane>
@@ -315,7 +316,7 @@ export default {
         this.row.model.id == "Trademark" ||
         this.row.model.id == "Copyright"
         ? this.row.title
-        : this.row.model.name + this.process.row;
+        : this.row.model.name + this.row.serial;
     },
     expringControl() {
       return this.$route.params.item;
