@@ -150,9 +150,12 @@
               this.$axiosPost({
                 url: URL,
                 data,
-                success: () => {
+                success: (d) => {
+                  const arr = [];
+                  arr.push(d.data);
                   this.$message({type: "success", message: "添加成功"});
                   this.$emit("refresh");
+                  this.$emit('onItemAdded', arr)
                 }
               });
             } else {

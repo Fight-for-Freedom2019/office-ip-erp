@@ -266,6 +266,7 @@ export default {
         const success = _ => {
           this.dialogVisible = false;
           this.refresh();
+          this.$emit('onItemAdded', _.data);
           this.$message({ message: "添加成功！", type: "success" });
         };
         this.$axiosPost({ url, data, success });

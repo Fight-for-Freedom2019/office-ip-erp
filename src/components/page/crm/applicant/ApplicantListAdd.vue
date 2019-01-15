@@ -186,9 +186,10 @@ export default {
             this.$axiosPost({
               url: URL,
               data,
-              success: () => {
+              success: (d) => {
                 this.$message({ type: "success", message: "添加申请人成功" });
                 this.$emit("refresh");
+                this.$emit('onItemAdded', d.data);
               }
             });
           } else {

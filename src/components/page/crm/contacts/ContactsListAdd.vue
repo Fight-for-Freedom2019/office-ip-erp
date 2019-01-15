@@ -116,10 +116,11 @@
               this.$axiosPost({
                 url: URL,
                 data,
-                success: () => {
+                success: (d) => {
                   this.hide();
                   this.$message({type: "success", message: "添加成功"});
                   this.$emit("refresh");
+                  this.$emit('onItemAdded', d.data);
                 }
               });
             } else {
