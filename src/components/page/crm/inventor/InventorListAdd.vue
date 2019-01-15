@@ -111,7 +111,7 @@
         is_show:false,
         switch_type: "is_boolean",
         form: {
-            customer: "",
+          customer: {},
           customer_id: "",
           title: "",
           name: "",
@@ -203,39 +203,19 @@
       getIsPublishName(val) {
         this.form.is_publish_name = val;
       },
-      clear() {
-        // this.form = {
-        //   customer: "",
-        //   customer_id: "",
-        //   title: "",
-        //   name: "",
-        //   type: "",
-        //   email_address: "",
-        //   phone_number: "",
-        //   identity: "",
-        //   first_name: "",
-        //   last_name: "",
-        //   citizenship: "",
-        //   is_publish_name: true,
-        // };
-        // this.$refs.form?this.$refs.form.resetFields():"";
-      },
       coverObj(val) {
         val ? this.$tool.coverObj(this.form, val) : "";
       },
     },
-    mounted() {
-      this.coverObj(this.inventors);
-    },
     watch: {
       inventors: function (val, oldVal) {
-        !this.is_request?this.coverObj(val):"";
+        this.$nextTick(()=>{
+          !this.is_request?this.coverObj(val):"";
+        })
       },
       'detail_customer': {
         handler(val) {
-          console.log(val)
-          this.$set(this.form, 'customer', val)
-          console.log(this.form.customer)
+          this.form.customer = val;
         },
         immediate: true,
       },

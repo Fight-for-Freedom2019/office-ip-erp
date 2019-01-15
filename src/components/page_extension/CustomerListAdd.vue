@@ -145,6 +145,9 @@ export default {
     },
     is_suppliers:{
       type:Boolean,
+      default(){
+        return false
+      },
     }
   },
   data() {

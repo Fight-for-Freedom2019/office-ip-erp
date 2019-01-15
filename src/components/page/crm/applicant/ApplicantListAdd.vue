@@ -110,6 +110,7 @@ import City from "@/components/form/City";
 import AppShrink from "@/components/common/AppShrink";
 import AppSwitch from "@/components/form/AppSwitch";
 import isRequest from "../mixins/is_request"
+import {mapGetters} from 'vuex'
 const URL = "/applicants";
 
 export default {
@@ -135,9 +136,29 @@ export default {
       },
     },
   },
+  computed: {
+    ...mapGetters(['detail_customer']),
+  },
   data() {
     return {
-      form: {},
+      form: {
+        customer: "",
+        type: "",
+        name: "",
+        identity: "",
+        citizenship: "",
+        address: "",
+        postcode: "",
+        residence: "",
+        is_fee_discount: false,
+        is_default: false,
+        english_name: "",
+        english_address: "",
+        email_address: "",
+        phone_number: "",
+        province_city: [],
+        domicile: ""
+      },
       formType: "add",
       rules: {
         customer: {
@@ -231,38 +252,19 @@ export default {
         this.$tool.coverObj(this.form, val);
       }
     },
-    clear() {
-      this.form = {
-        customer: "",
-        type: "",
-        name: "",
-        identity: "",
-        citizenship: "",
-        address: "",
-        postcode: "",
-        residence: "",
-        is_fee_discount: false,
-        is_default: false,
-        english_name: "",
-        english_address: "",
-        email_address: "",
-        phone_number: "",
-        province_city: [],
-        domicile: ""
-      };
-      this.$refs.form?this.$refs.form.resetFields():"";
-    },
-  },
-  created(){
-    this.coverObj(this.form);
-  },
-  mounted() {
-    this.coverObj(this.applicant);
   },
   watch: {
     applicant: function(val, oldVal) {
-      !this.is_request? this.coverObj(val):"";
+      this.$nextTick(()=>{
+        !this.is_request? this.coverObj(val):"";
+      })
     },
+    'detail_customer': {
+      handler(val) {
+        this.form.customer = val;
+      },
+      immediate: true,
+    }
   },
   components: {
     StaticSelect,
