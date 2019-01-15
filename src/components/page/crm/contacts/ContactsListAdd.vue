@@ -78,7 +78,17 @@
     data() {
       return {
         switch_type: "is",
-        form: {},
+        form: {
+          customer_id: "",
+          customer: "",
+          name: "",
+          title: "",
+          contact_type: "",
+          email_address: "",
+          phone_number: "",
+          address: "",
+          remark: "",
+        },
         rules: {
           name: {
             required: true,
@@ -155,27 +165,12 @@
           this.$tool.coverObj(this.form, val);
         }
       },
-      clear() {
-        this.form = {
-          customer_id: "",
-          customer: "",
-          name: "",
-          title: "",
-          contact_type: "",
-          email_address: "",
-          phone_number: "",
-          address: "",
-          remark: "",
-        };
-        this.$refs.form?this.$refs.form.resetFields():"";
-      },
-    },
-    created() {
-      //this.coverObj(this.contacts);
     },
     watch: {
       contacts: function (val, oldVal) {
-        !this.is_request?this.coverObj(val):"";
+        this.$nextTick(()=>{
+          !this.is_request?this.coverObj(val):"";
+        })
       },
     },
     components: {

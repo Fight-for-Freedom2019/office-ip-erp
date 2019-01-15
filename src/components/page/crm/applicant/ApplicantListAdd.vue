@@ -137,7 +137,24 @@ export default {
   },
   data() {
     return {
-      form: {},
+      form: {
+        customer: "",
+        type: "",
+        name: "",
+        identity: "",
+        citizenship: "",
+        address: "",
+        postcode: "",
+        residence: "",
+        is_fee_discount: false,
+        is_default: false,
+        english_name: "",
+        english_address: "",
+        email_address: "",
+        phone_number: "",
+        province_city: [],
+        domicile: ""
+      },
       formType: "add",
       rules: {
         customer: {
@@ -231,37 +248,12 @@ export default {
         this.$tool.coverObj(this.form, val);
       }
     },
-    clear() {
-      this.form = {
-        customer: "",
-        type: "",
-        name: "",
-        identity: "",
-        citizenship: "",
-        address: "",
-        postcode: "",
-        residence: "",
-        is_fee_discount: false,
-        is_default: false,
-        english_name: "",
-        english_address: "",
-        email_address: "",
-        phone_number: "",
-        province_city: [],
-        domicile: ""
-      };
-      this.$refs.form?this.$refs.form.resetFields():"";
-    },
-  },
-  created(){
-    this.coverObj(this.form);
-  },
-  mounted() {
-    this.coverObj(this.applicant);
   },
   watch: {
     applicant: function(val, oldVal) {
-      !this.is_request? this.coverObj(val):"";
+      this.$nextTick(()=>{
+        !this.is_request? this.coverObj(val):"";
+      })
     },
   },
   components: {
