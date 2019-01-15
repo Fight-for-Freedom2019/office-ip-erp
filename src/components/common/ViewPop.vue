@@ -193,7 +193,7 @@ export default {
 		},
 		'fieldData': {
 			handler(val) {
-				console.log(val);
+				// console.log(val);
 				this.sortedFields = [];
 				const fields = this.form.fields;
 				val.filter(_=>{

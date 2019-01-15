@@ -112,7 +112,6 @@ export default {
       })
     },
     editChildTree (n, d, s) {
-      console.log(d)
       this.currentId = d.id;
       this.choose = d.param.selectedFields.split(',');
       this.fields = d.param.allFields;

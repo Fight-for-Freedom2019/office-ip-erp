@@ -673,9 +673,7 @@ export default {
     handleViewData(val) {
       // 存在cookie
       this.clearFilter(true);
-      console.log(val)
       const obj = this.$tool.shallowCopy(val.param,{skip:['allFields']});  
-      console.log(obj)          
       this.$tool.setCookie(this.path, JSON.stringify(obj));
 
       this.initControl();
@@ -725,10 +723,8 @@ export default {
       let cols = "";
       let obj = {};
       const viewCookie = JSON.parse(this.$tool.getCookie(this.path));
-      console.log(viewCookie)
       const q = viewCookie && viewCookie.query ? viewCookie.query : [];
-      const v =
-        viewCookie && viewCookie.selectedFields ? viewCookie.selectedFields.split(",") : [];
+      const v = viewCookie && viewCookie.selectedFields ? viewCookie.selectedFields.split(",") : [];
       if (v && v.length != 0) {
         const o = {};
         const arr = [];
