@@ -728,7 +728,7 @@ export default {
       console.log(viewCookie)
       const q = viewCookie && viewCookie.query ? viewCookie.query : [];
       const v =
-        viewCookie.selectedFields && viewCookie ? viewCookie.selectedFields.split(",") : [];
+        viewCookie && viewCookie.selectedFields ? viewCookie.selectedFields.split(",") : [];
       if (v && v.length != 0) {
         const o = {};
         const arr = [];
