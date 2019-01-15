@@ -109,7 +109,7 @@ import { mapActions } from "vuex";
 import PopMixins from "@/mixins/pop-mixins";
 import StaticSelect from "@/components/form/StaticSelect";
 import JumpSelect from "@/components/form/JumpSelect";
-import RemoteSelect from "@/components/form/RemoteSelect";
+// import RemoteSelect from "@/components/form/RemoteSelect";
 import ProvincialLinkage from "@/components/form/City";
 import LinkmanPop from "@/components/form/LinkmanPop";
 import AppShrink from "@/components/common/AppShrink";
@@ -316,7 +316,8 @@ export default {
   components: {
     StaticSelect,
     ProvincialLinkage,
-    RemoteSelect,
+    // RemoteSelect,
+    RemoteSelect: () => import('@/components/form/RemoteSelect'),
     LinkmanPop,
     JumpSelect,
     AppShrink
