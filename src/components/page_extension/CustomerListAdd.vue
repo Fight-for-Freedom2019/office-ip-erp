@@ -113,11 +113,40 @@ import RemoteSelect from "@/components/form/RemoteSelect";
 import ProvincialLinkage from "@/components/form/City";
 import LinkmanPop from "@/components/form/LinkmanPop";
 import AppShrink from "@/components/common/AppShrink";
+import isRequest from "../page/crm/mixins/is_request";
 
 export default {
   name: "CustomerListAdd",
-  mixins: [PopMixins],
-  props: ["customer", "row", "popType", "URL", "is_suppliers"],
+  mixins: [PopMixins,isRequest("/customers")],
+  props:{
+    customer:{
+      type:Object,
+      default(){
+        return {}
+      },
+    },
+    row:{
+      type:Object,
+      default(){
+        return {}
+      },
+    },
+    popType:{
+      type:String,
+      default(){
+        return "add"
+      },
+    },
+    URL:{
+      type:String,
+      default(){
+        return ""
+      }
+    },
+    is_suppliers:{
+      type:Boolean,
+    }
+  },
   data() {
     return {
       cityInfo: [],
