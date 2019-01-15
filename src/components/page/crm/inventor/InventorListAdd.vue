@@ -79,6 +79,7 @@
   import JumpSelect from "@/components/form/JumpSelect";
   import AppShrink from "@/components/common/AppShrink";
   import isRequest from "../mixins/is_request"
+  import {mapGetters} from 'vuex'
 
   const URL = "/inventors";
   const map = new Map(Config);
@@ -109,9 +110,27 @@
       return {
         is_show:false,
         switch_type: "is_boolean",
-        form: {},
+        form: {
+            customer: "",
+          customer_id: "",
+          title: "",
+          name: "",
+          type: "",
+          email_address: "",
+          phone_number: "",
+          identity: "",
+          first_name: "",
+          last_name: "",
+          citizenship: "",
+          is_publish_name: true,
+        },
         formType: "add",
         rules: {
+          customer: {
+            required: true,
+            message: "请选择发明人所属客户",
+            trigger: "change",
+          },
           name: {
             required: true,
             message: "请填写联系人姓名",
@@ -140,6 +159,9 @@
         }
       };
     },
+    computed: {
+      ...mapGetters(['detail_customer']),
+    },
     methods: {
       save(type) {
         this.$refs['form'].validate((valid) => {
@@ -151,11 +173,9 @@
                 url: URL,
                 data,
                 success: (d) => {
-                  const arr = [];
-                  arr.push(d.data);
                   this.$message({type: "success", message: "添加成功"});
                   this.$emit("refresh");
-                  this.$emit('onItemAdded', arr)
+                  this.$emit('onItemAdded', d.data);
                 }
               });
             } else {
@@ -184,21 +204,21 @@
         this.form.is_publish_name = val;
       },
       clear() {
-        this.form = {
-          customer: {},
-          customer_id: "",
-          title: "",
-          name: "",
-          type: "",
-          email_address: "",
-          phone_number: "",
-          identity: "",
-          first_name: "",
-          last_name: "",
-          citizenship: "",
-          is_publish_name: true,
-        };
-        this.$refs.form?this.$refs.form.resetFields():"";
+        // this.form = {
+        //   customer: "",
+        //   customer_id: "",
+        //   title: "",
+        //   name: "",
+        //   type: "",
+        //   email_address: "",
+        //   phone_number: "",
+        //   identity: "",
+        //   first_name: "",
+        //   last_name: "",
+        //   citizenship: "",
+        //   is_publish_name: true,
+        // };
+        // this.$refs.form?this.$refs.form.resetFields():"";
       },
       coverObj(val) {
         val ? this.$tool.coverObj(this.form, val) : "";
@@ -210,6 +230,14 @@
     watch: {
       inventors: function (val, oldVal) {
         !this.is_request?this.coverObj(val):"";
+      },
+      'detail_customer': {
+        handler(val) {
+          console.log(val)
+          this.$set(this.form, 'customer', val)
+          console.log(this.form.customer)
+        },
+        immediate: true,
       },
     },
     components: {

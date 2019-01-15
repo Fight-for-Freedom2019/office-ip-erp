@@ -246,7 +246,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userid", "userrole", "menusMap"]),
+    ...mapGetters(["userid", "userrole", "menusMap",]),
     extensionSet() {
       let area = this.form.area;
       const type = this.form.type;

@@ -80,6 +80,11 @@
         switch_type: "is",
         form: {},
         rules: {
+          customer: {
+            required: true,
+            message: "请选择联系人所属客户",
+            trigger: "change",
+          },
           name: {
             required: true,
             message: "请填写联系人姓名",
