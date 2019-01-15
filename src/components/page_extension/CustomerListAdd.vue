@@ -140,7 +140,7 @@ export default {
     URL:{
       type:String,
       default(){
-        return ""
+        return "/customers"
       }
     },
     is_suppliers:{
