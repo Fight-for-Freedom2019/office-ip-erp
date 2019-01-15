@@ -25,8 +25,9 @@
 			<el-form-item style="margin-bottom: 0px;">
 				<!--<el-button type="primary" @click="submitView" :disabled="disabled">{{this.type == 'add'? '新建' : '保存'}}</el-button>-->
                 <app-button-loading :func="submitView" :disabled="disabled" v-if="type === 'add'" ref="loadingBtn"></app-button-loading>
-                <el-button type="primary" size="small" :disabled="disabled" v-if="type !== 'add'" @click="submitView">保存</el-button>
-				<el-button @click="close">取消</el-button>
+                <app-button-loading :func="submitView" :disabled="disabled" text="保存" v-if="type !== 'add'" ref="loadingBtn"></app-button-loading>
+                <!--<el-button type="primary" size="small" :disabled="disabled" v-if="type !== 'add'" @click="submitView">保存</el-button>-->
+				<el-button @click="close" size="small">取消</el-button>
 			</el-form-item>
 		</el-form>
 		<template>
@@ -153,8 +154,6 @@ export default {
 		submitView () {
 			this.$refs.form.validate(_=>{
 				if(_){
-					this.loading = true;
-					this.disabled = true;
 					const page = this.pageType;
 					const query =  this.$tool.rmDuplicate([...this.listFilter,  ...this.query, ...this.viewFilter]);
 					const param = Object.assign({},{selectedFields: this.sortedFields.join(','), allFields: this.fieldData}, {query});
@@ -170,8 +169,6 @@ export default {
 					};
 					const complete = d=>{
 					  this.$refs.loadingBtn.loading = false;
-						this.loading = false;
-						this.disabled = false;
 						this.$emit('close', false)
 					};
 					this.type == 'add'? this.$axiosPost({url, data, success, complete }) : 
