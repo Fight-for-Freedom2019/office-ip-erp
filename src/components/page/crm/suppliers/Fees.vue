@@ -73,7 +73,7 @@
                         {
                             type: 'text',
                             label: '客户',
-                            prop: 'customer',
+                            prop: 'user',
                             render_simple: "name",
                             min_width: '178',
                             render_header: true
@@ -86,7 +86,7 @@
                         {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160', render_header: true},
                         {
                             type: 'text', label: '费用类型', prop: 'fee_code', width: '100', render: (h, item) => {
-                                let name = item.fee_type.name;
+                                let name = item?item.fee_type.name:"";
                                 return h("span", name);
                             },
                             render_header: true
@@ -100,8 +100,7 @@
                         {
                             type: 'text',
                             label: '计划付款时间',
-                            prop: 'invoice',   // TODO prop为invoice时计划付款时间和通知书发文日只渲染通知书发文日
-                            render_simple: "deadline",
+                            prop: 'invoice.deadline',   // TODO prop为invoice时计划付款时间和通知书发文日只渲染通知书发文日
                             width: '150',
                             render_header: true
                         },
