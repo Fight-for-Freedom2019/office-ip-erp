@@ -49,6 +49,7 @@ export default {
         this.$message({message: `添加${tex}成功`, type: 'success'});
         this.dialogVisible = false;
         this.$emit('refresh', 'add',this.form,_);
+        this.$emit('onItemAdded', d.data);
       }
       const complete = _=>{
         this.btn_disabled = false;

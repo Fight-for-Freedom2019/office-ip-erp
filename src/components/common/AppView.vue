@@ -113,7 +113,8 @@ export default {
     },
     editChildTree (n, d, s) {
       this.currentId = d.id;
-      this.choose = d.param.fields.split(',');
+      this.choose = d.param.selectedFields.split(',');
+      this.fields = d.param.allFields;
       this.$refs.viewPop.setData(d);
       this.type = 'edit';
       this.viewVisible = true;

@@ -27,7 +27,12 @@ export default (url) => ({
     },
     show(){
       this.is_show = true;
-      this.clear();
+      this.$nextTick(()=>{
+        this.clear();
+      })
+    },
+    clear() {
+      this.$refs.form.resetFields();
     },
     hide(){
       this.is_show = false;

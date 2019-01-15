@@ -13,11 +13,21 @@ const state = {
 };
 
 const getters = {
-  title: state => (state.data ? state.data.title : ""),
-  detail_serial: state => (state.data ? state.data.serial : ""),
+  title: state => state.data ? state.data.title : "",
+  detail_serial: state => state.data ? state.data.serial : "",
   detailId: state => state.id,
   detail_type: state => state.type,
-  detailBase: state => (state.data ? state.data : {}),
+  detail_customer: state => {
+    const arr = [];
+    if(state.data && state.data.customer) {
+      arr.push({id: state.data.customer.id, name: state.data.customer.name});
+      console.log(arr)
+      return arr 
+    }else {
+      return arr;
+    }
+  },
+  detailBase: state => state.data ? state.data : {},
   detailBasePatent: state => {
     if (state.true_type == "patent") {
       return state.data;

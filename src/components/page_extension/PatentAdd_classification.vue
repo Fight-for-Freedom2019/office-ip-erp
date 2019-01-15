@@ -14,7 +14,7 @@
     <el-row>
       <el-col :span="8">
         <el-form-item label="代理人">
-          <remote-select type="user" v-model="form.agent"></remote-select>
+          <remote-select type="user" v-model="form.agent" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -24,58 +24,58 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="对外代理人">
-          <remote-select type="user" v-model="form.representative"></remote-select>
+          <remote-select type="user" v-model="form.representative" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label="初审人">
-          <remote-select type="user" v-model="form.first_reviewer"></remote-select>
+          <remote-select type="user" v-model="form.first_reviewer" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="复审人">
-          <remote-select type="user" v-model="form.final_reviewer"></remote-select>
+          <remote-select type="user" v-model="form.final_reviewer" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="财务">
-          <remote-select type="user" v-model="form.finance"></remote-select>
+          <remote-select type="user" v-model="form.finance" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label="客服">
-          <remote-select type="user" v-model="form.consultant"></remote-select>
+          <remote-select type="user" v-model="form.consultant" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="销售">
-          <remote-select type="user" v-model="form.sales"></remote-select>
+          <remote-select type="user" v-model="form.sales" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="流程">
-          <remote-select type="user" v-model="form.flow"></remote-select>
+          <remote-select type="user" v-model="form.flow" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label="送件代理所">
-          <remote-select type="agency" v-model="form.agency"></remote-select>
+          <remote-select type="agency" v-model="form.agency" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="送件代理人">
-          <remote-select type="agent" v-model="form.patent_agent"></remote-select>
+          <remote-select type="agent" v-model="form.patent_agent" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="技术挖掘人">
-          <remote-select type="user" v-model="form.digger"></remote-select>
+          <remote-select type="user" v-model="form.digger" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
     </el-row>

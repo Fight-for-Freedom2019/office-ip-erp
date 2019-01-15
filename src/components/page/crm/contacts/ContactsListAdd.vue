@@ -49,6 +49,7 @@
   import RemoteSelect from "@/components/form/RemoteSelect";
   import AppShrink from '@/components/common/AppShrink'
   import isRequest from "../mixins/is_request"
+  import {mapGetters} from 'vuex'
 
   const URL = "/contacts";
   const map = new Map(Config);
@@ -75,11 +76,29 @@
         },
       }
     },
+    computed: {
+      ...mapGetters(['detail_customer']),
+    },    
     data() {
       return {
         switch_type: "is",
-        form: {},
+        form: {
+          customer_id: "",
+          customer: "",
+          name: "",
+          title: "",
+          contact_type: "",
+          email_address: "",
+          phone_number: "",
+          address: "",
+          remark: "",
+        },
         rules: {
+          customer: {
+            required: true,
+            message: "请选择联系人所属客户",
+            trigger: "change",
+          },
           name: {
             required: true,
             message: "请填写联系人姓名",
@@ -116,10 +135,11 @@
               this.$axiosPost({
                 url: URL,
                 data,
-                success: () => {
+                success: (d) => {
                   this.hide();
                   this.$message({type: "success", message: "添加成功"});
                   this.$emit("refresh");
+                  this.$emit('onItemAdded', d.data);
                 }
               });
             } else {
@@ -154,28 +174,19 @@
           this.$tool.coverObj(this.form, val);
         }
       },
-      clear() {
-        this.form = {
-          customer_id: "",
-          customer: "",
-          name: "",
-          title: "",
-          contact_type: "",
-          email_address: "",
-          phone_number: "",
-          address: "",
-          remark: "",
-        };
-        this.$refs.form?this.$refs.form.resetFields():"";
-      },
-    },
-    created() {
-      //this.coverObj(this.contacts);
     },
     watch: {
       contacts: function (val, oldVal) {
-        !this.is_request?this.coverObj(val):"";
+        this.$nextTick(()=>{
+          !this.is_request?this.coverObj(val):"";
+        })
       },
+      'detail_customer': {
+      handler(val) {
+        this.form.customer = val;
+      },
+      immediate: true,
+      }
     },
     components: {
       StaticSelect,

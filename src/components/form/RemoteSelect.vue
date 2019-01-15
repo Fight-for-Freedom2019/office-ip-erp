@@ -34,9 +34,11 @@
           <a style="cursor: pointer;" @click="add">新增</a>
         </el-form-item>
         <family-add @onItemAdded="onItemAdded" ref="family" v-if="addType == 'family'"></family-add>
-        <inventor-add  ref="inventor" v-if="addType == 'inventor'"></inventor-add>
-        <contact-add ref="contact" v-if="addType == 'contact'"></contact-add>
-        <applicant-add ref="applicant" v-if="addType == 'applicant'"></applicant-add>
+        <inventor-add @onItemAdded="onItemAdded"  ref="inventor" v-if="addType == 'inventor'"></inventor-add>
+        <contact-add @onItemAdded="onItemAdded" ref="contact" v-if="addType == 'contact'"></contact-add>
+        <applicant-add @onItemAdded="onItemAdded" ref="applicant" v-if="addType == 'applicant'"></applicant-add>
+        <customer-add @onItemAdded="onItemAdded" ref="customer" v-if="addType == 'customer'"></customer-add>
+        <user-add @onItemAdded="onItemAdded" ref="user"></user-add>
       </el-form>
       <el-row style="margin-top: 20px;">
         <el-button type="primary" @click="handleAddTag">确认</el-button>
@@ -53,6 +55,8 @@ import FamilyAdd from "@/components/page_extension/FamilyAdd";
 import InventorAdd from "@/components/page/crm/inventor/InventorListAdd";
 import ContactAdd from "@/components/page/crm/contacts/ContactsListAdd"
 import ApplicantAdd from "@/components/page/crm/applicant/ApplicantListAdd"
+import CustomerAdd from "@/components/page_extension/CustomerListAdd"
+import UserAdd from "@/components/page_extension/UserManage_edit"
 
 import map from "@/const/remoteConfig";
 
@@ -136,9 +140,16 @@ export default {
         case "applicant":
           this.$refs.applicant.show();
           break;
+        case "customer":
+          this.$refs.customer.show();
+          break;
+        case "user":
+          this.$refs.user.show();
+          break;
       }
     },
     onItemAdded(item) {
+      console.log(item)
       this.value2 = item;
     },
     handleInput(val) {
@@ -429,6 +440,8 @@ export default {
     InventorAdd,
     ContactAdd,
     ApplicantAdd,
+    CustomerAdd,
+    UserAdd,
   }
 };
 </script>

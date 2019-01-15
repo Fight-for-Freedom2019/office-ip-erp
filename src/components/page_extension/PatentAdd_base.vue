@@ -107,7 +107,7 @@
         :para="customerParam"
         type="patent_family"
         :page-type="type"
-        :add-type="`patent_family`"
+        add-type="patent_family"
         multiple
       ></remote-select>
     </el-form-item>
@@ -246,7 +246,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userid", "userrole", "menusMap"]),
+    ...mapGetters(["userid", "userrole", "menusMap",]),
     extensionSet() {
       let area = this.form.area;
       const type = this.form.type;

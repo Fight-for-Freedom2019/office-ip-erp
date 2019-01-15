@@ -89,7 +89,7 @@
           <el-form-item :label="item.name" :prop="item.key" :key="index">
             <el-input
               ref="input"
-              v-model="form[item.key]"
+              v-model.number="form[item.key]"
               @input="handleInput"
               :type="item.type"
               :placeholder="item.placeholder"
