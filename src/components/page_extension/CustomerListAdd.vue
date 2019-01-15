@@ -112,7 +112,7 @@ import JumpSelect from "@/components/form/JumpSelect";
 // import RemoteSelect from "@/components/form/RemoteSelect";
 import ProvincialLinkage from "@/components/form/City";
 import LinkmanPop from "@/components/form/LinkmanPop";
-import AppShrink from "@/components/common/AppShrink";
+// import AppShrink from "@/components/common/AppShrink";
 import isRequest from "../page/crm/mixins/is_request";
 
 export default {
@@ -324,7 +324,7 @@ export default {
     RemoteSelect: () => import('@/components/form/RemoteSelect'),
     LinkmanPop,
     JumpSelect,
-    AppShrink
+    // AppShrink
   },
   watch: {
     customer: function(val, oldVal) {

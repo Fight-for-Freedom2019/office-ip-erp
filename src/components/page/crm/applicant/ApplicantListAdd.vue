@@ -105,6 +105,8 @@
 
 <script>
 import StaticSelect from "@/components/form/StaticSelect";
+import AppButtonLoading from "@/components/common/AppButtonLoading";
+
 // import RemoteSelect from "@/components/form/RemoteSelect";
 import City from "@/components/form/City";
 import AppShrink from "@/components/common/AppShrink";
@@ -272,7 +274,8 @@ export default {
     RemoteSelect: () => import('@/components/form/RemoteSelect'),
     City,
     AppSwitch,
-    AppShrink
+    AppShrink,
+    AppButtonLoading
   }
 };
 </script>
