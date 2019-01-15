@@ -157,7 +157,7 @@ export default {
 					this.disabled = true;
 					const page = this.pageType;
 					const query =  this.$tool.rmDuplicate([...this.listFilter,  ...this.query, ...this.viewFilter]);
-					const param = Object.assign({},{fields: this.sortedFields.join(',')}, {query});
+					const param = Object.assign({},{selectedFields: this.sortedFields.join(','), allFields: this.fieldData}, {query});
 					const url = this.type == 'add' ? URL : `${URL}/${this.id}`;
 					const data = {
 						...this.$tool.shallowCopy(this.form,{skip:['fields']}),
@@ -196,16 +196,17 @@ export default {
 		},
 		'fieldData': {
 			handler(val) {
-			this.sortedFields = [];
-			const fields = this.form.fields;
-			val.filter(_=>{
-				for(let item of fields) {
-					const flag = fields.indexOf(_['key']);
-					if(flag > -1) {
-						return this.sortedFields.push(_['key']);
+				console.log(val);
+				this.sortedFields = [];
+				const fields = this.form.fields;
+				val.filter(_=>{
+					for(let item of fields) {
+						const flag = fields.indexOf(_['key']);
+						if(flag > -1) {
+							return this.sortedFields.push(_['key']);
+						}
 					}
-				}
-			});
+				});
 			},
 			immediate: true,	
 		},
