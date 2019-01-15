@@ -94,6 +94,9 @@
       },
       title:{
         type:String,
+        default(){
+          return "新增"
+        }
       },
       type: {
         type:String,
