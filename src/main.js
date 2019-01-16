@@ -12,8 +12,9 @@ import App from "./App";
 import "./fonts/iconfont.css";
 import axios from "@/const/axios";
 import tool from "./const/tool";
-import AppButtonLoading from "@/components/common/AppButtonLoading";
-
+// import AppButtonLoading from "@/components/common/AppButtonLoading";
+import "./components/common/components"
+import "./components/form/components"
 // import '../static/jquery-3.2.1.js'
 
 // import '../static/UE/ueditor.config.js'
@@ -33,7 +34,7 @@ const isDebug_mode = process.env.NODE_ENV !== 'production'
 Vue.config.debug = isDebug_mode
 Vue.config.devtools = isDebug_mode
 Vue.config.productionTip = isDebug_mode
-Vue.component("app-button-loading",AppButtonLoading);
+// Vue.component("app-button-loading",AppButtonLoading);
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
