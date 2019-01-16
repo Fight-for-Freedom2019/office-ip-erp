@@ -10,7 +10,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
-
+const TerserPlugin = require('terser-webpack-plugin');
 var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
@@ -22,6 +22,13 @@ var webpackConfig = merge(baseWebpackConfig, {
     })
   },
   optimization: {
+    minimizer:[
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        // sourceMap: true,
+      })
+    ],
     splitChunks: {
       cacheGroups: {
         vendors: {

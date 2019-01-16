@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'area',
+  name: 'Region',
   props: {
   	'value': [String, Object, Array],
   	'multiple': {
