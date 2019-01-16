@@ -337,14 +337,14 @@ export default {
           date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline',
           'internal_final_edition_time','customer_edition_time','filing_time','customer_final_edition_time'],
         })
-        if(this.row.task.process_action) {
+        if(this.row && this.row.task && this.row.task.process_action) {
           this.$nextTick(_=>{
 
           this.form.process_action = this.row.task.process_action['id'];
           })
-        }else if (this.row.task.remark) {
+        }else if (this.row && this.row.task && this.row.task.remark) {
           this.form.remark = this.row.task.remark; 
-        }else if (this.row.task.attachments && this.row.task.attachments.length != 0) {
+        }else if (this.row && this.row.task && this.row.task.attachments && this.row.task.attachments.length != 0) {
            this.form.attachments = this.row.task.attachments.map(_=>_.id); 
         }
       }
