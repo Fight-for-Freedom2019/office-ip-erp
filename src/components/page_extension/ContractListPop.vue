@@ -213,7 +213,7 @@
         watch: {
             contracts: function (val, oldVal) {
                 this.coverObj(this.form,val);
-                console.log("form",this.form)
+                // console.log("form",this.form)
             },
         },
         components: {

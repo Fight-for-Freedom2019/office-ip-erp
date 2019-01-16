@@ -170,7 +170,7 @@ export default {
       contact: null, // 新增的默认联系人数据
       rules: {
         name: [
-          { required: true, message: "申请人名称不能为空", trigger: "blur" },
+          { required: true, message: "客户名称不能为空", trigger: "blur" },
           { min: 1, max: 50, message: "长度不超过50个字符", trigger: "blur" }
         ],
         type: {

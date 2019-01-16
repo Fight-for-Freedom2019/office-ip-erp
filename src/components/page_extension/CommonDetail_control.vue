@@ -15,12 +15,7 @@
         <app-table :columns="columns3" :data="tableData3.attachments"></app-table>
       </template>
     </el-dialog>
-    <app-shrink :visible.sync="dialogAddVisible" title="编辑任务">
-      <span slot="header" style="float: right;">
-        <el-button type="primary" size="small"  @click="handleTasks('edit')">保存</el-button>
-      </span>
       <edit type="edit"  ref="processes_task" :row="currentRow" @editSuccess="editSuccess"></edit>
-    </app-shrink>
   </div>
 </template>
 
@@ -28,7 +23,6 @@
 import AppTable from '@/components/common/AppTable'
 import AxiosMixins from '@/mixins/axios-mixins'
 import Edit from '@/components/page_extension/TaskCommon_edit'
-import AppShrink from '@/components/common/AppShrink'
 import {mapGetters,mapActions} from 'vuex'
 
 export default {
@@ -155,6 +149,7 @@ export default {
       const url = `processes/${row.id}`
       const success = _=>{
        this.currentRow = _.process;;
+       this.$refs.processes_task.show('edit', this.currentRow);
       };
       const complete = _=>{
         this.dialogAddVisible = true;
@@ -228,7 +223,6 @@ export default {
   },
   components: { 
     AppTable,
-    AppShrink,
     Edit,
   },
 }
