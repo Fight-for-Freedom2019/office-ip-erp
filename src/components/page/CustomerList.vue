@@ -152,7 +152,7 @@ export default {
       this.update();
     },
     handleRowClick(row) {
-      console.log(row);
+      // console.log(row);
       this.currentRow = row;
       this.$refs.detail.onTabPageClicked(); // 点击table-row之后执行详情面板中的onTabPageClicked方法刷新内容
       if (!this.isDetailPanelVisible) {
