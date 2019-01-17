@@ -28,10 +28,14 @@ const NoticeCommon = () => import("@/components/page/NoticeCommon");
 const CustomerList = () => import("@/components/page/CustomerList");
 const Orders = () => import("@/components/page/crm/orders/Orders");
 const CustomerQuotation = () => import("@/components/page/crm/data/Quotation"); //报价管理
-const ApplicantList = () => import("@/components/page/crm/applicant/ApplicantList");
-const InventorList = () => import("@/components/page/crm/inventor/InventorList");
-const ContactsList = () => import("@/components/page/crm/contacts/ContactsList");
-const CustomerRemarks = () => import("@/components/page/crm/remarks/CustomerRemarks");
+const ApplicantList = () =>
+  import("@/components/page/crm/applicant/ApplicantList");
+const InventorList = () =>
+  import("@/components/page/crm/inventor/InventorList");
+const ContactsList = () =>
+  import("@/components/page/crm/contacts/ContactsList");
+const CustomerRemarks = () =>
+  import("@/components/page/crm/remarks/CustomerRemarks");
 const ContractsList = () =>
   import("@/components/page/crm/contracts/ContractsList");
 const InvoiceTargets = () => import("@/components/page/InvoiceTargets");
@@ -326,6 +330,17 @@ const router = new Router({
               is_review_action: 1,
               is_sender: 0,
               is_completed: 0
+            }
+          }
+        },
+        {
+          path: "/task/monitor/assigner",
+          name: "TaskMonitorAssigner",
+          component: TaskCommon,
+          meta: {
+            params: {
+              is_completed: 0,
+              relevance: "assigner"
             }
           }
         },

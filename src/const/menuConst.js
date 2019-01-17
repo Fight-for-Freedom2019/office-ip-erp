@@ -9,12 +9,7 @@ const taskMenu = [
     path: "/task/pending",
     icon: "iconfont el-icon-my-task"
   },
-  {
-    type: "item",
-    text: "所有待办",
-    path: "/task/all",
-    icon: "iconfont el-icon-my-all"
-  },
+
   {
     type: "submenu",
     text: "我的审核",
@@ -43,6 +38,12 @@ const taskMenu = [
     children: [
       {
         type: "item",
+        text: "我为派案人",
+        path: "/task/monitor/assigner",
+        icon: "iconfont el-icon-my-assign"
+      },
+      {
+        type: "item",
         text: "我为代理人",
         path: "/task/monitor/agent",
         icon: "iconfont el-icon-my-people"
@@ -69,7 +70,7 @@ const taskMenu = [
         type: "item",
         text: "我为对外代理人",
         path: "/task/monitor/representative",
-        icon: "iconfont el-icon-my-patent-proposer"
+        icon: "iconfont el-icon-my-contact"
       }
     ]
   },
@@ -92,6 +93,12 @@ const taskMenu = [
         icon: "iconfont el-icon-my-team"
       }
     ]
+  },
+  {
+    type: "item",
+    text: "所有待办",
+    path: "/task/all",
+    icon: "iconfont el-icon-my-all"
   }
 ];
 
