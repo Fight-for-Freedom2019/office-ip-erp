@@ -19,7 +19,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="login" class="submit_btn">登 录</el-button>
+            <el-button @keyup.enter.native="login" type="primary" @click="login" class="submit_btn">登 录</el-button>
           </el-form-item>
         </el-form>
        <div class="powered_by">
@@ -115,6 +115,20 @@ export default {
           }
         }
       });
+    }
+  },
+  created(){
+    let _self = this;
+    let key = null;
+    document.onkeydown = function(e){
+      if(window.event === undefined){
+        key = e.keyCode;
+      }else{
+        key = window.event.keyCode;
+      }
+      if(key === 13){
+        _self.login();
+      }
     }
   },
   watch: {}
