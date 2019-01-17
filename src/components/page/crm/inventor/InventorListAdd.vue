@@ -15,50 +15,50 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name" placeholder="请填写发明人姓名（必填）"></el-input>
+                <el-input v-model="form.name" placeholder="请输入发明人姓名（必填）"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="尊称" prop="title">
-                <el-input v-model="form.title" placeholder=""></el-input>
+                <el-input v-model="form.title" placeholder="请输入发明人尊称"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="国籍" prop="citizenship">
-                <static-select type="area" v-model="form.citizenship"></static-select>
+                <static-select type="area" v-model="form.citizenship" placeholder="请选择发明人国籍"></static-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="邮件地址" prop="email_address">
-                <el-input v-model="form.email_address" placeholder=""></el-input>
+                <el-input v-model="form.email_address" placeholder="请输入邮件地址"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="英文名" prop="first_name">
-                <el-input v-model="form.first_name" placeholder=""></el-input>
+                <el-input v-model="form.first_name" placeholder="请输入英文名"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="英文姓" prop="last_name">
-                <el-input v-model="form.last_name" placeholder=""></el-input>
+                <el-input v-model="form.last_name" placeholder="请输入英文姓"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
 
 
           <el-form-item label="电话号码" prop="phone_number">
-            <el-input v-model="form.phone_number" placeholder=""></el-input>
+            <el-input v-model="form.phone_number" placeholder="请输入电话号码"></el-input>
           </el-form-item>
           <el-form-item label="证件号码" prop="identity">
-            <el-input v-model="form.identity" placeholder=""></el-input>
+            <el-input v-model="form.identity" placeholder="请输入证件号码"></el-input>
           </el-form-item>
 
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" v-model="form.remark" placeholder=""></el-input>
+            <el-input type="textarea" v-model="form.remark" placeholder="请填写备注"></el-input>
           </el-form-item>
           <el-form-item label="是否公开姓名" prop="is_publish_name">
             <app-switch :type="switch_type" v-model="form.is_publish_name" @input="getIsPublishName"></app-switch>
@@ -146,10 +146,6 @@
           citizenship: {
             required: true,
             message: "请选择国籍",
-          },
-          identity: {
-            required: true,
-            message: "请填写证件号码"
           },
           phone_number: {
             pattern: /^1[345678]\d{9}$/,
