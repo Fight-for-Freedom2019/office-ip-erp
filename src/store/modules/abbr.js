@@ -1,44 +1,47 @@
-let url = 'abbr';
+let url = "/abbr";
 const state = {
-  data: undefined,
-}
+  data: undefined
+};
 
 const getters = {
-	abbrOptions: state=>{
-		let d = state.data;
-		if(d) {
-			d = d.map( d=>{return {id: d.abbr, name: d.abbr} } );
-		}
-		return d;
-	},
-}
+  abbrOptions: state => {
+    let d = state.data;
+    if (d) {
+      d = d.map(d => {
+        return { id: d.abbr, name: d.abbr };
+      });
+    }
+    return d;
+  }
+};
 
 const mutations = {
-	setAbbr (state, abbrs) {
-		state.data = abbrs;
-	}
-}
+  setAbbr(state, abbrs) {
+    state.data = abbrs;
+  }
+};
 
 const actions = {
-	refreshAbbr ({commit, rootState}) {
-		url = rootState.status ? url.replace(/\/, '') : url;
-		rootState.axios
-		.get(url)
-		.then(response=>{
-			const d = response.data;
-			if(d.status){
-				commit('setAbbr', d.data);
-			}else {
-				// alert('请求标签数据失败');
-			}
-		})
-		.catch(error=>{console.log(error)});
-	}
-}
+  refreshAbbr({ commit, rootState }) {
+    rootState.axios
+      .get(url)
+      .then(response => {
+        const d = response.data;
+        if (d.status) {
+          commit("setAbbr", d.data);
+        } else {
+          // alert('请求标签数据失败');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+};
 
 export default {
-	state,
-	getters,
-	mutations,
-	actions,
-}
+  state,
+  getters,
+  mutations,
+  actions
+};

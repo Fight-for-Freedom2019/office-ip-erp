@@ -1,42 +1,43 @@
-let url = '/mails';
+let url = "/mails";
 const state = {
-	data: undefined,
-}
+  data: undefined
+};
 
 const getters = {
-	sysmesg: state=>state.data
-}
+  sysmesg: state => state.data
+};
 
 const mutations = {
-	setSysmesg (state, d) {
-		state.data = d;
-	}
-}
+  setSysmesg(state, d) {
+    state.data = d;
+  }
+};
 
 const actions = {
-	refreshMesg ({commit, rootState, state}) {	
-		url = rootState.status ? url.replace(/\/, '') : url;	
-		const params = {
-			page: 1,
-			listRows: 100,
-			mailbox: 3,
-			read: 0,
-		};
-		rootState.axios
-			.get(url, { params })
-			.then(response=>{
-				const d = response.data;
-				if(d.status) {
-					commit('setSysmesg', d.mails.data);
-				}
-			})
-			.catch(error=>{console.log(error)});
-	}
-}
+  refreshMesg({ commit, rootState, state }) {
+    const params = {
+      page: 1,
+      listRows: 100,
+      mailbox: 3,
+      read: 0
+    };
+    rootState.axios
+      .get(url, { params })
+      .then(response => {
+        const d = response.data;
+        if (d.status) {
+          commit("setSysmesg", d.mails.data);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+};
 
 export default {
-	state,
-	getters,
-	mutations,
-	actions,
-}
+  state,
+  getters,
+  mutations,
+  actions
+};

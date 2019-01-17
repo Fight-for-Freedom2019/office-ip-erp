@@ -1,39 +1,39 @@
-let url = '/invoiceEntities';
+let url = "/invoiceEntities";
 const state = {
-	data: [],
-}
+  data: []
+};
 
 const getters = {
-	invoiceEntityOptions: state=>state.data,
-}
+  invoiceEntityOptions: state => state.data
+};
 
 const mutations = {
-	setEntity (state, d) {
-		state.data = d;
-	}
-}
+  setEntity(state, d) {
+    state.data = d;
+  }
+};
 
 const actions = {
-
-	refreshEntity ({commit, rootState, state}) {
-		url = rootState.status ? url.replace(/\/, '') : url;
-		rootState.axios
-			.get(url)
-			.then(response=>{
-				const d = response.data;
-				if(d.status){
-					commit('setEntity', d.entities);
-				}else {
-					// alert('请求企业数据失败');
-				}
-			})
-			.catch(error=>{console.log(error)});
-	}
-}
+  refreshEntity({ commit, rootState, state }) {
+    rootState.axios
+      .get(url)
+      .then(response => {
+        const d = response.data;
+        if (d.status) {
+          commit("setEntity", d.entities);
+        } else {
+          // alert('请求企业数据失败');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+};
 
 export default {
-	state,
-	getters,
-	mutations,
-	actions,
-}
+  state,
+  getters,
+  mutations,
+  actions
+};

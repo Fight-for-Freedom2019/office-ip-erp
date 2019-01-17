@@ -357,7 +357,7 @@ const getters = {
 const mutations = {
   setUser(state, d) {
     state.data = d;
-    window.localStorage.setItem("userinfo",JSON.stringify(d));
+    window.localStorage.setItem("userinfo", JSON.stringify(d));
   },
   setUserLoading(state, boolean) {
     state.loading = boolean;
@@ -366,7 +366,7 @@ const mutations = {
 
 const actions = {
   refreshUser({ commit, rootState, state }) {
-    url = rootState.status ? url.replace(/\/, "") : url;
+    url = rootState.status ? url : url;
     const params = {};
     commit("setUserLoading", true);
     const next = rootState.axios.get(url, { params });

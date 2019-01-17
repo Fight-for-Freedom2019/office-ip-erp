@@ -1,38 +1,38 @@
-let url = '/table_views';
+let url = "/table_views";
 const state = {
-  data: [],
-}
+  data: []
+};
 
 const getters = {
-	viewOptions: state=>state.data,
-}
+  viewOptions: state => state.data
+};
 
 const mutations = {
-	setViews (state, d) {
-		state.data = d;
-	}
-}
+  setViews(state, d) {
+    state.data = d;
+  }
+};
 
 const actions = {
-	refreshView ({state, commit, rootState},{ page }) {
-		url = rootState.status ? url.replace(/\/, '') : url;
-		rootState.axios
-		.get(url,{params:{page}})
-		.then(response=>{
-			const d = response.data;
-			if(d.status){
-				commit('setViews', d.data.data);
-			}else {
-
-			}
-		})
-		.catch(error=>{console.log(error)});
-	}
-}
+  refreshView({ state, commit, rootState }, { page }) {
+    rootState.axios
+      .get(url, { params: { page } })
+      .then(response => {
+        const d = response.data;
+        if (d.status) {
+          commit("setViews", d.data.data);
+        } else {
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+};
 
 export default {
-	state,
-	getters,
-	mutations,
-	actions,
-}
+  state,
+  getters,
+  mutations,
+  actions
+};
