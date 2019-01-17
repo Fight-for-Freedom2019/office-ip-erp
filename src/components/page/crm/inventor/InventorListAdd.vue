@@ -111,7 +111,7 @@
         is_show:false,
         switch_type: "is_boolean",
         form: {
-          customer: {},
+          customer: "",
           customer_id: "",
           title: "",
           name: "",
@@ -215,7 +215,10 @@
       },
       'detail_customer': {
         handler(val) {
-          this.form.customer = val;
+          console.log(val)
+          // this.form.customer = val;
+            this.$set(this.form, 'customer', val);
+            console.log(this.form.customer)
         },
         immediate: true,
       },

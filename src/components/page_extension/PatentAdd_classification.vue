@@ -17,14 +17,19 @@
           <remote-select type="user" v-model="form.agent" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
-      <el-col :span="8">
+      <!-- <el-col :span="8"> -->
         <!-- <el-form-item label="代理人助理">
           <remote-select type="user" v-model="form.assistant"></remote-select>
         </el-form-item>-->
-      </el-col>
+      <!-- </el-col> -->
       <el-col :span="8">
         <el-form-item label="对外代理人">
           <remote-select type="user" v-model="form.representative" add-type="user"></remote-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="派案人">
+          <remote-select type="user" v-model="form.assigner" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
     </el-row>
@@ -102,6 +107,7 @@ export default {
         agent: "",
         digger: "",
         assistant: "",
+        assigner: "",
         first_reviewer: "",
         final_reviewer: "",
         representative: "",

@@ -289,7 +289,16 @@ export default {
             : {};
           const data = Object.assign({}, reviewObj, this.form);
           const success = () => {
-            this.$message({ type: "success", message: "完成任务成功" });
+            // this.$message({ type: "success", message: "完成任务成功" });
+            this.$alert("完成任务成功",{
+              showConfirmButton: false,
+              showClose: false,
+              type: 'success',
+            });
+            setTimeout(() => {
+              //3s后调用messageBox实例的方法自动关闭
+              this.$msgbox.close();
+            }, 3000);
             this.refreshUser();
             this.$emit("submitSuccess", data);
           };

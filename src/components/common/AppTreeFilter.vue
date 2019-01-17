@@ -147,7 +147,7 @@ export default {
 #app .app-tree-filter .static_select .el-input__inner:hover{
   border-color: rgb(192, 196, 204);
 }
-#app .app-tree-filter .static_select .el-input__inner:hover{
+#app .app-tree-filter .static_select .el-input__inner:focus{
  border-color: #409EFF;
 }
 </style>
