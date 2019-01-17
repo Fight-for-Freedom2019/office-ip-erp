@@ -5,22 +5,25 @@
         <div class="manage_img">
           <img src="../../../static/static_img/logo.png">
         </div>
-        <el-form :model="form" :rules="rules" ref="form">
+        <el-form :model="form" :rules="rules" ref="form" status-icon>
           <el-form-item prop="username">
-            <el-input v-model="form.username" placeholder="用户名"></el-input>
+            <el-input v-model="form.username" prefix-icon="el-icon-my-people" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input
               type="password"
               placeholder="密码"
-              @keyup.enter.native="login"
+              prefix-icon="el-icon-my-password"
               v-model="form.password"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="login" class="submit_btn">登 录</el-button>
+            <el-button @keyup.enter.native="login" type="primary" @click="login" class="submit_btn">登 录</el-button>
           </el-form-item>
         </el-form>
+       <div class="powered_by">
+              <span>©powered by <a style="margin-left: 5px;" target="_blank" href="https://www.hongjianguo.com"><img style="width: 64px;" src="/static/static_img/hongjianguo.png"></a></span>
+        </div>
       </section>
     </transition>
   </div>
@@ -67,8 +70,6 @@ export default {
               });
               // window.appCache = this;
               this.$store.commit("LOGIN", d.data.token);
-              this.$axios.defaults.headers.common["Authorization"] =
-                d.data.token;
               await new Promise((resolve, reject) => {
                 // if(!this.$store.getters.getToken) {
                 this.getUserInfos();
@@ -113,6 +114,20 @@ export default {
       });
     }
   },
+  created(){
+    let _self = this;
+    let key = null;
+    document.onkeydown = function(e){
+      if(window.event === undefined){
+        key = e.keyCode;
+      }else{
+        key = window.event.keyCode;
+      }
+      if(key === 13){
+        _self.login();
+      }
+    }
+  },
   watch: {}
 };
 </script>
@@ -137,20 +152,27 @@ export default {
 }
 .form_contianer {
   width: 320px;
-  height: 180px;
+  height: 166px;
   position: absolute;
   top: 30%;
   left: 50%;
   margin-top: -90px;
   margin-left: -200px;
-  padding: 25px;
+  padding: 20px;
   border-radius: 5px;
   text-align: center;
   background-color: #fff;
   .submit_btn {
     width: 100%;
     font-size: 16px;
+    position: relative;
   }
+}
+.powered_by {
+  position: absolute;
+  bottom: -30px;
+  right: 0;
+  color: #77869f;
 }
 .form-fade-enter-active,
 .form-fade-leave-active {

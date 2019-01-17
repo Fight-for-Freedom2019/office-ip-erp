@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div style="width: 300px;background: #fff;">
+    <div style="width: 200px;background: #fff;">
       <span style="width: 100%;display:inline-block;border-bottom: 1px solid #ebeef5">
         <span style="float: left;padding: 6px;">{{ treeTitle }}</span>
-        <el-button size="mini" icon="el-icon-plus" style="float: right;margin: 6px;" @click="addFirstTree">新增一级分类</el-button>
+        <el-button size="mini" icon="el-icon-plus" style="float: right;margin: 3px;" @click="addFirstTree" title="新增一级分类">新增一级分类</el-button>
       </span>
       <el-input placeholder="请输入关键字进行过滤" v-model="filterText"></el-input>
   </div>
@@ -247,8 +247,8 @@ export default {
   background: #fff;
   border: 1px solid #ebeef5;
   margin-right: 6px;
-  flex: 0 0 300px; 
-  width: 300px;
+  flex: 0 0 200px; 
+  width: 200px;
 }
 </style>
 <style>

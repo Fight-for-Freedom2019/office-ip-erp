@@ -2,7 +2,7 @@
   <div style="display: flex;">
     <template>
       <user-tree
-        style="flex:0 0 300px;"
+        style="flex:0 0 200px;"
         @refresh="handleTree"
         @close="()=>$refs.edit.dialogVisible=false"
       ></user-tree>
@@ -88,7 +88,6 @@ export default {
             render_simple: "name",
             width: "110"
           },
-
           {
             type: "text",
             label: "POP收信服务器",
@@ -111,7 +110,7 @@ export default {
             type: "text",
             label: "SMTP发信端口",
             prop: "smtp_port",
-            width: "110"
+            width: "130"
           },
           {
             type: "text",
