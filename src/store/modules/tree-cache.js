@@ -1,63 +1,71 @@
 /*对应select和date组件筛选数据*/
-import configData from '@/const/selectConfig'
+import configData from "@/const/selectConfig";
 const state = {
   data: {},
   URL: {},
   DATA_KEY: {},
-  config: configData,
-}
+  config: configData
+};
 const getters = {
-  staticFilterMap (state) {
+  staticFilterMap(state) {
     return new Map(state.config);
   },
-  filterData: state=>state.data,
-  getUrl: state=>state.URL,
-  data_key: state=>state.DATA_KEY,
-}
+  filterData: state => state.data,
+  getUrl: state => state.URL,
+  data_key: state => state.DATA_KEY
+};
 
 const mutations = {
-  setFilterData (state, {key,value}) {
-   state.data = {...state.data,[key]:value}
+  setFilterData(state, { key, value }) {
+    state.data = { ...state.data, [key]: value };
   },
-  setUrl (state, {key,url}) {
-    state.URL = {...state.URL,[key]:url};
+  setUrl(state, { key, url }) {
+    state.URL = { ...state.URL, [key]: url };
   },
-  setDataKey (state, {key,data_key}) {
-    state.DATA_KEY = {...state.DATA_KEY,[key]:data_key};
-  },
-}
+  setDataKey(state, { key, data_key }) {
+    state.DATA_KEY = { ...state.DATA_KEY, [key]: data_key };
+  }
+};
 
 const actions = {
-  refreshFilterData ({commit, rootState, state,getters},{success,key,keyword}={}) {
+  refreshFilterData(
+    { commit, rootState, state, getters },
+    { success, key, keyword } = {}
+  ) {
     // console.log(getters.data_key);
-    if(key == undefined) return;
-    // if(getters.getUrl === '' && getters.data_key === '') return false; 
-    const url = rootState.status ? getters.getUrl[key].replace(/\/, '') : getters.getUrl[key];
-    const params= { keyword };
+    if (key == undefined) return;
+    // if(getters.getUrl === '' && getters.data_key === '') return false;
+    const url = rootState.status ? getters.getUrl[key] : getters.getUrl[key];
+    const params = { keyword };
     rootState.axios
-      .get(url,{params})
-      .then(response=>{
+      .get(url, { params })
+      .then(response => {
         const d = response.data;
         const DATA_KEY = getters.data_key[key];
-        const value = d[DATA_KEY].data!=undefined?d[DATA_KEY].data:d[DATA_KEY];
-        if(d.status){
-          commit('setFilterData', {key,value});
-          if (success) {success(d)};
-        }else {}
+        const value =
+          d[DATA_KEY].data != undefined ? d[DATA_KEY].data : d[DATA_KEY];
+        if (d.status) {
+          commit("setFilterData", { key, value });
+          if (success) {
+            success(d);
+          }
+        } else {
+        }
       })
-      .catch(error=>{console.log(error)});
+      .catch(error => {
+        console.log(error);
+      });
   },
-  setUrl({commit,rootState,state},{key,url}={}) {
-    if(url){
-      commit('setUrl',{key,url});
+  setUrl({ commit, rootState, state }, { key, url } = {}) {
+    if (url) {
+      commit("setUrl", { key, url });
     }
-  },
-
-}
+  }
+};
 
 export default {
   state,
   getters,
   mutations,
-  actions,
-}
+  actions
+};

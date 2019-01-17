@@ -1,48 +1,48 @@
-let url = '/iprs';
+let url = "/iprs";
 const state = {
-	data: undefined,
-}
+  data: undefined
+};
 
 const getters = {
-	iprData: state=>state.data,
-	iprOptions: state=>{
-		return state.data;
-	}
-}
+  iprData: state => state.data,
+  iprOptions: state => {
+    return state.data;
+  }
+};
 
 const mutations = {
-	setIpr (state, d) {
-		state.data = d;
-	}
-}
+  setIpr(state, d) {
+    state.data = d;
+  }
+};
 
 const actions = {
+  refreshIpr({ commit, rootState, state }) {
+    const params = { listRows: "100" };
 
-	refreshIpr ({commit, rootState, state}) {
-		const params = { listRows:"100" };
-		url = rootState.status ? url.replace(/\/, '') : url;
-		
-		if(state.data === undefined) {
-			commit('setIpr', []);
-		}
+    if (state.data === undefined) {
+      commit("setIpr", []);
+    }
 
-		rootState.axios
-			.get(url, { params })
-			.then(response=>{
-				const d = response.data;
-				if(d.status){
-					commit('setIpr', d.members);
-				}else {
-					// alert('请求Ipr数据失败');
-				}
-			})
-			.catch(error=>{console.log(error)});
-	}
-}
+    rootState.axios
+      .get(url, { params })
+      .then(response => {
+        const d = response.data;
+        if (d.status) {
+          commit("setIpr", d.members);
+        } else {
+          // alert('请求Ipr数据失败');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+};
 
 export default {
-	state,
-	getters,
-	mutations,
-	actions,
-}
+  state,
+  getters,
+  mutations,
+  actions
+};

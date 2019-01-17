@@ -31,8 +31,6 @@ const mutations = {
 
 const actions = {
 	refreshCity ({commit, rootState, state}) {	
-		url = rootState.status ? url.replace(/\/, '') : url;	
-		
 		const d = rootState.tool.getLocal('city');
 		if(d) {
 			commit('setCity', JSON.parse(d));

@@ -162,52 +162,6 @@ export default {
           { type: "text", prop: "title", label: "标题", width: "200" },
           {
             type: "text",
-            prop: "process_definition",
-            label: "管制事项",
-            render_simple: "name",
-            render_header: true,
-            width: "110"
-          },
-          {
-            type: "text",
-            prop: "process_action",
-            render_obj: "task",
-            render_simple: "name",
-            label: "当前节点",
-            render_header: true,
-            width: "110"
-          },
-          {
-            type: "array",
-            prop: "project_tags",
-            label: "案件标签",
-            render: this.tagRender,
-            width: "123",
-            render_header: true
-          },
-          {
-            type: "array",
-            prop: "process_tags",
-            label: "事项标签",
-            render: this.tagRender,
-            width: "123",
-            render_header: true
-          },
-          {
-            type: "text",
-            prop: "application_number",
-            label: "申请号",
-            width: "110"
-          },
-          {
-            type: "text",
-            prop: "application_date",
-            label: "申请日",
-            render_header: true,
-            width: "100"
-          },
-          {
-            type: "text",
             prop: "project_type",
             label: "案件类型",
             render_simple: "name",
@@ -225,17 +179,29 @@ export default {
 
           {
             type: "text",
+            prop: "process_definition",
+            label: "管制事项",
+            render_simple: "name",
+            render_header: true,
+            width: "110"
+          },
+          {
+            type: "text",
+            prop: "process_action",
+            render_obj: "task",
+            render_simple: "name",
+            label: "当前节点",
+            render_header: true,
+            width: "110"
+          },
+          {
+            type: "text",
             prop: "process_stage",
             label: "当前阶段",
             render_simple: "name",
             render_header: true,
             width: "110"
           },
-          // { type: 'text', prop: 'task', label: '当前节点', render_header: true, width: '110', render: function(h,item){
-          //   item = item != null ? item.process_action.name: '';
-          //   return h('span',item);
-          // }},
-
           {
             type: "text",
             prop: "user",
@@ -285,6 +251,41 @@ export default {
             render_header: true,
             width: "110"
           },
+          {
+            type: "array",
+            prop: "project_tags",
+            label: "案件标签",
+            render: this.tagRender,
+            width: "123",
+            render_header: true
+          },
+          {
+            type: "array",
+            prop: "process_tags",
+            label: "事项标签",
+            render: this.tagRender,
+            width: "123",
+            render_header: true
+          },
+          {
+            type: "text",
+            prop: "application_number",
+            label: "申请号",
+            width: "110"
+          },
+          {
+            type: "text",
+            prop: "application_date",
+            label: "申请日",
+            render_header: true,
+            width: "100"
+          },
+
+          // { type: 'text', prop: 'task', label: '当前节点', render_header: true, width: '110', render: function(h,item){
+          //   item = item != null ? item.process_action.name: '';
+          //   return h('span',item);
+          // }},
+
           {
             type: "text",
             prop: "customer",
@@ -508,7 +509,7 @@ export default {
       // 自定义筛选项
       const custom = this.$route.meta.custom;
       return custom !== undefined ? custom : false;
-    },
+    }
   },
   methods: {
     ...mapMutations(["showAgencyLoad", "addScreen"]),
@@ -527,7 +528,7 @@ export default {
       return arr;
     },
     addPop(type = "add") {
-      this.$refs.taskEdit.show('add');
+      this.$refs.taskEdit.show("add");
     },
     taskDelete({ id }) {
       const s = this.$refs.table.getSelect(true);
@@ -624,7 +625,7 @@ export default {
     handleRowClick(row) {
       this.currentRow = row;
       this.$refs.taskDetail.show(row);
-    },
+    }
   },
   watch: {
     deleteStatus(val) {
@@ -660,7 +661,7 @@ export default {
     TaskCommonDetail,
     TaskCommonEdit,
     MailAdd,
-    MessageContent,
+    MessageContent
   }
 };
 </script>

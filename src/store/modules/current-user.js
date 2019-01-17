@@ -15,10 +15,12 @@ const nodePermissionMap = new Map([
   ["/task/review/sent", "Pages.Tasks.Index"],
   ["/task/review/my", "Pages.Tasks.Index"],
   ["/task/monitor", "Pages.Tasks.Index"],
+  ["/task/monitor/assigner", "Pages.Tasks.Save"],
   ["/task/monitor/agent", "Pages.Tasks.Index"],
   ["/task/monitor/assistant", "Pages.Tasks.Index"],
   ["/task/monitor/first_reviewer", "Pages.Tasks.Index"],
   ["/task/monitor/final_reviewer", "Pages.Tasks.Index"],
+  ["/task/monitor/representative", "Pages.Tasks.Index"],
   ["/task/finished", "Pages.Tasks.Index"],
   ["/task/finished/my", "Pages.Tasks.Index"],
   ["/task/finished/team", "Pages.Tasks.Index"],
@@ -357,7 +359,7 @@ const getters = {
 const mutations = {
   setUser(state, d) {
     state.data = d;
-    window.localStorage.setItem("userinfo",JSON.stringify(d));
+    window.localStorage.setItem("userinfo", JSON.stringify(d));
   },
   setUserLoading(state, boolean) {
     state.loading = boolean;
@@ -366,7 +368,7 @@ const mutations = {
 
 const actions = {
   refreshUser({ commit, rootState, state }) {
-    url = rootState.status ? url.replace(/\/, "") : url;
+    url = rootState.status ? url : url;
     const params = {};
     commit("setUserLoading", true);
     const next = rootState.axios.get(url, { params });

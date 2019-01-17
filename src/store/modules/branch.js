@@ -1,69 +1,72 @@
-let url = '/organization_units?listOnly=1';
+let url = "/organization_units?listOnly=1";
 const state = {
-	data: [],
-	lastUpdate: '',
-}
+  data: [],
+  lastUpdate: ""
+};
 
-const getMap = (data) => {
-	const map = new Map();
-	a(data);
-	return map;
+const getMap = data => {
+  const map = new Map();
+  a(data);
+  return map;
 
-	function a(arr) {
-		for(let d of arr) {
-			map.set(d.id, d);
-			if(d.children && d.children.length) {
-				a(d.children);
-			}
-		}
-	}
-}
+  function a(arr) {
+    for (let d of arr) {
+      map.set(d.id, d);
+      if (d.children && d.children.length) {
+        a(d.children);
+      }
+    }
+  }
+};
 
 const getters = {
-	branchData: state=>state.data,
-	branchMap: state=>{
-		return getMap(state.data);
-	},
-	branchOptions: (state, getters)=>{
-		const map = getMap(state.data);
-		const arr = [...map.values()];
+  branchData: state => state.data,
+  branchMap: state => {
+    return getMap(state.data);
+  },
+  branchOptions: (state, getters) => {
+    const map = getMap(state.data);
+    const arr = [...map.values()];
 
-		return arr;		
-	},
-	branchUpdate: (state)=>{
-		const d = state.lastUpdate; 
-		return d ? d : ''; 
-	}
-}
+    return arr;
+  },
+  branchUpdate: state => {
+    const d = state.lastUpdate;
+    return d ? d : "";
+  }
+};
 
 const mutations = {
-	setBranch (state, d) {
-		state.data = d.data.data;
-		state.lastUpdate = d.last_update;
-	},
-}
+  setBranch(state, d) {
+    state.data = d.data.data;
+    state.lastUpdate = d.last_update;
+  }
+};
 
 const actions = {
-	refreshBranch ({commit, rootState, state},{success}={}) {
-		url = rootState.status ? url.replace(/\/, '') : url;
-		rootState.axios
-			.get(url)
-			.then(response=>{
-				const d = response.data;
-				if(d.status){
-					commit('setBranch', d);
-					if(success) { success(d) };
-				}else {
-					// alert('请求部门数据失败');
-				}
-			})
-			.catch(error=>{console.log(error)});
-	}
-}
+  refreshBranch({ commit, rootState, state }, { success } = {}) {
+    rootState.axios
+      .get(url)
+      .then(response => {
+        const d = response.data;
+        if (d.status) {
+          commit("setBranch", d);
+          if (success) {
+            success(d);
+          }
+        } else {
+          // alert('请求部门数据失败');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+};
 
 export default {
-	state,
-	getters,
-	mutations,
-	actions,
-}
+  state,
+  getters,
+  mutations,
+  actions
+};

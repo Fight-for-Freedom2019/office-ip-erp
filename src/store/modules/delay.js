@@ -1,39 +1,40 @@
-let url = '/delayrecord';
+let url = "/delayrecord";
 const state = {
-  data: null,
-}
+  data: null
+};
 
 const getters = {
-	taskDelayData: state=>state.data?state.data.data: [],
-}
+  taskDelayData: state => (state.data ? state.data.data : [])
+};
 
 const mutations = {
-	setDelayRecord (state, data) {
-		state.data = data;
-	}
-}
+  setDelayRecord(state, data) {
+    state.data = data;
+  }
+};
 
 const actions = {
-	refreshTaskDelay ({commit, rootState},taskId) {
-		url = rootState.status ? url.replace(/\/, '') : url;
-		const params = {'task_id': taskId};
-		rootState.axios
-		.get(url,{params})
-		.then(response=>{
-			const d = response.data;
-			if(d.status){
-				commit('setDelayRecord', d.data);
-			}else {
-				// alert('请求标签数据失败');
-			}
-		})
-		.catch(error=>{console.log(error)});
-	}
-}
+  refreshTaskDelay({ commit, rootState }, taskId) {
+    const params = { task_id: taskId };
+    rootState.axios
+      .get(url, { params })
+      .then(response => {
+        const d = response.data;
+        if (d.status) {
+          commit("setDelayRecord", d.data);
+        } else {
+          // alert('请求标签数据失败');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+};
 
 export default {
-	state,
-	getters,
-	mutations,
-	actions,
-}
+  state,
+  getters,
+  mutations,
+  actions
+};
