@@ -13,7 +13,7 @@
             <el-input
               type="password"
               placeholder="密码"
-               prefix-icon="el-icon-my-password"
+              prefix-icon="el-icon-my-password"
               v-model="form.password"
             ></el-input>
           </el-form-item>
@@ -70,8 +70,6 @@ export default {
               });
               // window.appCache = this;
               this.$store.commit("LOGIN", d.data.token);
-              this.$axios.defaults.headers.common["Authorization"] =
-                d.data.token;
               await new Promise((resolve, reject) => {
                 // if(!this.$store.getters.getToken) {
                 this.getUserInfos();
