@@ -17,7 +17,8 @@
           window.localStorage.setItem("userinfo",JSON.stringify(_.member));
           //window.appCache.userinfo = _.member;
         }else {
-         window.location.href = '/';
+          window.localStorage.removeItem("token");
+          window.location.href = '/';
         }
       },
       error: function (xhr,status,error) {
