@@ -39,7 +39,7 @@ export default {
             type: "text",
             prop: "type",
             label: "申请人类型",
-            width: "90",
+            width: "120",
             render_text: item => {
               let name;
               config.get("applicant_type").options.map(function(o) {
