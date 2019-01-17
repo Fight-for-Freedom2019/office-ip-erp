@@ -168,8 +168,10 @@ export default {
   },
   methods: {
     receive (val) {
-      this.mark = val.fullname +':' + val.description;
-      this.filter_id = val.id;
+      if(val) {
+        this.mark = val.fullname +':' + val.description;
+        this.filter_id = val.id;
+      }
     },
     handleRowClick (row) {
       this.shrinkVisible = true;
@@ -198,7 +200,7 @@ export default {
   watch: {
     filter_id () {
       this.refresh();
-    }
+    },
   },
   components: {
   	TableComponent,

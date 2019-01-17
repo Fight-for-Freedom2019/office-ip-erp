@@ -230,7 +230,7 @@ export default {
       "refreshBranch", //branch
       "refreshArea", //area
       "refreshCity", //city
-      "refreshGroup ",
+      "refreshGroup",
       "refreshUser",
       "closeTag", //filter-cache
       "initializeHashMapsCache" //index
@@ -315,7 +315,6 @@ export default {
   },
   created() {
     // this.leftMenuActive = this.path;
-      this.initializeHashMapsCache();
     const refreshWindow = _ => {
       this.setInnerHeight(window.innerHeight);
       this.setInnerWidth(window.innerWidth);
@@ -335,8 +334,12 @@ export default {
 
     const success = _ => {
       this.userinfoLoading = false;
-
       //设置个人信息
+      this.initializeHashMapsCache();
+      this.refreshProduct();
+       this.refreshBranch();
+       this.refreshGroup();
+       this.refreshClassification();
       if (window.localStorage.getItem("userinfo")) {
         this.setUser(JSON.parse(window.localStorage.getItem("userinfo")));
       }

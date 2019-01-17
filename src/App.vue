@@ -162,7 +162,8 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     margin-right: 5px;
 
   }
-  .app-tree-filter .el-tree-node__content>.el-tree-node__expand-icon  {
+  .app-tree-filter .el-tree-node__content>.el-tree-node__expand-icon, 
+  .view-tree .el-tree-node__content>.el-tree-node__expand-icon  {
     padding: 0px;
   }
   .el-tree-node__content {
