@@ -366,7 +366,7 @@ const mutations = {
 
 const actions = {
   refreshUser({ commit, rootState, state }) {
-    url = rootState.status ? url.replace(/\/api/, "") : url;
+    url = rootState.status ? url.replace(/\/, "") : url;
     const params = {};
     commit("setUserLoading", true);
     const next = rootState.axios.get(url, { params });

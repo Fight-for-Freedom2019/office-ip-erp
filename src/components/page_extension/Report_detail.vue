@@ -76,7 +76,7 @@ export default {
 		},
 		saveReport () {
 			this.loading = true;
-			const url = `/api/reports/${this.currentRow.id}`;
+			const url = `/reports/${this.currentRow.id}`;
 			const data = this.$refs.form.getFormData('save');
 			this.$axiosPut({
 				url,

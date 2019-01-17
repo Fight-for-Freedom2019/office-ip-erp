@@ -199,7 +199,7 @@ export default {
   			return;
   		}
 
-  		const url = "/api/tasks/expiring";
+  		const url = "/tasks/expiring";
   		
   		const data = {
   			type: this.treeSelected.join(','),
@@ -223,7 +223,7 @@ export default {
   	},
   	refreshTreeData () {
   		if( !this.day || !this.date) return;
-  		const url = '/api/tasks/expiring';
+  		const url = '/tasks/expiring';
 
 			const data = {
 				date: this.date,

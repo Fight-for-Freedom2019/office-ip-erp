@@ -1,4 +1,4 @@
-let url = '/api/invoiceEntities';
+let url = '/invoiceEntities';
 const state = {
 	data: [],
 }
@@ -16,7 +16,7 @@ const mutations = {
 const actions = {
 
 	refreshEntity ({commit, rootState, state}) {
-		url = rootState.status ? url.replace(/\/api/, '') : url;
+		url = rootState.status ? url.replace(/\/, '') : url;
 		rootState.axios
 			.get(url)
 			.then(response=>{

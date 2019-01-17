@@ -195,7 +195,7 @@ export default {
     	const serial = this.$refs.patent.getSelected()[0]['name'].split('-')[0].match(/^\[(.*)\]$/)[1];
     	this.loading4 = true;
     	this.$axiosPost({
-    		url: '/api/renewalFeeBatch',
+    		url: '/renewalFeeBatch',
     		data: { project_id: this.patent },
     		success: _=>{ 
     			this.$message({type: 'success', message: '批量添加成功'}) 

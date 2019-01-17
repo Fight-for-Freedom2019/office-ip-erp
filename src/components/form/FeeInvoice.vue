@@ -34,7 +34,7 @@ export default {
   props: ['feeType'],
   data () {
     return {
-      URL: '/api/invoices',
+      URL: '/invoices',
       PARAMS: { debit: this.feeType ? 1 : 0 },
       DATA_KEY: 'invoices',
     };

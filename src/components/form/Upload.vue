@@ -2,7 +2,7 @@
       <el-upload
       :on-success="handleUploadSuccess"
       :on-remove="handleUploadRemove"
-      action="/api/files"
+      action="/files"
       :headers="auth"
       :on-preview="onPreview"
       :on-progress="onProgress"

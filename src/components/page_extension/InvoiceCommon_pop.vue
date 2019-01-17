@@ -39,7 +39,7 @@
 import AxiosMixins from '@/mixins/axios-mixins'
 import Upload from '@/components/form/Upload'
 
-const URL = '/api/invoices';
+const URL = '/invoices';
 
 export default {
   name: 'FeeCommonPop',

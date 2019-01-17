@@ -89,7 +89,7 @@ export default {
 				.then(_ => {
       		this.disabled = true;
 					this.$axiosDelete({
-						url: `/api/reports/${this.currentRow.id}`,
+						url: `/reports/${this.currentRow.id}`,
 						success: _=>{
 							this.$message({type: 'success', message: '删除报表成功'});
 							this.refresh();

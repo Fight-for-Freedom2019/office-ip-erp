@@ -34,7 +34,7 @@ export default {
   mixins: [ RemoteSelect, AxiosMixins ],
   data () {
     return {
-      URL: '/api/projects',
+      URL: '/projects',
       DATA_KEY: 'projects',  
     }
   },

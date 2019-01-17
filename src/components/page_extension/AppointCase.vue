@@ -52,7 +52,7 @@ export default {
   	},
   	url() {
   		if(this.type == 'task'){
-  			return '/api/tasks/agency'; 
+  			return '/tasks/agency'; 
   		}
   		if(this.type == 'patent') {
   			return `/project/${this.projectId}/agency`;

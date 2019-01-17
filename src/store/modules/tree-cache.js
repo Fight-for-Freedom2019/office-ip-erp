@@ -32,7 +32,7 @@ const actions = {
     // console.log(getters.data_key);
     if(key == undefined) return;
     // if(getters.getUrl === '' && getters.data_key === '') return false; 
-    const url = rootState.status ? getters.getUrl[key].replace(/\/api/, '') : getters.getUrl[key];
+    const url = rootState.status ? getters.getUrl[key].replace(/\/, '') : getters.getUrl[key];
     const params= { keyword };
     rootState.axios
       .get(url,{params})

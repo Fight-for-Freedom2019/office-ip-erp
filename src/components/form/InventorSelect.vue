@@ -38,7 +38,7 @@ export default {
   },
   methods: {
   	remoteMethod (keyword) {
-  		const url = '/api/inventors';
+  		const url = '/inventors';
   		const data = { keyword, listOnly: '1' };
   		const success = _=>{
   			this.loading = false;

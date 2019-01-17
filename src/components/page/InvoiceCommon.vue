@@ -246,7 +246,7 @@ export default {
       return this.feeType == 0 ? '付款' : '收款'
     },
     action () {
-      return `/api/tempfile?action=getEvidence&invoice_id=${this.id}`;
+      return `/tempfile?action=getEvidence&invoice_id=${this.id}`;
     }
   },
   methods: {

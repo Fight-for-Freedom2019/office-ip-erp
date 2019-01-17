@@ -131,7 +131,7 @@ const config = [
     {
       action: "getPatents",
       title: "导入专利",
-      url: "/api/patents/import",
+      url: "/patents/import",
       category: 1,
       model: "/static/templates/patent_batch_template.xlsx",
       model_name: "专利导入模板",
@@ -253,7 +253,7 @@ export default {
     },
     upload_url() {
       const action = this.config.action;
-      let url = "/api/files";
+      let url = "/files";
       if (action != "") {
         url += `?action=${action}`;
       }

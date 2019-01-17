@@ -84,7 +84,7 @@
 				<!-- <upload v-model="form.figure" :file-list="figure" :multiple="false"></upload> -->
 				<el-upload
 				  class="avatar-uploader"
-				  action="/api/files"
+				  action="/files"
 				  :show-file-list="false"
 				  :on-success="successUpload"
 				  :before-upload="beforeUpload">
@@ -143,7 +143,7 @@ import Priorities  from '@/components/form/Priorities'
 
 import {mapActions} from 'vuex'
 
-const URL = '/api/trademarks'
+const URL = '/trademarks'
 
 export default {
 	name: 'trademarkAdd',

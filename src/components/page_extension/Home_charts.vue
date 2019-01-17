@@ -27,7 +27,7 @@ import AxiosMixins from '@/mixins/axios-mixins'
 import StaticSelect from '@/components/form/StaticSelect'
 
 let data;
-const URL = '/api/stats';
+const URL = '/stats';
 const barOption = {
   title: { text: '' },
   tooltip: { show: true },

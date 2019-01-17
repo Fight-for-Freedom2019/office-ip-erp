@@ -242,20 +242,20 @@ export default {
       console.log(this.noticeType);
       const config = map.get(this.noticeType);
       const action =config.action;
-      let url = '/api/files';
+      let url = '/files';
       if(action != '') {
         url += `?action=${action}`;
       }
       return url;
     },
     patentNoice_upload_url () {
-      let url = '/api/files?action=parseCpc';
+      let url = '/files?action=parseCpc';
       return url
     },
     upload_url () {
       const config = map.get(this.type);
       const action = config.action;
-      let url = '/api/files';
+      let url = '/files';
       if(action != '') {
         url += `?action=${action}`;
       }
@@ -263,7 +263,7 @@ export default {
       return url;
     },
     attachments_upload_url () {
-      let url = '/api/files';
+      let url = '/files';
       return url;
     },
 /*    tableData () { 

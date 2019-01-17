@@ -265,7 +265,7 @@
             StaticSelect,
             City
         },
-        // URL: "/api/requirements",
+        // URL: "/requirements",
         REMINDER_TEXT: ""
     };
 </script>

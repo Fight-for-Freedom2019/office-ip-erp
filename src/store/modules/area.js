@@ -21,7 +21,7 @@ const mutations = {
 
 const actions = {
 	refreshArea ({commit, rootState, state}) {
-		url = rootState.status ? url.replace(/\/api/, '') : url;
+		url = rootState.status ? url.replace(/\/, '') : url;
 
 		const d = rootState.tool.getLocal('area');
 		if(d) {

@@ -119,14 +119,14 @@ export default {
 	},
 	methods: {
 		invoiceAxios (id) {
-			const url = `/api/invoices/${id}`;
+			const url = `/invoices/${id}`;
 			const success = _=>{
 				this.$tool.coverObj(this.row, _.invoice);
 			}
 			return this.$axiosGet({url, success});
 		},
 		feeAxios (id) {
-  		const url = '/api/fees';
+  		const url = '/fees';
   		const data = { page: 1, listRows: 100, fee_invoice: id };
   		const success = _=>{
   			this.feeData = _.fees.data;

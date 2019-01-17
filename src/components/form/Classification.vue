@@ -11,7 +11,7 @@
 	    @update:value="handleValue"
 	    action
 	    ref="tree"
-      url="/api/classifications"
+      url="/classifications"
       @refresh="refresh"
 	  >
 	  </pop-tree>

@@ -40,7 +40,7 @@ export default {
       }
       this.loading = true;
       this.$axiosPost({
-        url: `/api/patents/${this.id}/divide`,
+        url: `/patents/${this.id}/divide`,
         data: this.form,
         success: _=>{
           this.$message({type: 'success', message: _.info});

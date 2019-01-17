@@ -21,7 +21,7 @@ const mutations = {
 
 const actions = {
 	refreshTags ({commit, rootState}) {
-		url = rootState.status ? url.replace(/\/api/, '') : url;
+		url = rootState.status ? url.replace(/\/, '') : url;
 		rootState.axios
 		.get(url)
 		.then(response=>{

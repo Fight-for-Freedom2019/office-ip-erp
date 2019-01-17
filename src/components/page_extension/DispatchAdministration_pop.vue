@@ -119,7 +119,7 @@ export default {
     confirmFunc () {
       if( !this.form.receipt_date ) { return this.$message({type: 'warning', message: '请选择收文日期'});  }
 
-      const url = `/api/expresses/${this.id}`;
+      const url = `/expresses/${this.id}`;
       const data = {receipt_date: this.$tool.getDate(this.form.receipt_date)};
       const success = _=>{
         this.$message({message: '确认收文成功', type: 'success'});
@@ -150,7 +150,7 @@ export default {
     }
   },
   components: {  ExpressList, RemoteSelect  },
-  URL: '/api/expresses',
+  URL: '/expresses',
   REMINDER_TEXT: '发文信息',
 }
 </script>

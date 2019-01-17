@@ -9,7 +9,7 @@ import TableComponent from '@/components/common/TableComponent'
 import Strainer from '@/components/page_extension/NoticeCommon_strainer'
 import AxiosMixins from '@/mixins/axios-mixins'
 
-const URL =  '/api/patents/awards';
+const URL =  '/patents/awards';
 
 export default {
   name: 'patentAward',
@@ -21,7 +21,7 @@ export default {
 					{ type: 'export' },
 				],
 				'height': 'default2',
-				'url': '/api/patents/awards',
+				'url': '/patents/awards',
 				'import_type': '',
 				'upload_type': '',
 				'is_list_filter': false,

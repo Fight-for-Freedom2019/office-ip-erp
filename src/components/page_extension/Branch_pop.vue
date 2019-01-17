@@ -29,7 +29,7 @@ import PopMixins from '@/mixins/pop-mixins'
 import StaticSelect from '@/components/form/StaticSelect'
 import RemoteSelect from '@/components/form/RemoteSelect'
 export default {
-	URL: '/api/branches',
+	URL: '/branches',
 	REMINDER_TEXT: '部门',
 	name: 'branchPop',
 	mixins: [PopMixins],

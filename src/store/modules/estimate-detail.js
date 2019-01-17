@@ -28,7 +28,7 @@ const actions = {
 			id = state.id;
 		}
     if(!id) return;
-		const url = rootState.status ? URL.replace(/\/api/, '') : URL;
+		const url = rootState.status ? URL.replace(/\/, '') : URL;
     commit('setEstimateLoading', true);
     const n = rootState.axios.get(`${url}/${id}`)
     n

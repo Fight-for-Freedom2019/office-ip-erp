@@ -18,7 +18,7 @@ const actions = {
 	refreshRoeData({commit, rootState, state}) {
 		if(state.roeData != null) return;
 
-		let url = rootState.status ? url_roeData.replace(/\/api/, '') : url_roeData;
+		let url = rootState.status ? url_roeData.replace(/\/, '') : url_roeData;
 		rootState.axios.get(url)
 			.then(({data})=>{
 				if(data.status) {
