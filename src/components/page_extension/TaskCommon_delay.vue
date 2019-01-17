@@ -22,12 +22,12 @@ export default {
       dialogVisible: false,
       attachments: [],
       columns: [
-        { type: "text", label: "操作人", prop: "days" },
+        { type: "text", label: "操作人", prop: "creator_user",render_simple:'name' },
         { type: "text", label: "申请时间", prop: "creation_time" },
         { type: "text", label: "延期后期限", prop: "deadline" },
         { type: "text", label: "审批人", prop: "reviewer",render_simple:'name' },
         { type: "text", label: "审批时间", prop: "last_modification_time" },
-        { type: "text", label: "状态", prop: "status" },
+        { type: "text", label: "状态", prop: "status",render_simple:'name' },
         { type: "text-btn", label: "附件", prop: "attachments", click: this.handleAttach, render_text_btn: row => {
               return row.attachments[0] ? row.attachments[0].name : "";
         }},

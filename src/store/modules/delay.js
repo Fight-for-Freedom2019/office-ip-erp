@@ -1,4 +1,4 @@
-let url = '/api/delayrecord';
+let url = '/delayrecord';
 const state = {
   data: null,
 }
@@ -15,7 +15,7 @@ const mutations = {
 
 const actions = {
 	refreshTaskDelay ({commit, rootState},taskId) {
-		url = rootState.status ? url.replace(/\/api/, '') : url;
+		url = rootState.status ? url.replace(/\/, '') : url;
 		const params = {'task_id': taskId};
 		rootState.axios
 		.get(url,{params})

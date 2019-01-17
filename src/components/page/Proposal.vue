@@ -59,7 +59,7 @@ export default {
       this.$confirm(`删除后不可恢复，确认删除“${row.title}”?`, {type: 'warning'})
         .then(()=>{
           this.$axios
-            .delete(`/api/proposals/${row.id}`)
+            .delete(`/proposals/${row.id}`)
             .then(response=>{
               const d = response.data;
 
@@ -97,7 +97,7 @@ export default {
       this.$router.push({path: '/proposal/detail', query: {id: row.id}});
     },
     refreshTableData (option) {
-      const url = '/api/proposals';
+      const url = '/proposals';
       const data = Object.assign({}, option, this.defaultParams);
       const success = _=>{
         if(data.format == 'excel') {

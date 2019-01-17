@@ -9,7 +9,7 @@
 	    :multiple="multiple"
 	    :count-type="countType"
 	    action
-	    url="/api/products"
+	    url="/products"
 	    @refresh="refresh"
 	    @update:value="handleValue" 
 	    ref="tree"

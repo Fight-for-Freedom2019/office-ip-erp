@@ -240,7 +240,7 @@ export default {
 	  	}
   	},
   	refreshP () {
-  		const url = `/api/proposals/${this.row.project_id}`;
+  		const url = `/proposals/${this.row.project_id}`;
   		const success = _=>{
   			this.$tool.coverObj(this.row_p, _.proposal);
   			this.loading = false;
@@ -251,7 +251,7 @@ export default {
   	refreshPatent () {
       //这里使用全局的专利详情信息
 
-  		// const url = `/api/patents/${this.row.project_id}`;
+  		// const url = `/patents/${this.row.project_id}`;
   		// const success = _=>{
   		// 	this.$tool.coverObj(this.row_patent, _.patent);
   		// 	this.loading = false;
@@ -262,7 +262,7 @@ export default {
     refreshCopyright () {
       //这里使用全局的版权详情信息
 
-      // const url = `/api/copyrights/${this.row.project_id}`;
+      // const url = `/copyrights/${this.row.project_id}`;
       // const success = _=>{
       //   this.$tool.coverObj(this.row_copyright, _.copyright);
       //   this.loading = false;

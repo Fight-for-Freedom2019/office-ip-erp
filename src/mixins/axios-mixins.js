@@ -15,7 +15,7 @@ export default {
       },
       complete = _ => {}
     }) {
-      url = status ? url.replace(/\/api/, "") : url;
+      url = status ? url.replace(/\/, "") : url;
 
       const res = this.$axios.get(url, { params: data });
       res
@@ -50,7 +50,7 @@ export default {
       },
       complete = () => {}
     }) {
-      url = status ? url.replace(/\/api/, "") : url;
+      url = status ? url.replace(/\/, "") : url;
 
       const res = this.$axios.post(url, data);
       res
@@ -80,7 +80,7 @@ export default {
       },
       complete = () => {}
     }) {
-      url = status ? url.replace(/\/api/, "") : url;
+      url = status ? url.replace(/\/, "") : url;
 
       const res = this.$axios.put(url, data);
       res
@@ -109,7 +109,7 @@ export default {
         this.$alert("接口出错啦，请联系管理员");
       }
     }) {
-      url = status ? url.replace(/\/api/, "") : url;
+      url = status ? url.replace(/\/, "") : url;
       this.$axios
         .delete(url, { params: data })
         .then(response => {

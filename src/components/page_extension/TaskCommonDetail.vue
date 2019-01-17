@@ -465,7 +465,7 @@ export default {
     refreshOption() {},
 
     finishSuccess(data) {
-      this.dialogShrinkVisible = false;
+      this.isTaskDetailVisible = false;
       this.$emit('refresh');
       this.$refs.taskDetail.refreshData();
       // if(data.is_send_mail) {

@@ -12,7 +12,7 @@
         <el-form-item label="延期后期限" prop="deadline">
           <el-date-picker style="width: 100%" type="date" placeholder="请输入延期后期限" v-model="form.deadline"></el-date-picker>
         </el-form-item>
-        <el-form-item label="附件" prop="days">
+        <el-form-item label="附件" prop="attachments">
           <upload
             @uploadSuccess="handleUploadSuccess"
             v-model="form.attachments"
@@ -49,7 +49,7 @@ export default {
     return {
       URL: "/process_postpones",
       form: {
-        days: "",
+        deadline: "",
         attachments: [],
         remark: ""
       },
@@ -108,22 +108,26 @@ export default {
     show(mode, data) {
       this.mode = mode;
       this.isPanelVisible = true;
+      
       if (mode == "add") {
         this.title = "申请延期";
         this.form.days = "";
         this.form.attachments = [];
         this.form.remark = "";
+        this.attachments = [];
       } else {
         const id = parseInt(data);
         if (id ==  NaN) {
           this.title = "延期记录详情";
           this.coverObj(data);
+          this.attachments = data.attachments;
           this.id = data.id;
         } else {
           //只提供了ID，调用接口加载数据
           const url = this.URL + '/' + id;
           const success = _ => {
             this.coverObj(_.data);
+            this.attachments = _.data.attachments;
           };
           this.$axiosGet({ url, success })
         }

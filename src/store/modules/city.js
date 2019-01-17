@@ -31,7 +31,7 @@ const mutations = {
 
 const actions = {
 	refreshCity ({commit, rootState, state}) {	
-		url = rootState.status ? url.replace(/\/api/, '') : url;	
+		url = rootState.status ? url.replace(/\/, '') : url;	
 		
 		const d = rootState.tool.getLocal('city');
 		if(d) {

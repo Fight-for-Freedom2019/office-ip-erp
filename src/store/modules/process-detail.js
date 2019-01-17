@@ -16,7 +16,7 @@ const mutations = {
 
 const actions = {
   refreshProcessDetail ({commit, rootState, state},{id}={}) {
-      const URL = rootState.status ? `${url.replace(/\/api/, '')}/${id}` : `${url}/${id}`;  
+      const URL = rootState.status ? `${url.replace(/\/, '')}/${id}` : `${url}/${id}`;  
       rootState.axios
         .get(URL)
         .then(response=>{

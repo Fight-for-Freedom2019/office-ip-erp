@@ -59,7 +59,7 @@ import AppPop from '@/components/common/AppPop'
 import AppTag from '@/components/common/AppTag'
 import AppShrink from '@/components/common/AppShrink'
 
-const URL = '/api/agent';
+const URL = '/agent';
 
 export default {
   name: 'settingAgentDetail',

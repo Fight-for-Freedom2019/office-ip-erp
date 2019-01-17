@@ -71,7 +71,7 @@ import StaticSelect from '@/components/form/StaticSelect'
 
 import {mapActions} from 'vuex'
 
-const URL = '/api/copyrights'
+const URL = '/copyrights'
 
 export default {
   name: 'copyrightAdd',

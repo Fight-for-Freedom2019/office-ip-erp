@@ -8,7 +8,7 @@
 	  	v-for="item in config.btns"
 	  	style="display: inline-block;margin: 10px;"
 	  	:key="item.action"
-	  	:action="`/api/files?action=${item.action}`"
+	  	:action="`/files?action=${item.action}`"
 	  	:show-file-list="false"
 	  	:on-success="(response, file, fileList)=>{ handleUploadSuccess(item.action, {response, file, fileList}) }"
 	  	:multiple="false"
@@ -32,7 +32,7 @@
 </template>
 <script>
 
-const URL = '/api/patentUpdate'
+const URL = '/patentUpdate'
 
 const arr = [
 	['patent', {

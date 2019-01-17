@@ -3,7 +3,7 @@
   const token = window.localStorage.getItem("token");
   if (!token) return;
     $.ajax({
-      url: '/api/userinfo',
+      url: '/userinfo',
       type: 'GET',
       async: false,
       beforeSend: function(res){

@@ -50,7 +50,7 @@ export default {
       // }
       this.loading = true;
       this.$axiosPost({
-        url: `/api/closeproject/${this.id}`,
+        url: `/closeproject/${this.id}`,
         data: this.form,
         success: _=>{
           this.$message({type: 'success', message: _.info});

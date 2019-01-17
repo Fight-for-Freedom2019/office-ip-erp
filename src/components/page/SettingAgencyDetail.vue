@@ -49,7 +49,7 @@
 					class="upload-demo"
 					:before-upload="handleBeforeUpload"
 					:on-success="handleUploadSuccess"
-					action="/api/tempfile?action=getBatchFees"
+					action="/tempfile?action=getBatchFees"
 					:show-file-list="false">
 					<el-button size="small" type="primary" :loading="importLoading">{{ importLoading ? '导入中...' : '导入报价' }}</el-button>
 					<a slot="tip" style="margin-left: 15px; font-size: 12px;" href="/static/template/price_template.xlsx">下载导入模板</a>

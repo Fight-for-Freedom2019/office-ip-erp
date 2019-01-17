@@ -60,7 +60,7 @@ import MailDate from '@/components/form/MailDate'
 import {configs} from '@/const/reportConfig'
 import {mapGetters} from 'vuex' 
 
-const url = '/api/reports';
+const url = '/reports';
 export default {
 	name: 'reportAdd',
 	data () {

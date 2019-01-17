@@ -62,7 +62,7 @@
 <script>
 import AxiosMixins from '@/mixins/axios-mixins'
 import TableComponent from '@/components/common/TableComponent'
-const URL = '/api/tasks';
+const URL = '/tasks';
 
 export default {
   name: 'taskEdit',
@@ -126,7 +126,7 @@ export default {
   },
   methods: {
   	refreshProposal () {
-  		const url = `/api/proposals/${this.id}`;
+  		const url = `/proposals/${this.id}`;
   		const success = _=>{
   			this.$tool.coverObj(this.row, _.proposal);
   		}

@@ -15,7 +15,7 @@ const mutations = {
 
 const actions = {
 	refreshView ({state, commit, rootState},{ page }) {
-		url = rootState.status ? url.replace(/\/api/, '') : url;
+		url = rootState.status ? url.replace(/\/, '') : url;
 		rootState.axios
 		.get(url,{params:{page}})
 		.then(response=>{

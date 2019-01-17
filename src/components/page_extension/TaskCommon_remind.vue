@@ -33,7 +33,7 @@ export default {
 		refreshTable () {
 			this.loading = true;
 			this.$axiosGet({
-				url: `/api/tasks/${this.id}/remind`,
+				url: `/tasks/${this.id}/remind`,
 				success: _=>{
 					this.tableData = _.data;
 				},

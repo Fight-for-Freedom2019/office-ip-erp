@@ -8,7 +8,7 @@
 import TableComponent from '@/components/common/TableComponent'
 import Pop from '@/components/page_extension/RequirementListPop'
 import {mapGetters} from 'vuex'
-const URL = '/api/requirements';
+const URL = '/requirements';
 export default {
 	name: 'CustomerListQuotation',
 	props: ['customerId'],

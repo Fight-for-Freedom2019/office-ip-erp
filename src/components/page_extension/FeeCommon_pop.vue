@@ -84,7 +84,7 @@ import RemoteSelect from '@/components/form/RemoteSelect'
 import StaticSelect from '@/components/form/StaticSelect'
 
 
-const URL = '/api/fees'
+const URL = '/fees'
 
 export default {
   name: 'FeeCommonPop',

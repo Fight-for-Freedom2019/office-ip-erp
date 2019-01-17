@@ -1,4 +1,4 @@
-let url = '/api/mails';
+let url = '/mails';
 const state = {
 	data: undefined,
 }
@@ -15,7 +15,7 @@ const mutations = {
 
 const actions = {
 	refreshMesg ({commit, rootState, state}) {	
-		url = rootState.status ? url.replace(/\/api/, '') : url;	
+		url = rootState.status ? url.replace(/\/, '') : url;	
 		const params = {
 			page: 1,
 			listRows: 100,

@@ -146,7 +146,7 @@ export default {
 			}catch(e) {}
 			this.loading = false;
 			
-			// const url = '/api/fees';
+			// const url = '/fees';
 			// const data = 
 			// const success = (data) => {
 			// 	const fees = data.fees.data;

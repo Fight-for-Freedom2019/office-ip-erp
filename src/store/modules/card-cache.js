@@ -46,7 +46,7 @@ const actions = {
 		})
 		return promise.then(()=>{
 		    if(config.URL) {
-		      const url = rootState.status ?`${config.URL.replace(/\/api/, '')}/${id}` : `${config.URL}/${id}`;
+		      const url = rootState.status ?`${config.URL.replace(/\/, '')}/${id}` : `${config.URL}/${id}`;
 		      const params = config.PARAMS ? config.PARAMS : {};
 		      const data_key = config.DATA_KEY ? config.DATA_KEY : 'data'; 
 		      const success = _=>{

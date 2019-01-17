@@ -55,7 +55,7 @@ tableOption = {
  	//  {
 	// 		action: 'getPatents',
  	//    title: '导入专利',
-	// 		url: '/api/patents/import',
+	// 		url: '/patents/import',
 	// 		category: 1,
  	//    model: '/static/templates/patent_batch_template.xlsx',
  	//    model_name: '专利导入模板',

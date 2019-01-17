@@ -189,7 +189,7 @@ export default {
     },
     upload_url () {
       const action = this.config.action;
-      let url = '/api/files';
+      let url = '/files';
       if(action != '') {
         url += `?action=${action}`;
       }
@@ -198,7 +198,7 @@ export default {
     },
     zip_upload_url () {
       const action = this.config.action;
-      let url = '/api/files';
+      let url = '/files';
       if(action != '') {
         url += `?action=${action}&is_zip=1`;
       }

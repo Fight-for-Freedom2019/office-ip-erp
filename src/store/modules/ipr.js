@@ -1,4 +1,4 @@
-let url = '/api/iprs';
+let url = '/iprs';
 const state = {
 	data: undefined,
 }
@@ -20,7 +20,7 @@ const actions = {
 
 	refreshIpr ({commit, rootState, state}) {
 		const params = { listRows:"100" };
-		url = rootState.status ? url.replace(/\/api/, '') : url;
+		url = rootState.status ? url.replace(/\/, '') : url;
 		
 		if(state.data === undefined) {
 			commit('setIpr', []);

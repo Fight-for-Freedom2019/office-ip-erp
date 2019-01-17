@@ -90,7 +90,7 @@ const mutations = {
 
 const actions = {
 	refreshProduct ({commit, rootState},{success} = {}) {
-		url = rootState.status ? url.replace(/\/api/, '') : url;
+		url = rootState.status ? url.replace(/\/, '') : url;
 		rootState.axios
 			.get(url)
 			.then(response=>{

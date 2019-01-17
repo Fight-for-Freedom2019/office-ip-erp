@@ -30,7 +30,7 @@ import StaticSelect from '@/components/form/StaticSelect'
 import {mapGetters} from 'vuex'
 import {mapActions} from 'vuex'
 
-const url = '/api/reviews';
+const url = '/reviews';
 
 export default {
 	name: 'commonDetailReviews',

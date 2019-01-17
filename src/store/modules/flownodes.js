@@ -15,7 +15,7 @@ const mutations = {
 
 const actions = {
 	refreshFlownodes ({commit, rootState, state}) {		
-		url = rootState.status ? url.replace(/\/api/, '') : url;
+		url = rootState.status ? url.replace(/\/, '') : url;
 		rootState.axios
 			.get(url)
 			.then(response=>{

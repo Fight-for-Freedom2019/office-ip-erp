@@ -391,7 +391,7 @@ export default {
         .then(_ => {
           this.btnDisabled = true;
           this.$axiosPut({
-            url: `/api/projects/${this.id}/withdraw`,
+            url: `/projects/${this.id}/withdraw`,
             success: _ => {
               this.$message({ type: "success", message: "撤回委托成功" });
               this.refreshDetail();
@@ -409,7 +409,7 @@ export default {
       })
         .then(_ => {
           this.$axiosPost({
-            url: `/api/patents/${this.id}/divide`,
+            url: `/patents/${this.id}/divide`,
             data: {},
             success: _ => {
               this.$message({ type: "success", message: _.info });

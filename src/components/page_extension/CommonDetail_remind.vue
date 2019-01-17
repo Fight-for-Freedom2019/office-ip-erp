@@ -26,7 +26,7 @@ import {mapActions} from 'vuex'
 import TableComponent from '@/components/common/TableComponent'
 import StaticSelect from '@/components/form/StaticSelect'
 
-const url = '/api/reminders';
+const url = '/reminders';
 
 export default {
 	name: 'commonDetailRemind',
