@@ -374,8 +374,12 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
   color: #fff;
   background-color: rgb(255,141,26);
 }
-
-
+/* tinyMce */
+#app .mce-tinymce {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
   
 </style>
