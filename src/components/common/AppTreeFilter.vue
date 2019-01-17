@@ -8,7 +8,7 @@
       border="bottom"
     ></static-select>
     <el-tree
-      :style="{height: (parseInt(height) - 53) + 'px', margin:'10px 0 0 0', 'overflow-y':'auto'}"
+      :style="{height: (parseInt(height) - 40) + 'px', 'overflow-y':'auto'}"
       :data="data"
       :props="defaultProps"
       highlight-current
@@ -147,7 +147,7 @@ export default {
 #app .app-tree-filter .static_select .el-input__inner:hover{
   border-color: rgb(192, 196, 204);
 }
-#app .app-tree-filter .static_select .el-input__inner:focus{
+#app .app-tree-filter .static_select .el-input__inner:hover{
  border-color: #409EFF;
 }
 </style>

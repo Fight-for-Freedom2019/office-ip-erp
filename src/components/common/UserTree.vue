@@ -1,6 +1,6 @@
 <template>
   <div class="user-manage__tree">
-    <div ref="inputGroup" style="width:300px;background: #fff;border: 1px solid #ebeef5">
+    <div ref="inputGroup" style="width:200px;background: #fff;border: 1px solid #ebeef5">
       <el-input placeholder="请输入关键字进行过滤" v-model="filterText" class="user-tree__input"></el-input>
       <div style="position: relative;padding: 5px 0 5px; text-align: center;width: 100%;">
         <el-radio-group v-model="radio" size="small">
@@ -363,10 +363,10 @@ export default {
   background: #fff;
   border: 1px solid #ebeef5;
   margin-right: 6px;
-  flex: 0 0 300px;
+  flex: 0 0 200px;
   flex-wrap: wrap;
   align-content: flex-start;
-  width: 300px;
+  width: 200px;
 }
 </style>
 <style>
