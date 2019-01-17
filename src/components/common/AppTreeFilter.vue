@@ -138,3 +138,16 @@ export default {
   margin-right: 6px;
 }
 </style>
+<style lang="scss">
+#app .app-tree-filter .static_select .el-input__inner {
+  border-radius: 0px;
+  border: none;
+  border-bottom: 1px solid rgb(235, 238, 245);
+}
+#app .app-tree-filter .static_select .el-input__inner:hover{
+  border-color: rgb(192, 196, 204);
+}
+#app .app-tree-filter .static_select .el-input__inner:focus{
+ border-color: #409EFF;
+}
+</style>

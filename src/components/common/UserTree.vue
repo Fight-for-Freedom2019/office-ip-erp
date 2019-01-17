@@ -382,7 +382,7 @@ export default {
   border-bottom: 1px solid #dcdfe6;
 }
 #app .user-manage__tree .el-input.user-tree__input .el-input__inner:hover{
-    border-color: rgba(192, 196, 204);
+    border-color: rgb(192, 196, 204);
 }
 #app .user-manage__tree .el-input.user-tree__input .el-input__inner:focus{
     border-color: #409EFF;
