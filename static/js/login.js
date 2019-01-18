@@ -18,12 +18,12 @@
           //window.appCache.userinfo = _.member;
         }else {
           window.localStorage.removeItem("token");
-          window.location.href = '/';
+          window.location.href = '/login';
         }
       },
       error: function (xhr,status,error) {
         window.localStorage.removeItem("token");
-        window.location.href = '/';
+        window.location.href = '/login';
       }
     })
     

@@ -68,6 +68,10 @@ export default {
                 message: "登录成功,正在跳转...",
                 type: "success"
               });
+              //登录成功移除keydown
+              window.removeEventListener('keydown', 
+                this.handleKeyDown
+              ,true)
               // window.appCache = this;
               this.$store.commit("LOGIN", d.data.token);
               await new Promise((resolve, reject) => {
@@ -94,6 +98,17 @@ export default {
 
       // }
     },
+    handleKeyDown (e) {
+      let key = null;
+      if(window.event === undefined){
+        key = e.keyCode;
+      }else{
+        key = window.event.keyCode;
+      }
+      if(key === 13){
+        this.login();
+      }
+    },
     getUserInfos() {
       this.$axiosGet({
         url: "/userinfo",
@@ -107,8 +122,9 @@ export default {
             this.setUser(_.member);
             // window.localStorage.setItem("userinfo",JSON.stringify(_.member));
           } else {
+            console.log('bb')
             window.localStorage.removeItem("token");
-            this.$router.push({ path: "/" });
+            // this.$router.push({ path: "/login" });
           }
         }
       });
@@ -116,17 +132,9 @@ export default {
   },
   created(){
     let _self = this;
-    let key = null;
-    document.onkeydown = function(e){
-      if(window.event === undefined){
-        key = e.keyCode;
-      }else{
-        key = window.event.keyCode;
-      }
-      if(key === 13){
-        _self.login();
-      }
-    }
+    window.addEventListener('keydown',
+      _self.handleKeyDown
+    ,true)  
   },
   watch: {}
 };
