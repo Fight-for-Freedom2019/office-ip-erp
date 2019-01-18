@@ -194,6 +194,14 @@ const map = new Map([
     }
   ],
   [
+    "supplier",
+    {
+      URL: "/suppliers?listOnly=1",
+      DATA_KEY: "data",
+      PLACEHOLDER: "请选择供应商"
+    }
+  ],
+  [
     "user",
     {
       URL: "/users?listOnly=1",
