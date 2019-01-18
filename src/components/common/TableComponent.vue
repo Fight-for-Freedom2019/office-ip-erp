@@ -1125,30 +1125,31 @@ export default {
       if (this.filterLock) return;
       this.refresh();
     },
-    filterValueVisible(val) {
+    // filterValueVisible(val) {
       // if(val == false) {
       //   // 因为关闭测试筛选时，视图数据无法及时更新，则强制刷新当前路由加载数据
       //    this.reload();
       // }
       // hack 重新渲染tabel
-      this.refreshRender = false;
-      this.$nextTick(_ => {
-        this.refreshRender = true;
-      });
-    }
+      // this.refreshRender = false;
+      // this.$nextTick(_ => {
+      //   this.refreshRender = true;
+      // });
+    // }
   },
   beforeDestroy() {
     // this.clearFilter();
-    this.filterValueVisible = false;
+    // this.filterValueVisible = false;
   },
   mounted() {
     this.setBreadHeaderHeight(this.bread_header_height);
     this.tableHeight = this.$refs.table.tableHeight;
   },
   created() {
-    window.setTimeout(() => {
-      this.filterValueVisible = true;
-    }, 0);
+    // window.setTimeout(() => {
+    //   console.log('yanshi')
+    //   this.filterValueVisible = true;
+    // }, 0);
     this.initOptionColumns();
     this.initView();
     this.initControl();
