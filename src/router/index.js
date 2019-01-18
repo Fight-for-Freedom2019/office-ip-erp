@@ -173,7 +173,7 @@ const router = new Router({
   // mode: 'history',
   routes: [
     //###重定向###
-    // { path: "/", redirect: "/login" },
+    { path: "/", redirect: "/login" },
     { path: "/index", redirect: "/task/pending" },
     { path: "/task", redirect: "/task/pending" },
     { path: "/patents", redirect: "/patent/list" },
@@ -185,7 +185,7 @@ const router = new Router({
     { path: "/report", redirect: "/report/task" },
     //###重定向###
     {
-      path: "/",
+      path: "/login",
       name: "Login",
       component: Login
     },

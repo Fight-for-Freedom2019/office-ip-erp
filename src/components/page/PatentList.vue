@@ -930,14 +930,9 @@ export default {
     // 不！能！获取组件实例 `this`
     // 因为当守卫执行前，组件实例还没被创建
     next(vm=>{
-      console.log(from)
       if(from.path) {
         // vm.loading = true;
       }
-      console.log(to)
-      // if(to.path) {
-      //   vm.loading = false;
-      // }
     })
   },
   created() {

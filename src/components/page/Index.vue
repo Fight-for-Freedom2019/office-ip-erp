@@ -278,8 +278,8 @@ export default {
           window.localStorage.removeItem("userinfo");
           setTimeout(()=>{
             window.location.href = "/";
+          // this.$router.push( {path: '/login'})
           },2000)
-          // this.$router.push( {name: 'Login'})
         };
 
         this.$axiosGet({ url, success });
