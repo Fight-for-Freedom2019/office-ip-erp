@@ -36,7 +36,7 @@
     <template v-else-if="col.type == 'text'">
       
       <template v-if="col.render ? true : false">
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :align="col.align !== undefined ? col.align :'left'" :header-align="col.header_align !== undefined ? col.header_align :'left'" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined  && filterVisible ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :align="col.align !== undefined ? col.align :'left'" :header-align="col.header_align !== undefined ? col.header_align :'left'" :class-name="col.className? col.className : ''" :render-header="col.render_header && filterVisible ?handleRenderHeader:null">
           <template slot-scope="scope">
             <table-render :render="col.render" :scope="scope" :prop="col.prop"></table-render>
           </template>
@@ -44,7 +44,7 @@
       </template>
 
       <template v-else-if="col.render_text ? true : false ">
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined  ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header?handleRenderHeader:null">
           <template slot-scope="scope">
             <span class="table-column-render">{{ col.render_text(scope.row[col.prop],scope.row) }}</span>
           </template>
@@ -52,7 +52,7 @@
       </template>
 
       <template v-else-if="col.render_simple ? true : false ">
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header && filterVisible ?handleRenderHeader:null">
           <template slot-scope="scope">
             <span class="table-column-render">{{ handleSimple(scope.row, col) }}</span> 
           </template>
@@ -60,7 +60,7 @@
       </template>      
 
       <template v-else>
-        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+        <el-table-column :label="col.label" :prop="col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header  && filterVisible ?handleRenderHeader:null">
           <!-- <template v-if="col.default !== undefined" scope="scope">{{ scope.row[col.prop] ? scope.row[col.prop] : col.default }}</template> -->
         </el-table-column>
       </template>
@@ -69,21 +69,21 @@
 
       <template v-else-if="col.type == 'text-btn'">
           <template v-if="col.render_text_btn ? true : false">
-              <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+              <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header  && filterVisible ?handleRenderHeader:null">
                   <template slot-scope="scope">
                       <el-button type="text" style="padding: 0;" @click="handleActionCommand(col.click, scope, $event)">{{col.render_text_btn(scope.row)}}</el-button>
                   </template>
               </el-table-column>
           </template>
           <template v-else-if="col.custom_text ? true : false">
-              <el-table-column :label="col.label" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+              <el-table-column :label="col.label" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header  && filterVisible ?handleRenderHeader:null">
                   <template slot-scope="scope">
                       <el-button type="text" style="padding: 0;" @click="handleActionCommand(col.click, scope, $event)">{{col.custom_text}}</el-button>
                   </template>
               </el-table-column>
           </template>
           <template v-else>
-              <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+              <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header  && filterVisible ?handleRenderHeader:null">
                   <template slot-scope="scope">
                       <el-button type="text" style="padding: 0;" @click="handleActionCommand(col.click, scope, $event)">{{scope.row[col.prop]}}</el-button>
                   </template>
@@ -92,7 +92,7 @@
       </template>
 
     <template v-else-if="col.type == 'array'">
-      <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header !== undefined && filterVisible ?handleRenderHeader:null">
+      <el-table-column :label="col.label" :prop="col.render ? `${col.prop}__render` : col.prop" :width="col.width ? col.width : ''" :min-width="col.min_width ? col.min_width : ''"  :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true" :class-name="col.className? col.className : ''" :render-header="col.render_header  && filterVisible ?handleRenderHeader:null">
         <template slot-scope="scope">
           
           <template v-for="(item, i) in scope.row[scope.column.property]">

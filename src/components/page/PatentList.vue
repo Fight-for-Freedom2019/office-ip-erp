@@ -1,5 +1,5 @@
  <template>
-  <div class="main">
+  <div class="main" v-loading="loading">
     <table-component
       :tableOption="tableOption"
       :data="tableData"
@@ -98,6 +98,7 @@ export default {
         caseType: ""
       },
       figures: [],
+      loading: false,
       figureVisible: false,
       currentRow: "",
       selectData: [],
@@ -821,6 +822,7 @@ export default {
         } else {
           this.tableData = d.patents;
         }
+        this.loading = false;
       };
 
       this.refreshProxy = this.$axiosGet({ url, data, success });
@@ -922,6 +924,21 @@ export default {
         </span>
       );
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    // 在渲染该组件的对应路由被 confirm 前调用
+    // 不！能！获取组件实例 `this`
+    // 因为当守卫执行前，组件实例还没被创建
+    next(vm=>{
+      console.log(from)
+      if(from.path) {
+        // vm.loading = true;
+      }
+      console.log(to)
+      // if(to.path) {
+      //   vm.loading = false;
+      // }
+    })
   },
   created() {
     this.ifAgency();

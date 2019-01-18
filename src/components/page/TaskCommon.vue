@@ -159,6 +159,7 @@ export default {
             width: "60"
           },
           { type: "text", prop: "serial", label: "案号", width: "160" },
+          { type: "text", prop: "customer_serial", label: "客户案号", render_key: 'project', render_simple: 'customer_serial', width: "160", },
           { type: "text", prop: "title", label: "标题", width: "200" },
           {
             type: "text",
