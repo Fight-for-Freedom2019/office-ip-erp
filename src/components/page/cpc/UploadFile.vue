@@ -135,6 +135,12 @@ export default {
         // }
         if (this.patent_type === 1 || this.patent_type === 4) {
           options = options.concat([
+            { value: 100042, label: "修改对照页" },
+            { value: 100001, label: "权利要求书" },
+            { value: 100002, label: "说明书" },
+            { value: 100003, label: "说明书附图" },
+            { value: 100004, label: "说明书摘要" },
+            { value: 100005, label: "摘要附图" },
             { value: 100120, label: "生物材料保藏证明" },
             {
               value: 100111,
@@ -302,7 +308,9 @@ export default {
     viewFileList:function () {
       let arr = [];
       this.fileList.forEach((item)=>{
-        arr.push(item.response.data.file.viewUrl)
+        if(item.response){
+          arr.push(item.response.data.file.viewUrl)
+        }
         // arr.push(item)
       })
       return arr
@@ -506,10 +514,12 @@ export default {
           response: item.response,
           fid: item.response.data.file.id,
           url: item.response.data.file.viewUrl,
+          viewUrl: item.response.data.file.viewUrl,
           target: parseInt(item.target)
         });
       });
-      if (bool) {
+      if (!bool) {
+        // console.log("经过");
         this.$emit("getFileList", temp);
         this.isSave ? (this.fileList = []) : "";
       }
@@ -521,7 +531,7 @@ export default {
     },
     "fileTypeForm.fileType": function(val) {
       let target = this.fileTypeList.filter(item => item.value === val);
-      this.fileTypeForm.fileTypeInput = target[0].label;
+      target.length?this.fileTypeForm.fileTypeInput = target[0].label:"";
     },
     fileListProp: {
       handler: function(val) {
