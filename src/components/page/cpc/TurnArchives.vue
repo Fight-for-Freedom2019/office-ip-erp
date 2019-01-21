@@ -1,47 +1,54 @@
 <!-- 转档 -->
 <template>
   <el-form :model="form" label-width="100%" label-position="top">
-    <el-form-item label="第一步:上传专利说明书（仅支持.doc/.docx格式）">
-      <el-upload
-          class="upload-demo"
-          action="/api/files?action=cpcpdf"
-          :on-success="handleSuccess"
-          :before-upload = "handleBeforeUpload"
-          :file-list="fileList"
-          :headers="auth"
-          accept=".doc,.docx"
-      >
-        <el-button size="small" type="primary" :disabled="disabled">点击上传</el-button>
-      </el-upload>
-    </el-form-item>
-    <el-form-item label="或从已上传的文件中选择要转档的文件">
-      <el-select v-model="selectFile" placeholder="请选择">
-        <el-option
-            v-for="item in amendments"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-        </el-option>
-      </el-select>
-    </el-form-item>
-    <template v-if="uploadSuccess">
-      <el-form-item :label=label>
-        <template>
-          <table-component v-loading="loading" :tableOption="tableOption" :data="tableData"></table-component>
+    <el-tabs v-model="activeName" @tab-click="handleChange">
+      <el-tab-pane label="第一步" name="stepOne">
+        <el-form-item label="第一步:上传专利说明书（仅支持.doc/.docx格式）">
+          <el-upload
+              class="upload-demo"
+              action="/api/files?action=cpcpdf"
+              :on-success="handleSuccess"
+              :before-upload = "handleBeforeUpload"
+              :file-list="fileList"
+              :headers="auth"
+              accept=".doc,.docx"
+          >
+            <el-button size="small" type="primary" :disabled="disabled">点击上传</el-button>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="或从已上传的文件中选择要转档的文件">
+          <el-select v-model="selectFile" placeholder="请选择">
+            <el-option
+                v-for="item in amendments"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-tab-pane>
+      <el-tab-pane label="第二步" name="stepTwo">
+        <template v-if="uploadSuccess">
+          <el-form-item :label=label>
+            <template>
+              <table-component v-loading="loading" :tableOption="tableOption" :data="tableData"></table-component>
+            </template>
+          </el-form-item>
         </template>
-      </el-form-item>
-    </template>
-    <template v-if="showTitle">
-      <el-form-item label="标题">
-        <el-input v-model="title"></el-input>
-      </el-form-item>
-      <el-form-item class="turn-archives-tip" :label="tip"></el-form-item>
-    </template>
-    <template v-if="!turnArchivesSuccess">
-      <el-form-item class="turn-archives-tip" :label="tip"></el-form-item>
-    </template>
-    <!--<el-form-item>-->
-    <el-button style="margin-top: 10px" type="primary" @click="saveResult">保存结果</el-button>
+        <template v-if="showTitle">
+          <el-form-item label="标题">
+            <el-input v-model="title"></el-input>
+          </el-form-item>
+          <el-form-item class="turn-archives-tip" :label="tip"></el-form-item>
+        </template>
+        <template v-if="!turnArchivesSuccess">
+          <el-form-item class="turn-archives-tip" :label="tip"></el-form-item>
+        </template>
+        <!--<el-form-item>-->
+        <el-button style="margin-top: 10px" type="primary" @click="saveResult">保存结果</el-button>
+      </el-tab-pane>
+    </el-tabs>
+
     <!--</el-form-item>-->
   </el-form>
 </template>
@@ -63,11 +70,12 @@
         selectFile: "",
         keepTime:"",
         disabled:false,
+        activeName: 'stepOne',
         label: "第二步，耐心等待服务器完成转档操作，平均用时约20秒，已用时0秒",
         tip: "请一定查看以确认转档后PDF是否正确(点击文件名称查看)",
         tableOption: {
           name: "TurnArchivesFile",
-          height: 120,
+          height: 260,
           highlightCurrentRow: true,
           is_search: false,
           is_pagination: false,
@@ -112,6 +120,7 @@
       },
     },
     methods: {
+      handleChange(){},
       reset() {
         this.uploadSuccess = false;
         this.loading = false;
@@ -119,11 +128,13 @@
         this.showTitle = false;
         this.tableData = [];
         this.fileList = [];
+        this.activeName = "stepOne";
       },
       handleBeforeUpload(){
         this.disabled = true;
         this.uploadSuccess = true;
         this.loading = true;
+        this.activeName = "stepTwo";
         let time = 1;
         this.keepTime = setInterval(() => {
           this.label = `第二步，耐心等待服务器完成转档操作，平均用时约20秒，已用时${time++}秒`;
