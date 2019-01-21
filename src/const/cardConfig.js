@@ -1,3 +1,4 @@
+// 名片配置项
 const config = [
 	['applicant',{
 	  URL: '/applicants',

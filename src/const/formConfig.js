@@ -1,3 +1,4 @@
+// 工作流动态表格配置项
 const map = new Map([
   [
     "single_user_select",

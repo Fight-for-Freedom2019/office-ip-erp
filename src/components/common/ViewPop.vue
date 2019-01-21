@@ -2,7 +2,7 @@
 	<el-dialog :visible.sync="dialogVisible" title="新建视图" @close="close">
 		<el-form label-width="80px" :rules="rules" :model="form" ref="form">
 			<el-form-item label="字段" prop="fields">
-				<app-transfer-panel v-model="form.fields" placeholder="请输入关键字查询字段" :data.sync="fieldData" title="原始视图字段控制"  style="width: 100%;"></app-transfer-panel>
+				<app-transfer-panel v-model="form.fields" placeholder="请输入关键字查询字段" :data.sync="fieldData" title="原始视图字段控制"  style="width: 100%;"><span slot="tips" style="margin-left: 6px; color: rgb(132, 146, 166)">提示：可拖动字段调整顺序</span></app-transfer-panel>
 			</el-form-item>
 			<el-form-item label="名称" prop="name">
 				<el-input v-model="form.name" placeholder="请输入视图名称"></el-input>

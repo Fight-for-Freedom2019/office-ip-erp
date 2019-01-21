@@ -1,3 +1,4 @@
+// 高级筛选配置项
 const map = new Map([
     ['task', [
         { components: 'static_select', id: 'category',                       name: '案件类型', type: 'project_type' },
