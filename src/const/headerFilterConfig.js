@@ -663,7 +663,7 @@ const map = new Map([
         url: "/projects"
       },
       { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
-      { type: "text", id: "order", name: "订单号" },
+      { type: "text", id: "order.serial", name: "订单号" },
       {
         type: "static_select",
         id: "fee_code.name",
