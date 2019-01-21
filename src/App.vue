@@ -104,6 +104,13 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
         outline: none;
     }
 }
+  // 移除input type=number的箭头
+  // .el-input input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
+  //    -webkit-appearance: textfield;
+  //  }    
+  // .el-input input[type="number"]{
+  //   -moz-appearance: textfield;
+  // }  
 #app {
     height: 100%;
     width: 100%;
@@ -221,13 +228,6 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     min-width: 180px;
     height: auto;
   }
-  // 移除input type=number的箭头
-  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
-     -webkit-appearance:textfield;
-   }    
-  input[type="number"]{
-    -moz-appearance:textfield;
-  }  
   textarea {
     height: 80px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
