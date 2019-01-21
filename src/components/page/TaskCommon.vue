@@ -132,7 +132,48 @@ export default {
           {},
           { type: "export2" },
           { type: "control", label: "字段" },
-          { type: "taskscope" }
+          {
+            type: "dropdown",
+            label: "批量操作",
+            map_if: "/task/btn/save",
+            items: [
+              {
+                text: "派案",
+                click: () => {
+                  return;
+                },
+                icon: "arrow-right"
+              },
+              {
+                text: "转出",
+                click: () => {
+                  return;
+                },
+                icon: "d-arrow-right"
+              },
+              {
+                text: "立案通知",
+                click: () => {
+                  return;
+                },
+                icon: "message"
+              },
+              {
+                text: "完成任务",
+                click: () => {
+                  return;
+                },
+                icon: "check"
+              },
+              {
+                text: "期限提醒",
+                click: () => {
+                  return;
+                },
+                icon: "date"
+              }
+            ]
+          }
         ],
         header_slot: ["toggle"],
         highlightCurrentRow: true,
@@ -159,7 +200,14 @@ export default {
             width: "60"
           },
           { type: "text", prop: "serial", label: "案号", width: "160" },
-          { type: "text", prop: "customer_serial", label: "客户案号", render_key: 'project', render_simple: 'customer_serial', width: "160", },
+          {
+            type: "text",
+            prop: "customer_serial",
+            label: "客户案号",
+            render_key: "project",
+            render_simple: "customer_serial",
+            width: "160"
+          },
           { type: "text", prop: "title", label: "标题", width: "200" },
           {
             type: "text",
