@@ -39,7 +39,8 @@ const urlMap = new Map([
   ["cpc_notice", { URL: "/cpc_notices/filters" }],
   ["cpc_archive", { URL: "/cpc_archives/filters" }],
   ["orders", { URL: "/orders/filters" }],
-  ["quotations", { URL: "/quotations/filters" }]
+  ["quotations", { URL: "/quotations/filters" }],
+  ["notices", { URL: "/notices/filters" }]
 ]);
 export default {
   name: "filterTree",
@@ -144,10 +145,10 @@ export default {
   border: none;
   border-bottom: 1px solid rgb(235, 238, 245);
 }
-#app .app-tree-filter .static_select .el-input__inner:hover{
+#app .app-tree-filter .static_select .el-input__inner:hover {
   border-color: rgb(192, 196, 204);
 }
-#app .app-tree-filter .static_select .el-input__inner:focus{
- border-color: #409EFF;
+#app .app-tree-filter .static_select .el-input__inner:focus {
+  border-color: #409eff;
 }
 </style>
