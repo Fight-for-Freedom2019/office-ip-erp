@@ -954,21 +954,20 @@ const map = new Map([
     ]
   ],
   [
-    "notices",
+    "patent_notices",
     [
       {
         type: "remote_select",
         id: "customer",
         name: "客户",
-        map_type: "customer",
-        url: true
+        data_key: "data",
+        url: "/customers"
       },
       {
         type: "static_select",
         id: "is_sent",
         name: "是否发送",
         map_type: "status",
-        url: true
       },
       {
         type: "static_select",

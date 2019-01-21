@@ -55,8 +55,8 @@ export default {
         import_type: "",
         // 'upload_type': '',
         is_list_filter: true,
-        list_type: "notices",
-        treeFilter: "notices",
+        list_type: "patent_notices",
+        treeFilter: "patent_notices",
         columns: [
           { type: "selection" },
           {

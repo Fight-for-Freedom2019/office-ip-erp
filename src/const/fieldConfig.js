@@ -196,6 +196,16 @@ const strainerConfig = [
       { name: "客户", id: "customer", default: true },
       { name: "服务项目", id: "service" }
     ]
-  ]
+  ], 
+  [
+    "patent_notices",
+    [
+      { name: "是否发送", id: "is_sent", },
+      { name: "客户", id: "customer", default: true },
+      { name: "通知书名称", id: "file_type", },
+      { name: "发文日", id: "mail_date", },
+      { name: "上传时间", id: "creation_time", },
+    ]
+  ],
 ];
 export { config, fieldExceptMap, strainerConfig };
