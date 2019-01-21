@@ -135,6 +135,7 @@ export default {
           {
             type: "dropdown",
             label: "批量操作",
+            map_if: "/task/btn/save",
             items: [
               {
                 text: "派案",
@@ -144,7 +145,7 @@ export default {
                 icon: "arrow-right"
               },
               {
-                text: "转案",
+                text: "转出",
                 click: () => {
                   return;
                 },
