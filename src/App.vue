@@ -221,6 +221,13 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     min-width: 180px;
     height: auto;
   }
+  // 移除input type=number的箭头
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
+     -webkit-appearance:textfield;
+   }    
+  input[type="number"]{
+    -moz-appearance:textfield;
+  }  
   textarea {
     height: 80px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
