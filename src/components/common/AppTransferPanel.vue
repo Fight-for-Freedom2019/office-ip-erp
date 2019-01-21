@@ -1,6 +1,6 @@
 <template>
 	<div class="app-transfer-panel">
-      <p class="app-transfer-panel__header">{{ `${title} 共 ${data.length} 项`}}</p>
+      <p class="app-transfer-panel__header">{{ `${title} 共 ${data.length} 项`}}<slot name="tips"></slot></p>
       <div class="app-transfer-panel__body">
         <el-input
           :placeholder="placeholder"

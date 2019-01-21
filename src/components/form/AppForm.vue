@@ -90,6 +90,7 @@
             <el-input
               ref="input"
               v-model.number="form[item.key]"
+              @mousewheel.native.prevent
               @input="handleInput"
               :type="item.type"
               :placeholder="item.placeholder"
