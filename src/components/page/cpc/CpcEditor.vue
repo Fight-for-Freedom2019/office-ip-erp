@@ -90,8 +90,16 @@
             @tab-click="handleTab"
             :style="`height:${innerHeight/2-123}px`"
           >
-            <el-tab-pane label="申请文件" name="application_doc"></el-tab-pane>
-            <el-tab-pane label="官文" name="official_doc"></el-tab-pane>
+            <el-tab-pane label="申请文件" name="application_doc">
+              <ul class="attachmentsList">
+                <li v-for="item in amendments"></li>
+              </ul>
+            </el-tab-pane>
+            <el-tab-pane label="官文" name="official_doc">
+              <ul class="noticesList">
+                <li v-for="item in notices"></li>
+              </ul>
+            </el-tab-pane>
             <!-- <el-tab-pane label="邮件" name="mail"></el-tab-pane> -->
           </el-tabs>
           <div class="task-content" :style="`height:${innerHeight/2}px`">
@@ -142,7 +150,7 @@
           <span>电子申请编辑器说明书转档</span>
           <a href="/static/templates/patent_template.dotx" target="_blank">(说明书撰写模板下载)</a>
         </div>
-        <turn-archives></turn-archives>
+        <turn-archives :amendments="amendments"></turn-archives>
       </el-dialog>
       <!-- 转档 end -->
     </app-shrink>
@@ -197,6 +205,8 @@ export default {
       cpc_id: "",
       count: 0,
       form: {},
+      amendments:[], // 右侧申请文件
+      notices:[], // 右侧官文
       copy_form: [
         100104,
         1001042,
@@ -246,7 +256,13 @@ export default {
   props: {
     taskID: {
       type: Number
-    }
+    },
+    process:{
+      type:Object,
+      default(){
+        return {}
+      },
+    },
   },
   computed: {
     ...mapGetters(["innerHeight", "getHashMaps"]),
@@ -742,7 +758,15 @@ export default {
         this.renderForm();
       };
       this.$axiosGet({ url: `/taskCpcs/${this.task_id}`, data: {}, success });
-    }
+    },
+    getProject(){
+      const success = _=>{
+        // console.log(_);
+        this.amendments= _.patent.amendments;
+        this.notices= _.patent.notices;
+      }
+      this.$axiosGet({url:`/patents/${this.process.project.id}`,success})
+    },
   },
   watch: {
     formList: function(val, oldVal) {
@@ -752,7 +776,13 @@ export default {
         });
         item.showIcon = arr.length !== 0 ? true : false;
       });
-    }
+    },
+    process:{
+      handler:function (val) {
+        val.project.id?this.getProject():"";
+      },
+      immediate:true
+    },
   },
   components: {
     AppShrink,

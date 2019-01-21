@@ -19,6 +19,13 @@
           <el-button size="small" type="primary">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">{{tip}}</div>
         </el-upload>
+        <div class="viewListWrap">
+          <ul>
+            <li v-for="item in viewFileList">
+              <el-button type="text" @click="viewFile(item)">查看</el-button>
+            </li>
+          </ul>
+        </div>
       </el-form-item>
       <template v-if="isSave">
         <el-form-item>
@@ -291,6 +298,14 @@ export default {
         ];
       }
       return options;
+    },
+    viewFileList:function () {
+      let arr = [];
+      this.fileList.forEach((item)=>{
+        arr.push(item.response.data.file.viewUrl)
+        // arr.push(item)
+      })
+      return arr
     }
   },
   props: {
@@ -350,6 +365,9 @@ export default {
     }
   },
   methods: {
+    viewFile(item){
+      window.open(item);
+    },
     handleFileUploadBefore(file) {
       // console.log("before",file);
       this.fileCount++;
@@ -518,4 +536,21 @@ export default {
 </script>
 
 <style scoped>
+  .viewFileList {
+    position: relative;
+  }
+
+  .viewListWrap {
+    position: absolute;
+    left: 80%;
+    top: 90px;
+  }
+
+  .viewListWrap li {
+    height: 92px;
+    line-height: 92px;
+  }
+  .viewListWrap li:not(:first-child) {
+    margin-top: 10px;
+  }
 </style>

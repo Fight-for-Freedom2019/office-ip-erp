@@ -116,7 +116,7 @@
     <!-- 专利基本信息 -->
     <common-detail ref="common_detail" :title="row.title" v-if="map['patent'] != undefined"></common-detail>
     <!-- 专利、商标、版权详情 -->
-    <cpc-editor ref="cpc_editor" :id="row.model_id" v-if="map['cpc_editor'] != undefined"></cpc-editor>
+    <cpc-editor ref="cpc_editor" :id="row.model_id" :process="process" v-if="map['cpc_editor'] != undefined"></cpc-editor>
     <!-- 延期记录 -->
     <postpone ref="postpone" :id="row.model_id" v-if="map['postpone'] != undefined"></postpone>
     <!-- CPC编辑器 -->
