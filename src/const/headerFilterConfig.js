@@ -952,6 +952,32 @@ const map = new Map([
         url: true
       }
     ]
+  ],
+  [
+    "notices",
+    [
+      {
+        type: "remote_select",
+        id: "customer",
+        name: "客户",
+        map_type: "customer",
+        url: true
+      },
+      {
+        type: "static_select",
+        id: "is_sent",
+        name: "是否发送",
+        map_type: "status",
+        url: true
+      },
+      {
+        type: "static_select",
+        id: "file_type",
+        name: "通知书名称",
+        map_type: "file_type_oa",
+        url: true
+      }
+    ]
   ]
 ]);
 export { map };
