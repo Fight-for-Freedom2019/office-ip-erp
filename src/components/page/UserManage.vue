@@ -31,7 +31,7 @@ export default {
     return {
       option: {
         name: "userManage",
-        height: "noPagination",
+        height: "userManage",
         is_pagination: false,
         // 'is_search': false,
         list_type: "user_manage",

@@ -189,7 +189,7 @@ export default {
           fixed: false,
           width: '175',
           btns: [
-            { type: 'download', click: ({downloadUrl})=>{ window.location.href = downloadUrl } },
+            { type: 'download', click: ({downloadUrl})=>{ window.open(downloadUrl) } },
             { type: 'view', click: ({viewUrl})=>{ window.open(viewUrl) } },
             { type: 'delete',  click: this.handleDelete},
           ]
@@ -207,7 +207,7 @@ export default {
           width: '175',
           fixed: false,
           btns: [
-            { type: 'download', click: ({downloadUrl})=>{ window.location.href = downloadUrl } },
+            { type: 'download', click: ({downloadUrl})=>{ window.open(downloadUrl) } },
             { type: 'view', click: ({viewUrl})=>{ window.open(viewUrl) } },
             { type: 'delete',  click: this.handleDelete },
           ]

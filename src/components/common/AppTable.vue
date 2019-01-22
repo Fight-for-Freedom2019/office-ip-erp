@@ -282,7 +282,7 @@
               >下载</el-button>
 
               <el-button
-                v-else-if="btn.type == 'view' && (scope.row.isView || scope.row.is_view || scope.row.file.is_view)"
+                v-else-if="btn.type == 'view' && (scope.row.isView || scope.row.is_view || scope.row.file && scope.row.file.is_view)"
                 :type="btn.btn_type ? btn.btn_type : 'text'"
                 :key="index"
                 :size="btn.size ? btn.size : 'mini'"
@@ -489,6 +489,9 @@ export default {
           height = height < 300 ? 300 : height;
         } else if (hk === "flowActions") {
           height = this.innerHeight - 280;
+          height = height < 300 ? 300 : height;
+        } else if (hk === "userManage") {
+          height = this.innerHeight - 110;
           height = height < 300 ? 300 : height;
         } else if (typeof hk === "number") {
           height = hk;
