@@ -230,6 +230,10 @@ export default {
       type: Object,
       default: {}
     },
+    data: {
+      type: Object,
+      default: {}
+    },
     process: {
       type: Object,
       default() {
@@ -325,6 +329,15 @@ export default {
         }
         this.$set(this.form, _.key, val);
       });
+
+      const fields = ["points"];
+      for (var f in fields) {
+        let name = fields[f];
+        console.log(this.data[name]);
+        if (this.data[name] != undefined) {
+          this.$set(this.form, name, this.data[name]);
+        }
+      }
     }
   },
   mounted() {
@@ -334,7 +347,11 @@ export default {
     source() {
       this.initializeForm();
       this.$nextTick(_ => {
-        this.$refs["upload"]?this.$refs["upload"].length?this.$refs["upload"][0].clearFiles():"":"";
+        this.$refs["upload"]
+          ? this.$refs["upload"].length
+            ? this.$refs["upload"][0].clearFiles()
+            : ""
+          : "";
       });
     }
   },
