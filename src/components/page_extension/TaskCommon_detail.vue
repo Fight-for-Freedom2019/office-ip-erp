@@ -1,5 +1,5 @@
 <template>
-  <div class="task-detail" style="min-height: 44px;" v-loading="loading">
+  <div class="task-detail" style="min-height: 44px;" v-loading="loading"  element-loading-text="流程节点正在更新...">
     <el-collapse accordion v-if="collapse.length != 0">
       <el-collapse-item
         v-for="item in collapse"

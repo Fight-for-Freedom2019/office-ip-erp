@@ -1,6 +1,6 @@
 
 <template>
-  <div class="main" id="task_common">
+  <div class="task_common">
     <app-shrink :visible.sync="isTaskDetailVisible" :title="title">
       <span slot="header" style="margin-left: 10px;">
         <el-tag v-if="row.taskdef">{{ row.taskdef.name }}</el-tag>
@@ -56,7 +56,6 @@
             <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">
               <detail
                 :row="row"
-                style="margin: 10px 0;"
                 ref="taskDetail"
                 @refreshSiblings="refreshSiblings"
               ></detail>
@@ -517,13 +516,16 @@ export default {
 };
 </script>
 <style>
-#task_common .el-dialog--small .el-upload--text {
+#app .task_common .el-dialog--small .el-upload--text {
   display: inline-block;
   text-align: center;
   cursor: pointer;
   position: absolute;
   left: 0px;
   bottom: 4px;
+}
+#app .task_common .el-tabs__header {
+  margin: 0 0 5px;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
