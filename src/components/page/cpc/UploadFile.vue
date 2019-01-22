@@ -498,6 +498,9 @@ export default {
       let temp = [];
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
+        if(item.target) {
+          item.type = item.target;  // 填充的数据可能没有type但是一定有target,有的话先复制
+        }
         if (item.type === "" || !item.type) {
           this.$message({
             type: "warning",

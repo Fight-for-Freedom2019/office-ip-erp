@@ -57,10 +57,10 @@ export default {
       type: [String, Number, Date, Array],
       required: true,
     },
-    visible: {
+    /*visible: {
       type: Boolean,
       default: false,
-    },
+    },*/
     field: String, 
     labelMap: {
       type: Map,
@@ -204,9 +204,25 @@ export default {
       }
       this.$refs.tree.filter(val);
     },
-    visible (v) {
-      return v && this.filterDataKey && this.filterUrl && this.labelMap.get(this.source.id) ? this.refreshFilterData({key: this.source.id,}) : null;
-    },
+     "source.id":{
+        handler:function () {
+          if(this.filterUrl){
+            this.setUrl({key:this.source.id,url:this.filterUrl});
+          }
+          this.filterDataKey && this.filterUrl ? this.refreshFilterData({key: this.source.id,}):"";
+        },
+       immediate: true
+     },
+     /*visible:{
+       handler:function (v) {
+         console.log(v);
+        if(v&&this.filterUrl){
+          this.setUrl({key:this.source.id,url:this.filterUrl});
+        }
+        return v && this.filterDataKey && this.filterUrl ? this.refreshFilterData({key: this.source.id,}) : false;
+      },
+       immediate: true
+     },*/
   }, 
   components: {
     AppDate,
