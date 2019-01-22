@@ -64,12 +64,12 @@
                   v-on:mouseleave="changeStyle(index,false,'file')"
                   v-on:mouseenter="changeStyle(index,true,'file')"
                   v-for="(item,index) in submitFileList"
-                  @click="viewFile(item.response)"
+                  @click="viewFile(item.viewUrl)"
                   :title="item.name"
                 >
                   <span class="form-item-name">{{item.name}}</span>
                   <el-button
-                    @click.stop="removeFile(index,item.response)"
+                    @click.stop="removeFile(index,item.fid)"
                     :class="{'show-remove':isShowFileRemoveBtn && index === isShowFileIndex}"
                     type="text"
                     size="mini"
@@ -150,7 +150,7 @@
           <span>电子申请编辑器说明书转档</span>
           <a href="/static/templates/patent_template.dotx" target="_blank">(说明书撰写模板下载)</a>
         </div>
-        <turn-archives :amendments="amendments"></turn-archives>
+        <turn-archives @hide="hideTurnArchives" :otherFormMap="otherFormMap" :amendments="amendments" @getTurnArchives="getTurnArchives"></turn-archives>
       </el-dialog>
       <!-- 转档 end -->
     </app-shrink>
@@ -165,12 +165,19 @@ import formConfig from "@/formConfig/main";
 import { handlePlaceholder, handleSingle } from "@/formConfig/handle/handle";
 import Vue from "vue";
 import { mapGetters } from "vuex";
-
+const otherForm = [
+  ["100000","说明书全文"],
+  ["100001","权利要求书"],
+  ["100002","说明书"],
+  ["100003","说明书附图"],
+  ["100004","说明书摘要"],
+  ["100005","摘要附图"],
+];
 export default {
   name: "CpcEditor",
   data() {
     return {
-      title: "",
+      title: "CPC电子申请编辑器",
       isApplicationEditor: false,
       tabpanel: "application_doc",
       showAppendForm: false,
@@ -187,6 +194,7 @@ export default {
       model: {},
       current: "",
       formType: "",
+      otherFormMap:new Map(otherForm),
       turnArchivesForm: {},
       submitFileList: [],
       formTypeCollection: [],
@@ -207,6 +215,7 @@ export default {
       form: {},
       amendments:[], // 右侧申请文件
       notices:[], // 右侧官文
+
       copy_form: [
         100104,
         1001042,
@@ -299,22 +308,49 @@ export default {
   methods: {
     /*****文件相关 start*****/
     getFileList(result) {
-      this.submitFileList = this.submitFileList.concat(result);
+      result.forEach((item)=>{
+        this.detectorRepeat(item)
+      })
+      // this.submitFileList = this.submitFileList.concat(result);
       this.showAppendFile = false;
     },
-    viewFile(r) {
-      const success = _ => {
-        console.log("view", _);
-      };
-      this.$axiosGet({
-        url: `/file/${r.data.file.id}/preview`,
-        data: {},
-        success
-      });
-      // https://zhiquan.hongjianguo.com
-      // window.open(`https://zhiquan.hongjianguo.com/${r.data.file.viewUrl}`)
+    getTurnArchives(result){
+      let arr = [];
+      result.forEach((item)=>{
+        if(item.code !== "100000") {
+          let obj = {};
+          obj.name = item.filename+'.'+item.ext;
+          obj.viewUrl = item.viewUrl;
+          obj.target = parseInt(item.code);
+          obj.fid = item.id;
+          obj.ext = item.ext;
+          this.detectorRepeat(obj)
+        }
+      })
+      this.submitFileList = this.submitFileList.concat(arr);
+      this.showTurnArchives = false;
     },
-    removeFile(r) {},
+    detectorRepeat(o){
+      this.submitFileList.forEach((item,index)=>{
+          if(item.target == o.target) {
+            this.submitFileList.splice(index,1);
+            this.submitFileList.push(o);
+          }
+      })
+    },
+    viewFile(url) {
+      // https://zhiquan.hongjianguo.com
+      window.open(url)
+    },
+    removeFile(index,id) {
+      this.$confirm("是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.submitFileList.splice(index,1);
+      });
+    },
     /*****文件相关 end*****/
     choiceCommon(id, index) {
       let bool = this.common_use[index].showIcon;
@@ -628,7 +664,14 @@ export default {
               data[extendKey] ? (temp[extendKey] = data[extendKey]) : "";
             }
           }
-        } else {
+        }else if(rule._vm){
+          let temp = rule._vm.extendData
+          for (let extendKey in temp) {
+            if (temp.hasOwnProperty(extendKey)) {
+              data[extendKey] ? (temp[extendKey] = data[extendKey]) : "";
+            }
+          }
+        }else {
           data[rule.field] ? (rule.value = data[rule.field]) : "";
         }
       });
@@ -682,6 +725,7 @@ export default {
               ? _this.submitData.set(_this.formType, formData)
               : "";
           }
+          console.log(_this.submitData);
         }
       });
     },
@@ -691,6 +735,7 @@ export default {
       if (!this.isValidate) return;
       let data = {};
       data.tables = this.handleSubmit(this.submitData);
+      Object.assign(data.tables,this.handleSubmitFile());
       this.save_type === "add" ? (data.task_id = this.task_id) : "";
       const success = _ => {
         this.$message({ type: "success", message: "保存成功!" });
@@ -710,6 +755,14 @@ export default {
       });
       return obj;
     },
+    handleSubmitFile(){
+      let obj = {};
+      this.submitFileList.forEach((item)=>{
+        obj[`table${item.target}`] = {};
+        obj[`table${item.target}`].files = [item];
+      })
+      return obj;
+    },
     successValidate(bool = false) {
       !bool ? this.$f.submit() : "";
       this.isValidate = true;
@@ -727,6 +780,9 @@ export default {
     },
     turnArchives() {
       this.showTurnArchives = true;
+    },
+    hideTurnArchives() {
+      this.showTurnArchives = false;
     },
     Upload() {
       this.showAppendFile = true;
@@ -751,7 +807,12 @@ export default {
               if (index !== -1 && id !== 100104) {
                 this.copy_form.splice(index, 1);
               }
-              this.formTypeCollection.push(id);
+              if(!this.otherFormMap.get(id+"")) {   // 转档返回的code是字符串，所以otherFormMap中的key为字符串
+                this.formTypeCollection.push(id);
+              }else {
+                // console.log(this.data[key]);
+                this.submitFileList.push(this.data[key].files[0]);
+              }
             }
           }
         }
