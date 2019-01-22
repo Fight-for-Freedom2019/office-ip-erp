@@ -332,7 +332,7 @@ const map = new Map([
         { components: 'date',          id: 'creation_time',           name: '上传时间', used: true},
         { components: 'date',          id: 'cpc_mail_date',           name: '发文日', used: true},
         { components: 'date',          id: 'cpc_legal_deadline',      name: '官方绝限', used: true},
-        { components: 'date',          id: 'imported_date',           name: '导入时间'},
+        { components: 'date', id: 'import_date',           name: '导入时间'},
         { components: 'date',          id: 'cpc_download_date',       name: '下载日'},
         { components: 'remote_select', id: 'creator_user',            name: '上传用户', type: 'user'},
         { components: 'remote_select', id: 'import_user',             name: '导入用户', type: 'user'},

@@ -841,7 +841,7 @@ const map = new Map([
         map_type: "cpc_notice_source"
       },
       { type: "date", id: "creation_time", name: "上传时间" },
-      { type: "date", id: "imported_date", name: "导入时间" },
+      { type: "date", id: "import_date", name: "导入时间" },
       { type: "date", id: "cpc_legal_deadline", name: "官方绝限" },
       { type: "date", id: "cpc_mail_date", name: "发文日" },
       {
@@ -967,7 +967,7 @@ const map = new Map([
         type: "static_select",
         id: "is_sent",
         name: "是否发送",
-        map_type: "status",
+        map_type: "status"
       },
       {
         type: "static_select",

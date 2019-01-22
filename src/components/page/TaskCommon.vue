@@ -131,49 +131,49 @@ export default {
           {},
           {},
           { type: "export2" },
-          { type: "control", label: "字段" },
-          {
-            type: "dropdown",
-            label: "批量操作",
-            map_if: "/task/btn/save",
-            items: [
-              {
-                text: "派案",
-                click: () => {
-                  return;
-                },
-                icon: "arrow-right"
-              },
-              {
-                text: "转出",
-                click: () => {
-                  return;
-                },
-                icon: "d-arrow-right"
-              },
-              {
-                text: "立案通知",
-                click: () => {
-                  return;
-                },
-                icon: "message"
-              },
-              {
-                text: "完成任务",
-                click: () => {
-                  return;
-                },
-                icon: "check"
-              },
-              {
-                text: "期限提醒",
-                click: () => {
-                  return;
-                },
-                icon: "date"
-              }
-            ]
-          }
+          { type: "control", label: "字段" }
+          // {
+          //   type: "dropdown",
+          //   label: "批量操作",
+          //   map_if: "/task/btn/save",
+          //   items: [
+          //     {
+          //       text: "派案",
+          //       click: () => {
+          //         return;
+          //       },
+          //       icon: "arrow-right"
+          //     },
+          //     {
+          //       text: "转出",
+          //       click: () => {
+          //         return;
+          //       },
+          //       icon: "d-arrow-right"
+          //     },
+          //     {
+          //       text: "立案通知",
+          //       click: () => {
+          //         return;
+          //       },
+          //       icon: "message"
+          //     },
+          //     {
+          //       text: "完成任务",
+          //       click: () => {
+          //         return;
+          //       },
+          //       icon: "check"
+          //     },
+          //     {
+          //       text: "期限提醒",
+          //       click: () => {
+          //         return;
+          //       },
+          //       icon: "date"
+          //     }
+          //   ]
+          // }
         ],
         header_slot: ["toggle"],
         highlightCurrentRow: true,

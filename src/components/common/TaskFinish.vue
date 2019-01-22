@@ -112,6 +112,7 @@
           :opinion="review_opinion"
           :process="row"
           :row="row"
+          :data="data"
           ref="appForm"
         >
           <el-form-item label="节点描述" v-if="tips">
@@ -127,7 +128,7 @@
               @change="checkRadio"
             >{{ item.label }}</app-radio>
           </el-form-item>
-          <template slot="app-button" >
+          <template slot="app-button">
             <el-form-item style="margin-bottom: 0px;" v-if="isShowSubmitBtn">
               <el-button
                 type="primary"
@@ -239,7 +240,17 @@ export default {
     },
     refreshData() {
       this.loading = true;
-      const list = ['cpc_editor','order_detail','payment_request_detail','outgo_payment_detail','voucher_detail','contract_detail','patent_add','patent','postpone'];
+      const list = [
+        "cpc_editor",
+        "order_detail",
+        "payment_request_detail",
+        "outgo_payment_detail",
+        "voucher_detail",
+        "contract_detail",
+        "patent_add",
+        "patent",
+        "postpone"
+      ];
       const arr = [];
       const map = {};
       const url = `${URL}/${this.taskId}/form`;
@@ -273,6 +284,7 @@ export default {
           this.$emit("showmailbtn", mailscene);
           this.sourceForm = arr;
         }
+        this.$refs.appForm.initializeForm();
       };
       const complete = _ => {
         this.loading = false;
@@ -290,10 +302,10 @@ export default {
           const data = Object.assign({}, reviewObj, this.form);
           const success = () => {
             // this.$message({ type: "success", message: "完成任务成功" });
-            this.$alert("完成任务成功",{
+            this.$alert("完成任务成功", {
               showConfirmButton: false,
               showClose: false,
-              type: 'success',
+              type: "success"
             });
             setTimeout(() => {
               //3s后调用messageBox实例的方法自动关闭

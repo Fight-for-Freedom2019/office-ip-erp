@@ -142,8 +142,9 @@ const map = new Map([
   [
     "pic",
     {
-      components: "remote_select",
+      components: "jump_select",
       type: "user",
+      multiple: false,
       rules: {
         type: "number",
         required: true,

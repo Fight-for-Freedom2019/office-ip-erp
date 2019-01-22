@@ -119,7 +119,10 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
   }   
   .el-table__header-wrapper thead div {
     background-color: transparent;
-  }  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .el-card__header {
     padding: 10px 20px;
     font-size: 14px;
@@ -141,8 +144,11 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     right: 15px;
     top: 2px;
 }
-.el-table td, .el-table th {
+.el-table td {
   padding: 8px 0;
+}
+.el-table th {
+  padding: 0;
 }
   // .el-tree-node__expand-icon.expanded {
   //   -ms-transform: rotate(90deg);

@@ -13,7 +13,7 @@
 		</el-row>				
 		<el-row class="common">
 			<el-col :span="24">
-				<filter-condition  :source="source" :label-map="labelMap" v-model="filters[source.id]" :field="field" :visible="filterConditionVisible" ref="filterCondition"></filter-condition>
+				<filter-condition  :source="source" :label-map="labelMap" v-model="filters[source.id]" :field="field" ref="filterCondition"></filter-condition>
 	  	 </el-col>
 		</el-row>
 		<el-row>
@@ -41,10 +41,13 @@ export default {
   		type: String,
   		default: '',
   	},
-  	filterConditionVisible: {
+    activePop:{
+  	  type:String,
+    },
+  	/*filterConditionVisible: {
   		type: Boolean,
   		default: false,
-  	},
+  	},*/
     labelMap: {
       type: Map,
     }
@@ -150,19 +153,20 @@ export default {
       return val
     },		
 	cancle() {
-		this.$emit('popover');
+		this.$emit('hide',this.activePop);
 	},
   },
   created () {
   	this.handleDynamicData();
-  	window.listHeaderFilter = this;
+  	// window.listHeaderFilter = this;
   },
   destroyed() {
-    window.listHeaderFilter = null;
+    // window.listHeaderFilter = null;
   }, 
   watch: {
     'source': {
       handler (val) {
+        window.listHeaderFilter = this;
        return val.type === 'text' ? this.contain_relate = 3 : this.contain_relate = 1;
       },
       immediate: true,
