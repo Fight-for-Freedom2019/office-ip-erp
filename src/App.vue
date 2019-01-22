@@ -147,8 +147,8 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
 .el-table td,.el-table th {
   padding: 8px 0;
 }
-.el-table th {
-  // padding: 0;
+.el-table th .el-popover__reference {
+  padding: 0;
 }
   // .el-tree-node__expand-icon.expanded {
   //   -ms-transform: rotate(90deg);
