@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative">
     <input :style="inputStyle" type="text" :placeholder="placeholder" @keyup="handleInput" :value="value" class="el-input__inner search-content" style="padding-right: 35px; font-size: 14px;" @keyup.enter="handleEnter"></input>
-    <i class="el-icon-search" title="点击搜索" style="position: absolute; top: 10px; right: 10px; cursor: pointer; opacity: .5;" @click="handleClick"></i>
+    <i class="el-icon-search" title="点击搜索" style="position: absolute; top: 13px; right: 10px; cursor: pointer; opacity: .5;" @click="handleClick"></i>
   </div>
 </template>
 
@@ -21,9 +21,9 @@ export default {
     }
   },
   methods: {
-    handleInput:debounce(function(event){    // 防抖
+    handleInput(event) { 
       this.$emit('input', event.target.value);
-    },200),
+    },
     handleEnter () {
       this.$emit('enter', this.value)
     },
