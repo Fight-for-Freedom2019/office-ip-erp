@@ -302,13 +302,9 @@ export default {
     source() {
       this.initializeForm();
       this.$nextTick(_ => {
-<<<<<<< HEAD
         if(this.$refs["upload"] && this.$refs["upload"].length != 0) {
           this.$refs["upload"][0].clearFiles();
         }
-=======
-        this.$refs["upload"]?this.$refs["upload"].length?this.$refs["upload"][0].clearFiles():"":"";
->>>>>>> 06677cddeea9abb4901f21a065ab0e14a95dcf04
       });
     }
   },
