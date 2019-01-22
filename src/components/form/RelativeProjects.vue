@@ -15,7 +15,7 @@
   	<el-dialog :visible.sync="relativeVisible" title="编辑相关案件" :modal="false">
   		<el-row v-for="(item,index) in items" :key="index" style="margin-bottom: 5px">
 	  		<el-col :span="6" style="padding-right: 5px">
-	  			<el-select placeholder="案件类型" v-model="items[index].reference_type" >
+	  			<!-- <el-select placeholder="案件类型" v-model="items[index].reference_type" >
 				    <el-option 
 				    	v-for="item in options"
 				    	:key="item.value"
@@ -23,6 +23,8 @@
 				    	:value="item.value"
 				    ></el-option>
 				  </el-select>
+ -->				  
+ 			<static-select type="relative_projects_type" v-model="items[index].reference_type"></static-select>
 	  		</el-col>
 	  		<el-col :span="16" style="padding: 0 5px">
 	  			<jump-select type="专利" :value-key="`key-${index}`" v-model="items[index].id" :ref="`relativeProjects`" :para="customer"></jump-select>
@@ -44,6 +46,7 @@
 import Multiline from '@/mixins/multiline'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import JumpSelect from '@/components/form/JumpSelect'
+import StaticSelect from '@/components/form/StaticSelect'
 import AppCard from '@/components/common/AppCard'
 
 export default {
@@ -51,11 +54,11 @@ export default {
   mixins: [ Multiline ],
 	data () {
 		return {
-			options: [
-				{ label: '要求优先权', value: 1 },
-				{ label: '分案申请', value: 2 },
-				{ label: '部分连续案', value: 3 },
-			],
+			// options: [
+			// 	{ label: '要求优先权', value: 1 },
+			// 	{ label: '分案申请', value: 2 },
+			// 	{ label: '部分连续案', value: 3 },
+			// ],
 			relativeVisible: false,
 			items:[],
 			olditems:[],
@@ -102,7 +105,7 @@ export default {
 			}
 		},
 	},
-	components: { RemoteSelect, JumpSelect, AppCard },
+	components: { RemoteSelect, JumpSelect, AppCard, StaticSelect },
 }
 </script>
 
