@@ -107,7 +107,10 @@ export default {
                     attrs: {
                       target: "_blank",
                       href: row.file.viewUrl
-                    }
+                    },
+                    on: {
+                      click: (e)=>{e.stopPropagation()}
+                    },
                   },
                   `查看`
                 ),
@@ -117,6 +120,9 @@ export default {
                     attrs: {
                       target: "_blank",
                       href: row.file.downloadUrl
+                    },
+                    on: {
+                      click: (e)=>{e.stopPropagation()}
                     },
                     style: { marginLeft: "5px" }
                   },
