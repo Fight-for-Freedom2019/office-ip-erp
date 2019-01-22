@@ -150,7 +150,7 @@
           <span>电子申请编辑器说明书转档</span>
           <a href="/static/templates/patent_template.dotx" target="_blank">(说明书撰写模板下载)</a>
         </div>
-        <turn-archives :otherFormMap="otherFormMap" :amendments="amendments" @getTurnArchives="getTurnArchives"></turn-archives>
+        <turn-archives @hide="hideTurnArchives" :otherFormMap="otherFormMap" :amendments="amendments" @getTurnArchives="getTurnArchives"></turn-archives>
       </el-dialog>
       <!-- 转档 end -->
     </app-shrink>
@@ -780,6 +780,9 @@ export default {
     },
     turnArchives() {
       this.showTurnArchives = true;
+    },
+    hideTurnArchives() {
+      this.showTurnArchives = false;
     },
     Upload() {
       this.showAppendFile = true;

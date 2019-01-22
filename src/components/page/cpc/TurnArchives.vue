@@ -46,6 +46,7 @@
         </template>
         <!--<el-form-item>-->
         <el-button style="margin-top: 10px" type="primary" @click="saveResult">保存结果</el-button>
+        <el-button style="margin-top: 10px" @click="cancel">取消</el-button>
       </el-tab-pane>
     </el-tabs>
 
@@ -135,7 +136,7 @@
         this.uploadSuccess = true;
         this.loading = true;
         this.activeName = "stepTwo";
-        let time = 1;
+        let time = 0;
         this.keepTime = setInterval(() => {
           this.label = `第二步，耐心等待服务器完成转档操作，平均用时约20秒，已用时${time++}秒`;
         }, 1000);
@@ -196,6 +197,10 @@
           this.reset();
         }
       },
+      cancel() {
+        this.reset();
+        this.$emit("hide")
+      }
     },
     computed: {
       auth() {
