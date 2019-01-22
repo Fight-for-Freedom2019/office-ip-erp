@@ -10,7 +10,7 @@
           :loading="saveLoading"
           v-if="menusMap.get('/role/flow')"
         >{{ saveLoading ? '保存中...' : '保存' }}</el-button>
-        <el-dropdown
+        <!-- <el-dropdown
           @command="handleCommandSend"
           trigger="click"
           style="margin-left: 5px;"
@@ -41,7 +41,7 @@
             <el-dropdown-item command="cancel" :disabled="btnDisabled">撤回</el-dropdown-item>
             <el-dropdown-item command="change" :disabled="btnDisabled">变更</el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown>-->
         <el-button
           style="margin-left: 5px;"
           size="small"

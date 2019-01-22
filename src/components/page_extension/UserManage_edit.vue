@@ -44,6 +44,9 @@
         <el-form-item label="是否激活" prop="is_active" v-if="type=='edit'">
           <app-switch v-model="form.is_active" type="is_boolean"></app-switch>
         </el-form-item>
+        <el-form-item label="固定薪" prop="is_fixed_salary" v-if="type=='edit'">
+          <app-switch v-model="form.is_fixed_salary" type="is_boolean"></app-switch>
+        </el-form-item>
       </el-form>
       <template>
         <span slot="header" style="float: right;">
@@ -94,6 +97,7 @@ export default {
         smtp_port: "",
         is_ssl: false,
         is_active: false,
+        is_fixed_salary: false,
         mentor: ""
       },
       rules: {

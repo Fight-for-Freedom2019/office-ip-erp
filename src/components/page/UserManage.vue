@@ -77,46 +77,55 @@ export default {
             },
             render_header: true
           },
-          { type: "text", label: "名称", prop: "name", width: "110" },
+          { type: "text", label: "名称", prop: "name", width: "90" },
           { type: "text", label: "用户名", prop: "user_name", width: "145" },
           { type: "text", label: "邮箱", prop: "email_address", width: "145" },
-          { type: "text", label: "电话", prop: "phone_number", width: "145" },
+          { type: "text", label: "电话", prop: "phone_number", width: "125" },
           {
             type: "text",
             label: "导师",
             prop: "mentor",
             render_simple: "name",
-            width: "110"
+            width: "80"
           },
           {
             type: "text",
-            label: "POP收信服务器",
+            label: "固定薪",
+            prop: "is_fixed_salary",
+            render: (h, item, row) => {
+              return item ? h("span", "是") : h("span", "否");
+            },
+            width: "80"
+          },
+          {
+            type: "text",
+            label: "POP服务器",
             prop: "pop_server",
-            width: "145"
+            width: "120"
           },
           {
             type: "text",
-            label: "POP收信端口",
+            label: "POP端口",
             prop: "pop_port",
-            width: "110"
+            width: "80"
           },
           {
             type: "text",
-            label: "SMTP发信服务器",
+            label: "SMTP服务器",
             prop: "smtp_server",
-            width: "145"
+            width: "120"
           },
           {
             type: "text",
-            label: "SMTP发信端口",
+            label: "SMTP端口",
             prop: "smtp_port",
-            width: "130"
+            width: "90"
           },
           {
             type: "text",
-            label: "是否使用SSL",
+            label: "使用SSL",
             prop: "is_ssl",
-            width: "110",
+            width: "90",
             render: (h, item) => {
               item = item == true ? "是" : "否";
               return h("span", item);
@@ -127,7 +136,7 @@ export default {
             label: "创建人",
             prop: "creator_user",
             render_simple: "name",
-            width: "110"
+            width: "90"
           },
           {
             type: "text",

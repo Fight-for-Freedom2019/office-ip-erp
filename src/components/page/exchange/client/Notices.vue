@@ -137,7 +137,7 @@ export default {
                 {
                   attrs: {
                     target: "_blank",
-                    href: row.cpcfile.downloadUrl
+                    href: row.cpc_file.downloadUrl
                   }
                 },
                 `下载`
