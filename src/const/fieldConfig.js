@@ -174,7 +174,7 @@ const strainerConfig = [
     "cpc_notice",
     [
       { name: "导入状态", id: "is_imported", default: true },
-      { name: "上传时间", id: "imported_date" },
+      { name: "上传时间", id: "import_date" },
       { name: "发文日", id: "cpc_mail_date" },
       { name: "官方绝限", id: "cpc_legal_deadline" }
     ]
@@ -196,16 +196,16 @@ const strainerConfig = [
       { name: "客户", id: "customer", default: true },
       { name: "服务项目", id: "service" }
     ]
-  ], 
+  ],
   [
     "patent_notices",
     [
-      { name: "是否发送", id: "is_sent", },
-      { name: "客户", id: "customer", default: true },
-      { name: "通知书名称", id: "file_type", },
-      { name: "发文日", id: "mail_date", },
-      { name: "上传时间", id: "creation_time", },
+      { name: "发文日", id: "mail_date", default: true },
+      { name: "上传日", id: "creation_time" },
+      { name: "通知书名称", id: "file_type" },
+      { name: "客户", id: "customer" },
+      { name: "是否发送", id: "is_sent" }
     ]
-  ],
+  ]
 ];
 export { config, fieldExceptMap, strainerConfig };

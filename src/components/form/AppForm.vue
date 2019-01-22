@@ -20,6 +20,17 @@
             ></static-select>
           </el-form-item>
         </template>
+        <template v-if="item.components == 'jump_select'">
+          <el-form-item :label="item.name" :prop="item.key" :key="index">
+            <jump-select
+              ref="static-select"
+              :type="item.type"
+              :multiple="item.multiple"
+              v-model="form[item.key]"
+              @input="handleInput"
+            ></jump-select>
+          </el-form-item>
+        </template>
         <template v-else-if="item.components == 'remote_select'">
           <el-form-item :label="item.name" :prop="item.key" :key="index">
             <remote-select
@@ -103,21 +114,42 @@
     <slot name="app-button"></slot>
     <order-detail ref="order" @loaded="panelLoaded" v-if="map['order_detail'] != undefined"></order-detail>
     <!-- 订单详情 -->
-    <contract-detail ref="contract" @loaded="panelLoaded" v-if="map['contract_detail'] != undefined"></contract-detail>
+    <contract-detail
+      ref="contract"
+      @loaded="panelLoaded"
+      v-if="map['contract_detail'] != undefined"
+    ></contract-detail>
     <!-- 合同详情 -->
-    <invoice-detail ref="payment_request" @loaded="panelLoaded" v-if="map['payment_request_detail'] != undefined"></invoice-detail>
+    <invoice-detail
+      ref="payment_request"
+      @loaded="panelLoaded"
+      v-if="map['payment_request_detail'] != undefined"
+    ></invoice-detail>
     <!-- 账单详情 -->
     <voucher-detail ref="voucher" @loaded="panelLoaded" v-if="map['voucher_detail'] != undefined"></voucher-detail>
     <!-- 发票详情 -->
     <renewal-fee ref="renewal_fee" v-if="map['renewal_fee_detail'] != undefined"></renewal-fee>
     <!-- 年费详情 -->
-    <renewal-estimate-detail ref="renewal_estimate_detail" v-if="map['renewal_estimate_detail'] != undefined"></renewal-estimate-detail>
+    <renewal-estimate-detail
+      ref="renewal_estimate_detail"
+      v-if="map['renewal_estimate_detail'] != undefined"
+    ></renewal-estimate-detail>
     <!-- 年费评估单详情 -->
-    <patent-add ref="patent_add" :title="row.title" :status="0" v-if="map['patent_add'] != undefined"></patent-add>
+    <patent-add
+      ref="patent_add"
+      :title="row.title"
+      :status="0"
+      v-if="map['patent_add'] != undefined"
+    ></patent-add>
     <!-- 专利基本信息 -->
     <common-detail ref="common_detail" :title="row.title" v-if="map['patent'] != undefined"></common-detail>
     <!-- 专利、商标、版权详情 -->
-    <cpc-editor ref="cpc_editor" :id="row.model_id" :process="process" v-if="map['cpc_editor'] != undefined"></cpc-editor>
+    <cpc-editor
+      ref="cpc_editor"
+      :id="row.model_id"
+      :process="process"
+      v-if="map['cpc_editor'] != undefined"
+    ></cpc-editor>
     <!-- 延期记录 -->
     <postpone ref="postpone" :id="row.model_id" v-if="map['postpone'] != undefined"></postpone>
     <!-- CPC编辑器 -->
@@ -198,6 +230,10 @@ export default {
       type: Object,
       default: {}
     },
+    data: {
+      type: Object,
+      default: {}
+    },
     process: {
       type: Object,
       default() {
@@ -272,7 +308,7 @@ export default {
           this.$refs.renewal_fee.show("edit", this.row);
           break;
         case "postpone":
-          this.$refs.postpone.show('edit', this.row.model_id);
+          this.$refs.postpone.show("edit", this.row.model_id);
           break;
       }
     },
@@ -286,13 +322,22 @@ export default {
           val = _.multiple ? [] : _.default !== undefined ? _.default : "";
         } else if (_.components == "upload") {
           val = [];
-        } else if (this.process[_.key] !== undefined && _.key != 'remark') {
+        } else if (this.process[_.key] !== undefined && _.key != "remark") {
           val = this.process[_.key];
-        }else {
+        } else {
           val = "";
         }
         this.$set(this.form, _.key, val);
       });
+
+      const fields = ["points"];
+      for (var f in fields) {
+        let name = fields[f];
+        console.log(this.data[name]);
+        if (this.data[name] != undefined) {
+          this.$set(this.form, name, this.data[name]);
+        }
+      }
     }
   },
   mounted() {
@@ -302,7 +347,9 @@ export default {
     source() {
       this.initializeForm();
       this.$nextTick(_ => {
-        this.$refs["upload"]?this.$refs["upload"].length?this.$refs["upload"][0].clearFiles():"":"";
+        if (this.$refs["upload"] && this.$refs["upload"].length != 0) {
+          this.$refs["upload"][0].clearFiles();
+        }
       });
     }
   },
