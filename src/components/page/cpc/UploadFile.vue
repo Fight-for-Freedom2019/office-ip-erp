@@ -498,6 +498,7 @@ export default {
       let temp = [];
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
+        item.name = item.type;
         if(item.target) {
           item.type = item.target;  // 填充的数据可能没有type但是一定有target,有的话先复制
         }
@@ -513,7 +514,7 @@ export default {
           name:
             this.userDefined && this.fileTypeForm.fileTypeInput !== ""
               ? this.fileTypeForm.fileTypeInput
-              : item.type,
+              : item.name,
           response: item.response,
           fid: item.response.data.file.id,
           url: item.response.data.file.viewUrl,
