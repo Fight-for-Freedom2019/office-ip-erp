@@ -242,16 +242,16 @@
           {id: 100013, name: "撤回专利申请声明", showIcon: false}
         ],
         option_action: [
-          {url: "/contacts", data_key: "data", map_key: "contact"},
-          {url: "/inventors", data_key: "data", map_key: "inventors"},
-          {url: "/applicants", data_key: "data", map_key: "applicants"},
+          {url: "/contacts?listRows=1000000", data_key: "data", map_key: "contact"},
+          {url: "/inventors?listRows=1000000", data_key: "data", map_key: "inventors"},
+          {url: "/applicants?listRows=1000000", data_key: "data", map_key: "applicants"},
           {
-            url: "/users?role_name=Agent&listOnly=1",
+            url: "/agents?listRows=1000000",
             data_key: "data",
             map_key: "agents"
           },
-          {url: "/contracts", data_key: "data", map_key: "poa"},
-          {url: "/agencies", data_key: "data", map_key: "agency"}
+          {url: "/contracts?listRows=1000000", data_key: "data", map_key: "poa"},
+          {url: "/agencies?listRows=1000000", data_key: "data", map_key: "agency"}
         ],
         verifyConfig: {
           patent_number: [
