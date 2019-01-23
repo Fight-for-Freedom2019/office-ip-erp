@@ -193,6 +193,7 @@
       },
       saveResult() {
         if(this.handleResult(this.tableData)) {
+          console.log("tableData",this.tableData);
           this.$emit("getTurnArchives", this.tableData);
           this.reset();
         }
