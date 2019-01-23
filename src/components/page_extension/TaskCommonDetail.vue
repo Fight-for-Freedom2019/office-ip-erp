@@ -364,6 +364,7 @@ export default {
     },
     refreshPostpone() {
       this.$refs.delay.refreshData();
+      this.close();
     },
     tabclick(tab) {
       if (tab.name == "relative_tasks") {
@@ -406,7 +407,7 @@ export default {
         this.dialogShrinkVisible = false;
         this.$message({ message: "任务移交成功", type: "success" });
         this.refreshUser();
-
+        this.close();
         this.$emit('update');
       };
 
@@ -422,6 +423,7 @@ export default {
         this.refreshUser();
 
         this.$emit('update');
+        this.close();
       };
 
       this.$axiosPost({ url, data, success });
@@ -450,6 +452,7 @@ export default {
         this.$message({ message: "回退任务成功", type: "success" });
         this.dialogRejectVisible = false;
         window.setTimeout(_ => {
+          this.close();
           this.dialogShrinkVisible = false;
           this.$emit('update');
         }, 0);
@@ -459,6 +462,7 @@ export default {
     editSuccess(process) {
       this.$message({ message: "编辑管制事项成功", type: "success" });
       this.$emit('update');
+      this.close();
       this.row = process;
     },
     refreshOption() {},
@@ -476,6 +480,7 @@ export default {
     },
     close() {
       this.taskId = "";
+      this.isTaskDetailVisible = false;
     }
   },
   watch: {
