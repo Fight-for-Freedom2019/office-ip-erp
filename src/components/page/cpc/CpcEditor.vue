@@ -225,55 +225,51 @@ export default {
       amendments: [], // 右侧申请文件
       notices: [], // 右侧官文
 
-      copy_form: [
-        100104,
-        1001042,
-        1001043,
-        1001044,
-        1001045,
-        1001046,
-        1001047,
-        1001048,
-        1001049,
-        10010410
-      ],
-      common_use: [
-        { id: 100007, name: "专利代理委托书", showIcon: false },
-        { id: 100006, name: "补正书", showIcon: false },
-        { id: 100012, name: "意见陈述书", showIcon: false },
-        { id: 100016, name: "著录项目变更申报书", showIcon: false },
-        { id: 100104, name: "著录项目变更理由证明", showIcon: false },
-        { id: 100701, name: "专利权评价报告请求书", showIcon: false },
-        { id: 100027, name: "向外国申请专利保密审查请求书", showIcon: false },
-        // {id:10000432,name:"办理文件副本请求书",showIcon:false},
-        { id: 100013, name: "撤回专利申请声明", showIcon: false }
-      ],
-      option_action: [
-        { url: "/contacts", data_key: "data", map_key: "contact" },
-        { url: "/inventors", data_key: "data", map_key: "inventors" },
-        { url: "/applicants", data_key: "data", map_key: "applicants" },
-        {
-          url: "/users?role_name=Agent&listOnly=1",
-          data_key: "data",
-          map_key: "agents"
-        },
-        { url: "/contracts", data_key: "data", map_key: "poa" },
-        { url: "/agencies", data_key: "data", map_key: "agency" }
-      ],
-      verifyConfig: {
-        patent_number: [
+        copy_form: [
+          100104,
+          1001042,
+          1001043,
+          1001044,
+          1001045,
+          1001046,
+          1001047,
+          1001048,
+          1001049,
+          10010410
+        ],
+        common_use: [
+          {id: 100007, name: "专利代理委托书", showIcon: false},
+          {id: 100006, name: "补正书", showIcon: false},
+          {id: 100012, name: "意见陈述书", showIcon: false},
+          {id: 100016, name: "著录项目变更申报书", showIcon: false},
+          {id: 100104, name: "著录项目变更理由证明", showIcon: false},
+          {id: 100701, name: "专利权评价报告请求书", showIcon: false},
+          {id: 100027, name: "向外国申请专利保密审查请求书", showIcon: false},
+          // {id:10000432,name:"办理文件副本请求书",showIcon:false},
+          {id: 100013, name: "撤回专利申请声明", showIcon: false}
+        ],
+        option_action: [
+          {url: "/contacts?listRows=1000000", data_key: "data", map_key: "contact"},
+          {url: "/inventors?listRows=1000000", data_key: "data", map_key: "inventors"},
+          {url: "/applicants?listRows=1000000", data_key: "data", map_key: "applicants"},
           {
-            pattern: /20[0-1]\d{9}\.?(\d|X|x)/,
-            message: "请填写正确的申请号或专利号",
-            trigger: "blur"
-          }
-        ]
-      }
-    };
-  },
-  props: {
-    taskID: {
-      type: Number
+            url: "/agents?listRows=1000000",
+            data_key: "data",
+            map_key: "agents"
+          },
+          {url: "/contracts?listRows=1000000", data_key: "data", map_key: "poa"},
+          {url: "/agencies?listRows=1000000", data_key: "data", map_key: "agency"}
+        ],
+        verifyConfig: {
+          patent_number: [
+            {
+              pattern: /20[0-1]\d{9}\.?(\d|X|x)/,
+              message: "请填写正确的申请号或专利号",
+              trigger: "blur"
+            }
+          ]
+        }
+      };
     },
     process: {
       type: Object,
