@@ -29,7 +29,7 @@
     <!-- 任务新增 -->
     <task-common-edit ref="taskEdit" @addSuccess="refresh"></task-common-edit>
     <!-- 批量操作 -->
-    <batch-task-common ref="batchOperation" :ids="batchOperationIds" :operationType="batchOperationType"></batch-task-common>
+    <batch-task-common ref="batchOperation" :ids="batchOperationIds" :operationType="batchOperationType" @update="update"></batch-task-common>
   </div>
 </template>
 

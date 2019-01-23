@@ -65,6 +65,7 @@
               this.$message({type:"success",message:"操作成功!"});
               this.$refs.form.resetFields();
               this.$emit("hide");
+              this.$emit("update");
             }
             this.$axiosPost({url:"/tasks/assign",data:this.form,success});
           }else {

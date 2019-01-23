@@ -5,7 +5,7 @@
       <span slot="header" style="float: right;">
       <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
     </span>
-      <batch-send-case ref="sendCase" :ids="ids" @hide="hide"></batch-send-case>
+      <batch-send-case ref="sendCase" :ids="ids" @hide="hide" @update="update"></batch-send-case>
     </app-shrink>
   </div>
 </template>
@@ -49,6 +49,9 @@
       },
       hide() {
         this.visible = false;
+      },
+      update(){
+        this.$emit("update");
       },
       save() {
         this.$refs[this.operationType].save();
