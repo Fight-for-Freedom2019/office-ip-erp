@@ -2,16 +2,16 @@
 <template>
   <el-form ref="form" :model="form" :rules="rules" label-width="120px" label-position="right">
     <el-form-item label="代理人" prop="agent">
-      <remote-select type="agent" v-model="form.agent"></remote-select>
+      <remote-select type="agent" v-model="form.agent" pageType="add"></remote-select>
     </el-form-item>
     <el-form-item label="初审人" prop="first_reviewer">
-      <remote-select type="user" v-model="form.first_reviewer"></remote-select>
+      <remote-select type="user" v-model="form.first_reviewer" pageType="add"></remote-select>
     </el-form-item>
     <el-form-item label="复审人">
-      <remote-select type="user" v-model="form.final_reviewer" add-type="user"></remote-select>
+      <remote-select type="user" v-model="form.final_reviewer" pageType="add" add-type="user"></remote-select>
     </el-form-item>
     <el-form-item label="对外代理人">
-      <remote-select type="user" v-model="form.representative" add-type="user"></remote-select>
+      <remote-select type="user" v-model="form.representative" pageType="add" add-type="user"></remote-select>
     </el-form-item>
     <el-form-item label="点数" prop="points">
       <el-input type="text" placeholder="请输入点数" v-model.number="form.points"></el-input>
@@ -62,7 +62,8 @@
           if(valid){
             this.form.ids = this.ids;
             const success = _ =>{
-              this.$message({type:"success",message:"操作成功!"})
+              this.$message({type:"success",message:"操作成功!"});
+              this.$refs.form.resetFields();
             }
             this.$axiosPost({url:"/tasks/assign",data:this.form,success});
           }else {
