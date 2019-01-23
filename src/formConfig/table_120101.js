@@ -26,7 +26,7 @@ let rule = [
     },
     checkbox_vm("poa_declaration","声明已经与申请人签订了专利代理委托书且本表中的信息与委托书中相应信息一致",{labelWidth:"120px"},"代理声明"),
     {
-        type: "select", title: "总委托书编号", field: "poa", value: [],
+        type: "input", title: "总委托书编号", field: "poa", value: "",
         attrs:{
             placeholder:"请输入总委托书编号（如果有）"
         }

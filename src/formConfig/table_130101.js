@@ -30,7 +30,7 @@ let rule = [
         type: "select", title: "代理人", field: "agents", value: []
     },
     {
-        type: "select", title: "总委托书编号", field: "poa", value: [],
+        type: "input", title: "总委托书编号", field: "poa", value: "",
         attrs:{
             placeholder:"请输入总委托书编号（如果有）"
         }
