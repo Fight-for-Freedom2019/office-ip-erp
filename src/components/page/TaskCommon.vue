@@ -28,6 +28,8 @@
     <task-common-detail ref="taskDetail" @refresh="refresh" @update="update"></task-common-detail>
     <!-- 任务新增 -->
     <task-common-edit ref="taskEdit" @addSuccess="refresh"></task-common-edit>
+    <!-- 批量操作 -->
+    <batch-task-common ref="batchOperation" :ids="batchOperationIds" :operationType="batchOperationType" @update="update"></batch-task-common>
   </div>
 </template>
 
@@ -36,6 +38,7 @@ import AxiosMixins from "@/mixins/axios-mixins";
 import TableComponent from "@/components/common/TableComponent";
 import TaskCommonDetail from "@/components/page_extension/TaskCommonDetail";
 import TaskCommonEdit from "@/components/page_extension/TaskCommon_edit";
+import BatchTaskCommon from "@/components/page_extension/BatchTaskCommon";
 import MailAdd from "@/components/page/MailAdd";
 
 import { mapMutations } from "vuex";
@@ -105,6 +108,8 @@ export default {
       currentRow: {},
       remark: "",
       deleteId: "",
+      batchOperationType: "sendCase",
+      batchOperationIds: [],
       tableOption: {
         name: "taskList",
         url: URL,
@@ -131,49 +136,49 @@ export default {
           {},
           {},
           { type: "export2" },
-          { type: "control", label: "字段" }
-          // {
-          //   type: "dropdown",
-          //   label: "批量操作",
-          //   map_if: "/task/btn/save",
-          //   items: [
-          //     {
-          //       text: "派案",
-          //       click: () => {
-          //         return;
-          //       },
-          //       icon: "arrow-right"
-          //     },
-          //     {
-          //       text: "转出",
-          //       click: () => {
-          //         return;
-          //       },
-          //       icon: "d-arrow-right"
-          //     },
-          //     {
-          //       text: "立案通知",
-          //       click: () => {
-          //         return;
-          //       },
-          //       icon: "message"
-          //     },
-          //     {
-          //       text: "完成任务",
-          //       click: () => {
-          //         return;
-          //       },
-          //       icon: "check"
-          //     },
-          //     {
-          //       text: "期限提醒",
-          //       click: () => {
-          //         return;
-          //       },
-          //       icon: "date"
-          //     }
-          //   ]
-          // }
+          { type: "control", label: "字段" },
+          {
+            type: "dropdown",
+            label: "批量操作",
+            map_if: "/task/btn/save",
+            items: [
+              {
+                text: "派案",
+                click: () => {
+                  this.showBatchOperation("sendCase");
+                },
+                icon: "arrow-right"
+              },
+              /*{
+                text: "转出",
+                click: () => {
+                  return;
+                },
+                icon: "d-arrow-right"
+              },
+              {
+                text: "立案通知",
+                click: () => {
+                  return;
+                },
+                icon: "message"
+              },
+              {
+                text: "完成任务",
+                click: () => {
+                  return;
+                },
+                icon: "check"
+              },
+              {
+                text: "期限提醒",
+                click: () => {
+                  return;
+                },
+                icon: "date"
+              }*/
+            ]
+          }
         ],
         header_slot: ["toggle"],
         highlightCurrentRow: true,
@@ -674,6 +679,18 @@ export default {
     handleRowClick(row) {
       this.currentRow = row;
       this.$refs.taskDetail.show(row);
+    },
+    showBatchOperation (type){
+      this.batchOperationType = type;
+      const s = this.$refs.table.getSelect(true);
+      if (s.length == 0) {
+        return this.$message({
+          message: "请选择需要批量操作的列表项",
+          type: "warning"
+        });
+      }
+      this.batchOperationIds = this.$tool.splitObj(s, "id");
+      this.$refs.batchOperation.show();
     }
   },
   watch: {
@@ -710,7 +727,8 @@ export default {
     TaskCommonDetail,
     TaskCommonEdit,
     MailAdd,
-    MessageContent
+    MessageContent,
+    BatchTaskCommon
   }
 };
 </script>
