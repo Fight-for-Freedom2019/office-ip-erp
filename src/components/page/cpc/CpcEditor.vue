@@ -794,6 +794,10 @@
       },
       getData() {
         // console.time("耗时")
+        this.$nextTick(()=>{
+          const root = this.$refs.fc;
+          root.innerHTML = "";
+        })
         this.formTypeCollection = [];
         this.formList = [];
         this.submitFileList = [];

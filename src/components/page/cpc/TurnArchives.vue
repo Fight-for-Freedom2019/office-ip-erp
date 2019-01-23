@@ -90,16 +90,17 @@
               click: this.viewFile,
               min_width: "150"
             },
-            {type: "text", label: "起始页码", prop: "start", width: "100"},
+            {type: "text", label: "起始页码", prop: "start", width: "130"},
             {
               type: "text",
               label: "页数",
               prop: "pages",
-              width: "120"
+              width: "130"
             },
             {type: "action", label: "操作", align: "center", width: "120",
               btns: [
-                { type: "delete", click: this.deleteFile }
+                { type: "delete", click: this.deleteFile },
+                { type: "download", click: ({downloadUrl})=>{window.open(downloadUrl)} },
               ]
             }
           ]
@@ -130,6 +131,7 @@
         this.tableData = [];
         this.fileList = [];
         this.activeName = "stepOne";
+        this.disabled = true;
       },
       handleBeforeUpload(){
         this.disabled = true;
