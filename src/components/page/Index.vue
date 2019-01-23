@@ -336,6 +336,8 @@ export default {
       this.userinfoLoading = false;
       //设置个人信息
       this.initializeHashMapsCache();
+      this.refreshArea();
+      this.refreshCity();
       this.refreshProduct();
        this.refreshBranch();
        this.refreshGroup();
