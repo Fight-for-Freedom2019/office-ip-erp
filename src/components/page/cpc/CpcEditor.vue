@@ -413,7 +413,7 @@
         this.rules = handlePlaceholder(rule);
         this.formType = id;
         this.mergeRule(this.rules);
-        this.paddingData(this.rules);
+        // this.paddingData(this.rules);
         this.createForm();
       },
       // 只针对table100104以及它的复制品
