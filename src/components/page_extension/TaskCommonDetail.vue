@@ -441,7 +441,7 @@ export default {
       this.$axiosPost({ url, data, success });
     },
     rejectTask() {
-      const url = `/tasks/${this.row.id}/reject`;
+      const url = `/processes/${this.row.id}/reject`;
       const data = {
         remark: this.remark,
         task_id: this.taskId

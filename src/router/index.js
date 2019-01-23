@@ -400,6 +400,28 @@ const router = new Router({
           }
         },
         {
+          path: "/task/monitor/mentor",
+          name: "TaskMonitorMentor",
+          component: TaskCommon,
+          meta: {
+            params: {
+              is_completed: 0,
+              relevance: "mentor"
+            }
+          }
+        },
+        {
+          path: "/task/monitor/supervisor",
+          name: "TaskMonitorSupervisor",
+          component: TaskCommon,
+          meta: {
+            params: {
+              is_completed: 0,
+              relevance: "supervisor"
+            }
+          }
+        },
+        {
           path: "/task/all",
           name: "TaskPendingAll",
           component: TaskCommon,

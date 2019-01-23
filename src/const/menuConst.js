@@ -71,6 +71,18 @@ const taskMenu = [
         text: "我为对外代理人",
         path: "/task/monitor/representative",
         icon: "iconfont el-icon-my-contact"
+      },
+      {
+        type: "item",
+        text: "我为指导老师",
+        path: "/task/monitor/mentor",
+        icon: "iconfont el-icon-my-mentor"
+      },
+      {
+        type: "item",
+        text: "我为部门主管",
+        path: "/task/monitor/supervisor",
+        icon: "iconfont el-icon-my-supervisor"
       }
     ]
   },
