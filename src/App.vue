@@ -9,77 +9,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { mapMutations } from 'vuex'
-import { mapActions } from 'vuex'
 export default {
   name: 'app',
-  data () {
-    return {
-    }
-  },
-  computed: {
-    ...mapGetters([
-      "getToken"
-    ]),
-    path () {
-      return this.$route.path;
-    },
-  },
-  methods: {
-    ...mapActions([
-      // 'refreshExtends', //extend-field
-      'refreshProduct', //product
-      'refreshClassification', //classification
-      'refreshBranch', //branch
-      'refreshGroup',//user-group
-      'refreshArea', //area
-      'refreshCity', //city
-      'refreshUser',
-      'closeTag', //filter-cache
-      'initializeHashMapsCache', //index
-    ]),
-  },
-  created () {
-       const success = _=>{
-      
-      //设置个人信息
-      // this.setUser(window.appCache.userinfo);
-      
-      //获取系统配置数据
-      // this.refreshExtends(false);
-      // this.$store.dispatch('refreshTags');
-      
-      //避免每次F5都发送请求的方法：
-      //  1.每次使用相关数据的位置添加一个尝试初始化的函数
-      //  2.localStorage动态关联
-           if(this.getToken !== null){
-               this.refreshProduct();
-               this.refreshBranch();
-               this.refreshGroup();
-               this.refreshClassification();
-               // this.$store.dispatch('refreshIpr');
-
-               //使用localStorage进行本地缓存
-
-               // this.refreshUser();
-               this.initializeHashMapsCache();
-           }
-      this.refreshArea();
-      this.refreshCity();
-      // this.$store.dispatch('refreshFeeCode');
-      // this.$store.dispatch('refreshEntity');
-      // this.$store.dispatch('refreshGroup');
-      // this.$store.dispatch('refreshFileType');
-      // this.$store.dispatch('refreshMail');
-    };
-    // 页面加载后300ms后请求数据，为了能在登录面不提前发请求
-      setTimeout(_=>{
-        if(!/login/.test(this.path)) {
-           success();
-        }
-      },1000)
-  },
 }
 </script>
 
