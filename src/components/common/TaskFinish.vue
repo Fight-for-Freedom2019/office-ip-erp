@@ -96,6 +96,7 @@
             <app-table
               v-if="row.task.attachments.length > 0"
               :columns="columns"
+              border
               :data="row.task.attachments"
             ></app-table>
             <span v-if="row.task.attachments.length == 0">无附件</span>
@@ -199,6 +200,7 @@ export default {
         {
           type: "action",
           label: "详情",
+          width: '175',
           btns: [
             {
               type: "view",
