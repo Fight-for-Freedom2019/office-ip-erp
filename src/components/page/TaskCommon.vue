@@ -204,16 +204,16 @@ export default {
             render_simple: "name",
             width: "60"
           },
-          { type: "text", prop: "serial", label: "案号", width: "160" },
+          { type: "text", prop: "serial", label: "案号", width: "180" },
           {
             type: "text",
             prop: "customer_serial",
             label: "客户案号",
             render_key: "project",
             render_simple: "customer_serial",
-            width: "160"
+            width: "180"
           },
-          { type: "text", prop: "title", label: "标题", width: "200" },
+          { type: "text", prop: "title", label: "标题", width: "340" },
           {
             type: "text",
             prop: "project_type",
