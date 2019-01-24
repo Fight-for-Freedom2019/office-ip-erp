@@ -859,18 +859,18 @@ export default {
               if (index !== -1 && id !== 100104) {
                 this.copy_form.splice(index, 1);
               }
-              if (!this.otherFormMap.get(id + "") || id === 100108) {
+              if (!this.otherFormMap.get(id + "")) {  //  || id === 100108
                 // 转档返回的code是字符串，所以otherFormMap中的key为字符串
                 this.formTypeCollection.push(id);
               } else {
                 // console.log(this.data[key]);
                 this.submitFileList.push(this.data[key].files[0]);
               }
-              if(id === 100108) {
+              /*if(id === 100108) {
                 console.log("this.data",this.data[key]);
                 // this.data[key].files[0].name = "其它证明文件";
                 this.data[key].files.length !== 0 ?this.submitFileList.push(this.data[key].files[0]):"";
-              }
+              }*/
             }
           }
         }
