@@ -189,8 +189,8 @@ export default {
           fixed: false,
           width: '175',
           btns: [
-            { type: 'download', click: ({downloadUrl})=>{ window.open(downloadUrl) } },
-            { type: 'view', click: ({viewUrl})=>{ window.open(viewUrl) } },
+            { type: 'download', click: ({file})=>{ window.open(file.downloadUrl) } },
+            { type: 'view', click: ({file})=>{ window.open(file.viewUrl) } },
             { type: 'delete',  click: this.handleDelete},
           ]
         }
