@@ -42,7 +42,7 @@
     >
       <el-form :model="fileTypeForm" label-position="top" ref="fileTypeForm" :rules="rule">
         <el-form-item prop="fileType" label="请选择文件类型">
-          <el-select value-key="id" v-model="fileTypeForm.fileType">
+          <el-select value-key="id" v-model="fileTypeForm.fileType" filterable>
             <el-option
               v-for="item in fileTypeList"
               :value="item.value"
