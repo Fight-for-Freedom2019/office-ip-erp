@@ -187,7 +187,7 @@ export default {
   name: "CpcEditor",
   data() {
     return {
-      title: "CPC电子申请编辑器",
+      // title: "CPC电子申请编辑器",
       isApplicationEditor: false,
       tabpanel: "application_doc",
       showAppendForm: false,
@@ -307,6 +307,15 @@ export default {
     ...mapGetters(["innerHeight", "getHashMaps"]),
     auth() {
       return { Authorization: window.localStorage.getItem("token") };
+    },
+    title:function(){
+      let title = "";
+      if(this.process.serial) {
+        title = this.process.serial;
+      }else if(this.process.project.serial){
+        title = this.process.project.serial;
+      }
+      return `CPC电子申请编辑器(${title})`
     },
     selectOptions: function() {
       return [...formConfig.entries()].map(item => {
