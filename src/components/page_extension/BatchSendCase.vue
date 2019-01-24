@@ -37,7 +37,6 @@
           points: "",
           remark: "",
         },
-        visible: false,
         rules: {
           agent: [
             {required: true,message:"请选择代理人"}
@@ -54,8 +53,8 @@
       }
     },
     methods: {
-      show() {
-        this.visible = true;
+      clear(){
+        this.$refs.form.resetFields();
       },
       save(){
         this.$refs.form.validate((valid)=>{
@@ -63,7 +62,7 @@
             this.form.ids = this.ids;
             const success = _ =>{
               this.$message({type:"success",message:"操作成功!"});
-              this.$refs.form.resetFields();
+              this.clear();
               this.$emit("hide");
               this.$emit("update");
             }

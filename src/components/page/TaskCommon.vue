@@ -108,7 +108,7 @@ export default {
       currentRow: {},
       remark: "",
       deleteId: "",
-      batchOperationType: "sendCase",
+      batchOperationType: "",
       batchOperationIds: [],
       tableOption: {
         name: "taskList",
@@ -149,34 +149,34 @@ export default {
                 },
                 icon: "arrow-right"
               },
-              /*{
+              {
                 text: "转出",
                 click: () => {
-                  return;
+                  this.showBatchOperation("caseOut");
                 },
                 icon: "d-arrow-right"
               },
               {
                 text: "立案通知",
                 click: () => {
-                  return;
+                  this.showBatchOperation("notice");
                 },
                 icon: "message"
               },
               {
                 text: "完成任务",
                 click: () => {
-                  return;
+                  this.showBatchOperation("fulfilTask");
                 },
                 icon: "check"
               },
               {
                 text: "期限提醒",
                 click: () => {
-                  return;
+                  this.showBatchOperation("remind");
                 },
                 icon: "date"
-              }*/
+              }
             ]
           }
         ],
@@ -689,8 +689,19 @@ export default {
           type: "warning"
         });
       }
-      this.batchOperationIds = this.$tool.splitObj(s, "id");
-      this.$refs.batchOperation.show();
+      const ids = this.$tool.splitObj(s, "id");
+      let resultIds = [];
+      ids.forEach((id)=>{
+        this.tableData.data.forEach((o)=>{
+          if(o.id === id) {
+            resultIds.push(o.task.id)
+          }
+        })
+      })
+      this.batchOperationIds = resultIds;
+      this.$nextTick(()=>{
+        this.$refs.batchOperation.show();
+      })
     }
   },
   watch: {
