@@ -109,8 +109,10 @@ export default {
                       href: row.file.viewUrl
                     },
                     on: {
-                      click: (e)=>{e.stopPropagation()}
-                    },
+                      click: e => {
+                        e.stopPropagation();
+                      }
+                    }
                   },
                   `查看`
                 ),
@@ -122,7 +124,9 @@ export default {
                       href: row.file.downloadUrl
                     },
                     on: {
-                      click: (e)=>{e.stopPropagation()}
+                      click: e => {
+                        e.stopPropagation();
+                      }
                     },
                     style: { marginLeft: "5px" }
                   },
@@ -144,6 +148,11 @@ export default {
                   attrs: {
                     target: "_blank",
                     href: row.cpc_file.downloadUrl
+                  },
+                  on: {
+                    click: e => {
+                      e.stopPropagation();
+                    }
                   }
                 },
                 `下载`
