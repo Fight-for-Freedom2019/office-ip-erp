@@ -112,108 +112,114 @@ export default {
             value: 130002,
             label: "简要说明"
           },
-          { value: 100108, label: "其他证明文件" },
-          { value: 100103, label: "不丧失新颖性证明" },
-          {
-            value: 100104,
-            label: "著录项目变更理由证明"
-          }
         ];
-        if (this.patent_type === 1 || this.patent_type === 2) {
-          options = options.concat([
-            { value: 100119, label: "国内优先权在先申请文件副本" },
-            {
-              value: 100125,
-              label: "原文"
-            }
-          ]);
+      }else {
+        options = options.concat([
+          { value: 100042, label: "修改对照页" },
+          { value: 100001, label: "权利要求书" },
+          { value: 100002, label: "说明书" },
+          { value: 100003, label: "说明书附图" },
+          { value: 100004, label: "说明书摘要" },
+          { value: 100005, label: "摘要附图" }
+          ])
+      }
+      options = options.concat([
+        { value: 100108, label: "其他证明文件" },
+        { value: 100103, label: "不丧失新颖性证明" },
+        {
+          value: 100104,
+          label: "著录项目变更理由证明"
         }
-        // if (this.patent_type === 1) {
-        //   options = options.concat([
-        //     { value: 100121, label: "实质审查参考资料" }
-        //   ]);
-        // }
-        if (this.patent_type === 1 || this.patent_type === 4) {
-          options = options.concat([
-            { value: 100042, label: "修改对照页" },
-            { value: 100001, label: "权利要求书" },
-            { value: 100002, label: "说明书" },
-            { value: 100003, label: "说明书附图" },
-            { value: 100004, label: "说明书摘要" },
-            { value: 100005, label: "摘要附图" },
-            { value: 100120, label: "生物材料保藏证明" },
-            {
-              value: 100111,
-              label: "生物材料存活证明"
-            },
-            {
-              value: 100112,
-              label: "优先权转让证明"
-            },
-            { value: 100113, label: "优先权转让证明中文本" },
-            { value: 100114, label: "经证明的在先申请文件副本" },
-            {
-              value: 100115,
-              label: "经证明的在先申请文件副本首页译文"
-            },
-            { value: 100117, label: "核苷酸或氨基酸序列表计算机可读载体" },
-            { value: 100118, label: "原案申请副本" },
-            {
-              value: 100121,
-              label: "实质审查参考资料"
-            },
-            { value: 100122, label: "申请权转让证明" }
-          ]);
-        }
-        if (this.patent_type === 1 || this.patent_type === 5) {
-          options = options.concat([
-            { value: 150101, label: "国际申请进入中国国家阶段声明（PCT）" },
-            {
-              value: 150123,
-              label: "按照条约第19条修改的声明或说明"
-            },
-            { value: 150127, label: "按照条约第19条修改的权利要求书" },
-            {
-              value: 150125,
-              label: "按照条约第34条修改的声明或说明"
-            },
-            { value: 150128, label: "按照条约第34条修改的说明书摘要" },
-            {
-              value: 150129,
-              label: "按照条约第34条修改的说明书摘要附图"
-            },
-            { value: 150130, label: "按照条约第34条修改的权利要求书" },
-            {
-              value: 150131,
-              label: "按照条约第34条修改的说明书"
-            },
-            { value: 150132, label: "按照条约第34条修改的说明书附图" },
-            {
-              value: 150133,
-              label: "按照条约第34条修改的核苷酸或氨基酸序列表"
-            },
-            { value: 150134, label: "按照条约第28或41条修改的声明或说明" },
-            {
-              value: 150135,
-              label: "按照条约第28或41条修改的说明书摘要"
-            },
-            { value: 150136, label: "按照条约第28或41条修改的说明书摘要附图" },
-            {
-              value: 150137,
-              label: "按照条约第28或41条修改的权利要求书"
-            },
-            { value: 150138, label: "按照条约第28或41条修改的说明书" },
-            {
-              value: 150139,
-              label: "按照条约第28或41条修改的说明书附图"
-            },
-            {
-              value: 150140,
-              label: "按照条约第28或41条修改的核苷酸或氨基酸序列表"
-            }
-          ]);
-        }
-      } else if (this.type === "table100104") {
+      ])
+      if (this.patent_type === 1 || this.patent_type === 2) {
+        options = options.concat([
+          { value: 100119, label: "国内优先权在先申请文件副本" },
+          {
+            value: 100125,
+            label: "原文"
+          }
+        ]);
+      }
+      /*if (this.patent_type === 1) {
+        options = options.concat([
+          { value: 100121, label: "实质审查参考资料" }
+        ])
+      }*/
+      if (this.patent_type === 1 || this.patent_type === 4) {
+        options = options.concat([
+          { value: 100120, label: "生物材料保藏证明" },
+          {
+            value: 100111,
+            label: "生物材料存活证明"
+          },
+          {
+            value: 100112,
+            label: "优先权转让证明"
+          },
+          { value: 100113, label: "优先权转让证明中文本" },
+          { value: 100114, label: "经证明的在先申请文件副本" },
+          {
+            value: 100115,
+            label: "经证明的在先申请文件副本首页译文"
+          },
+          { value: 100117, label: "核苷酸或氨基酸序列表计算机可读载体" },
+          { value: 100118, label: "原案申请副本" },
+          {
+            value: 100121,
+            label: "实质审查参考资料"
+          },
+          { value: 100122, label: "申请权转让证明" }
+        ]);
+      }
+      if (this.patent_type === 4 || this.patent_type === 5) {
+        options = options.concat([
+          { value: 150101, label: "国际申请进入中国国家阶段声明（PCT）" },
+          {
+            value: 150123,
+            label: "按照条约第19条修改的声明或说明"
+          },
+          { value: 150127, label: "按照条约第19条修改的权利要求书" },
+          {
+            value: 150125,
+            label: "按照条约第34条修改的声明或说明"
+          },
+          { value: 150128, label: "按照条约第34条修改的说明书摘要" },
+          {
+            value: 150129,
+            label: "按照条约第34条修改的说明书摘要附图"
+          },
+          { value: 150130, label: "按照条约第34条修改的权利要求书" },
+          {
+            value: 150131,
+            label: "按照条约第34条修改的说明书"
+          },
+          { value: 150132, label: "按照条约第34条修改的说明书附图" },
+          {
+            value: 150133,
+            label: "按照条约第34条修改的核苷酸或氨基酸序列表"
+          },
+          { value: 150134, label: "按照条约第28或41条修改的声明或说明" },
+          {
+            value: 150135,
+            label: "按照条约第28或41条修改的说明书摘要"
+          },
+          { value: 150136, label: "按照条约第28或41条修改的说明书摘要附图" },
+          {
+            value: 150137,
+            label: "按照条约第28或41条修改的权利要求书"
+          },
+          { value: 150138, label: "按照条约第28或41条修改的说明书" },
+          {
+            value: 150139,
+            label: "按照条约第28或41条修改的说明书附图"
+          },
+          {
+            value: 150140,
+            label: "按照条约第28或41条修改的核苷酸或氨基酸序列表"
+          }
+        ]);
+      }
+      if (this.type === "table100104") {
         options = [
           { value: "变更发明人国籍的声明", label: "变更发明人国籍的声明" },
           {
@@ -350,7 +356,7 @@ export default {
     type: {
       type: String,
       default() {
-        return "design";
+        return "";
       }
     },
     patent_type: {
