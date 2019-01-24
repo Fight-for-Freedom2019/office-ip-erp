@@ -167,6 +167,7 @@ import AppShrink from "@/components/common/AppShrink";
 import TurnArchives from "@/components/page/cpc/TurnArchives";
 import UploadFile from "@/components/page/cpc/UploadFile";
 import formConfig from "@/formConfig/main";
+import cloneDeep from "lodash/cloneDeep";
 import { handlePlaceholder, handleSingle } from "@/formConfig/handle/handle";
 import Vue from "vue";
 import { mapGetters } from "vuex";
@@ -224,7 +225,7 @@ export default {
       form: {},
       amendments: [], // 右侧申请文件
       notices: [], // 右侧官文
-
+      saveRules:new Map(),  // 将规则保存起来
       copy_form: [
         100104,
         1001042,
@@ -431,17 +432,18 @@ export default {
       let target = null;
       let rule = null;
       if (String(id).length > 6) {
-        target = formConfig.get(100104);
-        rule = target.obj[`rule_${id}`];
+        // target = cloneDeep(formConfig.get(100104));
+        // rule = target.obj[`rule_${id}`];
+        rule = this.saveRules.get(id);
         this.triggerEvent(rule);
       } else {
-        target = formConfig.get(id);
-        rule = target.obj.rule;
+        // target = cloneDeep(formConfig.get(id));
+        rule = this.saveRules.get(id);
         id === 100104 ? this.triggerEvent(rule) : "";
       }
-      this.rules = handlePlaceholder(rule);
+      this.rules = rule;
       this.formType = id;
-      this.mergeRule(this.rules);
+      // this.mergeRule(this.rules);
       // this.paddingData(this.rules);
       this.createForm();
     },
@@ -471,6 +473,7 @@ export default {
     },
     // 移除表单
     handleRemove(index, id) {
+      this.saveRules.delete(id);
       if (id === this.formType) {
         let el;
         let prev_id;
@@ -667,14 +670,15 @@ export default {
       let target = null;
       let rule = null;
       if (String(this.formType).length > 6) {
-        target = formConfig.get(100104);
+        target = cloneDeep(formConfig.get(100104));
         rule = target.obj[`rule_${this.formType}`];
       } else {
-        target = formConfig.get(this.formType);
+        target = cloneDeep(formConfig.get(this.formType));
         rule = target.obj.rule;
       }
 
       this.rules = handlePlaceholder(rule);
+      this.saveRules.set(this.formType,this.rules);
       this.paddingData(this.rules);
       this.mergeRule(this.rules);
       this.createForm();
@@ -758,7 +762,7 @@ export default {
               ? _this.submitData.set(_this.formType, formData)
               : "";
           }
-          // console.log(_this.submitData);
+          console.log(_this.submitData);
         }
       });
     },
@@ -829,6 +833,7 @@ export default {
       this.formTypeCollection = [];
       this.formList = [];
       this.submitFileList = [];
+      this.submitData.clear();
       const success = _ => {
         this.data = _.data.tables;
         if (_.data.id) {
@@ -845,12 +850,17 @@ export default {
               if (index !== -1 && id !== 100104) {
                 this.copy_form.splice(index, 1);
               }
-              if (!this.otherFormMap.get(id + "")) {
+              if (!this.otherFormMap.get(id + "") || id === 100108) {
                 // 转档返回的code是字符串，所以otherFormMap中的key为字符串
                 this.formTypeCollection.push(id);
               } else {
                 // console.log(this.data[key]);
                 this.submitFileList.push(this.data[key].files[0]);
+              }
+              if(id === 100108) {
+                console.log("this.data",this.data[key]);
+                // this.data[key].files[0].name = "其它证明文件";
+                this.data[key].files.length !== 0 ?this.submitFileList.push(this.data[key].files[0]):"";
               }
             }
           }
