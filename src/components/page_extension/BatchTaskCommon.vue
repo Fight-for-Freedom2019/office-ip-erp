@@ -56,9 +56,9 @@
           remark:""
         },
         rules:{
-          remark:[
+          /*remark:[
             {required:true,message:"请填写备注"}
-          ]
+          ]*/
         },
       }
     },
