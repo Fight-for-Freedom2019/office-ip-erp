@@ -448,6 +448,9 @@ export default {
       } else {
         // target = cloneDeep(formConfig.get(id));
         rule = this.saveRules.get(id);
+        if(!rule) {
+          rule = cloneDeep(formConfig.get(id)).obj.rule;
+        }
         id === 100104 ? this.triggerEvent(rule) : "";
       }
       this.rules = rule;
