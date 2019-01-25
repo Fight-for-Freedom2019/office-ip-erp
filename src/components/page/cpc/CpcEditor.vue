@@ -441,19 +441,18 @@ export default {
       let target = null;
       let rule = null;
       if (String(id).length > 6) {
-        // target = cloneDeep(formConfig.get(100104));
-        // rule = target.obj[`rule_${id}`];
         rule = this.saveRules.get(id);
         this.triggerEvent(rule);
       } else {
-        // target = cloneDeep(formConfig.get(id));
-        rule = this.saveRules.get(id);
+        rule = this.saveRules.get(id);  // 从缓存中拿生成规则，这样绑定的数据就不会丢失
+        if(!rule) {   // 100027和110401可以通过点击CheckBox生成，如果缓存中没有的话就要重新获取，并生成规则
+          rule = handlePlaceholder(cloneDeep(formConfig.get(id)).obj.rule);
+          this.mergeRule(rule);
+        }
         id === 100104 ? this.triggerEvent(rule) : "";
       }
       this.rules = rule;
       this.formType = id;
-      // this.mergeRule(this.rules);
-      // this.paddingData(this.rules);
       this.createForm();
     },
     // 只针对table100104以及它的复制品
@@ -859,18 +858,18 @@ export default {
               if (index !== -1 && id !== 100104) {
                 this.copy_form.splice(index, 1);
               }
-              if (!this.otherFormMap.get(id + "") || id === 100108) {
+              if (!this.otherFormMap.get(id + "")) {  //  || id === 100108
                 // 转档返回的code是字符串，所以otherFormMap中的key为字符串
                 this.formTypeCollection.push(id);
               } else {
                 // console.log(this.data[key]);
                 this.submitFileList.push(this.data[key].files[0]);
               }
-              if(id === 100108) {
+              /*if(id === 100108) {
                 console.log("this.data",this.data[key]);
                 // this.data[key].files[0].name = "其它证明文件";
                 this.data[key].files.length !== 0 ?this.submitFileList.push(this.data[key].files[0]):"";
-              }
+              }*/
             }
           }
         }

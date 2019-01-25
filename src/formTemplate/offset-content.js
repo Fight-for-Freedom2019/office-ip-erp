@@ -7,7 +7,7 @@ const template = `
     <el-table-column
         prop="filename"
         label="文件名称"
-        min-width="180">
+        min-width="120">
     </el-table-column>
     <el-table-column
         prop="position"
@@ -17,12 +17,12 @@ const template = `
     <el-table-column
         prop="beforeAmendment"
         label="补正前"
-        width="180">
+        width="240">
     </el-table-column>
     <el-table-column
         prop="afterAmendment"
         label="补正后"
-        width="180">
+        width="240">
     </el-table-column>
     <el-table-column
       label="操作"
