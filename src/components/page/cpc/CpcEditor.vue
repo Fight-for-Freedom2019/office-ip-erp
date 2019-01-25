@@ -450,6 +450,7 @@ export default {
         rule = this.saveRules.get(id);
         if(!rule) {
           rule = handlePlaceholder(cloneDeep(formConfig.get(id)).obj.rule);
+          this.mergeRule(rule);
         }
         id === 100104 ? this.triggerEvent(rule) : "";
       }
