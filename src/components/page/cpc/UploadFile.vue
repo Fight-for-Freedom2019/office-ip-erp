@@ -51,11 +51,11 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <template v-if="userDefined">
+        <!--<template v-if="userDefined">
           <el-form-item prop="fileTypeInput" label="或者直接输入文件名称">
             <el-input v-model="fileTypeForm.fileTypeInput" placeholder="请输入文件名称"></el-input>
           </el-form-item>
-        </template>
+        </template>-->
         <el-form-item>
           <el-button typeof="primary" @click="selectFileType">保存</el-button>
         </el-form-item>
@@ -436,7 +436,7 @@ export default {
           let target = this.fileTypeList.filter(
             item => item.value === this.fileTypeForm.fileType
           );
-          console.log("target", target);
+          // console.log("target", target);
           this.fileList.forEach(item => {
             item.type = !item.type ? "" : item.type;
             //console.log("this.file", this.file);
@@ -504,11 +504,12 @@ export default {
       let temp = [];
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
-        item.name = item.type;
-        if(item.target) {
+        console.log("item",item);
+        // item.name = item.type;
+        /*if(item.target) {
           item.type = item.target;  // 填充的数据可能没有type但是一定有target,有的话先复制
-        }
-        if (item.type === "" || !item.type) {
+        }*/
+        if ((item.type === "" || !item.type) && !item.target) {
           this.$message({
             type: "warning",
             message: `文件—${item.name}没有选择类型!  请点击文件名添加类型`
@@ -517,10 +518,11 @@ export default {
           return true;
         }
         temp.push({
-          name:
-            this.userDefined && this.fileTypeForm.fileTypeInput !== ""
-              ? this.fileTypeForm.fileTypeInput
-              : item.name,
+          // name:
+          //   this.userDefined && this.fileTypeForm.fileTypeInput !== ""
+          //     ? this.fileTypeForm.fileTypeInput
+          //     : item.name,
+          name: item.name,
           response: item.response,
           fid: item.response.data.file.id,
           url: item.response.data.file.viewUrl,
@@ -537,7 +539,7 @@ export default {
   },
   watch: {
     userDefined: function(val) {
-      val ? (this.fileTypeForm.fileType = this.fileTypeList[0]) : "";
+      // val ? (this.fileTypeForm.fileType = this.fileTypeList[0]) : "";
     },
     "fileTypeForm.fileType": function(val) {
       let target = this.fileTypeList.filter(item => item.value === val);
