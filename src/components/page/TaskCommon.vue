@@ -694,7 +694,11 @@ export default {
       ids.forEach((id)=>{
         this.tableData.data.forEach((o)=>{
           if(o.id === id) {
-            resultIds.push(o.task.id)
+            if(type === "notice") {
+              resultIds.push(o.project.id)
+            }else {
+              resultIds.push(o.task.id)
+            }
           }
         })
       })
