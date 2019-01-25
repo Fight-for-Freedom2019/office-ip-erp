@@ -5,7 +5,7 @@
         <!-- http://localhost:8086/upload/upload_file.php -->
         <el-upload
           list-type="picture"
-          action="api/files?action=parseNotices"
+          action="api/files"
           :on-preview="handleFileCardPreview"
           :on-success="handleFileUploadSuccess"
           :before-upload="handleFileUploadBefore"
@@ -111,9 +111,9 @@ export default {
           {
             value: 130002,
             label: "简要说明"
-          },
+          }
         ];
-      }else {
+      } else {
         options = options.concat([
           { value: 100042, label: "修改对照页" },
           { value: 100001, label: "权利要求书" },
@@ -121,7 +121,7 @@ export default {
           { value: 100003, label: "说明书附图" },
           { value: 100004, label: "说明书摘要" },
           { value: 100005, label: "摘要附图" }
-          ])
+        ]);
       }
       options = options.concat([
         { value: 100108, label: "其他证明文件" },
@@ -130,7 +130,7 @@ export default {
           value: 100104,
           label: "著录项目变更理由证明"
         }
-      ])
+      ]);
       if (this.patent_type === 1 || this.patent_type === 2) {
         options = options.concat([
           { value: 100119, label: "国内优先权在先申请文件副本" },
@@ -311,15 +311,15 @@ export default {
       }
       return options;
     },
-    viewFileList:function () {
+    viewFileList: function() {
       let arr = [];
-      this.fileList.forEach((item)=>{
-        if(item.response){
-          arr.push(item.response.data.file.viewUrl)
+      this.fileList.forEach(item => {
+        if (item.response) {
+          arr.push(item.response.data.file.viewUrl);
         }
         // arr.push(item)
-      })
-      return arr
+      });
+      return arr;
     }
   },
   props: {
@@ -379,7 +379,7 @@ export default {
     }
   },
   methods: {
-    viewFile(item){
+    viewFile(item) {
       window.open(item);
     },
     handleFileUploadBefore(file) {
@@ -505,8 +505,8 @@ export default {
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
         item.name = item.type;
-        if(item.target) {
-          item.type = item.target;  // 填充的数据可能没有type但是一定有target,有的话先复制
+        if (item.target) {
+          item.type = item.target; // 填充的数据可能没有type但是一定有target,有的话先复制
         }
         if (item.type === "" || !item.type) {
           this.$message({
@@ -541,7 +541,7 @@ export default {
     },
     "fileTypeForm.fileType": function(val) {
       let target = this.fileTypeList.filter(item => item.value === val);
-      target.length?this.fileTypeForm.fileTypeInput = target[0].label:"";
+      target.length ? (this.fileTypeForm.fileTypeInput = target[0].label) : "";
     },
     fileListProp: {
       handler: function(val) {
@@ -556,21 +556,21 @@ export default {
 </script>
 
 <style scoped>
-  .viewFileList {
-    position: relative;
-  }
+.viewFileList {
+  position: relative;
+}
 
-  .viewListWrap {
-    position: absolute;
-    left: 80%;
-    top: 90px;
-  }
+.viewListWrap {
+  position: absolute;
+  left: 80%;
+  top: 90px;
+}
 
-  .viewListWrap li {
-    height: 92px;
-    line-height: 92px;
-  }
-  .viewListWrap li:not(:first-child) {
-    margin-top: 10px;
-  }
+.viewListWrap li {
+  height: 92px;
+  line-height: 92px;
+}
+.viewListWrap li:not(:first-child) {
+  margin-top: 10px;
+}
 </style>

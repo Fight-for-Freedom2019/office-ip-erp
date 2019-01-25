@@ -29,7 +29,12 @@
     <!-- 任务新增 -->
     <task-common-edit ref="taskEdit" @addSuccess="refresh"></task-common-edit>
     <!-- 批量操作 -->
-    <batch-task-common ref="batchOperation" :ids="batchOperationIds" :operationType="batchOperationType" @update="update"></batch-task-common>
+    <batch-task-common
+      ref="batchOperation"
+      :ids="batchOperationIds"
+      :operationType="batchOperationType"
+      @update="update"
+    ></batch-task-common>
   </div>
 </template>
 
@@ -325,7 +330,14 @@ export default {
             type: "text",
             prop: "application_number",
             label: "申请号",
-            width: "110"
+            width: "120"
+          },
+          {
+            type: "text",
+            prop: "entrusting_time",
+            label: "立案日",
+            render_header: true,
+            width: "100"
           },
           {
             type: "text",
@@ -680,7 +692,7 @@ export default {
       this.currentRow = row;
       this.$refs.taskDetail.show(row);
     },
-    showBatchOperation (type){
+    showBatchOperation(type) {
       this.batchOperationType = type;
       const s = this.$refs.table.getSelect(true);
       if (s.length == 0) {
@@ -691,17 +703,17 @@ export default {
       }
       const ids = this.$tool.splitObj(s, "id");
       let resultIds = [];
-      ids.forEach((id)=>{
-        this.tableData.data.forEach((o)=>{
-          if(o.id === id) {
-            resultIds.push(o.task.id)
+      ids.forEach(id => {
+        this.tableData.data.forEach(o => {
+          if (o.id === id) {
+            resultIds.push(o.task.id);
           }
-        })
-      })
+        });
+      });
       this.batchOperationIds = resultIds;
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.$refs.batchOperation.show();
-      })
+      });
     }
   },
   watch: {
