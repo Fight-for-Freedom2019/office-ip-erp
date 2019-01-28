@@ -46,7 +46,7 @@
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
               <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -69,7 +69,7 @@
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
               <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -92,7 +92,7 @@
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
               <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -115,7 +115,7 @@
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
               <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -138,7 +138,7 @@
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
               <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -163,7 +163,7 @@
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
               <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -189,7 +189,7 @@
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
               <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -217,7 +217,7 @@
           <template slot="header" slot-scope="scope">
             <span>{{col.label}}</span>
             <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-              <lists-filter v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+              <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
               <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
             </el-popover>
           </template>
@@ -672,6 +672,9 @@ export default {
       this.filterComponent[property] = true;
       this.activePop = property;
       this.filterComponentPopover[property] = true;
+    },
+    order(val){
+      this.$emit("order",val);
     },
     hidePopover(property){
       this.filterComponentPopover[property] = false;
