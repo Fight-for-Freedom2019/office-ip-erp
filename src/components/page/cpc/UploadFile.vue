@@ -5,7 +5,7 @@
         <!-- http://localhost:8086/upload/upload_file.php -->
         <el-upload
           list-type="picture"
-          action="api/files?action=parseNotices"
+          action="api/files"
           :on-preview="handleFileCardPreview"
           :on-success="handleFileUploadSuccess"
           :before-upload="handleFileUploadBefore"
@@ -42,7 +42,7 @@
     >
       <el-form :model="fileTypeForm" label-position="top" ref="fileTypeForm" :rules="rule">
         <el-form-item prop="fileType" label="请选择文件类型">
-          <el-select value-key="id" v-model="fileTypeForm.fileType">
+          <el-select value-key="id" v-model="fileTypeForm.fileType" filterable>
             <el-option
               v-for="item in fileTypeList"
               :value="item.value"
@@ -51,11 +51,11 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <template v-if="userDefined">
+        <!--<template v-if="userDefined">
           <el-form-item prop="fileTypeInput" label="或者直接输入文件名称">
             <el-input v-model="fileTypeForm.fileTypeInput" placeholder="请输入文件名称"></el-input>
           </el-form-item>
-        </template>
+        </template>-->
         <el-form-item>
           <el-button typeof="primary" @click="selectFileType">保存</el-button>
         </el-form-item>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+  import cloneDeep from "lodash/cloneDeep";
 export default {
   name: "UploadFile",
   data() {
@@ -83,7 +84,8 @@ export default {
         fileType: [{ required: true, message: "请选择类型", trigger: "blur" }]
       },
       revampType: "add",
-      submitFileList: []
+      submitFileList: [],
+      first:true,
     };
   },
   computed: {
@@ -111,9 +113,9 @@ export default {
           {
             value: 130002,
             label: "简要说明"
-          },
+          }
         ];
-      }else {
+      } else {
         options = options.concat([
           { value: 100042, label: "修改对照页" },
           { value: 100001, label: "权利要求书" },
@@ -121,7 +123,7 @@ export default {
           { value: 100003, label: "说明书附图" },
           { value: 100004, label: "说明书摘要" },
           { value: 100005, label: "摘要附图" }
-          ])
+        ]);
       }
       options = options.concat([
         { value: 100108, label: "其他证明文件" },
@@ -130,7 +132,7 @@ export default {
           value: 100104,
           label: "著录项目变更理由证明"
         }
-      ])
+      ]);
       if (this.patent_type === 1 || this.patent_type === 2) {
         options = options.concat([
           { value: 100119, label: "国内优先权在先申请文件副本" },
@@ -311,15 +313,15 @@ export default {
       }
       return options;
     },
-    viewFileList:function () {
+    viewFileList: function() {
       let arr = [];
-      this.fileList.forEach((item)=>{
-        if(item.response){
-          arr.push(item.response.data.file.viewUrl)
+      this.fileList.forEach(item => {
+        if (item.response) {
+          arr.push(item.response.data.file.viewUrl);
         }
         // arr.push(item)
-      })
-      return arr
+      });
+      return arr;
     }
   },
   props: {
@@ -379,7 +381,7 @@ export default {
     }
   },
   methods: {
-    viewFile(item){
+    viewFile(item) {
       window.open(item);
     },
     handleFileUploadBefore(file) {
@@ -436,7 +438,7 @@ export default {
           let target = this.fileTypeList.filter(
             item => item.value === this.fileTypeForm.fileType
           );
-          console.log("target", target);
+          // console.log("target", target);
           this.fileList.forEach(item => {
             item.type = !item.type ? "" : item.type;
             //console.log("this.file", this.file);
@@ -456,7 +458,7 @@ export default {
                 } else {
                   reg.test(item.name)
                     ? (item.name = item.name.replace(reg, `——[${label}]`))
-                    : (item.name += label ? `——[${label}]` : "");
+                    : (item.name = label ? `[${label}]-` + label : "");
                 }
               }
               item.type = label;
@@ -471,7 +473,10 @@ export default {
       !this.isSave ? this.saveCpcFile() : "";
     },
     handleFileCardPreview(file) {
-      if (this.common) return;
+      if (this.common) {
+        window.open(file.response.data.file.viewUrl);
+        return
+      };
       this.showFileTypeList = true;
       this.userDefined
         ? (this.fileTypeForm.fileType = this.fileTypeList[0].value)
@@ -504,11 +509,12 @@ export default {
       let temp = [];
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
-        item.name = item.type;
-        if(item.target) {
+        console.log("item", item);
+        // item.name = item.type;
+        /*if(item.target) {
           item.type = item.target;  // 填充的数据可能没有type但是一定有target,有的话先复制
-        }
-        if (item.type === "" || !item.type) {
+        }*/
+        if ((item.type === "" || !item.type) && !item.target) {
           this.$message({
             type: "warning",
             message: `文件—${item.name}没有选择类型!  请点击文件名添加类型`
@@ -517,10 +523,11 @@ export default {
           return true;
         }
         temp.push({
-          name:
-            this.userDefined && this.fileTypeForm.fileTypeInput !== ""
-              ? this.fileTypeForm.fileTypeInput
-              : item.name,
+          // name:
+          //   this.userDefined && this.fileTypeForm.fileTypeInput !== ""
+          //     ? this.fileTypeForm.fileTypeInput
+          //     : item.name,
+          name: item.name,
           response: item.response,
           fid: item.response.data.file.id,
           url: item.response.data.file.viewUrl,
@@ -537,17 +544,31 @@ export default {
   },
   watch: {
     userDefined: function(val) {
-      val ? (this.fileTypeForm.fileType = this.fileTypeList[0]) : "";
+      // val ? (this.fileTypeForm.fileType = this.fileTypeList[0]) : "";
     },
     "fileTypeForm.fileType": function(val) {
       let target = this.fileTypeList.filter(item => item.value === val);
-      target.length?this.fileTypeForm.fileTypeInput = target[0].label:"";
+      target.length ? (this.fileTypeForm.fileTypeInput = target[0].label) : "";
     },
     fileListProp: {
       handler: function(val) {
-        val.forEach(item => {
-          this.fileList.push(Object.assign({}, item));
+        // console.log("first",this.first);
+        if(!this.first) {
+          this.first = true;
+          return
+        };
+        const temp = cloneDeep(val);
+        this.fileList.forEach((o)=>{
+          temp.forEach((item,index) => {
+            if(o.fid === item.fid) {
+              temp.splice(index,1);
+            }
+          })
         });
+        temp.forEach((item)=>{
+          this.fileList.push(item);
+        })
+        this.first = false;
       },
       immediate: true
     }
@@ -556,21 +577,21 @@ export default {
 </script>
 
 <style scoped>
-  .viewFileList {
-    position: relative;
-  }
+.viewFileList {
+  position: relative;
+}
 
-  .viewListWrap {
-    position: absolute;
-    left: 80%;
-    top: 90px;
-  }
+.viewListWrap {
+  position: absolute;
+  left: 80%;
+  top: 90px;
+}
 
-  .viewListWrap li {
-    height: 92px;
-    line-height: 92px;
-  }
-  .viewListWrap li:not(:first-child) {
-    margin-top: 10px;
-  }
+.viewListWrap li {
+  height: 92px;
+  line-height: 92px;
+}
+.viewListWrap li:not(:first-child) {
+  margin-top: 10px;
+}
 </style>

@@ -29,7 +29,12 @@
     <!-- 任务新增 -->
     <task-common-edit ref="taskEdit" @addSuccess="refresh"></task-common-edit>
     <!-- 批量操作 -->
-    <batch-task-common ref="batchOperation" :ids="batchOperationIds" :operationType="batchOperationType" @update="update"></batch-task-common>
+    <batch-task-common
+      ref="batchOperation"
+      :ids="batchOperationIds"
+      :operationType="batchOperationType"
+      @update="update"
+    ></batch-task-common>
   </div>
 </template>
 
@@ -204,16 +209,16 @@ export default {
             render_simple: "name",
             width: "60"
           },
-          { type: "text", prop: "serial", label: "案号", width: "160" },
+          { type: "text", prop: "serial", label: "案号", width: "180" },
           {
             type: "text",
             prop: "customer_serial",
             label: "客户案号",
             render_key: "project",
             render_simple: "customer_serial",
-            width: "160"
+            width: "180"
           },
-          { type: "text", prop: "title", label: "标题", width: "200" },
+          { type: "text", prop: "title", label: "标题", width: "340" },
           {
             type: "text",
             prop: "project_type",
@@ -325,7 +330,14 @@ export default {
             type: "text",
             prop: "application_number",
             label: "申请号",
-            width: "110"
+            width: "120"
+          },
+          {
+            type: "text",
+            prop: "entrusting_time",
+            label: "立案日",
+            render_header: true,
+            width: "100"
           },
           {
             type: "text",
@@ -687,7 +699,7 @@ export default {
       this.currentRow = row;
       this.$refs.taskDetail.show(row);
     },
-    showBatchOperation (type){
+    showBatchOperation(type) {
       this.batchOperationType = type;
       const s = this.$refs.table.getSelect(true);
       if (s.length == 0) {
@@ -698,17 +710,21 @@ export default {
       }
       const ids = this.$tool.splitObj(s, "id");
       let resultIds = [];
-      ids.forEach((id)=>{
-        this.tableData.data.forEach((o)=>{
-          if(o.id === id) {
-            resultIds.push(o.task.id)
+      ids.forEach(id => {
+        this.tableData.data.forEach(o => {
+          if (o.id === id) {
+            if (type === "notice") {
+              resultIds.push(o.project.id);
+            } else {
+              resultIds.push(o.task.id);
+            }
           }
-        })
-      })
+        });
+      });
       this.batchOperationIds = resultIds;
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.$refs.batchOperation.show();
-      })
+      });
     }
   },
   watch: {

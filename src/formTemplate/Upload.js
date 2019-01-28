@@ -1,18 +1,18 @@
 // 附件
 import UploadFile from '@/components/page/cpc/UploadFile'
 const defaultProps = {
-    handlePreview: () => {
-    },
-    handleRemove: () => {
-    },
-    beforeRemove: () => {
-    },
-    handleExceed: () => {
-    },
+  handlePreview: () => {
+  },
+  handleRemove: () => {
+  },
+  beforeRemove: () => {
+  },
+  handleExceed: () => {
+  },
 };
 
-function vm({label, url, props = {}, tip = "", type = "custom",field = "attachments", common = false, accept = "", limit = 1000}) {    // common:不出现选择类型弹窗
-    const template = `
+function vm({label, url, props = {}, tip = "", type = "custom", field = "attachments", common = false, accept = "", limit = 1000, optionType = ""}) {    // common:不出现选择类型弹窗
+  const template = `
 <div>
     <template v-if="type === 'file'">
         <el-upload
@@ -42,57 +42,69 @@ function vm({label, url, props = {}, tip = "", type = "custom",field = "attachme
         </el-dialog>
     </template>
     <template v-if="type === 'custom'">
-        <upload-file :tip="tip" :customAccept="accept" :isSave="isSave" :userDefined="userDefined" :customLimit="limit" :common="common" :fileListProp="fileList" @getFileList="getFileList"></upload-file>
+        <upload-file :tip="tip" :customAccept="accept" :type="optionType" :isSave="isSave" :userDefined="userDefined" :customLimit="limit" :common="common" :fileListProp="fileList" @getFileList="getFileList"></upload-file>
     </template>
 </div>
 `;
-    const options = {
-        data: {
-            extendData: {
-                [field]:[]
-            },
-            fileList: [],
-            action: url,
-            dialogImageUrl: "",
-            dialogVisible: false,
-            type: type,
-            tip,
-            common,
-            limit,
-            accept,
-            userDefined:true,
-            isSave:false,
+  const options = {
+    data: {
+      extendData: {
+        [field]: []
+      },
+      fileList: [],
+      action: url,
+      dialogImageUrl: "",
+      dialogVisible: false,
+      type: type,
+      tip,
+      common,
+      limit,
+      accept,
+      userDefined: true,
+      isSave: false,
+      getValue:false,
+      optionType,
+    },
+    created() {
+      // this.extendData[field] = [];
+      this.fileList = this.extendData[field];
+    },
+    watch:{
+      extendData:{
+        handler:function (val) {
+          this.getValue?this.fileList = val[field]:"";
+          this.getValue = false;
         },
-        created(){
-            // this.extendData[field] = [];
-            this.fileList = this.extendData[field];
-        },
-        methods: {
-            submitUpload() {
-                this.$refs.upload.submit();
-            },
-            handlePreview: props.handlePreview ? props.handlePreview : defaultProps.handlePreview,
-            handleRemove: props.handleRemove ? props.handleRemove : defaultProps.handleRemove,
-            beforeRemove: props.beforeRemove ? props.beforeRemove : defaultProps.beforeRemove,
-            handleExceed: props.handleExceed ? props.handleExceed : defaultProps.handleExceed,
-            handlePictureCardPreview(file) {
-                this.dialogImageUrl = file.url;
-                this.dialogVisible = true;
-            },
-            getFileList(val){
-                this.extendData[field] = val;
-                console.log("extendData",this.extendData[field]);
-            },
-        },
-        components: { UploadFile }
-    };
-    return {
-        custom: true,
-        vm: options,
-        template: template,
-        label: label,
-        field: "__upload",
-    };
+        deep: true
+      }
+    },
+    methods: {
+      submitUpload() {
+        this.$refs.upload.submit();
+      },
+      handlePreview: props.handlePreview ? props.handlePreview : defaultProps.handlePreview,
+      handleRemove: props.handleRemove ? props.handleRemove : defaultProps.handleRemove,
+      beforeRemove: props.beforeRemove ? props.beforeRemove : defaultProps.beforeRemove,
+      handleExceed: props.handleExceed ? props.handleExceed : defaultProps.handleExceed,
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      getFileList(val) {
+        this.getValue = true;
+        this.extendData[field] = val;
+        // console.log("extendData", this.extendData[field]);
+      },
+    },
+    components: {UploadFile}
+  };
+  return {
+    custom: true,
+    vm: options,
+    template: template,
+    label: label,
+    field: "__upload",
+  };
 }
 
 export {vm}

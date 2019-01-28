@@ -24,28 +24,17 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="节点期限">
-                <span class="form-item-text">{{ row.task != undefined ? row.task.deadline : '' }}</span>
+                <span class="form-item-text">{{ processData.task != undefined ? processData.task.deadline : '' }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="代理人" style="height:40px;">
-                <span
-                  class="form-item-text"
-                  style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
-                  :title="agentName"
-                >{{ agentName }}</span>
+                <el-form-item label="管制期限">
+                <span class="form-item-text">{{ row.filing_deadline }}</span>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="6">
-            <el-form-item label="代理人助理" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="assistantName">{{ assistantName }}</span></el-form-item>
-            </el-col>-->
             <el-col :span="6">
-              <el-form-item label="客户案号" style="height:40px;">
-                <span
-                  class="form-item-text"
-                  style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
-                  :title="customerSerial"
-                >{{ customerSerial }}</span>
+              <el-form-item label="官方绝限">
+                <span class="form-item-text">{{ row.legal_deadline }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -65,13 +54,24 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="管制期限">
-                <span class="form-item-text">{{ row.filing_deadline }}</span>
+              <el-form-item label="代理人" style="height:36px;">
+                <span
+                  class="form-item-text"
+                  style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
+                  :title="agentName"
+                >{{ agentName }}</span>
               </el-form-item>
             </el-col>
+            <!-- <el-col :span="6">
+            <el-form-item label="代理人助理" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="assistantName">{{ assistantName }}</span></el-form-item>
+            </el-col>-->
             <el-col :span="6">
-              <el-form-item label="官方绝限">
-                <span class="form-item-text">{{ row.legal_deadline }}</span>
+              <el-form-item label="客户案号" style="height:36px;">
+                <span
+                  class="form-item-text"
+                  style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
+                  :title="customerSerial"
+                >{{ customerSerial }}</span>
               </el-form-item>
             </el-col>
           </el-row>

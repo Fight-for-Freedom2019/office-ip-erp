@@ -1,7 +1,7 @@
 <template>
     <el-form ref="form" :model="offset_content">
         <el-form-item label="文件名称" prop="filename">
-            <el-select v-model="offset_content.filename">
+            <el-select v-model="offset_content.filename" allow-create filterable default-first-option>
                 <el-option
                         v-for="item in file_names"
                         :key="item.value"
@@ -21,7 +21,7 @@
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="add">保存</el-button>
-            <el-button type="primary" @click="cancel">取消</el-button>
+            <el-button @click="cancel">取消</el-button>
         </el-form-item>
     </el-form>
 </template>

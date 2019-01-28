@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item
           label="收件人"
-          prop="recipient" 
+          prop="recipient"
           :rules="{type: 'array', required: true, message: '请选择收件人', trigger: 'change'}"
         >
           <jump-select type="user" v-model="form.recipient" ref="recipient" multiple></jump-select>
@@ -26,9 +26,9 @@
         <el-form-item label="抄送" prop="cc">
           <jump-select type="user" v-model="form.cc" ref="cc" multiple></jump-select>
         </el-form-item>
-          <el-form-item label="密送" prop="bcc">
-					  <jump-select type="user" v-model="form.bcc" ref="bcc" multiple></jump-select>
-          </el-form-item>
+        <el-form-item label="密送" prop="bcc">
+          <jump-select type="user" v-model="form.bcc" ref="bcc" multiple></jump-select>
+        </el-form-item>
         <el-form-item label="附件" prop="attachments">
           <upload v-model="form.attachments" :file-list="attachments"></upload>
         </el-form-item>
@@ -126,7 +126,7 @@ export default {
       const success = _ => {
         const mail = _.mail;
         this.$tool.coverObj(this.form, mail, {
-          obj: ["cc","bcc","recipient", "attachments"]
+          obj: ["cc", "bcc", "recipient", "attachments"]
         });
         this.attachments = _.attachments ? _.attachments : [];
       };
@@ -197,7 +197,7 @@ export default {
       this.mail_scene = mail_scene;
 
       const data = { id, mail_scene };
-      const url = `/mails/templates`;
+      const url = `/messagetemplates/scenemail`;
       const success = _ => {
         const mail = _.data;
         this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });

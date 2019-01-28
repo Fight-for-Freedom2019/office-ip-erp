@@ -423,6 +423,26 @@ const reportMenu = [
 const exchangeMenu = [
   {
     type: "submenu",
+    text: "客户端同步",
+    path: "/exchange/client",
+    icon: "iconfont el-icon-my-sync",
+    children: [
+      {
+        type: "item",
+        text: "通知书",
+        path: "/exchange/client/notices",
+        icon: "iconfont el-icon-my-notice"
+      },
+      {
+        type: "item",
+        text: "递交包",
+        path: "/exchange/client/archives",
+        icon: "iconfont el-icon-my-archive"
+      }
+    ]
+  },
+  {
+    type: "submenu",
     text: "文档交互",
     path: "/exchange/document",
     icon: "iconfont el-icon-my-notice",
@@ -453,26 +473,7 @@ const exchangeMenu = [
       }
     ]
   },
-  {
-    type: "submenu",
-    text: "客户端同步",
-    path: "/exchange/client",
-    icon: "iconfont el-icon-my-sync",
-    children: [
-      {
-        type: "item",
-        text: "通知书",
-        path: "/exchange/client/notices",
-        icon: "iconfont el-icon-my-notice"
-      },
-      {
-        type: "item",
-        text: "递交包",
-        path: "/exchange/client/archives",
-        icon: "iconfont el-icon-my-archive"
-      }
-    ]
-  },
+
   {
     type: "item",
     text: "邮件",

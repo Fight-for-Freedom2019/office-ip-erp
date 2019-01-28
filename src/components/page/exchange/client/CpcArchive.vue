@@ -62,8 +62,8 @@
                             if (row.file == null) return;
                             return h('a',{ attrs:{
                                 target:'_blank',
-                                href:'/files/' + row.file.id
-                            }}, `下载`)
+                                href:row.file.downloadUrl
+                            },on:{click:(e)=>{e.stopPropagation()}}}, `下载`)
                         }},
                         {type: 'text', label: '备注', prop: 'remark',render_header: true, min_width: '100'},
                         // { 

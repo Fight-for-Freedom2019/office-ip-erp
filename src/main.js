@@ -12,16 +12,11 @@ import App from "./App";
 import "./fonts/iconfont.css";
 import axios from "@/const/axios";
 import tool from "./const/tool";
-// import AppButtonLoading from "@/components/common/AppButtonLoading";
 import "./components/common/components"
 import "./components/form/components"
-// import '../static/jquery-3.2.1.js'
 
-// import '../static/UE/ueditor.config.js'
-// import '../static/UE/ueditor.all.min.js'
-// import '../static/UE/lang/zh-cn/zh-cn.js'
-// import '../static/UE/ueditor.parse.min.js'
-
+// import 'quill/dist/quill.core.css'
+// import 'quill/dist/quill.snow.css'
 Vue.prototype.$axios = axios;
 Vue.prototype.$tool = tool;
 
