@@ -474,7 +474,7 @@ export default {
     },
     handleFileCardPreview(file) {
       if (this.common) {
-        window.open(file.response.data.file.viewUrl);
+        file.viewUrl?window.open(file.viewUrl):file.response?window.open(file.response.data.file.viewUrl):"";
         return
       };
       this.showFileTypeList = true;

@@ -50,6 +50,7 @@
 
         this.editor.customConfig.uploadImgShowBase64 = true // base 64 存储图片
         this.editor.customConfig.uploadImgServer = ''// 配置服务器端地址
+        this.editor.customConfig.zIndex = 100
         this.editor.customConfig.uploadImgHeaders = {      }// 自定义 header
         this.editor.customConfig.uploadFileName = '' // 后端接受上传文件的参数名
         this.editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
@@ -66,15 +67,12 @@
           'underline', // 下划线
           'strikeThrough', // 删除线
           'foreColor', // 文字颜色
-          'backColor', // 背景颜色
           'link', // 插入链接
           'list', // 列表
           'justify', // 对齐方式
           'quote', // 引用
-          'emoticon', // 表情
           'image', // 插入图片
           'table', // 表格
-          'video', // 插入视频
           'code', // 插入代码
           'undo', // 撤销
           'redo' // 重复
