@@ -456,7 +456,7 @@ export default {
                 } else {
                   reg.test(item.name)
                     ? (item.name = item.name.replace(reg, `——[${label}]`))
-                    : (item.name += label ? `——[${label}]` : "");
+                    : (item.name = label ? `[${label}]-` + label : "");
                 }
               }
               item.type = label;
@@ -504,7 +504,7 @@ export default {
       let temp = [];
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
-        console.log("item",item);
+        console.log("item", item);
         // item.name = item.type;
         /*if(item.target) {
           item.type = item.target;  // 填充的数据可能没有type但是一定有target,有的话先复制
