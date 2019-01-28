@@ -61,7 +61,28 @@ export default {
           // {type: 'add', click: this.add},
           // {type: 'delete'},
           // {type: 'export'},
-          { type: "control" }
+          { type: "control" },
+          {
+            type: "dropdown",
+            label: "批量操作",
+            map_if: "/task/btn/save",
+            items: [
+              {
+                text: "下载CPC压缩包",
+                click: () => {
+                  this.downloadCpcBatch("cpc_notice");
+                },
+                icon: "download"
+              },
+              {
+                text: "下载通知书PDF",
+                click: () => {
+                  this.downloadCpcBatch("notice");
+                },
+                icon: "download"
+              }
+            ]
+          }
         ],
         columns: [
           { type: "selection" },
@@ -286,6 +307,42 @@ export default {
     // },
     save(type) {
       this.$refs.CpcNoticeEdit.submitForm(type, this.rowID);
+    },
+    downloadCpcBatch(type) {
+      var selected = this.$refs.table.getSelected();
+      if (selected === false) {
+        return;
+      }
+      let token = null;
+      var ids = [];
+      selected.forEach(_ => {
+        if (token == null && _.cpc_file) {
+          var u = _.cpc_file.downloadUrl;
+          var a = u.split("token=");
+          token = a.pop();
+        }
+        if (type == "cpc_notice" && _.cpc_file) {
+          ids.push(_.cpc_file.id);
+        }
+        if (type == "notice" && _.file) {
+          ids.push(_.file.id);
+        }
+      });
+      if (ids.length == 0) {
+        this.$message({
+          message: "您选择的通知书未解析，无法下载PDF",
+          type: "warning"
+        });
+        return;
+      }
+      const url =
+        "/files/download?type=" +
+        type +
+        "&ids=" +
+        ids.join(",") +
+        "&token=" +
+        token;
+      window.open(url);
     }
   },
   components: {
