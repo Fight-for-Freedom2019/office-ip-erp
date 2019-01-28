@@ -560,7 +560,7 @@ export default {
         const temp = cloneDeep(val);
         this.fileList.forEach((o)=>{
           temp.forEach((item,index) => {
-            if(o.fid === item.fid) {
+            if(o.response.data.file.id === item.response.data.file.id) {
               temp.splice(index,1);
             }
           })
