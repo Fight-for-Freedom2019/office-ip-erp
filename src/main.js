@@ -5,7 +5,7 @@ import router from "./router";
 import store from "./store";
 import ElementUI from "element-ui";
 import formCreate from "form-create";
-import VueQuillEditor from "vue-quill-editor";
+// import VueQuillEditor from "vue-quill-editor";
 import MyAxios from "@/const/MyAxios";
 import "element-ui/lib/theme-chalk/index.css";
 import App from "./App";
@@ -15,14 +15,13 @@ import tool from "./const/tool";
 import "./components/common/components"
 import "./components/form/components"
 
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+// import 'quill/dist/quill.core.css'
+// import 'quill/dist/quill.snow.css'
 Vue.prototype.$axios = axios;
 Vue.prototype.$tool = tool;
 
 Vue.use(ElementUI);
-Vue.use(VueQuillEditor);
+// Vue.use(VueQuillEditor);
 Vue.use(MyAxios);
 Vue.use(formCreate);
 
