@@ -692,19 +692,19 @@ menu.source = [
     icon: "iconfont el-icon-my-patent",
     menu: patentMenu
   },
-  // {
-  // 	text: '商标',
-  // 	key: 'trademark',
-  // 	path: '/trademark',
-  // 	icon: 'iconfont el-icon-my-patent',
-  // 	menu: trademarkMenu,
-  // },
+  {
+  	text: '商标',
+  	key: 'trademark',
+  	path: '/trademark',
+  	icon: 'iconfont el-icon-my-patent',
+  	menu: trademarkMenu
+  },
   // {
   // 	text: '版权',
   // 	key: 'copyright',
   // 	path: '/copyright',
   // 	icon: 'iconfont el-icon-my-copyright',
-  // 	menu: copyrightMenu,
+  // 	menu: copyrightMenu
   // },
   // {
   // 	text: '项目',

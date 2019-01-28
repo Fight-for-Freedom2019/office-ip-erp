@@ -1,6 +1,6 @@
 <template>
   <!-- <app-collapse col-title="案件引用"> -->
-      <el-form label-width="120px">
+      <el-form label-width="120px" ref="form">
         <el-form-item label="相关提案">
           <remote-select type="proposal" v-model="form.proposals" multiple></remote-select>
         </el-form-item>

@@ -975,7 +975,9 @@ const map = new Map([
         name: "通知书名称",
         map_type: "file_type_oa",
         url: true
-      }
+      },
+      { type: "date", id: "mail_date", name: "发文日" },
+      { type: "date", id: "creation_time", name: "上传日" },
     ]
   ]
 ]);

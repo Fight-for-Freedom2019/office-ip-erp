@@ -5,7 +5,7 @@ const state = {
 
 const getters = {
   processData: state => state.data,
-  tasksDetail: state => (state.data && state.data.task ? state.data.task : {})
+  tasksDetail: state => state.data && state.data.task ? state.data.task : {},
 };
 
 const mutations = {

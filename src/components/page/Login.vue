@@ -122,7 +122,6 @@ export default {
             this.setUser(_.member);
             // window.localStorage.setItem("userinfo",JSON.stringify(_.member));
           } else {
-            console.log('bb')
             window.localStorage.removeItem("token");
             // this.$router.push({ path: "/login" });
           }

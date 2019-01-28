@@ -4,12 +4,12 @@
     
       <common-detail
         :title="currentRow.title"
-        :visible.sync="shrinkVisible" 
+        ref="copyright_detail"
         type="copyright" 
         :id="currentRow.id"
         @editSuccess="refresh">
       </common-detail>
-
+      <detail-shrink ref="copyrightAdd" page-type="add"></detail-shrink>
   </div>
 </template>
 
@@ -17,7 +17,9 @@
 import TableComponent from '@/components/common/TableComponent'
 import Strainer from '@/components/page_extension/CopyrightList_strainer'
 import AppShrink from '@/components/common/AppShrink'
+import DetailShrink from '@/components/page_extension/DetailShrink'
 import CommonDetail from '@/components/page_extension/Common_detail'
+
 import {mapGetters} from 'vuex'
 
 const URL = '/copyrights';
@@ -34,17 +36,17 @@ export default {
         'height': 'default',
         'highlightCurrentRow': true, 
         'rowClick': this.handleRowClick,
-        'is_filter': true,
+        // 'is_filter': true,
         'is_list_filter': true,
         'list_type': 'copyright',
         'import_type': 'copyright',
-        'upload_type': 'copyright',
+        // 'upload_type': 'copyright',
         'header_btn': [
-          { type: 'add', click: this.add },
+          { type: 'add', click: this.add, map_if: '/copyright/draftbox', btn_if: '/draftbox' },
           { type: 'delete' },
           { type: 'export' },
-          { type: 'import' },
-          { type: 'batch_upload' },
+          // { type: 'import' },
+          // { type: 'batch_upload' },
           { type: 'control', label: '字段' },
         ],
         'columns': [
@@ -97,7 +99,7 @@ export default {
   },
   methods: {
     add () {
-      this.$router.push('/copyright/add');
+      this.$refs.copyrightAdd.show(null,'copyright');
     },
     refreshTableData (option) {
       const url = URL;
@@ -130,7 +132,8 @@ export default {
     handleRowClick (row) {
       if( this.menusMap && this.menusMap.get('/copyright/read') ) {
         this.currentRow = row;
-        if(!this.shrinkVisible) this.shrinkVisible = true;
+        this.$refs.copyright_detail.show(row.id, 'copyright');
+        // if(!this.shrinkVisible) this.shrinkVisible = true;
       }
     },
     close () {
@@ -146,7 +149,8 @@ export default {
   components: { 
     TableComponent, 
     AppShrink, 
-    CommonDetail 
+    CommonDetail,
+    DetailShrink, 
   }
 }
 </script>

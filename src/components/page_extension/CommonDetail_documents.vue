@@ -19,7 +19,7 @@ export default {
 		  	'is_pagination': false,
 		  	'columns': [
 		  		{ type: 'text', label: '文件名称', prop: 'name' },
-		  		{ type: 'text', label: '文件类型', prop: 'file_type' },
+		  		{ type: 'text', label: '文件类型', prop: 'file_type', render_simple: 'name' },
 		  		{ type: 'text', label: '文件格式', prop: 'ext' },
 		  		{ type: 'text', label: '文件大小', prop: 'size' },
 		  		{ type: 'text', label: '上传人', prop: 'uploader', render_simple: 'name', },

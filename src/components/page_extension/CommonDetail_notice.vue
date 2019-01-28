@@ -30,6 +30,7 @@
       <el-upload
       :action="patentNoice_upload_url"
       :show-file-list="false"
+      :headers="auth"
       :on-success="handlePatentSuccess"
       style="display: inline-block;"
       >
@@ -43,7 +44,7 @@
      </div>
      <div class="documents" style="margin-top: 15px;">
       <div class="header_btn" style="height:36px;line-height: 36px;">
-      <span style="display:inline-block;position: relative;top:-10px;">
+      <span style="display:inline-block;"><!-- position: relative;top:-10px; -->
           <el-upload
           :action="upload_url"
           :on-success="handleSuccess"
@@ -55,7 +56,8 @@
         </el-upload>
       </span>
       <span style="display:inline-block;height:28px;line-height: 28px;margin-left:15px;width:180px;">
-          <el-upload
+        <!-- 拖拽上传功能接口不完善暂时隐藏 -->
+        <!--   <el-upload
             drag
             :action="upload_url"
             :headers="auth"
@@ -65,7 +67,7 @@
             style="width:180px;"
             >
             <div class="el-upload__text upload-width"></em>其他文件可拖拽上传</div>
-          </el-upload>
+          </el-upload> -->
       </span>
       <span style="float: right;">
         <search-input v-model="searchValue2"  placeholder="搜索文件名称、文件类型" input-style="width:250px;"></search-input>
@@ -180,7 +182,7 @@ export default {
           { type: 'text', label: '通知书名称', prop: 'name', render_key: 'file', render_simple: 'name', min_width: '220' },
           { type: 'text', label: '发文日', prop: 'mail_date', min_width: '160' },
           { type: 'text', label: '官方绝限', prop: 'legal_deadline', min_width: '160' },
-          // { type: 'text', label: '发文序列号', prop: 'notice_serial', width: '190' },
+          { type: 'text', label: '发文序列号', prop: 'mail_serial', width: '160' },
           // { type: 'text', label: '审查员', prop: 'examiner', width: '210' },
           // { type: 'text', label: '审查部门', prop: 'examiner_dept', width: '210' },
           // { type: 'text', label: '审查员电话', prop: 'examiner_phone', width: '210' },
@@ -242,7 +244,7 @@ export default {
       console.log(this.noticeType);
       const config = map.get(this.noticeType);
       const action =config.action;
-      let url = '/files';
+      let url = '/api/files';
       if(action != '') {
         url += `?action=${action}`;
       }
