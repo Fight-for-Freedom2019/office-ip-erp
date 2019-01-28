@@ -8,7 +8,7 @@
     </el-form-item>
     <template v-if="form.update_field !== 'no'">
       <el-form-item :label="label" prop="placeholder">
-        <remote-select type="user" v-model="form.placeholder" pageType="add"></remote-select>
+        <remote-select type="user" v-model="form.placeholder" pageType="add" multiple></remote-select>
       </el-form-item>
     </template>
   </el-form>

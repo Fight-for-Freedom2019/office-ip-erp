@@ -92,12 +92,12 @@
           >
             <el-tab-pane label="申请文件" name="application_doc">
               <ul class="attachmentsList">
-                <li v-for="item in amendments"></li>
+                <li v-for="item in amendments" @click="({viewUrl})=>{window.open(viewUrl)}">{{item.name}}</li>
               </ul>
             </el-tab-pane>
             <el-tab-pane label="官文" name="official_doc">
               <ul class="noticesList">
-                <li v-for="item in notices"></li>
+                <li v-for="item in notices" @click="({viewUrl})=>{window.open(viewUrl)}">{{item.name}}</li>
               </ul>
             </el-tab-pane>
             <!-- <el-tab-pane label="邮件" name="mail"></el-tab-pane> -->
@@ -156,6 +156,7 @@
           :amendments="amendments"
           @getTurnArchives="getTurnArchives"
         ></turn-archives>
+        <!--@turnArchivesFile="turnArchivesFile"-->
       </el-dialog>
       <!-- 转档 end -->
     </app-shrink>
@@ -371,6 +372,9 @@ export default {
       this.submitFileList = this.submitFileList.concat(arr);
       this.showTurnArchives = false;
     },
+    /*turnArchivesFile(file){
+      this.$emit("turnArchivesFile",file);
+    },*/
     detectorRepeat(id) {
       this.submitFileList.forEach((item, index) => {
         if (item.target == id) {
