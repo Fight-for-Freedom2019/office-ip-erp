@@ -473,7 +473,10 @@ export default {
       !this.isSave ? this.saveCpcFile() : "";
     },
     handleFileCardPreview(file) {
-      if (this.common) return;
+      if (this.common) {
+        window.open(file.response.data.file.viewUrl);
+        return
+      };
       this.showFileTypeList = true;
       this.userDefined
         ? (this.fileTypeForm.fileType = this.fileTypeList[0].value)
@@ -549,6 +552,7 @@ export default {
     },
     fileListProp: {
       handler: function(val) {
+        // console.log("first",this.first);
         if(!this.first) {
           this.first = true;
           return
