@@ -65,6 +65,7 @@
 </template>
 
 <script>
+  import cloneDeep from "lodash/cloneDeep";
 export default {
   name: "UploadFile",
   data() {
@@ -83,7 +84,8 @@ export default {
         fileType: [{ required: true, message: "请选择类型", trigger: "blur" }]
       },
       revampType: "add",
-      submitFileList: []
+      submitFileList: [],
+      first:true,
     };
   },
   computed: {
@@ -547,9 +549,22 @@ export default {
     },
     fileListProp: {
       handler: function(val) {
-        val.forEach(item => {
-          this.fileList.push(Object.assign({}, item));
+        if(!this.first) {
+          this.first = true;
+          return
+        };
+        const temp = cloneDeep(val);
+        this.fileList.forEach((o)=>{
+          temp.forEach((item,index) => {
+            if(o.fid === item.fid) {
+              temp.splice(index,1);
+            }
+          })
         });
+        temp.forEach((item)=>{
+          this.fileList.push(item);
+        })
+        this.first = false;
       },
       immediate: true
     }
