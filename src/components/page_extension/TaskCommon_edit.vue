@@ -333,19 +333,20 @@ export default {
     refreshRow () {
       if(this.mode == 'edit') {
         this.$tool.coverObj(this.form,this.row,{
-          obj: ['process_flow','process_definition',],
+          obj: ['process_flow','process_definition','attachments'],
           date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline',
           'internal_final_edition_time','customer_edition_time','filing_time','customer_final_edition_time'],
         })
         if(this.row && this.row.task && this.row.task.process_action) {
           this.$nextTick(_=>{
-
           this.form.process_action = this.row.task.process_action['id'];
           })
-        }else if (this.row && this.row.task && this.row.task.remark) {
+        }
+        if (this.row && this.row.task && this.row.task.remark) {
           this.form.remark = this.row.task.remark; 
-        }else if (this.row && this.row.task && this.row.task.attachments && this.row.task.attachments.length != 0) {
-           this.form.attachments = this.row.task.attachments.map(_=>_.id); 
+        } 
+        if (this.row && this.row.task && this.row.task.attachments && this.row.task.attachments.length != 0) {
+           this.attachments = this.row.task.attachments; 
         }
       }
     }

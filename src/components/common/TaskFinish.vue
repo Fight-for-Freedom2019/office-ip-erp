@@ -14,7 +14,7 @@
         <el-form label-width="80px" label-position="left" class="form-information">
           <el-row :gutter="10">
             <el-col :span="6">
-              <el-form-item label="节点名称" style="height:36px;">
+              <el-form-item label="节点名称" style="height:40px;">
                 <span
                   class="form-item-text"
                   style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
@@ -28,7 +28,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="代理人" style="height:36px;">
+              <el-form-item label="代理人" style="height:40px;">
                 <span
                   class="form-item-text"
                   style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
@@ -40,7 +40,7 @@
             <el-form-item label="代理人助理" style="height:36px;"><span class="form-item-text" style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="assistantName">{{ assistantName }}</span></el-form-item>
             </el-col>-->
             <el-col :span="6">
-              <el-form-item label="客户案号" style="height:36px;">
+              <el-form-item label="客户案号" style="height:40px;">
                 <span
                   class="form-item-text"
                   style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
@@ -51,7 +51,7 @@
           </el-row>
           <el-row :gutter="10">
             <el-col :span="6">
-              <el-form-item label="承办人" style="height:36px;">
+              <el-form-item label="承办人" style="height:40px;">
                 <span
                   class="form-item-text"
                   style="display:inline-block;max-width: 120px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
@@ -94,13 +94,17 @@
           </el-row>
           <el-form-item label="附件">
             <app-table
-              v-if="row.task.attachments.length > 0"
+              v-if="processData.task.attachments.length > 0"
               :columns="columns"
               border
-              :data="row.task.attachments"
+              ref="table"
+              max-height="222px"
+              :data="processData.task.attachments"
             ></app-table>
-            <span v-if="row.task.attachments.length == 0">无附件</span>
+            <!-- <span v-if="processData.task.attachments.length == 0">无附件</span> -->
+            <upload :value="supplement" @input="handleUpload" :show-file-list="false" style="height: 40px;"></upload>
           </el-form-item>
+            
         </el-form>
       </el-collapse-item>
       <el-collapse-item title="任务处理" name="2">
@@ -177,6 +181,12 @@ export default {
       default() {
         return {};
       }
+    },
+    process: {
+      type: Object,
+      default() {
+        return {};
+      }
     }
   },
   data() {
@@ -184,6 +194,7 @@ export default {
       sourceForm: [],
       detailMap: {},
       task_id: "",
+      supplement: [],
       isShowPatentMailBtn: false,
       tips: "",
       activeName: ["1", "2"],
@@ -200,6 +211,7 @@ export default {
         {
           type: "action",
           label: "详情",
+          fixed: false,
           width: '175',
           btns: [
             {
@@ -232,13 +244,30 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+    this.refreshData();
+  },
   methods: {
     ...mapMutations([]),
-    ...mapActions(["refreshUser"]),
+    ...mapActions(["refreshUser", "refreshProcessDetail"]),
     show() {
       console.log("finish panel shown " + this.row.id);
-      this.refreshData();
+      // this.refreshData();
+    },
+    handleUpload (val) {
+      this.supplement = val;
+      const url = `/tasks/${this.taskId}`;
+      let list_attachments = [];
+      if(this.processData.attachments) {
+         list_attachments = this.$tool.splitObj(this.processData.attachments, 'id');
+      }
+      const attachments = [...this.supplement, ...list_attachments];
+      const data = { attachments };
+      const success = _=>{
+        this.$message({ type: 'success', message: '上传附件成功'});
+        this.refreshProcessDetail({id: this.id})
+      };
+      this.$axiosPut({url , data, success});
     },
     refreshData() {
       this.loading = true;
@@ -256,7 +285,7 @@ export default {
       const arr = [];
       const map = {};
       const url = `${URL}/${this.taskId}/form`;
-      this.$refs.appForm.$refs.form.clearValidate();
+      // this.$refs.appForm.$refs.form.clearValidate();
       const success = d => {
         const response = d.data;
         this.data = response;
@@ -356,11 +385,30 @@ export default {
       this.loading = true;
     }
   },
-  watch: {},
+  watch: {
+    // id: {
+    //   handler (val) {
+    //     this.refreshProcessDetail({id: val})
+    //   },
+    //   immediate: true,
+    // },
+    taskId: {
+      handler (val) {
+        console.log(val)
+        if(val) {
+          this.refreshData();
+        }
+      },
+      // immediate: true,
+    },
+  },
   computed: {
-    ...mapGetters(["menusMap"]),
+    ...mapGetters(["menusMap",]),
     taskId() {
-      return this.row.task.id;
+      return this.process.task.id;
+    },
+    processData () {
+      return this.process;
     },
     isShowSubmitBtn() {
       if (
@@ -376,24 +424,24 @@ export default {
       }
     },
     actionName() {
-      return this.row.task && this.row.task.process_action != null
-        ? this.row.task.process_action.name
+      return this.processData.task && this.processData.task.process_action != null
+        ? this.processData.task.process_action.name
         : "";
     },
     assistantName() {
-      return this.row.assistant != null ? this.row.assistant.name : "";
+      return this.processData.assistant != null ? this.processData.assistant.name : "";
     },
     userName() {
-      return this.row.task.user != null ? this.row.task.user.name : "";
+      return this.processData.task.user != null ? this.processData.task.user.name : "";
     },
     agentName() {
-      return this.row.agent != null ? this.row.user.name : "";
+      return this.processData.agent != null ? this.processData.user.name : "";
     },
     customerSerial() {
-      return this.row.project != null ? this.row.project.customer_serial : "";
+      return this.processData.project != null ? this.processData.project.customer_serial : "";
     },
     iprName() {
-      return this.row.ipr != null ? this.row.ipr.name : "";
+      return this.processData.ipr != null ? this.processData.ipr.name : "";
     },
     ifMore() {
       if (this.row && this.row.category == 1) {

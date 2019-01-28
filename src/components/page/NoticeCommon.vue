@@ -19,15 +19,25 @@ const config = [
     "patent",
     {
       URL: "/notices",
-      import_type: "patent_notice"
+      import_type: "patent_notice",
+      // tree_type: "patent_notices",
       // upload_type: 'patent_notice',
+    }
+  ],
+  [
+    "trademark",
+    {
+      URL: "/notices",
+      import_type: "trademark_notice",
+      // tree_type: "trademark_notices",
     }
   ],
   [
     "copyright",
     {
       URL: "/notices",
-      import_type: "copyright_notice"
+      import_type: "copyright_notice",
+      // tree_type: "copyright_notices",
     }
   ]
 ];
@@ -56,7 +66,7 @@ export default {
         // 'upload_type': '',
         is_list_filter: true,
         list_type: "patent_notices",
-        treeFilter: "patent_notices",
+        treeFilter: "notices",
         columns: [
           { type: "selection" },
           {
@@ -128,7 +138,8 @@ export default {
             label: "发文日",
             prop: "mail_date",
             width: "110",
-            is_import: true
+            is_import: true,
+            render_header: true,
           },
           {
             type: "text",
@@ -148,7 +159,8 @@ export default {
             type: "text",
             label: "上传日",
             prop: "creation_time",
-            width: "110"
+            width: "110",
+            render_header: true,
           },
           {
             type: "text",
@@ -172,6 +184,7 @@ export default {
             type: "action",
             label: "操作",
             width: "100",
+            // fixed: false,
             btns: [
               {
                 type: "view",
@@ -222,6 +235,12 @@ export default {
       } else {
         return this.type;
       }
+    },
+    projectType () {
+      const en = ['patent', 'trademark', 'copyright']
+      const zh = ['专利', '商标', '版权']
+      const index = en.findIndex(v=> v==this.type)
+      return index != -1 ? zh[index] : '' 
     }
   },
   methods: {
@@ -230,7 +249,8 @@ export default {
     },
     refreshTableData(option) {
       const url = this.config.URL;
-      const data = Object.assign({}, option, this.defaultParams);
+      const project_type = this.projectType;
+      const data = Object.assign({}, option, { project_type }, this.defaultParams);
       const success = _ => {
         if (option.format == "excel") {
           window.location.href = _.list.downloadUrl;
@@ -244,6 +264,7 @@ export default {
   },
   created() {
     this.tableOption.import_type = this.config.import_type;
+    // this.tableOption.treeFilter = this.config.tree_type;
     this.tableOption.upload_type = this.config.upload_type;
     this.tableOption.url = this.config.URL;
   },

@@ -94,15 +94,15 @@ export default {
   created() {
     this.handleDynamicForm();
   },
-  watch: {
-    // value (val) {
-    // 	val.forEach(_=>{
-    // 		if(!_.visible)  this.$set( _, 'visible', false );
-    // 		this.$set(_, 'type', this.type);
-    // 	});
-    // 	return val;
-    // },
-  },
+  // watch: {
+  //   // value (val) {
+  //   // 	val.forEach(_=>{
+  //   // 		if(!_.visible)  this.$set( _, 'visible', false );
+  //   // 		this.$set(_, 'type', this.type);
+  //   // 	});
+  //   // 	return val;
+  //   // },
+  // },
   methods: {
     ...mapActions(["initializeCardCache"]),
     handleCloseTag(tag) {
@@ -144,6 +144,11 @@ export default {
           this.$set(this.cardForm, _.key, "");
         });
       }
+    }
+  },
+  watch: {
+    value(v) {
+      console.log(v)
     }
   },
   components: {

@@ -1,45 +1,39 @@
 <template>  
   	<el-form label-width="100px" :model="form" ref="taskForm" :rules="rules">
-      <el-form-item label="任务流程" prop="flow_id" v-if="type == 'add'">
-        <el-select v-model="form.flow_id" placeholder="请选择任务流程">
-          <el-option
-            v-for="item in flowOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
+      <el-form-item label="是否触发任务" prop="is_task">
+        <app-switch type="is" v-model="form.is_task"  @change="val=>{$emit('isTaskChanged', val)}"></app-switch>
       </el-form-item>
-      <el-form-item label="任务类型" prop="task_def_id" v-if="type == 'add'">
-        <el-select v-model="form.task_def_id" placeholder="请选择任务类型">
-          <el-option
-            v-for="item in defOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
+      <el-form-item label="管制事项" prop="process_definition" v-if="type == 'add'&&form.is_task==1">
+          <static-select type="process_definition" v-model="form.process_definition"></static-select>
+        </el-form-item>
+        <el-form-item label="事项流程" prop="process_flow"  v-if="type == 'add'&&form.is_task==1">
+          <el-select v-model="form.process_flow" clearable placeholder="请选择事项流程">
+            <el-option
+              v-for="item in flowOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="开始节点" prop="process_action" v-if="type == 'add'&&form.is_task==1">
+          <el-select v-model="form.process_action" clearable placeholder="请选择开始">
+            <el-option
+              v-for="item in actionOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item> 
 
-      <el-form-item label="流程节点" prop="flow_node_id" v-if="type == 'add'">
-        <el-select v-model="form.flow_node_id" placeholder="请选择流程节点">
-          <el-option
-            v-for="item in flownodeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
-
-  		<el-form-item label="承办人" prop="person_in_charge" v-if="type == 'add'">
-        <remote-select type="member" v-model="form.person_in_charge"></remote-select>
+  		<el-form-item label="承办人" prop="user"  v-if="type == 'add'&&form.is_task==1">
+        <remote-select type="member" v-model="form.user"></remote-select>
   		</el-form-item>
 
-      <el-form-item label="承办期限" prop="due_time">
+      <el-form-item label="承办期限" prop="due_time" v-if="form.is_task == 1">
         <el-date-picker type="date" v-model="form.due_time" placeholder="请选择承办期限"></el-date-picker>
       </el-form-item>
  
@@ -68,7 +62,7 @@ export default {
       		 return this.$tool.shallowCopy(this.form, { 'date': true });
  		}else {
  			 return this.$tool.shallowCopy(this.form, { 'date': true ,
- 			 	skip:['flow_id','task_def_id','person_in_charge','due_time','deadline','flow_node_id'],
+ 			 	skip:['process_flow','process_definition','user','due_time','deadline','process_action'],
  			});
  		}		
     
@@ -92,8 +86,8 @@ export default {
           if(k == 'attachments') {
             this.form[k] = d.map(_=>_.id);
             this.attachments = d;
-          }else if(k == 'person_in_charge') {
-            this.form[k] = {id: d, name: this.row['person_in_charge_name']};
+          }else if(k == 'user') {
+            this.form[k] = {id: d, name: this.row['user_name']};
           }else {
             if(d) {
               this.form[k] = d;  
@@ -113,64 +107,62 @@ export default {
   	  form: {
   	  	is_task: 0,
         // project_id: '',
-        flow_id: '',
-        task_def_id: '',
-        person_in_charge: '',
+        process_flow: '',
+        process_definition: '',
+        user: '',
         due_time: '',
-        flow_node_id: '',
+        process_action: '',
         deadline: '',
       },
       rules:{
-      	// 'flow_id': [{type: 'number', required: true, message: '请选择任务流程', trigger:' blur,change'}],
-      	// 'task_def_id': [{required: true, message: '请选择任务类型', trigger:' blur,change'}],
-      	// 'flow_node_id': [{type: 'number',required: true, message: '请选择流程节点', trigger:' blur,change'}],
-      	// 'person_in_charge': [{type: 'number', required: true, message: '请选择承办人', trigger:' blur,change'}],
-      	// 'due_time': [{type: 'date', required: true, message: '请选择承办期限', trigger:' change'}],
-      	// 'deadline': [{type: 'date', required: true, message: '请选择官方绝限', trigger:' change'}],
+      	'process_flow': [{type: 'number', required: true, message: '请选择任务流程', trigger:' blur,change'}],
+      	'process_definition': [{required: true, message: '请选择任务类型', trigger:' blur,change'}],
+      	'process_action': [{type: 'number',required: true, message: '请选择流程节点', trigger:' blur,change'}],
+      	'user': [{type: 'number', required: true, message: '请选择承办人', trigger:' blur,change'}],
+      	'due_time': [{type: 'date', required: true, message: '请选择承办期限', trigger:' change'}],
+      	'deadline': [{type: 'date', required: true, message: '请选择官方绝限', trigger:' change'}],
       },
   	}
   },
   computed: {
-    flowsData () {
+     flowsData () {
       return this.$store.getters.flowsData;
     },
-    taskDefsData () {
-      return this.$store.getters.taskDefsData;
-    },
-    flownodeData () {
-      return this.$store.getters.flownodeData;
-    },    
     flowOptions () {
-      const c = this.category;
-      this.form.flow_id = '';
-      if( !this.flowsData[c] ) {
+      if( this.flowsData == undefined) {
         return [];
       }else {
-        return this.flowsData[c]['flows'].map(_=>{
-          return {label: _.name, value: _.id};
-        })  
-      }     
+        return this.flowsData;
+      }  
     },
     defOptions () {
-      const f = this.form.flow_id;
-      this.form.task_def_id = '';
-      const arr = [];
-
-      this.taskDefsData.forEach(_=>{
-        if(_.flow_id == f) arr.push({label: _.label, value: _.value});
-      });
-
-      return arr;
+      let arr =[];
+      const f = this.form.process_flow;
+      if( !this.flowsData && !this.form.process_flow) {
+        return [];
+      }else {
+       for (let i = 0; i < this.flowsData.length; i++) {
+           if(this.flowsData[i].id == f ) {
+            return arr = this.flowsData[i].Process_definition;
+            break;
+          }
+        }
+      }
     },
-    flownodeOptions () {
-      const f = this.form.flow_id;
-      this.form.flow_node_id = '';
-      const arr = [];
-      this.flownodeData.forEach(_=>{
-        if (_.flow_id == f) arr.push({label: _.name, value: _.id});
-      })
-      return arr;
-    },    
+    actionOptions () {
+     let arr =[];
+      const f = this.form.process_flow;
+      if( !this.flowsData && !this.form.process_flow ) {
+        return [];
+      }else {
+       for (let i = 0; i < this.flowsData.length; i++) {
+           if(this.flowsData[i].id == f ) {
+            return arr = this.flowsData[i].process_action;
+            break;
+          }
+        }
+      }
+    },
   },
   watch: {
     'row.id': {

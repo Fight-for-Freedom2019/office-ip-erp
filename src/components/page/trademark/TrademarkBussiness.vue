@@ -151,77 +151,77 @@ export default {
       });
     },
     loadDefaultFees() {
-      if (!(this.form.customer && this.form.service)) {
-        return;
-      }
-      if (this.form.customer == "") {
-        return;
-      }
+      // if (!(this.form.customer && this.form.service)) {
+      //   return;
+      // }
+      // if (this.form.customer == "") {
+      //   return;
+      // }
 
-      const url =
-        "/quotations?customer=" +
-        this.form.customer +
-        "&service=" +
-        this.form.service;
-      const success = _ => {
-        //有客户报价
-        if (_.data.data.length > 0) {
-          this.form.fees = [];
-          const fee = _.data.data[0];
-          if (fee.service_fee > 0) {
-            this.form.fees.push({
-              fee_type: _.data.service_fee_code,
-              amount: fee.service_fee,
-              currency: fee.service_fee_currency,
-              request_timing: 1
-            });
-          }
-          if (fee.official_fee > 0) {
-            this.form.fees.push({
-              fee_type: _.data.official_fee_code,
-              amount: fee.official_fee,
-              currency: fee.official_fee_currency,
-              request_timing: 1
-            });
-          }
-        } else {
-          console.log("load service data");
-          this.loadDefaultServiceQuotation();
-        }
-      };
-      this.$axiosGet({
-        url: url,
-        success
-      });
+      // const url =
+      //   "/quotations?customer=" +
+      //   this.form.customer +
+      //   "&service=" +
+      //   this.form.service;
+      // const success = _ => {
+      //   //有客户报价
+      //   if (_.data.data.length > 0) {
+      //     this.form.fees = [];
+      //     const fee = _.data.data[0];
+      //     if (fee.service_fee > 0) {
+      //       this.form.fees.push({
+      //         fee_type: _.data.service_fee_code,
+      //         amount: fee.service_fee,
+      //         currency: fee.service_fee_currency,
+      //         request_timing: 1
+      //       });
+      //     }
+      //     if (fee.official_fee > 0) {
+      //       this.form.fees.push({
+      //         fee_type: _.data.official_fee_code,
+      //         amount: fee.official_fee,
+      //         currency: fee.official_fee_currency,
+      //         request_timing: 1
+      //       });
+      //     }
+      //   } else {
+      //     console.log("load service data");
+      //     this.loadDefaultServiceQuotation();
+      //   }
+      // };
+      // this.$axiosGet({
+      //   url: url,
+      //   success
+      // });
     },
     loadDefaultServiceQuotation() {
-      const url = "/services/" + this.form.service;
-      const success = _ => {
-        if (_.status) {
-          this.form.fees = [];
-          const fee = _.services;
-          if (fee.service_fee > 0) {
-            this.form.fees.push({
-              fee_type: fee.service_fee_code,
-              amount: fee.service_fee,
-              currency: fee.service_fee_currency,
-              request_timing: 1
-            });
-          }
-          if (fee.official_fee > 0) {
-            this.form.fees.push({
-              fee_type: fee.official_fee_code,
-              amount: fee.official_fee,
-              currency: fee.official_fee_currency,
-              request_timing: 1
-            });
-          }
-        }
-      };
-      this.$axiosGet({
-        url: url,
-        success
-      });
+      // const url = "/services/" + this.form.service;
+      // const success = _ => {
+      //   if (_.status) {
+      //     this.form.fees = [];
+      //     const fee = _.services;
+      //     if (fee.service_fee > 0) {
+      //       this.form.fees.push({
+      //         fee_type: fee.service_fee_code,
+      //         amount: fee.service_fee,
+      //         currency: fee.service_fee_currency,
+      //         request_timing: 1
+      //       });
+      //     }
+      //     if (fee.official_fee > 0) {
+      //       this.form.fees.push({
+      //         fee_type: fee.official_fee_code,
+      //         amount: fee.official_fee,
+      //         currency: fee.official_fee_currency,
+      //         request_timing: 1
+      //       });
+      //     }
+      //   }
+      // };
+      // this.$axiosGet({
+      //   url: url,
+      //   success
+      // });
     }
   },
   watch: {

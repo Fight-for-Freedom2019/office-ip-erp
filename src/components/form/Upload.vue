@@ -2,8 +2,9 @@
       <el-upload
       :on-success="handleUploadSuccess"
       :on-remove="handleUploadRemove"
-      action="/files"
+      action="/api/files"
       :headers="auth"
+      :show-file-list="showFileList"
       :on-preview="onPreview"
       :on-progress="onProgress"
       :on-exceed="handleExceed"
@@ -34,6 +35,10 @@
             default () {
               return [];
             }
+        },
+        'showFileList': {
+          type: Boolean,
+          default: true,
         },
         'uploadText': String,
         'limit': Number,

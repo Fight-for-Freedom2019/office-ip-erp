@@ -1,8 +1,7 @@
 <template>
-  <!-- <app-collapse col-title="分类信息"> -->
   <el-form label-width="120px" ref="form">
     <el-form-item label="部门">
-      <branch v-model="form.organization_unit" count-type="patent"></branch>
+      <branch v-model="form.organization_unit" count-type="trademark"></branch>
       <!-- <span v-else>{{ branchName ? branchName : '暂未归属某个部门' }}</span> -->
     </el-form-item>
     <el-form-item label="产品分类">
@@ -17,20 +16,20 @@
           <remote-select type="user" v-model="form.agent" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
-      <!-- <el-col :span="8"> -->
-        <!-- <el-form-item label="代理人助理">
+      <el-col :span="8">
+         <el-form-item label="代理人助理">
           <remote-select type="user" v-model="form.assistant"></remote-select>
-        </el-form-item>-->
-      <!-- </el-col> -->
+        </el-form-item>
+      </el-col>
       <el-col :span="8">
         <el-form-item label="对外代理人">
           <remote-select type="user" v-model="form.representative" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="派案人">
+       <!--  <el-form-item label="派案人">
           <remote-select type="user" v-model="form.assigner" add-type="user"></remote-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-col>
     </el-row>
     <el-row>
@@ -45,14 +44,14 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="财务">
+        <!-- <el-form-item label="财务">
           <remote-select type="user" v-model="form.finance" add-type="user"></remote-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="客服">
+        <el-form-item label="顾问">
           <remote-select type="user" v-model="form.consultant" add-type="user"></remote-select>
         </el-form-item>
       </el-col>
@@ -62,34 +61,15 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="流程">
+        <!-- <el-form-item label="流程">
           <remote-select type="user" v-model="form.flow" add-type="user"></remote-select>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="8">
-        <el-form-item label="送件代理所">
-          <remote-select type="agency" v-model="form.agency" add-type="user"></remote-select>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="送件代理人">
-          <remote-select type="agent" v-model="form.patent_agent" add-type="user"></remote-select>
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="技术挖掘人">
-          <remote-select type="user" v-model="form.digger" add-type="user"></remote-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-col>
     </el-row>
   </el-form>
-  <!-- </app-collapse> -->
 </template>
 
 <script>
-import AppCollapse from "@/components/common/AppCollapse";
 import Branch from "@/components/form/Branch";
 import Product from "@/components/form/Product";
 import Classification from "@/components/form/Classification";
@@ -97,7 +77,7 @@ import StaticSelect from "@/components/form/StaticSelect";
 import RemoteSelect from "@/components/form/RemoteSelect";
 
 export default {
-  name: "patentAddClassification",
+  name: "trademarkPerson",
   data() {
     return {
       form: {
@@ -105,18 +85,12 @@ export default {
         products: [],
         classification: "",
         agent: "",
-        digger: "",
         assistant: "",
-        assigner: "",
         first_reviewer: "",
         final_reviewer: "",
         representative: "",
         consultant: "",
         sales: "",
-        agency: "",
-        finance: "",
-        flow: "",
-        patent_agent: ""
       }
     };
   },
@@ -134,7 +108,6 @@ export default {
     }
   },
   components: {
-    AppCollapse,
     Branch,
     Product,
     Classification,

@@ -1,6 +1,6 @@
 <template>
-      <el-form label-width="120px" ref="form">
-        <el-form-item label="权利要求项数">
+  <el-form label-width="100px" :model="form" :rules="rules" ref="form">
+   <el-form-item label="权利要求项数">
           <el-input v-model="form.claims_count" placeholder="请填写权利要求项数"></el-input>
         </el-form-item>
         <el-form-item label="说明书字数">
@@ -22,18 +22,21 @@
         <el-form-item label="摘要附图">
           <upload v-model="form.figure_file" :limit="1" :fileList="figure_file"></upload>
         </el-form-item>
-      </el-form>
+  </el-form>
 </template>
-
 <script>
-import StaticSelect from '@/components/form/StaticSelect'
-import Upload from '@/components/form/Upload'
+import Priorities  from '@/components/form/Priorities'
 export default {
-  name: 'patentAddOther',
-  props: ['type'],
+  name: 'trademarkCase',
+  props: {
+    pageType:{
+      type: String,
+      default: '',
+    }
+  },
   data () {
     return {
-      yearOptions: [
+       yearOptions: [
         { id: 1, name: '1'},
         { id: 2, name: '2'},
         { id: 3, name: '3'},
@@ -54,27 +57,29 @@ export default {
         figure_file: [],
       },
       figure_file: [],
+      rules: {},
     }
   },
   methods: {
-    setForm (data) {
-      this.$tool.coverObj(this.form, data);
-       this.figure_file = data.figure_file ? data.figure_file : [];
-    },
-    submitForm () {
-      return this.form;
-    },
-    checkForm (callback) {
-      callback(true);
+  submitForm () {
+    return this.$tool.shallowCopy(this.form, { date: true });
+  },
+  setForm (form) {
+    this.$tool.coverObj(this.form, form);
+     this.figure_file = data.figure_file ? data.figure_file : [];
+  },
+  checkForm(callback) {
+      let flag = true;
+      this.$refs.form.validate(_ => {
+        flag = _;
+        callback(flag);
+      });
     },
   },
-  components: { 
-    StaticSelect,
-    Upload,
+  components: {
+    Priorities,
   }
-}
+} 
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang-="scss" scoped>
 </style>
