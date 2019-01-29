@@ -3,7 +3,12 @@ import {vm as statement} from '../formTemplate/statement'
 import {vm as priority} from '../formTemplate/priority'
 import {handleSingle} from "./handle/handle";
 import {vm as checkbox_vm} from "../formTemplate/checkbox";
-
+import {vm as checkbox_common_vm} from "../formTemplate/checkbox-common";
+const novelty_claims = {
+  novelty_exception_exhibition:"已在中国政府主办或承认的国际展览会上首次展出",
+  novelty_exception_published:"已在规定的学术会议或技术会议上首次发表",
+  novelty_exception_leakage:"他人未经申请人同意而泄露其内容",
+}
 let rule = [
     {
         type: "input", title: "发明名称", field: "title", value: "",
@@ -67,19 +72,21 @@ let rule = [
             placeholder:"请输入原申请日",
         },
     },
-    {
+    /*{
         type: "checkbox",title: "遗传资源",field: "inheritance",value: "",
         options: [
             {value: 1, label: '本专利申请涉及的发明创造是依赖于遗传资源完成的'},
         ],
-    },
-    {
+    },*/
+    checkbox_vm("inheritance","本专利申请涉及的发明创造是依赖于遗传资源完成的",{labelWidth:"120px"},"遗传资源"),
+    checkbox_vm("is_utility","声明本申请人对同样的发明创造在申请本发明专利的同日申请了发明新型专利",{labelWidth:"120px"},"同日申请"),
+  /*{
         type: "checkbox",title: "同日申请",field: "is_utility",value: "",
         options: [
             {value: 1, label: '声明本申请人对同样的发明创造在申请本发明专利的同日申请了发明新型专利'},
         ],
-    },
-    {
+    },*/
+    /*{
         type: 'checkbox', title: '不丧失新颖性声明', field: 'novelty_claims', value: [],
         options: [
             {value: "novelty_exception_exhibition", label: '已在中国政府主办或承认的国际展览会上首次展出'},
@@ -89,13 +96,18 @@ let rule = [
         event: {
             change: handleSingle,
         },
-    },
-    {
+    },*/
+  checkbox_common_vm(novelty_claims, "不丧失新颖性声明", "", {labelWidth: "120px"}),
+  /*{
         type: "checkbox",title: "保密审查",field: "confidential_exam",value: "",
         options: [
             {value: 1, label: '向国外申请专利保密审查请求'},
         ],
-    },
+    },*/
+  checkbox_vm("confidential_exam", "向国外申请专利保密审查请求", {labelWidth: "120px"}, "保密审查", {
+    id: 100027,
+    name: "向外国申请专利保密审查请求书"
+  }),
     {
         type: "select", title: "附件", field: "attachments", value: []
     },
