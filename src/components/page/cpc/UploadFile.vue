@@ -584,7 +584,7 @@ export default {
 .viewListWrap {
   position: absolute;
   left: 80%;
-  top: 90px;
+  top: 97px;
 }
 
 .viewListWrap li {
