@@ -11,7 +11,7 @@
         <static-select :type="config.select_type"  v-model="form.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, 0)}" ref="static"></static-select>
       </el-form-item>
       <el-form-item label="发文日" prop="mail_date" v-if="config.mail_date&&(!!tableData[0]['show_mail_date'])">
-        <el-date-picker type="date" v-model="form.time"></el-date-picker>
+        <el-date-picker type="date" v-model="form.mail_date"></el-date-picker>
       </el-form-item>      
       <el-form-item label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline&&(!!tableData[0]['show_deadline'])">
         <el-date-picker type="date" v-model="form.legal_deadline"  ></el-date-picker>
@@ -283,7 +283,7 @@ export default {
         }
         if(_.show_mail_date) {
           if(this.form.mail_date) {
-            o.time = this.$tool.getDate( new Date(this.form.mail_date) );
+            o.mail_date = this.$tool.getDate( new Date(this.form.mail_date) );
           }else {
             return this.$message({type: 'warning', message: '请填写发文日'});
           }

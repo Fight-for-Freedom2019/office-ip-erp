@@ -562,6 +562,8 @@ export default {
         } else {
           height = hk;
         } 
+      }else {
+        height = 'auto';
       }
       return height;
     }
