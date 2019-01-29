@@ -105,7 +105,7 @@
           <!--         <el-tab-pane label="文档" name="documents">
           <detail-documents></detail-documents>
           </el-tab-pane>-->
-          <el-tab-pane label="群组/专利族" name="group_family">
+          <el-tab-pane label="群组/专利族" name="group_family" v-if="type == 'patent'">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
               <group-family></group-family>
             </div>
@@ -116,7 +116,7 @@
         <el-tab-pane label="评审记录" name="review" v-if="type == 'patent'">
           <review></review>
           </el-tab-pane>-->
-          <el-tab-pane label="审查" name="review_records">
+          <el-tab-pane label="审查" name="review_records" v-if="type == 'patent'">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
               <defence></defence>
             </div>
@@ -429,12 +429,13 @@ export default {
         this.$emit("update:visibleAuth", false);
       }
     },
-    detailBase() {
-      const ref = this.$refs[this.type];
-      if (ref !== undefined) {
-        ref.show(this.id, this.detailBase);
-      }
-    }
+    // detailBase() {
+    //   const ref = this.$refs[this.type];
+    //   console.log(ref)
+    //   if (ref !== undefined) {
+    //     ref.show(this.id, this.detailBase);
+    //   }
+    // }
   },
   components: {
     AppShrink,

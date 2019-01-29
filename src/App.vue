@@ -209,9 +209,9 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     border-radius: 0px;
   }
   .el-form-item__content {
-    line-height: 36px;
-    position: relative;
-    font-size: 14px;
+    // line-height: 36px;
+    // position: relative;
+    // font-size: 14px;
   }
   .el-breadcrumb:after, .el-breadcrumb:before, .el-button-group:after, .el-button-group:before, .el-form-item:after, .el-form-item:before, .el-form-item__content:after, .el-form-item__content:before {
     display: table;

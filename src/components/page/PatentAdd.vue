@@ -230,6 +230,7 @@ export default {
       this.dialogVisible = true;
       if (id == "add") {
         this.title = "新专利立案";
+        this.clear();
         return;
       }
       if (data === undefined) {
@@ -246,9 +247,10 @@ export default {
       }
     },
     clear() {
-      this.$refs.form.resetFields();
-      this.attachments = [];
-      this.list = [];
+      getKeys.map(_ =>{
+            console.log(this.$refs[_])
+            this.$refs[_] !== undefined ? this.$refs[_].$refs.form.resetFields() : false
+        })
     },
     formCheck() {
       return new Promise(resolve => {

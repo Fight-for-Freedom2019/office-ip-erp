@@ -1,200 +1,176 @@
 <template>
   <div class="main">
-  	<el-form :model="form" ref="form" label-width="120px" :rules="rules">
-		<el-form-item label="案件名称" prop="title">
-			<el-input v-model="form.title" placeholder="请填写案件名称"></el-input>
-		</el-form-item>
-		<el-form-item label="案件摘要" prop="abstract">
-			<el-input type="textarea" v-model="form.abstract" placeholder="请填写案件摘要" ></el-input>
-		</el-form-item>
-		<el-form-item label="版权类型" prop="type">
-			<static-select type="copyright_type" v-model="form.type"></static-select>
-		</el-form-item>
-		<el-form-item label="技术分类" prop="classification">
-			<classification v-model="form.classification" count-type="copyright"></classification>
-		</el-form-item>
-		<el-form-item label="产品分类" prop="products">
-			<product v-model="form.products" count-type="copyright" multiple></product>
-		</el-form-item>
-		<el-form-item label="标签" prop="tags">
-			<static-select type="tag" v-model="form.tags" multiple></static-select>
-		</el-form-item>
-		<el-form-item label="IPR" prop="ipr">
-			<span class="form-item-text" v-if="type == 'add'">{{ user ? user.name : '暂未读取到当前用户数据' }}</span>
-			<static-select type="ipr" v-model="form.ipr" v-else></static-select>
-		</el-form-item>
-		<el-form-item label="技术联系人" prop="proposer">
-			<remote-select type="member" v-model="form.proposer"></remote-select>
-		</el-form-item>
-		<el-form-item label="部门分类" prop="branch">
-			<branch v-model="form.branch" count-type="copyright"></branch>
-		</el-form-item>
-		<el-form-item label="申请人" prop="applicants">
-			<remote-select type="applicant" v-model="form.applicants" multiple></remote-select>
-		</el-form-item>
-		<el-form-item label="附件" prop="attachments">
-			<upload v-model="form.attachments" :file-list="attachments"></upload>
-		</el-form-item>
-		<el-form-item label="备注" prop="remark">
-			<el-input type="textarea" v-model="form.remark" placeholder="请填写备注"></el-input>
-		</el-form-item>
-		<el-form-item label="申请号" prop="apn">
-			<el-input v-model="form.apn" placeholder="请填写申请号"></el-input>
-		</el-form-item>
-		<el-form-item label="申请日" prop="apd">
-			<el-date-picker type="date" v-model="form.apd" placeholder="请选择申请日"></el-date-picker>
-		</el-form-item>
-		<el-form-item label="发证日" prop="issue_date">
-			<el-date-picker type="date" v-model="form.issue_date" placeholder="请选择发证日"></el-date-picker>
-		</el-form-item>
-		<el-form-item label="证书号" prop="issue_number">
-			<el-input v-model="form.issue_number" placeholder="请填写证书号"></el-input>
-		</el-form-item>
-		<el-form-item>
-			<el-button @click="add" v-if="type == 'add'" :disabled="btn_disabled" type="primary">添加</el-button>
-			<el-button @click="edit" v-if="type == 'edit'" :disable="btn_disabled" type="primary">编辑</el-button>
-		</el-form-item>
-  	</el-form>
+     <el-tabs type="border-card">
+      <el-tab-pane>
+        <span slot="label"><i class="el-icon-information"></i> 基本信息</span>  
+        <copyright-base ref="base" :page-type="pageType"></copyright-base>
+    </el-tab-pane>
+     <el-tab-pane>
+          <span slot="label"><i class="el-icon-menu"></i> 著作权信息</span> 
+           <copyright-work ref="work" :page-type="pageType"></copyright-work> 
+    </el-tab-pane>
+    <el-tab-pane>
+          <span slot="label"><i class="el-icon-setting"></i> 软件功能和技术特点</span>  
+          <copyright-func ref="func" :page-type="pageType"></copyright-func>
+    </el-tab-pane>
+    <el-tab-pane>
+          <span slot="label"><i class="el-icon-menu"></i> 分类信息</span>     
+          <copyright-classify ref="classify" :page-type="pageType"></copyright-classify>
+    </el-tab-pane>
+    <el-tab-pane>
+      <span slot="label"><i class="el-icon-share"></i> 委案信息</span>  
+      <copyright-case ref="case" :page-type="pageType"></copyright-case>
+    </el-tab-pane>
+    <el-tab-pane v-if="pageType == 'add'">
+      <span slot="label"><i class="el-icon-document"></i> 任务</span>  
+      <task :type="type" ref="task" category="3"></task>
+    </el-tab-pane>
+  </el-tabs>
   </div>
 </template>
 
 <script>
-import AxiosMixins from '@/mixins/axios-mixins'
-
-import Classification from '@/components/form/Classification'
-import Product from '@/components/form/Product'
-import Branch from '@/components/form/Branch'
-
-import Upload from '@/components/form/Upload'
-import RemoteSelect from '@/components/form/RemoteSelect'
-import StaticSelect from '@/components/form/StaticSelect'
+import Task from '@/components/page_extension/PatentAdd_task'
+import CopyrightBase from '@/components/page/copyright/CopyrightBase'
+import CopyrightCase from '@/components/page/copyright/CopyrightCase'
+import CopyrightClassify from '@/components/page/copyright/CopyrightClassify'
+import CopyrightFunc from '@/components/page/copyright/CopyrightFunc'
+import CopyrightWork from '@/components/page/copyright/CopyrightWork'
 
 import {mapActions} from 'vuex'
-
+const messageMap =new Map([
+  ['base', '请正确填写基本信息',],
+  ['case', '请正确填写委案信息',],
+  ['classify', '请正确填写分类信息',],
+  ['func', '请正确填写软件功能与技术特点信息',],
+  ['work', '请正确填写著作权信息',],
+]); 
+const getKeys = ['base', 'case', 'classify', 'func', 'work']; 
 const URL = '/copyrights'
 
 export default {
   name: 'copyrightAdd',
-  mixins: [ AxiosMixins ],
   props: ['pageType'],
   data () {
-		return {
-		  id: '',
-		  form: {
-		  	title: '',
-		  	abstract: '',
-		  	type: 1,
-		  	classification: '',
-		  	products: [],
-		  	tags: [],
-		  	ipr: '',
-		  	proposer: '',
-		  	branch: '',
-		  	applicants: [],
-		  	attachments: [],
-		  	remark: '',
-		  	apn: '',
-		  	apd: '',
-		  	issue_date: '',
-		  	issue_number: '',
-		  },
-		  rules: {
-		  	title: { required: true, message: '版权名称不能为空', trigger: 'blur' },
-		  	type: { type: 'number', required: true, message: '著作权不能为空', trigger: 'change' },
-		  },
-		  attachments: [],
-		  btn_disabled: false,
-		}
-  },
-  computed: {
-  	type () {
-  		return this.pageType ? this.pageType : this.$route.meta.pageType;
-  	},
-  	detail () {
-        return this.$store.getters.detailBase;
-    },
-    user () {
-    	return this.$store.getters.getUser;
+    return {
+      id: '',
+      btn_disabled: false,
     }
   },
+  computed: {
+    type () {
+      return this.pageType ? this.pageType : this.$route.meta.pageType;
+    },
+    detail () {
+      return this.$store.getters.detailBaseCopyright;
+    },
+    user () {
+      return this.$store.getters.getUser;
+    },
+  },
   methods: {
-  	...mapActions([
-  		'refreshUser',
-  	]),
-  	add () {
-  		if(this.checkForm()) return;
+    ...mapActions([
+      'refreshUser',
+    ]),
+        async add(form) {
+        const flag = await this.checkForm();
+        if (flag) {
+          const url = URL;
+          const data = Object.assign(
+            ...getKeys.map(_ =>
+              this.$refs[_] !== undefined ? this.$refs[_].submitForm() : false
+            ),
+          );
 
-  		this.btn_disabled = true;
-  		const url = URL;
-  		const data = this.$tool.shallowCopy(this.form, {'date': true});
-  		data.ipr = this.user ? this.user.id : '';
-  		const success = _=>{ 
-  			this.$message({message: '添加版权成功', type: 'success'});
-  			this.refreshUser();
-  			this.$router.push('/copyright/list') 
-  		};
-  		const complete = _=>{ this.btn_disabled = false };
+          const success = _ => {
+            this.$message({ message: "新建版权成功", type: "success" });
+            this.dialogVisible = false;
+            this.$router.push("/copyright/draftbox");
+            this.$emit("addSuccess");
+          };
+          const complete = _ => {
+            this.btn_disabled = false;
+          };
 
-  		this.axiosPost({url, data, success, complete});
-  	},
-  	edit ({beaforeFunc, complete}={}) {
-  		if(this.checkForm()) return;
-      if(beaforeFunc) {
-        beaforeFunc();
-      }
-  		this.btn_disabled = true;
-  		const url = `${URL}/${this.id}`;
-  		const data = this.$tool.shallowCopy(this.form, {'date': true});
-  		const success = _=>{ 
-  			this.$message({message: '编辑成功', type: 'success'});
-  			this.$emit('editSuccess'); 
-  		};
-  		const completeFunc = _=>{ 
-        this.btn_disabled = false 
-        if(complete) {
-          complete(_);
+          this.$axiosPost({ url, data, success });
         }
-      };
+      },
+        async edit() {
+        const flag = await this.checkForm();
+        if (flag) {
+          const url = `${URL}/${this.id}`;
+          const data = Object.assign(
+            ...getKeys.map(d =>
+              typeof this.$refs[d] !== "undefined"
+                ? this.$refs[d].submitForm()
+                : ''
+            )
+          );
+          console.log(data);
+          const success = _ => {
+            this.$message({
+              message: _.info,
+              type: "success"
+            });
+            this.$emit("editSuccess");
+          };
+          const complete = _ => {
+            this.btn_disabled = false;
+          };
 
-  		this.axiosPut({url, data, success, complete: completeFunc})
-  	},
-  	checkForm () {
-  		let flag = false;
-  		this.$refs.form.validate(_=>{flag = !_});
-  		if(flag) {
-  			this.$message({message: '请正确填写版权字段', type: 'warning'});
-  		}
+          this.btn_disabled = true;
+          return this.$axiosPut({ url, data, success, complete });
+        }
+        },
+      checkForm () {
+         return new Promise(resolve => {
+        //递归检测
+        const check = index => {
+          const key = getKeys[index];
+          if (key && typeof this.$refs[key] !== "undefined") {
+            this.$refs[key].checkForm(_ => {
+              if (_) {
+                check(index + 1);
+              } else {
+                this.$message({ message: messageMap.get(key), type: "warning" });
+                resolve(false);
+              }
+            });
+          } else {
+            resolve(true);
+          }
+        };
 
-  		return flag;
-  	},
-  	refreshForm () {
-  		const data = this.detail;
-  		if(this.type == 'edit' && this.$tool.getObjLength(data) != 0) {
-  			
-  			this.id = data.id;
-  			for(let k in this.form) {
-  				const d = data[k];
-  				if(k == 'classification' || k == 'branch' || k == 'type' ) {
-  					this.form[k] = d.id;
-  				}else if(k == 'attachments' || k == 'products') {
-  					this.form[k] = d.map(_=>_.id);
-  					if(k == 'attachments') this.attachments = d;
-  				}else {
-  					this.form[k] = d;
-  				}
-  			}
-  		}
-  	}
+        check(0);
+      });
+      },
+      refreshForm (val) {
+        if (this.pageType == "edit" && this.$tool.getObjLength(val) != 0) {
+          const copy = this.$tool.deepCopy(val);
+          this.id = copy.id;
+          this.title = val.serial + "-" + val.title;
+          this.$nextTick(_ => {
+            getKeys.map(_ => this.$refs[_].setForm(copy));
+          });
+        }
+      },
+      clear() {
+        getKeys.map(d =>
+          typeof this.$refs[d] !== "undefined"
+          ? this.$refs[d].$refs.form.resetFields()
+          : ''
+      )
+      },
   },
   created () {
-  	this.refreshForm();
+    this.refreshForm(this.detail);
   },
   watch: {
-  	detail () {
-  		this.refreshForm();
-  	}
+    detail (val) {
+      this.refreshForm(val);
+    }
   },
-  components: { Classification, Product, Branch, Upload, RemoteSelect, StaticSelect }
+  components: { CopyrightClassify, CopyrightBase, CopyrightCase, CopyrightFunc, CopyrightWork, Task}
 }
 </script>
 

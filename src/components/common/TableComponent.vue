@@ -239,7 +239,7 @@
     </div>
     <div class="table-body">
       <div class="table-body-left">
-        <template v-if="tableOption.treeFilter != undefined">
+        <template v-if="!!tableOption.treeFilter">
           <app-tree-filter
             :style="tableOption.is_view ?{height: tableHeight/2+ 'px',width: '200px'}:{height: tableHeight - 2 + 'px',width: '200px'}"
             :height="filterHeight"

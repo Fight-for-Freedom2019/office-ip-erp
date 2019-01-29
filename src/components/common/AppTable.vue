@@ -16,6 +16,7 @@
     @row-click="handleRowClick"
     @cell-click="handleCellClick"
     @cell-mouse-enter="handleMouseEnter"
+    @header-dragend="handleHeaderDragend"
   >
     <template v-for="(col, index) in columns">
       <template v-if="col.type == 'selection'">
@@ -235,9 +236,9 @@
                 disable-transitions
                 size="small"
                 :key="i"
-                :class="item.classname"
+                :class="item && item.classname ? item.classname :''"
                 v-else
-              >{{ item.name }}</el-tag>
+              >{{ item && item.name ? item.name : '' }}</el-tag>
             </template>
           </template>
         </el-table-column>
@@ -454,7 +455,7 @@ export default {
       spanArr: [], // 合并行策略数组
       unknownData: [],
       saveLabel: "",
-      viewVisible: false
+      viewVisible: false,
       // re_render: true,
     };
   },
@@ -598,6 +599,9 @@ export default {
       event.stopPropagation();
       if (column.type == "selection" || column.type == "action") return false;
       this.$emit("cell-click", row, column, cell, event);
+    },
+    handleHeaderDragend (nw, ow, column, event) {
+      this.$emit("header-dragend",nw, ow, column, event);
     },
     handleMouseEnter(row, column, cell, event) {
       this.$emit("cell-mouse-enter", row, column, cell, event);

@@ -40,7 +40,7 @@ const urlMap = new Map([
   ["cpc_archive", { URL: "/cpc_archives/filters" }],
   ["orders", { URL: "/orders/filters" }],
   ["quotations", { URL: "/quotations/filters" }],
-  ["patent_notices", { URL: "/notices/filters" }]
+  ["notices", { URL: "/notices/filters" }],
 ]);
 export default {
   name: "filterTree",

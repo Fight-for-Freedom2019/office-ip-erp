@@ -354,6 +354,13 @@ export default {
             render_header: true,
             width: "100"
           },
+          {
+            type: "text",
+            prop: "entrusting_time",
+            label: "委案日",
+            render_header: true,
+            width: "100"
+          },
 
           // { type: 'text', prop: 'task', label: '当前节点', render_header: true, width: '110', render: function(h,item){
           //   item = item != null ? item.process_action.name: '';

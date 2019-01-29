@@ -1,160 +1,165 @@
 <template>
   <div class="main">
-	<table-component :tableOption="tableOption" :data=tableData></table-component>
-	<el-dialog :visible.sync="dialogScreenVisible" title="设置筛选条件" class="dialog-small">
-		<el-form label-width="80px">
-			<el-form-item label="客户名称"><el-input></el-input></el-form-item>
-			<el-form-item label="申请地区"><el-input></el-input></el-form-item>
-			<el-form-item label="案件状态"><el-input></el-input></el-form-item>
-			<el-form-item label="委案日"><app-date-picker></app-date-picker></el-form-item>
-			<el-form-item label="申请日"><app-date-picker></app-date-picker></el-form-item>
-			<el-form-item><el-button>筛选</el-button></el-form-item>
-		</el-form>
-	</el-dialog>
+		<table-component :tableOption="tableOption" :data="tableData" ref="table" @refreshTableData="refreshTableData"></table-component>
+		<common-detail
+      	:title="currentRow.title"
+      	type="trademark" 
+		ref="trademark_detial"
+      	:id="currentRow.id"
+      	@editSuccess="refresh">
+    	</common-detail>
+    	<detail-shrink ref="trademarkAdd" page-type="add" @addSuccess="refresh()"></detail-shrink>
   </div>
 </template>
 
 <script>
 import TableComponent from '@/components/common/TableComponent'
 import AppDatePicker from '@/components/common/AppDatePicker'
+import CommonDetail from '@/components/page_extension/Common_detail'
+import DetailShrink from '@/components/page_extension/DetailShrink'
+import { mapActions } from 'vuex'
 
-const text1 = '测试';
-const text2 = '测试';
-const text3 = '测试';
-
+const URL = '/trademarks'
 export default {
   name: 'trademarkList', 
   data () {
-	return {
-		dialogScreenVisible: false,
-		tableOption: {
-			'header_btn': [{
-				'type': 'custom',
-				'label': '新增',
-				'icon': 'plus',
-				click () {
-					alert("新增");
-				}
-			},
-			{
-				'type': 'custom',
-				'label': '删除',
-				'icon': 'delete',
-				click () {
-					alert("删除");
-				}
-			},
-			{
-				'type': 'dropdown',
-				'label': '数据',
-				'icon': '',
-				'items': [{
-					text: '设定筛选条件',
-					click: ()=>{ this.dialogScreenVisible = true; },
-				}]
-			},
-			{
-				'type': 'control',
-				'label': '字段'
-			}],
-			'is_search': false,//默认为true
-			'columns': [{
-				'show': true,
-				'type': 'selection'
-			},
-			{
-				'show': true,//默认为true
-				'type': 'text',
-				'label': '案号',
-				'prop': 'text1',
-			},
-		  	{
-				'show': true,
-				'type': 'text',
-				'label': '地区',
-				'prop': 'text2'
-		  	},
-		  	{
-				'show': true,
-				'type': 'text',
-				'label': '客户',
-				'prop': 'text3'
-		  	},
-		  	{
-				'show': false,
-				'type': 'text',
-				'label': '商标名称',
-				'prop': 'text3'
-		  	},
-		  	{
-				'show': false,
-				'type': 'text',
-				'label': '委案日',
-				'prop': 'text3'
-		  	},
-		  	{
-				'show': false,
-				'type': 'text',
-				'label': '申请日',
-				'prop': 'text3'
-		  	},
-		  	{
-				'show': true,
-				'type': 'text',
-				'label': '申请号',
-				'prop': 'text3'
-		  	},
-		  	{
-				'show': false,
-				'type': 'text',
-				'label': '注册号',
-				'prop': 'text3'
-		  	},
-		  	{
-				'show': false,
-				'type': 'text',
-				'label': '初审公告日',
-				'prop': 'text3'
-		  	},
-		  	{
-				'show': false,
-				'type': 'text',
-				'label': '核准注册日',
-				'prop': 'text3'
-		  	},
-		  	{
-				'show': true,
-				'type': 'text',
-				'label': '商品分类'
-		  	},
-		  	{ 'show': false, 'type': 'text', 'label': '商品描述' },
-		  	{ 'show': false, 'type': 'text', 'label': '详细分类' },
-		  	{ 'show': true, 'type': 'text', 'label': '代理人' },
-		  	{ 'show': true, 'type': 'text', 'label': 'IPR' },
-		  	{ 'show': true, 'type': 'text', 'label': '当前状态' },
-		  	{
-				'show': true,
-				'type': 'action',
-				'label': '操作',
-				'btns': [{
-					'label': '查看详情',
-					'icon': 'view',
-					'click': (row)=>{ this.$router.push(`/trademark/list/detail/${row.id}/babel`); }, 
-				}]
-			}] 
-		},
-		tableData: [
-			{text1, text2, text3, id: 1},
-			{text1, text2, text3, id: 2},
-			{text1, text2, text3, id: 3},
-			{text1, text2, text3, id: 4},
-			{text1, text2, text3, id: 5},
-			{text1, text2, text3, id: 6},
-			{text1, text2, text3, id: 7}
-		]
-	};
+		return {
+			dialogScreenVisible: false,
+			tableOption: {
+				'name': 'trademark',
+				'url': URL,
+				'is_list_filter': true,
+        		'list_type': 'trademark',
+				'header_btn': [{
+					'type': 'add',
+					click: this.add,
+					map_if: '/trademark/draftbox',
+					btn_if: "draftbox"
+				},
+				{ type: 'delete',},
+				// { type: 'import',},
+				{ type: 'export2',},
+				// { type: 'batch_upload',},
+				// { type: 'report', click: _=>{this.$router.push('/trademark/report')} },
+				{ type: 'control', label: '字段'},
+				],
+				'import_type': 'trademark',
+				// 'upload_type': 'trademark',
+				'highlightCurrentRow': true, 
+	      		'rowClick': this.handleRowClick,
+				'height': 'default',
+				'columns': [{
+					'show': true,
+					'type': 'selection'
+				},
+				{ type: 'text', label: '案号', prop: 'serial', width: '198'},
+				{ type: 'text', label: '标题', prop: 'title', width: '168', is_import: true,},
+				{ type: 'text', label: '子类型', prop: 'subtype', render_simple:'name', width: '145', is_import: true,},
+				// { type: 'text', label: '商标图样', prop: 'figure_file', align: 'center', header_align: 'left', width: '200',
+				//   render:(h,item)=>{
+				// 	return h('img',{
+				// 	  attrs:{
+				// 	    src:item.viewUrl,
+				// 	    width: '150px',		
+				// 	  },
+				// 	  style:{
+				// 		marginTop:'5px',
+				// 	  }
+				// 	})
+				//   },
+				// },
+			  	{ type: 'text', label: '申请国家', prop: 'area', is_import: true, render_simple: 'name', width: '145',},
+			    { type: 'array', label: '商标类别', prop: 'categories', render:_=>_.map(_=>_.name), is_import: true, width: '260',},
+			    { type: 'text', label: '申请号', prop: 'application_number', width: '240', is_import: true,},
+			    { type: 'text', label: '申请日', prop: 'application_date', width: '168', is_import: true,},
+			    { type: 'text', label: '初审公告号', prop: 'public_number', width: '168', is_import: true,},
+			    { type: 'text', label: '初审公告日', prop: 'public_date', width: '168', is_import: true,},
+			    { type: 'text', label: '公告号', prop : 'issue_number', width: '168', is_import: true,},  
+			    { type: 'text', label: '公告日', prop: 'issue_date', width: '168', is_import: true,}, 
+			    { type: 'text', label: '客户', prop: 'customer', render_simple: 'name', width: '168', is_import: true,},
+			    { type: 'text', label: '客户案号', prop: 'customer_serial', width : '145', is_import: true,},
+			    { type: 'text', label: 'IPR', prop: 'ipr', render_simple: 'name', width : '145', is_import: true,},
+				{ type: 'array', label: '申请人', prop: 'applicants', is_import: true, width: '260', render:_=>_.map(_=>_.name),},
+			    { type: 'text', label: '案件状态', prop: 'project_stage', render_simple: 'name', width : '145', is_import: true,},
+			    { type: 'text', label: '承办部门', prop: 'organization_unit', render_simple: 'name', width : '145', is_import: true,},
+			    { type: 'text', label: '代理人', prop: 'agent', render_simple: 'name', width : '145', is_import: true,},
+			    { type: 'text', label: '初审人', prop: 'first_reviewer', render_simple: 'name', width : '145', is_import: true,},
+			    { type: 'text', label: '复审人', prop: 'final_reviewer', render_simple: 'name', width : '145', is_import: true,},
+			    { type: 'text', label: '顾问', prop: 'consultant', render_simple: 'name', width : '145', is_import: true,},
+			    { type: 'text', label: '销售', prop: 'sales', render_simple: 'name', width : '145', is_import: true,},
+			    { type: 'text', label: '订单号', prop: 'order', render_simple: 'serial', width : '145', is_import: true,},
+			    { type: 'text', label: '第三方订单号', prop: 'order_serial', width : '145', is_import: true,},
+			    { type: 'text', label: '委案日', prop: 'entrusting_time', width : '145', is_import: true,},
+			    { type: 'text', label: '备注', prop: 'remark', width: '280', is_import: true,},
+			]},
+			tableData: [],
+			currentRow: '',
+			shrinkVisible: false,
+			filterVisible: false,
+		};
   },
-  components: { TableComponent, AppDatePicker }
+  methods: {
+  	...mapActions([
+  		'initializeSelectorCache',
+  	]),
+  	add () {
+  		this.$refs.trademarkAdd.show(null,'trademark');
+  	},
+  	refreshTableData(option) {
+  		
+  		const success = d=>{
+  			if(option['format'] == 'excel') {
+          window.location.href = d.trademarks.downloadUrl;
+        }else {
+          this.tableData = d.trademarks;  
+        }
+  		}
+  		this.$axiosGet({
+  			url: URL,
+  			data: Object.assign({}, option),
+  			success,
+  		})
+  	},
+  	customFields(name) {
+	  	let newObj = new Object ();
+	  	const newArr = [];
+	  	Object.assign(newArr,this.tableOption.columns);
+	  	newObj.width = '200';
+	  	newObj.show = true;
+	  	newObj.label = '自定义';
+	  	newObj.prop = 'zidingyi';
+	  	newObj.type = 'text';
+	  	// console.log(newObj);
+	  	// console.log(this.tableOption.columns instanceof  Array);
+	  	newArr.push(newObj);
+	  	console.log(newArr);
+	  	this.tableOption.columns = newArr;
+	  	return this.tableOption.columns;
+  	},
+  	refresh () {
+  		this.$refs.table.refresh();
+  	},
+  	handleRowClick (row) {
+  		this.currentRow = row;
+  		// if(!this.shrinkVisible) {
+  		// 	this.shrinkVisible = true;	
+  		// }
+  		this.$refs.trademark_detial.show(row.id, 'trademark')
+  	}
+  },
+  mounted () {
+  	this.refresh();
+  	this.initializeSelectorCache({type: 'file_type_trademark_notice'});
+  },
+  components: { 
+  	TableComponent, 
+  	AppDatePicker,
+  	CommonDetail,
+  	DetailShrink,
+  },
+  watch: {
+
+  }
 }
 </script>
 

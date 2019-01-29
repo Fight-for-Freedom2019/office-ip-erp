@@ -203,7 +203,7 @@ export default {
     show () {
         this.$nextTick(_=>{
         if(this.tableData.length!=0) {
-          this.form.file_type = this.tableData[0]['file_type']['id']?this.tableData[0]['file_type']['id']-0:'';
+          this.form.file_type = this.tableData[0]['file_type'] && this.tableData[0]['file_type']['id']?this.tableData[0]['file_type']['id']-0:'';
           const v = this.$refs.static.getSelected(this.form.file_type);
           this.handleTypeChange(v,0);
         }  
@@ -228,7 +228,7 @@ export default {
       }
       if (!f) return;
       const copy = this.$tool.deepCopy(this.tableData[index]);
-      copy['show_mail_date'] = f.mail_date == 1 && this.config.time ? true : false;
+      copy['show_mail_date'] = f.mail_date == 1 && this.config.mail_date ? true : false;
       copy['show_deadline'] = f.deadline == 1 && this.config.legal_deadline ? true : false;
       copy['show_application_number'] = f.application_number == 1 && this.config.application_number ? true : false;
       copy['show_application_date'] = f.application_date == 1 && this.config.application_date ? true : false;
@@ -241,7 +241,6 @@ export default {
       copy['show_start_year'] = f.start_year == 1 && this.config.start_year ? true : false;
 
       this.tableData.splice(index, 1, copy);
-
       //这里使用强制刷新 无法触发更新（why？可能是数据 不在当前组件强制刷新的作用范围内）
       //只有使用数组截取的方法 让它自动检测刷新了 麻烦一些 比起直接在row上进行修改
       // this.$forceUpdate();

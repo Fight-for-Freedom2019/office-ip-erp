@@ -198,7 +198,7 @@ const strainerConfig = [
     ]
   ],
   [
-    "patent_notices",
+    "notices",
     [
       { name: "发文日", id: "mail_date", default: true },
       { name: "上传日", id: "creation_time" },

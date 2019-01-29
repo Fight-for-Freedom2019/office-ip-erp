@@ -144,6 +144,7 @@
         }, 1000);
       },
       handleSuccess(r, f, fl) {
+        console.log("成功")
         this.disabled = false;
         if(f.response.data.list){
           this.handleTurnArchives();
@@ -155,6 +156,7 @@
           this.handleDefeat();
           this.tip = "转档失败，一般是由于系统无法识别说明书的章节，请使用系统推荐模板撰写说明书";
         }
+        this.$emit("turnArchivesFile",f.response.data.file);
         clearInterval(this.keepTime);
       },
       fileIsView(arr){

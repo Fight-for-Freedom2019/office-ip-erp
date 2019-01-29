@@ -56,17 +56,18 @@
         </el-dropdown>
       </span>
 
-      <div v-loading="loadingVisible" :element-loading-text="loadingText">
+      <div>
         <el-tabs v-model="activeName" @tab-click="tabclick">
           <el-tab-pane label="前往处理" name="finish">
             <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">
               <task-finish
                 :id="row.id"
                 :row="row"
+                :process="processData"
                 @submitSuccess="finishSuccess"
                 @showmailbtn="showmailbtn"
                 ref="finish"
-                v-if="row.task != undefined"
+                v-if="processData != undefined"
               ></task-finish>
             </div>
           </el-tab-pane>
@@ -116,7 +117,6 @@
           title="回退任务"
           :visible.sync="dialogRejectVisible"
           class="dialog-medium"
-          @close="close"
           :modal="false"
           width="50%"
         >
@@ -133,7 +133,7 @@
         <!-- 任务延期记录添加 -->
         <task-postpone ref="postpone" @refresh="refreshPostpone" :row="row"></task-postpone>
 
-        <!-- 任务新增、编辑 -->
+        <!-- 任务新增编辑 -->
         <task-common-edit ref="taskEdit" @editSuccess="editSuccess"></task-common-edit>
 
         <!-- 发送邮件 -->
@@ -253,7 +253,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["detailBase", "menusMap", "innerHeight", "userid"]),
+    ...mapGetters(["detailBase", "menusMap", "innerHeight", "userid", "processData"]),
     model: {
       get() {
         return this.deleteStatus;
@@ -351,9 +351,9 @@ export default {
       this.isTaskDetailVisible = true;
       this.row = row;
       //调用完成任务显示
-      this.$nextTick(() => {
-        this.$refs.finish.show();
-      });
+      // this.$nextTick(() => {
+      //   this.$refs.finish.show();
+      // });
     },
     handleOperation(command) {
       switch (command) {
@@ -504,6 +504,11 @@ export default {
     }
   },
   watch: {
+    row (val) {
+      if(val) {
+        this.refreshProcessDetail({id: val.id});
+      }
+    },
     deleteStatus(val) {
       if (val) {
         this.$forceUpdate();

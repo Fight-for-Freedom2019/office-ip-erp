@@ -23,7 +23,8 @@ const NoticeCommon = () => import("@/components/page/NoticeCommon");
 // const PatentCertificate        = () => import('@/components/page/PatentCertificate')
 // const PatentAward              = () => import('@/components/page/PatentAward')
 // const ApplyingPatent           = () => import('@/components/page/ApplyingPatent')
-
+// 商标
+const TrademarkList = () => import("@/components/page/TrademarkList");
 //CRM基础数据
 const CustomerList = () => import("@/components/page/CustomerList");
 const Orders = () => import("@/components/page/crm/orders/Orders");
@@ -483,6 +484,35 @@ const router = new Router({
           }
         },
         //################### 专利路由 end #####################
+        
+        //################### 商标路由 start #####################
+        {
+          path: "/trademark/list",
+          name: "TrademarkList",
+          component: TrademarkList,
+          meta: {
+            params: { status: 1 }
+          }
+        },
+        {
+          path: "/trademark/draftbox",
+          name: "TrademarkDraftbox",
+          component: TrademarkList,
+          meta: {
+            params: { status: 0 }
+          }
+        },
+        {
+          path: "/trademark/notice",
+          name: "TrademarkNotice",
+          component: NoticeCommon,
+          meta: {
+            params: {},
+            type: "trademark"
+          }
+        },
+        //################### 商标路由 end #####################
+
 
         //################### 版权路由 begin ###################
         {
@@ -496,7 +526,7 @@ const router = new Router({
         {
           path: "/copyright/draftbox",
           name: "CopyrightDraftbox",
-          component: PatentList,
+          component: CopyrightList,
           meta: {
             params: { status: 0 }
           }
@@ -507,7 +537,7 @@ const router = new Router({
           component: NoticeCommon,
           meta: {
             params: {},
-            type: "patent"
+            type: "copyright"
           }
         },
         //################### 版权路由 end #####################
