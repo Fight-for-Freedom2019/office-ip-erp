@@ -741,6 +741,7 @@ export default {
         },
         onSubmit: function(formData) {
           // TODO 每次加载带自定义组件的表单时，数据才会双向绑定
+          console.log("vm_collection",_this.vm_collection);
           if (_this.submitData.size === 0) {
             _this.allData = {};
             [..._this.vm_collection.values()].map(item => {
@@ -837,8 +838,7 @@ export default {
     Upload() {
       this.showAppendFile = true;
     },
-    getData() {
-      // console.time("耗时")
+    clear(){
       this.$nextTick(() => {
         const root = this.$refs.fc;
         root.innerHTML = "";
@@ -847,6 +847,13 @@ export default {
       this.formList = [];
       this.submitFileList = [];
       this.submitData.clear();
+      this.vm_collection.clear();
+      // this.options_collection.clear();
+      this.saveRules.clear();
+    },
+    getData() {
+      // console.time("耗时")
+      this.clear();
       const success = _ => {
         this.data = _.data.tables;
         if (_.data.id) {
