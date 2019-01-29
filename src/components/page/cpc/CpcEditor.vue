@@ -741,7 +741,6 @@ export default {
         },
         onSubmit: function(formData) {
           // TODO 每次加载带自定义组件的表单时，数据才会双向绑定
-          console.log("vm_collection",_this.vm_collection);
           if (_this.submitData.size === 0) {
             _this.allData = {};
             [..._this.vm_collection.values()].map(item => {
@@ -751,6 +750,7 @@ export default {
             //console.log(_this.allData)
             _this.submitData.set(_this.formType, _this.allData);
           } else {
+            let bool = false;
             _this.vm_collection_id.forEach(item => {
               if (String(item).indexOf(_this.formType) !== -1) {
                 if (!_this.submitData.get(_this.formType)) {
@@ -768,10 +768,12 @@ export default {
                     formData
                   );
                 }
+                bool = true;
               } else {
-                _this.submitData.set(_this.formType, formData);
+                !bool?_this.submitData.set(_this.formType, formData):"";
               }
             });
+            bool = false;
             _this.vm_collection_id.length === 0
               ? _this.submitData.set(_this.formType, formData)
               : "";
@@ -850,6 +852,7 @@ export default {
       this.vm_collection.clear();
       // this.options_collection.clear();
       this.saveRules.clear();
+      this.count = 0;
     },
     getData() {
       // console.time("耗时")
