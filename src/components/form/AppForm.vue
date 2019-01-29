@@ -81,7 +81,7 @@
         </template>
         <template v-else-if="item.components == 'upload'">
           <el-form-item :label="item.name" :prop="item.key" :key="index">
-            <upload ref="upload" v-model="form[item.key]" @input="handleInput"></upload>
+            <upload ref="upload" v-model="form[item.key]" :fileList="attachment[item.key]" @input="handleInput"></upload>
           </el-form-item>
         </template>
         <template v-else-if="item.components == 'panel'">
@@ -148,6 +148,7 @@
       ref="cpc_editor"
       :id="row.model_id"
       :process="process"
+      @turnArchivesFile="turnArchivesFile"
       v-if="map['cpc_editor'] != undefined"
     ></cpc-editor>
     <!-- 延期记录 -->
@@ -247,7 +248,10 @@ export default {
       id: 0,
       isDetailEnabled: true,
       type: "",
-      conditions: {}
+      conditions: {},
+      attachment:{
+        attachments:[],
+      },
     };
   },
   computed: {
@@ -259,6 +263,10 @@ export default {
     }
   },
   methods: {
+    turnArchivesFile(file){
+      this.attachment.attachments.push(file);
+      this.form.attachments.push(file.id);
+    },
     shouldDisplay(vif) {
       if (vif === undefined) return true;
       return eval(vif);
