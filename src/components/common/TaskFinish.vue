@@ -205,9 +205,9 @@ export default {
       tasksData: "",
       form: {},
       columns: [
-        { type: "text", label: "附件名称", prop: "name" },
-        { type: "text", label: "附件格式", prop: "ext" },
-        { type: "text", label: "附件大小 ", prop: "size" },
+        { type: "text", label: "附件名称", prop: "name", overflow: false,},
+        { type: "text", label: "附件格式", prop: "ext", width: '80', },
+        { type: "text", label: "附件大小 ", prop: "size", width: '80', },
         {
           type: "action",
           label: "详情",

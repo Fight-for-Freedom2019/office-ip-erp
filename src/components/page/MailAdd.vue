@@ -44,10 +44,10 @@
 			>
           </quill-editor>-->
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="message" @click="send" :disabled="btn_disabled">发送</el-button>
-        </el-form-item>
       </el-form>
+      <span slot="header" style="float: right;">
+        <el-button type="primary" icon="message" size="small" @click="send" :disabled="btn_disabled">发送</el-button>
+      </span>
     </app-shrink>
   </div>
 </template>
@@ -195,7 +195,7 @@ export default {
       this.title = "发送" + scene + "邮件";
       const mail_scene = sceneMap.get(scene);
       this.mail_scene = mail_scene;
-
+      console.log(this.mail_scene)
       const data = { id, mail_scene };
       const url = `/messagetemplates/scenemail`;
       const success = _ => {
@@ -212,6 +212,7 @@ export default {
       const url = `/mails/` + id;
       const success = _ => {
         const mail = _.mail;
+        this.mail_scene = mail.main_scene;
         this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });
         this.loadingVisible = false;
       };
