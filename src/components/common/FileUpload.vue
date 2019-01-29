@@ -50,19 +50,19 @@
       <el-table-column label="发文日" prop="mail_date" v-if="config.mail_date || config.is_show">
         <template slot-scope="scope">
           <span v-if="config.is_show">{{scope.row.mail_date}}</span>
-          <el-date-picker type="date" v-model="scope.row.mail_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_mail_date']" v-else></el-date-picker>
+          <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="scope.row.mail_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_mail_date']" v-else></el-date-picker>
         </template>
       </el-table-column>
       <el-table-column label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline || config.is_show" >
         <template slot-scope="scope">
           <span v-if="config.is_show">{{scope.row.legal_deadline}}</span>
-          <el-date-picker type="date" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['show_legal_deadline']" v-else></el-date-picker>
+          <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['show_legal_deadline']" v-else></el-date-picker>
         </template>
       </el-table-column>
       <el-table-column label="申请日" prop="application_date" v-if="config.application_date || config.is_show">
         <template slot-scope="scope">
           <span v-if="config.is_show">{{scope.row.application_date}}</span>
-          <el-date-picker type="date" v-model="scope.row.application_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_date']" v-else></el-date-picker>
+          <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="scope.row.application_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_date']" v-else></el-date-picker>
         </template>
       </el-table-column>      
       <el-table-column label="申请号" prop="application_number" v-if="config.application_number || config.is_show">
@@ -73,7 +73,7 @@
       </el-table-column>       
       <el-table-column label="授权日" prop="issue_date" v-if="config.issue_date">
         <template slot-scope="scope">
-          <el-date-picker type="date" v-model="scope.row.issue_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_issue_date']"></el-date-picker>
+          <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="scope.row.issue_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_issue_date']"></el-date-picker>
         </template>
       </el-table-column>
       <el-table-column label="授权号" prop="issue_number" v-if="config.issue_number">
@@ -230,7 +230,7 @@ export default {
       }
       if (!f) return;
       const copy = this.$tool.deepCopy(this.tableData[index]);
-      copy['show_mail_date'] = f.mail_date == 1 && this.config.mail_date ? true : false;
+      copy['show_mail_date'] =f.mail_date == 1 &&this.config.mail_date ? true : false;
       copy['show_legal_deadline'] = f.deadline == 1 && this.config.legal_deadline ? true : false;
       copy['show_application_date'] = f.application_date == 1 && this.config.application_date ? true : false;
       copy['show_issue_date'] = f.issue_date == 1 && this.config.issue_date ? true : false;

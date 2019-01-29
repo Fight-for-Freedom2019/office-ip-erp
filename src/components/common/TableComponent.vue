@@ -374,7 +374,7 @@
     >
       <app-export
         :url="tableOption.url"
-        :fields="fields"
+        :fields="transferValue[1]"
         :default="default_choose"
         :response-key="exportType.key"
         @success="dialogExport = false"
