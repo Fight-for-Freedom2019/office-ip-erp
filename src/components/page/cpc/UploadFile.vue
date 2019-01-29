@@ -510,11 +510,7 @@ export default {
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
         console.log("item", item);
-        // item.name = item.type;
-        /*if(item.target) {
-          item.type = item.target;  // 填充的数据可能没有type但是一定有target,有的话先复制
-        }*/
-        if ((item.type === "" || !item.type) && !item.target) {
+        if ((item.type === "" || !item.type) && !item.target && !this.common) {
           this.$message({
             type: "warning",
             message: `文件—${item.name}没有选择类型!  请点击文件名添加类型`
