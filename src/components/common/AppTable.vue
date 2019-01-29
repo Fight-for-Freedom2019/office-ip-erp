@@ -559,11 +559,9 @@ export default {
         } else if (hk === "userManage") {
           height = this.innerHeight - 110;
           height = height < 300 ? 300 : height;
-        } else if (typeof hk === "number") {
-          height = hk;
         } else {
-          height = "auto";
-        }
+          height = hk;
+        } 
       }
       return height;
     }

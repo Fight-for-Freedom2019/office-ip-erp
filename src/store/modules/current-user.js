@@ -190,7 +190,7 @@ const nodePermissionMap = new Map([
   ["/setting/agencies/lists", "Pages.Role.Partner"],
   ["/setting/agencies/agents", "Pages.Role.Partner"],
   ["/setting/system", "Pages.Role.Admin"],
-  ["/role/flow", "Pages.Role.Flow"],
+  ["/role/flow", "Pages.Fees.Save"],
   ["/role/admin", "Pages.Role.Admin"],
   ["/role/partner", "Pages.Role.Partner"],
   ["/role/finance", "Pages.Role.Finance"]

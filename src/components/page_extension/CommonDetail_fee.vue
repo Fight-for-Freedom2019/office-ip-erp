@@ -8,7 +8,7 @@
       <app-table
         :columns="columns"
         :data="detailRevenue.list?detailRevenue.list : []"
-        max-height="160px"
+        height="220"
       ></app-table>
     </app-collapse>
 
@@ -16,7 +16,7 @@
       <app-table
         :columns="columns"
         :data="detailCost.list ? detailCost.list : []"
-        max-height="160px"
+        height="220"
       ></app-table>
     </app-collapse>
     <!-- 
@@ -30,7 +30,7 @@
       <app-table
         :columns="columns"
         :data="detailRenewal.list ? detailRenewal.list : []"
-        max-height="160px"
+        max-height="160"
       ></app-table>
     </app-collapse>
     <app-shrink :visible.sync="visible" title="费用编辑">
