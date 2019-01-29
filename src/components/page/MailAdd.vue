@@ -21,13 +21,13 @@
           prop="recipient"
           :rules="{type: 'array', required: true, message: '请选择收件人', trigger: 'change'}"
         >
-          <jump-select type="user" v-model="form.recipient" ref="recipient" multiple></jump-select>
+          <jump-select type="mailuser" v-model="form.recipient" ref="recipient" multiple></jump-select>
         </el-form-item>
         <el-form-item label="抄送" prop="cc">
-          <jump-select type="user" v-model="form.cc" ref="cc" multiple></jump-select>
+          <jump-select type="mailuser" v-model="form.cc" ref="cc" multiple></jump-select>
         </el-form-item>
         <el-form-item label="密送" prop="bcc">
-          <jump-select type="user" v-model="form.bcc" ref="bcc" multiple></jump-select>
+          <jump-select type="mailuser" v-model="form.bcc" ref="bcc" multiple></jump-select>
         </el-form-item>
         <el-form-item label="附件" prop="attachments">
           <upload v-model="form.attachments" :file-list="attachments"></upload>

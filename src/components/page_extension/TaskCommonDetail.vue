@@ -7,17 +7,35 @@
         <el-tag v-if="row.serial">{{ row.serial }}</el-tag>
       </span>
       <span slot="header" style="float: right">
-        <el-dropdown  @command="handleOperation" trigger="click" menu-align="start" style="margin-left: 10px; margin-top: 4px;" class="tree-dropdown">
-          <el-button size="small">{{ `操作` }}<i class="el-icon-caret-bottom el-icon--right" style="font-size: 12px;"></i> </el-button>
+        <el-dropdown
+          @command="handleOperation"
+          trigger="click"
+          menu-align="start"
+          style="margin-left: 10px; margin-top: 4px;"
+          class="tree-dropdown"
+        >
+          <el-button size="small">
+            {{ `操作` }}
+            <i class="el-icon-caret-bottom el-icon--right" style="font-size: 12px;"></i>
+          </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="编辑任务" v-if="menusMap && menusMap.get('/task/btn/save')">编辑任务</el-dropdown-item>
-            <el-dropdown-item command="结束任务" v-if="!row.status && menusMap && menusMap.get('/task/btn/close')">结束任务</el-dropdown-item>
-            <el-dropdown-item command="移交任务" v-if="menusMap && menusMap.get('/task/btn/transfer')">移交任务</el-dropdown-item>
-            <el-dropdown-item command="回退任务" v-if="menusMap && menusMap.get('/task/btn/reject')">回退任务</el-dropdown-item>
+            <el-dropdown-item
+              command="结束任务"
+              v-if="!row.status && menusMap && menusMap.get('/task/btn/close')"
+            >结束任务</el-dropdown-item>
+            <el-dropdown-item
+              command="移交任务"
+              v-if="menusMap && menusMap.get('/task/btn/transfer')"
+            >移交任务</el-dropdown-item>
+            <el-dropdown-item
+              command="回退任务"
+              v-if="menusMap && menusMap.get('/task/btn/reject')"
+            >回退任务</el-dropdown-item>
             <el-dropdown-item command="申请延期">申请延期</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        
+
         <el-dropdown
           @command="handleCommandSendMail"
           trigger="click"
@@ -54,11 +72,7 @@
           </el-tab-pane>
           <el-tab-pane label="相关任务" name="relative_tasks">
             <div :style="`height: ${innerHeight - 140}px; overflow-y: auto;overflow-x:hidden;`">
-              <detail
-                :row="row"
-                ref="taskDetail"
-                @refreshSiblings="refreshSiblings"
-              ></detail>
+              <detail :row="row" ref="taskDetail" @refreshSiblings="refreshSiblings"></detail>
             </div>
           </el-tab-pane>
           <el-tab-pane label="延期记录" name="delay">
@@ -121,15 +135,14 @@
 
         <!-- 任务新增、编辑 -->
         <task-common-edit ref="taskEdit" @editSuccess="editSuccess"></task-common-edit>
-        
 
         <!-- 发送邮件 -->
-    <mail-add
-      style="margin-top: 10px; "
-      ref="mailEdit"
-      @sendSuccess="mailCallBack"
-      @cancelSending="mailCallBack"
-    ></mail-add>
+        <mail-add
+          style="margin-top: 10px; "
+          ref="mailEdit"
+          @sendSuccess="mailCallBack"
+          @cancelSending="mailCallBack"
+        ></mail-add>
       </div>
     </app-shrink>
   </div>
@@ -236,7 +249,7 @@ export default {
       loadingVisible: false,
       loadingText: "任务数据加载中",
       url: URL,
-      row:{},
+      row: {}
     };
   },
   computed: {
@@ -258,7 +271,8 @@ export default {
         this.row.model.id == "Trademark" ||
         this.row.model.id == "Copyright"
         ? this.row.title
-        : this.row.model.name + (this.row.serial != undefined ? this.row.serial : '');
+        : this.row.model.name +
+            (this.row.serial != undefined ? this.row.serial : "");
     },
     expringControl() {
       return this.$route.params.item;
@@ -302,21 +316,24 @@ export default {
     },
     selectSibling() {
       const arr = [];
-      if(this.historyTasks && this.historyTasks.length !=0 ) {
-        this.historyTasks.forEach( v =>{
-          if(v['id'] !== this.row.task.id) {
-            arr.push({'id': v['id'], 'name': `${v['process_action']['name']}_${v['user']['name']}`});
+      if (this.historyTasks && this.historyTasks.length != 0) {
+        this.historyTasks.forEach(v => {
+          if (v["id"] !== this.row.task.id) {
+            arr.push({
+              id: v["id"],
+              name: `${v["process_action"]["name"]}_${v["user"]["name"]}`
+            });
           }
         });
         return {
-          placeholder: '请选择退回到的流程节点',
+          placeholder: "请选择退回到的流程节点",
           options: arr
-        }
-      }else {
+        };
+      } else {
         return {
-          placeholder: '请选择退回到的流程节点',
+          placeholder: "请选择退回到的流程节点",
           options: arr
-        }
+        };
       }
     }
   },
@@ -340,26 +357,29 @@ export default {
     },
     handleOperation(command) {
       switch (command) {
-        case '编辑任务':
-          this.$refs.taskEdit.show('edit',this.row);
+        case "编辑任务":
+          this.$refs.taskEdit.show("edit", this.row);
           break;
-        case '结束任务':
+        case "结束任务":
           this.dialogCloseVisible = true;
           break;
-        case '移交任务':
-          this.dialogTranserVisible = true; 
-          this.transfer_person = {id: row.person_in_charge, name: row.person_in_charge_name }
+        case "移交任务":
+          this.dialogTranserVisible = true;
+          this.transfer_person = {
+            id: row.person_in_charge,
+            name: row.person_in_charge_name
+          };
           break;
-        case '回退任务':
+        case "回退任务":
           this.dialogRejectVisible = true;
           break;
-        case '申请延期':
+        case "申请延期":
           this.$refs.postpone.show("add");
           break;
       }
     },
     refreshSiblings(data) {
-      console.log(data)
+      console.log(data);
       this.historyTasks = data;
     },
     refreshPostpone() {
@@ -378,7 +398,7 @@ export default {
     },
     handleCommandSendMail(command) {
       const scene = mailMap.get(command);
-      this.$refs.mailEdit.show(scene, this.row.id);
+      this.$refs.mailEdit.show(scene, this.row.model_id);
     },
     mailCallBack() {
       this.mailVisible = false;
@@ -408,7 +428,7 @@ export default {
         this.$message({ message: "任务移交成功", type: "success" });
         this.refreshUser();
         this.close();
-        this.$emit('update');
+        this.$emit("update");
       };
 
       this.$axiosPost({ url, data, success });
@@ -422,7 +442,7 @@ export default {
         this.$message({ message: "完结任务成功", type: "success" });
         this.refreshUser();
 
-        this.$emit('update');
+        this.$emit("update");
         this.close();
       };
 
@@ -437,7 +457,7 @@ export default {
         this.$message({ message: "重新激活任务成功", type: "success" });
         this.refreshUser();
 
-        this.$emit('update');
+        this.$emit("update");
       };
 
       this.$axiosPost({ url, data, success });
@@ -454,14 +474,14 @@ export default {
         window.setTimeout(_ => {
           this.close();
           this.dialogShrinkVisible = false;
-          this.$emit('update');
+          this.$emit("update");
         }, 0);
       };
       this.$axiosPost({ url, data, success });
     },
     editSuccess(process) {
       this.$message({ message: "编辑管制事项成功", type: "success" });
-      this.$emit('update');
+      this.$emit("update");
       this.close();
       this.row = process;
     },
@@ -469,7 +489,7 @@ export default {
 
     finishSuccess(data) {
       this.isTaskDetailVisible = false;
-      this.$emit('refresh');
+      this.$emit("refresh");
       this.$refs.taskDetail.refreshData();
       // if(data.is_send_mail) {
       //   this.mailVisible = true;
@@ -499,8 +519,7 @@ export default {
       this.refreshOption();
     }
   },
-  mounted() {
-  },
+  mounted() {},
   components: {
     RemoteSelect,
     StaticSelect,
