@@ -701,7 +701,7 @@ export default {
     // TODO 数据填充可能会有问题
     // 填充数据
     paddingData(rules) {
-      let data = this.data[`table${this.formType}`];
+      let data = this.data?this.data[`table${this.formType}`]:null;
       if (!data) return;
       rules.forEach(rule => {
         //console.log("rule",rule);
