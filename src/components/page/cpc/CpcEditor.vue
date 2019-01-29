@@ -155,8 +155,9 @@
           :otherFormMap="otherFormMap"
           :amendments="amendments"
           @getTurnArchives="getTurnArchives"
+          @turnArchivesFile="turnArchivesFile"
         ></turn-archives>
-        <!--@turnArchivesFile="turnArchivesFile"-->
+        <!---->
       </el-dialog>
       <!-- 转档 end -->
     </app-shrink>
@@ -372,9 +373,9 @@ export default {
       this.submitFileList = this.submitFileList.concat(arr);
       this.showTurnArchives = false;
     },
-    /*turnArchivesFile(file){
+    turnArchivesFile(file){
       this.$emit("turnArchivesFile",file);
-    },*/
+    },
     detectorRepeat(id) {
       this.submitFileList.forEach((item, index) => {
         if (item.target == id) {
