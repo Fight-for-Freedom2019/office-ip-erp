@@ -350,8 +350,10 @@ export default {
     /*****文件相关 start*****/
     getFileList(result) {
       result.forEach(item => {
-        this.detectorRepeat(item.id);
-        this.submitFileList.push(item);
+        this.detectorRepeat(item.target);
+        if(item.target) {
+          this.submitFileList.push(item);
+        }
       });
       // this.submitFileList = this.submitFileList.concat(result);
       this.showAppendFile = false;
@@ -367,7 +369,9 @@ export default {
           obj.fid = item.id;
           obj.ext = item.ext;
           this.detectorRepeat(obj.target);
-          this.submitFileList.push(obj);
+          if(obj.target) {
+            this.submitFileList.push(obj);
+          }
         }
       });
       this.submitFileList = this.submitFileList.concat(arr);
