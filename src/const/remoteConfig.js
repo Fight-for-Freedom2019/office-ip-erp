@@ -220,6 +220,14 @@ const map = new Map([
     }
   ],
   [
+    "mailuser",
+    {
+      URL: "/users?listOnly=1&scope=all",
+      DATA_KEY: "data",
+      PLACEHOLDER: "请选择人员"
+    }
+  ],
+  [
     "contacts",
     {
       URL: "/contacts?listOnly=1",

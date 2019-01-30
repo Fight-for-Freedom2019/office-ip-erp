@@ -121,7 +121,7 @@ const map = new Map([
     {
       components: "static_select",
       type: "assign_type",
-      if: "this.opinion == 'pass'",
+      // if: "this.opinion == 'pass'",
       default: 1
     }
   ],
@@ -135,8 +135,8 @@ const map = new Map([
         required: true,
         message: "派案人不能为空",
         trigger: "change"
-      },
-      if: "this.opinion == 'pass' && this.form.assign_type === 2"
+      }
+      // if: "this.opinion == 'pass' && this.form.assign_type === 2"
     }
   ],
   [
@@ -150,8 +150,17 @@ const map = new Map([
         required: true,
         message: "承办人不能为空",
         trigger: "change"
-      },
-      if: "this.opinion == 'pass' && this.form.assign_type === 1"
+      }
+      // if: "this.opinion == 'pass' && this.form.assign_type === 1"
+    }
+  ],
+  [
+    "process_tags",
+    {
+      components: "jump_select",
+      type: "tags",
+      multiple: true
+      // if: "this.opinion == 'pass' && this.form.assign_type === 1"
     }
   ],
   [
@@ -173,7 +182,7 @@ const map = new Map([
         message: "点数不能为空",
         trigger: "change"
       },
-      if: "this.opinion == 'pass' && this.form.assign_type === 1",
+      // if: "this.opinion == 'pass' && this.form.assign_type === 1",
       vkey: "points"
     }
   ]

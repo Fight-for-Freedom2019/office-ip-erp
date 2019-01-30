@@ -10,23 +10,17 @@
         style="margin-top:10px;"
         :rules="rules"
       >
-        <el-form-item
-          label="标题"
-          prop="subject"
-        >
+        <el-form-item label="标题" prop="subject">
           <el-input v-model="form.subject" placeholder="请输入邮件标题"></el-input>
         </el-form-item>
-        <el-form-item
-          label="收件人"
-          prop="recipient"
-        >
+        <el-form-item label="收件人" prop="recipient">
           <jump-select type="email" v-model="form.recipient" ref="recipient" multiple></jump-select>
         </el-form-item>
         <el-form-item label="抄送" prop="cc">
-          <jump-select type="user" v-model="form.cc" ref="cc" multiple></jump-select>
+          <jump-select type="email" v-model="form.cc" ref="cc" multiple></jump-select>
         </el-form-item>
         <el-form-item label="密送" prop="bcc">
-          <jump-select type="user" v-model="form.bcc" ref="bcc" multiple></jump-select>
+          <jump-select type="email" v-model="form.bcc" ref="bcc" multiple></jump-select>
         </el-form-item>
         <el-form-item label="附件" prop="attachments">
           <upload v-model="form.attachments" :file-list="attachments"></upload>
@@ -45,7 +39,13 @@
         </el-form-item>
       </el-form>
       <span slot="header" style="float: right;">
-        <el-button type="primary" icon="message" size="small" @click="send" :disabled="btn_disabled">发送</el-button>
+        <el-button
+          type="primary"
+          icon="message"
+          size="small"
+          @click="send"
+          :disabled="btn_disabled"
+        >发送</el-button>
       </span>
     </app-shrink>
   </div>
@@ -80,14 +80,16 @@ export default {
   props: ["data"],
   mixins: [AxiosMixins, Tinymce],
   data() {
-    let checkMail = (rule, value, callback)=>{
-      const regMail =  /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/;
-      let temp = value.filter(item=>!regMail.test(item));
-      if(temp.length!==0) {
+    let checkMail = (rule, value, callback) => {
+      const regMail = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/;
+      let temp = value.filter(item => !regMail.test(item));
+      if (temp.length !== 0) {
         callback(new Error(`${temp[0]}为非法邮箱格式!`));
       }
-      value.length === 0 ? callback(new Error("请选择收件人或输入邮箱地址")):""
-    }
+      value.length === 0
+        ? callback(new Error("请选择收件人或输入邮箱地址"))
+        : "";
+    };
     return {
       form: {
         subject: "",
@@ -125,14 +127,12 @@ export default {
       title: "发送邮件",
       id: 0,
       mail_type: 0,
-      rules:{
-        subject:[
-          {required: true, message: '请输入邮件标题', trigger: 'blur'}
+      rules: {
+        subject: [
+          { required: true, message: "请输入邮件标题", trigger: "blur" }
         ],
-        recipient:[
-          {validator: checkMail,required: true, trigger: 'change'}
-        ],
-      },
+        recipient: [{ validator: checkMail, required: true, trigger: "change" }]
+      }
     };
   },
   methods: {
@@ -210,7 +210,7 @@ export default {
       this.title = "发送" + scene + "邮件";
       const mail_scene = sceneMap.get(scene);
       this.mail_scene = mail_scene;
-      console.log(this.mail_scene)
+      console.log(this.mail_scene);
       const data = { id, mail_scene };
       const url = `/messagetemplates/scenemail`;
       const success = _ => {
