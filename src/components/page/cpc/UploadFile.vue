@@ -34,15 +34,15 @@
       </template>
     </el-form>
     <el-dialog
-      :visible.sync="showFileTypeList"
+      :visible="showFileTypeList"
       title="选择文件类型"
       :modal="false"
       :close-on-click-modal="false"
       :before-close="beforeClose"
     >
       <el-form :model="fileTypeForm" label-position="top" ref="fileTypeForm" :rules="rule">
-        <el-form-item prop="fileType" label="请选择文件类型">
-          <el-select value-key="id" v-model="fileTypeForm.fileType" filterable>
+        <el-form-item prop="fileType" label="请选择或输入文件类型">
+          <el-select value-key="id" v-model="fileTypeForm.fileType" filterable allow-create default-first-option>
             <el-option
               v-for="item in fileTypeList"
               :value="item.value"
@@ -414,12 +414,13 @@ export default {
       this.revampType = "add";
       this.file = f;
       this.fileList = fl;
-      console.log("fileList", this.fileList);
+      // console.log("fileList", this.fileList);
       if (this.fileSuccessCount === this.fileCount) {
-        this.userDefined
+        /*this.userDefined
           ? (this.fileTypeForm.fileType = this.fileTypeList[0].value)
-          : "";
+          : "";*/
         !this.common ? (this.showFileTypeList = true) : this.handleCommon();
+        !this.common ? (this.clearFileTypeForm()) : "";
         this.fileSuccessCount = 0;
         this.fileCount = 0;
       }
@@ -432,13 +433,21 @@ export default {
       });
       this.$emit("getFileList", temp);
     },
+    verifyType(){
+      let type = this.fileTypeForm.fileType;
+      let bool = this.fileTypeList.some((i)=>i.value===type);
+      if(!bool) {
+        this.fileTypeList.push({value:type,label:type});
+      }
+    },
     selectFileType() {
       this.$refs.fileTypeForm.validate(valid => {
         if (valid) {
+          this.verifyType();
           let target = this.fileTypeList.filter(
             item => item.value === this.fileTypeForm.fileType
           );
-          // console.log("target", target);
+          console.log("target", target);
           this.fileList.forEach(item => {
             item.type = !item.type ? "" : item.type;
             //console.log("this.file", this.file);
@@ -447,9 +456,6 @@ export default {
               let label = target[0] ? target[0].label : "";
               // label = this.userDefined && this.fileTypeForm.fileTypeInput !== "" ? this.fileTypeForm.fileTypeInput : label;
               if (this.userDefined) {
-                if (this.fileTypeForm.fileTypeInput !== "") {
-                  label = this.fileTypeForm.fileTypeInput;
-                }
                 item.name = label;
               } else {
                 let reg = /——\[.*?\]/;
@@ -478,18 +484,24 @@ export default {
         return
       };
       this.showFileTypeList = true;
-      this.userDefined
+      this.clearFileTypeForm();
+      /*this.userDefined
         ? (this.fileTypeForm.fileType = this.fileTypeList[0].value)
-        : "";
+        : "";*/
       this.file = file;
       this.revampType = "edit";
+    },
+    clearFileTypeForm(){
+      this.$nextTick(()=>{
+        this.$refs.fileTypeForm.resetFields();
+      })
     },
     removeFile(id, isRemind = true) {
       const success = _ => {
         isRemind
           ? this.$message({ type: "success", message: "删除成功!" })
           : "";
-        !this.isSave ? this.saveCpcFile() : "";
+        !this.isSave ? this.saveCpcFile(true) : "";
       };
       this.$axiosDelete({ url: `/files/${id}`, data: {}, success });
     },
@@ -504,13 +516,13 @@ export default {
         : file.id;
       this.removeFile(id);
     },
-    saveCpcFile() {
+    saveCpcFile(isDelete = false) {
       let bool = false;
       let temp = [];
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
         console.log("item", item);
-        if ((item.type === "" || !item.type) && !item.target && !this.common) {
+        if ((item.type === "" || !item.type) && !item.target && !this.common && !isDelete && this.isSave) {
           this.$message({
             type: "warning",
             message: `文件—${item.name}没有选择类型!  请点击文件名添加类型`
@@ -531,8 +543,8 @@ export default {
           target: parseInt(item.target)
         });
       });
-      if (!bool) {
-        // console.log("经过");
+      if (!bool || !this.isSave) {
+        console.log("经过");
         this.$emit("getFileList", temp);
         this.isSave ? (this.fileList = []) : "";
       }
@@ -542,10 +554,10 @@ export default {
     userDefined: function(val) {
       // val ? (this.fileTypeForm.fileType = this.fileTypeList[0]) : "";
     },
-    "fileTypeForm.fileType": function(val) {
+    /*"fileTypeForm.fileType": function(val) {
       let target = this.fileTypeList.filter(item => item.value === val);
       target.length ? (this.fileTypeForm.fileTypeInput = target[0].label) : "";
-    },
+    },*/
     fileListProp: {
       handler: function(val) {
         // console.log("first",this.first);
