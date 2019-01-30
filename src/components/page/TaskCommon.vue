@@ -304,6 +304,14 @@ export default {
           },
           {
             type: "text",
+            prop: "representative",
+            label: "对外代理人",
+            render_simple: "name",
+            render_header: true,
+            width: "110"
+          },
+          {
+            type: "text",
             prop: "organization_unit",
             label: "所属部门",
             render_simple: "name",

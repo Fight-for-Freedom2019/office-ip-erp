@@ -206,6 +206,24 @@ const map = new Map([
     {
       URL: "/users?listOnly=1",
       DATA_KEY: "data",
+      PLACEHOLDER: "请选择人员",
+      allowCreate:true,
+    }
+  ],
+  [
+    "email",
+    {
+      URL: "/emails",
+      DATA_KEY: "data",
+      PLACEHOLDER: "请邮箱地址",
+      allowCreate:true,
+    }
+  ],
+  [
+    "mailuser",
+    {
+      URL: "/users?listOnly=1&scope=all",
+      DATA_KEY: "data",
       PLACEHOLDER: "请选择人员"
     }
   ],

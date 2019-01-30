@@ -840,17 +840,23 @@ export default {
     Upload() {
       this.showAppendFile = true;
     },
+    closeDialog(){
+      let dialog = ["offset_dialog","change_content_dialog"];
+      dialog.forEach((i)=>{
+        let self = document.getElementsByClassName(i)[0];
+        if(self){
+          let parent = self.parentElement;
+          let ancestor = parent.parentElement;
+          ancestor.removeChild(parent);
+        }
+      })
+    },
     clear(){
       this.$nextTick(() => {
         const root = this.$refs.fc;
         root.innerHTML = "";
       });
-      let self = document.getElementsByClassName("offset_dialog")[0];
-      if(self){
-        let parent = self.parentElement;
-        let ancestor = parent.parentElement;
-        ancestor.removeChild(parent);
-      }
+      this.closeDialog();
       this.formTypeCollection = [];
       this.formList = [];
       this.submitFileList = [];
