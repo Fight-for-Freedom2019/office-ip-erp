@@ -413,7 +413,6 @@ export default {
     },
     height: {
       type: [String, Number],
-      default: ""
     },
     columns: {
       type: Array,
