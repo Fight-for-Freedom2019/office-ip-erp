@@ -8,20 +8,19 @@
         v-loading="loadingVisible"
         :element-loading-text="loadingText"
         style="margin-top:10px;"
+        :rules="rules"
       >
         <el-form-item
           label="标题"
           prop="subject"
-          :rules="{required: true, message: '请输入邮件标题', trigger: 'blur'}"
         >
           <el-input v-model="form.subject" placeholder="请输入邮件标题"></el-input>
         </el-form-item>
         <el-form-item
           label="收件人"
           prop="recipient"
-          :rules="{type: 'array', required: true, message: '请选择收件人', trigger: 'change'}"
         >
-          <jump-select type="user" v-model="form.recipient" ref="recipient" multiple></jump-select>
+          <jump-select type="email" v-model="form.recipient" ref="recipient" multiple></jump-select>
         </el-form-item>
         <el-form-item label="抄送" prop="cc">
           <jump-select type="user" v-model="form.cc" ref="cc" multiple></jump-select>
@@ -81,6 +80,14 @@ export default {
   props: ["data"],
   mixins: [AxiosMixins, Tinymce],
   data() {
+    let checkMail = (rule, value, callback)=>{
+      const regMail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+      let temp = value.filter(item=>!regMail.test(item));
+      if(temp.length!==0) {
+        callback(new Error(`${temp[0]}为非法邮箱格式!`));
+      }
+      value.length === 0 ? callback(new Error("请选择收件人或输入邮箱地址")):""
+    }
     return {
       form: {
         subject: "",
@@ -117,7 +124,15 @@ export default {
       loadingText: "邮件内容加载中",
       title: "发送邮件",
       id: 0,
-      mail_type: 0
+      mail_type: 0,
+      rules:{
+        subject:[
+          {required: true, message: '请输入邮件标题', trigger: 'blur'}
+        ],
+        recipient:[
+          {validator: checkMail, trigger: 'change'}
+        ],
+      },
     };
   },
   methods: {
