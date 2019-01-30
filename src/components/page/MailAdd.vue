@@ -80,16 +80,6 @@ export default {
   props: ["data"],
   mixins: [AxiosMixins, Tinymce],
   data() {
-    let checkMail = (rule, value, callback) => {
-      const regMail = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/;
-      let temp = value.filter(item => !regMail.test(item));
-      if (temp.length !== 0) {
-        callback(new Error(`${temp[0]}为非法邮箱格式!`));
-      }
-      value.length === 0
-        ? callback(new Error("请选择收件人或输入邮箱地址"))
-        : "";
-    };
     return {
       form: {
         subject: "",
@@ -131,7 +121,9 @@ export default {
         subject: [
           { required: true, message: "请输入邮件标题", trigger: "blur" }
         ],
-        recipient: [{ validator: checkMail, required: true, trigger: "change" }]
+        recipient: [{  required: true, trigger: "change", message: '请选择收件人或输入邮箱地址',  },
+          { pattern: /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/, message: '请输入正确的邮箱地址' }
+        ]
       }
     };
   },
@@ -151,6 +143,7 @@ export default {
       return new Promise(resolve => {
         this.$refs.form.validate(valid => {
           if (valid) {
+            console.log(valid)
             resolve(true);
           } else {
             resolve(false);
