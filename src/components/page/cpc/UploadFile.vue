@@ -547,7 +547,7 @@ export default {
         });
       });
       if (!bool || !this.isSave) {
-        console.log("经过");
+        // console.log("经过");
         this.$emit("getFileList", temp);
         this.isSave ? (this.fileList = []) : "";
       }
