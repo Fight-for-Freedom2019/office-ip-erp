@@ -464,7 +464,7 @@ export default {
       } else {
         for (let i = 0; i < this.flowsData.length; i++) {
           if (this.flowsData[i].id == f) {
-            return (arr = this.flowsData[i].Process_definition);
+            return arr = this.flowsData[i].Process_definition;
             break;
           }
         }
@@ -478,7 +478,7 @@ export default {
       } else {
         for (let i = 0; i < this.flowsData.length; i++) {
           if (this.flowsData[i].id == f) {
-            return (arr = this.flowsData[i].process_action);
+            return arr = this.flowsData[i].process_action;
             break;
           }
         }
