@@ -848,7 +848,7 @@ export default {
       this.showAppendFile = true;
     },
     closeDialog(){
-      let dialog = ["offset_dialog","change_content_dialog"];
+      let dialog = ["offset_dialog","change_content_dialog","citations_information_dialog"];
       dialog.forEach((i)=>{
         let self = document.getElementsByClassName(i)[0];
         if(self){
