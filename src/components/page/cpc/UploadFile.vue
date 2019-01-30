@@ -41,7 +41,7 @@
       :before-close="beforeClose"
     >
       <el-form :model="fileTypeForm" label-position="top" ref="fileTypeForm" :rules="rule">
-        <el-form-item prop="fileType" label="请选择或输入文件类型">
+        <el-form-item prop="fileType" :label="tipLabel">
           <el-select value-key="id" v-model="fileTypeForm.fileType" filterable allow-create default-first-option>
             <el-option
               v-for="item in fileTypeList"
@@ -322,7 +322,10 @@ export default {
         // arr.push(item)
       });
       return arr;
-    }
+    },
+    tipLabel:function () {
+      return this.isSave?"请选择文件类型":"请选择或输入文件类型";
+    },
   },
   props: {
     customLimit: {
