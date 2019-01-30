@@ -868,6 +868,18 @@ export default {
       this.formList = [];
       this.submitFileList = [];
       this.submitData.clear();
+      this.copy_form = [
+        100104,
+        1001042,
+        1001043,
+        1001044,
+        1001045,
+        1001046,
+        1001047,
+        1001048,
+        1001049,
+        10010410
+      ],
       this.vm_collection.clear();
       // this.options_collection.clear();
       this.saveRules.clear();
