@@ -105,7 +105,6 @@ const options = {
     add() {
       this.index = null;
       this.type = "add";
-
       this.controlDialog("block");
       this.clear();
     },
@@ -119,7 +118,6 @@ const options = {
       this.$refs.form?this.$refs.form.resetFields():"";
     },
     save() {
-      console.log(this.type,this.index);
       if (this.type === "edit") {
         for (let key in this.offset_content) {
           if (this.offset_content.hasOwnProperty(key)) {
@@ -127,7 +125,7 @@ const options = {
           }
         }
       } else {
-        this.extendData.amendments.push(this.offset_content);
+        this.extendData.amendments.push(this.copyObj(this.offset_content));
       }
       this.controlDialog('none');
     },
@@ -135,6 +133,7 @@ const options = {
       this.isVisible = c === "block" ? true : false;
       const parent = document.getElementsByClassName("offset_dialog")[0].parentNode;
       parent.style.display = c;
+      c === "block"?this.clear():"";
     },
   },
   components: {
