@@ -81,7 +81,7 @@ export default {
   mixins: [AxiosMixins, Tinymce],
   data() {
     let checkMail = (rule, value, callback)=>{
-      const regMail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+      const regMail =  /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/;
       let temp = value.filter(item=>!regMail.test(item));
       if(temp.length!==0) {
         callback(new Error(`${temp[0]}为非法邮箱格式!`));
@@ -130,7 +130,7 @@ export default {
           {required: true, message: '请输入邮件标题', trigger: 'blur'}
         ],
         recipient:[
-          {validator: checkMail, trigger: 'change'}
+          {validator: checkMail,required: true, trigger: 'change'}
         ],
       },
     };
