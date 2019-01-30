@@ -845,6 +845,12 @@ export default {
         const root = this.$refs.fc;
         root.innerHTML = "";
       });
+      let self = document.getElementsByClassName("offset_dialog")[0];
+      if(self){
+        let parent = self.parentElement;
+        let ancestor = parent.parentElement;
+        ancestor.removeChild(parent);
+      }
       this.formTypeCollection = [];
       this.formList = [];
       this.submitFileList = [];

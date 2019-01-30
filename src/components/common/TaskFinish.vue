@@ -98,7 +98,7 @@
               :columns="columns"
               border
               ref="table"
-              max-height="222px"
+              max-height="222"
               :data="processData.task.attachments"
             ></app-table>
             <!-- <span v-if="processData.task.attachments.length == 0">无附件</span> -->
@@ -256,7 +256,7 @@ export default {
     },
     handleUpload (val) {
       this.supplement = val;
-      const url = `/tasks/${this.taskId}`;
+      const url = `/tasks/${this.taskId}/files`;
       let list_attachments = [];
       if(this.processData.attachments) {
          list_attachments = this.$tool.splitObj(this.processData.attachments, 'id');
