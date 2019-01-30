@@ -155,6 +155,15 @@ const map = new Map([
     }
   ],
   [
+    "process_tags",
+    {
+      components: "jump_select",
+      type: "tags",
+      multiple: true
+      // if: "this.opinion == 'pass' && this.form.assign_type === 1"
+    }
+  ],
+  [
     "patent_mail",
     {
       components: "remote_select",
