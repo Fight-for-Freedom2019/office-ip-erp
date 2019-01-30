@@ -161,7 +161,7 @@ export default {
           this.btn_disabled = false;
         };
         this.btn_disabled = true;
-        this.axiosPost({ url, data, success, complete });
+        this.$axiosPost({ url, data, success, complete });
       }
     },
     async save() {
@@ -184,7 +184,7 @@ export default {
           this.axiosPost({ url, data, success, complete });
         } else {
           const url = `${URL}/ ${this.id}`;
-          this.axiosPut({ url, data, success, complete });
+          this.$axiosPut({ url, data, success, complete });
         }
       }
     },

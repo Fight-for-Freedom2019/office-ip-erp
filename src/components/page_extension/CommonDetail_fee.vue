@@ -8,7 +8,7 @@
       <app-table
         :columns="columns"
         :data="detailRevenue.list?detailRevenue.list : []"
-        height="220"
+        :height="220"
       ></app-table>
     </app-collapse>
 
@@ -16,7 +16,7 @@
       <app-table
         :columns="columns"
         :data="detailCost.list ? detailCost.list : []"
-        height="220"
+        :height="220"
       ></app-table>
     </app-collapse>
     <!-- 
