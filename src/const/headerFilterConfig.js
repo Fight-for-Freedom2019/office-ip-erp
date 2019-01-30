@@ -122,6 +122,7 @@ const map = new Map([
         data_key: "data",
         url: "/contacts"
       },
+      { type: "date", id: "entrusting_time", name: "立案日" },
       { type: "date", id: "first_edition_deadline", name: "初稿期限" },
       { type: "date", id: "filing_deadline", name: "递交期限" },
       { type: "date", id: "legal_deadline", name: "官方绝限" },
