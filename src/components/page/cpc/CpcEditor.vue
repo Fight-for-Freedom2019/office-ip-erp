@@ -423,12 +423,15 @@ export default {
     getOptions() {
       this.option_action.forEach(i => {
         const success = _ => {
-          let data = _.data[i.data_key].map(item => {
-            return {
-              value: item.id,
-              label: item.name ? item.name : item.serial
-            };
-          });
+          let data = [];
+          for (let j = 0 ;j < _.data[i.data_key].length;j++){
+            let item = _.data[i.data_key][j];
+            if(!item.id) {
+              break;
+            }else {
+              data.push({value: item.id,label: item.name ? item.name : item.serial})
+            }
+          }
           this.options_collection.set(i.map_key, data);
         };
         this.$axiosGet({
