@@ -103,13 +103,13 @@ export default {
             label: "左视图"
           },
           { value: 130001.4, label: "右视图" },
-          { value: 1300015, label: "俯视图" },
+          { value: 130001.5, label: "俯视图" },
           {
-            value: 1300016,
+            value: 130001.6,
             label: "仰视图"
           },
-          { value: 1300017, label: "立体图" },
-          { value: 1300018, label: "使用状态参考图" },
+          { value: 130001.7, label: "立体图" },
+          { value: 130001.8, label: "使用状态参考图" },
           {
             value: 130002,
             label: "简要说明"
