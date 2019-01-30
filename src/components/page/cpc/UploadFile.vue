@@ -57,7 +57,7 @@
           </el-form-item>
         </template>-->
         <el-form-item>
-          <el-button typeof="primary" @click="selectFileType">保存</el-button>
+          <el-button type="primary" size="small" @click="selectFileType">保存</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -461,13 +461,14 @@ export default {
               if (this.userDefined) {
                 item.name = label;
               } else {
-                let reg = /——\[.*?\]/;
+                let reg = /\[.*?\]——/;
                 if (this.revampType === "add") {
-                  item.name += label ? `——[${label}]` : "";
+                  // item.name += label ? `——[${label}]` : "";
+                  item.name = label ? `[${label}]——${item.name}` : "";
                 } else {
                   reg.test(item.name)
-                    ? (item.name = item.name.replace(reg, `——[${label}]`))
-                    : (item.name = label ? `[${label}]-` + label : "");
+                    ? (item.name = item.name.replace(reg, `[${label}]——`))
+                    : (item.name = label ? `[${label}]——${item.name}` : "");
                 }
               }
               item.type = label;
