@@ -714,9 +714,9 @@ export default {
         this.tableData.data.forEach(o => {
           if (o.id === id) {
             if (type === "notice") {
-              resultIds.push(o.project.id);
-            } else {
               resultIds.push(o.task.id);
+            } else {
+              resultIds.push(o.project.id);
             }
           }
         });

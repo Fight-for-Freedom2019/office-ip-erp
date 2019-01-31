@@ -423,12 +423,15 @@ export default {
     getOptions() {
       this.option_action.forEach(i => {
         const success = _ => {
-          let data = _.data[i.data_key].map(item => {
-            return {
-              value: item.id,
-              label: item.name ? item.name : item.serial
-            };
-          });
+          let data = [];
+          for (let j = 0 ;j < _.data[i.data_key].length;j++){
+            let item = _.data[i.data_key][j];
+            if(!item.id) {
+              break;
+            }else {
+              data.push({value: item.id,label: item.name ? item.name : item.serial})
+            }
+          }
           this.options_collection.set(i.map_key, data);
         };
         this.$axiosGet({
@@ -845,7 +848,7 @@ export default {
       this.showAppendFile = true;
     },
     closeDialog(){
-      let dialog = ["offset_dialog","change_content_dialog"];
+      let dialog = ["offset_dialog","change_content_dialog","citations_information_dialog"];
       dialog.forEach((i)=>{
         let self = document.getElementsByClassName(i)[0];
         if(self){
@@ -865,6 +868,18 @@ export default {
       this.formList = [];
       this.submitFileList = [];
       this.submitData.clear();
+      this.copy_form = [
+        100104,
+        1001042,
+        1001043,
+        1001044,
+        1001045,
+        1001046,
+        1001047,
+        1001048,
+        1001049,
+        10010410
+      ],
       this.vm_collection.clear();
       // this.options_collection.clear();
       this.saveRules.clear();

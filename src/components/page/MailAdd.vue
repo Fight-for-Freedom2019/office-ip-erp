@@ -215,6 +215,25 @@ export default {
       };
       this.$axiosGet({ url, data, success });
     },
+
+    loadBatchTemplateMail(scene, id) {
+      this.title = "发送" + scene + "邮件";
+      const mail_scene = sceneMap.get(scene);
+      this.mail_scene = mail_scene;
+      console.log(this.mail_scene);
+      const data = { id, mail_scene };
+      const url = `/mail/tasks`;
+      const success = _ => {
+        const mail = _.data;
+        this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });
+        this.form.subject = mail.subject;
+        this.attachments = _.attachments ? _.attachments : [];
+        this.loadingVisible = false;
+      };
+      this.$axiosGet({ url, data, success });
+    },
+
+
     loadMail(id) {
       this.title = "邮件详情";
       const url = `/mails/` + id;
@@ -226,7 +245,7 @@ export default {
       };
       this.$axiosGet({ url, success });
     },
-    show(scene, id) {
+    show(scene, id, batch) {
       this.id = id;
       this.dialogVisible = true;
       if (scene == "add") {
@@ -235,7 +254,9 @@ export default {
       this.loadingVisible = true;
       if (scene === "view") {
         this.loadMail(id);
-      } else {
+      } else if(batch){
+        this.loadBatchTemplateMail(scene, id);
+      }else {
         this.loadTemplateMail(scene, id);
       }
     },
