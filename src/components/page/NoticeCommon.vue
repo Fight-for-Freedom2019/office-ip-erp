@@ -60,7 +60,7 @@ export default {
           // { type: 'batch_upload', label: '一般通知书上传' },
           { type: "control", label: "字段" },
           // TODO 加权限,绑定到当前页面
-          { type: 'dropdown', label: '官文通知',
+          { type: 'dropdown', label: '官文通知',map_if:"/patent/notice",
             items: [
               {
                 text: "普通官文",
