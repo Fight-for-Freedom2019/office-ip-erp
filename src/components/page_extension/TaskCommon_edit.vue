@@ -340,6 +340,7 @@ export default {
           date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline',
           'internal_final_edition_time','customer_edition_time','filing_time','customer_final_edition_time'],
         })
+        this.form.user = this.row.task.user;
         if(this.row && this.row.task && this.row.task.process_action) {
           this.$nextTick(_=>{
           this.form.process_action = this.row.task.process_action['id'];
