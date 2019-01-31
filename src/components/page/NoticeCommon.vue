@@ -112,6 +112,14 @@ export default {
             is_import: true,
             render_header: true
           },
+          { type: 'text', label: '操作', prop: 'downloadUrl', width: '110', render:(h,item,row)=>{
+            return (
+              <span>
+              {row.is_view ? <a target="_blank" href={row.viewUrl}>查看</a> : ''}
+              <a target="_blank" style="margin-left: 5px;" href={row.downloadUrl}>下载</a>
+              </span>
+              )
+          }},
           {
             type: "text",
             label: "案件名称",
@@ -180,28 +188,28 @@ export default {
           // { type: 'text', label: '审查部门', prop: 'examiner_dept', width: '200' },
           // { type: 'text', label: '处理状态', prop: 'status', width: '200' },
           // { type: 'text', label: '备注', prop: 'remark', width: '200' },
-          {
-            type: "action",
-            label: "操作",
-            width: "100",
-            // fixed: false,
-            btns: [
-              {
-                type: "view",
-                btn_type: "text",
-                click: ({ viewUrl }) => {
-                  window.open(viewUrl);
-                }
-              },
-              {
-                type: "download",
-                btn_type: "text",
-                click: ({ downloadUrl }) => {
-                  window.open(downloadUrl);
-                }
-              }
-            ]
-          }
+          // {
+          //   type: "action",
+          //   label: "操作",
+          //   width: "100",
+          //   fixed: false,
+          //   btns: [
+          //     {
+          //       type: "view",
+          //       btn_type: "text",
+          //       click: ({ viewUrl }) => {
+          //         window.open(viewUrl);
+          //       }
+          //     },
+          //     {
+          //       type: "download",
+          //       btn_type: "text",
+          //       click: ({ downloadUrl }) => {
+          //         window.open(downloadUrl);
+          //       }
+          //     }
+          //   ]
+          // }
         ],
         import_columns: [
           // {

@@ -69,7 +69,7 @@
           ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
+              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
                 <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
@@ -92,7 +92,7 @@
           ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
+              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
                 <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
@@ -115,7 +115,7 @@
           ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
+              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
                 <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
@@ -138,7 +138,7 @@
           ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
+              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
                 <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
@@ -163,7 +163,7 @@
           ><!--:render-header="col.render_header ? handleRenderHeader:null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
+              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
                 <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
@@ -189,7 +189,7 @@
           ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
+              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
                 <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
@@ -217,7 +217,7 @@
         ><!--:render-header="col.render_header ? handleRenderHeader:null"-->
           <template slot="header" slot-scope="scope">
             <span>{{col.label}}</span>
-            <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]"  @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
+            <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
               <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
               <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
             </el-popover>
@@ -670,11 +670,11 @@ export default {
       }
     },
     showPopover(property){
-      // console.log("property",property);
-      // this.showFilterPopover = true;
-      this.filterComponent[property] = true;
-      this.activePop = property;
-      this.filterComponentPopover[property] = true;
+        // console.log("property",property);
+        // this.showFilterPopover = true;
+        this.filterComponent[property] = true;
+        this.activePop = property;
+        this.filterComponentPopover[property] = true;
     },
     order(val){
       this.$emit("order",val);

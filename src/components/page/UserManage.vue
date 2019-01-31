@@ -30,10 +30,12 @@ export default {
   data() {
     return {
       option: {
+        url: URL,
         name: "userManage",
         height: "userManage",
         is_pagination: false,
         // 'is_search': false,
+        rowClick: this.handleRowClick,
         list_type: "user_manage",
         header_btn: [
           {
@@ -42,7 +44,8 @@ export default {
             click: () => {
               this.addShrink();
             }
-          }
+          },
+          {type: 'delete'}
         ],
         columns: [
           { type: "selection" },
@@ -144,21 +147,21 @@ export default {
             prop: "creation_time",
             width: "110"
           },
-          {
-            type: "action",
-            label: "操作",
-            width: "100",
-            align: "center",
-            btns: [
-              {
-                type: "edit",
-                click: row => {
-                  this.editShrink(row);
-                }
-              },
-              { type: "delete", click: this.deleteSingle }
-            ]
-          }
+          // {
+          //   type: "action",
+          //   label: "操作",
+          //   width: "100",
+          //   align: "center",
+          //   btns: [
+          //     {
+          //       type: "edit",
+          //       click: row => {
+          //         this.editShrink(row);
+          //       }
+          //     },
+          //     { type: "delete", click: this.deleteSingle }
+          //   ]
+          // }
         ]
       },
       tableData: [],
@@ -182,6 +185,9 @@ export default {
     handleRefresh() {
       this.refresh();
     },
+    handleRowClick(row) {
+       this.editShrink(row);
+    },
     refreshTableData(option) {
       const url = URL;
       const data = Object.assign({}, option, { listRows: 10000 });
@@ -196,15 +202,16 @@ export default {
       };
       this.$axiosGet({ url, data, success });
     },
-    deleteSingle({ user_name, id }) {
-      const url = `${URL}/${id}`;
+    deleteSingle(e, s) {
+      console.log(s)
+      const url = `${URL}/${s[0].id}`;
       const success = _ => {
         this.$message({ message: "删除用户成功！", type: "success" });
         this.refresh();
       };
 
       this.$confirm(
-        `删除后不可恢复，确认删除用户‘${user_name}’？`,
+        `删除后不可恢复，确认删除用户‘${s[0].user_name}’？`,
         "删除确认",
         { type: "warning" }
       )
