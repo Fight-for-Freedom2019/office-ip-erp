@@ -163,7 +163,7 @@ export default {
       return new Promise(reject => {
         let message = "";
         const mobile = this.form.phone_number;
-        let mobileReg = /(^[0-9]{3,4}\-[0-9]{7,8})$|(^[0-9]{3,4}\-[0-9]{7,8})(-\d{1,6}?$)|^1[3|4|5|7|8][0-9]{9}$/;
+        let mobileReg = /(^[0-9]{3,4}\-[0-9]{7,8})$|(^[0-9]{3,4}\-[0-9]{7,8})(-\d{1,6}?$)|^1[3|4|5|7|8|9][0-9]{9}$/;
         if (mobile !== "" && !mobileReg.test(mobile)) {
           message = "手机格式错误！";
         }

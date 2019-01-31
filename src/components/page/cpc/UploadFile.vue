@@ -37,6 +37,8 @@
       :visible="showFileTypeList"
       title="选择文件类型"
       :modal="false"
+      width="40%"
+      top="6vh"
       :close-on-click-modal="false"
       :before-close="beforeClose"
     >
