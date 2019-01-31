@@ -86,7 +86,23 @@ export default {
         ],
         columns: [
           { type: "selection" },
-          { type: "text", label: "通知书ID", prop: "cpc_id", min_width: "140" },
+          {
+            type: "text",
+            label: "发文日",
+            prop: "cpc_mail_date",
+            render_header: true,
+            min_width: "100"
+          },
+          {
+            type: "text",
+            label: "客户",
+            prop: "customer",
+            render_simple: "name",
+            render_obj: "project",
+            render_header: true,
+            min_width: "200"
+          },
+          { type: "text", label: "通知书ID", prop: "cpc_id", min_width: "145" },
           {
             type: "text",
             label: "通知书代码",
@@ -100,13 +116,7 @@ export default {
             render_simple: "name",
             min_width: "150"
           },
-          {
-            type: "text",
-            label: "发文日",
-            prop: "cpc_mail_date",
-            render_header: true,
-            min_width: "100"
-          },
+
           {
             type: "text",
             label: "发文序列号",

@@ -713,14 +713,11 @@ export default {
       ids.forEach(id => {
         this.tableData.data.forEach(o => {
           if (o.id === id) {
-            if (type === "notice") {
-              resultIds.push(o.task.id);
-            } else {
-              resultIds.push(o.project.id);
-            }
+            resultIds.push(o.task.id);
           }
         });
       });
+      return;
       this.batchOperationIds = resultIds;
       this.$nextTick(() => {
         this.$refs.batchOperation.show();
