@@ -75,7 +75,7 @@
       handleData(){
         let data = Object.assign({},this.form);
         if(data.update_field !== "no") {
-          data.update_field = {[data.update_field]:data.placeholder}
+          data.update_field = {[data.update_field]:data.placeholder[0]}
         }else {
           data.update_field = {};
         }
