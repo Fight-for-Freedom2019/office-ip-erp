@@ -73,17 +73,25 @@
         },
         handleUploadSuccess (p, f, fl) {
           // console.log(fl);
-          console.log(this.value)
+          let file_ids;
           if(p.status) {
+            const arr = [];
             const id = p.data.file.id;
             const copy = [...this.value];
-            
             f.id = id;
             f.downloadUrl = p.data.file.downloadUrl;
             copy.push(id);
             this.uploadList=fl;
             this.$emit('input', copy);
-
+            this.$nextTick(_=>{
+              file_ids = this.$tool.splitObj(fl, 'id');
+              file_ids.forEach(v=>{
+                if(arr[v]) {
+                  this.$message({message: '有重复的文件,请核对是否正确', type: 'warning'});
+                }
+                arr[v] = true;
+              })
+            })
           }else {
             this.$message({message:p.info, type: 'warning'});
             this.uploadList.splice(fl.length,1);
