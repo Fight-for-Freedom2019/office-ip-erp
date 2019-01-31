@@ -6,6 +6,7 @@
       @refreshTableData="refreshTableData"
       ref="table"
     ></table-component>
+    <mail-add ref="mailAdd"></mail-add>
   </div>
 </template>
 
@@ -13,6 +14,7 @@
 import TableComponent from "@/components/common/TableComponent";
 import Strainer from "@/components/page_extension/NoticeCommon_strainer";
 import AxiosMixins from "@/mixins/axios-mixins";
+import MailAdd from "@/components/page/MailAdd";
 
 const config = [
   [
@@ -56,8 +58,40 @@ export default {
           { type: "export" },
           // { type: 'import', label: 'CPC通知书导入' },
           // { type: 'batch_upload', label: '一般通知书上传' },
-          { type: "control", label: "字段" }
-          // { type: 'custom', label: '上传', icon: '', click: ()=>{alert("上传")} },
+          { type: "control", label: "字段" },
+          // TODO 加权限,绑定到当前页面
+          { type: 'dropdown', label: '官文通知',
+            items: [
+              {
+                text: "普通官文",
+                click: () => {
+                  this.showBatchOperation("普通官文");
+                },
+                // icon: "arrow-right"
+              },
+              {
+                text: "审查意见通知书",
+                click: () => {
+                  this.showBatchOperation("审查意见通知书");
+                },
+                // icon: "arrow-right"
+              },
+              {
+                text: "复审",
+                click: () => {
+                  this.showBatchOperation("复审");
+                },
+                // icon: "arrow-right"
+              },
+              {
+                text: "办理登记",
+                click: () => {
+                  this.showBatchOperation("办理登记");
+                },
+                // icon: "arrow-right"
+              },
+            ]
+          },
           // { type: 'custom', label: '批量上传', icon: '', click: ()=>{alert("批量上传")}},
         ],
         height: "default",
@@ -260,7 +294,18 @@ export default {
       };
 
       this.axiosGet({ url, data, success });
-    }
+    },
+    showBatchOperation(scene){
+      const s = this.$refs.table.getSelect(true);
+      if (s.length == 0) {
+        return this.$message({
+          message: "请选择需要批量操作的列表项",
+          type: "warning"
+        });
+      }
+      const ids = this.$tool.splitObj(s, "id");
+      this.$refs.mailAdd.show(scene,ids);
+    },
   },
   created() {
     this.tableOption.import_type = this.config.import_type;
@@ -273,7 +318,8 @@ export default {
   },
   components: {
     TableComponent,
-    Strainer
+    Strainer,
+    MailAdd,
   }
 };
 </script>
