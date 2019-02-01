@@ -38,7 +38,7 @@ export default {
       tableOption: {
         is_search: false,
         is_pagination: false,
-        is_border: false,
+        is_border: true,
         columns: [
           { type: "text", label: "附件名称", prop: "name" },
           { type: "text", label: "附件格式", prop: "ext" },
@@ -46,6 +46,7 @@ export default {
           {
             type: "action",
             label: "详情",
+            fixed: false,
             btns: [
               {
                 type: "view",
