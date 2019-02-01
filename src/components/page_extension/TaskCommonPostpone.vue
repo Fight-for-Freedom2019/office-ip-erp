@@ -111,7 +111,7 @@ export default {
       
       if (mode == "add") {
         this.title = "申请延期";
-        this.form.days = "";
+        this.form.deadline = "";
         this.form.attachments = [];
         this.form.remark = "";
         this.attachments = [];
