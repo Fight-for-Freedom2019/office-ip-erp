@@ -183,7 +183,8 @@ const otherForm = [
   ["100005", "摘要附图"],
   ["100042", "修改对照页"],
   ["100108", "其他证明文件"],
-  ["100125", "原文"]
+  ["100125", "原文"],
+  ["100118", "原案申请副本"],
 ];
 export default {
   name: "CpcEditor",
@@ -617,6 +618,7 @@ export default {
     // 设置select打开下拉框事件，因为渲染函数on事件不支持修饰符，所以现在需要频繁请求，解决方法是使用缓存
     // 现改为打开cpc表单之前获取所有的select option数据
     setSelectData(item) {
+      if(!item.url) return
       let func = bool => {
         bool
           ? this.querySelectData(item.url, item.DATA_KEY).then(d => {
@@ -637,7 +639,7 @@ export default {
     querySelectData(url, key) {
       return new Promise((resolve, reject) => {
         const success = _ => {
-          console.log("联系人", _);
+          // console.log("联系人", _);
           let data = _.data[key].map(item => {
             return {
               value: { id: item.id, label: item.name },
