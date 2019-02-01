@@ -804,6 +804,7 @@ export default {
       let data = {};
       data.tables = this.handleSubmit(this.submitData);
       Object.assign(data.tables, this.handleSubmitFile());
+      data = JSON.stringify(data);
       this.save_type === "add" ? (data.task_id = this.task_id) : "";
       const success = _ => {
         this.$message({ type: "success", message: "保存成功!" });
@@ -897,7 +898,7 @@ export default {
       // console.time("耗时")
       this.clear();
       const success = _ => {
-        this.data = _.data.tables;
+        this.data = JSON.parse(_.data.tables);
         if (_.data.id) {
           this.save_type = "edit";
         } else {
