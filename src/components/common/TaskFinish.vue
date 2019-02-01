@@ -24,11 +24,13 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="节点期限">
-                <span class="form-item-text">{{ processData.task != undefined ? processData.task.deadline : '' }}</span>
+                <span
+                  class="form-item-text"
+                >{{ processData.task != undefined ? processData.task.deadline : '' }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-                <el-form-item label="管制期限">
+              <el-form-item label="管制期限">
                 <span class="form-item-text">{{ row.filing_deadline }}</span>
               </el-form-item>
             </el-col>
@@ -102,9 +104,13 @@
               :data="processData.task.attachments"
             ></app-table>
             <!-- <span v-if="processData.task.attachments.length == 0">无附件</span> -->
-            <upload :value="supplement" @input="handleUpload" :show-file-list="false" style="height: 40px;"></upload>
+            <upload
+              :value="supplement"
+              @input="handleUpload"
+              :show-file-list="false"
+              style="height: 40px;"
+            ></upload>
           </el-form-item>
-            
         </el-form>
       </el-collapse-item>
       <el-collapse-item title="任务处理" name="2">
@@ -120,9 +126,6 @@
           :data="data"
           ref="appForm"
         >
-          <el-form-item label="节点描述" v-if="tips">
-            <span style="display:inline-block;line-height:40px;">{{ tips }}</span>
-          </el-form-item>
           <el-form-item label="审核意见" v-if="is_review">
             <app-radio
               v-model="review_opinion"
@@ -132,6 +135,10 @@
               :label="item.label"
               @change="checkRadio"
             >{{ item.label }}</app-radio>
+          </el-form-item>
+          <el-form-item label="节点描述" v-if="tips">
+            <span style="display:inline-block;line-height:40px;">{{ tips }}</span>
+            <span style="display:inline-block;line-height:40px;color:#409eff;">{{ userTips }}</span>
           </el-form-item>
           <template slot="app-button">
             <el-form-item style="margin-bottom: 0px;" v-if="isShowSubmitBtn">
@@ -195,6 +202,8 @@ export default {
       detailMap: {},
       task_id: "",
       supplement: [],
+      next: [],
+      opinion_type: "pass",
       isShowPatentMailBtn: false,
       tips: "",
       activeName: ["1", "2"],
@@ -205,14 +214,14 @@ export default {
       tasksData: "",
       form: {},
       columns: [
-        { type: "text", label: "附件名称", prop: "name", overflow: false,},
-        { type: "text", label: "附件格式", prop: "ext", width: '80', },
-        { type: "text", label: "附件大小 ", prop: "size", width: '80', },
+        { type: "text", label: "附件名称", prop: "name", overflow: false },
+        { type: "text", label: "附件格式", prop: "ext", width: "80" },
+        { type: "text", label: "附件大小 ", prop: "size", width: "80" },
         {
           type: "action",
           label: "详情",
           fixed: false,
-          width: '175',
+          width: "175",
           btns: [
             {
               type: "view",
@@ -254,21 +263,25 @@ export default {
       console.log("finish panel shown " + this.row.id);
       // this.refreshData();
     },
-    handleUpload (val) {
+    handleUpload(val) {
       this.supplement = val;
       const url = `/tasks/${this.taskId}/files`;
       let list_attachments = [];
-      if(this.processData.attachments) {
-         list_attachments = this.$tool.splitObj(this.processData.attachments, 'id');
+      if (this.processData.attachments) {
+        list_attachments = this.$tool.splitObj(
+          this.processData.attachments,
+          "id"
+        );
       }
       const attachments = [...this.supplement, ...list_attachments];
       const data = { attachments };
-      const success = _=>{
-        this.$message({ type: 'success', message: '上传附件成功'});
-        this.refreshProcessDetail({id: this.id})
+      const success = _ => {
+        this.$message({ type: "success", message: "上传附件成功" });
+        this.refreshProcessDetail({ id: this.id });
       };
-      this.$axiosPut({url , data, success});
+      this.$axiosPut({ url, data, success });
     },
+
     refreshData() {
       this.loading = true;
       const list = [
@@ -292,6 +305,8 @@ export default {
         if (response.review_opinion && response.review_opinion.length != 0) {
           this.review_opinion = response.review_opinion[0];
         }
+        //提示信息
+        this.next = response.next;
         this.tips = response.remark;
         this.appFormRules = {};
         if (response.forms && response.forms.length != 0) {
@@ -380,7 +395,9 @@ export default {
     handleForm(val) {
       this.form = val;
     },
-    checkRadio(val) {},
+    checkRadio(val) {
+      this.opinion_type = val;
+    },
     refreshDetail() {
       this.loading = true;
     }
@@ -393,22 +410,32 @@ export default {
     //   immediate: true,
     // },
     taskId: {
-      handler (val) {
-        console.log(val)
-        if(val) {
+      handler(val) {
+        console.log(val);
+        if (val) {
           this.refreshData();
         }
-      },
+      }
       // immediate: true,
-    },
+    }
   },
   computed: {
-    ...mapGetters(["menusMap",]),
+    ...mapGetters(["menusMap"]),
     taskId() {
       return this.process.task.id;
     },
-    processData () {
+    processData() {
       return this.process;
+    },
+    userTips() {
+      if (this.next.length == 0) {
+        return "";
+      }
+      const o = this.next[this.opinion_type];
+      if (o == undefined) {
+        return "";
+      }
+      return "下一节点：" + o.action.name + " 承办人：" + o.user.name;
     },
     isShowSubmitBtn() {
       if (
@@ -424,21 +451,28 @@ export default {
       }
     },
     actionName() {
-      return this.processData.task && this.processData.task.process_action != null
+      return this.processData.task &&
+        this.processData.task.process_action != null
         ? this.processData.task.process_action.name
         : "";
     },
     assistantName() {
-      return this.processData.assistant != null ? this.processData.assistant.name : "";
+      return this.processData.assistant != null
+        ? this.processData.assistant.name
+        : "";
     },
     userName() {
-      return this.processData.task.user != null ? this.processData.task.user.name : "";
+      return this.processData.task.user != null
+        ? this.processData.task.user.name
+        : "";
     },
     agentName() {
       return this.processData.agent != null ? this.processData.user.name : "";
     },
     customerSerial() {
-      return this.processData.project != null ? this.processData.project.customer_serial : "";
+      return this.processData.project != null
+        ? this.processData.project.customer_serial
+        : "";
     },
     iprName() {
       return this.processData.ipr != null ? this.processData.ipr.name : "";
