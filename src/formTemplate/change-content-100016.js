@@ -437,6 +437,7 @@ function vm() {
         let remove = this.data.splice(index, 1);
         // console.log(remove);
         this.deleteData(remove[0].custom_id);
+        this.translationData();
         // console.log("data",this.data);
         this.mergeData()
       },
@@ -559,6 +560,7 @@ function vm() {
             }
           }
         }
+        this.translationData();
         this.custom_id = custom_id;
         //console.log(this.data);
         this.mergeData()
