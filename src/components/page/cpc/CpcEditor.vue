@@ -183,7 +183,8 @@ const otherForm = [
   ["100005", "摘要附图"],
   ["100042", "修改对照页"],
   ["100108", "其他证明文件"],
-  ["100125", "原文"]
+  ["100125", "原文"],
+  ["100118", "原案申请副本"],
 ];
 export default {
   name: "CpcEditor",
@@ -280,7 +281,7 @@ export default {
         {
           url: "/agencies?listRows=1000000",
           data_key: "data",
-          map_key: "agency"
+          map_key: ["agency","agencies"]
         }
       ],
       verifyConfig: {
@@ -432,7 +433,13 @@ export default {
               data.push({value: item.id,label: item.name ? item.name : item.serial})
             }
           }
-          this.options_collection.set(i.map_key, data);
+          if(i.map_key instanceof Array) {
+            i.map_key.forEach((s)=>{
+              this.options_collection.set(s, data);
+            })
+          }else {
+            this.options_collection.set(i.map_key, data);
+          }
         };
         this.$axiosGet({
           url: i.url,
@@ -611,6 +618,7 @@ export default {
     // 设置select打开下拉框事件，因为渲染函数on事件不支持修饰符，所以现在需要频繁请求，解决方法是使用缓存
     // 现改为打开cpc表单之前获取所有的select option数据
     setSelectData(item) {
+      if(!item.url) return
       let func = bool => {
         bool
           ? this.querySelectData(item.url, item.DATA_KEY).then(d => {
@@ -631,7 +639,7 @@ export default {
     querySelectData(url, key) {
       return new Promise((resolve, reject) => {
         const success = _ => {
-          console.log("联系人", _);
+          // console.log("联系人", _);
           let data = _.data[key].map(item => {
             return {
               value: { id: item.id, label: item.name },
@@ -796,6 +804,7 @@ export default {
       let data = {};
       data.tables = this.handleSubmit(this.submitData);
       Object.assign(data.tables, this.handleSubmitFile());
+      data.tables = JSON.stringify(data.tables);
       this.save_type === "add" ? (data.task_id = this.task_id) : "";
       const success = _ => {
         this.$message({ type: "success", message: "保存成功!" });
@@ -889,7 +898,7 @@ export default {
       // console.time("耗时")
       this.clear();
       const success = _ => {
-        this.data = _.data.tables;
+        this.data = JSON.parse(_.data.tables);
         if (_.data.id) {
           this.save_type = "edit";
         } else {
