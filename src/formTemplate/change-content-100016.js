@@ -58,7 +58,7 @@ function vm() {
                         ></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="serialLabel" v-if="form.type === 'applicant'||form.type === 'inventor'">
+                <el-form-item :label="serialLabel" v-if="form.type === 'applicant'||form.type === 'inventor'||form.type === 'priority'">
                     <el-select v-model="form.no">
                         <el-option v-for="item in [1,2,3,4,5,6,7,8,9,10]"
                                    :label="item"
@@ -252,6 +252,12 @@ function vm() {
         agency: [],
         agent: [],
         contact: [],
+        priority: [],
+        title:"",
+        appinfo:0,
+        transfer_right:0,
+        agency_change:0,
+        agency_notchange:0,
       },
       data: [],
       typeArr: [
@@ -260,6 +266,7 @@ function vm() {
         {value: 'agency', label: '代理机构'},
         {value: 'agent', label: '代理人'},
         {value: 'contact', label: '联系人'},
+        {value: 'priority', label: '优先权'},
       ],
       leixin: [
         {value: 1, label: '转移'},
@@ -311,6 +318,11 @@ function vm() {
         {value: 'gg_zlx_lxr:lianxiryb', label: '联系人地址'},
         {value: 'gg_zlx_lxr:lianxirdz', label: '联系人电话'},
         {value: 'gg_zlx_lxr:lianxircz', label: '联系人传真'},
+      ],
+      priority_code: [
+        {value: 'gg_zlx_yxq:zaixiansqh', label: '在先申请号'},
+        {value: 'gg_zlx_yxq:zaixiansqgb', label: '在先申请国别'},
+        {value: 'gg_zlx_yxq:zaixiansqrq', label: '在先申请日期'},
       ],
       applicant_type: [
         {value: 3, label: '工矿企业'},
@@ -391,6 +403,9 @@ function vm() {
           case 'contact':
             arr = this.contact_code
             break
+          case 'priority':
+            arr = this.priority_code
+            break
         }
         return arr
       },
@@ -400,6 +415,8 @@ function vm() {
           str = '申请人序号'
         } else if (this.form.type === 'inventor') {
           str = '发明人序号'
+        } else if (this.form.type === 'priority') {
+          str = '优先权序号'
         }
         return str
       }
@@ -424,14 +441,15 @@ function vm() {
         this.mergeData()
       },
       deleteData(id){
-        console.log(id);
         for(let key in this.extendData){
           if(this.extendData.hasOwnProperty(key)){
-            this.extendData[key].forEach((i,index)=>{
-              if(i.custom_id === id) {
-                this.extendData[key].splice(index,1);
-              }
-            })
+            if(this.extendData[key] instanceof Array) {
+              this.extendData[key].forEach((i,index)=>{
+                if(i.custom_id === id) {
+                  this.extendData[key].splice(index,1);
+                }
+              })
+            }
           }
         }
       },
@@ -451,7 +469,8 @@ function vm() {
             this.form.field = this.getField({type, code})
             this.form.before = this.getField({target: code, code: this.form.before_code})
             this.form.after = this.getField({target: code, code: this.form.after_code})
-            this.extendData[this.form.type].push(this.form)
+            this.extendData[this.form.type].push(this.form);
+            this.translationData();
             this.data.push(this.convertData(this.form));
             this.mergeData();
             this.controlDialog("none");
@@ -460,6 +479,12 @@ function vm() {
           }
         })
 
+      },
+      translationData(){
+        this.extendData.appinfo = this.extendData.applicant.length > 0 ? 1 : 0;
+        this.extendData.transfer_right = this.extendData.applicant.length > 0 && this.extendData.appinfo === 0 ? 1 : 0;
+        this.extendData.agency_change = this.extendData.transfer_right ? 1 : 0;
+        this.extendData.agency_notchange = this.extendData.transfer_right ? 0 : 1;
       },
       convertData(source) {
         let table_data_type;
@@ -524,12 +549,14 @@ function vm() {
         let custom_id = 0;
         for (let key in this.extendData) {
           if (this.extendData.hasOwnProperty(key)) {
-            this.extendData[key].forEach((item) => {
-              if(item.custom_id > custom_id){
-                custom_id = item.custom_id;
-              }
-              this.data.push(this.convertData(item));
-            })
+            if(this.extendData[key] instanceof Array) {
+              this.extendData[key].forEach((item) => {
+                if(item.custom_id > custom_id){
+                  custom_id = item.custom_id;
+                }
+                this.data.push(this.convertData(item));
+              })
+            }
           }
         }
         this.custom_id = custom_id;

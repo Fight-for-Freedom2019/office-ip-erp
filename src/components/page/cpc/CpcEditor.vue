@@ -280,7 +280,7 @@ export default {
         {
           url: "/agencies?listRows=1000000",
           data_key: "data",
-          map_key: "agency"
+          map_key: ["agency","agencies"]
         }
       ],
       verifyConfig: {
@@ -432,7 +432,13 @@ export default {
               data.push({value: item.id,label: item.name ? item.name : item.serial})
             }
           }
-          this.options_collection.set(i.map_key, data);
+          if(i.map_key instanceof Array) {
+            i.map_key.forEach((s)=>{
+              this.options_collection.set(s, data);
+            })
+          }else {
+            this.options_collection.set(i.map_key, data);
+          }
         };
         this.$axiosGet({
           url: i.url,

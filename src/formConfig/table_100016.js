@@ -48,7 +48,7 @@ let rule = [
         }
     },
     {
-        type: "select", title: "代理机构", field: "agency", value: []
+        type: "select", title: "代理机构", field: "agencies", value: []
     },
     change_reason_vm("变更原因"),
     change_content_vm(),
