@@ -103,16 +103,17 @@ export default {
       rules: {
         roles: {
           type: "array",
-          required: false,
+          required: true,
           message: "请输入用户组",
           trigger: "change"
         },
         organization_units: {
           type: "array",
-          required: false,
+          required: true,
           message: "请输入部门",
           trigger: "change"
         },
+        password: { required: true, message: '请输入密码', trigger: 'blur' },
         user_name: [
           { required: true, message: "请输入用户名称", trigger: "blur" }
         ],
@@ -122,7 +123,7 @@ export default {
             pattern: /^[A-Za-z0-9]+([._\\-]*[A-Za-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
             message: "邮件地址格式不正确",
             trigger: "blur",
-            required: false
+            required: true
           }
         ]
       }
