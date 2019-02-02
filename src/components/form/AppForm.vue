@@ -81,7 +81,12 @@
         </template>
         <template v-else-if="item.components == 'upload'">
           <el-form-item :label="item.name" :prop="item.key" :key="index">
-            <upload ref="upload" v-model="form[item.key]" :fileList="attachment[item.key]" @input="handleInput"></upload>
+            <upload
+              ref="upload"
+              v-model="form[item.key]"
+              :fileList="attachment[item.key]"
+              @input="handleInput"
+            ></upload>
           </el-form-item>
         </template>
         <template v-else-if="item.components == 'panel'">
@@ -249,9 +254,9 @@ export default {
       isDetailEnabled: true,
       type: "",
       conditions: {},
-      attachment:{
-        attachments:[],
-      },
+      attachment: {
+        attachments: []
+      }
     };
   },
   computed: {
@@ -263,7 +268,7 @@ export default {
     }
   },
   methods: {
-    turnArchivesFile(file){
+    turnArchivesFile(file) {
       this.attachment.attachments.push(file);
       this.form.attachments.push(file.id);
     },
@@ -316,7 +321,7 @@ export default {
           this.$refs.renewal_fee.show("edit", this.row);
           break;
         case "postpone":
-          this.$refs.postpone.show("edit", this.row.model_id);
+          this.$refs.postpone.show("edit", this.row.id);
           break;
       }
     },

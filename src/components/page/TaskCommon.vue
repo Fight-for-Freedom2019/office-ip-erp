@@ -343,6 +343,13 @@ export default {
           {
             type: "text",
             prop: "entrusting_time",
+            label: "委案日",
+            render_header: true,
+            width: "100"
+          },
+          {
+            type: "text",
+            prop: "project.creation_time",
             label: "立案日",
             render_header: true,
             width: "100"
@@ -717,7 +724,6 @@ export default {
           }
         });
       });
-      return;
       this.batchOperationIds = resultIds;
       this.$nextTick(() => {
         this.$refs.batchOperation.show();

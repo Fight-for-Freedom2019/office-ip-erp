@@ -283,7 +283,6 @@ export default {
     },
 
     refreshData() {
-      this.loading = true;
       const list = [
         "cpc_editor",
         "order_detail",
@@ -411,6 +410,7 @@ export default {
     // },
     taskId: {
       handler(val) {
+        this.loading = true;
         console.log(val);
         if (val) {
           this.refreshData();

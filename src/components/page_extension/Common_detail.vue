@@ -116,32 +116,31 @@
         <el-tab-pane label="评审记录" name="review" v-if="type == 'patent'">
           <review></review>
           </el-tab-pane>-->
-          <el-tab-pane label="审查" name="review_records" v-if="type == 'patent'">
+          <!-- <el-tab-pane label="审查" name="review_records" v-if="type == 'patent'">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
               <defence></defence>
             </div>
-          </el-tab-pane>
-
+          </el-tab-pane>-->
           <el-tab-pane label="动态" name="work_change">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
               <detail-amendments></detail-amendments>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="提醒" name="remind" v-if="type == 'patent'">
+          <!-- <el-tab-pane label="提醒" name="remind" v-if="type == 'patent'">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
               <remind></remind>
             </div>
-          </el-tab-pane>
-          <el-tab-pane label="评审" name="judge" v-if="type == 'patent'">
+          </el-tab-pane>-->
+          <!-- <el-tab-pane label="评审" name="judge" v-if="type == 'patent'">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
               <judge :id="id"></judge>
             </div>
-          </el-tab-pane>
-          <el-tab-pane label="委案记录" name="history">
+          </el-tab-pane>-->
+          <!-- <el-tab-pane label="委案记录" name="history">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
               <agencies></agencies>
             </div>
-          </el-tab-pane>
+          </el-tab-pane>-->
         </el-tabs>
       </div>
     </app-shrink>
@@ -428,7 +427,7 @@ export default {
       } else {
         this.$emit("update:visibleAuth", false);
       }
-    },
+    }
     // detailBase() {
     //   const ref = this.$refs[this.type];
     //   console.log(ref)

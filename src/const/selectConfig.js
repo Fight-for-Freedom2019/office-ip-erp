@@ -5,82 +5,70 @@ const config = [
     {
       placeholder: "请选择文档种类",
       options: [
-        {name: '一种文档',id: 1},
-        {name: '二种文档',id: 2},
-        {name: '三种文档',id: 3},
-        {name: '四种文档',id: 4},
-        {name: '五种文档',id: 5},
-        {name: '六种文档',id: 6},
-        {name: '七种文档',id: 7},
-        {name: '八种文档',id: 8},
-        {name: '九种文档',id: 9},
-        {name: '十种文档',id: 10},
+        { name: "一种文档", id: 1 },
+        { name: "二种文档", id: 2 },
+        { name: "三种文档", id: 3 },
+        { name: "四种文档", id: 4 },
+        { name: "五种文档", id: 5 },
+        { name: "六种文档", id: 6 },
+        { name: "七种文档", id: 7 },
+        { name: "八种文档", id: 8 },
+        { name: "九种文档", id: 9 },
+        { name: "十种文档", id: 10 }
       ]
     }
-  ],   
+  ],
   [
     "deposition_manner",
     {
       placeholder: "请选择交存方式",
       options: [
-        {name: '使用黑色宽斜线覆盖',id: 1},
-        {name: '前10页和任选连续的50页',id: 2},
-        {name: '目前程序的连续前、后各30页和源程序任选连续的20页',id: 3},
+        { name: "使用黑色宽斜线覆盖", id: 1 },
+        { name: "前10页和任选连续的50页", id: 2 },
+        { name: "目前程序的连续前、后各30页和源程序任选连续的20页", id: 3 }
       ]
     }
-  ],   
+  ],
   [
     "develop_mode",
     {
       placeholder: "请选择开发模式",
       options: [
-        {name: '独立开发', id: 1},
-        {name: '合作开发', id: 2},
-        {name: '委托开发', id: 3},
-        {name: '下达任务开发', id: 4},
+        { name: "独立开发", id: 1 },
+        { name: "合作开发", id: 2 },
+        { name: "委托开发", id: 3 },
+        { name: "下达任务开发", id: 4 }
       ]
     }
-  ],  
+  ],
   [
     "deposition_material",
     {
       placeholder: "请选择软件鉴别材料",
-      options: [
-        {name: '一般交存',id: 1},
-        {name: '例外交存',id: 2},
-      ]
+      options: [{ name: "一般交存", id: 1 }, { name: "例外交存", id: 2 }]
     }
-  ],   
+  ],
   [
     "right_scope",
     {
       placeholder: "请选择权利范围",
-      options: [
-        {name: '全部',id: 1},
-        {name: '部分',id: 2},
-      ]
+      options: [{ name: "全部", id: 1 }, { name: "部分", id: 2 }]
     }
-  ],   
+  ],
   [
     "right_acquisition_method",
     {
       placeholder: "请选择权利取得方式",
-      options: [
-        {name: '原始取得',id: 1},
-        {name: '继受取得',id: 2},
-      ]
+      options: [{ name: "原始取得", id: 1 }, { name: "继受取得", id: 2 }]
     }
-  ],   
+  ],
   [
     "original_flag",
     {
       placeholder: "请选择原创类型",
-      options: [
-        {name: '原创', id: 1},
-        {name: '修改', id: 2},
-      ]
+      options: [{ name: "原创", id: 1 }, { name: "修改", id: 2 }]
     }
-  ],  
+  ],
   [
     "file_type_category",
     {
@@ -551,9 +539,9 @@ const config = [
     "services",
     {
       placeholder: "请选择服务类型",
-      url: "/services",
+      url: "/services?listOnly=1",
       handle(data) {
-        return data.data.data.map(_ => {
+        return data.data.map(_ => {
           return { id: _.id, name: _.name };
         });
       }
