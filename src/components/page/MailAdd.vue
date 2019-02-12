@@ -203,13 +203,14 @@ export default {
     onEditorBlur() {},
     onEditorFocus() {},
     onEditorReady() {},
-    loadTemplateMail(scene, id) {
+    loadTemplateMail({scene, id, arg = [],url = '/messagetemplates/scenemail'}) {
       this.title = "发送" + scene + "邮件";
       const mail_scene = sceneMap.get(scene);
       this.mail_scene = mail_scene;
       console.log(this.mail_scene);
       const data = { id, mail_scene };
-      const url = `/messagetemplates/scenemail`;
+      arg.length !== 0?Object.assign(data,...arg):"";
+      // const url = `/messagetemplates/scenemail`;
       const success = _ => {
         const mail = _.data;
         this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });
@@ -249,7 +250,17 @@ export default {
       };
       this.$axiosGet({ url, success });
     },
-    show(scene, id, batch) {
+    show_common(scene,id,field,value){
+      this.id = id;
+      this.dialogVisible = true;
+      this.loadTemplateMail({scene,id,arg:[{[field]:value}]})
+    },
+    show_batch(scene, id, url){
+      this.id = id;
+      this.dialogVisible = true;
+      this.loadTemplateMail({scene, id, url});
+    },
+    show(scene, id) {
       this.id = id;
       this.dialogVisible = true;
       if (scene == "add") {
@@ -258,10 +269,8 @@ export default {
       this.loadingVisible = true;
       if (scene === "view") {
         this.loadMail(id);
-      } else if(batch){
-        this.loadBatchTemplateMail(scene, id);
-      }else {
-        this.loadTemplateMail(scene, id);
+      } else {
+        this.loadTemplateMail({scene, id});
       }
     },
     getMailForm() {
