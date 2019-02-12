@@ -460,7 +460,10 @@ export default {
         }
         this.load();
       });
-    }
+    },
+    close () {
+      this.dialogVisible = false;
+    },
   },
   watch: {
     "form.customer": function(val, oldVal) {

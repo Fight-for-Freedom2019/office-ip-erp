@@ -31,6 +31,9 @@ export default (url) => ({
         this.clear();
       })
     },
+    close() {
+      this.is_show = false;
+    },
     clear() {
       this.$refs.form.resetFields();
     },

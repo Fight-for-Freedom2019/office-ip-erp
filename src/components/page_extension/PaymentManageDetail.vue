@@ -11,25 +11,20 @@
           v-if="status === 'audit'"
           @click="submitCommon(rowID,'/submit','提交审核')"
         >提交审核</el-button>
-        <el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail">发送邮件</el-button>
+        <!--<el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail">发送邮件</el-button>-->
+        <el-dropdown size="small" v-if="showSendMailBtn" @command="sendmail">
+          <el-button type="primary" size="small">
+            发送邮件
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="1">后付款</el-dropdown-item>
+            <el-dropdown-item command="2">预付款</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <!-- <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button> -->
         <!-- <el-button type="primary" size="small" v-if="status === 'confirm'" @click="confirm">确认付款</el-button> -->
         <!--<el-button type="" size="small">退回修改</el-button>-->
-        <el-dropdown
-          @command="handleCommandDownload"
-          trigger="click"
-          style="margin-left: 5px;"
-          size="small"
-        >
-          <el-button size="small">
-            下载
-            <i class="el-icon-caret-bottom el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown" class="app-dropdown-menu">
-            <el-dropdown-item command="cn">国知局CN专利缴费单</el-dropdown-item>
-            <el-dropdown-item command="pct">国知局PCT专利缴费单</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
       </span>
       <div v-loading="loadingVisible" :element-loading-text="loadingText">
         <el-form
@@ -132,7 +127,7 @@
             </el-col>
           </el-row>
           <!-- <el-form-item class="break-form upload-from" label="快递" prop="express">
-                        <up-load v-model="form.express" :fileList="express"></up-load>
+              <up-load v-model="form.express" :fileList="express"></up-load>
           </el-form-item>-->
           <el-form-item class="break-form" label="备注" prop="remark">
             <el-input type="textarea" v-model="form.remark" resize="none"></el-input>
@@ -263,9 +258,6 @@ export default {
     refreshMail() {
       this.$refs.mails.refreshTableData();
     },
-    handleCommandDownload(command) {
-      //TO-DO 下载专利缴费单
-    },
     submitCommon(id, suffix, hint) {
       this.$confirm(`是否${hint}`, "提示", {
         confirmButtonText: "确定",
@@ -352,14 +344,17 @@ export default {
       this.id = id;
       this.getDetail(id);
     },
+    close() {
+      this.dialogVisible = false;
+    },
     deleteInvoice() {
       return;
     },
     received() {
       this.getDetail(this.id);
     },
-    sendmail() {
-      this.$refs.mail.show("账单", this.id);
+    sendmail(fee_type) {
+      this.$refs.mail.show_common("账单", this.id, "fee_policy", fee_type);
     },
     confirm() {
       this.paymentDialog = true;
@@ -416,14 +411,20 @@ export default {
 .PaymentRequestDetail {
   margin-top: 10px;
 }
+
+.PaymentRequestDetail {
+  margin-top: 10px;
+}
 </style>
 <style>
 #app .PaymentRequestDetail .break-form textarea {
   height: auto;
 }
+
 #app .PaymentRequestDetail .upload-from {
   height: auto;
 }
+
 .PaymentRequestDetail .custom-input .el-input__inner,
 .PaymentRequestDetail .custom-picker-input .el-input__inner {
   height: 28px;

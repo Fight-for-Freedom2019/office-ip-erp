@@ -246,6 +246,9 @@ export default {
         this.refreshForm(data);
       }
     },
+    close () {
+      this.dialogVisible = false;
+    },
     clear() {
       getKeys.map(_ =>{
             console.log(this.$refs[_])

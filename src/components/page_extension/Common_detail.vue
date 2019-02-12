@@ -290,6 +290,9 @@ export default {
       this.visible = true;
       this.id = id;
     },
+    close() {
+      this.visible = false;
+    },
     handleSendEmail(id) {
       this.$emit("sendEmail", id);
     },

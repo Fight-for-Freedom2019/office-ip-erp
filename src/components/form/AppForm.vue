@@ -136,8 +136,8 @@
     <renewal-fee ref="renewal_fee" v-if="map['renewal_fee_detail'] != undefined"></renewal-fee>
     <!-- 年费详情 -->
     <renewal-estimate-detail
-      ref="renewal_estimate_detail"
-      v-if="map['renewal_estimate_detail'] != undefined"
+      ref="renewal_estimate"
+      v-if="map['renewal_estimate'] != undefined"
     ></renewal-estimate-detail>
     <!-- 年费评估单详情 -->
     <patent-add
@@ -147,7 +147,7 @@
       v-if="map['patent_add'] != undefined"
     ></patent-add>
     <!-- 专利基本信息 -->
-    <common-detail ref="common_detail" :title="row.title" v-if="map['patent'] != undefined"></common-detail>
+    <common-detail ref="patent" :title="row.title" v-if="map['patent'] != undefined"></common-detail>
     <!-- 专利、商标、版权详情 -->
     <cpc-editor
       ref="cpc_editor"
@@ -193,11 +193,13 @@ import VoucherDetail from "@/components/page_extension/InvoiceManageDetail";
 import ContractDetail from "@/components/page/crm/contracts/ContractsListAdd";
 import SensitiveOperation from "@/components/page/common/SensitiveOperation";
 import CpcEditor from "@/components/page/cpc/CpcEditor";
-import PatentAdd from "@/components/page_extension/Common_detail";
+import PatentAdd from "@/components/page/PatentAdd";
 import CommonDetail from "@/components/page_extension/Common_detail";
 import RenewalEstimateDetail from "@/components/page_extension/RenewalEstimate_detail";
 import RenewalFee from "@/components/page_extension/RenewalFee_pop";
 import Postpone from "@/components/page_extension/TaskCommonPostpone";
+// 面板的标记（要求ref与配置的type一致）   
+const panelKeys = ['patent', 'patent_add', 'order', 'contract', 'payment_request', 'voucher', 'cpc_editor', 'renewal_estimate', 'renewal_fee', 'postpone'];
 
 export default {
   name: "appForm",
@@ -312,10 +314,10 @@ export default {
           this.$refs.patent_add.show(this.row.model_id);
           break;
         case "patent":
-          this.$refs.common_detail.show(this.row.model_id, type);
+          this.$refs.patent.show(this.row.model_id, type);
           break;
         case "renewal_estimate":
-          this.$refs.renewal_estimate_detail.show(this.row.model_id);
+          this.$refs.renewal_estimate.show(this.row.model_id);
           break;
         case "renewal_fee":
           this.$refs.renewal_fee.show("edit", this.row);
@@ -323,6 +325,16 @@ export default {
         case "postpone":
           this.$refs.postpone.show("edit", this.row.id);
           break;
+      }
+    },
+    closePanel () {
+      const type = this.type;
+      if(panelKeys.includes(type)){
+        this.$nextTick(()=>{
+          this.$refs[type].close();
+        })
+      }else {
+        return false
       }
     },
     initializeForm() {

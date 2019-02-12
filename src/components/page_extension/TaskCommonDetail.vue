@@ -350,6 +350,9 @@ export default {
     show(row) {
       this.isTaskDetailVisible = true;
       this.row = row;
+      this.$nextTick(()=>{
+      this.$refs.finish.$refs.appForm.closePanel();
+      })
       //调用完成任务显示
       // this.$nextTick(() => {
       //   this.$refs.finish.show();
@@ -398,7 +401,11 @@ export default {
     },
     handleCommandSendMail(command) {
       const scene = mailMap.get(command);
-      this.$refs.mailEdit.show(scene, this.row.model_id);
+      if(command === 'inventor_review') {
+        this.$refs.mailEdit.show_common(scene, this.row.model_id,"process_id",this.row.id);
+      }else {
+        this.$refs.mailEdit.show(scene, this.row.model_id);
+      }
     },
     mailCallBack() {
       this.mailVisible = false;

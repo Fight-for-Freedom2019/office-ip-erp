@@ -185,6 +185,9 @@ export default {
         }
       }
     },
+    close () {
+      this.isPanelVisible = false;
+    },
     handleUploadSuccess(a, b, c) {
       this.$emit("uploadSuccess", a, b, c);
     }
