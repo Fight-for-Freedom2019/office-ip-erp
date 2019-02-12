@@ -99,6 +99,7 @@
           this.visible = false;
         }else {
           this.visible = true;
+          this.$refs[this.operationType]?this.$refs[this.operationType].clear():"";
         }
       },
       hide() {
