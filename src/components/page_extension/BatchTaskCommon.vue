@@ -93,7 +93,7 @@
         if(this.operationType === "notice") {
           this.visible = false;
           const id = this.ids.join(",");
-          this.$refs.mailAdd.show("立案通知",id,true);
+          this.$refs.mailAdd.show_batch("立案通知",id,"/mail/tasks");
         }else if(this.operationType === "fulfilTask" || this.operationType === "remind"){
           this.dialogFormVisible = true;
           this.visible = false;
