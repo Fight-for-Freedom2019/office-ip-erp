@@ -104,6 +104,9 @@ export default {
 			this.visible = true;
 			this.id = id;
 		},	
+		close () {
+      		this.visible = false;
+    	},
 		// handleRefresh () {
 		// 	this.shrinkVisible = false;
 		// },

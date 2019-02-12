@@ -58,7 +58,7 @@ export default {
       currentRowFee: {},
       columns: [
         { type: "text", label: "费用名称", prop: "name", min_width: "145" },
-        // { type: 'text', label: '费用对象', prop: 'target', render_simple: 'name',},
+        { type: 'text', label: '费用对象', prop: 'user', render_simple: 'name', width: '120'},
         {
           type: "text",
           label: "金额",
@@ -95,6 +95,7 @@ export default {
           }
         },
         { type: "text", label: "付款日期", prop: "payment_time", width: "120" },
+        { type: "text", label: "法限", prop: "deadline", width: "120" },
         {
           type: "text",
           label: "状态",
@@ -107,7 +108,7 @@ export default {
           type: "action",
           label: "操作",
           width: "110",
-          fixed: false,
+          // fixed: false,
           btns: [
             { type: "edit", click: this.editFee },
             { type: "delete", click: this.deleteFee }

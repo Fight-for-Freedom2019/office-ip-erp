@@ -301,6 +301,9 @@
                 this.id  = id;
                 this.getDetail(id);
             },
+            close () {
+                this.dialogVisible = false;
+            },
             deleteInvoice() {
                 return;
             },

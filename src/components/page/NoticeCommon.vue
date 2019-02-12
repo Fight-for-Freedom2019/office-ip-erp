@@ -295,7 +295,7 @@ export default {
       const data = Object.assign({}, option, { project_type }, this.defaultParams);
       const success = _ => {
         if (option.format == "excel") {
-          window.location.href = _.list.downloadUrl;
+          window.location.href = _.notices.downloadUrl;
         } else {
           this.tableData = _.notices;
         }

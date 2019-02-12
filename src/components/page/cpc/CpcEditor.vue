@@ -847,6 +847,9 @@ export default {
       this.isApplicationEditor = true;
       this.getData(id);
     },
+    close () {
+      this.isApplicationEditor = false;
+    },
     turnArchives() {
       this.showTurnArchives = true;
     },

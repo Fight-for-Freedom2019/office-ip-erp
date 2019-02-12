@@ -122,7 +122,7 @@ export default {
         currency: this.form.money.currency,
       };
   		return Object.assign(s, obj);  		
-  	},
+    },
     setForm(d) {
       this.$tool.coverObj(this.form,d,{
         obj: ['project','fee_code'],
@@ -136,6 +136,9 @@ export default {
       if(d.currency) {
         this.form.money.currency = d.currency;
       }
+    },
+    close () {
+      this.dialogVisible = false;
     },
   },
   watch: {

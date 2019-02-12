@@ -350,6 +350,9 @@ export default {
     show(row) {
       this.isTaskDetailVisible = true;
       this.row = row;
+      this.$nextTick(()=>{
+      this.$refs.finish.$refs.appForm.closePanel();
+      })
       //调用完成任务显示
       // this.$nextTick(() => {
       //   this.$refs.finish.show();
