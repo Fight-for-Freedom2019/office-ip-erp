@@ -42,12 +42,12 @@
     },
     mounted () {
       this.seteditor()
-      let reg = /\<spanyes(.*?)\>|\<\/spanyes(.*?)\>|(\s+face="楷体")/g;
+      /*let reg = /\<spanyes(.*?)\>|\<\/spanyes(.*?)\>|(\s+face="楷体")/g;
       let html = this.value.replace(reg,"");
       html = html.replace(/<font>/g,"");
       html = html.replace(/<\/font>/g,"");
-      this.editor.txt.html(html);
-      // this.editor.txt.html(this.value);
+      this.editor.txt.html(html);*/
+      this.editor.txt.html(this.value);
     },
     methods: {
       seteditor () {
@@ -64,11 +64,9 @@
         this.editor.customConfig.pasteTextHandle = function (content) {
           let reg = /\<spanyes(.*?)\>|\<\/spanyes(.*?)\>|(face="楷体")/g;
           content = content.replace(reg,"");
-          if (~content.indexOf('<!--[if gte mso 9]><xml>')) {
-            return ''
-          } else {
-            return content
-          }
+          content = content.replace(/<font>/g,"");
+          content = content.replace(/<\/font>/g,"");
+          return content
         }
         // 配置菜单
         this.editor.customConfig.menus = [
