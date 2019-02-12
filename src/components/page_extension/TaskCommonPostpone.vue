@@ -15,7 +15,7 @@
         element-loading-text="延期数据加载中"
       >
         <el-form-item label="说明" prop="intro">
-          <span>同一管制事项申请期限延期次数不得超过2次，如果延长后的期限已过客户期限，必须在附件里上传客户的沟通记录</span>
+          <span>如果延长后的期限已过客户期限，必须在附件里上传客户的沟通记录</span>
         </el-form-item>
         <el-form-item label="相关案件" prop="project" v-if="this.mode == 'edit'">
           <a
