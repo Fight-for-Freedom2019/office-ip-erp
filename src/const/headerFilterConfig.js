@@ -656,7 +656,6 @@ const map = new Map([
       { type: "text", id: "project.title", name: "标题" },
       { type: "text", id: "project.application_number", name: "申请号" },
       { type: "date", id: "project.application_date", name: "申请日" },
-      { type: "date", id: "entrusting_time", name: "委案日" },
       {
         type: "remote_select",
         id: "project.serial",
