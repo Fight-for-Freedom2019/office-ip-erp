@@ -253,7 +253,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["detailBase", "menusMap", "innerHeight", "userid", "processData"]),
+    ...mapGetters(["detailBase", "menusMap", "innerHeight", "userid", "processData", 'shrinkLoading']),
     model: {
       get() {
         return this.deleteStatus;
@@ -338,20 +338,24 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["showAgencyLoad", "addScreen"]),
+    ...mapMutations(["showAgencyLoad", "addScreen",]),
     ...mapActions([
       "refreshUser",
       "refreshTaskDelay",
       "addListFilter",
       "refreshFlows",
       "refreshAction",
-      "refreshProcessDetail"
+      "refreshProcessDetail",
+      "onShrinkLoading"
     ]),
     show(row) {
       this.isTaskDetailVisible = true;
       this.row = row;
       this.$nextTick(()=>{
-      this.$refs.finish.$refs.appForm.closePanel();
+        if(this.$refs !== undefined) {
+          this.onShrinkLoading(this.loadingText);
+          this.$refs.finish.$refs.appForm.closePanel();
+        }
       })
       //调用完成任务显示
       // this.$nextTick(() => {

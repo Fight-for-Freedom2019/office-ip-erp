@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" element-loading-text="任务数据加载中">
+  <div>
     <el-collapse v-model="activeName">
       <el-collapse-item name="1">
         <template slot="title">任务详情
@@ -258,7 +258,7 @@ export default {
   },
   methods: {
     ...mapMutations([]),
-    ...mapActions(["refreshUser", "refreshProcessDetail"]),
+    ...mapActions(["refreshUser", "refreshProcessDetail", "offShrinkLoading"]),
     show() {
       console.log("finish panel shown " + this.row.id);
       // this.refreshData();
@@ -332,7 +332,8 @@ export default {
         this.$refs.appForm.initializeForm();
       };
       const complete = _ => {
-        this.loading = false;
+        // this.loading = false;
+        this.offShrinkLoading();
       };
       this.$axiosGet({ url, success, complete });
     },
@@ -398,7 +399,7 @@ export default {
       this.opinion_type = val;
     },
     refreshDetail() {
-      this.loading = true;
+      // this.loading = true;
     }
   },
   watch: {
@@ -410,7 +411,7 @@ export default {
     // },
     taskId: {
       handler(val) {
-        this.loading = true;
+        // this.loading = true;
         console.log(val);
         if (val) {
           this.refreshData();
