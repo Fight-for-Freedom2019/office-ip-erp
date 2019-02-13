@@ -19,9 +19,9 @@
       </div>
       <el-button type="primary" @click="saveOrder('new')">确认新建</el-button>
     </el-dialog>
-    <el-dialog :visible.sync="dialogAddToOrder" :modal="true" width="600px" size="mini" title="将费用新建为付款单">
+    <el-dialog :visible.sync="dialogAddToOrder" :modal="true" width="600px" size="mini" title="将费用添加至现有的付款单内">
       <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
-        <span>从选取的费用创建一个新的付款单，用于批量追踪付款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
+        <span>从选取的费用添加至现有的付款单内，用于批量追踪付款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
       </div>
       <jump-select style="margin-bottom: 10px;" :type="invoices" v-model="bill"></jump-select>
       <el-button type="primary" @click="saveOrder('add')">确认添加</el-button>
