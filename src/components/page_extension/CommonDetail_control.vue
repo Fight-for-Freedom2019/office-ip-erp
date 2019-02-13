@@ -64,7 +64,7 @@ export default {
           type: 'action', 
           label: '操作',
           fixed: false,
-          width:'178',
+          width:'188',
           btns_render: 'action'
         },
       ],
