@@ -244,6 +244,9 @@ export default {
       };
       this.$axiosGet({ url, success, complete });
     },
+    close () {
+      this.dialogVisible = false;
+    },
     refresh() {
       this.show(this.id, this.mode);
     },

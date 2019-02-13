@@ -352,7 +352,6 @@ export default {
       this.isTaskDetailVisible = true;
       this.row = row;
       this.$nextTick(()=>{
-        this.onShrinkLoading(this.loadingText);
         if(this.$refs.finish.$refs.appForm !== undefined ) {
           this.$refs.finish.$refs.appForm.closePanel();
         }
@@ -516,6 +515,7 @@ export default {
   watch: {
     row (val) {
       if(val) {
+        this.onShrinkLoading(this.loadingText);
         this.refreshProcessDetail({id: val.id});
       }
     },
