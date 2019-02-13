@@ -123,8 +123,10 @@ const map = new Map([
         url: "/contacts"
       },
       { type: "date", id: "entrusting_time", name: "立案日" },
-      { type: "date", id: "first_edition_deadline", name: "初稿期限" },
-      { type: "date", id: "filing_deadline", name: "递交期限" },
+      { type: "date", id: "task.deadline", name: "节点期限" },
+      { type: "date", id: "internal_deadline", name: "管控期限" },
+      // { type: "date", id: "first_edition_deadline", name: "初稿期限" },
+      // { type: "date", id: "filing_deadline", name: "递交期限" },
       { type: "date", id: "legal_deadline", name: "官方绝限" },
       { type: "date", id: "first_edition_time", name: "初稿日" },
       { type: "date", id: "internal_final_edition_time", name: "内部定稿日" },
@@ -978,7 +980,7 @@ const map = new Map([
         url: true
       },
       { type: "date", id: "mail_date", name: "发文日" },
-      { type: "date", id: "creation_time", name: "上传日" },
+      { type: "date", id: "creation_time", name: "上传日" }
     ]
   ]
 ]);
