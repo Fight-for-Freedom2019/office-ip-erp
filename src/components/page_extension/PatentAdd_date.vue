@@ -23,25 +23,21 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
-      <el-col :span="8">
-        <el-form-item label="DAS码">
-          <el-input size="small" v-model="form.das" placeholder="DAS码" class="input-min-width"></el-input>
-        </el-form-item>
-      </el-col>
+      
     </el-row>
     <el-row v-if="type == 'add'">
       <el-col :span="8">
-        <el-form-item label="初稿期限">
+        <el-form-item label="管控期限">
           <el-date-picker
             size="small"
-            v-model="form.first_edition_deadline"
+            v-model="form.internal_deadline"
             type="date"
-            placeholder="初稿期限"
+            placeholder="管控期限"
             class="input-min-width"
           ></el-date-picker>
         </el-form-item>
       </el-col>
-      <el-col :span="8">
+      <!-- <el-col :span="8">
         <el-form-item label="递交期限">
           <el-date-picker
             size="small"
@@ -50,9 +46,9 @@
             class="input-min-width"
           ></el-date-picker>
         </el-form-item>
-      </el-col>
+      </el-col> -->
       <el-col :span="8">
-        <el-form-item label="官方绝限">
+        <el-form-item label="官方绝限/递交绝限">
           <el-date-picker
             size="small"
             v-model="form.legal_deadline"
@@ -285,6 +281,11 @@
             placeholder="优先权期限"
             class="input-min-width"
           ></el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="DAS码">
+          <el-input size="small" v-model="form.das" placeholder="DAS码" class="input-min-width"></el-input>
         </el-form-item>
       </el-col>
     </el-row>

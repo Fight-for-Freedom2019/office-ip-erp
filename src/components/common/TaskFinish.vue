@@ -30,8 +30,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="管制期限">
-                <span class="form-item-text">{{ row.filing_deadline }}</span>
+              <el-form-item label="管控期限">
+                <span class="form-item-text">{{ row.internal_deadline }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">

@@ -392,18 +392,32 @@ export default {
           },
           {
             type: "text",
-            prop: "first_edition_deadline",
-            label: "初稿期限",
+            prop: "task.deadline",
+            label: "节点期限",
             render_header: true,
-            width: "100"
+            width: "110"
           },
           {
             type: "text",
-            prop: "filing_deadline",
-            label: "递交期限",
+            prop: "internal_deadline",
+            label: "管控期限",
             render_header: true,
             width: "100"
           },
+          // {
+          //   type: "text",
+          //   prop: "first_edition_deadline",
+          //   label: "初稿期限",
+          //   render_header: true,
+          //   width: "100"
+          // },
+          // {
+          //   type: "text",
+          //   prop: "filing_deadline",
+          //   label: "递交期限",
+          //   render_header: true,
+          //   width: "100"
+          // },
           {
             type: "text",
             prop: "legal_deadline",

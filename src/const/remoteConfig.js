@@ -162,7 +162,7 @@ const map = new Map([
       DATA_KEY: "invoices",
       PLACEHOLDER: "请输入请款单关键词",
       PARAMS: {
-        debit: 1
+        is_debit: 1
       }
     }
   ],
@@ -173,7 +173,7 @@ const map = new Map([
       DATA_KEY: "invoices",
       PLACEHOLDER: "请输入付款单关键词",
       PARAMS: {
-        debit: 0
+        is_debit: 0
       }
     }
   ],
@@ -207,7 +207,7 @@ const map = new Map([
       URL: "/users?listOnly=1",
       DATA_KEY: "data",
       PLACEHOLDER: "请选择人员",
-      allowCreate:true,
+      allowCreate: true
     }
   ],
   [
@@ -216,7 +216,7 @@ const map = new Map([
       URL: "/emails",
       DATA_KEY: "data",
       PLACEHOLDER: "请邮箱地址",
-      allowCreate:true,
+      allowCreate: true
     }
   ],
   [

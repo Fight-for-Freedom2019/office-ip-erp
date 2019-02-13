@@ -15,7 +15,7 @@
         <static-select type="project_type" v-model="form.project_type"></static-select>
       </el-form-item>
       <el-form-item label="关联案件" prop="model" v-if="mode == 'add' && form.project_type != null">
-        <remote-select :type="projectType" v-model="form.model" ref="project"></remote-select>
+        <jump-select :type="projectType" v-model="form.model" ref="project"></jump-select>
       </el-form-item>
       <el-form-item label="管制事项" prop="process_definition" v-if="form.model != null">
         <static-select type="process_definition" v-model="form.process_definition"></static-select>
@@ -80,18 +80,22 @@
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="初稿期限" prop="first_edition_deadline">
-            <el-date-picker type="date" v-model="form.first_edition_deadline" placeholder="请选择初稿时间"></el-date-picker>
+          <el-form-item label="节点期限" prop="deadline">
+            <el-date-picker type="date" v-model="form.deadline" placeholder="请选择节点期限"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="递交期限" prop="filing_deadline">
-            <el-date-picker type="date" v-model="form.filing_deadline" placeholder="请选择递交期限"></el-date-picker>
+          <el-form-item label="管控期限" prop="internal_deadline">
+            <el-date-picker type="date" v-model="form.internal_deadline" placeholder="请选择管控期限"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="官方绝限" prop="legal_deadline">
-            <el-date-picker type="date" v-model="form.legal_deadline" placeholder="请选择官方绝限"></el-date-picker>
+            <el-date-picker
+              type="date"
+              v-model="form.legal_deadline"
+              placeholder="请选择官方绝限/客户指定递交期限"
+            ></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -332,28 +336,42 @@ export default {
           this.form.task_def_id = d;
         });
       }, 0);
-    }, 
-    refreshRow () {
-      if(this.mode == 'edit') {
-        this.$tool.coverObj(this.form,this.row,{
-          obj: ['process_flow','process_definition','attachments'],
-          date: ['first_edition_deadline','first_edition_time','filing_deadline','legal_deadline',
-          'internal_final_edition_time','customer_edition_time','filing_time','customer_final_edition_time'],
-        })
+    },
+    refreshRow() {
+      if (this.mode == "edit") {
+        this.$tool.coverObj(this.form, this.row, {
+          obj: ["process_flow", "process_definition", "attachments"],
+          date: [
+            "internal_deadline",
+            "first_edition_time",
+            "deadline",
+            "legal_deadline",
+            "internal_final_edition_time",
+            "customer_edition_time",
+            "filing_time",
+            "customer_final_edition_time"
+          ]
+        });
         this.form.user = this.row.task.user;
-        if(this.row && this.row.task && this.row.task.process_action) {
-          this.$nextTick(_=>{
-          this.form.process_action = this.row.task.process_action['id'];
-          })
+        this.form.deadline = this.row.task.deadline;
+        if (this.row && this.row.task && this.row.task.process_action) {
+          this.$nextTick(_ => {
+            this.form.process_action = this.row.task.process_action["id"];
+          });
         }
         if (this.row && this.row.task && this.row.task.remark) {
-          this.form.remark = this.row.task.remark; 
-        } 
-        if (this.row && this.row.task && this.row.task.attachments && this.row.task.attachments.length != 0) {
-           this.attachments = this.row.task.attachments; 
+          this.form.remark = this.row.task.remark;
+        }
+        if (
+          this.row &&
+          this.row.task &&
+          this.row.task.attachments &&
+          this.row.task.attachments.length != 0
+        ) {
+          this.attachments = this.row.task.attachments;
         }
       }
-    },
+    }
   },
   data() {
     const getRules = (message, type) =>
@@ -391,8 +409,8 @@ export default {
         representative: "",
         first_reviewer: "",
         final_reviewer: "",
-        first_edition_deadline: "",
-        filing_deadline: "",
+        deadline: "",
+        internal_deadline: "",
         legal_deadline: "",
         first_edition_time: "",
         internal_final_edition_time: "",
@@ -465,7 +483,7 @@ export default {
       } else {
         for (let i = 0; i < this.flowsData.length; i++) {
           if (this.flowsData[i].id == f) {
-            return arr = this.flowsData[i].Process_definition;
+            return (arr = this.flowsData[i].Process_definition);
             break;
           }
         }
@@ -479,7 +497,7 @@ export default {
       } else {
         for (let i = 0; i < this.flowsData.length; i++) {
           if (this.flowsData[i].id == f) {
-            return arr = this.flowsData[i].process_action;
+            return (arr = this.flowsData[i].process_action);
             break;
           }
         }
