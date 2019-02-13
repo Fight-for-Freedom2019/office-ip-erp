@@ -45,7 +45,7 @@
               type: 'text-btn', label: '订单号', prop: 'order.serial', width: '120',
               click: this.checkOrderDetail,
               render_text_btn: (row) => {
-                return row.order.serial;
+                return row.order?row.order.serial:"";
               }
             },
             {

@@ -20,11 +20,11 @@
             </div>
             <el-button type="primary" @click="saveOrder('new')">确认新建</el-button>
         </el-dialog>
-        <el-dialog :visible.sync="dialogAddToOrder" :modal="true" width="600px" size="mini" title="将费用新建为请款单">
+        <el-dialog :visible.sync="dialogAddToOrder" :modal="true" width="600px" size="mini" title="将费用添加至现有的请款单内">
             <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
-                <span>从选取的费用创建一个新的请款单，用于批量追踪请款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
+                <span>从选取的费用添加至现有的请款单内，用于批量追踪请款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
             </div>
-            <jump-select style="margin-bottom: 10px;" :type="invoices" v-model="bill"></jump-select>
+            <jump-select style="margin-bottom: 10px;" type="bill" v-model="bill"></jump-select>
             <el-button type="primary" @click="saveOrder('add')">确认添加</el-button>
         </el-dialog>
     </div>
@@ -82,6 +82,7 @@
                         {type: 'text', label: '标题', prop: 'project.title',width: '150', render_header: true},
                         {type: 'text', label: '申请号', prop: 'project.application_number', width: '150', render_header: true},
                         {type: 'text', label: '申请日', prop: 'project.application_date', width: '160', render_header: true},
+                        {type: 'text', label: '委案日', prop: 'entrusting_time', width: '160', render_header: true},
                         {type: 'text', label: '案号', prop: 'project.serial',width: '120', render_header: true},
                         {type: 'text', label: '订单号', prop: 'order.serial', width: '120', render_header: true},
                         {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160', render_header: true},
@@ -129,12 +130,6 @@
                 },
                 is_debit: 1,
                 URL: "/fees",
-                invoices: {
-                    URL: '/invoices',
-                    DATA_KEY: 'invoice',
-                    PLACEHOLDER: '请输入付款单关键词',
-                    PARAMS: {is_debit: 1},
-                },
             }
         },
         components: {
