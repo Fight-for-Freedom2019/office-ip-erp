@@ -25,7 +25,8 @@ export default {
 		  		{ type: 'text', label: '上传人', prop: 'uploader', render_simple: 'name', },
 		  		{ type: 'text', label: '上传时间', prop: 'creation_time' },
 		  		{ type: 'action',
-		  			width: '178',
+            width: '178',
+            fixed: false,
 		  			btns: [
 		  				{ type: 'download', text: '下载', click: ({downloadUrl})=>{window.open(downloadUrl)} },
 		  				{ type: 'view', text: '查看', click: ({viewUrl})=>{window.open(viewUrl)} },

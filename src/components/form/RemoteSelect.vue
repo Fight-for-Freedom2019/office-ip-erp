@@ -149,7 +149,6 @@ export default {
       }
     },
     onItemAdded(item) {
-      console.log(item)
       this.value2 = item;
     },
     handleInput(val) {
@@ -175,7 +174,6 @@ export default {
       this.selectVisible = false;
     },
     handleCloseTag(index) {
-      console.log(this.value)
       if (this.value instanceof Array && this.value.length != 0) {
         this.value.splice(index, 1);
         this.selectedItems.splice(index, 1);
@@ -184,8 +182,6 @@ export default {
         arr.push(this.value);
         arr.splice(index, 1);
         this.selectedItems.splice(index, 1);
-        console.log(this.selectedItems)
-        console.log(arr)
         return (this.value2 = arr);
       }
     },
@@ -207,7 +203,6 @@ export default {
         if (this.multiple) {
           this.$emit("input", arr);
         } else {
-          console.log('')
           this.$emit("input", arr[0]);
         }
       } else {
@@ -350,7 +345,6 @@ export default {
               ? []
               : [this.value]; //空字符串 空对象处理
         } else {
-          console.log(this.value)
           val = this.value;
         }
 
@@ -388,8 +382,6 @@ export default {
 
       //value类型为对象时，添加静态映射，并将其值转为id
       handler(val) {
-        console.log('aaa')
-        console.log(val)
         // 多选时调的element底层的属性来关闭下拉框
         if (!this.single && this.selectVisible) {
           this.$refs.select.visible = false;
@@ -402,9 +394,7 @@ export default {
       handler(val) {
         if (!this.isUserInput) {
           //如果不是用户输入导致的值变化，需要同步显示
-          console.log(this.selected)
           this.selectedItems = this.selected 
-          console.log(this.selectedItems)
         }
       }
     },
@@ -440,7 +430,6 @@ export default {
     }
 
     const v = this.value instanceof Array ? this.value : [this.value];
-    console.log(v);
     this.refreshSelected(v);
   },
   components: {

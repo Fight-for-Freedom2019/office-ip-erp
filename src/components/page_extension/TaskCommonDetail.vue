@@ -386,7 +386,6 @@ export default {
       }
     },
     refreshSiblings(data) {
-      console.log(data);
       this.historyTasks = data;
     },
     refreshPostpone() {

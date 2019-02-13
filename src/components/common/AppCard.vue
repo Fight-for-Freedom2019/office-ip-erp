@@ -146,11 +146,6 @@ export default {
       }
     }
   },
-  watch: {
-    value(v) {
-      console.log(v)
-    }
-  },
   components: {
     CardRender: {
       render: function(h) {

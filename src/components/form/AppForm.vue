@@ -288,12 +288,6 @@ export default {
     showPanel(type) {
       this.isDetailEnabled = false;
       this.type = type;
-      console.log(
-        "task detail panel is clicked, type:" +
-          type +
-          " id: " +
-          this.row.model_id
-      );
       switch (type) {
         case "order":
           this.$refs.order.show(this.row.model_id, "edit");
@@ -358,7 +352,6 @@ export default {
       const fields = ["points"];
       for (var f in fields) {
         let name = fields[f];
-        console.log(this.data[name]);
         if (this.data[name] != undefined) {
           this.$set(this.form, name, this.data[name]);
         }

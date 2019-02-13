@@ -185,7 +185,6 @@ export default {
             });
           }
         } else {
-          console.log("load service data");
           this.loadDefaultServiceQuotation();
         }
       };

@@ -73,7 +73,7 @@
         <search-input v-model="searchValue2"  placeholder="搜索文件名称、文件类型" input-style="width:250px;"></search-input>
      </span>
      </div>
-     <div style="clear: both;"></div>
+     <!-- <div style="clear: both;"></div> -->
        <documents style="margin-top: 10px;" :search-value="searchValue2"></documents>
      </div>
     <el-dialog :title="this.isNotice?'通知书上传':'其他文档上传'" :visible.sync="dialogVisible" class="dialog-medium" :modal="false"> 
