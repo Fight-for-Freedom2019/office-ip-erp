@@ -352,8 +352,8 @@ export default {
       this.isTaskDetailVisible = true;
       this.row = row;
       this.$nextTick(()=>{
-        if(this.$refs !== undefined) {
-          this.onShrinkLoading(this.loadingText);
+        this.onShrinkLoading(this.loadingText);
+        if(this.$refs.finish.$refs.appForm !== undefined ) {
           this.$refs.finish.$refs.appForm.closePanel();
         }
       })

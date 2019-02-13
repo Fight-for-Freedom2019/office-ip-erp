@@ -138,7 +138,7 @@
           </el-form-item>
           <el-form-item label="节点描述" v-if="tips">
             <span style="display:inline-block;line-height:40px;">{{ tips }}</span>
-            <span style="display:inline-block;line-height:40px;color:#409eff;">{{ userTips }}</span>
+            <span style="display:inline-block;line-height:40px;font-weight: bold;">{{ userTips }}</span>
           </el-form-item>
           <template slot="app-button">
             <el-form-item style="margin-bottom: 0px;" v-if="isShowSubmitBtn">
