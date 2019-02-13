@@ -392,7 +392,9 @@ export default {
           },
           {
             type: "text",
-            prop: "task.deadline",
+            prop: "deadline",
+            render_key: 'task',
+            render_simple: 'deadline',
             label: "节点期限",
             render_header: true,
             width: "110"
