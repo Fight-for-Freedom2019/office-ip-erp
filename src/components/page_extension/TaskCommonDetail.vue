@@ -401,8 +401,8 @@ export default {
     },
     handleCommandSendMail(command) {
       const scene = mailMap.get(command);
-      if(command === 'inventor_review') {
-        this.$refs.mailEdit.show_common(scene, this.row.model_id,"process_id",this.row.id);
+      if(command === 'inventor_review' || command === 'ipr_review') {
+        this.$refs.mailEdit.showByProcess(scene, this.row.model_id,this.row.id);
       }else {
         this.$refs.mailEdit.show(scene, this.row.model_id);
       }

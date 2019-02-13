@@ -117,6 +117,7 @@ export default {
       btn_disabled: false,
       dialogVisible: false,
       loadingVisible: false,
+      process_id:null,
       loadingText: "邮件内容加载中",
       title: "发送邮件",
       id: 0,
@@ -163,7 +164,7 @@ export default {
         const data = Object.assign({}, this.form, this.getMailForm());
         data.model_id = this.id;
         data.mail_scene = this.mail_scene;
-
+        this.process_id?data.process_id = this.process_id:"";
         const success = _ => {
           this.$message({ message: "发送成功", type: "success" });
           this.$emit("refresh");
@@ -221,24 +222,6 @@ export default {
       this.$axiosGet({ url, data, success });
     },
 
-    loadBatchTemplateMail(scene, id) {
-      this.title = "发送" + scene + "邮件";
-      const mail_scene = sceneMap.get(scene);
-      this.mail_scene = mail_scene;
-      console.log(this.mail_scene);
-      const data = { id, mail_scene };
-      const url = `/mail/tasks`;
-      const success = _ => {
-        const mail = _.data;
-        this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });
-        this.form.subject = mail.subject;
-        this.attachments = _.attachments ? _.attachments : [];
-        this.loadingVisible = false;
-      };
-      this.$axiosGet({ url, data, success });
-    },
-
-
     loadMail(id) {
       this.title = "邮件详情";
       const url = `/mails/` + id;
@@ -250,12 +233,18 @@ export default {
       };
       this.$axiosGet({ url, success });
     },
-    show_common(scene,id,field,value){
+    showCommon(scene,id,field,value){
       this.id = id;
       this.dialogVisible = true;
       this.loadTemplateMail({scene,id,arg:[{[field]:value}]})
     },
-    show_batch(scene, id, url){
+    showByProcess(scene,id,process_id){
+      this.id = id;
+      this.dialogVisible = true;
+      this.process_id = process_id;
+      this.loadTemplateMail({scene,id})
+    },
+    showBatch(scene, id, url){
       this.id = id;
       this.dialogVisible = true;
       this.loadTemplateMail({scene, id, url});

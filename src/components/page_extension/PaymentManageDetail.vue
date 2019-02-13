@@ -353,8 +353,8 @@ export default {
     received() {
       this.getDetail(this.id);
     },
-    sendmail(fee_type) {
-      this.$refs.mail.show_common("账单", this.id, "fee_policy", fee_type);
+    sendmail(fee_policy) {
+      this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
     },
     confirm() {
       this.paymentDialog = true;
