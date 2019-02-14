@@ -178,11 +178,16 @@ export default {
         this.value.splice(index, 1);
         this.selectedItems.splice(index, 1);
       } else {
-        let arr = [];
-        arr.push(this.value);
-        arr.splice(index, 1);
-        this.selectedItems.splice(index, 1);
-        return (this.value2 = arr);
+        if(this.multiple) {
+          let arr = [];
+          arr.push(this.value);
+          arr.splice(index, 1);
+          this.selectedItems.splice(index, 1);
+          return (this.value2 = arr);
+        }else {
+          this.selectedItems.splice(index, 1);
+          return this.value2 = "";
+        }
       }
     },
     initialization() {
