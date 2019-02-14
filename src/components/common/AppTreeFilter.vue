@@ -41,6 +41,7 @@ const urlMap = new Map([
   ["orders", { URL: "/orders/filters" }],
   ["quotations", { URL: "/quotations/filters" }],
   ["notices", { URL: "/notices/filters" }],
+  ["points", { URL: "/bonuses/filters" }],
 ]);
 export default {
   name: "filterTree",

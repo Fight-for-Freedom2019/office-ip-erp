@@ -37,8 +37,9 @@
                     'height': 'default',
                     'highlightCurrentRow': true,
                     'is_search': true,
-                    'is_list_filter': false,
-                    'list_type': 'serial',
+                    'is_list_filter': true,
+                    'list_type': 'points',
+                    'treeFilter': 'points',
                     'search_placeholder': '案号、关键字',
                     'rowClick': this.handleRowClick,
                     'header_btn': [

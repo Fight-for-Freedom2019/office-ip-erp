@@ -358,9 +358,31 @@ const map = new Map([
     /* 交互>客户端>案卷包 */
     ['cpc_archive',[
         { components: 'remote_select', id: 'customer',                name: '案件引用', type: '专利', used: true},
-        { components: 'static-select', id: 'process_definition',      name: '管制事项', type: 'process_definition', used: true},
+        { components: 'static_select', id: 'process_definition',      name: '管制事项', type: 'process_definition', used: true},
         { components: 'date',          id: 'filed_date',              name: '送件日',used:true},
         { components: 'static_select', id: 'filing_staus',            name: '送件状态',type:"cpc_archive_status",used:true},
+    ]],
+    /* 点数 */
+    ['points',[
+        { components: 'static_select', id: 'project_type',            name: '案件类型', type: 'project_type', used: true},
+        { components: 'static_select', id: 'subtype',                 name: '案件子类型', type: 'subtype', used: true},
+        { components: 'static_select', id: 'process_definition',      name: '管制事项', type: 'process_definition', used: true },
+        { components: 'static_select', id: 'area',                    name: '国家/地区', type: 'area', used: true},
+        { components: 'static_select', id: 'bonus_type',              name: '提成类型', type: 'bonus_type', used: true},
+        { components: 'static_select', id: 'status',                  name: '状态', type:"status",used:true},
+        { components: 'static_select', id: 'task',          name: '流程节点', type: 'actions', used: true },
+        { components: 'remote_select', id: 'user',                    name: '用户', type:"user", used:true},
+        { components: 'remote_select', id: 'last_modifier_user',      name: '最后修改用户', type:"user",},
+        { components: 'input',         id: 'serial',                  name: '案号', },
+        { components: 'input',         id: 'title',                   name: '标题', },
+        { components: 'input',         id: 'points',                  name: '点数', },
+        { components: 'input',         id: 'remark',                  name: '备注', },
+        { components: 'input',         id: 'application_number',      name: '申请号', },
+        { components: 'date',          id: 'application_date',        name: '申请日', },
+        { components: 'date',          id: 'last_modification_time',  name: '最后修改时间', },
+        { components: 'remote_select', id: 'project_tags', name: '案件标签', type: 'tags' },
+        { components: 'remote_select', id: 'process_tags', name: '事项标签', type: 'tags' },
+
     ]],
 ])
 

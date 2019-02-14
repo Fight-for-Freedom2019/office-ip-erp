@@ -206,6 +206,15 @@ const strainerConfig = [
       { name: "客户", id: "customer" },
       { name: "是否发送", id: "is_sent" }
     ]
-  ]
+  ],
+  [
+    "points",
+    [
+      { name: "点数状态", id: "status", default: true },
+      { name: "提成类型", id: "bonus_type" },
+      { name: "发放时间", id: "issue_date" },
+      { name: "结算时间", id: "settlement_date" },
+    ]
+  ],
 ];
 export { config, fieldExceptMap, strainerConfig };
