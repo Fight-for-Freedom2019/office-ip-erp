@@ -133,19 +133,25 @@ export default {
             width: "150",
             render_header: true
           },
-          {type: 'text', label: '委案日', prop: 'entrusting_time', width: '160', render_header: true},
+          {
+            type: "text",
+            label: "委案日",
+            prop: "project.entrusting_time",
+            width: "100",
+            render_header: true
+          },
           {
             type: "text",
             label: "申请日",
             prop: "project.application_date",
-            width: "110",
+            width: "100",
             render_header: true
           },
           {
             type: "text",
             label: "案号",
             prop: "project.serial",
-            width: "160",
+            width: "178",
             render_header: true
           },
 

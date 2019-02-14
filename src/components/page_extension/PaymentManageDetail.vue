@@ -5,14 +5,14 @@
       <span slot="header" style="float: right;">
         <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
         <!-- <el-button type="danger" size="small" @click="deleteInvoice">删除</el-button> -->
-        <el-button
-          size="small"
-          v-if="status === 'audit'"
-          @click="submitCommon(rowID,'/submit','提交审核')"
-        >提交审核</el-button>
         <!--<el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail">发送邮件</el-button>-->
-        <el-dropdown style="margin-left: 10px" size="small" v-if="showSendMailBtn" @command="sendmail">
-          <el-button type="primary" size="small">
+        <el-dropdown
+          style="margin-left: 10px"
+          size="small"
+          v-if="showSendMailBtn"
+          @command="sendmail"
+        >
+          <el-button type size="small">
             发送邮件
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
@@ -21,6 +21,11 @@
             <el-dropdown-item command="2">预付款</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <el-button
+          size="small"
+          v-if="status === 'audit'"
+          @click="submitCommon('/submit','提交审核')"
+        >提交审核</el-button>
         <!-- <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button> -->
         <!-- <el-button type="primary" size="small" v-if="status === 'confirm'" @click="confirm">确认付款</el-button> -->
         <!--<el-button type="" size="small">退回修改</el-button>-->
@@ -257,16 +262,18 @@ export default {
     refreshMail() {
       this.$refs.mails.refreshTableData();
     },
-    submitCommon(id, suffix, hint) {
+    submitCommon(suffix, hint) {
       this.$confirm(`是否${hint}`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
+        const id = this.id;
         let url = `/invoices/${id}${suffix}`;
         const success = _ => {
           this.$emit("update");
           this.$message({ type: "success", message: "操作成功" });
+          this.getDetail(id);
         };
         const error = _ => {
           this.$message({ type: "warning", message: _.info });
