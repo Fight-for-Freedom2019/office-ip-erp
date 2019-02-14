@@ -31,7 +31,7 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="提成类型" prop="bonus_type">
+          <el-form-item label="点数类型" prop="bonus_type">
             <static-select type="bonus_type" v-model="form.bonus_type"></static-select>
           </el-form-item>
         </el-col>
@@ -142,7 +142,7 @@ export default {
           { required: true, message: "请选择管制事项", trigger: "blur" }
         ],
         bonus_type: [
-          { required: true, message: "请选择提成类型", trigger: "blur" }
+          { required: true, message: "请选择点数类型", trigger: "blur" }
         ],
         timing: [
           { required: true, message: "请选择生成时机", trigger: "blur" }

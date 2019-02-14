@@ -67,34 +67,38 @@ export default {
         columns: [
           { type: "selection" },
           { type: "text", label: "案号", prop: "serial", min_width: "150" },
-          { type: "text", label: "标题", prop: "title", min_width: "150" },
+          { type: "text", label: "标题", prop: "title", min_width: "200" },
           {
             type: "text",
             label: "案件类型",
             prop: "project_type",
             render_simple: "name",
-            width: "90"
+            width: "90",
+            render_header: true
           },
           {
             type: "text",
             label: "案件子类型",
             prop: "subtype",
             render_simple: "name",
-            width: "100"
+            width: "110",
+            render_header: true
           },
           {
             type: "text",
             label: "国家/地区",
             prop: "area",
             render_simple: "name",
-            width: "90"
+            width: "100",
+            render_header: true
           },
           {
             type: "text",
             label: "管制事项",
             prop: "process",
             render_simple: "name",
-            width: "110"
+            width: "120",
+            render_header: true
           },
           {
             type: "array",
@@ -115,22 +119,25 @@ export default {
             label: "点数类型",
             prop: "bonus_type",
             render_simple: "name",
-            width: "80"
-          },
-          {
-            type: "text",
-            label: "点数对象",
-            prop: "user",
-            render_simple: "name",
-            width: "80"
+            width: "110",
+            render_header: true
           },
           { type: "text", label: "点数", prop: "points", width: "80" },
+          {
+            type: "text",
+            label: "用户",
+            prop: "user",
+            render_simple: "name",
+            width: "80",
+            render_header: true
+          },
           {
             type: "text",
             label: "状态",
             prop: "status",
             render_simple: "name",
-            width: "80"
+            width: "80",
+            render_header: true
           },
           {
             type: "text",
@@ -142,18 +149,18 @@ export default {
             type: "text",
             label: "申请号",
             prop: "application_number",
-            width: "135"
+            width: "145"
           },
           {
             type: "text",
-            label: "最后修改用户",
+            label: "修改用户",
             prop: "last_modifier_user",
             render_simple: "name",
-            width: "100"
+            width: "80"
           },
           {
             type: "text",
-            label: "最后修改时间",
+            label: "修改时间",
             prop: "last_modification_time",
             width: "160"
           },

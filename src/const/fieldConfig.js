@@ -211,10 +211,14 @@ const strainerConfig = [
     "points",
     [
       { name: "点数状态", id: "status", default: true },
-      { name: "提成类型", id: "bonus_type" },
+      { name: "点数类型", id: "bonus_type" },
       { name: "发放时间", id: "issue_date" },
-      { name: "结算时间", id: "settlement_date" },
+      { name: "结算时间", id: "settlement_date" }
     ]
   ],
+  [
+    "bonus_report",
+    [{ name: "月份", id: "month", default: true }, { name: "用户", id: "user" }]
+  ]
 ];
 export { config, fieldExceptMap, strainerConfig };

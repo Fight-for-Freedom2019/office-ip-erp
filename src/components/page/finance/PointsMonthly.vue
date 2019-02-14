@@ -53,8 +53,9 @@ export default {
         height: "default",
         highlightCurrentRow: true,
         is_search: true,
-        is_list_filter: false,
-        list_type: "serial",
+        is_list_filter: true,
+        list_type: "bonus_report",
+        treeFilter: "bonus_report",
         search_placeholder: "用户名称、月份",
         // 'rowClick': this.handleRowClick,
         header_btn: [
@@ -70,9 +71,16 @@ export default {
             label: "用户",
             prop: "user",
             render_simple: "name",
-            min_width: "150"
+            min_width: "150",
+            render_header: true
           },
-          { type: "text", label: "月份", prop: "month", min_width: "100" },
+          {
+            type: "text",
+            label: "月份",
+            prop: "month",
+            min_width: "100",
+            render_header: true
+          },
           { type: "text", label: "总点数", prop: "points", min_width: "100" },
           // {type: 'text', label: '绩效点数', prop: 'points_bonus', min_width: '100'},
           // {type: 'text', label: '总点数', prop: 'sum', min_width: '100'},
