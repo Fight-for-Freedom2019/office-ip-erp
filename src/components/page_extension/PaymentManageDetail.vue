@@ -6,13 +6,12 @@
         <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
         <!-- <el-button type="danger" size="small" @click="deleteInvoice">删除</el-button> -->
         <el-button
-          type="primary"
           size="small"
           v-if="status === 'audit'"
           @click="submitCommon(rowID,'/submit','提交审核')"
         >提交审核</el-button>
         <!--<el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail">发送邮件</el-button>-->
-        <el-dropdown size="small" v-if="showSendMailBtn" @command="sendmail">
+        <el-dropdown style="margin-left: 10px" size="small" v-if="showSendMailBtn" @command="sendmail">
           <el-button type="primary" size="small">
             发送邮件
             <i class="el-icon-arrow-down el-icon--right"></i>

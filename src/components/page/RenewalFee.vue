@@ -121,7 +121,8 @@ export default {
 					{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '200'},
 					{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '200'},
 					{ type: 'text', label: '官方绝限', prop: 'legal_deadline', width: '200'},
-					{ type: 'text', label: '客户', prop: 'customer',  render_key: 'project', render_simple: 'name', width: '200'},
+					{ type: 'text', label: '费用对象', prop: 'user', render_simple: 'name', width: '200'},
+					{ type: 'text', label: '委案日', prop: 'entrusting_time', width: '200'},
 
 					{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '200'},
 					{ 

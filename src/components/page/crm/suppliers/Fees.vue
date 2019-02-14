@@ -133,6 +133,7 @@ export default {
             width: "150",
             render_header: true
           },
+          {type: 'text', label: '委案日', prop: 'entrusting_time', width: '160', render_header: true},
           {
             type: "text",
             label: "申请日",
@@ -179,7 +180,7 @@ export default {
           { type: "text", label: "人民币", prop: "rmb_amount", width: "80" },
           {
             type: "text",
-            label: "费用期限",
+            label: "法定期限",
             prop: "deadline",
             width: "110",
             render_header: true

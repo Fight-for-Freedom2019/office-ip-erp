@@ -692,7 +692,7 @@ const map = new Map([
         name: "币别",
         map_type: "currency"
       },
-      { type: "date", id: "deadline", name: "费用期限" },
+      { type: "date", id: "deadline", name: "法定期限" },
       {
         type: "static_select",
         id: "status",

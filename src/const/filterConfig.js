@@ -226,7 +226,7 @@ const map = new Map([
         { components: 'static_select', id: 'status', name: '账单状态', type: 'invoice_type' },
         { components: 'remote_select', id: 'target', name: '账单对象', type: 'member'  , used: true},
         { components: 'date',          id: 'create_time', name: '账单生成日期' },
-        { components: 'date',          id: 'due_time', name: '费用期限' },
+        { components: 'date',          id: 'due_time', name: '法定期限' },
         { components: 'date',          id: 'pay_time', name: '付款时间' },
     ]],
     ['patent_notice',[
