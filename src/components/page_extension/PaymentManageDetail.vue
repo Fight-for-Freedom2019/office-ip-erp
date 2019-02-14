@@ -21,6 +21,17 @@
             <el-dropdown-item command="2">预付款</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <el-dropdown style="margin-left: 10px" size="small" @command="uploadFile">
+          <el-button size="small">
+            下载
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="export_invoice" v-if="mode !== 'pay'">账单详情</el-dropdown-item>
+            <el-dropdown-item command="export_cn_invoice">国知局CN专利缴费单</el-dropdown-item>
+            <el-dropdown-item command="export_pct_invoice">国知局PCT专利缴费单</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <!-- <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button> -->
         <!-- <el-button type="primary" size="small" v-if="status === 'confirm'" @click="confirm">确认付款</el-button> -->
         <!--<el-button type="" size="small">退回修改</el-button>-->
@@ -320,12 +331,19 @@ export default {
       val ? this.$tool.coverObj(this.form, val, { obj: ["status"] }) : "";
     },
     getAllReceived(data) {
+      this.setPaymentTime(data);
       // 获取回款总额
       let sum = 0;
       data.map(function(item) {
         sum += item.amount ? item.amount : 0;
       });
       return sum;
+    },
+    // 将回款记录中的第一条的回款时间设置为上面的回款时间
+    setPaymentTime(data){
+      this.$nextTick(()=>{
+        data.length!==0?this.form.payment_time = data[0].received_date:"";
+      })
     },
     openLoading() {
       this.loadingVisible = true;
@@ -354,6 +372,12 @@ export default {
     },
     sendmail(fee_policy) {
       this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
+    },
+    uploadFile(type){
+      const success = _=>{
+        window.open(_.data.downloadUrl);
+      }
+      this.$axiosGet({url:`/invoices/${this.id}/${type}`,success})
     },
     confirm() {
       this.paymentDialog = true;
