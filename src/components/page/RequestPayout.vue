@@ -82,7 +82,7 @@
                         {type: 'text', label: '标题', prop: 'project.title',width: '150', render_header: true},
                         {type: 'text', label: '申请号', prop: 'project.application_number', width: '150', render_header: true},
                         {type: 'text', label: '申请日', prop: 'project.application_date', width: '160', render_header: true},
-                        {type: 'text', label: '委案日', prop: 'entrusting_time', width: '160', render_header: true},
+                        {type: 'text' , label: '委案日', prop: 'entrusting_time', width: '160', render_header: true},
                         {type: 'text', label: '案号', prop: 'project.serial',width: '120', render_header: true},
                         {type: 'text', label: '订单号', prop: 'order.serial', width: '120', render_header: true},
                         {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '160', render_header: true},
@@ -96,7 +96,7 @@
                         {type: 'text', label: '币别', prop: 'currency', width: '150', render_header: true},
                         {type: 'text', label: '汇率', prop: 'roe', width: '150'},
                         {type: 'text', label: '人民币', prop: 'rmb_amount', width: '150'},
-                        {type: 'text', label: '费用期限', prop: 'deadline', width: '150', render_header: true},
+                        {type: 'text', label: '法定期限', prop: 'deadline', width: '150', render_header: true},
                         {
                             type: 'text',
                             label: '费用策略',
