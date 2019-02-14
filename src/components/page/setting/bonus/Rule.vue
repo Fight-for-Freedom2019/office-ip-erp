@@ -100,7 +100,7 @@ export default {
           },
           {
             type: "text",
-            label: "提成类型",
+            label: "点数类型",
             prop: "bonus_rule_type",
             render_simple: "name",
             width: "100"

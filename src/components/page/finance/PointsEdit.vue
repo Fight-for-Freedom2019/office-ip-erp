@@ -11,7 +11,7 @@
             </el-form-item>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="提成类型" prop="bonus_type">
+                    <el-form-item label="点数类型" prop="bonus_type">
                         <static-select type="bonus_type" v-model="form.bonus_type"></static-select>
                     </el-form-item>
                 </el-col>
@@ -95,7 +95,7 @@
                         {required: true, message: "请选择案件", trigger: "blur"}
                     ],
                     bonus_type: [
-                        {required: true, message: "请选择提成类型", trigger: "blur"}
+                        {required: true, message: "请选择点数类型", trigger: "blur"}
                     ],
                     user: [
                         {required: true, message: "请选择用户", trigger: "blur"}
