@@ -86,6 +86,7 @@
   import RemoteSelect from "@/components/form/RemoteSelect";
   import JumpSelect from "@/components/form/JumpSelect";
   import StaticSelect from "@/components/form/StaticSelect";
+  import { mapGetters } from "vuex"
 
   export default {
     name: "RequestPayoutAdd",
@@ -132,12 +133,16 @@
       // fee_type为区分收费和付费的字段，付费(pay)是面向供应商的，收费(fee)为客户
       fee_type:{
         type:String,
-        default(){
-          return "fee"
-        },
+        default() {
+          return 'fee'
+        }
+      },
+      pageType: {
+        type: String,
       }
     },
     computed:{
+      ...mapGetters(['detailId']),
       label:function () {
         if(this.fee_type === "pay") {
           return "选择供应商"
@@ -185,6 +190,19 @@
     watch: {
       rowData: function (val, oldVal) {
         this.coverObj(val);
+      },
+      pageType (val) {
+        if(val == 'add') {
+          this.form.project = this.detailId;
+        }
+      },
+      fee_type: {
+        handler(val) {
+          this.$nextTick(_=>{
+            this.form.project = this.detailId;
+          })
+        },
+        immediate: true
       }
     },
     mounted() {

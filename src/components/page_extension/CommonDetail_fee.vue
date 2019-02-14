@@ -4,6 +4,22 @@
       <el-tag>总收入：{{ income }}CNY</el-tag>
       <el-tag>总支出：{{ expend }}CNY</el-tag>
     </div>-->
+    <template>
+      <el-dropdown style="margin-bottom: 10px;" trigger="click" @command="handleCommand">
+        <el-button
+          class="table-header-btn"
+          size="small"
+          type="primary"
+        >
+          新建费用
+          <i class="el-icon-caret-bottom el-icon--right"></i>
+        </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="fee_in">应收</el-dropdown-item>
+          <el-dropdown-item command="fee_out">应付</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </template>
     <app-collapse :col-title="`收入(总计：${detailRevenue.sum?detailRevenue.sum:'0'}CNY)`">
       <app-table
         :columns="columns"
@@ -33,11 +49,19 @@
         max-height="160"
       ></app-table>
     </app-collapse>
-    <app-shrink :visible.sync="visible" title="费用编辑">
+    <app-shrink :visible.sync="visible" :title="`${pageType == 'add'?'新建':'编辑'}费用`">
       <span slot="header" style="float: right;">
-        <el-button type="primary" size="small" @click="save('edit')">保存</el-button>
+        <el-button type="primary" size="small" v-if="pageType == 'edit'" @click="save('edit')">保存</el-button>
+        <el-button type="primary" size="small" v-else @click="save('add')">新建</el-button>
       </span>
-      <fee :row-data="currentRowFee" ref="fee"></fee>
+      <fee 
+        :row-data="currentRowFee" 
+        :fee_type="feeType" 
+        :page-type="pageType"
+        ref="fee" 
+        @update="handleRrefresh" 
+        @refresh="handleRrefresh">
+      </fee>
     </app-shrink>
     <renewal-fee @refresh="refresh"></renewal-fee>
   </div>
@@ -55,6 +79,8 @@ export default {
   data() {
     return {
       visible: false,
+      feeType: '',
+      pageType: '',
       currentRowFee: {},
       columns: [
         { type: "text", label: "费用名称", prop: "name", min_width: "145" },
@@ -118,34 +144,47 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["detailRevenue", "detailCost", "detailRenewal"]),
-    expend() {
+    ...mapGetters(["detailRevenue", "detailCost", "detailRenewal",]),
+    expend () {
       return this.detailCost ? this.detailCost.sum : "0";
     },
-    income() {
+    income () {
       return this.detailRevenue ? this.detailRevenue.sum : "0";
-    }
-    /*  	tableData () {
-  		return this.$store.getters.detailFees;
-  	}*/
+    },
   },
   methods: {
     ...mapActions(["refreshDetailData"]),
+    handleCommand(command) {
+      this.visible = true;
+      this.$nextTick(()=>{
+        this.pageType = 'add';
+      })
+        if(command == 'fee_in') {
+          this.feeType = 'fee';
+        }else if(command == "fee_out"){
+          this.feeType = 'pay';
+        }
+    },
     editFee({ id, is_renewal }) {
       this.visible = true;
+      this.pageType = 'edit';
       const url = is_renewal ? `/renewal_fees/${id}` : `/fees/${id}`;
       const success = _ => {
         this.currentRowFee = _.data;
       };
       this.$axiosGet({ url, success });
     },
+    handleRrefresh() {
+      this.refresh();
+      this.visible = false;
+    },
     save(type) {
-      const id = this.currentRowFee.id;
-      this.$refs.fee.save(type, id);
-      this.$nextTick(_ => {
-        this.refresh();
-        this.visible = false;
-      });
+      if(this.pageType == 'add') {
+        this.$refs.fee.save('add');
+      }else{
+        const id = this.currentRowFee.id;
+        this.$refs.fee.save(type, id);
+      }
     },
     refresh() {
       this.refreshDetailData();
@@ -167,12 +206,24 @@ export default {
         .catch(_ => {});
     }
   },
+  watch: {
+    pageType(val) {
+      if(val == 'add' && this.feeType) {
+        this.$refs.fee.clear();
+      }
+    },
+    feeType (val) {
+       this.$nextTick(()=>{
+        this.$refs.fee.clear();
+      })
+    },
+  },
   components: {
     AppCollapse,
     AppTable,
     Fee,
     RenewalFee,
-    AppShrink
+    AppShrink,
   }
 };
 </script>
