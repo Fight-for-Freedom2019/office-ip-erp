@@ -123,7 +123,7 @@ const map = new Map([
         url: "/contacts"
       },
       { type: "date", id: "entrusting_time", name: "立案日" },
-      { type: "date", id: "task.deadline", name: "节点期限" },
+      { type: "date", id: "deadline", name: "节点期限" },
       { type: "date", id: "internal_deadline", name: "管控期限" },
       // { type: "date", id: "first_edition_deadline", name: "初稿期限" },
       // { type: "date", id: "filing_deadline", name: "递交期限" },
