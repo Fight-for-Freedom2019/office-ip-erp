@@ -3,7 +3,7 @@ const map = new Map([
   [
     "task",
     [
-      { components: "input", id: "model", name: "模块", used: true },
+      { components: "static_select", id: "model", name: "模块", type: "process_model", used: true },
       { components: "input", id: "serial", name: "案号" },
       { components: "input", id: "customer_serial", name: "客户案号" },
       { components: "input", id: "title", name: "标题" },
@@ -39,7 +39,7 @@ const map = new Map([
         components: "static_select",
         id: "process_stage",
         name: "当前阶段",
-        type: "processs_stage"
+        type: "process_stage"
       },
       { components: "remote_select", id: "user", name: "承办人", type: "user" },
       {
