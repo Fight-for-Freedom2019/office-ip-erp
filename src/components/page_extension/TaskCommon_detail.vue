@@ -103,7 +103,7 @@ export default {
         type: "warning"
       })
         .then(_ => {
-          const url = `/processes/${this.id}/files/${id}`;
+          const url = `/files/${id}`;
           const success = _ => {
             this.$message({ type: "success", message: _.info });
             this.refreshData();
