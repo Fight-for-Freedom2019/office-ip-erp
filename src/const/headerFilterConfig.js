@@ -700,7 +700,7 @@ const map = new Map([
         name: "币别",
         map_type: "currency"
       },
-      { type: "date", id: "deadline", name: "法定期限" },
+      { type: "date", id: "deadline", name: "官方绝限" },
       {
         type: "static_select",
         id: "status",
@@ -714,6 +714,59 @@ const map = new Map([
         map_type: "payment_request_timing"
       },
       { type: "text", id: "remark", name: "备注" }
+    ]
+  ],
+  /* 年费监控 */
+  [
+    "renewal_fees",
+    [
+      {
+        type: "remote_select",
+        id: "customer",
+        name: "客户",
+        data_key: "data",
+        url: "/customers?listOnly=1"
+      },
+      { type: "date", id: "application_date", name: "申请日" },
+      { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
+      {
+        type: "static_select",
+        id: "fee_code",
+        name: "费用类型",
+        map_type: "fee_code",
+        url: "/feecode"
+      },
+      {
+        type: "static_select",
+        id: "policy",
+        name: "费用策略",
+        map_type: "policy"
+      },
+      { type: "date", id: "deadline", name: "官方绝限" },
+      {
+        type: "static_select",
+        id: "status",
+        name: "费用状态",
+        map_type: "renewal_fee_status"
+      },
+      {
+        type: "static_select",
+        id: "month",
+        name: "申请月份",
+        map_type: "month"
+      },
+      {
+        type: "static_select",
+        id: "expire_days",
+        name: "到期天数",
+        map_type: "expire_days"
+      },
+      {
+        type: "static_select",
+        id: "project_type",
+        name: "案件类型",
+        map_type: "project_type"
+      }
     ]
   ],
   /* 请款管理 */

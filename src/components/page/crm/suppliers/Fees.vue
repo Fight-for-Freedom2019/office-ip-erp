@@ -186,7 +186,7 @@ export default {
           { type: "text", label: "人民币", prop: "rmb_amount", width: "80" },
           {
             type: "text",
-            label: "法定期限",
+            label: "官方绝限",
             prop: "deadline",
             width: "110",
             render_header: true

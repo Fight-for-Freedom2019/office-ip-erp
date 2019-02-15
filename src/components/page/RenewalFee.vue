@@ -85,7 +85,11 @@ export default {
 				name: 'renewalFeeList',
 				url: URL,
 				height: 'default',
-				search_placeholder: '案号、案件名称、创建人',
+				search_placeholder: '请输入关键字搜索',
+				rowClick:this.editPop,
+				is_list_filter: true,
+        list_type: "renewal_fees",
+        treeFilter: "renewal_fees",
 				header_btn: [
 					// { type: 'add', click: this.addPop },
 					// { type: 'add', label: '批量添加', click: _=>{ this.dialogVisble4 = true; } },
@@ -114,73 +118,49 @@ export default {
 
 				columns: [
 					{ type: 'selection' },
-					{ type: 'text', label: '案件类型', prop: 'category', render_key: 'project', render_simple: 'serial', width: '150'},
-					{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '150'},
+					{ type: 'text', label: '案件类型', prop: 'project_type',render_obj:"project", render_simple: 'name', width: '100', render_header:true},
+					{ type: 'text', label: '国家', prop: 'area',render_obj:"project", render_simple: 'name', width: '80', render_header:true},
+					{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '185'},
 					{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '200'},
-					{ type: 'text', label: '客户', prop: 'customer',  render_key: 'project', render_simple: 'name', width: '200'},
-					{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '200'},
-					{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '200'},
-					{ type: 'text', label: '官方绝限', prop: 'legal_deadline', width: '200'},
-					{ type: 'text', label: '费用对象', prop: 'user', render_simple: 'name', width: '200'},
-					{ type: 'text', label: '委案日', prop: 'entrusting_time', width: '200'},
-
-					{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '200'},
+					{ type: 'text', label: '客户', prop: 'customer',  render_obj: 'project', render_simple: 'name', width: '200', render_header:true},
+					{ type: 'text', label: '费用对象', prop: 'user', render_simple: 'name', width: '150'},
+					{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '135'},
+					{ type: 'text', label: '申请日', prop: 'application_date',  render_key: 'project', render_simple: 'application_date', width: '100', render_header:true},
+					{ type: 'text', label: '申请月份', prop: 'month',  width: '100', render_header:true},
+					// { type: 'text', label: '委案日', prop: 'entrusting_time', width: '100'},
+					{ type: 'text', label: '官方绝限', prop: 'deadline', width: '100', render_header:true},
+					{ type: 'text', label: '到期天数', prop: 'expire_days', width: '100', render_header:true},
+					{ type: 'text', label: '年费类型', prop: 'fee_code', render_simple: 'name', width: '180', render_header:true},
 					{ 
 						type: 'text', 
 						label: '金额', 
 						prop: 'amount', 
-						width: '100',
-						align: 'right',
-						render:(h,item,row)=>{
-	            if( row.roe == 1 ){
-		            return h('span','N/A');
-		          }else{
-		            return h('span',`${item}${row.currency}`);
-		          }
-	          } 
+						width: '80',
 	        },
           { 
           	type: 'text', 
           	label: '汇率', 
           	prop: 'roe', 
-          	width: '80',
-          	align: 'right',
-          	render:(h,item)=>{
-		          if( item == 1 ){
-		            return h('span','N/A');
-		          }else{
-		            return h('span',item);
-		          } 
-		        }
+          	width: '60',
 		      },
           { 
           	type: 'text', 
-          	label: '人民币金额', 
+          	label: '人民币', 
           	prop: 'rmb_amount', 
-          	width: '120',
-          	align: 'right',
-          	render:(h,item)=>{
-	            return h('span',`${item}CNY`)
-	          }
+          	width: '80',
 	        },
 					{ 
 						type: 'text', 
 						label: '年费状态', 
 						prop: 'status', 
-						render_text: _=>this.statusMap.get(_),
-						width: '200'
+						render_simple:'name',
+						width: '100',
+						render_header:true
 					},
-					{ type: 'text', label: '案件费用策略', prop: 'fee_policy', render_key: 'project', render_simple: 'name', width: '200'},
-					{ type: 'text', label: '评估单号', prop: 'confirmation_sheet', render_simple: 'serial', width: '200'},
-					{ type: 'text', label: '备注', prop: 'remark', width: '200'},
-					{
-						type: 'action',
-						label: '操作',
-						width: '110',
-						btns: [
-							{type: 'edit', click: this.editPop, icon: 'el-icon-plus' }
-						]
-					}
+					{ type: 'text', label: '费用策略', prop: 'fee_policy', render_obj: 'project', render_simple: 'name', width: '100'},
+					{ type: 'text', label: '评估单号', prop: 'confirmation_sheet', render_simple: 'serial', width: '80'},
+					{ type: 'text', label: '备注', prop: 'remark', width: '80'},
+
 				]
 			},
 			tableData: [],

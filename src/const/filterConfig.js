@@ -670,7 +670,7 @@ const map = new Map([
         used: true
       },
       { components: "date", id: "create_time", name: "账单生成日期" },
-      { components: "date", id: "due_time", name: "法定期限" },
+      { components: "date", id: "due_time", name: "官方绝限" },
       { components: "date", id: "pay_time", name: "付款时间" }
     ]
   ],
@@ -1178,6 +1178,44 @@ const map = new Map([
         type: "text",
         used: true
       }
+    ]
+  ],
+  /* 通知书管理 */
+  [
+    "patent_notices",
+    [
+      {
+        components: "remote_select",
+        id: "customer",
+        name: "所属客户",
+        type: "customer",
+        used:true,
+      },
+      {
+        components: "static_select",
+        id: "file_type",
+        name: "通知书名称",
+        type: "file_type",
+        used:true,
+      },
+      { components: "input", id: "serial", name: "案号" },
+      {
+        components: "static_select",
+        id: "is_sent",
+        name: "是否发送",
+        type: "bool",
+        multiple: false
+      },
+      // { components: "input", id: "customer_serial", name: "客户案号" },
+      { components: "input", id: "title", name: "案件名称" },
+      { components: "input", id: "application_number", name: "申请号" },
+      { components: "date", id: "application_date", name: "申请日" },
+      { components: "date", id: "mail_date", name: "发文日" },
+      { components: "input", id: "mail_serial", name: "发文序列号" },
+      { components: "date", id: "legal_deadline", name: "官方绝限" },
+      { components: "date", id: "creation_time", name: "上传日" },
+      { components: "remote_select", id: "creator_user", type:"customer", name: "上传用户" },
+
     ]
   ]
 ]);
