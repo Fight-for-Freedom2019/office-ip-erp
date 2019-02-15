@@ -216,7 +216,7 @@ export default {
         const mail = _.data;
         this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });
         this.form.subject = mail.subject;
-        this.attachments = _.attachments ? _.attachments : [];
+        this.attachments = _.data.attachments ? _.data.attachments : [];
         this.loadingVisible = false;
       };
       this.$axiosGet({ url, data, success });
