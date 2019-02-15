@@ -235,12 +235,6 @@ export default {
       mailbtn: "",
       tableData: [],
       task_toggle: "my",
-      // agen: {
-      //   agency_id: '',
-      //   agency_agent: '',
-      //   agency_type: '',
-      //   remark: '',
-      // },
       dialogAgenVisible: false,
       btn_disabled: false,
       install: "",
