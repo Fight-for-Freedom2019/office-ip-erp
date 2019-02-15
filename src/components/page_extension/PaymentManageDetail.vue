@@ -49,13 +49,13 @@
           label-position="left"
           class="form-information"
         >
-          <el-row :gutter="20">
+          <el-row :gutter="10">
             <el-col :span="6">
-              <el-form-item label="收款对象" v-if="mode==='pay'">
+              <el-form-item label="收款对象" class="text-overflow" v-if="mode==='pay'">
                 <span class="form-item-text">{{rowData.user?rowData.user.name:""}}</span>
                 <!-- 有些from项不用提交，直接使用rowData数据，因为经过coverObj方法的from没办法保留name -->
               </el-form-item>
-              <el-form-item label="请款对象" v-else>
+              <el-form-item label="请款对象" class="text-overflow" v-else>
                 <span class="form-item-text">{{rowData.user?rowData.user.name:""}}</span>
               </el-form-item>
             </el-col>
@@ -78,7 +78,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="20">
+          <el-row :gutter="10">
             <el-col :span="6">
               <el-form-item label="金额">
                 <span class="form-item-text">{{form.amount}}</span>
@@ -100,7 +100,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="20">
+          <el-row :gutter="10">
             <el-col :span="6">
               <el-form-item label="请款时间" v-if="mode!=='pay'">
                 <span class="form-item-text">{{form.request_time}}</span>
@@ -144,10 +144,10 @@
           <!-- <el-form-item class="break-form upload-from" label="快递" prop="express">
               <up-load v-model="form.express" :fileList="express"></up-load>
           </el-form-item>-->
-          <el-form-item class="break-form" label="备注" prop="remark">
+          <el-form-item label="备注" prop="remark">
             <el-input type="textarea" v-model="form.remark" resize="none"></el-input>
           </el-form-item>
-          <el-form-item class="break-form upload-from" label="附件">
+          <el-form-item label="附件">
             <up-load v-model="form.attachments" :file-list="attachments"></up-load>
           </el-form-item>
         </el-form>
@@ -425,38 +425,7 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.form-item-text {
-  display: inline-block;
-  max-width: 120px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-#app .form-information .break-form .el-form-item__label {
-  font-size: 14px;
-  color: #606266;
-}
-
-.PaymentRequestDetail {
-  margin-top: 10px;
-}
-
-.PaymentRequestDetail {
-  margin-top: 10px;
-}
-</style>
 <style>
-#app .PaymentRequestDetail .break-form textarea {
-  height: auto;
-}
-
-#app .PaymentRequestDetail .upload-from {
-  height: auto;
-}
-
 .PaymentRequestDetail .custom-input .el-input__inner,
 .PaymentRequestDetail .custom-picker-input .el-input__inner {
   height: 28px;
@@ -475,5 +444,11 @@ export default {
 
 .PaymentRequestDetail .custom-picker-input .el-input__prefix {
   display: none;
+}
+.PaymentRequestDetail .text-overflow {
+  max-width: 255px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>

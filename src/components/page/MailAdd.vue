@@ -234,17 +234,20 @@ export default {
       this.$axiosGet({ url, success });
     },
     showCommon(scene,id,field,value){
+      this.loadingVisible = true;
       this.id = id;
       this.dialogVisible = true;
       this.loadTemplateMail({scene,id,arg:[{[field]:value}]})
     },
     showByProcess(scene,id,process_id){
+      this.loadingVisible = true;
       this.id = id;
       this.dialogVisible = true;
       this.process_id = process_id;
       this.loadTemplateMail({scene,id})
     },
     showBatch(scene, id, url){
+      this.loadingVisible = true;
       this.id = id;
       this.dialogVisible = true;
       this.loadTemplateMail({scene, id, url});
