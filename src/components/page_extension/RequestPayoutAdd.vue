@@ -10,61 +10,63 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="选择案件" prop="project">
             <jump-select type="project" v-model="form.project"></jump-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="12">
           <el-form-item label="费用名称" prop="fee_code">
             <static-select type="fee_code" v-model="form.fee_code"></static-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12">
           <el-form-item label="币别" prop="currency">
             <static-select type="currency" v-model="form.currency"></static-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="12">
           <el-form-item label="汇率" prop="roe">
             <el-input type="text" placeholder="请输入汇率" v-model="form.roe"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12">
           <el-form-item label="付款时间" prop="payment_time">
             <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"
                             v-model="form.payment_time"></el-date-picker>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="12">
           <el-form-item label="最后期限" prop="deadline">
             <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="请选择时间"
                             v-model="form.deadline"></el-date-picker>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12">
           <el-form-item label="金额" prop="amount">
             <el-input type="text" v-model="form.amount" placeholder="请输入金额"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="12">
           <el-form-item label="费用策略" prop="policy">
             <static-select type="policy" v-model="form.policy"></static-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12">
           <el-form-item label="请款时机" prop="payment_request_timing">
             <static-select type="payment_request_timing" v-model="form.payment_request_timing"></static-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="12">
           <el-form-item label="费用状态" prop="status">
             <static-select type="fee_status" v-model="form.status"></static-select>
