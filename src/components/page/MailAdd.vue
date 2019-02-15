@@ -216,7 +216,7 @@ export default {
         const mail = _.data;
         this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });
         this.form.subject = mail.subject;
-        this.attachments = _.attachments ? _.attachments : [];
+        this.attachments = _.data.attachments ? _.data.attachments : [];
         this.loadingVisible = false;
       };
       this.$axiosGet({ url, data, success });
@@ -234,17 +234,20 @@ export default {
       this.$axiosGet({ url, success });
     },
     showCommon(scene,id,field,value){
+      this.loadingVisible = true;
       this.id = id;
       this.dialogVisible = true;
       this.loadTemplateMail({scene,id,arg:[{[field]:value}]})
     },
     showByProcess(scene,id,process_id){
+      this.loadingVisible = true;
       this.id = id;
       this.dialogVisible = true;
       this.process_id = process_id;
       this.loadTemplateMail({scene,id})
     },
     showBatch(scene, id, url){
+      this.loadingVisible = true;
       this.id = id;
       this.dialogVisible = true;
       this.loadTemplateMail({scene, id, url});

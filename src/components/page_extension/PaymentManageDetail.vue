@@ -5,14 +5,14 @@
       <span slot="header" style="float: right;">
         <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
         <!-- <el-button type="danger" size="small" @click="deleteInvoice">删除</el-button> -->
-        <el-button
-          size="small"
-          v-if="status === 'audit'"
-          @click="submitCommon(rowID,'/submit','提交审核')"
-        >提交审核</el-button>
         <!--<el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail">发送邮件</el-button>-->
-        <el-dropdown style="margin-left: 10px" size="small" v-if="showSendMailBtn" @command="sendmail">
-          <el-button type="primary" size="small">
+        <el-dropdown
+          style="margin-left: 10px"
+          size="small"
+          v-if="showSendMailBtn"
+          @command="sendmail"
+        >
+          <el-button type size="small">
             发送邮件
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
@@ -21,15 +21,20 @@
             <el-dropdown-item command="2">预付款</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <el-button
+          size="small"
+          v-if="status === 'audit'"
+          @click="submitCommon('/submit','提交审核')"
+        >提交审核</el-button>
         <el-dropdown style="margin-left: 10px" size="small" @command="uploadFile">
           <el-button size="small">
             下载
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="export_invoice" v-if="mode !== 'pay'">账单详情</el-dropdown-item>
-            <el-dropdown-item command="export_cn_invoice">国知局CN专利缴费单</el-dropdown-item>
-            <el-dropdown-item command="export_pct_invoice">国知局PCT专利缴费单</el-dropdown-item>
+            <el-dropdown-item command="export_invoice">账单详情</el-dropdown-item>
+            <el-dropdown-item command="export_cn_invoice" v-if="mode == 'pay'">国知局CN专利缴费单</el-dropdown-item>
+            <el-dropdown-item command="export_pct_invoice" v-if="mode == 'pay'">国知局PCT专利缴费单</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <!-- <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button> -->
@@ -44,13 +49,13 @@
           label-position="left"
           class="form-information"
         >
-          <el-row :gutter="20">
+          <el-row :gutter="10">
             <el-col :span="6">
-              <el-form-item label="收款对象" v-if="mode==='pay'">
+              <el-form-item label="收款对象" class="text-overflow" v-if="mode==='pay'">
                 <span class="form-item-text">{{rowData.user?rowData.user.name:""}}</span>
                 <!-- 有些from项不用提交，直接使用rowData数据，因为经过coverObj方法的from没办法保留name -->
               </el-form-item>
-              <el-form-item label="请款对象" v-else>
+              <el-form-item label="请款对象" class="text-overflow" v-else>
                 <span class="form-item-text">{{rowData.user?rowData.user.name:""}}</span>
               </el-form-item>
             </el-col>
@@ -73,7 +78,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="20">
+          <el-row :gutter="10">
             <el-col :span="6">
               <el-form-item label="金额">
                 <span class="form-item-text">{{form.amount}}</span>
@@ -95,7 +100,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="20">
+          <el-row :gutter="10">
             <el-col :span="6">
               <el-form-item label="请款时间" v-if="mode!=='pay'">
                 <span class="form-item-text">{{form.request_time}}</span>
@@ -139,10 +144,10 @@
           <!-- <el-form-item class="break-form upload-from" label="快递" prop="express">
               <up-load v-model="form.express" :fileList="express"></up-load>
           </el-form-item>-->
-          <el-form-item class="break-form" label="备注" prop="remark">
+          <el-form-item label="备注" prop="remark">
             <el-input type="textarea" v-model="form.remark" resize="none"></el-input>
           </el-form-item>
-          <el-form-item class="break-form upload-from" label="附件">
+          <el-form-item label="附件">
             <up-load v-model="form.attachments" :file-list="attachments"></up-load>
           </el-form-item>
         </el-form>
@@ -268,16 +273,18 @@ export default {
     refreshMail() {
       this.$refs.mails.refreshTableData();
     },
-    submitCommon(id, suffix, hint) {
+    submitCommon(suffix, hint) {
       this.$confirm(`是否${hint}`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
+        const id = this.id;
         let url = `/invoices/${id}${suffix}`;
         const success = _ => {
           this.$emit("update");
           this.$message({ type: "success", message: "操作成功" });
+          this.getDetail(id);
         };
         const error = _ => {
           this.$message({ type: "warning", message: _.info });
@@ -340,10 +347,12 @@ export default {
       return sum;
     },
     // 将回款记录中的第一条的回款时间设置为上面的回款时间
-    setPaymentTime(data){
-      this.$nextTick(()=>{
-        data.length!==0?this.form.payment_time = data[0].received_date:"";
-      })
+    setPaymentTime(data) {
+      this.$nextTick(() => {
+        data.length !== 0
+          ? (this.form.payment_time = data[0].received_date)
+          : "";
+      });
     },
     openLoading() {
       this.loadingVisible = true;
@@ -373,11 +382,11 @@ export default {
     sendmail(fee_policy) {
       this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
     },
-    uploadFile(type){
-      const success = _=>{
+    uploadFile(type) {
+      const success = _ => {
         window.open(_.data.downloadUrl);
-      }
-      this.$axiosGet({url:`/invoices/${this.id}/${type}`,success})
+      };
+      this.$axiosGet({ url: `/invoices/${this.id}/${type}`, success });
     },
     confirm() {
       this.paymentDialog = true;
@@ -416,38 +425,7 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.form-item-text {
-  display: inline-block;
-  max-width: 120px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-#app .form-information .break-form .el-form-item__label {
-  font-size: 14px;
-  color: #606266;
-}
-
-.PaymentRequestDetail {
-  margin-top: 10px;
-}
-
-.PaymentRequestDetail {
-  margin-top: 10px;
-}
-</style>
 <style>
-#app .PaymentRequestDetail .break-form textarea {
-  height: auto;
-}
-
-#app .PaymentRequestDetail .upload-from {
-  height: auto;
-}
-
 .PaymentRequestDetail .custom-input .el-input__inner,
 .PaymentRequestDetail .custom-picker-input .el-input__inner {
   height: 28px;
@@ -466,5 +444,11 @@ export default {
 
 .PaymentRequestDetail .custom-picker-input .el-input__prefix {
   display: none;
+}
+.PaymentRequestDetail .text-overflow {
+  max-width: 255px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>

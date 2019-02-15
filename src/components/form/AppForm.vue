@@ -127,17 +127,14 @@
     <invoice-detail
       ref="payment_request"
       @loaded="panelLoaded"
-      v-if="map['payment_request_detail'] != undefined"
+      v-if="map['payment_request_detail'] != undefined || map['outgo_payment_detail'] != undefined"
     ></invoice-detail>
     <!-- 账单详情 -->
     <voucher-detail ref="voucher" @loaded="panelLoaded" v-if="map['voucher_detail'] != undefined"></voucher-detail>
     <!-- 发票详情 -->
     <renewal-fee ref="renewal_fee" v-if="map['renewal_fee_detail'] != undefined"></renewal-fee>
     <!-- 年费详情 -->
-    <renewal-estimate-detail
-      ref="renewal_estimate"
-      v-if="map['renewal_estimate'] != undefined"
-    ></renewal-estimate-detail>
+    <renewal-estimate-detail ref="renewal_estimate" v-if="map['renewal_estimate'] != undefined"></renewal-estimate-detail>
     <!-- 年费评估单详情 -->
     <patent-add
       ref="patent_add"
@@ -200,9 +197,21 @@ import RenewalEstimateDetail from "@/components/page_extension/RenewalEstimate_d
 import RenewalFee from "@/components/page_extension/RenewalFee_pop";
 import Postpone from "@/components/page_extension/TaskCommonPostpone";
 import PointsMonthlyDetail from "@/components/page_extension/PointsMonthlyDetail"
-// 面板的标记（要求ref与配置的type一致）   
-const panelKeys = ['patent', 'patent_add', 'order', 'contract', 'payment_request', 
-'voucher', 'cpc_editor', 'renewal_estimate', 'renewal_fee', 'postpone', 'bonus_report'];
+
+// 面板的标记（要求ref与配置的type一致）
+const panelKeys = [
+  "patent",
+  "patent_add",
+  "order",
+  "contract",
+  "payment_request",
+  "voucher",
+  "cpc_editor",
+  "renewal_estimate",
+  "renewal_fee",
+  "postpone",
+  "bonus_report"
+];
 
 export default {
   name: "appForm",
@@ -291,6 +300,7 @@ export default {
     showPanel(type) {
       this.isDetailEnabled = false;
       this.type = type;
+      console.log(type);
       switch (type) {
         case "order":
           this.$refs.order.show(this.row.model_id, "edit");
@@ -299,7 +309,10 @@ export default {
           this.$refs.contract.show(this.row.model_id, "edit");
           break;
         case "payment_request":
-          this.$refs.payment_request.show(this.row.model_id, "edit");
+          this.$refs.payment_request.show(this.row.model_id, "request");
+          break;
+        case "outgo_payment":
+          this.$refs.payment_request.show(this.row.model_id, "pay");
           break;
         case "voucher":
           this.$refs.voucher.show(this.row.model_id, "edit");
@@ -327,14 +340,14 @@ export default {
           break;
       }
     },
-    closePanel () {
+    closePanel() {
       const type = this.type;
-      if(panelKeys.includes(type)){
-        this.$nextTick(()=>{
+      if (panelKeys.includes(type)) {
+        this.$nextTick(() => {
           this.$refs[type].close();
-        })
-      }else {
-        return false
+        });
+      } else {
+        return false;
       }
     },
     initializeForm() {
