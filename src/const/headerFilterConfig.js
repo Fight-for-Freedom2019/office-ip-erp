@@ -80,6 +80,13 @@ const map = new Map([
         data_key: "data",
         url: "/users"
       },
+      {
+        type: "remote_select",
+        id: "representative",
+        name: "对外代理人",
+        data_key: "data",
+        url: "/users"
+      },
       // {
       //   type: "remote_select",
       //   id: "assistant",
@@ -122,7 +129,8 @@ const map = new Map([
         data_key: "data",
         url: "/contacts"
       },
-      { type: "date", id: "entrusting_time", name: "立案日" },
+      { type: "date", id: "entrusting_time", name: "委案日" },
+      { type: "date", id: "creation_time", name: "立案日" },
       { type: "date", id: "deadline", name: "节点期限" },
       { type: "date", id: "internal_deadline", name: "管控期限" },
       // { type: "date", id: "first_edition_deadline", name: "初稿期限" },
@@ -653,7 +661,7 @@ const map = new Map([
         id: "user",
         name: "客户",
         data_key: "data",
-        url: "/users"
+        url: "/customers"
       },
       { type: "text", id: "project.title", name: "标题" },
       { type: "text", id: "project.application_number", name: "申请号" },

@@ -119,26 +119,34 @@ export default {
   		const name = this.source.name;
   		const key =  this.handleField(this.field);
       let extraOption = '';
-  		let [label,value]= [null,null];
-  		if(this.source.type == "date" || this.source.type == "text") {
-  			value = this.filters[this.source.id];
-  			label = this.$refs.filterCondition.getLabel();
-  		}else if(this.source.type == 'static_select' || this.source.type == 'remote_select') {
-    		const nodeArr =	this.$refs.filterCondition.getCheckedNodes();
-  			value = this.$tool.splitObj(nodeArr,'id');
-  			label = this.$tool.splitObj(nodeArr,'name');
-  		}
-  		if(this.source.type != 'date'){
-  			extraOption = { operation: this.contain_relate };
-  			obj[key] = { name, key, label, value,extraOption };
-  		}else {
-        extraOption = { operation: 1 };
-  		  obj[key] = { name, key, label, value, extraOption };
-  		}
-  		this.fillListFilter(obj);
-      this.$nextTick(()=>{
-        this.cancle();
-      })
+			let [label,value]= [null,null];
+			const filterValue = this.filters[this.source.id];
+				if((this.source.type == "date" || this.source.type == "text") && (filterValue instanceof Array &&  filterValue[0] !== "" || filterValue[1] !== "") &&  filterValue) {
+					console.log(filterValue);
+					value = this.filters[this.source.id];
+					label = this.$refs.filterCondition.getLabel();
+				}else if((this.source.type == 'static_select' || this.source.type == 'remote_select') && this.$refs.filterCondition != undefined ) {
+					const nodeArr =	this.$refs.filterCondition.getCheckedNodes();
+					if(nodeArr.length != 0) {
+						value = this.$tool.splitObj(nodeArr,'id');
+						label = this.$tool.splitObj(nodeArr,'name');
+					}else{
+						return this.$message({ message: '筛选字段不能为空', type: 'warning'});	
+					}
+				}else{
+						return this.$message({ message: '筛选字段不能为空', type: 'warning'});
+				}
+				if(this.source.type != 'date'){
+					extraOption = { operation: this.contain_relate };
+					obj[key] = { name, key, label, value,extraOption };
+				}else {
+					extraOption = { operation: 1 };
+					obj[key] = { name, key, label, value, extraOption };
+				}
+				this.fillListFilter(obj);
+				this.$nextTick(()=>{
+					this.cancle();
+				})
 	},
     getDefaultValue (key) {
       const item = this.filterSettingMap.get(key)

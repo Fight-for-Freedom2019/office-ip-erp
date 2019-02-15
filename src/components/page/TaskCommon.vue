@@ -349,8 +349,10 @@ export default {
           },
           {
             type: "text",
-            prop: "project.creation_time",
+            prop: "creation_time",
             label: "立案日",
+            render_key: "project",
+            render_simple: "creation_time",
             render_header: true,
             width: "100"
           },
@@ -535,17 +537,10 @@ export default {
             width: "100"
           },
           { type: "text", prop: "remark", label: "备注", width: "100" }
-          // { type: 'action',fixed: true, width: '100'}
         ]
       },
       tableData: [],
       task_toggle: "my",
-      // agen: {
-      //   agency_id: '',
-      //   agency_agent: '',
-      //   agency_type: '',
-      //   remark: '',
-      // },
       dialogAgenVisible: false,
       btn_disabled: false,
       install: "",
