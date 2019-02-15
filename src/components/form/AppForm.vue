@@ -140,6 +140,7 @@
       ref="patent_add"
       :title="row.title"
       :status="0"
+      pageType="edit"
       v-if="map['patent_add'] != undefined"
     ></patent-add>
     <!-- 专利基本信息 -->
