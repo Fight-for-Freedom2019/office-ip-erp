@@ -5,14 +5,14 @@
       <span slot="header" style="float: right;">
         <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
         <!-- <el-button type="danger" size="small" @click="deleteInvoice">删除</el-button> -->
-        <el-button
-          size="small"
-          v-if="status === 'audit'"
-          @click="submitCommon(rowID,'/submit','提交审核')"
-        >提交审核</el-button>
         <!--<el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail">发送邮件</el-button>-->
-        <el-dropdown style="margin-left: 10px" size="small" v-if="showSendMailBtn" @command="sendmail">
-          <el-button type="primary" size="small">
+        <el-dropdown
+          style="margin-left: 10px"
+          size="small"
+          v-if="showSendMailBtn"
+          @command="sendmail"
+        >
+          <el-button type size="small">
             发送邮件
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
@@ -21,15 +21,20 @@
             <el-dropdown-item command="2">预付款</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <el-button
+          size="small"
+          v-if="status === 'audit'"
+          @click="submitCommon('/submit','提交审核')"
+        >提交审核</el-button>
         <el-dropdown style="margin-left: 10px" size="small" @command="uploadFile">
           <el-button size="small">
             下载
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="export_invoice" v-if="mode !== 'pay'">账单详情</el-dropdown-item>
-            <el-dropdown-item command="export_cn_invoice">国知局CN专利缴费单</el-dropdown-item>
-            <el-dropdown-item command="export_pct_invoice">国知局PCT专利缴费单</el-dropdown-item>
+            <el-dropdown-item command="export_invoice">账单详情</el-dropdown-item>
+            <el-dropdown-item command="export_cn_invoice" v-if="mode == 'pay'">国知局CN专利缴费单</el-dropdown-item>
+            <el-dropdown-item command="export_pct_invoice" v-if="mode == 'pay'">国知局PCT专利缴费单</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <!-- <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button> -->
@@ -268,16 +273,18 @@ export default {
     refreshMail() {
       this.$refs.mails.refreshTableData();
     },
-    submitCommon(id, suffix, hint) {
+    submitCommon(suffix, hint) {
       this.$confirm(`是否${hint}`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
+        const id = this.id;
         let url = `/invoices/${id}${suffix}`;
         const success = _ => {
           this.$emit("update");
           this.$message({ type: "success", message: "操作成功" });
+          this.getDetail(id);
         };
         const error = _ => {
           this.$message({ type: "warning", message: _.info });
@@ -340,10 +347,12 @@ export default {
       return sum;
     },
     // 将回款记录中的第一条的回款时间设置为上面的回款时间
-    setPaymentTime(data){
-      this.$nextTick(()=>{
-        data.length!==0?this.form.payment_time = data[0].received_date:"";
-      })
+    setPaymentTime(data) {
+      this.$nextTick(() => {
+        data.length !== 0
+          ? (this.form.payment_time = data[0].received_date)
+          : "";
+      });
     },
     openLoading() {
       this.loadingVisible = true;
@@ -373,11 +382,11 @@ export default {
     sendmail(fee_policy) {
       this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
     },
-    uploadFile(type){
-      const success = _=>{
+    uploadFile(type) {
+      const success = _ => {
         window.open(_.data.downloadUrl);
-      }
-      this.$axiosGet({url:`/invoices/${this.id}/${type}`,success})
+      };
+      this.$axiosGet({ url: `/invoices/${this.id}/${type}`, success });
     },
     confirm() {
       this.paymentDialog = true;
