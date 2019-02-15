@@ -1,6 +1,6 @@
 <template>
   <div>
-		<el-row class="filter-sort">
+		<el-row class="filter-sort" v-if="source.sortable == undefined ? true : source.sortable">
 			<el-col :span="24">
 			  	<span style="display: block; width: 100%;height: 30px;line-height: 30px;font-size: 14px;" @click="handleSort('asc')"><i class="iconfont">&#xe63c;</i>升序</span>
 			  	<span style="display: block; width: 100%;height: 30px;line-height: 30px;font-size: 14px;" @click="handleSort('desc')"><i class="iconfont">&#xe639;</i>降序</span>
@@ -133,7 +133,7 @@ export default {
 
 				const nodeArr =	this.$refs.filterCondition.getCheckedNodes();
 				if(nodeArr.length != 0) {
-					
+
 					value = this.$tool.splitObj(nodeArr,'id');
 					label = this.$tool.splitObj(nodeArr,'name');
 				}else{

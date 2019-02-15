@@ -96,7 +96,6 @@
               style="cursor: pointer"
               @click="showPanel(item.type)"
               :type="item.type"
-              disabled="isDetailEnabled"
             >{{"点我查看" + item.name}}</a>
           </el-form-item>
         </template>
@@ -266,7 +265,7 @@ export default {
     return {
       form: {},
       id: 0,
-      isDetailEnabled: true,
+      // isDetailEnabled: true,
       type: "",
       conditions: {},
       attachment: {
@@ -299,7 +298,7 @@ export default {
       this.$emit("formData", this.form);
     },
     showPanel(type) {
-      this.isDetailEnabled = false;
+      // this.isDetailEnabled = false;
       this.type = type;
       console.log(type);
       switch (type) {
