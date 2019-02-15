@@ -267,9 +267,9 @@ export default {
       this.supplement = val;
       const url = `/tasks/${this.taskId}/files`;
       let list_attachments = [];
-      if (this.processData.attachments) {
+      if (this.processData.task.attachments) {
         list_attachments = this.$tool.splitObj(
-          this.processData.attachments,
+          this.processData.task.attachments,
           "id"
         );
       }
