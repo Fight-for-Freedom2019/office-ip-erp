@@ -22,6 +22,7 @@
 import StaticSelect from "@/components/form/StaticSelect";
 import { strainerConfig } from "@/const/fieldConfig";
 import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 // 过滤器后台路由配置
 const urlMap = new Map([
   ["process", { URL: "/processes/filters" }],
@@ -57,6 +58,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['filterForm']),
     strainerMap() {
       const map = new Map(strainerConfig);
       return map;
@@ -84,7 +86,8 @@ export default {
       const data = Object.assign(
         {},
         { filter_key: this.field_key },
-        this.defaultParams
+        this.defaultParams,
+        this.filterForm
       );
       const success = _ => {
         if (_) this.data = _.data;
