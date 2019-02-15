@@ -94,7 +94,6 @@
             <a
               ref="panel"
               style="cursor: pointer"
-              v-model="form[item.key]"
               @click="showPanel(item.type)"
               :type="item.type"
               disabled="isDetailEnabled"
@@ -156,9 +155,11 @@
       @turnArchivesFile="turnArchivesFile"
       v-if="map['cpc_editor'] != undefined"
     ></cpc-editor>
-    <!-- 延期记录 -->
-    <postpone ref="postpone" :id="row.model_id" v-if="map['postpone'] != undefined"></postpone>
     <!-- CPC编辑器 -->
+    <postpone ref="postpone" :id="row.model_id" v-if="map['postpone'] != undefined"></postpone>
+    <!-- 延期记录 -->
+    <points-monthly-detail ref="bonus_report" v-if="map['bonus_report'] != undefined"></points-monthly-detail> 
+    <!-- 点数月报详情 -->
     <!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
 			</template>
@@ -198,8 +199,10 @@ import CommonDetail from "@/components/page_extension/Common_detail";
 import RenewalEstimateDetail from "@/components/page_extension/RenewalEstimate_detail";
 import RenewalFee from "@/components/page_extension/RenewalFee_pop";
 import Postpone from "@/components/page_extension/TaskCommonPostpone";
+import PointsMonthlyDetail from "@/components/page_extension/PointsMonthlyDetail"
 // 面板的标记（要求ref与配置的type一致）   
-const panelKeys = ['patent', 'patent_add', 'order', 'contract', 'payment_request', 'voucher', 'cpc_editor', 'renewal_estimate', 'renewal_fee', 'postpone'];
+const panelKeys = ['patent', 'patent_add', 'order', 'contract', 'payment_request', 
+'voucher', 'cpc_editor', 'renewal_estimate', 'renewal_fee', 'postpone', 'bonus_report'];
 
 export default {
   name: "appForm",
@@ -319,6 +322,9 @@ export default {
         case "postpone":
           this.$refs.postpone.show("edit", this.row.id);
           break;
+        case "bonus_report":
+          this.$refs.bonus_report.show("edit", this.row.model_id);
+          break;
       }
     },
     closePanel () {
@@ -389,7 +395,8 @@ export default {
     CommonDetail,
     RenewalEstimateDetail,
     RenewalFee,
-    Postpone
+    Postpone,
+    PointsMonthlyDetail
   }
 };
 </script>

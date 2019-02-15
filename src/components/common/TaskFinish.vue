@@ -292,7 +292,8 @@ export default {
         "contract_detail",
         "patent_add",
         "patent",
-        "postpone"
+        "postpone",
+        "bonus_report"
       ];
       const arr = [];
       const map = {};

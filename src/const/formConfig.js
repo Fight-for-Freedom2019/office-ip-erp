@@ -117,6 +117,13 @@ const map = new Map([
     }
   ],
   [
+    "bonus_report",
+    {
+      components: "panel",
+      type: "bonus_report"
+    }
+  ],
+  [
     "assign_type",
     {
       components: "static_select",
