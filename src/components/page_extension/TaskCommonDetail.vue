@@ -352,7 +352,7 @@ export default {
       this.isTaskDetailVisible = true;
       this.row = row;
       this.$nextTick(()=>{
-        if(this.$refs.finish.$refs.appForm !== undefined ) {
+        if(this.$refs && this.$refs.finish && this.$refs.finish.$refs.appForm !== undefined ) {
           this.$refs.finish.$refs.appForm.closePanel();
         }
       })
