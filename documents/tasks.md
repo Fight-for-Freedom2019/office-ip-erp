@@ -53,7 +53,7 @@ reponse {
 		apd:"申请日"
 		apn:"申请号"
 		start_time:"开始时间",
-        deadline:"法定期限",//
+        deadline:"官方绝限",//
 		due_time:"内部期限",//
 		end_time:"完成时间",
         attachments:[{
@@ -109,7 +109,7 @@ request {
 	role:"任务流程阶段",
 	person_in_charge:"任务处理人",
 	due_time:"指定完成时间",//时间区间 2017-01-01|2017-12-31; 只填起始时间 2017-01-01| 只填结束时间 |2017-12-31
-	deadline:"法定期限",//时间区间 2017-01-01|2017-12-31; 只填起始时间 2017-01-01| 只填结束时间 |2017-12-31
+	deadline:"官方绝限",//时间区间 2017-01-01|2017-12-31; 只填起始时间 2017-01-01| 只填结束时间 |2017-12-31
 	end_time:"完成时间",//时间区间 2017-01-01|2017-12-31; 只填起始时间 2017-01-01| 只填结束时间 |2017-12-31
 	keyword:"关键词",//支持检索：案号、申请号、案件负责人、任务处理人、案件名称、备注字段
 	scope:"all/personal",//all-所有任务 personal-全部任务
@@ -141,7 +141,7 @@ response {
 			apn:"申请号"
 			start_time:"开始时间",
 			due_time:"内部期限",//
-			deadline:"法定期限",//
+			deadline:"官方绝限",//
 			end_time:"完成时间",
 			attachments:[{
 				id:"1",//文件ID
@@ -261,7 +261,7 @@ response {
 			apd:"申请日"
 			apn:"申请号"
 			start_time:"开始时间",
-			deadline:"法定期限",//
+			deadline:"官方绝限",//
 			due_time:"内部期限",//
 			end_time:"完成时间",
 			attachments:[{

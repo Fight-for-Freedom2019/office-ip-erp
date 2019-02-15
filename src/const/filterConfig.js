@@ -670,7 +670,7 @@ const map = new Map([
         used: true
       },
       { components: "date", id: "create_time", name: "账单生成日期" },
-      { components: "date", id: "due_time", name: "法定期限" },
+      { components: "date", id: "due_time", name: "官方绝限" },
       { components: "date", id: "pay_time", name: "付款时间" }
     ]
   ],

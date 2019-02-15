@@ -152,7 +152,7 @@ response {
             start_time:"start_time",//开始时间
             end_time:"end_time",//结束时间
             due_time:"due_time",//内部期限
-            deadline:"deadlin",//法定期限
+            deadline:"deadlin",//官方绝限
             charger:"charger",//负责人
             status:"status",//状态
         }],
@@ -177,7 +177,7 @@ response {
             official:"official",//是否官费
             status:"status",//费用状态
             due_time:"due_time",//费用期限
-            deadline:"deadline",//法定期限
+            deadline:"deadline",//官方绝限
             pay_time:"pay_time",//付款时间
             target:"target",费用对象
             remark:"remark",//费用备注

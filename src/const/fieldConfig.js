@@ -219,6 +219,15 @@ const strainerConfig = [
   [
     "bonus_report",
     [{ name: "月份", id: "month", default: true }, { name: "用户", id: "user" }]
+  ],
+  [
+    "renewal_fees",
+    [
+      { name: "到期天数", id: "expire_days", default: true },
+      { name: "申请月份", id: "month" }
+      // { name: "客户", id: "customer" },
+      // { name: "年费类型", id: "fee_code" }
+    ]
   ]
 ];
 export { config, fieldExceptMap, strainerConfig };
