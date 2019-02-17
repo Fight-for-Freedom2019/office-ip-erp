@@ -1,4 +1,5 @@
 import configData from "@/const/cardConfig";
+import { rejects } from "assert";
 
 const state = {
   config: configData,
@@ -28,7 +29,7 @@ const mutations = {
 };
 
 const actions = {
-  initializeCardCache(
+  async initializeCardCache(
     { commit, rootState, state, getters },
     { type, id, func, flag = false }
   ) {
@@ -44,10 +45,7 @@ const actions = {
     // 	return;
     // }
     //若存在请求地址 请求数据 执行回掉函数 并缓存数据
-    const promise = new Promise(resolve => {
-      resolve();
-    });
-    return promise.then(() => {
+    return new Promise((resolve, reject) => {
       if (config.URL) {
         const url = rootState.status
           ? `${config.URL}/${id}`
@@ -58,6 +56,7 @@ const actions = {
           const value = _[data_key];
           if (func) func(value);
           commit("setCardCache", { type, value });
+          resolve(state.cache);
         };
         rootState.axios
           .get(url, { params })
@@ -66,11 +65,15 @@ const actions = {
             if (d.status) {
               success(d);
             } else {
+              reject("error");
             }
           })
           .catch(error => {
             console.log(error);
+            reject(error);
           });
+      } else {
+        reject("error");
       }
     });
   }

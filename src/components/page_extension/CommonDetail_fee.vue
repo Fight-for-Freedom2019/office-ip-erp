@@ -6,11 +6,7 @@
     </div>-->
     <template>
       <el-dropdown style="margin-bottom: 10px;" trigger="click" @command="handleCommand">
-        <el-button
-          class="table-header-btn"
-          size="small"
-          type="primary"
-        >
+        <el-button class="table-header-btn" size="small" type="primary">
           新建费用
           <i class="el-icon-caret-bottom el-icon--right"></i>
         </el-button>
@@ -20,21 +16,19 @@
         </el-dropdown-menu>
       </el-dropdown>
     </template>
-    <app-collapse :col-title="`收入(总计：${detailRevenue.sum?detailRevenue.sum:'0'}CNY)`">
-      <app-table
-        :columns="columns"
-        :data="detailRevenue.list?detailRevenue.list : []"
-        :height="220"
-      ></app-table>
-    </app-collapse>
-
-    <app-collapse :col-title="`支出(总计：${detailCost.sum?detailCost.sum:'0'}CNY)`">
-      <app-table
-        :columns="columns"
-        :data="detailCost.list ? detailCost.list : []"
-        :height="220"
-      ></app-table>
-    </app-collapse>
+    <template>
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="收入" name="first">
+          <app-table :columns="columns" :data="detailRevenue.list?detailRevenue.list : []"></app-table>
+        </el-tab-pane>
+        <el-tab-pane label="支出" name="second">
+          <app-table :columns="columns" :data="detailCost.list ? detailCost.list : []"></app-table>
+        </el-tab-pane>
+        <el-tab-pane label="年费监控" name="third">
+          <app-table :columns="columns" :data="detailRenewal.list ? detailRenewal.list : []"></app-table>
+        </el-tab-pane>
+      </el-tabs>
+    </template>
     <!-- 
     <app-collapse :col-title="`发明人奖励(总计：${detailInventorBonus.sum?detailInventorBonus.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailInventorBonus.list ? detailInventorBonus.list : []"></app-table>
@@ -42,26 +36,19 @@
     <!-- <app-collapse :col-title="`政府资助及专利奖(总计：${detailFundings.sum?detailFundings.sum:'0'}CNY)`">
       <app-table :columns="columns" :data="detailFundings.list ? detailFundings.list : []"></app-table>
     </app-collapse>-->
-    <app-collapse :col-title="`监控中的年费(总计：${detailRenewal.sum?detailRenewal.sum:'0'}CNY)`">
-      <app-table
-        :columns="columns"
-        :data="detailRenewal.list ? detailRenewal.list : []"
-        max-height="160"
-      ></app-table>
-    </app-collapse>
     <app-shrink :visible.sync="visible" :title="`${pageType == 'add'?'新建':'编辑'}费用`">
       <span slot="header" style="float: right;">
         <el-button type="primary" size="small" v-if="pageType == 'edit'" @click="save('edit')">保存</el-button>
         <el-button type="primary" size="small" v-else @click="save('add')">新建</el-button>
       </span>
-      <fee 
-        :row-data="currentRowFee" 
-        :fee_type="feeType" 
+      <fee
+        :row-data="currentRowFee"
+        :fee_type="feeType"
         :page-type="pageType"
-        ref="fee" 
-        @update="handleRrefresh" 
-        @refresh="handleRrefresh">
-      </fee>
+        ref="fee"
+        @update="handleRrefresh"
+        @refresh="handleRrefresh"
+      ></fee>
     </app-shrink>
     <renewal-fee @refresh="refresh"></renewal-fee>
   </div>
@@ -79,49 +66,40 @@ export default {
   data() {
     return {
       visible: false,
-      feeType: '',
-      pageType: '',
+      feeType: "",
+      pageType: "",
       currentRowFee: {},
       columns: [
         { type: "text", label: "费用名称", prop: "name", min_width: "145" },
-        { type: 'text', label: '费用对象', prop: 'user', render_simple: 'name', width: '120'},
+        {
+          type: "text",
+          label: "费用对象",
+          prop: "user",
+          render_simple: "name",
+          width: "120"
+        },
         {
           type: "text",
           label: "金额",
           prop: "amount",
-          width: "100",
+          width: "90",
           render: (h, item, row) => {
-            if (row.roe == 1) {
-              return h("span", "N/A");
-            } else {
-              return h("span", `${item}${row.currency}`);
-            }
+            return h("span", `${item}${row.currency}`);
           }
         },
         {
           type: "text",
           label: "汇率",
           prop: "roe",
-          width: "70",
-          render: (h, item) => {
-            if (item == 1) {
-              return h("span", "N/A");
-            } else {
-              return h("span", item);
-            }
-          }
+          width: "70"
         },
         {
           type: "text",
           label: "人民币",
           prop: "rmb_amount",
-          width: "120",
-          render: (h, item) => {
-            return h("span", `${item}CNY`);
-          }
+          width: "70"
         },
-        { type: "text", label: "付款日期", prop: "payment_time", width: "120" },
-        { type: "text", label: "法限", prop: "deadline", width: "120" },
+        // { type: "text", label: "付款日期", prop: "payment_time", width: "100" },
         {
           type: "text",
           label: "状态",
@@ -129,45 +107,47 @@ export default {
           render_simple: "name",
           width: "90"
         },
-        { type: "text", label: "备注", prop: "remark", min_width: "90" },
+        { type: "text", label: "官方绝限", prop: "deadline", width: "100" },
+        { type: "text", label: "备注", prop: "remark", width: "90" },
         {
           type: "action",
           label: "操作",
-          width: "110",
+          width: "90",
           // fixed: false,
           btns: [
             { type: "edit", click: this.editFee },
             { type: "delete", click: this.deleteFee }
           ]
         }
-      ]
+      ],
+      activeName: "first"
     };
   },
   computed: {
-    ...mapGetters(["detailRevenue", "detailCost", "detailRenewal",]),
-    expend () {
+    ...mapGetters(["detailRevenue", "detailCost", "detailRenewal"]),
+    expend() {
       return this.detailCost ? this.detailCost.sum : "0";
     },
-    income () {
+    income() {
       return this.detailRevenue ? this.detailRevenue.sum : "0";
-    },
+    }
   },
   methods: {
     ...mapActions(["refreshDetailData"]),
     handleCommand(command) {
       this.visible = true;
-      this.$nextTick(()=>{
-        this.pageType = 'add';
-      })
-        if(command == 'fee_in') {
-          this.feeType = 'fee';
-        }else if(command == "fee_out"){
-          this.feeType = 'pay';
-        }
+      this.$nextTick(() => {
+        this.pageType = "add";
+      });
+      if (command == "fee_in") {
+        this.feeType = "fee";
+      } else if (command == "fee_out") {
+        this.feeType = "pay";
+      }
     },
     editFee({ id, is_renewal }) {
       this.visible = true;
-      this.pageType = 'edit';
+      this.pageType = "edit";
       const url = is_renewal ? `/renewal_fees/${id}` : `/fees/${id}`;
       const success = _ => {
         this.currentRowFee = _.data;
@@ -179,9 +159,9 @@ export default {
       this.visible = false;
     },
     save(type) {
-      if(this.pageType == 'add') {
-        this.$refs.fee.save('add');
-      }else{
+      if (this.pageType == "add") {
+        this.$refs.fee.save("add");
+      } else {
         const id = this.currentRowFee.id;
         this.$refs.fee.save(type, id);
       }
@@ -208,22 +188,22 @@ export default {
   },
   watch: {
     pageType(val) {
-      if(val == 'add' && this.feeType) {
+      if (val == "add" && this.feeType) {
         this.$refs.fee.clear();
       }
     },
-    feeType (val) {
-       this.$nextTick(()=>{
+    feeType(val) {
+      this.$nextTick(() => {
         this.$refs.fee.clear();
-      })
-    },
+      });
+    }
   },
   components: {
     AppCollapse,
     AppTable,
     Fee,
     RenewalFee,
-    AppShrink,
+    AppShrink
   }
 };
 </script>

@@ -173,6 +173,9 @@ export default {
     void() {
       console.log(this.$refs);
     },
+    click() {
+      this.$store.commit("setActiveCardId", 0);
+    },
     async add(form) {
       const flag = await this.formCheck();
       if (flag) {
@@ -246,14 +249,16 @@ export default {
         this.refreshForm(data);
       }
     },
-    close () {
+    close() {
       this.dialogVisible = false;
     },
     clear() {
-      getKeys.map(_ =>{
-            console.log(this.$refs[_])
-            this.$refs[_] !== undefined ? this.$refs[_].$refs.form.resetFields() : false
-        })
+      getKeys.map(_ => {
+        console.log(this.$refs[_]);
+        this.$refs[_] !== undefined
+          ? this.$refs[_].$refs.form.resetFields()
+          : false;
+      });
     },
     formCheck() {
       return new Promise(resolve => {
@@ -399,6 +404,12 @@ export default {
     getParams: {
       handler: function(val) {
         this.proposalFill(val);
+      }
+    },
+    dialogVisible(val) {
+      if (!val) {
+        //详情页面关闭所有remote-select卡片需要同时关闭
+        this.$store.commit("setActiveCardId", 0);
       }
     }
   },

@@ -49,7 +49,8 @@ const store = new Vuex.Store({
     hashMaps: "",
     bread_header_height: "",
     token: null,
-    trigger: ""
+    trigger: "",
+    activeCardId: 0
   },
   modules: {
     action,
@@ -186,6 +187,9 @@ const store = new Vuex.Store({
         }
       }
       return (state.hashMaps = map);
+    },
+    setActiveCardId(state, id) {
+      state.activeCardId = id;
     }
   },
   actions: {

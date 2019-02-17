@@ -28,13 +28,13 @@
       >
         <el-option v-for="item in option_in" :key="item.id" :label="item.name" :value="item.id"></el-option>
       </el-select>
-      <el-form  v-if="addType !== ''">
+      <el-form v-if="addType !== ''">
         <el-form-item style="margin-top:10px;">
           如果下拉菜单中没选项，请：
           <a style="cursor: pointer;" @click="add">新增</a>
         </el-form-item>
         <family-add @onItemAdded="onItemAdded" ref="family" v-if="addType == 'family'"></family-add>
-        <inventor-add @onItemAdded="onItemAdded"  ref="inventor" v-if="addType == 'inventor'"></inventor-add>
+        <inventor-add @onItemAdded="onItemAdded" ref="inventor" v-if="addType == 'inventor'"></inventor-add>
         <contact-add @onItemAdded="onItemAdded" ref="contact" v-if="addType == 'contact'"></contact-add>
         <applicant-add @onItemAdded="onItemAdded" ref="applicant" v-if="addType == 'applicant'"></applicant-add>
         <customer-add @onItemAdded="onItemAdded" ref="customer" v-if="addType == 'customer'"></customer-add>
@@ -53,10 +53,10 @@ import AxiosMixins from "@/mixins/axios-mixins";
 import AppCard from "@/components/common/AppCard";
 import FamilyAdd from "@/components/page_extension/FamilyAdd";
 import InventorAdd from "@/components/page/crm/inventor/InventorListAdd";
-import ContactAdd from "@/components/page/crm/contacts/ContactsListAdd"
-import ApplicantAdd from "@/components/page/crm/applicant/ApplicantListAdd"
-import CustomerAdd from "@/components/page_extension/CustomerListAdd"
-import UserAdd from "@/components/page_extension/UserManage_edit"
+import ContactAdd from "@/components/page/crm/contacts/ContactsListAdd";
+import ApplicantAdd from "@/components/page/crm/applicant/ApplicantListAdd";
+import CustomerAdd from "@/components/page_extension/CustomerListAdd";
+import UserAdd from "@/components/page_extension/UserManage_edit";
 
 import map from "@/const/remoteConfig";
 
@@ -178,15 +178,15 @@ export default {
         this.value.splice(index, 1);
         this.selectedItems.splice(index, 1);
       } else {
-        if(this.multiple) {
+        if (this.multiple) {
           let arr = [];
           arr.push(this.value);
           arr.splice(index, 1);
           this.selectedItems.splice(index, 1);
           return (this.value2 = arr);
-        }else {
+        } else {
           this.selectedItems.splice(index, 1);
-          return this.value2 = "";
+          return (this.value2 = "");
         }
       }
     },
@@ -399,7 +399,7 @@ export default {
       handler(val) {
         if (!this.isUserInput) {
           //如果不是用户输入导致的值变化，需要同步显示
-          this.selectedItems = this.selected 
+          this.selectedItems = this.selected;
         }
       }
     },
@@ -444,7 +444,7 @@ export default {
     ContactAdd,
     ApplicantAdd,
     CustomerAdd,
-    UserAdd,
+    UserAdd
   }
 };
 </script>

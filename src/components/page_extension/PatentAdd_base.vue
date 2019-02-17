@@ -33,11 +33,11 @@
           <static-select type="patent_type" v-model="form.subtype"></static-select>
         </el-form-item>
       </el-col>
-      <el-col :span="8">
+      <!-- <el-col :span="8">
         <el-form-item label="案件等级">
           <static-select type="project_level" v-model="form.level"></static-select>
         </el-form-item>
-      </el-col>
+      </el-col>-->
     </el-row>
     <el-row>
       <el-col :span="8">
@@ -45,9 +45,17 @@
           <jump-select type="project_stage" v-model="form.project_stage"></jump-select>
         </el-form-item>
       </el-col>
-      <el-col :span="8">
+      <!-- <el-col :span="8">
         <el-form-item label="任务阶段" v-if="type != 'add'">
           <jump-select type="process_stage" v-model="form.process_stage"></jump-select>
+        </el-form-item>
+      </el-col>-->
+      <el-col :span="8">
+        <el-form-item label="年费监控">
+          <static-select
+            type="renewal_fee_monitor_status"
+            v-model="form.renewal_fee_monitor_status"
+          ></static-select>
         </el-form-item>
       </el-col>
       <!--         <el-col :span="8">
@@ -216,7 +224,8 @@ export default {
         // official_status: '',
         references: [],
         families: [],
-        tags: []
+        tags: [],
+        renewal_fee_monitor_status: ""
       },
       titleLock: false, //标题锁 当评审表被上传且标题自动填充后 不再自动填充
       attachments: [],
@@ -246,7 +255,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userid", "userrole", "menusMap",]),
+    ...mapGetters(["userid", "userrole", "menusMap"]),
     extensionSet() {
       let area = this.form.area;
       const type = this.form.type;
@@ -298,7 +307,14 @@ export default {
     setForm(form, upload = false, disclosureType = "") {
       const t = this.type;
       this.$tool.coverObj(this.form, form, {
-        obj: ["attachments", "area", "subtype", "level", "agency_type"],
+        obj: [
+          "attachments",
+          "area",
+          "subtype",
+          "level",
+          "agency_type",
+          "renewal_fee_monitor_status"
+        ],
         skip: ["extension", "title"]
       });
 
@@ -358,9 +374,7 @@ export default {
       }
     }
   },
-  created() {
-    
-  },
+  created() {},
   components: {
     AppCollapse,
     Region,

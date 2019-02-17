@@ -12,8 +12,8 @@ import App from "./App";
 import "./fonts/iconfont.css";
 import axios from "@/const/axios";
 import tool from "./const/tool";
-import "./components/common/components"
-import "./components/form/components"
+import "./components/common/components";
+import "./components/form/components";
 
 // import 'quill/dist/quill.core.css'
 // import 'quill/dist/quill.snow.css'
@@ -25,10 +25,10 @@ Vue.use(ElementUI);
 Vue.use(MyAxios);
 Vue.use(formCreate);
 
-const isDebug_mode = process.env.NODE_ENV !== 'production'
-Vue.config.debug = isDebug_mode
-Vue.config.devtools = isDebug_mode
-Vue.config.productionTip = isDebug_mode
+const isDebug_mode = process.env.NODE_ENV !== "production";
+Vue.config.debug = isDebug_mode;
+Vue.config.devtools = isDebug_mode;
+Vue.config.productionTip = isDebug_mode;
 
 // 添加请求拦截器
 axios.interceptors.request.use(
@@ -68,6 +68,10 @@ axios.interceptors.response.use(
 );
 // Vue.component("app-button-loading",AppButtonLoading);
 /* eslint-disable no-new */
+
+//全局的事件总线
+Vue.prototype.$bus = Vue.prototype.$bus || new Vue();
+
 new Vue({
   el: "#app",
   router,

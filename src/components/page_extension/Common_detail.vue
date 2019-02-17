@@ -430,6 +430,12 @@ export default {
       } else {
         this.$emit("update:visibleAuth", false);
       }
+    },
+    visibleAuth(val) {
+      if (!val) {
+        //详情页面关闭所有remote-select卡片需要同时关闭
+        this.$store.commit("setActiveCardId", 0);
+      }
     }
     // detailBase() {
     //   const ref = this.$refs[this.type];
