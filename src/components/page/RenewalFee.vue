@@ -13,7 +13,7 @@
 				<el-form-item label="服务费/件" prop="price" :rules="{required: true, message: '请输入服务费/件', trigger: 'blur'}">
 					<el-input v-model="addForm.price" placeholder="请输入服务费/件"></el-input>
 				</el-form-item>
-				<el-form-item label="备注" prop="remark" :rules="{required: true, message: '请输入服务费/件', trigger: 'blur'}">
+				<el-form-item label="备注" prop="remark" :rules="{required: false, message: '请输入服务费/件', trigger: 'blur'}">
 					<el-input type="textarea" v-model="addForm.remark" placeholder="请填写年费评估单备注"></el-input>
 				</el-form-item>
 				<el-form-item>

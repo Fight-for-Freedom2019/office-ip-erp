@@ -6,24 +6,61 @@
           <!--<el-button type="primary" @click="add" size="small" ref="btn">新建</el-button>-->
           <app-button-loading :func="add" ref="loadingBtn"></app-button-loading>
         </span>
-        <el-form label-width="100px" ref="form" :model="form" :rules="rules">
+        <el-form
+          label-width="120px"
+          ref="form"
+          :model="form"
+          :rules="rules"
+          style="margin-top:10px;"
+        >
           <el-form-item label="客户名称" prop="name">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
           <!-- <el-form-item label="客户代码" prop="code">
                                         <el-input v-model="form.code" ></el-input>
           </el-form-item>-->
-          <el-form-item label="邮箱" prop="email_address">
-            <el-input v-model="form.email_address"></el-input>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="邮箱" prop="email_address">
+                <el-input v-model="form.email_address"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="电话" prop="phone_number">
+                <el-input v-model="form.phone_number"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="所属销售" prop="sales">
+                <jump-select type="user" v-model="form.sales"></jump-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="所属顾问" prop="consultant">
+                <jump-select type="user" v-model="form.consultant"></jump-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="地区">
+                <provincial-linkage :value="cityInfo" class="select-city" @input="chooseAddress"></provincial-linkage>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="地址" prop="address">
+                <el-input v-model="form.address"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item label="客户代码" prop="abbr">
+            <el-input v-model="form.abbr"></el-input>
           </el-form-item>
-          <el-form-item label="电话" prop="phone_number">
-            <el-input v-model="form.phone_number"></el-input>
-          </el-form-item>
-          <el-form-item label="所属销售" prop="sales">
-            <jump-select type="user" v-model="form.sales"></jump-select>
-          </el-form-item>
-          <el-form-item label="所属顾问" prop="consultant">
-            <jump-select type="user" v-model="form.consultant"></jump-select>
+          <el-form-item label="案件人员授权" prop="users">
+            <remote-select type="user" v-model="form.users" multiple></remote-select>
           </el-form-item>
           <el-form-item label="默认联系人" prop="contact">
             <remote-select
@@ -37,41 +74,72 @@
               <el-button type="text" @click="createDefaultContact">添加</el-button>
             </div>
           </el-form-item>
-          <el-form-item label="地区">
-            <provincial-linkage :value="cityInfo" class="select-city" @input="chooseAddress"></provincial-linkage>
-          </el-form-item>
-          <el-form-item label="地址" prop="address">
-            <el-input v-model="form.address"></el-input>
-          </el-form-item>
-          <el-form-item label="客户代码" prop="abbr">
-            <el-input v-model="form.abbr"></el-input>
-          </el-form-item>
-          <el-form-item label="案件人员授权" prop="users">
-            <remote-select type="user" v-model="form.users" multiple></remote-select>
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="监控年费" prop="is_annual_fee">
+                <app-switch type="is" v-model="form.is_annual_fee"></app-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="收取年费服务费" prop="is_annual_service_fee">
+                <app-switch type="is" v-model="form.is_annual_service_fee" multiple></app-switch>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </app-shrink>
     </template>
     <template v-else>
       <div style="margin-top:10px;">
-        <el-form label-width="100px" ref="form" :model="form" :rules="rules">
+        <el-form label-width="120px" ref="form" :model="form" :rules="rules">
           <el-form-item label="客户名称" prop="name">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
           <!-- <el-form-item label="客户代码" prop="code">
                                         <el-input v-model="form.code" ></el-input>
           </el-form-item>-->
-          <el-form-item label="邮箱" prop="email_address">
-            <el-input v-model="form.email_address"></el-input>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="邮箱" prop="email_address">
+                <el-input v-model="form.email_address"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="电话" prop="phone_number">
+                <el-input v-model="form.phone_number"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="所属销售" prop="sales">
+                <jump-select type="user" v-model="form.sales"></jump-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="所属顾问" prop="consultant">
+                <jump-select type="user" v-model="form.consultant"></jump-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="地区">
+                <provincial-linkage :value="cityInfo" class="select-city" @input="chooseAddress"></provincial-linkage>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="地址" prop="address">
+                <el-input v-model="form.address"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item label="客户代码" prop="abbr">
+            <el-input v-model="form.abbr"></el-input>
           </el-form-item>
-          <el-form-item label="电话" prop="phone_number">
-            <el-input v-model="form.phone_number"></el-input>
-          </el-form-item>
-          <el-form-item label="所属销售" prop="sales">
-            <jump-select type="user" v-model="form.sales"></jump-select>
-          </el-form-item>
-          <el-form-item label="所属顾问" prop="consultant">
-            <jump-select type="user" v-model="form.consultant"></jump-select>
+          <el-form-item label="案件人员授权" prop="users">
+            <remote-select type="user" v-model="form.users" multiple></remote-select>
           </el-form-item>
           <el-form-item label="默认联系人" prop="contact">
             <remote-select
@@ -85,18 +153,18 @@
               <el-button type="text" @click="createDefaultContact">添加</el-button>
             </div>
           </el-form-item>
-          <el-form-item label="地区">
-            <provincial-linkage :value="cityInfo" class="select-city" @input="chooseAddress"></provincial-linkage>
-          </el-form-item>
-          <el-form-item label="地址" prop="address">
-            <el-input v-model="form.address"></el-input>
-          </el-form-item>
-          <el-form-item label="客户代码" prop="abbr">
-            <el-input v-model="form.abbr"></el-input>
-          </el-form-item>
-          <el-form-item label="案件人员授权" prop="users">
-            <remote-select type="user" v-model="form.users" multiple></remote-select>
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="监控年费" prop="is_annual_fee">
+                <app-switch type="is" v-model="form.is_annual_fee"></app-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="年费服务费" prop="is_annual_service_fee">
+                <app-switch type="is" v-model="form.is_annual_service_fee" multiple></app-switch>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
     </template>
@@ -114,40 +182,41 @@ import ProvincialLinkage from "@/components/form/City";
 import LinkmanPop from "@/components/form/LinkmanPop";
 // import AppShrink from "@/components/common/AppShrink";
 import isRequest from "../page/crm/mixins/is_request";
+import AppSwitch from "@/components/form/AppSwitch";
 
 export default {
   name: "CustomerListAdd",
-  mixins: [PopMixins,isRequest("/customers")],
-  props:{
-    customer:{
-      type:Object,
-      default(){
-        return {}
-      },
-    },
-    row:{
-      type:Object,
-      default(){
-        return {}
-      },
-    },
-    popType:{
-      type:String,
-      default(){
-        return "add"
-      },
-    },
-    URL:{
-      type:String,
-      default(){
-        return "/customers"
+  mixins: [PopMixins, isRequest("/customers")],
+  props: {
+    customer: {
+      type: Object,
+      default() {
+        return {};
       }
     },
-    is_suppliers:{
-      type:Boolean,
-      default(){
-        return false
-      },
+    row: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    popType: {
+      type: String,
+      default() {
+        return "add";
+      }
+    },
+    URL: {
+      type: String,
+      default() {
+        return "/customers";
+      }
+    },
+    is_suppliers: {
+      type: Boolean,
+      default() {
+        return false;
+      }
     }
   },
   data() {
@@ -165,7 +234,9 @@ export default {
         sales: "",
         contact: null,
         abbr: "",
-        users: []
+        users: [],
+        is_annual_fee: 1,
+        is_annual_service_fee: 1
       },
       contact: null, // 新增的默认联系人数据
       rules: {
@@ -269,7 +340,7 @@ export default {
         const success = _ => {
           this.dialogVisible = false;
           this.refresh();
-          this.$emit('onItemAdded', _.data);
+          this.$emit("onItemAdded", _.data);
           this.$message({ message: "添加成功！", type: "success" });
         };
         this.$axiosPost({ url, data, success });
@@ -321,10 +392,11 @@ export default {
     StaticSelect,
     ProvincialLinkage,
     // RemoteSelect,
-    RemoteSelect: () => import('@/components/form/RemoteSelect'),
+    RemoteSelect: () => import("@/components/form/RemoteSelect"),
     LinkmanPop,
     JumpSelect,
     // AppShrink
+    AppSwitch
   },
   watch: {
     customer: function(val, oldVal) {

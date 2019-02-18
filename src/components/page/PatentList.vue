@@ -715,6 +715,13 @@ export default {
             prop: "is_utility_or_invention",
             width: "100",
             render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "年费监控状态",
+            prop: "renewal_fee_monitor_status",
+            width: "100",
+            render_simple: "name"
           }
         ]
       },
@@ -925,15 +932,15 @@ export default {
       );
     }
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     // 在渲染该组件的对应路由被 confirm 前调用
     // 不！能！获取组件实例 `this`
     // 因为当守卫执行前，组件实例还没被创建
-    next(vm=>{
-      if(from.path) {
+    next(vm => {
+      if (from.path) {
         // vm.loading = true;
       }
-    })
+    });
   },
   created() {
     this.ifAgency();

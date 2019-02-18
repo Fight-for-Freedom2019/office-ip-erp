@@ -104,6 +104,20 @@ export default {
             prop: "contact",
             render_simple: "name",
             width: "110"
+          },
+          {
+            type: "text",
+            label: "监控年费",
+            prop: "is_annual_fee",
+            width: "80",
+            render: this.booleanRender
+          },
+          {
+            type: "text",
+            label: "年费收取服务费",
+            prop: "is_annual_service_fee",
+            width: "120",
+            render: this.booleanRender
           }
         ]
       },
@@ -133,6 +147,10 @@ export default {
         data: Object.assign({}, option),
         success
       });
+    },
+    booleanRender(h, item) {
+      item == 1 ? (item = "是") : (item = "否");
+      return h("span", item);
     },
     addSuccess() {
       this.refreshTableData();
