@@ -87,7 +87,7 @@
           content = content.replace(/\n(\n)*( )*(\n)*\n/gi, '\n');
           content = content.replace(/<head>[\s\S]*<\/head>/g, '');
           content = content.replace(/<html(\S*)"\>/g, '');
-          console.log(content);
+          // console.log(content);
 
           return content
         }
