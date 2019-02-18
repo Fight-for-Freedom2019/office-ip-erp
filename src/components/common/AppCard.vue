@@ -1,5 +1,5 @@
 <template>
-  <span class="card-list" @click.stop="stop">
+  <span class="card-list">
     <el-popover
       v-for="(tag, index) in value"
       :key="index"
@@ -8,7 +8,7 @@
       trigger="manual"
       :ref="`popover_${tag.id}`"
       v-model="tag.visible"
-      @show.once="handleCardDetails(tag)"
+      @show="handleCardDetails(tag)"
     >
       <el-row>
         <el-col :span="24">
@@ -107,7 +107,6 @@ export default {
   },
   methods: {
     ...mapActions(["initializeCardCache"]),
-    stop() {},
     handleCloseTag(tag) {
       //标签关闭，对应的card也需要关闭
       for (let k in this.$refs) {
@@ -193,3 +192,7 @@ export default {
   color: #fff;
 }
 </style>
+
+
+
+

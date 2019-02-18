@@ -1,5 +1,4 @@
 import configData from "@/const/cardConfig";
-import { rejects } from "assert";
 
 const state = {
   config: configData,
@@ -47,9 +46,7 @@ const actions = {
     //若存在请求地址 请求数据 执行回掉函数 并缓存数据
     return new Promise((resolve, reject) => {
       if (config.URL) {
-        const url = rootState.status
-          ? `${config.URL}/${id}`
-          : `${config.URL}/${id}`;
+        const url = `${config.URL}/${id}`;
         const params = config.PARAMS ? config.PARAMS : {};
         const data_key = config.DATA_KEY ? config.DATA_KEY : "data";
         const success = _ => {
