@@ -881,6 +881,7 @@ export default {
       this.formList = [];
       this.submitFileList = [];
       this.submitData.clear();
+      console.log("clear",this.submitData,this.submitFileList);
       this.copy_form = [
         100104,
         1001042,
