@@ -140,6 +140,9 @@
             <span style="display:inline-block;line-height:40px;">{{ tips }}</span>
             <span style="display:inline-block;line-height:40px;font-weight: bold;">{{ userTips }}</span>
           </el-form-item>
+          <el-form-item label="承办人" v-if="next.length != 0">
+            <remote-select type="user" v-model="user_id"></remote-select>
+          </el-form-item>
           <template slot="app-button">
             <el-form-item style="margin-bottom: 0px;" v-if="isShowSubmitBtn">
               <el-button
@@ -212,6 +215,7 @@ export default {
       appFormRules: {},
       description: "",
       tasksData: "",
+      user_id: '',
       form: {},
       columns: [
         { type: "text", label: "附件名称", prop: "name", overflow: false },
@@ -344,7 +348,7 @@ export default {
           this.btn_disabled = true;
           const url = `${URL}/${this.taskId}/nexttask`;
           const reviewObj = this.is_review
-            ? { review_opinion: this.review_opinion }
+            ? { review_opinion: this.review_opinion, user_id: this.userId }
             : {};
           const data = Object.assign({}, reviewObj, this.form);
           const success = () => {
@@ -410,10 +414,12 @@ export default {
     //   },
     //   immediate: true,
     // },
+    userId (val) {
+      this.user_id = val;
+    },
     taskId: {
       handler(val) {
         // this.loading = true;
-        console.log(val);
         if (val) {
           this.refreshData();
         }
@@ -429,6 +435,17 @@ export default {
     processData() {
       return this.process;
     },
+    userId: {
+      get () {
+        if(this.next.length != 0) {
+        const o = this.next[this.opinion_type];
+        return this.user_id = o.user;
+        }
+      },
+      set(v) {
+        return this.user_id = v;
+      }
+    },
     userTips() {
       if (this.next.length == 0) {
         return "";
@@ -437,7 +454,7 @@ export default {
       if (o == undefined) {
         return "";
       }
-      return "下一节点：" + o.action.name + " 承办人：" + o.user.name;
+      return "下一节点：" + o.action.name;
     },
     isShowSubmitBtn() {
       if (
