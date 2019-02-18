@@ -78,6 +78,7 @@ const sceneMap = new Map([
   ["审查意见通知书", 14],
   ["复审", 15],
   ["办理登记", 16],
+  ["权利要求确认", 22],
 ]);
 export default {
   name: "mailAdd",
