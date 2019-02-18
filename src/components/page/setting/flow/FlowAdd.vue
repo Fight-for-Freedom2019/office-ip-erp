@@ -43,7 +43,7 @@
         name: "FlowActions",
         data() {
             return {
-                URL: "/flows/:id/actions",
+                URL: "/flows",
                 form: {
                     project_type: "专利",
                     subtype: 1,
