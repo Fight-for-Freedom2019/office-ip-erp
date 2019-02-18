@@ -28,6 +28,7 @@
           <el-date-picker
             style="width: 100%"
             type="date"
+            value-format="yyyy-MM-dd"
             placeholder="请输入延期后期限"
             v-model="form.previous_deadline"
             :disabled="true"
@@ -37,6 +38,7 @@
           <el-date-picker
             style="width: 100%"
             type="date"
+            value-format="yyyy-MM-dd"
             placeholder="请输入延期后期限"
             v-model="form.deadline"
           ></el-date-picker>
@@ -123,6 +125,7 @@ export default {
           }
           data.process_id = this.row.id;
           data.task_id = this.row.task.id;
+          data.previous_deadline = this.row.internal_deadline;
           const success = _ => {
             this.$message({ type: "success", message: `${msg}成功!` });
             this.$emit(fun);

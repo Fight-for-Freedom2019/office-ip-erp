@@ -793,7 +793,7 @@ export default {
               ? _this.submitData.set(_this.formType, formData)
               : "";
           }
-          console.log(_this.submitData);
+          // console.log(_this.submitData);
         }
       });
     },
@@ -805,6 +805,7 @@ export default {
       data.tables = this.handleSubmit(this.submitData);
       Object.assign(data.tables, this.handleSubmitFile());
       data.tables = JSON.stringify(data.tables);
+      console.log("out",JSON.parse(data.tables));
       this.save_type === "add" ? (data.task_id = this.task_id) : "";
       const success = _ => {
         this.$message({ type: "success", message: "保存成功!" });
@@ -880,6 +881,7 @@ export default {
       this.formList = [];
       this.submitFileList = [];
       this.submitData.clear();
+      console.log("clear",this.submitData,this.submitFileList);
       this.copy_form = [
         100104,
         1001042,
@@ -902,6 +904,7 @@ export default {
       this.clear();
       const success = _ => {
         this.data = JSON.parse(_.data.tables);
+        console.log("put",this.data);
         if (_.data.id) {
           this.save_type = "edit";
         } else {
