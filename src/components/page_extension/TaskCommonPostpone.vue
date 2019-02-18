@@ -24,12 +24,12 @@
             @click="showPanel"
           >{{ this.project != undefined ? this.project.serial + '-' + this.project.title : '点我查看相关案件' }}</a>
         </el-form-item>
-        <el-form-item label="延期前期限" prop="first_edition_deadline" v-if="this.mode == 'edit'">
+        <el-form-item label="延期前期限" prop="previous_deadline" v-if="this.mode == 'edit'">
           <el-date-picker
             style="width: 100%"
             type="date"
             placeholder="请输入延期后期限"
-            v-model="form.first_edition_deadline"
+            v-model="form.previous_deadline"
             :disabled="true"
           ></el-date-picker>
         </el-form-item>
@@ -185,7 +185,7 @@ export default {
         }
       }
     },
-    close () {
+    close() {
       this.isPanelVisible = false;
     },
     handleUploadSuccess(a, b, c) {

@@ -179,6 +179,13 @@ const map = new Map([
     }
   ],
   [
+    "is",
+    {
+      components: "static_select",
+      type: "is",
+    }
+  ],
+  [
     "points",
     {
       components: "points",
