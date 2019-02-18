@@ -106,6 +106,7 @@ export default {
   mixins: [AxiosMixins],
   data() {
     return {
+      timer: null, //定时器
       dialogTurnoutVisible: false,
       filters: {},
       activeName: "finish",
@@ -758,6 +759,10 @@ export default {
     }
   },
   mounted() {
+    // 开个10s定时器,自动刷新当前列表
+    this.timer = setInterval(() => {
+      this.update();
+    }, 10000);
     this.addListFilter(this.expringControl);
     if (this.$route.params.id) {
       this.install = this.$route.params.id;
@@ -768,6 +773,12 @@ export default {
     this.refreshFlows({ type: 1 });
     this.refreshOption();
     this.refreshAction();
+  },
+  beforeDestroy() {
+    // 页面销毁前清除定时器
+    if(this.timer) {
+      clearInterval(this.timer);
+    }
   },
   components: {
     AxiosMixins,
