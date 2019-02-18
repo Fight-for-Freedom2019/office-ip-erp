@@ -49,6 +49,7 @@
           </el-button>
           <el-dropdown-menu slot="dropdown" class="app-dropdown-menu">
             <el-dropdown-item command="inventor_supplement">发明人补充材料</el-dropdown-item>
+            <el-dropdown-item command="claim_affirm">权利要求确认</el-dropdown-item>
             <el-dropdown-item command="inventor_review">发明人看稿</el-dropdown-item>
             <el-dropdown-item command="search_report">检索报告</el-dropdown-item>
             <el-dropdown-item command="ipr_review">IPR看稿</el-dropdown-item>
@@ -193,6 +194,7 @@ const typeMap = new Map([
 ]);
 const mailMap = new Map([
   ["inventor_supplement", "发明人补充材料"],
+  ["claim_affirm", "权利要求确认"],
   ["inventor_review", "发明人看稿"],
   ["search_report", "检索报告"],
   ["ipr_review", "IPR审核"]
@@ -397,11 +399,7 @@ export default {
     },
     handleCommandSendMail(command) {
       const scene = mailMap.get(command);
-      if(command === 'inventor_review' || command === 'ipr_review') {
-        this.$refs.mailEdit.showByProcess(scene, this.row.model_id,this.row.id);
-      }else {
-        this.$refs.mailEdit.show(scene, this.row.model_id);
-      }
+      this.$refs.mailEdit.showByProcess(scene, this.row.model_id,this.row.id);
     },
     mailCallBack() {
       this.mailVisible = false;
