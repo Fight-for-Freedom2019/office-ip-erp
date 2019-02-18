@@ -56,16 +56,38 @@
         this.editor.customConfig.uploadImgShowBase64 = false // base 64 存储图片
         this.editor.customConfig.uploadImgServer = 'api/files' // 配置服务器端地址
         this.editor.customConfig.zIndex = 100
+        this.editor.customConfig.pasteIgnoreImg = false
         this.editor.customConfig.uploadImgHeaders = {Authorization: window.localStorage.getItem("token")}// 自定义 header
         this.editor.customConfig.uploadFileName = 'file' // 后端接受上传文件的参数名
         this.editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
         this.editor.customConfig.uploadImgMaxLength = 6 // 限制一次最多上传 3 张图片
         this.editor.customConfig.uploadImgTimeout = 3 * 60 * 1000 // 设置超时时间
         this.editor.customConfig.pasteTextHandle = function (content) {
-          let reg = /\<spanyes(.*?)\>|\<\/spanyes(.*?)\>|(face="楷体")/g;
-          content = content.replace(reg,"");
-          content = content.replace(/<font>/g,"");
-          content = content.replace(/<\/font>/g,"");
+          // let reg = /\<spanyes(.*?)\>|\<\/spanyes(.*?)\>|(face="楷体")/g;
+          // content = content.replace(reg,"");
+          /*let regs = ["/<(\/{0,1})font>/i", "/<(\/{0,1})span>/i", "/<(\/{0,1})div>/i", "/<(\/{0,1})br>/i", "/<(\/{0,1})a>/i", "/<(\/{0,1})o:p>/i", "/<!\-\-.*\-\->/is"]
+          regs.forEach((r)=>{
+            content = content.replace(r,"");
+          })*/
+          // content = content.replace(/<font>/g,"");
+          // content = content.replace(/<\/font>/g,"");
+          // content = content.replace(/<xml>[\s\S]*?<\/xml>/ig, '')
+
+          content = content.replace(/<\/?SPANYES[^>]*>|(face="楷体")/gi, "");
+          content = content.replace(/<\/?font[^>]*>/gi, "");
+          content = content.replace(/<\/?body[^>]*>/gi, "");
+          content = content.replace(/<\/?span[^>]*>/gi, "");
+          content = content.replace(/<(\w[^>]*)class=([^|>]*)([^>]*)/gi, "<$1$3");
+          content = content.replace(/<(\w[^>]*)style="([^"]*)"([^>]*)/gi, "<$1$3");
+          content = content.replace(/<(\w[^>]*)lang=([^|>]*)([^>]*)/gi, "<$1$3");
+          content = content.replace(/<\\?\?xml[^>]*>/gi, "");
+          content = content.replace(/<\/?\w+:[^>]*>/gi, "");
+          content = content.replace(/ /, "");
+          content = content.replace(/\s/gi, "");
+          content = content.replace(/\n(\n)*( )*(\n)*\n/gi, '\n');
+          content = content.replace(/<head>[\s\S]*<\/head>/g, '');
+          // console.log(content);
+
           return content
         }
         // 配置菜单
