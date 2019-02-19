@@ -415,6 +415,9 @@ export default {
     //   },
     //   immediate: true,
     // },
+    review_opinion (val) {
+      this.opinion_type = val;
+    },
     userId (val) {
       this.user_id = val;
     },
@@ -438,9 +441,10 @@ export default {
     },
     userId: {
       get () {
-        if(this.next.length != 0) {
-        const o = this.next[this.opinion_type];
-        return this.user_id = o.user;
+        const nl = this.$tool.getObjLength(this.next);
+        if(this.next && this.next.length != 0 && nl > 0) {
+          const o = this.is_review ? this.next[this.opinion_type] : this.next['pass'];
+          return this.user_id = o.user;
         }
       },
       set(v) {

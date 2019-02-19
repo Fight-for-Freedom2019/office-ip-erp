@@ -384,6 +384,7 @@ export default {
     source() {
       this.initializeForm();
       this.$nextTick(_ => {
+        this.$refs.form.clearValidate();
         if (this.$refs["upload"] && this.$refs["upload"].length != 0) {
           this.$refs["upload"][0].clearFiles();
         }
