@@ -129,7 +129,13 @@
                 <span class="form-item-text">{{form.payment_time}}</span>
               </el-form-item>
               <el-form-item label="回款时间" v-else>
-                <span class="form-item-text">{{form.payment_time}}</span>
+                <!--<span class="form-item-text">{{form.payment_time}}</span>-->
+                <el-date-picker
+                    placeholder="请选择回款时间"
+                    class="custom-picker-input"
+                    value-format="yyyy-MM-dd"
+                    v-model="form.payment_time"
+                ></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -297,6 +303,7 @@ export default {
         remark: this.form.remark,
         status: this.form.status,
         deadline: this.form.deadline,
+        payment_time: this.form.payment_time,
         attachments: this.form.attachments
       }; // TODO 参数为form表单中的快递信息、备注、附件
       let url = `/invoices/${this.id}`;
@@ -338,7 +345,7 @@ export default {
       val ? this.$tool.coverObj(this.form, val, { obj: ["status"] }) : "";
     },
     getAllReceived(data) {
-      this.setPaymentTime(data);
+      // this.setPaymentTime(data);
       // 获取回款总额
       let sum = 0;
       data.map(function(item) {
