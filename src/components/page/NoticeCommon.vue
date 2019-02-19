@@ -125,6 +125,22 @@ export default {
           },
           {
             type: "text",
+            label: "ipr",
+            prop: "ipr",
+            render_obj: "project",
+            render_simple: "name",
+            width: "160",
+          },
+          {
+            type: "text",
+            label: "申请人",
+            prop: "applicants",
+            render_obj: "project",
+            render_simple: "name",
+            width: "160",
+          },
+          {
+            type: "text",
             label: "案号",
             prop: "serial",
             width: "160"
