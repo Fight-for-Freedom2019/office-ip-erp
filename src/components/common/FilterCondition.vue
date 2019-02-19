@@ -106,7 +106,12 @@ export default {
       if(t == 'text') {
         return this.value;
       }
-    },       
+    },
+    clearField(){
+      if(this.source.type !== "text" && this.source.type !== "date") {
+        this.$refs.tree.setCheckedKeys([]);
+      }
+    }
   },
   computed: {
     ...mapGetters([

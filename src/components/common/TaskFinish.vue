@@ -507,9 +507,8 @@ export default {
     },
     is_review() {
       const ol = this.$tool.getObjLength(this.data);
-      return ol && this.data.is_review_action
-        ? this.data.is_review_action
-        : false;
+      const nl = this.$tool.getObjLength(this.data.next);
+      return ol && nl > 1 ? true : false;
     },
     pointData() {
       const ol = this.$tool.getObjLength(this.data);

@@ -32,23 +32,15 @@ export default {
             type: "text",
             prop: "citizenship",
             label: "国籍",
-            width: "60"
+            width: "50"
             // render_text: _=>this.caseMap.get(Number.parseInt(_)),
           },
           {
             type: "text",
             prop: "type",
             label: "申请人类型",
-            width: "120",
-            render_text: item => {
-              let name;
-              config.get("applicant_type").options.map(function(o) {
-                if (o.id === item) {
-                  name = o.name;
-                }
-              });
-              return name;
-            }
+            width: "100",
+            render_simple: "name"
           },
           { type: "text", prop: "identity", label: "证件号码", width: "178" },
           {

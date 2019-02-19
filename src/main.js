@@ -29,7 +29,7 @@ const isDebug_mode = process.env.NODE_ENV !== "production";
 Vue.config.debug = isDebug_mode;
 Vue.config.devtools = isDebug_mode;
 Vue.config.productionTip = isDebug_mode;
-
+window.listHeaderFilter = new Map();
 // 添加请求拦截器
 axios.interceptors.request.use(
   config => {

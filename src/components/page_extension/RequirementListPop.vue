@@ -212,6 +212,9 @@
             refresh() {
                 this.$emit("refresh");
             },
+            setForm(data) {
+                this.$tool.coverObj(this.form, data, {obj:['type','customer']});
+            },
             update() {
                 this.$emit("update");
             },

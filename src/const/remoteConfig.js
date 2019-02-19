@@ -309,6 +309,14 @@ const map = new Map([
       DATA_KEY: "data",
       PLACEHOLDER: "请选择案件状态"
     }
+  ],
+  [
+    "tenant",
+    {
+      URL: "/tenants?listOnly=1",
+      DATA_KEY: "data",
+      PLACEHOLDER: "请选择租户"
+    }
   ]
 ]);
 export default map;

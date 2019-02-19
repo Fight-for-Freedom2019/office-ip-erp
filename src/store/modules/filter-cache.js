@@ -287,9 +287,11 @@ const actions = {
 		if(item.type == 'screen') {
       		dispatch('removeScreen', item.index);
 		}else if(item.type == 'listFilter') {
-			console.log('____closetag')
-			console.log(item);
-			console.log(window.listHeaderFilter )
+			// console.log('____closetag')
+			// console.log(item);
+			// console.log(window.listHeaderFilter )
+      let fun = window.listHeaderFilter.get(item.key);
+      fun?fun.clearRenderHeaderField(item['key']):""
 			// if(window.listHeaderFilter !== null && window.listHeaderFilter.clearRenderHeaderField(item['key'])) {
 			// 	console.log('清除表头')
 			// 	window.listHeaderFilter.clearRenderHeaderField(item['key']);

@@ -102,7 +102,8 @@ export default {
     clearRenderHeaderField (key) {
       console.log(key)
       console.log(this.filters)
-      this.filters[key] = this.getDefaultValue(key); 
+      this.filters[key] = this.getDefaultValue(key);
+      this.$refs.filterCondition.clearField(key);
       // console.log(this.filters[key])
     },
     // 如果字段使用的是.语法，使用这个方法获取最后一个关键字
@@ -171,16 +172,18 @@ export default {
 	},
   },
   created () {
+    window.listHeaderFilter.set(this.field,this);
   	this.handleDynamicData();
   	// window.listHeaderFilter = this;
   },
   destroyed() {
+    window.listHeaderFilter.clear();
     // window.listHeaderFilter = null;
   }, 
   watch: {
     'source': {
       handler (val) {
-        window.listHeaderFilter = this;
+        // window.listHeaderFilter = this;
        return val.type === 'text' ? this.contain_relate = 3 : this.contain_relate = 1;
       },
       immediate: true,
