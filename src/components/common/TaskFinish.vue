@@ -348,9 +348,10 @@ export default {
           this.btn_disabled = true;
           const url = `${URL}/${this.taskId}/nexttask`;
           const reviewObj = this.is_review
-            ? { review_opinion: this.review_opinion, user_id: this.user_id }
+            ? { review_opinion: this.review_opinion,}
             : {};
-          const data = Object.assign({}, reviewObj, this.form);
+          const user_id = this.next && this.next.length != 0 ? { user_id : this.user_id } : {};
+          const data = Object.assign({}, reviewObj, this.form, user_id);
           const success = () => {
             // this.$message({ type: "success", message: "完成任务成功" });
             this.$alert("完成任务成功", {
