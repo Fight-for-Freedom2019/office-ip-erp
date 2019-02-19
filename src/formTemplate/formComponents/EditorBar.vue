@@ -77,6 +77,7 @@
           content = content.replace(/<\/?font[^>]*>/gi, "");
           content = content.replace(/<\/?body[^>]*>/gi, "");
           content = content.replace(/<\/?span[^>]*>/gi, "");
+          content = content.replace(/<\/?bstyle[^>]*>/gi, "");
           content = content.replace(/<(\w[^>]*)class=([^|>]*)([^>]*)/gi, "<$1$3");
           content = content.replace(/<(\w[^>]*)style="([^"]*)"([^>]*)/gi, "<$1$3");
           content = content.replace(/<(\w[^>]*)lang=([^|>]*)([^>]*)/gi, "<$1$3");
