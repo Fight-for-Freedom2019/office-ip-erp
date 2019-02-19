@@ -348,7 +348,7 @@ export default {
           this.btn_disabled = true;
           const url = `${URL}/${this.taskId}/nexttask`;
           const reviewObj = this.is_review
-            ? { review_opinion: this.review_opinion, user_id: this.userId }
+            ? { review_opinion: this.review_opinion, user_id: this.user_id }
             : {};
           const data = Object.assign({}, reviewObj, this.form);
           const success = () => {
