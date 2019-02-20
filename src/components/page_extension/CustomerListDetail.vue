@@ -45,6 +45,11 @@
         <el-tab-pane label="客户备注" name="remarks">
           <detail-remark ref="remarks" :URL="URL" :customer="row" :itemData="remarksData"></detail-remark>
         </el-tab-pane>
+        <template v-if="!is_suppliers">
+          <el-tab-pane label="总委托书" name="poas">
+            <detail-poas ref="poas" :URL="URL" :customer="row" :itemData="poasData"></detail-poas>
+          </el-tab-pane>
+        </template>
       </el-tabs>
     </app-shrink>
   </div>
@@ -55,6 +60,7 @@ import AppShrink from "@/components/common/AppShrink";
 import DetailApplicant from "@/components/page_extension/CustomerListApplicant";
 import DetailInventor from "@/components/page_extension/CustomerListInventor";
 import DetailContact from "@/components/page_extension/CustomerListContact";
+import DetailPoas from "@/components/page_extension/CustomerListPoas";
 import DetailContract from "@/components/page_extension/CustomerListContract";
 import DetailQuotation from "@/components/page_extension/CustomerListQuotation";
 import DetailRemark from "@/components/page_extension/CustomerListRemark";
@@ -89,6 +95,7 @@ export default {
       inventorsData: [],
       contactsData: [],
       contractsData: [],
+      poasData: [],
       remarksData: [],
       saveLoading: false
     };
@@ -168,6 +175,7 @@ export default {
     DetailInventor,
     DetailContact,
     DetailContract,
+    DetailPoas,
     DetailQuotation,
     DetailRemark
   }
