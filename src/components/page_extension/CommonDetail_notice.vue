@@ -88,7 +88,7 @@
         </span>
       </div>
       <!-- <div style="clear: both;"></div> -->
-      <documents style="margin-top: 10px;" :search-value="searchValue2"></documents>
+      <documents style="margin-top: 10px;" :search-value="searchValue2" ref="documents"></documents>
     </div>
     <el-dialog
       :title="this.isNotice?'通知书上传':'其他文档上传'"
@@ -351,6 +351,9 @@ export default {
     ...mapActions(["refreshDetailData"]),
     handleBeforeUpload(a) {
       this.isNotice = true;
+    },
+    doLayout() {
+      this.$refs.documents.$refs.table.$refs.table.$refs.table.doLayout();
     },
     handleBeforeUploads(a) {
       this.isNotice = false;

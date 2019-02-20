@@ -16,7 +16,7 @@
           <el-form-item label="承办人：" style="margin-bottom: 0;">{{ item.user.name }}</el-form-item>
           <el-form-item label="备注：" style="margin-bottom: 0;">{{ item.remark }}</el-form-item>
           <el-form-item label="附件：" style="margin-bottom: 0;">
-            <table-component :data="item.attachments" :tableOption="tableOption"></table-component>
+            <table-component :data="item.attachments" :tableOption="tableOption" ref="table"></table-component>
           </el-form-item>
         </el-form>
       </el-collapse-item>
@@ -112,7 +112,14 @@ export default {
           this.axiosDelete({ url, success });
         })
         .catch(_ => {});
-    }
+    },
+     doLayout() {
+       if(this.$refs && this.$refs.table != undefined) {
+         this.$refs.table.forEach(e => {
+           e.$refs.table.$refs.table.doLayout();
+         });
+       }
+    },
   },
   created() {
     this.refreshData();
