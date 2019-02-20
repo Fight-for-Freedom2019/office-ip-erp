@@ -51,6 +51,11 @@
       contractsID:Number,
       URL:String,
     },
+    computed:{
+      title:function () {
+        return this.popType === "add"?"新增":"修改"
+      }
+    },
     data() {
       return {
         id:"",
@@ -71,6 +76,9 @@
         'rules': {
           number:[
             {required:true,message:"请输入总委托书编号",target:"blur"}
+          ],
+          file:[
+            {required:true,message:"请上传附件",target:"blur",type:"array"}
           ]
         }
       }
@@ -87,33 +95,43 @@
         this.$emit('update');
       },
       add() {
-        //if (this.form.name !== '') {
-        const url = `/poas`;
-        const data = Object.assign({}, this.form);
-        data.file = this.form.file[0];
-        data.customer = this.customer.id;
-        const success = _ => {
-          this.dialogVisible = false;
-          this.refresh();
-          this.$message({message: '添加成功！', type: 'success'})
-        }
-        this.$axiosPost({url, data, success});
-
+        this.$refs.form.validate((valid)=>{
+          if (valid) {
+            const url = `/poas`;
+            const data = Object.assign({}, this.form);
+            data.file = this.form.file[0];
+            data.customer = this.customer.id;
+            const success = _ => {
+              this.dialogVisible = false;
+              this.refresh();
+              this.$message({message: '添加成功！', type: 'success'})
+            }
+            this.$axiosPost({url, data, success});
+          } else {
+            this.$message({message: '请正确填写!', type: 'warning'})
+          }
+        })
       },
       getStatus(val) {
         this.form.status = val;
       },
       edit() {
-        const url = `/poas/${this.id}`;
-        const data = Object.assign({}, this.form);
-        data.file = this.form.file[0];
-        data.customer = this.customer.id;
-        const success = _ => {
-          this.dialogVisible = false;
-          this.update();
-          this.$message({message: '编辑成功！', type: 'success'})
-        }
-        this.$axiosPut({url, data, success});
+        this.$refs.form.validate((valid)=>{
+          if(valid) {
+            const url = `/poas/${this.id}`;
+            const data = Object.assign({}, this.form);
+            data.file = this.form.file[0];
+            data.customer = this.customer.id;
+            const success = _ => {
+              this.dialogVisible = false;
+              this.update();
+              this.$message({message: '编辑成功！', type: 'success'})
+            }
+            this.$axiosPut({url, data, success});
+          }else {
+            this.$message({message: '请正确填写!', type: 'warning'})
+          }
+        })
       },
       show ( type='add', data ) {
         this.file = [];
