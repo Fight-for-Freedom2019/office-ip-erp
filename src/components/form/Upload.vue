@@ -123,10 +123,24 @@
       created () {
         this.uploadList = this.fileList;
       },
+      mounted () {
+       
+      },
       watch:{
         'fileList':{
           handler(val){
+            // console.log(this.$el.querySelector('ul'))
             this.uploadList = val;
+            // 给每个filelist动态加上title属性
+            this.$nextTick(()=>{
+              const ul = this.$el.querySelector('ul');
+              const li = ul.getElementsByTagName('li');
+              let i = 0;
+              while (i<li.length) {
+                li[i].setAttribute('title', li[i].innerText); 
+                i++; 
+              }
+            })
           },
         }
       }
