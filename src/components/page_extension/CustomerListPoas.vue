@@ -26,6 +26,11 @@
           columns: [
             {
               type: 'text',
+              prop: 'number',
+              label: '委托书编号',
+            },
+            {
+              type: 'text',
               prop: 'file.name',
               label: '文件名',
             },
