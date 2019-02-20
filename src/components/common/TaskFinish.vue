@@ -10,7 +10,179 @@
             v-if="ifMore"
             @click.stop="dropDetial"
           >更多...</el-button>
+          <el-button
+              size="mini"
+              type="text"
+              style="margin-left: 10px;"
+              v-if="!ifMore"
+              @click.stop="showMore"
+          >更多...</el-button>
         </template>
+        <el-dialog title="任务详情" :visible.sync="isShowMore" :modal="false">
+          <el-form label-width="80px" label-position="left" class="form-information">
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="管制事项">
+                  <span class="form-item-text">{{ row.process_definition.name }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="当前阶段">
+                  <span class="form-item-text">{{ row.process_stage.name }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="案件类型">
+                  <span class="form-item-text">{{ row.project_type.name }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="案件子类型">
+                  <span class="form-item-text">{{ row.subtype.name }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="初审人">
+                  <span class="form-item-text">{{ row.first_reviewer?row.first_reviewer.name:"" }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="复审人">
+                  <span class="form-item-text">{{ row.final_reviewer?row.final_reviewer.name:"" }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="对外代理人">
+                  <span class="form-item-text">{{ row.representative?row.representative.name:"" }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="所属部门">
+                  <span class="form-item-text">{{ row.organization_unit?row.organization_unit.name:"" }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="委案日">
+                  <span class="form-item-text">{{ row.entrusting_time }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="立案日">
+                  <span class="form-item-text">{{ row.creation_time }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="客户">
+                  <span class="form-item-text">{{ row.customer?row.customer.name:"" }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="联系人">
+                  <span class="form-item-text">{{ row.contact?row.contact.name:"" }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="初稿日">
+                  <span class="form-item-text">{{ row.first_edition_time }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="内部定稿日">
+                  <span class="form-item-text">{{ row.internal_final_edition_time }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="返稿日">
+                  <span class="form-item-text">{{ row.customer_edition_time }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="客户定稿日">
+                  <span class="form-item-text">{{ row.customer_final_edition_time }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="递交日">
+                  <span class="form-item-text">{{ row.filing_time }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="内撰时长">
+                  <span class="form-item-text">{{ row.internal_drafting_period }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="内改时长">
+                  <span class="form-item-text">{{ row.internal_amending_period }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="内审时长">
+                  <span class="form-item-text">{{ row.internal_reviewing_period }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="返稿时长">
+                  <span class="form-item-text">{{ row.customer_first_edition_period }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="客审时长">
+                  <span class="form-item-text">{{ row.customer_reviewing_period }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="客改时长">
+                  <span class="form-item-text">{{ row.customer_amending_period }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="内审次数">
+                  <span class="form-item-text">{{ row.internal_reviewing_times }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="客审次数">
+                  <span class="form-item-text">{{ row.customer_reviewing_times }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="技术评分">
+                  <span class="form-item-text">{{ row.technical_rank }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="权要评分">
+                  <span class="form-item-text">{{ row.claims_rank }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="说明书评分">
+                  <span class="form-item-text">{{ row.spec_rank }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="沟通评分">
+                  <span class="form-item-text">{{ row.communication_rank }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-dialog>
         <el-form label-width="80px" label-position="left" class="form-information">
           <el-row :gutter="10">
             <el-col :span="6">
@@ -203,6 +375,7 @@ export default {
   },
   data() {
     return {
+      isShowMore:false,
       sourceForm: [],
       detailMap: {},
       task_id: "",
@@ -406,6 +579,9 @@ export default {
         this.$emit("more", "copyright");
       }
     },
+    showMore(){
+      this.isShowMore = true;
+    },
     handleForm(val) {
       this.form = val;
     },
@@ -550,4 +726,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  .form-item-text {
+    overflow: hidden;
+    white-space: nowrap;
+  }
 </style>
