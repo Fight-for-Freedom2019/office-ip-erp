@@ -251,6 +251,7 @@
         <template v-if="tableOption.is_view != undefined">
           <app-view
             v-model="fields"
+            :columns="optionColumns"
             @deliver="handleViewData"
             @reset="handleResetView"
             :height="tableHeight/2"
