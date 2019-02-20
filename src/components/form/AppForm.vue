@@ -82,6 +82,8 @@
         <template v-else-if="item.components == 'upload'">
           <el-form-item :label="item.name" :prop="item.key" :key="index">
             <upload
+              @uploadBefore="uploadBefore"
+              @uploadSuccess="uploadSuccess"
               ref="upload"
               v-model="form[item.key]"
               :fileList="attachment[item.key]"
@@ -282,6 +284,12 @@ export default {
     }
   },
   methods: {
+    uploadBefore(){
+      this.$emit("uploadBefore");
+    },
+    uploadSuccess(){
+      this.$emit("uploadSuccess");
+    },
     turnArchivesFile(file) {
       this.attachment.attachments.push(file);
       this.form.attachments.push(file.id);
