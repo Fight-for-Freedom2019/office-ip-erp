@@ -124,6 +124,8 @@
           :process="row"
           :row="row"
           :data="data"
+          @uploadBefore="uploadBefore"
+          @uploadSuccess="uploadSuccess"
           ref="appForm"
         >
           <el-form-item label="审核意见" v-if="is_review">
@@ -266,6 +268,12 @@ export default {
     show() {
       console.log("finish panel shown " + this.row.id);
       // this.refreshData();
+    },
+    uploadBefore(){
+      this.btn_disabled = true;
+    },
+    uploadSuccess(){
+      this.btn_disabled = false;
     },
     handleUpload(val) {
       this.supplement = val;

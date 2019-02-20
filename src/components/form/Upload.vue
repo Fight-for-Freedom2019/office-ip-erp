@@ -61,6 +61,7 @@
           this.$refs.upload.clearFiles();
         },
         handleUploadBefore (f) {
+          this.$emit("uploadBefore");
           if (f.size > 200*1024*1024) {
             this.$message({type: 'warning',message:'上传文件大小不能超过200M！'});
             return false;
@@ -72,6 +73,7 @@
            this.$message({type: 'warning',message:`限制上传${this.limit}个文件`});
         },
         handleUploadSuccess (p, f, fl) {
+          this.$emit("uploadSuccess");
           // console.log(fl);
           let file_ids;
           if(p.status) {
