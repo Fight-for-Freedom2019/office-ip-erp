@@ -5,6 +5,9 @@ let rule = [
         props:{
             type:"textarea"
         },
+        attrs:{
+            rows:12
+        }
     }
 ]
 const content = {

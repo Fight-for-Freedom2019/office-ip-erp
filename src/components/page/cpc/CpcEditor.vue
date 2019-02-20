@@ -1,6 +1,6 @@
 <!-- 详情面板 -->
 <template>
-  <div class="Panel">
+  <div class="Panel CpcEditor">
     <app-shrink :visible.sync="isApplicationEditor" :title="title" size="full-screen">
       <div slot="header" style="float: right;" class="editor-header justify-between">
         <div class="btn-group">
@@ -1141,5 +1141,8 @@ export default {
 
 .form-create .font-bold {
   font-weight: bold;
+}
+#app .form-create textarea {
+  height: auto;
 }
 </style>
