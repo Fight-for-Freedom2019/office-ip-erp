@@ -150,7 +150,7 @@
       },
       coverObj(val){
         val?this.$tool.coverObj(this.form,val):""
-        console.log(this.form);
+        // console.log(this.form);
       }
     },
     // created() {
