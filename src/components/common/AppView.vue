@@ -43,6 +43,10 @@ export default {
     height: {
       type: [String, Number],
     },
+    columns: {
+      type: Array,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters([
@@ -114,7 +118,28 @@ export default {
     editChildTree (n, d, s) {
       this.currentId = d.id;
       this.choose = d.param.selectedFields.split(',');
-      this.fields = d.param.allFields;
+      let cols = [];
+      let removedFields = [];
+      let merge =[];
+      for (let c of this.columns) {
+        let show = c.show == undefined ? true : c.show;
+        let show_option = c.show_option !== undefined ? c.show_option : true;
+        if (show_option && (c.type == "text" || c.type == "array" || c.type == "text-btn")) {
+          const item = { key: c.prop, value: c.prop, label: c.label };
+          cols.push(item);
+        }
+      }
+      d.param.allFields.filter(e=>{
+        return cols.forEach(f=>{
+          if(e['key'] === f['key']) {
+            removedFields.push(f);
+          }
+        })
+      })
+      merge = [...removedFields, ...cols];
+      const renderableArr = this.$tool.rmDuplicate(merge);
+
+      this.fields = renderableArr;
       this.$refs.viewPop.setData(d);
       this.type = 'edit';
       this.viewVisible = true;
