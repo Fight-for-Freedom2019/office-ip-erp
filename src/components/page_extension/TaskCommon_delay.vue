@@ -1,7 +1,7 @@
 <template v-loading="loading">
   <div>
-    <app-table :columns="columns" :data="delayData"></app-table>
-    <el-dialog title="附件" :visible.sync="dialogVisible">
+    <app-table :columns="columns" :data="delayData" ref="table"></app-table>
+    <el-dialog title="附件" :visible.sync="dialogVisible" :modal="false">
       <app-table :columns="attachmentsColumns" :data="attachments"></app-table>
     </el-dialog>
   </div>
@@ -9,11 +9,9 @@
 
 <script>
 import AppTable from "@/components/common/AppTable";
-import AxiosMixins from "@/mixins/axios-mixins";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "TaskCommonDelay",
-  mixins: [AxiosMixins],
   props: ["row"],
   data() {
     return {
@@ -51,9 +49,12 @@ export default {
   };
 },
   computed: {
+    ...mapGetters([
+      'processData',
+    ]),
     taskId() {
       return this.row.task.id;
-    }
+    },
   },
   methods: {
     ...mapActions([]),
@@ -71,11 +72,18 @@ export default {
         setTimeout(_ => (this.loading = false), 500);
       };
 
-      this.axiosGet({ url, success, complete });
-    }
+      this.$axiosGet({ url, success, complete });
+    },
+     doLayout() {
+      this.$refs.table.$refs.table.doLayout();
+    },
   },
   created() {},
-  watch: {},
+  watch: {
+    row(v) {
+      this.delayData = this.processData.postpones;
+    }
+  },
   components: {
     AppTable
   }

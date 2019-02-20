@@ -55,7 +55,7 @@
         :element-loading-text="config.loadingText"
         :style="divStyle"
       >
-        <el-tabs v-model="activeName">
+        <el-tabs v-model="activeName" @tab-click="tabClick">
           <el-tab-pane label="基本信息" name="base">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
               <detail-patent
@@ -89,7 +89,7 @@
           </el-tab-pane>
           <el-tab-pane label="官文&附件" name="notice">
             <div :style="`height: ${innerHeight - 142}px; overflow: auto;`">
-              <detail-notice type="patent" @uploadSuccess="edit"></detail-notice>
+              <detail-notice type="patent" @uploadSuccess="edit" ref="notice"></detail-notice>
             </div>
           </el-tab-pane>
           <el-tab-pane label="费用" name="fourth" v-if="menusMap.get('/role/flow')">
@@ -292,6 +292,13 @@ export default {
     },
     close() {
       this.visible = false;
+    },
+    tabClick({name}) {
+      if(name == 'notice') {
+        this.$nextTick(_=>{
+          this.$refs.notice.doLayout();
+        })
+      }
     },
     handleSendEmail(id) {
       this.$emit("sendEmail", id);

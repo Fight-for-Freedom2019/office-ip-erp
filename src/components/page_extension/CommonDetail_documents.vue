@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <table-component :tableOption="option" :data="tableData"></table-component>
+    <table-component :tableOption="option" :data="tableData" ref="table"></table-component>
   </div>
 </template>
 

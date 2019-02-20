@@ -176,6 +176,7 @@ import { mapActions } from "vuex";
 // import $ from 'jquery'
 
 const URL = "/processes";
+const refsKey = ['finish', 'taskDetail', 'delay'];
 const colorMap = new Map([
   [-2, "#339"],
   [-1, "#09C"],
@@ -393,6 +394,12 @@ export default {
       } else if (tab.name == "delay") {
         this.$refs.delay.refreshData();
       }
+       // 这里主要是因为element-ui使用tab嵌套多个table宽度不会自动计算，手动强制更新下table布局
+      this.$nextTick(_=>{
+        for (let k  of refsKey) {
+          this.$refs[k].doLayout(); 
+        }
+      })
     },
     showmailbtn(scene) {
       this.mailbtn = scene;

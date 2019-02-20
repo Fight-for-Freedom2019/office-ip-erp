@@ -269,6 +269,11 @@ export default {
       console.log("finish panel shown " + this.row.id);
       // this.refreshData();
     },
+    doLayout() {
+      if(this.$refs && this.$refs.table !== undefined) {
+        this.$refs.table.$refs.table.doLayout();
+      }
+    },
     uploadBefore(){
       this.btn_disabled = true;
     },
