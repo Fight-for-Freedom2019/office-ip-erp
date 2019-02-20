@@ -173,6 +173,7 @@ export default {
             this.coverObj(_.data);
             this.attachments = _.data.attachments;
             this.project = _.data.project;
+            this.form.previous_deadline = _.data.previous_deadline;
             this.form.first_edition_deadline =
               _.data.process.first_edition_deadline;
             this.title =
