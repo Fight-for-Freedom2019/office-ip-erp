@@ -1199,7 +1199,9 @@ export default {
 .table-header i.el-icon-menu {
   font-size: 13px;
 }
-
+.el-badge {
+  vertical-align:initial;
+}
 /*.el-table__expand-column {
   display: none;
 }*/

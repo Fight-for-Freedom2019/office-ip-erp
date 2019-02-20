@@ -229,6 +229,7 @@ export default {
       const success = _ => {
         const mail = _.mail;
         this.mail_scene = mail.main_scene;
+        this.attachments = mail.attachments ? mail.attachments : [];
         this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });
         this.loadingVisible = false;
       };
