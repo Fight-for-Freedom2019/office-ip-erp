@@ -16,7 +16,7 @@
           <el-form-item label="承办人：" style="margin-bottom: 0;">{{ item.user.name }}</el-form-item>
           <el-form-item label="备注：" style="margin-bottom: 0;">{{ item.remark }}</el-form-item>
           <el-form-item label="附件：" style="margin-bottom: 0;">
-            <table-component :data="item.attachments" :tableOption="tableOption" ref="table"></table-component>
+            <app-table :columns="columns" :data="item.attachments" ref="table" border></app-table>
           </el-form-item>
         </el-form>
       </el-collapse-item>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import TableComponent from "@/components/common/TableComponent";
+import AppTable from "@/components/common/AppTable";
 import AxiosMixins from "@/mixins/axios-mixins";
 import { mapActions, mapGetters } from "vuex";
 export default {
@@ -35,10 +35,6 @@ export default {
   props: ["row"],
   data() {
     return {
-      tableOption: {
-        is_search: false,
-        is_pagination: false,
-        is_border: true,
         columns: [
           { type: "text", label: "附件名称", prop: "name" },
           { type: "text", label: "附件格式", prop: "ext" },
@@ -71,10 +67,8 @@ export default {
               }
             ]
           }
-        ]
-      },
+        ],
       loading: false,
-
       collapse: []
     };
   },
@@ -116,7 +110,7 @@ export default {
      doLayout() {
        if(this.$refs && this.$refs.table != undefined) {
          this.$refs.table.forEach(e => {
-           e.$refs.table.$refs.table.doLayout();
+           e.$refs.table.doLayout();
          });
        }
     },
@@ -129,7 +123,7 @@ export default {
       this.refreshData();
     }
   },
-  components: { TableComponent }
+  components: { AppTable }
 };
 </script>
 
