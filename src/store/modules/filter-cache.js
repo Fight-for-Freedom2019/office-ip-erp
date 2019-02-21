@@ -301,7 +301,16 @@ const actions = {
 			// }else {
 				dispatch('removeListFilter', item.index);
 			// }
-		}
+		}else if(item === "all") {
+      if(state.custom.length !== 0) {
+        state.custom.forEach((i)=>{
+          let fun = window.listHeaderFilter.get(i.key);
+          fun?fun.clearRenderHeaderField(i['key']):""
+        })
+      }
+      commit("clearFilter")
+
+    }
 	}
 }
 

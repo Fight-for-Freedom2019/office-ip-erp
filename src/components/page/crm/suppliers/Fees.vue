@@ -124,7 +124,6 @@ export default {
             label: "标题",
             prop: "project.title",
             width: "240",
-            render_header: true
           },
           {
             type: "text",
@@ -158,19 +157,17 @@ export default {
           {
             type: "text",
             label: "费用名称",
-            prop: "fee_code.name",
+            prop: "fee_code",
+            render_simple:"name",
             width: "160",
             render_header: true
           },
           {
             type: "text",
             label: "费用类型",
-            prop: "fee_code",
+            prop: "fee_type",
+            render_simple:"name",
             width: "100",
-            render: (h, item) => {
-              let name = item ? item.fee_type.name : "";
-              return h("span", name);
-            },
             render_header: true
           },
           // TODO 接口有字段缺失
@@ -196,7 +193,7 @@ export default {
             label: "计划付款时间",
             prop: "invoice.deadline", // TODO prop为invoice时计划付款时间和通知书发文日只渲染通知书发文日
             width: "120",
-            render_header: true
+            // render_header: true
           },
           {
             type: "text",
@@ -208,8 +205,8 @@ export default {
           {
             type: "text",
             label: "通知书发文日",
-            prop: "notice",
-            render_simple: "mail_date",
+            prop: "mail_date",
+            render_obj: "notice",
             width: "120",
             render_header: true
           },
