@@ -514,7 +514,6 @@ export default {
   watch: {
     'row.id':{
       handler (val) {
-        console.log(val);
         if(val) {
           this.onShrinkLoading(this.loadingText);
           this.refreshProcessDetail({id: val});
