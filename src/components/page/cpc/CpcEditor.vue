@@ -464,8 +464,12 @@ export default {
         this.triggerEvent(rule);
       } else {
         rule = this.saveRules.get(id);  // 从缓存中拿生成规则，这样绑定的数据就不会丢失
+        if(id === 100027 || id === 110401) {
+          console.log("!rule是否为true",rule);
+        }
         if(!rule) {   // 100027和110401可以通过点击CheckBox生成，如果缓存中没有的话就要重新获取，并生成规则
           rule = handlePlaceholder(cloneDeep(formConfig.get(id)).obj.rule);
+          console.log("rule是否生成",rule)
           this.mergeRule(rule);
         }
         id === 100104 ? this.triggerEvent(rule) : "";
