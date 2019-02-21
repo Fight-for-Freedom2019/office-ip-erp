@@ -512,10 +512,14 @@ export default {
     }
   },
   watch: {
-    row (val) {
-      if(val) {
-        this.onShrinkLoading(this.loadingText);
-        this.refreshProcessDetail({id: val.id});
+    'row.id':{
+      handler (val) {
+        console.log(val);
+        if(val) {
+          this.onShrinkLoading(this.loadingText);
+          this.refreshProcessDetail({id: val});
+        }
+
       }
     },
     deleteStatus(val) {
