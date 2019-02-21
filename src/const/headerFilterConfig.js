@@ -659,9 +659,8 @@ const map = new Map([
         id: "user",
         name: "客户",
         data_key: "data",
-        url: "/customers"
+        url: "/users"
       },
-      { type: "text", id: "project.title", name: "标题" },
       { type: "text", id: "project.application_number", name: "申请号" },
       { type: "date", id: "project.application_date", name: "申请日" },
       {
@@ -675,14 +674,14 @@ const map = new Map([
       { type: "text", id: "order.serial", name: "订单号" },
       {
         type: "static_select",
-        id: "fee_code.name",
+        id: "fee_code",
         name: "费用名称",
         map_type: "fee_code",
         url: "/feecode"
       },
       {
         type: "static_select",
-        id: "fee_code",
+        id: "fee_type",
         name: "费用类型",
         map_type: "fee_type"
       },
@@ -699,6 +698,15 @@ const map = new Map([
         map_type: "currency"
       },
       { type: "date", id: "deadline", name: "官方绝限" },
+      { type: "date", id: "project.entrusting_time", name: "委案日" },
+      { type: "date", id: "invoice.payment_time", name: "实际付款时间" },
+      { type: "date", id: "mail_date", name: "通知书发文日" },
+      {
+        type: "static_select",
+        id: "is_opposite_fee_payed",
+        name: "客户已付款",
+        map_type: "bool"
+      },
       {
         type: "static_select",
         id: "status",
