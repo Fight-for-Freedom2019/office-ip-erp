@@ -78,6 +78,12 @@ export default {
           },
           {
             type: "text",
+            label: "官方绝限",
+            prop: "deadline",
+            width: "100"
+          },
+          {
+            type: "text",
             label: "申请日",
             prop: "project.application_date",
             width: "100"
