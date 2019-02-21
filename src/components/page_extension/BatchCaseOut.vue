@@ -19,7 +19,7 @@
     ["no","不更新"],
     ["agent","代理人"],
     ["assigner","派案人"],
-    ["final_reviewer","复审人"],
+    ["final_reviewer","复核人"],
     ["first_reviewer","初审人"],
   ];
   export default {

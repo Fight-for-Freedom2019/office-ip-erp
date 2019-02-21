@@ -159,6 +159,7 @@ const nodePermissionMap = new Map([
   ["/exchange/document/voucher", "Pages.Files.SaveVoucher"],
   ["/exchange/document/other", "Pages.Files.SaveOther"],
   ["/exchange/document/cpc", "Pages.Files.SaveCpc"],
+  ["/exchange/document/excel", "Pages.Excels.Index"],
   ["/exchange/client", "Pages.CpcNotices.Index"],
   ["/exchange/client/notices", "Pages.CpcNotices.Index"],
   ["/exchange/client/archives", "Pages.CpcArchives.Index"],

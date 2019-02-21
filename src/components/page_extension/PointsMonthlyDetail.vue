@@ -72,6 +72,7 @@ export default {
             render_simple: "name",
             width: "120",
           },
+          { type: "text", label: "点数", prop: "points", width: "80" },
           {
             type: "array",
             label: "案件标签",
@@ -93,7 +94,7 @@ export default {
             render_simple: "name",
             width: "110",
           },
-          { type: "text", label: "点数", prop: "points", width: "80" },
+          
           {
             type: "text",
             label: "用户",

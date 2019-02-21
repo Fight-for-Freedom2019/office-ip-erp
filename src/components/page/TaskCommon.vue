@@ -7,7 +7,7 @@
       ref="table"
     >
       <el-badge slot="badge" :value="instancySum">
-        <el-button size="small" type="danger" @click="instancyHandle">3天加急处理</el-button>
+        <el-button size="small" type="danger" @click="instancyHandle">3天内到期/已过期</el-button>
       </el-badge>
     </table-component>
 
@@ -108,12 +108,12 @@ const MessageContent = {
 export default {
   name: "taskList",
   mixins: [AxiosMixins],
-  inject:["closeAllTag"],
+  inject: ["closeAllTag"],
   data() {
     return {
       timer: null, //定时器
       dialogTurnoutVisible: false,
-      instancySum:0,
+      instancySum: 0,
       filters: {},
       activeName: "finish",
       checkedTest: [],
@@ -192,7 +192,7 @@ export default {
             ]
           }
         ],
-        header_slot: ["toggle","badge"],
+        header_slot: ["toggle", "badge"],
         highlightCurrentRow: true,
         rowClick: this.handleRowClick,
         // 'expandFun': (row, expanded)=>{
@@ -260,14 +260,14 @@ export default {
             render_header: true,
             width: "110"
           },
-          {
-            type: "text",
-            prop: "process_stage",
-            label: "当前阶段",
-            render_simple: "name",
-            render_header: true,
-            width: "110"
-          },
+          // {
+          //   type: "text",
+          //   prop: "process_stage",
+          //   label: "当前阶段",
+          //   render_simple: "name",
+          //   render_header: true,
+          //   width: "110"
+          // },
           {
             type: "text",
             prop: "user",
@@ -304,7 +304,7 @@ export default {
           {
             type: "text",
             prop: "final_reviewer",
-            label: "复审人",
+            label: "复核人",
             render_simple: "name",
             render_header: true,
             width: "110"
@@ -402,8 +402,8 @@ export default {
           {
             type: "text",
             prop: "deadline",
-            render_key: 'task',
-            render_simple: 'deadline',
+            render_key: "task",
+            render_simple: "deadline",
             label: "节点期限",
             render_header: true,
             width: "110"
@@ -618,24 +618,29 @@ export default {
       "refreshFlows",
       "refreshAction",
       "refreshProcessDetail",
-      "fillListFilter",
+      "fillListFilter"
     ]),
-    getThreeDateLate(onlyTime=false){
+    getThreeDateLate(onlyTime = false) {
       let time = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 3);
       let year = time.getFullYear();
       let month = time.getMonth() + 1;
       let day = time.getDate();
-      return onlyTime?time:`${year}-${month}-${day}`
+      return onlyTime ? time : `${year}-${month}-${day}`;
     },
-    instancyHandle(){
+    instancyHandle() {
       // this.closeAllTag("all");
-      let obj = {internal_deadline:{
-          extraOption:{operation:1,internal_deadline:`,${this.getThreeDateLate()}`},
-          key:"internal_deadline",
-          label:`日期范围： - ${this.getThreeDateLate()}`,
-          name:"管控期限",
-          value:["",this.getThreeDateLate(true)]
-        }}
+      let obj = {
+        internal_deadline: {
+          extraOption: {
+            operation: 1,
+            internal_deadline: `,${this.getThreeDateLate()}`
+          },
+          key: "internal_deadline",
+          label: `日期范围： - ${this.getThreeDateLate()}`,
+          name: "管控期限",
+          value: ["", this.getThreeDateLate(true)]
+        }
+      };
       this.fillListFilter(obj);
     },
     tagRender(arr) {
@@ -786,9 +791,9 @@ export default {
   },
   mounted() {
     // 开个10s定时器,自动刷新当前列表
-    this.timer = setInterval(() => {
-      this.update();
-    }, 10000);
+    // this.timer = setInterval(() => {
+    //   this.update();
+    // }, 10000);
     this.addListFilter(this.expringControl);
     if (this.$route.params.id) {
       this.install = this.$route.params.id;
@@ -802,7 +807,7 @@ export default {
   },
   beforeDestroy() {
     // 页面销毁前清除定时器
-    if(this.timer) {
+    if (this.timer) {
       clearInterval(this.timer);
     }
   },

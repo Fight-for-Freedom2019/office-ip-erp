@@ -102,7 +102,7 @@ const map = new Map([
       {
         type: "remote_select",
         id: "final_reviewer",
-        name: "复审人",
+        name: "复核人",
         data_key: "data",
         url: "/users"
       },
@@ -281,7 +281,7 @@ const map = new Map([
       {
         type: "remote_select",
         id: "final_reviewer",
-        name: "复审人",
+        name: "复核人",
         url: "/users",
         data_key: "data"
       },

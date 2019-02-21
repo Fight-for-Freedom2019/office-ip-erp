@@ -1,11 +1,11 @@
 <template>
   <div class="main">
-    <table-component :tableOption="option" :data="tableData" ref="table"></table-component>
+    <app-table :columns="columns" :data="tableData" height="312" ref="table" border></app-table>
   </div>
 </template>
 
 <script>
-import TableComponent from "@/components/common/TableComponent";
+import AppTable from "@/components/common/AppTable";
 import SearchInput from "@/components/common/SearchInput";
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -13,10 +13,6 @@ export default {
   props: ["searchValue"],
   data() {
     return {
-      option: {
-        is_search: false,
-        height: "default6",
-        is_pagination: false,
         columns: [
           { type: "text", label: "文件名称", prop: "name", min_width: "220" },
           // {
@@ -62,8 +58,7 @@ export default {
               { type: "delete", click: this.handleDelete }
             ]
           }
-        ]
-      }
+        ],
     };
   },
   computed: {
@@ -111,7 +106,7 @@ export default {
         .catch(_ => {});
     }
   },
-  components: { TableComponent, SearchInput }
+  components: { AppTable, SearchInput }
 };
 </script>
 

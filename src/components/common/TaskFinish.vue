@@ -11,11 +11,11 @@
             @click.stop="dropDetial"
           >更多...</el-button>
           <el-button
-              size="mini"
-              type="text"
-              style="margin-left: 10px;"
-              v-if="!ifMore"
-              @click.stop="showMore"
+            size="mini"
+            type="text"
+            style="margin-left: 10px;"
+            v-if="!ifMore"
+            @click.stop="showMore"
           >更多...</el-button>
         </template>
         <el-dialog title="任务详情" :visible.sync="isShowMore" :modal="false">
@@ -23,12 +23,14 @@
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="管制事项">
-                  <span class="form-item-text">{{ row.process_definition?row.process_definition.name:"" }}</span>
+                  <span
+                    class="form-item-text"
+                  >{{ row.process_definition?row.process_definition.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="当前阶段">
-                  <span class="form-item-text">{{ row.process_stage?row.process_stage.name:"" }}</span>
+                <el-form-item label="当前节点">
+                  <span class="form-item-text">{{ row.process_action.name }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -49,7 +51,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="复审人">
+                <el-form-item label="复核人">
                   <span class="form-item-text">{{ row.final_reviewer?row.final_reviewer.name:"" }}</span>
                 </el-form-item>
               </el-col>
@@ -60,7 +62,9 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="所属部门">
-                  <span class="form-item-text">{{ row.organization_unit?row.organization_unit.name:"" }}</span>
+                  <span
+                    class="form-item-text"
+                  >{{ row.organization_unit?row.organization_unit.name:"" }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -375,7 +379,7 @@ export default {
   },
   data() {
     return {
-      isShowMore:false,
+      isShowMore: false,
       sourceForm: [],
       detailMap: {},
       task_id: "",
@@ -390,7 +394,7 @@ export default {
       appFormRules: {},
       description: "",
       tasksData: "",
-      user_id: '',
+      user_id: "",
       form: {},
       columns: [
         { type: "text", label: "附件名称", prop: "name", overflow: false },
@@ -443,14 +447,14 @@ export default {
       // this.refreshData();
     },
     doLayout() {
-      if(this.$refs && this.$refs.table !== undefined) {
+      if (this.$refs && this.$refs.table !== undefined) {
         this.$refs.table.$refs.table.doLayout();
       }
     },
-    uploadBefore(){
+    uploadBefore() {
       this.btn_disabled = true;
     },
-    uploadSuccess(){
+    uploadSuccess() {
       this.btn_disabled = false;
     },
     handleUpload(val) {
@@ -534,9 +538,10 @@ export default {
           this.btn_disabled = true;
           const url = `${URL}/${this.taskId}/nexttask`;
           const reviewObj = this.is_review
-            ? { review_opinion: this.review_opinion,}
+            ? { review_opinion: this.review_opinion }
             : {};
-          const user_id = this.next && this.next.length != 0 ? { user_id : this.user_id } : {};
+          const user_id =
+            this.next && this.next.length != 0 ? { user_id: this.user_id } : {};
           const data = Object.assign({}, reviewObj, this.form, user_id);
           const success = () => {
             // this.$message({ type: "success", message: "完成任务成功" });
@@ -584,7 +589,7 @@ export default {
         this.$emit("more", "copyright");
       }
     },
-    showMore(){
+    showMore() {
       this.isShowMore = true;
     },
     handleForm(val) {
@@ -604,10 +609,10 @@ export default {
     //   },
     //   immediate: true,
     // },
-    review_opinion (val) {
+    review_opinion(val) {
       this.opinion_type = val;
     },
-    userId (val) {
+    userId(val) {
       this.user_id = val;
     },
     taskId: {
@@ -629,15 +634,17 @@ export default {
       return this.process;
     },
     userId: {
-      get () {
+      get() {
         const nl = this.$tool.getObjLength(this.next);
-        if(this.next && this.next.length != 0 && nl > 0) {
-          const o = this.is_review ? this.next[this.opinion_type] : this.next['pass'];
-          return this.user_id = o.user;
+        if (this.next && this.next.length != 0 && nl > 0) {
+          const o = this.is_review
+            ? this.next[this.opinion_type]
+            : this.next["pass"];
+          return (this.user_id = o.user);
         }
       },
       set(v) {
-        return this.user_id = v;
+        return (this.user_id = v);
       }
     },
     userTips() {
@@ -731,8 +738,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  .form-item-text {
-    overflow: hidden;
-    white-space: nowrap;
-  }
+.form-item-text {
+  overflow: hidden;
+  white-space: nowrap;
+}
 </style>

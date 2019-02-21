@@ -84,7 +84,7 @@ export default {
 			    { type: 'text', label: '承办部门', prop: 'organization_unit', render_simple: 'name', width : '145', is_import: true,},
 			    { type: 'text', label: '代理人', prop: 'agent', render_simple: 'name', width : '145', is_import: true,},
 			    { type: 'text', label: '初审人', prop: 'first_reviewer', render_simple: 'name', width : '145', is_import: true,},
-			    { type: 'text', label: '复审人', prop: 'final_reviewer', render_simple: 'name', width : '145', is_import: true,},
+			    { type: 'text', label: '复核人', prop: 'final_reviewer', render_simple: 'name', width : '145', is_import: true,},
 			    { type: 'text', label: '顾问', prop: 'consultant', render_simple: 'name', width : '145', is_import: true,},
 			    { type: 'text', label: '销售', prop: 'sales', render_simple: 'name', width : '145', is_import: true,},
 			    { type: 'text', label: '订单号', prop: 'order', render_simple: 'serial', width : '145', is_import: true,},

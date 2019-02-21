@@ -2,50 +2,39 @@
 <template>
   <div class="main" style="margin-top:10px;">
     <el-form label-width="120px" :model="form" :rules="rules" ref="form">
-      <el-form-item label="代送件用户" prop="tenant" v-if="is_tenant">
-        <jump-select
-          type="tenant"
-          placeholder="请选择代送件用户"
-          v-model="form.tenant"
-          @input="tenantChanged"
-        ></jump-select>
+      <el-form-item label="描述" prop="description">
+        <el-input type="text" placeholder="请输入描述" v-model="form.description"></el-input>
       </el-form-item>
-
-      <el-form-item label="相关案件" prop="project">
-        <jump-select type="专利" placeholder="请选择案件引用" v-model="form.project" :para="param"></jump-select>
+      <el-form-item label="配置" prop="config">
+        <el-input
+          type="textarea"
+          placeholder="请输入描述"
+          v-model="form.config"
+          :autosize="{ minRows: 20}"
+        ></el-input>
       </el-form-item>
-
-      <el-form-item label="导入状态" prop="is_imported">
-        <static-select type="cpc_notice_imported" placeholder="请输入备注" v-model="form.is_imported"></static-select>
-      </el-form-item>
-
-      <el-form-item label="备注" prop="remark">
-        <el-input type="text" placeholder="请输入备注" v-model="form.remark"></el-input>
+      <el-form-item label="Excel文件" prop="file" v-if="type == 'edit'">
+        <upload v-model="form.file"></upload>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import RemoteSelect from "@/components/form/RemoteSelect";
-import JumpSelect from "@/components/form/JumpSelect";
-import StaticSelect from "@/components/form/StaticSelect";
-import AppSwitch from "@/components/form/AppSwitch";
+import Upload from "@/components/form/Upload";
 import { mapActions } from "vuex";
 
 export default {
-  name: "CpcNoticeEdit",
+  name: "ExcelEdit",
   data() {
     return {
-      URL: "/cpc_notices",
+      URL: "/excels",
       form: {
-        project: "",
-        remark: "",
-        is_imported: false
+        description: "",
+        config: "",
+        file: []
       },
-      rules: {
-        project: [{ required: false, message: "请选择案件", trigger: "blur" }]
-      },
+      rules: {},
       param: null
     };
   },
@@ -95,9 +84,12 @@ export default {
             this.$emit(fun);
             this.$emit("saved");
           };
+          const complete = _ => {
+            this.$emit("complete");
+          };
           type === "add"
-            ? this.$axiosPost({ url, data, success })
-            : this.$axiosPut({ url, data, success });
+            ? this.$axiosPost({ url, data, success, complete })
+            : this.$axiosPut({ url, data, success, complete });
         } else {
           this.$message({ type: "warning", message: "请正确填写" });
         }
@@ -107,19 +99,10 @@ export default {
       this.$refs.form.resetFields();
     },
     coverObj(val) {
-      val
-        ? this.$tool.coverObj(this.form, val, {
-            obj: ["project", "is_imported"]
-          })
-        : "";
+      val ? this.$tool.coverObj(this.form, val) : "";
     }
   },
-  components: {
-    RemoteSelect,
-    StaticSelect,
-    AppSwitch,
-    JumpSelect
-  }
+  components: { Upload }
 };
 </script>
 

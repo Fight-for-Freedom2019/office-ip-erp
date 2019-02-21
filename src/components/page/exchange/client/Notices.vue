@@ -18,6 +18,7 @@
           size="small"
           v-if="compileType === 'edit'"
           @click="save('edit')"
+          :loading="loading"
         >保存</el-button>
       </span>
       <cpc-notice-edit
@@ -26,6 +27,7 @@
         ref="CpcNoticeEdit"
         @update="update"
         @refresh="refresh"
+        @saved="saved"
       ></cpc-notice-edit>
     </app-shrink>
   </div>
@@ -285,7 +287,8 @@ export default {
       tableData: [],
       rowID: null,
       rowData: null,
-      title: ""
+      title: "",
+      loading: false
     };
   },
   methods: {
@@ -316,7 +319,12 @@ export default {
     //     this.$refs.CpcNoticeEdit?this.$refs.CpcNoticeEdit.clear():"";
     // },
     save(type) {
+      this.loading = true;
       this.$refs.CpcNoticeEdit.submitForm(type, this.rowID);
+    },
+    saved() {
+      this.loading = false;
+      this.closeVisible("isPanelVisible");
     },
     downloadCpcBatch(type) {
       var selected = this.$refs.table.getSelected();
