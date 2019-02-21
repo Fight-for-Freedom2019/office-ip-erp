@@ -84,9 +84,12 @@ export default {
             this.$emit(fun);
             this.$emit("saved");
           };
+          const complete = _ => {
+            this.$emit("complete");
+          };
           type === "add"
-            ? this.$axiosPost({ url, data, success })
-            : this.$axiosPut({ url, data, success });
+            ? this.$axiosPost({ url, data, success, complete })
+            : this.$axiosPut({ url, data, success, complete });
         } else {
           this.$message({ type: "warning", message: "请正确填写" });
         }

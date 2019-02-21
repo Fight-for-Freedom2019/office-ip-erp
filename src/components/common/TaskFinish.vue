@@ -23,7 +23,9 @@
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="管制事项">
-                  <span class="form-item-text">{{ row.process_definition.name }}</span>
+                  <span
+                    class="form-item-text"
+                  >{{ row.process_definition?row.process_definition.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -33,12 +35,12 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="案件类型">
-                  <span class="form-item-text">{{ row.project_type.name }}</span>
+                  <span class="form-item-text">{{ row.project_type?row.project_type.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="案件子类型">
-                  <span class="form-item-text">{{ row.subtype.name }}</span>
+                  <span class="form-item-text">{{ row.subtype?row.subtype.name:"" }}</span>
                 </el-form-item>
               </el-col>
             </el-row>

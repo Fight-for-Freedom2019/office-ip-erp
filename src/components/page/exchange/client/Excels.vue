@@ -28,6 +28,7 @@
         @update="update"
         @refresh="refresh"
         @saved="saved"
+        @complete="complete"
       ></excel-edit>
     </app-shrink>
   </div>
@@ -122,6 +123,9 @@ export default {
     saved() {
       this.loading = false;
       this.closeVisible("isPanelVisible");
+    },
+    complete() {
+      this.loading = false;
     },
     downloadCpcBatch(type) {
       var selected = this.$refs.table.getSelected();

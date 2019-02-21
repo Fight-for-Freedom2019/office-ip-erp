@@ -5,7 +5,11 @@
       :data="tableData"
       :refreshTableData="refreshTableData"
       ref="table"
-    ></table-component>
+    >
+      <el-badge slot="badge" :value="instancySum">
+        <el-button size="small" type="danger" @click="instancyHandle">3天内到期/已过期</el-button>
+      </el-badge>
+    </table-component>
 
     <el-dialog title="将选中任务转给以下任务处理人" :visible.sync="dialogTurnoutVisible" class="dialog-mini">
       <el-form label-position="top">
@@ -104,10 +108,12 @@ const MessageContent = {
 export default {
   name: "taskList",
   mixins: [AxiosMixins],
+  inject: ["closeAllTag"],
   data() {
     return {
       timer: null, //定时器
       dialogTurnoutVisible: false,
+      instancySum: 0,
       filters: {},
       activeName: "finish",
       checkedTest: [],
@@ -186,7 +192,7 @@ export default {
             ]
           }
         ],
-        header_slot: ["toggle"],
+        header_slot: ["toggle", "badge"],
         highlightCurrentRow: true,
         rowClick: this.handleRowClick,
         // 'expandFun': (row, expanded)=>{
@@ -611,8 +617,32 @@ export default {
       "addListFilter",
       "refreshFlows",
       "refreshAction",
-      "refreshProcessDetail"
+      "refreshProcessDetail",
+      "fillListFilter"
     ]),
+    getThreeDateLate(onlyTime = false) {
+      let time = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 3);
+      let year = time.getFullYear();
+      let month = time.getMonth() + 1;
+      let day = time.getDate();
+      return onlyTime ? time : `${year}-${month}-${day}`;
+    },
+    instancyHandle() {
+      // this.closeAllTag("all");
+      let obj = {
+        internal_deadline: {
+          extraOption: {
+            operation: 1,
+            internal_deadline: `,${this.getThreeDateLate()}`
+          },
+          key: "internal_deadline",
+          label: `日期范围： - ${this.getThreeDateLate()}`,
+          name: "管控期限",
+          value: ["", this.getThreeDateLate(true)]
+        }
+      };
+      this.fillListFilter(obj);
+    },
     tagRender(arr) {
       arr.map(_ => {
         _.classname = "tag-color-" + _.color;
@@ -671,6 +701,7 @@ export default {
           window.location.href = d.tasks.downloadUrl;
         } else {
           this.tableData = d.processes;
+          this.instancySum = d.processes.sum;
           // this.filters = d.tasks.filters;
         }
 

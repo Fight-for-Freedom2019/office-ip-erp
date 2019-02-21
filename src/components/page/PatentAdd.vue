@@ -290,7 +290,7 @@ export default {
         const copy = this.$tool.deepCopy(val);
         this.id = copy.id;
         this.title = val.serial + "-" + val.title;
-        this.$nextTick(_ => {
+        this.$nextTick(() => {
           setKeys.map(_ => this.$refs[_].setForm(copy));
         });
       }
