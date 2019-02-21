@@ -353,7 +353,7 @@ export default {
       this.isNotice = true;
     },
     doLayout() {
-      this.$refs.documents.$refs.table.$refs.table.$refs.table.doLayout();
+      this.$refs.documents.$refs.table.$refs.table.doLayout();
     },
     handleBeforeUploads(a) {
       this.isNotice = false;
