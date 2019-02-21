@@ -7,7 +7,7 @@
     <el-form-item label="初审人" prop="first_reviewer">
       <remote-select type="user" v-model="form.first_reviewer" pageType="add"></remote-select>
     </el-form-item>
-    <el-form-item label="复审人" prop="final_reviewer">
+    <el-form-item label="复核人" prop="final_reviewer">
       <remote-select type="user" v-model="form.final_reviewer" pageType="add" add-type="user"></remote-select>
     </el-form-item>
     <el-form-item label="对外代理人" prop="representative">

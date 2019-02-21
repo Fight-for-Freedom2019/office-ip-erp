@@ -62,7 +62,7 @@ const taskMenu = [
       },
       {
         type: "item",
-        text: "我为复审人",
+        text: "我为复核人",
         path: "/task/monitor/final_reviewer",
         icon: "iconfont el-icon-my-patent-applied"
       },

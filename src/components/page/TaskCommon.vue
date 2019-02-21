@@ -304,7 +304,7 @@ export default {
           {
             type: "text",
             prop: "final_reviewer",
-            label: "复审人",
+            label: "复核人",
             render_simple: "name",
             render_header: true,
             width: "110"

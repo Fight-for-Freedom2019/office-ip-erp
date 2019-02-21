@@ -51,7 +51,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="复审人">
+                <el-form-item label="复核人">
                   <span class="form-item-text">{{ row.final_reviewer?row.final_reviewer.name:"" }}</span>
                 </el-form-item>
               </el-col>

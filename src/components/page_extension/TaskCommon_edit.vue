@@ -98,7 +98,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="复审人" prop="final_reviewer">
+          <el-form-item label="复核人" prop="final_reviewer">
             <jump-select type="user" v-model="form.final_reviewer"></jump-select>
           </el-form-item>
         </el-col>

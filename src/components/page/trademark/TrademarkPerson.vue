@@ -39,7 +39,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="复审人">
+        <el-form-item label="复核人">
           <remote-select type="user" v-model="form.final_reviewer" add-type="user"></remote-select>
         </el-form-item>
       </el-col>

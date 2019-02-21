@@ -328,7 +328,7 @@ export default {
           },
           {
             type: "text",
-            label: "复审人",
+            label: "复核人",
             width: "90",
             prop: "final_reviewer",
             render_simple: "name",
