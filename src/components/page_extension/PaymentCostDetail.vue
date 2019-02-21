@@ -1,7 +1,7 @@
 <!-- 请款管理 费用明细 -->
 <template>
   <div class="PaymentCostDetail">
-    <table-component :tableOption="tableOption" :data="data" @getRowData="getRowData"></table-component>
+    <app-table :columns="columns" :data="data" height="394"></app-table>
     <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal="false" width="60%">
       <table-component :tableOption="feeDetailOption" :data="feesDetail"></table-component>
     </el-dialog>
@@ -27,108 +27,95 @@ export default {
   name: "PaymentCostDetail",
   data() {
     return {
-      tableOption: {
-        name: "PaymentCostDetailList",
-        url: "",
-        height: 394,
-        highlightCurrentRow: true,
-        is_search: false,
-        is_pagination: false,
-        rowClick: this.handleRowClick,
-        header_btn: [
-          // {type: 'add'},
-        ],
-        columns: [
-          { type: "selection" },
-          // {type: 'text', label: '客户', prop: 'customer.name', min_width: '120'},
-          { type: "text", label: "案号", prop: "project.serial", width: "178" },
-          {
-            type: "text",
-            label: "标题",
-            prop: "project.title",
-            min_width: "200"
-          },
-          {
-            type: "text-btn",
-            label: "代理费",
-            prop: "service_fee.sum",
-            width: "70",
-            click: this.checkFeeDetail,
-            render_text_btn: row => {
-              return row.service_fee.sum;
-            }
-          },
-          {
-            type: "text-btn",
-            label: "官费",
-            prop: "official_fee.sum",
-            width: "70",
-            click: this.checkFeeDetail,
-            render_text_btn: row => {
-              return row.official_fee.sum;
-            }
-          },
-
-          // {type: 'text', label: '申请国家', prop: 'area', width: '180'},
-          {
-            type: "text",
-            label: "申请号",
-            prop: "project.application_number",
-            width: "145"
-          },
-          {
-            type: "text",
-            label: "官方绝限",
-            prop: "deadline",
-            width: "100"
-          },
-          {
-            type: "text",
-            label: "申请日",
-            prop: "project.application_date",
-            width: "100"
-          },
-          {
-            type: "text-btn",
-            label: "订单号",
-            prop: "order.serial",
-            width: "90",
-            click: this.checkOrderDetail,
-            render_text_btn: row => {
-              return row.order ? row.order.serial : "";
-            }
+      columns: [
+        // {type: 'text', label: '客户', prop: 'customer.name', min_width: '120'},
+        { type: "text", label: "案号", prop: "project.serial", width: "178" },
+        {
+          type: "text",
+          label: "标题",
+          prop: "project.title",
+          min_width: "200"
+        },
+        {
+          type: "text-btn",
+          label: "代理费",
+          prop: "service_fee.sum",
+          width: "70",
+          click: this.checkFeeDetail,
+          render_text_btn: row => {
+            return row.service_fee.sum;
           }
+        },
+        {
+          type: "text-btn",
+          label: "官费",
+          prop: "official_fee.sum",
+          width: "70",
+          click: this.checkFeeDetail,
+          render_text_btn: row => {
+            return row.official_fee.sum;
+          }
+        },
 
-          // {
-          //     type: 'text', label: '费用策略', prop: 'policy', width: '150', render: (h, item) => {
-          //         let name = "";
-          //         config.get("policy").options.map(function (o) {
-          //             if (o.id === item) {
-          //                 name = o.name;
-          //             }
-          //         });
-          //         return h("span", name);
-          //     }
-          // },
-          // {
-          //     type: 'text-btn',
-          //     label: '官费票据',
-          //     prop: 'official_voucher',
-          //     width: '150',
-          //     click: this.checkVoucherDetail,
-          //     render_text_btn: (row) => {
-          //         return "点击查看详情";
-          //     }
-          // },
-          // {
-          //     type: 'text-btn', label: '代理费票据', prop: 'serfice_voucher', width: '150',
-          //     click: this.checkVoucherDetail,
-          //     render_text_btn: (row) => {
-          //         return "点击查看详情";
-          //     }
-          // },
-        ]
-      },
+        // {type: 'text', label: '申请国家', prop: 'area', width: '180'},
+        {
+          type: "text",
+          label: "申请号",
+          prop: "project.application_number",
+          width: "145"
+        },
+        {
+          type: "text",
+          label: "官方绝限",
+          prop: "deadline",
+          width: "100"
+        },
+        {
+          type: "text",
+          label: "申请日",
+          prop: "project.application_date",
+          width: "100"
+        },
+        {
+          type: "text-btn",
+          label: "订单号",
+          prop: "order.serial",
+          width: "90",
+          click: this.checkOrderDetail,
+          render_text_btn: row => {
+            return row.order ? row.order.serial : "";
+          }
+        }
+
+        // {
+        //     type: 'text', label: '费用策略', prop: 'policy', width: '150', render: (h, item) => {
+        //         let name = "";
+        //         config.get("policy").options.map(function (o) {
+        //             if (o.id === item) {
+        //                 name = o.name;
+        //             }
+        //         });
+        //         return h("span", name);
+        //     }
+        // },
+        // {
+        //     type: 'text-btn',
+        //     label: '官费票据',
+        //     prop: 'official_voucher',
+        //     width: '150',
+        //     click: this.checkVoucherDetail,
+        //     render_text_btn: (row) => {
+        //         return "点击查看详情";
+        //     }
+        // },
+        // {
+        //     type: 'text-btn', label: '代理费票据', prop: 'serfice_voucher', width: '150',
+        //     click: this.checkVoucherDetail,
+        //     render_text_btn: (row) => {
+        //         return "点击查看详情";
+        //     }
+        // },
+      ],
       feeDetailOption: {
         name: "feeDetailList",
         url: "",

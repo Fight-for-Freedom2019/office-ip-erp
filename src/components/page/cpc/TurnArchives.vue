@@ -31,7 +31,7 @@
         <template v-if="uploadSuccess">
           <el-form-item :label=label>
             <template>
-              <table-component v-loading="loading" :tableOption="tableOption" :data="tableData"></table-component>
+              <app-table v-loading="loading" height="260" :columns="columns" :data="tableData"></app-table>
             </template>
           </el-form-item>
         </template>
@@ -56,6 +56,7 @@
 
 <script>
   import TableComponent from "@/components/common/TableComponent";
+  import AppTable from "@/components/common/AppTable";
   export default {
     name: "TurnArchives",
     data() {
@@ -74,37 +75,28 @@
         activeName: 'stepOne',
         label: "第二步，耐心等待服务器完成转档操作，平均用时约20秒，已用时0秒",
         tip: "请一定查看以确认转档后PDF是否正确(点击文件名称查看)",
-        tableOption: {
-          name: "TurnArchivesFile",
-          height: 260,
-          highlightCurrentRow: true,
-          is_search: false,
-          is_pagination: false,
-          is_list_filter: false,
-          list_type: "serial",
-          columns: [
-            {
-              type: "text-btn",
-              label: "文件名称",
-              prop: "filename",
-              click: this.viewFile,
-              min_width: "150"
-            },
-            {type: "text", label: "起始页码", prop: "start", width: "130"},
-            {
-              type: "text",
-              label: "页数",
-              prop: "pages",
-              width: "130"
-            },
-            {type: "action", label: "操作", align: "center", width: "120",
-              btns: [
-                { type: "delete", click: this.deleteFile },
-                { type: "download", click: ({downloadUrl})=>{window.open(downloadUrl)} },
-              ]
-            }
-          ]
-        }
+        columns: [
+          {
+            type: "text-btn",
+            label: "文件名称",
+            prop: "filename",
+            click: this.viewFile,
+            min_width: "150"
+          },
+          {type: "text", label: "起始页码", prop: "start", width: "130"},
+          {
+            type: "text",
+            label: "页数",
+            prop: "pages",
+            width: "130"
+          },
+          {type: "action", label: "操作", align: "center", width: "120",
+            btns: [
+              { type: "delete", click: this.deleteFile },
+              { type: "download", click: ({downloadUrl})=>{window.open(downloadUrl)} },
+            ]
+          }
+        ],
       };
     },
     props: {
@@ -213,7 +205,8 @@
       }
     },
     components: {
-      TableComponent
+      TableComponent,
+      AppTable
     }
   };
 </script>
