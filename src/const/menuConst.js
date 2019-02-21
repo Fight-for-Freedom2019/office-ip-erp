@@ -470,6 +470,12 @@ const exchangeMenu = [
         text: "CPC通知书",
         path: "/exchange/document/cpc",
         icon: "iconfont el-icon-my-patent"
+      },
+      {
+        type: "item",
+        text: "报表交互",
+        path: "/exchange/document/excel",
+        icon: "iconfont el-icon-my-excel"
       }
     ]
   },

@@ -254,14 +254,14 @@ export default {
             render_header: true,
             width: "110"
           },
-          {
-            type: "text",
-            prop: "process_stage",
-            label: "当前阶段",
-            render_simple: "name",
-            render_header: true,
-            width: "110"
-          },
+          // {
+          //   type: "text",
+          //   prop: "process_stage",
+          //   label: "当前阶段",
+          //   render_simple: "name",
+          //   render_header: true,
+          //   width: "110"
+          // },
           {
             type: "text",
             prop: "user",
@@ -396,8 +396,8 @@ export default {
           {
             type: "text",
             prop: "deadline",
-            render_key: 'task',
-            render_simple: 'deadline',
+            render_key: "task",
+            render_simple: "deadline",
             label: "节点期限",
             render_header: true,
             width: "110"
@@ -760,9 +760,9 @@ export default {
   },
   mounted() {
     // 开个10s定时器,自动刷新当前列表
-    this.timer = setInterval(() => {
-      this.update();
-    }, 10000);
+    // this.timer = setInterval(() => {
+    //   this.update();
+    // }, 10000);
     this.addListFilter(this.expringControl);
     if (this.$route.params.id) {
       this.install = this.$route.params.id;
@@ -776,7 +776,7 @@ export default {
   },
   beforeDestroy() {
     // 页面销毁前清除定时器
-    if(this.timer) {
+    if (this.timer) {
       clearInterval(this.timer);
     }
   },

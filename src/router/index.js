@@ -74,7 +74,7 @@ const ExchangeNotices = () =>
   import("@/components/page/exchange/client/Notices"); //通知书
 const ExchangeArchives = () =>
   import("@/components/page/exchange/client/CpcArchive"); //递交包
-const ExchangeMails = () => import("@/components/page/MailList"); //递交包
+const ExchangeMails = () => import("@/components/page/MailList"); //邮件
 
 // const TrademarkNotice          = () => import('@/components/page/NoticeCommon')
 const CopyrightList = () => import("@/components/page/CopyrightList");
@@ -125,6 +125,7 @@ const ExchangeDocumentOther = () =>
   import("@/components/page/exchange/document/Other");
 const ExchangeDocumentCpc = () =>
   import("@/components/page/exchange/document/Cpc");
+const Excels = () => import("@/components/page/exchange/client/Excels"); //EXCEL文件
 
 //-------------------设置 begin-----------------
 const SettingIndividual = () => import("@/components/page/SettingIndividual");
@@ -484,7 +485,7 @@ const router = new Router({
           }
         },
         //################### 专利路由 end #####################
-        
+
         //################### 商标路由 start #####################
         {
           path: "/trademark/list",
@@ -512,7 +513,6 @@ const router = new Router({
           }
         },
         //################### 商标路由 end #####################
-
 
         //################### 版权路由 begin ###################
         {
@@ -687,6 +687,11 @@ const router = new Router({
           path: "/exchange/document/cpc",
           name: "ExchangeDocumentCpc",
           component: ExchangeDocumentCpc
+        },
+        {
+          path: "/exchange/document/excel",
+          name: "Excels",
+          component: Excels
         },
         //################### 交互模块 End ###################
 

@@ -17,64 +17,89 @@
       <el-form-item label="关联案件" prop="model" v-if="mode == 'add' && form.project_type != null">
         <jump-select :type="projectType" v-model="form.model" ref="project"></jump-select>
       </el-form-item>
-      <el-form-item label="管制事项" prop="process_definition" v-if="form.model != null">
-        <static-select type="process_definition" v-model="form.process_definition"></static-select>
-        <!-- <el-select v-model="form.process_definition" placeholder="请选择事件名称">
-            <el-option
-              v-for="item in defOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="管制事项" prop="process_definition" v-if="form.model != null">
+            <static-select type="process_definition" v-model="form.process_definition"></static-select>
+            <!-- <el-select v-model="form.process_definition" placeholder="请选择事件名称">
+                <el-option
+                  v-for="item in defOptions"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                </el-option>
+            </el-select>-->
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="事项流程" prop="process_flow" v-if="form.model != null">
+            <el-select
+              v-model="form.process_flow"
+              clearable
+              placeholder="请选择事项流程"
+              @visible-change.once="initFlows"
             >
-            </el-option>
-        </el-select>-->
-      </el-form-item>
-      <el-form-item label="事项流程" prop="process_flow" v-if="form.model != null">
-        <el-select
-          v-model="form.process_flow"
-          clearable
-          placeholder="请选择事项流程"
-          @visible-change.once="initFlows"
-        >
-          <el-option v-for="item in flowOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="开始节点" prop="process_action" v-if="form.model != null">
-        <el-select v-model="form.process_action" clearable placeholder="请选择开始">
-          <el-option
-            v-for="item in actionOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
+              <el-option
+                v-for="item in flowOptions"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="开始节点" prop="process_action" v-if="form.model != null">
+            <el-select v-model="form.process_action" clearable placeholder="请选择开始节点">
+              <el-option
+                v-for="item in actionOptions"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="16">
+          <el-form-item label="管制事项标签" prop="process_tags">
+            <jump-select type="tags" v-model="form.process_tags" multiple></jump-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="是否完成" prop="is_completed">
+            <app-switch type="is" v-model="form.is_completed"></app-switch>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row>
         <el-col :span="8" v-if="form.model != null">
           <el-form-item label="承办人" prop="user">
-            <remote-select type="user" v-model="form.user"></remote-select>
+            <jump-select type="user" v-model="form.user"></jump-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="代理人" prop="agent">
-            <remote-select type="user" v-model="form.agent"></remote-select>
+            <jump-select type="user" v-model="form.agent"></jump-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="对外代理人" prop="representative">
-            <remote-select type="user" v-model="form.representative"></remote-select>
+            <jump-select type="user" v-model="form.representative"></jump-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <el-form-item label="初审人" prop="first_reviewer">
-            <remote-select type="user" v-model="form.first_reviewer"></remote-select>
+            <jump-select type="user" v-model="form.first_reviewer"></jump-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="复审人" prop="final_reviewer">
-            <remote-select type="user" v-model="form.final_reviewer"></remote-select>
+            <jump-select type="user" v-model="form.final_reviewer"></jump-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -237,6 +262,7 @@ import StaticSelect from "@/components/form/StaticSelect";
 import RemoteSelect from "@/components/form/RemoteSelect";
 import JumpSelect from "@/components/form/JumpSelect";
 import AppShrink from "@/components/common/AppShrink";
+import AppSwitch from "@/components/form/AppSwitch";
 import { mapActions } from "vuex";
 
 const URL = "/processes";
@@ -339,8 +365,14 @@ export default {
     },
     refreshRow() {
       if (this.mode == "edit") {
+        console.log(this.row.process_tags);
         this.$tool.coverObj(this.form, this.row, {
-          obj: ["process_flow", "process_definition", "attachments"],
+          obj: [
+            "process_flow",
+            "process_definition",
+            "attachments",
+            "process_tags"
+          ],
           date: [
             "internal_deadline",
             "first_edition_time",
@@ -430,7 +462,9 @@ export default {
         spec_rank: "",
         communication_rank: "",
         attachments: [],
-        remark: ""
+        remark: "",
+        process_tags: [],
+        is_completed: 0
       },
       attachments: [],
       btn_disabled: false,
@@ -536,7 +570,14 @@ export default {
     this.refreshRow();
     this.initFlows();
   },
-  components: { Upload, RemoteSelect, JumpSelect, StaticSelect, AppShrink }
+  components: {
+    Upload,
+    RemoteSelect,
+    JumpSelect,
+    StaticSelect,
+    AppShrink,
+    AppSwitch
+  }
 };
 </script>
 
