@@ -97,7 +97,16 @@ export default {
 			shrinkVisible: false,
 			filterVisible: false,
 		};
-  },
+	},
+	computed: {
+		defaultParams() {
+      const params = this.$route.meta.params;
+      return params ? params : {};
+    },
+    defaultStatus() {
+      return this.defaultParams.status;
+    },
+	},
   methods: {
   	...mapActions([
   		'initializeSelectorCache',
@@ -116,7 +125,7 @@ export default {
   		}
   		this.$axiosGet({
   			url: URL,
-  			data: Object.assign({}, option),
+  			data: Object.assign({}, option, this.defaultParams),
   			success,
   		})
   	},

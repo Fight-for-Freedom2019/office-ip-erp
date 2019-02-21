@@ -363,7 +363,7 @@ const config = [
     "file_type_oa",
     {
       placeholder: "请选择文件类型",
-      url: "/file_types?project_type=专利&category=1&listRows=10000",
+      url: "/file_types?project_type=专利&listRows=10000",
       handle(data) {
         return data.data.data;
       }
@@ -393,7 +393,7 @@ const config = [
     "file_type_cpc",
     {
       placeholder: "请选择文件类型",
-      url: "/file_types?project_type=专利&category=1&listRows=10000",
+      url: "/file_types?project_type=专利&listRows=10000",
       handle(data) {
         return data.data.data;
       }
@@ -403,7 +403,7 @@ const config = [
     "file_type",
     {
       placeholder: "请选择文件类型",
-      url: "/file_types?project_type=专利&category=1&listRows=10000",
+      url: "/file_types?project_type=专利&listRows=10000",
       handle(data) {
         return data.data.data;
       }
@@ -413,7 +413,7 @@ const config = [
     "file_type_patent",
     {
       placeholder: "请选择专利文件类型",
-      url: "/file_types?project_type=专利&category=1&listRows=10000",
+      url: "/file_types?project_type=专利&listRows=10000",
       handle(data) {
         return data.data.data;
       }
@@ -423,7 +423,7 @@ const config = [
     "file_type_patent_notice",
     {
       placeholder: "请选择专利通知书文件类型",
-      url: "/file_types?project_type=专利&category=1&listRows=10000",
+      url: "/file_types?project_type=专利&listRows=10000",
       handle(data) {
         return data.data.data;
       }
@@ -433,7 +433,7 @@ const config = [
     "file_type_trademark",
     {
       placeholder: "请选择商标文件类型",
-      url: "/file_types?project_type=商标&category=1&listRows=10000",
+      url: "/file_types?project_type=商标&listRows=10000",
       handle(data) {
         return data.data.data;
       }
@@ -443,21 +443,21 @@ const config = [
     "file_type_trademark_notice",
     {
       placeholder: "请选择商标通知书文件类型",
-      url: "/fileTypes?category=1&listRows=10000"
+      url: "/file_types?project_type=商标&listRows=10000"
     }
   ],
   [
     "file_type_copyright",
     {
       placeholder: "请选择版权文件类型",
-      url: "/fileTypes?category=1&listRows=10000"
+      url: "/file_types?project_type=版权&listRows=10000"
     }
   ],
   [
     "file_type_copyright_notice",
     {
       placeholder: "请选择版权通知书文件类型",
-      url: "/fileTypes?category=1&listRows=10000"
+      url: "/file_types?project_type=版权&listRows=10000"
     }
   ],
 
@@ -536,10 +536,34 @@ const config = [
     }
   ],
   [
-    "services",
+    "patent_services",
     {
       placeholder: "请选择服务类型",
-      url: "/services?listOnly=1",
+      url: "/services?project_type=专利&listOnly=1",
+      handle(data) {
+        return data.data.map(_ => {
+          return { id: _.id, name: _.name };
+        });
+      }
+    }
+  ],
+  [
+    "trademark_services",
+    {
+      placeholder: "请选择服务类型",
+      url: "/services?project_type=商标&listOnly=1",
+      handle(data) {
+        return data.data.map(_ => {
+          return { id: _.id, name: _.name };
+        });
+      }
+    }
+  ],
+  [
+    "copyright_services",
+    {
+      placeholder: "请选择服务类型",
+      url: "/services?project_type=版权&listOnly=1",
       handle(data) {
         return data.data.map(_ => {
           return { id: _.id, name: _.name };

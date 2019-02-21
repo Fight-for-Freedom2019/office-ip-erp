@@ -12,15 +12,15 @@
               </el-form-item>
           </el-col>
           <el-col :span="8">
-              <el-form-item label="初审公告日" prop="public_date">
-                  <el-date-picker type="date" v-model="form.public_date" placeholder="请选择初审公告日" class="input-min-width"></el-date-picker>
+              <el-form-item label="初审公告日" prop="publication_date">
+                  <el-date-picker type="date" v-model="form.publication_date" placeholder="请选择初审公告日" class="input-min-width"></el-date-picker>
               </el-form-item>                    
           </el-col>
       </el-row>          
       <el-row>
           <el-col :span="8">
-              <el-form-item label="初审公告号" prop="public_number">
-                  <el-input v-model="form.public_number" placeholder="请填写初审公告号" class="input-min-width"></el-input>
+              <el-form-item label="初审公告号" prop="publication_number">
+                  <el-input v-model="form.publication_number" placeholder="请填写初审公告号" class="input-min-width"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -57,8 +57,8 @@ export default {
       form: {
         application_date: '',
         application_number: '',
-        public_date: '',
-        public_number: '',
+        publication_date: '',
+        publication_number: '',
         issue_date: '',
         issue_number: '',
         entrusting_time: '',
