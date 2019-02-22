@@ -6,7 +6,7 @@
       :refreshTableData="refreshTableData"
       ref="table"
     >
-      <el-badge slot="badge" :value="instancySum">
+      <el-badge slot="badge" :value="instancySum" v-if="defaultParams.is_completed != 1">
         <el-button size="small" type="danger" @click="instancyHandle">3天内到期/已过期</el-button>
       </el-badge>
     </table-component>
@@ -260,6 +260,29 @@ export default {
             render_header: true,
             width: "110"
           },
+          {
+            type: "text",
+            prop: "internal_deadline",
+            label: "管控期限",
+            render_header: true,
+            width: "100"
+          },
+          {
+            type: "text",
+            prop: "deadline",
+            render_key: "task",
+            render_simple: "deadline",
+            label: "节点期限",
+            render_header: true,
+            width: "110"
+          },
+          {
+            type: "text",
+            prop: "legal_deadline",
+            label: "官方绝限",
+            render_header: true,
+            width: "100"
+          },
           // {
           //   type: "text",
           //   prop: "process_stage",
@@ -399,22 +422,6 @@ export default {
             render_header: true,
             width: "100"
           },
-          {
-            type: "text",
-            prop: "deadline",
-            render_key: "task",
-            render_simple: "deadline",
-            label: "节点期限",
-            render_header: true,
-            width: "110"
-          },
-          {
-            type: "text",
-            prop: "internal_deadline",
-            label: "管控期限",
-            render_header: true,
-            width: "100"
-          },
           // {
           //   type: "text",
           //   prop: "first_edition_deadline",
@@ -429,13 +436,7 @@ export default {
           //   render_header: true,
           //   width: "100"
           // },
-          {
-            type: "text",
-            prop: "legal_deadline",
-            label: "官方绝限",
-            render_header: true,
-            width: "100"
-          },
+
           {
             type: "text",
             prop: "first_edition_time",

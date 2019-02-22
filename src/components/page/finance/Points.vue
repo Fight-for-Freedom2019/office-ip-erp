@@ -100,6 +100,13 @@ export default {
             width: "120",
             render_header: true
           },
+          { type: "text", label: "点数", prop: "points", width: "80" },
+          {
+            type: "text",
+            label: "返稿日",
+            prop: "process.customer_edition_time",
+            width: "110"
+          },
           {
             type: "array",
             label: "案件标签",
@@ -122,7 +129,7 @@ export default {
             width: "110",
             render_header: true
           },
-          { type: "text", label: "点数", prop: "points", width: "80" },
+
           {
             type: "text",
             label: "用户",
