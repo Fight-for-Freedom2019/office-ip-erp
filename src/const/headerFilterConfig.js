@@ -663,13 +663,13 @@ const map = new Map([
       },
       { type: "text", id: "project.application_number", name: "申请号" },
       { type: "date", id: "project.application_date", name: "申请日" },
-      {
+      /*{
         type: "remote_select",
         id: "project.serial",
         name: "案号",
         data_key: "projects",
         url: "/projects"
-      },
+      },*/
       { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
       { type: "text", id: "order.serial", name: "订单号" },
       {
