@@ -92,7 +92,7 @@ export default {
       return this.filters;
     },  	
   	handleSort (order) {
-  		const sort = `${this.field}-${order}`;	
+  		const sort = `${this.handleField(this.field)}-${order}`;
   		this.$emit('order',sort);
   	},
   	handleInput (val) {
