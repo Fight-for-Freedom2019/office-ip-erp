@@ -110,6 +110,7 @@ export default {
     clearField(){
       if(this.source.type !== "text" && this.source.type !== "date") {
         this.$refs.tree.setCheckedKeys([]);
+        this.filterText = "";
       }
     }
   },

@@ -231,8 +231,9 @@
           v-model="search_value"
           :placeholder="tableOption.search_placeholder == undefined ? '搜索...' : tableOption.search_placeholder"
           class="table-search"
-          @click="handleSearch"
           @enter="handleSearch"
+          @clear="handleClearInput"
+          clearable
           v-if="tableOption.is_search == undefined ? true : tableOption.is_search"
         ></search-input>
       </div>
@@ -685,6 +686,12 @@ export default {
     },
     handleRefreshTree(val) {
       this.strainerParams = val;
+    },
+    handleClearInput(val) {
+      this.search_value = '';
+      this.$nextTick(()=>{
+        this.handleSearch();
+      })
     },
     handleInput(val) {},
     initOptionColumns() {
