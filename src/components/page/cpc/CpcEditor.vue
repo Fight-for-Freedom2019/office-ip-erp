@@ -249,6 +249,7 @@ export default {
         { id: 100104, name: "著录项目变更理由证明", showIcon: false },
         { id: 100701, name: "专利权评价报告请求书", showIcon: false },
         { id: 100027, name: "向外国申请专利保密审查请求书", showIcon: false },
+        { id: 110401, name: "实质审查请求书", showIcon: false },
         // {id:10000432,name:"办理文件副本请求书",showIcon:false},
         { id: 100013, name: "撤回专利申请声明", showIcon: false }
       ],
@@ -464,8 +465,12 @@ export default {
         this.triggerEvent(rule);
       } else {
         rule = this.saveRules.get(id);  // 从缓存中拿生成规则，这样绑定的数据就不会丢失
+        if(id === 100027 || id === 110401) {
+          console.log("!rule是否为true",rule);
+        }
         if(!rule) {   // 100027和110401可以通过点击CheckBox生成，如果缓存中没有的话就要重新获取，并生成规则
           rule = handlePlaceholder(cloneDeep(formConfig.get(id)).obj.rule);
+          console.log("rule是否生成",rule)
           this.mergeRule(rule);
         }
         id === 100104 ? this.triggerEvent(rule) : "";
@@ -473,6 +478,7 @@ export default {
       this.rules = rule;
       this.formType = id;
       this.createForm();
+      // this.$f.submit();
     },
     // 只针对table100104以及它的复制品
     triggerEvent(rule) {
@@ -793,7 +799,7 @@ export default {
               ? _this.submitData.set(_this.formType, formData)
               : "";
           }
-          // console.log(_this.submitData);
+          // console.log("submitData",_this.submitData);
         }
       });
     },
