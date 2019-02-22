@@ -186,7 +186,7 @@
         this.$refs.form.resetFields();
       },
       coverObj(val) {
-        val ? this.$tool.coverObj(this.form, val, {obj: ["fee_code", "policy", "status"]}) : "";
+        val ? this.$tool.coverObj(this.form, val, {obj: ["fee_code", "policy", "status", "project"]}) : "";
       },
     },
     watch: {
@@ -198,14 +198,14 @@
           this.form.project = this.detailId;
         }
       },
-      fee_type: {
+      /*fee_type: {
         handler(val) {
           this.$nextTick(_=>{
             this.form.project = this.detailId;
           })
         },
         immediate: true
-      }
+      }*/
     },
     mounted() {
       this.coverObj(this.rowData);

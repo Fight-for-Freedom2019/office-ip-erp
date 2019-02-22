@@ -157,7 +157,7 @@ export default {
             label: "案号",
             prop: "project.serial",
             width: "178",
-            render_header: true
+            // render_header: true
           },
           {
             type: "text",
