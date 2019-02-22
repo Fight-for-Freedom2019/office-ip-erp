@@ -70,7 +70,12 @@ export default {
       pageType: "",
       currentRowFee: {},
       columns: [
-        { type: "text", label: "费用名称", prop: "name", min_width: "145" },
+        {
+          type: "text",
+          label: "费用名称",
+          prop: "name",
+          min_width: "145"
+        },
         {
           type: "text",
           label: "费用对象",

@@ -82,6 +82,13 @@ export default {
                   this.downloadCpcBatch("notice");
                 },
                 icon: "download"
+              },
+              {
+                text: "忽略",
+                click: () => {
+                  this.ignoreCpcBatch();
+                },
+                icon: "circle-close-outline"
               }
             ]
           }
@@ -325,6 +332,27 @@ export default {
     saved() {
       this.loading = false;
       this.closeVisible("isPanelVisible");
+    },
+    ignoreCpcBatch() {
+      var selected = this.$refs.table.getSelected();
+      if (selected === false) {
+        return;
+      }
+      var ids = [];
+      selected.forEach(_ => {
+        ids.push(_.id);
+      });
+      const url = this.URL + "/" + ids.pop();
+      const status = 4;
+      const data = {
+        ids,
+        status
+      };
+      const success = _ => {
+        this.$message({ type: "success", message: "更新通知书状态成功" });
+        this.refresh();
+      };
+      this.$axiosPut({ url, data, success });
     },
     downloadCpcBatch(type) {
       var selected = this.$refs.table.getSelected();

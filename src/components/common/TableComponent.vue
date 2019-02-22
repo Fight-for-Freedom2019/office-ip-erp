@@ -429,7 +429,7 @@ export default {
       testDate: [],
       pageData: [],
       pageSize: 5,
-      pagesizes: [10, 20, 40, 100, 10000],
+      pagesizes: [10, 20, 40, 100, 500],
       currentPage: 1,
       //tableSelect 当前列表如果有checkbox,已选择的行数据
       tableSelect: [],

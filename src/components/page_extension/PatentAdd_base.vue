@@ -33,11 +33,11 @@
           <static-select type="patent_type" v-model="form.subtype"></static-select>
         </el-form-item>
       </el-col>
-      <!-- <el-col :span="8">
+      <el-col :span="8">
         <el-form-item label="案件等级">
           <static-select type="project_level" v-model="form.level"></static-select>
         </el-form-item>
-      </el-col>-->
+      </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
@@ -56,6 +56,11 @@
             type="renewal_fee_monitor_status"
             v-model="form.renewal_fee_monitor_status"
           ></static-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="费减标记">
+          <static-select type="fee_ratio" v-model="form.fee_ratio"></static-select>
         </el-form-item>
       </el-col>
       <!--         <el-col :span="8">
@@ -77,16 +82,25 @@
       
       </el-col>-->
     </el-row>
-    <el-form-item label="申请人">
-      <remote-select
-        type="applicant"
-        :page-type="type"
-        v-model="form.applicants"
-        :para="customerParam"
-        add-type="applicant"
-        multiple
-      ></remote-select>
-    </el-form-item>
+    <el-row>
+      <el-col :span="16">
+        <el-form-item label="申请人">
+          <remote-select
+            type="applicant"
+            :page-type="type"
+            v-model="form.applicants"
+            :para="customerParam"
+            add-type="applicant"
+            multiple
+          ></remote-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="项目编号" prop="project_serial">
+          <el-input v-model="form.project_serial" placeholder="请填写项目编号"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
 
     <el-form-item label="发明人" prop="inventors">
       <!-- <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors> -->
@@ -225,7 +239,9 @@ export default {
         references: [],
         families: [],
         tags: [],
-        renewal_fee_monitor_status: ""
+        renewal_fee_monitor_status: "",
+        fee_ratio: 3,
+        project_serial: ""
       },
       titleLock: false, //标题锁 当评审表被上传且标题自动填充后 不再自动填充
       attachments: [],
