@@ -253,6 +253,7 @@
           <app-view
             v-model="fields"
             :columns="optionColumns"
+            :list-type="tableOption.list_type"
             @deliver="handleViewData"
             @reset="handleResetView"
             :height="tableHeight/2"

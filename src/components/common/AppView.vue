@@ -22,7 +22,7 @@
     >
     </el-tree>
   </div>
-  <view-pop :type="type" :visible="viewVisible" v-model="fields" :default="choose" @close="v=>viewVisible = false" ref="viewPop"></view-pop>
+  <view-pop :type="type" :list-type="listType" :visible="viewVisible" v-model="fields" :default="choose" @close="v=>viewVisible = false" ref="viewPop"></view-pop>
   </div>  
 </template>
 
@@ -47,6 +47,10 @@ export default {
       type: Array,
       required: true,
     },
+    listType: {
+      type: String,
+      required: true,
+    }
   },
   computed: {
     ...mapGetters([

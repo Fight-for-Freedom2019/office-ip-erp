@@ -32,9 +32,9 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="export_invoice">账单详情</el-dropdown-item>
-            <el-dropdown-item command="export_cn_invoice" v-if="mode == 'pay'">国知局CN专利缴费单</el-dropdown-item>
-            <el-dropdown-item command="export_pct_invoice" v-if="mode == 'pay'">国知局PCT专利缴费单</el-dropdown-item>
+            <el-dropdown-item command="excel">账单详情</el-dropdown-item>
+            <el-dropdown-item command="excel_cn" v-if="mode == 'pay'">国知局CN专利缴费单</el-dropdown-item>
+            <el-dropdown-item command="excel_pct" v-if="mode == 'pay'">国知局PCT专利缴费单</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <!-- <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button> -->
@@ -390,10 +390,7 @@ export default {
       this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
     },
     uploadFile(type) {
-      const success = _ => {
-        window.open(_.data.downloadUrl);
-      };
-      this.$axiosGet({ url: `/invoices/${this.id}/${type}`, success });
+      window.open(`invoices/${this.id}?format=${type}`);
     },
     confirm() {
       this.paymentDialog = true;

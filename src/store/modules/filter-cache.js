@@ -296,11 +296,10 @@ const actions = {
 			// 	console.log('清除表头')
 			// 	window.listHeaderFilter.clearRenderHeaderField(item['key']);
 			// }
-			// if (window.listFilter != null && window.listFilter.usedFlag && window.listFilter.usedForm[item['key']] ) {
-			// 	window.listFilter.clearUsedFormField(item['key'])
-			// }else {
+			if (window.listFilter != null && window.listFilter.usedFlag && window.listFilter.usedForm[item['key']] ) {
+				window.listFilter.clearUsedFormField(item['key'])
+			}
 				dispatch('removeListFilter', item.index);
-			// }
 		}else if(item === "all") {
       if(state.custom.length !== 0) {
         state.custom.forEach((i)=>{
