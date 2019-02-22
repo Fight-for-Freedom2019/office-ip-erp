@@ -249,6 +249,7 @@ export default {
         { id: 100104, name: "著录项目变更理由证明", showIcon: false },
         { id: 100701, name: "专利权评价报告请求书", showIcon: false },
         { id: 100027, name: "向外国申请专利保密审查请求书", showIcon: false },
+        { id: 110401, name: "实质审查请求书", showIcon: false },
         // {id:10000432,name:"办理文件副本请求书",showIcon:false},
         { id: 100013, name: "撤回专利申请声明", showIcon: false }
       ],
@@ -477,6 +478,7 @@ export default {
       this.rules = rule;
       this.formType = id;
       this.createForm();
+      // this.$f.submit();
     },
     // 只针对table100104以及它的复制品
     triggerEvent(rule) {
@@ -797,7 +799,7 @@ export default {
               ? _this.submitData.set(_this.formType, formData)
               : "";
           }
-          // console.log(_this.submitData);
+          // console.log("submitData",_this.submitData);
         }
       });
     },
