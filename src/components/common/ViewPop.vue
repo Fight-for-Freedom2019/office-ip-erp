@@ -31,7 +31,7 @@
 			</el-form-item>
 		</el-form>
 		<template>
-			<app-list-filter :visible.sync="filterVisible" type="patent" :refresh="refresh"></app-list-filter>
+			<app-list-filter :visible.sync="filterVisible" :type="listType" :refresh="refresh"></app-list-filter>
 		</template>
 	</el-dialog>
 </template>
@@ -67,6 +67,10 @@ export default {
 			default: false,
 		},
 		'type': String,
+		'listType': {
+			type: String,
+			required: true,
+		},
 	},
 	data () {
 		const fields = this.default;
