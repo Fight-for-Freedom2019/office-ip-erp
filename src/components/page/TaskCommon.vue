@@ -49,6 +49,7 @@ import TaskCommonDetail from "@/components/page_extension/TaskCommonDetail";
 import TaskCommonEdit from "@/components/page_extension/TaskCommon_edit";
 import BatchTaskCommon from "@/components/page_extension/BatchTaskCommon";
 import MailAdd from "@/components/page/MailAdd";
+import debounce from "lodash/debounce";
 
 import { mapMutations } from "vuex";
 import { mapGetters } from "vuex";
@@ -746,10 +747,11 @@ export default {
         : h.header_btn.splice(1, 1, {});
       this.$forceUpdate();
     },
-    handleRowClick(row) {
-      this.currentRow = row;
-      this.$refs.taskDetail.show(row);
-    },
+    handleRowClick: _.debounce(function (row) {
+        // 使用防抖函数，300ms内不多次触发
+        this.currentRow = row;
+        this.$refs.taskDetail.show(row);
+      },300),
     showBatchOperation(type) {
       this.batchOperationType = type;
       const s = this.$refs.table.getSelect(true);

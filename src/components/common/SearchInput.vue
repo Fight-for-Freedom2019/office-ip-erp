@@ -39,15 +39,9 @@ export default {
       this.$emit('clear', this.value)
     },
   },
-  watch: {
-    value(v) {
-      console.log(v)
-    }
-  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-
 </style>
