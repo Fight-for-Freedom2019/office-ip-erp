@@ -255,32 +255,32 @@ export default {
       ],
       option_action: [
         {
-          url: "/contacts?listRows=1000000",
+          url: "/contacts?listRows=1000000&listOnly=1",
           data_key: "data",
           map_key: "contact"
         },
         {
-          url: "/inventors?listRows=1000000",
+          url: "/inventors?listRows=1000000&listOnly=1",
           data_key: "data",
           map_key: "inventors"
         },
         {
-          url: "/applicants?listRows=1000000",
+          url: "/applicants?listRows=1000000&listOnly=1",
           data_key: "data",
           map_key: "applicants"
         },
         {
-          url: "/agents?listRows=1000000",
+          url: "/agents?listRows=1000000&listOnly=1",
           data_key: "data",
           map_key: "agents"
         },
         {
-          url: "/contracts?listRows=1000000",
+          url: "/contracts?listRows=1000000&listOnly=1",
           data_key: "data",
           map_key: "poa"
         },
         {
-          url: "/agencies?listRows=1000000",
+          url: "/agencies?listRows=1000000&listOnly=1",
           data_key: "data",
           map_key: ["agency","agencies"]
         }
@@ -314,6 +314,7 @@ export default {
     },
     title:function(){
       let title = "";
+      console.log("this.process",this.process)
       if(this.process.serial) {
         title = this.process.serial;
       }else if(this.process.project.serial){
@@ -424,10 +425,13 @@ export default {
     // 获取所有的远程select option
     getOptions() {
       this.option_action.forEach(i => {
+        i.url += `&customer=${this.process.customer.id}`
         const success = _ => {
           let data = [];
-          for (let j = 0 ;j < _.data[i.data_key].length;j++){
-            let item = _.data[i.data_key][j];
+          let obj = i.data_key?_.data[i.data_key]:_.data
+          !obj?obj = [] : "";
+          for (let j = 0 ;j < obj.length;j++){
+            let item = obj[j];
             if(!item.id) {
               break;
             }else {
@@ -548,7 +552,7 @@ export default {
         } else if (item.custom) {
           source[index] = this.makeMarker(item);
         } else if (item.request) {
-          //this.setSelectData(item, index)
+          // this.setSelectData(item, index)
         }
       });
     },

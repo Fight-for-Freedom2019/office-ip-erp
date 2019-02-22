@@ -792,7 +792,7 @@ const map = new Map([
         name: "创建人",
         data_key: "data"
       },
-      { type: "remote_select", id: "user", name: "请款对象", data_key: "data" },
+      { type: "remote_select", id: "user", name: "请款对象", data_key: "data" ,url: "/users"},
       { type: "date", id: "creation_time", name: "创建时间" },
       { type: "text", id: "amount", name: "金额" },
       {
