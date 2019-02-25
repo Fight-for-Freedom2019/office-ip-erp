@@ -687,7 +687,7 @@ export default {
         : "";
     },
     agentName() {
-      return this.processData.agent != null ? this.processData.user.name : "";
+      return this.processData.agent != null ? this.processData.agent.name : "";
     },
     customerSerial() {
       return this.processData.project != null
