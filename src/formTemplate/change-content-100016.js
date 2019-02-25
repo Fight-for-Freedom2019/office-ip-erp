@@ -470,7 +470,7 @@ function vm() {
             this.form.field = this.getField({type, code})
             this.form.before = this.getField({target: code, code: this.form.before_code})
             this.form.after = this.getField({target: code, code: this.form.after_code})
-            this.extendData[this.form.type].push(this.form);
+            this.extendData[this.form.type].push(Object.assign({},this.form));
             this.translationData();
             this.data.push(this.convertData(this.form));
             this.mergeData();
