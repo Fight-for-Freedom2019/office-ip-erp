@@ -347,7 +347,6 @@ export default {
       }
     });
     this.options_collection.set("attachments", attachments);
-    this.getOptions();
   },
   methods: {
     /*****文件相关 start*****/
@@ -912,6 +911,7 @@ export default {
     getData() {
       // console.time("耗时")
       this.clear();
+      this.getOptions();
       const success = _ => {
         this.data = JSON.parse(_.data.tables);
         console.log("put",this.data);
