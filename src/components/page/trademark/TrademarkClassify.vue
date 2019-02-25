@@ -133,7 +133,7 @@ export default {
   },
 }
 </script>
-<style lang-="scss" scoped>
+<style lang="scss" scoped>
  .link_drop {
         .anchor a {
             line-height: 26px;
