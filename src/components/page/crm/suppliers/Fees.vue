@@ -81,6 +81,15 @@ export default {
         is_list_filter: true,
         list_type: "fees",
         treeFilter: "fees",
+        show_summary: true,
+        merge: [
+          { col: 2, key: "customer.id", prop: "customer" },
+          { col: 3, key: "project.id", prop: "project.serial" },
+          { col: 4, key: "project.id", prop: "project.title" },
+          { col: 12, key: "project.id", prop: "official_sum_currency" },
+          { col: 13, key: "project.id", prop: "service_sum_currency" },
+          { col: 14, key: "project.id", prop: "sum_currency" }
+        ],
         // 'is_merge': {KEY: "user.customer.id", COL: [1, 2, 3]},
         search_placeholder: "",
         rowClick: this.handleRowClick,
@@ -114,43 +123,30 @@ export default {
           {
             type: "text",
             label: "客户",
-            prop: "user",
+            prop: "customer",
             render_simple: "name",
-            min_width: "178",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "标题",
-            prop: "project.title",
-            width: "240",
-          },
-          {
-            type: "text",
-            label: "申请号",
-            prop: "project.application_number",
-            width: "150",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "委案日",
-            prop: "project.entrusting_time",
-            width: "100",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "申请日",
-            prop: "project.application_date",
-            width: "100",
+            min_width: "120",
             render_header: true
           },
           {
             type: "text",
             label: "案号",
             prop: "project.serial",
-            width: "178",
+            width: "178"
+            // render_header: true
+          },
+          {
+            type: "text",
+            label: "标题",
+            prop: "project.title",
+            width: "180"
+          },
+          {
+            type: "text",
+            label: "收款人",
+            prop: "user",
+            render_simple: "name",
+            min_width: "100"
             // render_header: true
           },
 
@@ -158,96 +154,213 @@ export default {
             type: "text",
             label: "费用名称",
             prop: "fee_code",
-            render_simple:"name",
-            width: "160",
+            render_simple: "name",
+            width: "130",
             render_header: true
           },
           {
             type: "text",
-            label: "费用类型",
+            label: "类型",
             prop: "fee_type",
-            render_simple:"name",
-            width: "100",
+            render_simple: "name",
+            width: "80",
             render_header: true
           },
           // TODO 接口有字段缺失
-          { type: "text", label: "金额", prop: "amount", width: "80" },
+          {
+            type: "text",
+            label: "金额",
+            prop: "amount_currency",
+            width: "90",
+            align: "right"
+          },
           {
             type: "text",
             label: "币别",
             prop: "currency",
-            width: "80",
-            render_header: true
-          },
-          { type: "text", label: "汇率", prop: "roe", width: "60" },
-          { type: "text", label: "人民币", prop: "rmb_amount", width: "80" },
-          {
-            type: "text",
-            label: "官方绝限",
-            prop: "deadline",
-            width: "110",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "计划付款时间",
-            prop: "invoice.deadline", // TODO prop为invoice时计划付款时间和通知书发文日只渲染通知书发文日
-            width: "120",
+            width: "55"
             // render_header: true
           },
           {
             type: "text",
-            label: "实际付款时间",
-            prop: "invoice.payment_time",
-            width: "120",
-            render_header: true
+            label: "汇率",
+            prop: "roe",
+            width: "68",
+            align: "right"
           },
           {
             type: "text",
-            label: "通知书发文日",
+            label: "人民币",
+            prop: "rmb_amount_currency",
+            width: "90",
+            align: "right"
+          },
+          {
+            type: "text",
+            label: "官费小计",
+            prop: "official_sum_currency",
+            width: "90",
+            align: "right"
+          },
+          {
+            type: "text",
+            label: "代理费小计",
+            prop: "service_sum_currency",
+            width: "90",
+            align: "right"
+          },
+          {
+            type: "text",
+            label: "小计",
+            prop: "sum_currency",
+            width: "90",
+            align: "right"
+          },
+          {
+            type: "text",
+            label: "状态",
+            prop: "status",
+            width: "80",
+            render_simple: "name",
+            render_header: true,
+            expanded: true
+          },
+          {
+            type: "text",
+            label: "申请日",
+            prop: "project.application_date",
+            width: "100",
+            render_header: true,
+            expanded: true
+          },
+          {
+            type: "text",
+            label: "申请号",
+            prop: "project.application_number",
+            width: "178",
+            expanded: true
+            // render_header: true
+          },
+          {
+            type: "text",
+            label: "官方绝限",
+            prop: "deadline",
+            width: "100",
+            render_header: true,
+            expanded: true
+          },
+          {
+            type: "text",
+            label: "委案日",
+            prop: "project.entrusting_time",
+            width: "100",
+            render_header: true,
+            expanded: true
+          },
+          // {
+          //   type: "text",
+          //   label: "计划时间",
+          //   prop: "invoice.deadline", // TODO prop为invoice时计划付款时间和通知书发文日只渲染通知书发文日
+          //   width: "120"
+          //   // render_header: true
+          // },
+          {
+            type: "text",
+            label: "回款日",
+            prop: "invoice.payment_time",
+            width: "100",
+            render_header: true,
+            expanded: true
+          },
+          {
+            type: "text",
+            label: "发文日",
             prop: "mail_date",
             render_obj: "notice",
-            width: "120",
-            render_header: true
+            width: "100",
+            render_header: true,
+            expanded: true
           },
           {
             type: "text",
             label: "费用策略",
             prop: "policy",
-            width: "120",
+            width: "100",
             render_header: true,
-            render_simple: "name"
-          },
-          {
-            type: "text",
-            label: "费用状态",
-            prop: "status",
-            width: "120",
             render_simple: "name",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "客户已付款",
-            prop: "is_opposite_fee_payed",
-            width: "120",
-            render_header: true
+            expanded: true
           },
           {
             type: "text",
             label: "订单号",
             prop: "order.serial",
-            width: "120",
-            render_header: true
+            width: "120"
+            // render_header: true
           },
           {
             type: "text",
             label: "备注",
             prop: "remark",
             width: "150",
-            render_header: true
+            expanded: true
+            // render_header: true
           }
-        ]
+        ],
+        sumFunc: param => {
+          const { columns, data } = param;
+          const sums = [];
+          const fields = [
+            "rmb_amount_currency",
+            "amount_currency",
+            "official_sum_currency",
+            "service_sum_currency",
+            "sum_currency"
+          ];
+          columns.forEach((column, index) => {
+            if (index === 0) {
+              sums[index] = "总计";
+              return;
+            } else if (index === 1) {
+              sums[index] = "";
+              return;
+            }
+            if (fields.indexOf(column.property) >= 0) {
+              const values = data.map(item =>
+                Number(item[column.property].replace(",", ""))
+              );
+              if (!values.every(value => isNaN(value))) {
+                sums[index] = values.reduce((prev, curr) => {
+                  const value = Number(curr);
+                  if (!isNaN(value)) {
+                    return prev + curr;
+                  } else {
+                    return prev;
+                  }
+                }, 0);
+                //将结果拆分为小数与整数
+                const digits = sums[index]
+                  .toFixed(2)
+                  .toString()
+                  .split(".");
+                let number;
+                let decimal;
+                if (digits.length > 1) {
+                  number = digits[0].toString();
+                  decimal = digits[1];
+                } else {
+                  number = sums[index].toString();
+                  decimal = "00";
+                }
+                sums[index] =
+                  number.replace(/\B(?=(\d{3})+$)/g, ",") + "." + decimal;
+              }
+            } else {
+              sums[index] = "";
+            }
+          });
+
+          return sums;
+        }
       },
       is_debit: 0,
       URL: "/fees",
