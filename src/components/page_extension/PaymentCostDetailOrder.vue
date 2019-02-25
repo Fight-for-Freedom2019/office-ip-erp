@@ -5,7 +5,6 @@
       :columns="columns"
       :data="data"
       height="payment_detail"
-      :merge="merge"
       :showSummary="true"
       :sumFunc="sumFunc"
     ></app-table>
@@ -19,13 +18,13 @@
         :data="voucherDetail"
       ></table-component>
     </el-dialog>
-    <common-detail ref="project" title></common-detail>
+    <order-detail type="pay" ref="detail"></order-detail>
   </div>
 </template>
 
 
 <script>
-import CommonDetail from "@/components/page_extension/Common_detail";
+import OrderDetail from "@/components/page/crm/orders/OrderDetail";
 // import TableComponent from '@/components/common/TableComponent'
 import Config from "@/const/selectConfig";
 
@@ -36,26 +35,14 @@ export default {
     return {
       columns: [
         {
-          type: "text",
-          label: "客户",
-          prop: "customer.name",
-          min_width: "120"
-        },
-        {
           type: "text-btn",
-          label: "案号",
-          prop: "project.serial",
-          width: "178",
-          click: this.checkProjectDetail,
+          label: "订单号",
+          prop: "order.serial",
+          min_width: "120",
+          click: this.checkOrderDetail,
           render_text_btn: row => {
-            return row.project.serial;
+            return row.order.serial;
           }
-        },
-        {
-          type: "text",
-          label: "标题",
-          prop: "project.title",
-          min_width: "200"
         },
 
         {
@@ -98,10 +85,6 @@ export default {
           prop: "total_currency",
           width: "100"
         }
-      ],
-      merge: [
-        { col: 0, key: "customer.id", prop: "user" },
-        { col: 6, key: "customer.id", prop: "project.serial" }
       ],
 
       feeDetailOption: {
@@ -207,8 +190,9 @@ export default {
   methods: {
     refreshTableData(option) {},
     handleRowClick(row) {},
-    checkProjectDetail(row, e, col) {
-      this.$refs.project.show(row.project.id, "edit");
+    checkOrderDetail(row, e, col) {
+      // console.log("row",row);
+      this.$refs.detail.show(row.order.id, "edit");
     },
     checkFeeDetail(row, e, col) {
       this.dialogFormVisible = true;
@@ -238,12 +222,12 @@ export default {
     sumFunc: param => {
       const { columns, data } = param;
       const sums = [];
-      const fields = new Map([
-        ["service_fee.sum_currency", "service_fee.sum"],
-        ["official_fee.sum_currency", "official_fee.sum"],
-        ["sum_currency", "sum"],
-        ["total_currency", "total"]
-      ]);
+      const fields = [
+        "service_fee.sum_currency",
+        "official_fee.sum_currency",
+        "sum_currency",
+        "total_currency"
+      ];
       let func = (obj, desc) => {
         // 深层遍历对象属性获取属性值
         let arr = desc.split(".");
@@ -257,15 +241,11 @@ export default {
         if (index === 0) {
           sums[index] = "总计";
           return;
-        } else if (index === 1) {
-          sums[index] = "";
-          return;
         }
-
-        if (fields.get(column.property) != undefined) {
+        if (fields.indexOf(column.property) >= 0) {
+          var f = column.property.replace("_currency", "");
+          let arr = f.split(".");
           const values = data.map((item, func) => {
-            const f = fields.get(column.property);
-            let arr = f.split(".");
             let o = item;
             while (arr.length && o) {
               o = o[arr.shift()];
@@ -308,7 +288,7 @@ export default {
   },
   components: {
     // TableComponent,
-    CommonDetail
+    OrderDetail
   }
 };
 </script>

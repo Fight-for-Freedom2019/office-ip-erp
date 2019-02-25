@@ -160,7 +160,10 @@
         </el-form>
         <div class="PaymentRequestDetail">
           <el-tabs v-model="activeName">
-            <el-tab-pane label="费用清单" name="first">
+            <el-tab-pane label="费用清单" name="first" v-if="order">
+              <payment-cost-detail-order :data="costDetail" :id="id"></payment-cost-detail-order>
+            </el-tab-pane>
+            <el-tab-pane label="费用清单" name="first" v-if="!order">
               <payment-cost-detail :data="costDetail" :id="id"></payment-cost-detail>
             </el-tab-pane>
             <el-tab-pane label="跟催记录" name="reminders">
@@ -208,6 +211,7 @@ import RemoteSelect from "@/components/form/RemoteSelect";
 import StaticSelect from "@/components/form/StaticSelect";
 import UpLoad from "@/components/form/Upload";
 import PaymentCostDetail from "@/components/page_extension/PaymentCostDetail";
+import PaymentCostDetailOrder from "@/components/page_extension/PaymentCostDetailOrder";
 import RemindersRecord from "@/components/page_extension/RemindersRecord";
 import ReceivedRecord from "@/components/page_extension/ReceivedRecord";
 import InvoiceMails from "@/components/page_extension/InvoiceMails";
@@ -274,6 +278,17 @@ export default {
     type: {
       // 是付款还是请款
       type: String
+    }
+  },
+  computed: {
+    order() {
+      let order = false;
+      this.costDetail.forEach(_ => {
+        if (_.order != undefined && _.order.id) {
+          order = true;
+        }
+      });
+      return order;
     }
   },
   methods: {
@@ -422,6 +437,7 @@ export default {
     RemoteSelect,
     UpLoad,
     PaymentCostDetail,
+    PaymentCostDetailOrder,
     RemindersRecord,
     ReceivedRecord,
     StaticSelect,
