@@ -134,6 +134,13 @@ export default {
           },
           {
             type: "text",
+            label: "账单号",
+            prop: "invoice",
+            render_simple:"serial",
+            width: "150",
+          },
+          {
+            type: "text",
             label: "委案日",
             prop: "project.entrusting_time",
             width: "100",
