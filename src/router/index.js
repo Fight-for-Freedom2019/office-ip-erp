@@ -484,6 +484,24 @@ const router = new Router({
             type: "patent"
           }
         },
+        {
+          path: "/patent/notice/sending",
+          name: "PatentNotice",
+          component: NoticeCommon,
+          meta: {
+            params: { is_sent: 0 },
+            type: "patent"
+          }
+        },
+        {
+          path: "/patent/notice/sent",
+          name: "PatentNotice",
+          component: NoticeCommon,
+          meta: {
+            params: { is_sent: 1 },
+            type: "patent"
+          }
+        },
         //################### 专利路由 end #####################
 
         //################### 商标路由 start #####################
@@ -554,17 +572,6 @@ const router = new Router({
           }
         },
         {
-          path: "/finance/revenue/ready_to_request",
-          name: "RequestPayoutRequest",
-          component: RequestPayout,
-          meta: {
-            params: {
-              is_debit: 1,
-              status: 1
-            }
-          }
-        },
-        {
           path: "/finance/revenue/payment_requests",
           name: "PaymentManage",
           component: PaymentManage,
@@ -575,7 +582,7 @@ const router = new Router({
           }
         },
         {
-          path: "/finance/revenue/payments_recevied",
+          path: "/finance/revenue/received_payments",
           name: "PaymentRecevied",
           component: PaymentRecevied,
           meta: {
@@ -591,17 +598,6 @@ const router = new Router({
           component: SuppliersFee,
           meta: {
             params: {
-              is_debit: 0
-            }
-          }
-        },
-        {
-          path: "/finance/outgo/ready_to_pay",
-          name: "SuppliersFeePay",
-          component: SuppliersFee,
-          meta: {
-            params: {
-              status: 11,
               is_debit: 0
             }
           }

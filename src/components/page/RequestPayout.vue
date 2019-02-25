@@ -86,7 +86,12 @@ export default {
         is_list_filter: true,
         list_type: "fees",
         treeFilter: "fees",
-        // 'is_merge': {KEY: "user.customer.id", COL: [1, 2, 3]},
+        show_summary: true,
+        merge: [
+          { col: 2, key: "user.id", prop: "user" },
+          { col: 3, key: "project.id", prop: "project.serial" },
+          { col: 4, key: "project.id", prop: "project.title" }
+        ],
         search_placeholder: "",
         rowClick: this.handleRowClick,
         header_btn: [
@@ -116,6 +121,7 @@ export default {
         ],
         columns: [
           { type: "selection" },
+
           {
             type: "text",
             label: "客户",
@@ -126,39 +132,19 @@ export default {
           },
           {
             type: "text",
+            label: "案号",
+            prop: "project.serial",
+            width: "178"
+            // render_header: true
+          },
+          {
+            type: "text",
             label: "标题",
             prop: "project.title",
             width: "200",
             render_header: true
           },
-          {
-            type: "text",
-            label: "申请号",
-            prop: "project.application_number",
-            width: "150",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "申请日",
-            prop: "project.application_date",
-            width: "100",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "委案日",
-            prop: "entrusting_time",
-            width: "100",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "案号",
-            prop: "project.serial",
-            width: "178",
-            // render_header: true
-          },
+
           {
             type: "text",
             label: "费用名称",
@@ -176,7 +162,13 @@ export default {
             },
             render_header: true
           },
-          { type: "text", label: "金额", prop: "amount", width: "70" },
+          {
+            type: "text",
+            label: "金额",
+            prop: "amount_currency",
+            width: "100",
+            align: "right"
+          },
           {
             type: "text",
             label: "币别",
@@ -185,13 +177,42 @@ export default {
             render_header: true
           },
           { type: "text", label: "汇率", prop: "roe", width: "70" },
-          { type: "text", label: "人民币", prop: "rmb_amount", width: "70" },
+          {
+            type: "text",
+            label: "人民币",
+            prop: "rmb_amount_currency",
+            width: "100",
+            align: "right"
+          },
+          {
+            type: "text",
+            label: "申请号",
+            prop: "project.application_number",
+            width: "165",
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "申请日",
+            prop: "project.application_date",
+            width: "100",
+            render_header: true
+          },
+          {
+            type: "text",
+            label: "委案日",
+            prop: "entrusting_time",
+            width: "100",
+            render_header: true,
+            expanded: true
+          },
           {
             type: "text",
             label: "费用期限",
             prop: "deadline",
-            width: "90",
-            render_header: true
+            width: "100",
+            render_header: true,
+            expanded: true
           },
           {
             type: "text",
@@ -199,7 +220,8 @@ export default {
             prop: "policy",
             width: "100",
             render_header: true,
-            render_simple: "name"
+            render_simple: "name",
+            expanded: true
           },
 
           {
@@ -208,7 +230,8 @@ export default {
             prop: "status",
             width: "100",
             render_simple: "name",
-            render_header: true
+            render_header: true,
+            expanded: true
           },
           {
             type: "text",
@@ -224,23 +247,75 @@ export default {
               });
               return h("span", name);
             },
-            render_header: true
+            render_header: true,
+            expanded: true
           },
           {
             type: "text",
             label: "订单号",
             prop: "order.serial",
             width: "80",
-            render_header: true
+            render_header: true,
+            expanded: true
           },
           {
             type: "text",
             label: "备注",
             prop: "remark",
             width: "80",
-            render_header: true
+            render_header: true,
+            expanded: true
           }
-        ]
+        ],
+        sumFunc: param => {
+          const { columns, data } = param;
+          const sums = [];
+          const fields = ["rmb_amount_currency", "amount_currency"];
+          columns.forEach((column, index) => {
+            if (index === 0) {
+              sums[index] = "小计";
+              return;
+            } else if (index === 1) {
+              sums[index] = "";
+              return;
+            }
+            if (fields.indexOf(column.property) >= 0) {
+              const values = data.map(item =>
+                Number(item[column.property].replace(",", ""))
+              );
+              if (!values.every(value => isNaN(value))) {
+                sums[index] = values.reduce((prev, curr) => {
+                  const value = Number(curr);
+                  if (!isNaN(value)) {
+                    return prev + curr;
+                  } else {
+                    return prev;
+                  }
+                }, 0);
+                //将结果拆分为小数与整数
+                const digits = sums[index]
+                  .toFixed(2)
+                  .toString()
+                  .split(".");
+                let number;
+                let decimal;
+                if (digits.length > 1) {
+                  number = digits[0].toString();
+                  decimal = digits[1];
+                } else {
+                  number = sums[index].toString();
+                  decimal = "00";
+                }
+                sums[index] =
+                  number.replace(/\B(?=(\d{3})+$)/g, ",") + "." + decimal;
+              }
+            } else {
+              sums[index] = "";
+            }
+          });
+
+          return sums;
+        }
       },
       is_debit: 1,
       URL: "/fees"

@@ -147,7 +147,8 @@ const strainerConfig = [
   [
     "fees",
     [
-      { name: "客户", id: "user", default: true },
+      { name: "费用状态", id: "status", default: true },
+      { name: "客户", id: "user" },
       { name: "费用期限", id: "deadline" },
       { name: "请款时机", id: "payment_request_timing" }
     ]
@@ -155,11 +156,21 @@ const strainerConfig = [
   [
     "invoices",
     [
-      { name: "请款对象", id: "user", default: true },
-      { name: "请款单状态", id: "status" },
+      { name: "请款对象", id: "user" },
+      { name: "请款单状态", id: "status", default: true },
       { name: "请款时间", id: "request_time" },
       { name: "回款期限", id: "deadline" },
       { name: "回款时间", id: "payment_time" }
+    ]
+  ],
+  [
+    "invoices_payment",
+    [
+      { name: "付款单状态", id: "status", default: true },
+      { name: "付款对象", id: "user" },
+      { name: "请款时间", id: "request_time" },
+      { name: "付款期限", id: "deadline" },
+      { name: "付款时间", id: "payment_time" }
     ]
   ],
   ["received_payments", [{ name: "客户", id: "user", default: true }]],

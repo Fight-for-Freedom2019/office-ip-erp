@@ -266,11 +266,12 @@
           v-if="refreshRender"
           :class="tableOption.empty_text_position == 'topLeft' ? 'empty-top-left' : ''"
           :style="tableStyle"
-          :isMerge="tableOption.is_merge === undefined?{}:tableOption.is_merge"
+          :merge="tableOption.merge === undefined?[]:tableOption.merge"
           :data="tableData"
           v-model="fields"
           :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
           :showSummary="tableOption.show_summary!=undefined?tableOption.show_summary: false"
+          :sumFunc="sumFunc"
           :filterVisible="filterValueVisible"
           :type="tableOption.list_type"
           :border="tableOption.is_border != undefined ? tableOption.is_border : true"
@@ -278,6 +279,7 @@
           :height="tableOption.height"
           :highlight-current-row="tableOption.highlightCurrentRow !== undefined ? tableOption.highlightCurrentRow : false"
           :columns="columns"
+          :expands="expands"
           :table-selected.sync="selected"
           @sort-change="handleSortChange"
           @update.once="update"
@@ -435,7 +437,7 @@ export default {
       currentPage: 1,
       //tableSelect 当前列表如果有checkbox,已选择的行数据
       tableSelect: [],
-      expands: [],
+      // expands: [],
       searchClass: "table-search",
       date: [],
       search_value: "",
@@ -469,6 +471,22 @@ export default {
       "pagesize",
       "menusMap"
     ]),
+    expands() {
+      const expands = [];
+      this.tableOption.columns.forEach(_ => {
+        if (_.expanded != undefined && _.expanded) {
+          expands.push(_);
+        }
+      });
+      return expands;
+    },
+    sumFunc() {
+      return this.tableOption.sumFunc != undefined
+        ? this.tableOption.sumFunc
+        : _ => {
+            return false;
+          };
+    },
     filterHeight() {
       const h = this.tableOption.is_view
         ? this.tableHeight / 2
@@ -676,7 +694,7 @@ export default {
     handleViewData(val) {
       // 存在cookie
       this.clearFilter(true);
-      const obj = this.$tool.shallowCopy(val.param,{skip:['allFields']});  
+      const obj = this.$tool.shallowCopy(val.param, { skip: ["allFields"] });
       this.$tool.setCookie(this.path, JSON.stringify(obj));
 
       this.initControl();
@@ -689,10 +707,10 @@ export default {
       this.strainerParams = val;
     },
     handleClearInput(val) {
-      this.search_value = '';
-      this.$nextTick(()=>{
+      this.search_value = "";
+      this.$nextTick(() => {
         this.handleSearch();
-      })
+      });
     },
     handleInput(val) {},
     initOptionColumns() {
@@ -733,7 +751,10 @@ export default {
       let obj = {};
       const viewCookie = JSON.parse(this.$tool.getCookie(this.path));
       const q = viewCookie && viewCookie.query ? viewCookie.query : [];
-      const v = viewCookie && viewCookie.selectedFields ? viewCookie.selectedFields.split(",") : [];
+      const v =
+        viewCookie && viewCookie.selectedFields
+          ? viewCookie.selectedFields.split(",")
+          : [];
       if (v && v.length != 0) {
         const o = {};
         const arr = [];
@@ -1133,17 +1154,17 @@ export default {
     filterForm(val) {
       if (this.filterLock) return;
       this.refresh();
-    },
+    }
     // filterValueVisible(val) {
-      // if(val == false) {
-      //   // 因为关闭测试筛选时，视图数据无法及时更新，则强制刷新当前路由加载数据
-      //    this.reload();
-      // }
-      // hack 重新渲染tabel
-      // this.refreshRender = false;
-      // this.$nextTick(_ => {
-      //   this.refreshRender = true;
-      // });
+    // if(val == false) {
+    //   // 因为关闭测试筛选时，视图数据无法及时更新，则强制刷新当前路由加载数据
+    //    this.reload();
+    // }
+    // hack 重新渲染tabel
+    // this.refreshRender = false;
+    // this.$nextTick(_ => {
+    //   this.refreshRender = true;
+    // });
     // }
   },
   beforeDestroy() {
@@ -1208,7 +1229,7 @@ export default {
   font-size: 13px;
 }
 .el-badge {
-  vertical-align:initial;
+  vertical-align: initial;
 }
 /*.el-table__expand-column {
   display: none;

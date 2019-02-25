@@ -35,6 +35,7 @@ const urlMap = new Map([
   ["invoice_targets", { URL: "/invoice_targets/filters" }],
   ["fees", { URL: "/fees/filters" }],
   ["invoices", { URL: "/invoices/filters" }],
+  ["invoices_payment", { URL: "/invoices/filters" }],
   ["received_payments", { URL: "/received_payments/filters" }],
   ["invoice_request", { URL: "/vouchers/filters" }],
   ["cpc_notice", { URL: "/cpc_notices/filters" }],
@@ -59,7 +60,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['filterForm']),
+    ...mapGetters(["filterForm"]),
     strainerMap() {
       const map = new Map(strainerConfig);
       return map;

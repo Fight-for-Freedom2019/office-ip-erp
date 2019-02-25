@@ -128,10 +128,24 @@ const patentMenu = [
     icon: "iconfont el-icon-my-new"
   },
   {
-    type: "item",
+    type: "submenu",
     text: "通知书管理",
     path: "/patent/notice",
-    icon: "iconfont el-icon-my-notice"
+    icon: "iconfont el-icon-my-notice",
+    children: [
+      {
+        type: "item",
+        text: "未发送",
+        path: "/patent/notice/sending",
+        icon: "iconfont el-icon-my-send"
+      },
+      {
+        type: "item",
+        text: "已发送",
+        path: "/patent/notice/sent",
+        icon: "iconfont el-icon-my-task-finish"
+      }
+    ]
   }
 ];
 const trademarkMenu = [
@@ -293,26 +307,20 @@ const financeMenu = [
     children: [
       {
         type: "item",
-        text: "所有应收",
+        text: "应收明细",
         path: "/finance/revenue/all",
         icon: "iconfont el-icon-my-fee"
       },
       {
         type: "item",
-        text: "待请费用",
-        path: "/finance/revenue/ready_to_request",
-        icon: "iconfont el-icon-my-payment-request"
-      },
-      {
-        type: "item",
-        text: "请款管理",
+        text: "请款单",
         path: "/finance/revenue/payment_requests",
         icon: "iconfont el-icon-my-order"
       },
       {
         type: "item",
         text: "回款管理",
-        path: "/finance/revenue/payments_recevied",
+        path: "/finance/revenue/received_payments",
         icon: "iconfont el-icon-my-received-payment"
       }
     ]
@@ -325,19 +333,13 @@ const financeMenu = [
     children: [
       {
         type: "item",
-        text: "所有应付",
+        text: "应付明细",
         path: "/finance/outgo/all",
-        icon: "iconfont el-icon-my-fee"
-      },
-      {
-        type: "item",
-        text: "待付费用",
-        path: "/finance/outgo/ready_to_pay",
         icon: "iconfont el-icon-my-payment"
       },
       {
         type: "item",
-        text: "付款管理",
+        text: "付款单",
         path: "/finance/outgo/payments",
         icon: "iconfont el-icon-my-order"
       }

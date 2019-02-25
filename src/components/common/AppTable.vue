@@ -11,6 +11,7 @@
     :max-height="maxHeight"
     :span-method="spanMethod"
     :show-summary="showSummary"
+    :summary-method="sumFunc"
     @selection-change="handleSelectionChange"
     @sort-change="_=>{$emit('sort-change', _)}"
     @row-click="handleRowClick"
@@ -18,6 +19,19 @@
     @cell-mouse-enter="handleMouseEnter"
     @header-dragend="handleHeaderDragend"
   >
+    <template v-if="expand">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline>
+            <template v-for="field in expandFields">
+              <el-form-item :label="field.label">
+                <span>{{ props.row[field.prop] }}</span>
+              </el-form-item>
+            </template>
+          </el-form>
+        </template>
+      </el-table-column>
+    </template>
     <template v-for="(col, index) in columns">
       <template v-if="col.type == 'selection'">
         <el-table-column type="selection"></el-table-column>
@@ -42,12 +56,24 @@
             :align="col.align !== undefined ? col.align :'left'"
             :header-align="col.header_align !== undefined ? col.header_align :'left'"
             :class-name="col.className? col.className : ''"
-
-          ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
+          >
+            <!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+              <el-popover
+                placement="bottom"
+                v-model="filterComponentPopover[scope.column.property]"
+                @show="showPopover(scope.column.property)"
+                v-if="col.render_header !== undefined"
+              >
+                <lists-filter
+                  @order="order"
+                  v-if="filterComponent[scope.column.property]"
+                  :activePop="activePop"
+                  :field="col.prop"
+                  :listType="listType"
+                  @hide="hidePopover"
+                ></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -65,12 +91,24 @@
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
             :class-name="col.className? col.className : ''"
-
-          ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
+          >
+            <!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+              <el-popover
+                placement="bottom"
+                v-model="filterComponentPopover[scope.column.property]"
+                @show="showPopover(scope.column.property)"
+                v-if="col.render_header !== undefined"
+              >
+                <lists-filter
+                  @order="order"
+                  v-if="filterComponent[scope.column.property]"
+                  :activePop="activePop"
+                  :field="col.prop"
+                  :listType="listType"
+                  @hide="hidePopover"
+                ></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -88,12 +126,24 @@
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
             :class-name="col.className? col.className : ''"
-
-          ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
+          >
+            <!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+              <el-popover
+                placement="bottom"
+                v-model="filterComponentPopover[scope.column.property]"
+                @show="showPopover(scope.column.property)"
+                v-if="col.render_header !== undefined"
+              >
+                <lists-filter
+                  @order="order"
+                  v-if="filterComponent[scope.column.property]"
+                  :activePop="activePop"
+                  :field="col.prop"
+                  :listType="listType"
+                  @hide="hidePopover"
+                ></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -111,12 +161,25 @@
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
             :class-name="col.className? col.className : ''"
-
-          ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
+            :align="col.align !== undefined ? col.align :'left'"
+          >
+            <!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+              <el-popover
+                placement="bottom"
+                v-model="filterComponentPopover[scope.column.property]"
+                @show="showPopover(scope.column.property)"
+                v-if="col.render_header !== undefined"
+              >
+                <lists-filter
+                  @order="order"
+                  v-if="filterComponent[scope.column.property]"
+                  :activePop="activePop"
+                  :field="col.prop"
+                  :listType="listType"
+                  @hide="hidePopover"
+                ></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -134,12 +197,26 @@
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
             :class-name="col.className? col.className : ''"
-
-          ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
+            :align="col.align !== undefined ? col.align :'left'"
+            :header-align="col.header_align !== undefined ? col.header_align :'left'"
+          >
+            <!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+              <el-popover
+                placement="bottom"
+                v-model="filterComponentPopover[scope.column.property]"
+                @show="showPopover(scope.column.property)"
+                v-if="col.render_header !== undefined"
+              >
+                <lists-filter
+                  @order="order"
+                  v-if="filterComponent[scope.column.property]"
+                  :activePop="activePop"
+                  :field="col.prop"
+                  :listType="listType"
+                  @hide="hidePopover"
+                ></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -159,12 +236,24 @@
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
             :class-name="col.className? col.className : ''"
-
-          ><!--:render-header="col.render_header ? handleRenderHeader:null"-->
+          >
+            <!--:render-header="col.render_header ? handleRenderHeader:null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+              <el-popover
+                placement="bottom"
+                v-model="filterComponentPopover[scope.column.property]"
+                @show="showPopover(scope.column.property)"
+                v-if="col.render_header !== undefined"
+              >
+                <lists-filter
+                  @order="order"
+                  v-if="filterComponent[scope.column.property]"
+                  :activePop="activePop"
+                  :field="col.prop"
+                  :listType="listType"
+                  @hide="hidePopover"
+                ></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -185,12 +274,24 @@
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
             :class-name="col.className? col.className : ''"
-
-          ><!--:render-header="col.render_header ? handleRenderHeader : null"-->
+          >
+            <!--:render-header="col.render_header ? handleRenderHeader : null"-->
             <template slot="header" slot-scope="scope">
               <span>{{col.label}}</span>
-              <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-                <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+              <el-popover
+                placement="bottom"
+                v-model="filterComponentPopover[scope.column.property]"
+                @show="showPopover(scope.column.property)"
+                v-if="col.render_header !== undefined"
+              >
+                <lists-filter
+                  @order="order"
+                  v-if="filterComponent[scope.column.property]"
+                  :activePop="activePop"
+                  :field="col.prop"
+                  :listType="listType"
+                  @hide="hidePopover"
+                ></lists-filter>
                 <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
               </el-popover>
             </template>
@@ -213,12 +314,24 @@
           :min-width="col.min_width ? col.min_width : ''"
           :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
           :class-name="col.className? col.className : ''"
-
-        ><!--:render-header="col.render_header ? handleRenderHeader:null"-->
+        >
+          <!--:render-header="col.render_header ? handleRenderHeader:null"-->
           <template slot="header" slot-scope="scope">
             <span>{{col.label}}</span>
-            <el-popover placement="bottom" v-model="filterComponentPopover[scope.column.property]" @show="showPopover(scope.column.property)"  v-if="col.render_header !== undefined">
-              <lists-filter @order="order" v-if="filterComponent[scope.column.property]" :activePop="activePop" :field="col.prop" :listType="listType" @hide="hidePopover"></lists-filter>
+            <el-popover
+              placement="bottom"
+              v-model="filterComponentPopover[scope.column.property]"
+              @show="showPopover(scope.column.property)"
+              v-if="col.render_header !== undefined"
+            >
+              <lists-filter
+                @order="order"
+                v-if="filterComponent[scope.column.property]"
+                :activePop="activePop"
+                :field="col.prop"
+                :listType="listType"
+                @hide="hidePopover"
+              ></lists-filter>
               <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
             </el-popover>
           </template>
@@ -395,10 +508,10 @@ export default {
       type: null,
       default: "id"
     },
-    isMerge: {
-      type: Object,
+    merge: {
+      type: Array,
       default() {
-        return {};
+        return [];
       }
     },
     defaultSort: {
@@ -412,11 +525,17 @@ export default {
       default: false
     },
     height: {
-      type: [String, Number],
+      type: [String, Number]
     },
     columns: {
       type: Array,
       required: true
+    },
+    expands: {
+      type: Array,
+      default() {
+        return [];
+      }
     },
     data: {
       type: Array,
@@ -425,6 +544,9 @@ export default {
     showSummary: {
       type: Boolean,
       default: false
+    },
+    sumFunc: {
+      type: Function
     },
     tableSelected: {
       type: Array,
@@ -442,11 +564,11 @@ export default {
   },
   data() {
     return {
-      filterComponent:{},
-      filterComponentPopover:{},
-      showFilterPopover:false,
-      initPop:true,
-      activePop:"",
+      filterComponent: {},
+      filterComponentPopover: {},
+      showFilterPopover: false,
+      initPop: true,
+      activePop: "",
       selected: [],
       filters: {},
       headerClass: "header_wrap",
@@ -454,7 +576,7 @@ export default {
       spanArr: [], // 合并行策略数组
       unknownData: [],
       saveLabel: "",
-      viewVisible: false,
+      viewVisible: false
       // re_render: true,
     };
   },
@@ -474,6 +596,15 @@ export default {
         }
       }
     },
+    expand() {
+      return this.expands != undefined && this.expands.length > 0
+        ? true
+        : false;
+    },
+    expandFields() {
+      return this.expands != undefined ? this.expands : [];
+    },
+
     filterSetting() {
       //自定义筛选配置项
       const data = filterConfig.get(this.type);
@@ -497,9 +628,11 @@ export default {
       const r = this.data;
       //  .暂时将array类型的render处理放到这里,因为如果放到v-for里面会被多次重复执行
       this.columns.forEach(_ => {
-        if(_.prop) {
-          this.initPop?this.$set(this.filterComponent,_.prop,false):"";
-          this.initPop?this.$set(this.filterComponentPopover,_.prop,false):"";
+        if (_.prop) {
+          this.initPop ? this.$set(this.filterComponent, _.prop, false) : "";
+          this.initPop
+            ? this.$set(this.filterComponentPopover, _.prop, false)
+            : "";
         }
         if (_.type == "array" && _.render) {
           r.forEach(d_c => {
@@ -509,7 +642,7 @@ export default {
         }
       });
       this.initPop = false;
-      if (Object.keys(this.isMerge).length !== 0) {
+      if (Object.keys(this.merge).length !== 0) {
         this.getSpanArr(r);
       }
       return r;
@@ -558,11 +691,14 @@ export default {
         } else if (hk === "userManage") {
           height = this.innerHeight - 110;
           height = height < 300 ? 300 : height;
+        } else if (hk === "payment_detail") {
+          height = this.innerHeight - 350;
+          height = height < 300 ? 300 : height;
         } else {
           height = hk;
-        } 
-      }else {
-        height = 'auto';
+        }
+      } else {
+        height = "auto";
       }
       return height;
     }
@@ -599,8 +735,8 @@ export default {
       if (column.type == "selection" || column.type == "action") return false;
       this.$emit("cell-click", row, column, cell, event);
     },
-    handleHeaderDragend (nw, ow, column, event) {
-      this.$emit("header-dragend",nw, ow, column, event);
+    handleHeaderDragend(nw, ow, column, event) {
+      this.$emit("header-dragend", nw, ow, column, event);
     },
     handleMouseEnter(row, column, cell, event) {
       this.$emit("cell-mouse-enter", row, column, cell, event);
@@ -669,17 +805,17 @@ export default {
         return "";
       }
     },
-    showPopover(property){
-        // console.log("property",property);
-        // this.showFilterPopover = true;
-        this.filterComponent[property] = true;
-        this.activePop = property;
-        this.filterComponentPopover[property] = true;
+    showPopover(property) {
+      // console.log("property",property);
+      // this.showFilterPopover = true;
+      this.filterComponent[property] = true;
+      this.activePop = property;
+      this.filterComponentPopover[property] = true;
     },
-    order(val){
-      this.$emit("order",val);
+    order(val) {
+      this.$emit("order", val);
     },
-    hidePopover(property){
+    hidePopover(property) {
       this.filterComponentPopover[property] = false;
     },
     handleHeaderClose(key) {
@@ -845,45 +981,46 @@ export default {
       return typeof obj === "number" ? obj : 0;
     },
     getSpanArr(data) {
-      // 根据isMerge.KEY获取spanArr
+      // 根据merge.KEY获取spanArr
       let fun = this.getDescendantantProp;
-      let key = this.isMerge.KEY ? this.isMerge.KEY : "";
-      if (!key) return;
-      data.sort(function(a, b) {
-        // 获取spanArr之前先要按id排序，因为渲染表格的时候并没有按照预定的规则渲染
-        return fun(a, key) - fun(b, key);
-      });
-      let pos = 0;
-      this.spanArr = [];
-      for (let i = 0; i < data.length; i++) {
-        if (i === 0) {
-          this.spanArr.push(1);
-          pos = 0;
-        } else {
-          if (
-            fun(data[i], key) === fun(data[i - 1], key) &&
-            fun(data[i], key) !== 0
-          ) {
-            this.spanArr[pos] += 1;
-            this.spanArr.push(0);
+      this.merge.forEach(_ => {
+        const { col, key, prop } = _;
+        const keys = key.split(".");
+
+        let pos = 0;
+        let arr = [];
+        for (let i = 0; i < data.length; i++) {
+          if (i === 0) {
+            arr.push(1);
+            pos = 0;
           } else {
-            this.spanArr.push(1);
-            pos = i;
+            if (
+              fun(data[i], key) === fun(data[i - 1], key) &&
+              fun(data[i], key) !== 0
+            ) {
+              arr[pos] += 1;
+              arr.push(0);
+            } else {
+              arr.push(1);
+              pos = i;
+            }
           }
         }
-      }
+        this.spanArr[col] = arr;
+      });
+      console.log(this.spanArr);
     },
     spanMethod({ row, column, rowIndex, columnIndex }) {
+      let span = {
+        rowspan: 1,
+        colspan: 1
+      };
       // 官方合并方法稍加改造
-      if (Object.keys(this.isMerge).length === 0) return;
-      if (this.isMerge.COL.includes(columnIndex)) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
+      if (Object.keys(this.merge).length === 0) return span;
+      if (this.spanArr[columnIndex] != undefined) {
+        span.rowspan = this.spanArr[columnIndex][rowIndex];
       }
+      return span;
     }
   },
   watch: {},
@@ -922,5 +1059,8 @@ export default {
 // }
 .el-table__header-wrapper .cell {
   padding: 0px 6px;
+}
+.el-table__expand-column .cell {
+  width: 50px;
 }
 </style>

@@ -34,7 +34,8 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="excel">账单详情</el-dropdown-item>
             <el-dropdown-item command="excel_cn" v-if="mode == 'pay'">国知局CN专利缴费单</el-dropdown-item>
-            <el-dropdown-item command="excel_pct" v-if="mode == 'pay'">国知局PCT专利缴费单</el-dropdown-item>
+            <el-dropdown-item command="excel_pct_national" v-if="mode == 'pay'">国知局PCT首次进入中国国家阶段缴费单</el-dropdown-item>
+            <el-dropdown-item command="excel_pct" v-if="mode == 'pay'">国知局PCT国际阶段查询缴费单</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <!-- <el-button type="primary" size="small" v-if="status === 'upload'" @click="submitCommon(rowID,'/add_to_payment_plan','提交付款')">提交付款</el-button> -->
@@ -131,10 +132,10 @@
               <el-form-item label="回款时间" v-else>
                 <!--<span class="form-item-text">{{form.payment_time}}</span>-->
                 <el-date-picker
-                    placeholder="请选择回款时间"
-                    class="custom-picker-input"
-                    value-format="yyyy-MM-dd"
-                    v-model="form.payment_time"
+                  placeholder="请选择回款时间"
+                  class="custom-picker-input"
+                  value-format="yyyy-MM-dd"
+                  v-model="form.payment_time"
                 ></el-date-picker>
               </el-form-item>
             </el-col>
@@ -151,7 +152,7 @@
               <up-load v-model="form.express" :fileList="express"></up-load>
           </el-form-item>-->
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" v-model="form.remark" resize="none"></el-input>
+            <el-input type="text" v-model="form.remark" resize="none"></el-input>
           </el-form-item>
           <el-form-item label="附件">
             <up-load v-model="form.attachments" :file-list="attachments"></up-load>
@@ -390,7 +391,9 @@ export default {
       this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
     },
     uploadFile(type) {
-      window.open(`invoices/${this.id}?format=${type}`);
+      const token = window.localStorage.getItem("token");
+      console.log(token);
+      window.open(`invoices/${this.id}?format=${type}&token=${token}`);
     },
     confirm() {
       this.paymentDialog = true;

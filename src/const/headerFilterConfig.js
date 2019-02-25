@@ -14,7 +14,7 @@ const map = new Map([
         name: "案件标签",
         map_type: "tags",
         url: "/tags?listOnly=1",
-        sortable: false,
+        sortable: false
       },
       {
         type: "static_select",
@@ -22,7 +22,7 @@ const map = new Map([
         name: "事项标签",
         map_type: "tags",
         url: "/tags?listOnly=1",
-        sortable: false,
+        sortable: false
       },
       {
         type: "static_select",
@@ -34,7 +34,7 @@ const map = new Map([
         type: "static_select",
         id: "project_type",
         name: "案件类型",
-        map_type: "project_type",
+        map_type: "project_type"
       },
       {
         type: "static_select",
@@ -55,7 +55,7 @@ const map = new Map([
         id: "process_action",
         name: "当前节点",
         map_type: "actions",
-        sortable: false,
+        sortable: false
       },
       {
         type: "static_select",
@@ -83,7 +83,7 @@ const map = new Map([
         name: "对外代理人",
         data_key: "data",
         url: "/users",
-        sortable: false,
+        sortable: false
       },
       // {
       //   type: "remote_select",
@@ -129,7 +129,7 @@ const map = new Map([
       },
       { type: "date", id: "entrusting_time", name: "委案日" },
       { type: "date", id: "creation_time", name: "立案日" },
-      { type: "date", id: "deadline", name: "节点期限", sortable: false, },
+      { type: "date", id: "deadline", name: "节点期限", sortable: false },
       { type: "date", id: "internal_deadline", name: "管控期限" },
       // { type: "date", id: "first_edition_deadline", name: "初稿期限" },
       // { type: "date", id: "filing_deadline", name: "递交期限" },
@@ -674,14 +674,14 @@ const map = new Map([
       { type: "text", id: "order.serial", name: "订单号" },
       {
         type: "static_select",
-        id: "fee_code",
+        id: "fee_code.name",
         name: "费用名称",
         map_type: "fee_code",
         url: "/feecode"
       },
       {
         type: "static_select",
-        id: "fee_type",
+        id: "fee_code",
         name: "费用类型",
         map_type: "fee_type"
       },
@@ -792,7 +792,13 @@ const map = new Map([
         name: "创建人",
         data_key: "data"
       },
-      { type: "remote_select", id: "user", name: "请款对象", data_key: "data" ,url: "/users"},
+      {
+        type: "remote_select",
+        id: "user",
+        name: "请款对象",
+        data_key: "data",
+        url: "/users"
+      },
       { type: "date", id: "creation_time", name: "创建时间" },
       { type: "text", id: "amount", name: "金额" },
       {
