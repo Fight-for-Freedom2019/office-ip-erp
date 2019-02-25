@@ -889,6 +889,9 @@ export default {
       this.formTypeCollection = [];
       this.formList = [];
       this.submitFileList = [];
+      this.rules = [];
+      this.allData = {};
+      this.data = {};
       this.submitData.clear();
       console.log("clear",this.submitData,this.submitFileList);
       this.copy_form = [
