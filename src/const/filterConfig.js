@@ -529,7 +529,7 @@ const map = new Map([
     [
       {
         components: "static_select",
-        id: "type",
+        id: "subtype",
         name: "商标类型",
         type: "trademark_type"
       },
@@ -546,10 +546,8 @@ const map = new Map([
         name: "申请人",
         type: "applicant"
       },
-      { components: "date", id: "apd", name: "申请日" },
-      { components: "date", id: "public_date", name: "初审公告日" },
-      { components: "date", id: "issue_date", name: "核准注册日" },
-      { components: "date", id: "expiring_date", name: "专用权期限" }
+      { components: "date", id: "application_date", name: "申请日" },
+      { components: "date", id: "publication_date", name: "初审公告日" },
     ]
   ],
   [

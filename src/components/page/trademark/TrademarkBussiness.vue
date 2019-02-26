@@ -32,7 +32,7 @@
       <el-input v-model="form.customer_serial" placeholder="请填写客户案号"></el-input>
     </el-form-item>
     <el-form-item label="服务类型" prop="service">
-      <static-select type="services" v-model="form.service"></static-select>
+      <static-select type="trademark_services" v-model="form.service"></static-select>
     </el-form-item>
     <el-form-item label="合同类型" prop="contract_type">
       <static-select type="contract_mode" v-model="form.contract_type"></static-select>
@@ -151,93 +151,93 @@ export default {
       });
     },
     loadDefaultFees() {
-      // if (!(this.form.customer && this.form.service)) {
-      //   return;
-      // }
-      // if (this.form.customer == "") {
-      //   return;
-      // }
+      if (!(this.form.customer && this.form.service)) {
+        return;
+      }
+      if (this.form.customer == "") {
+        return;
+      }
 
-      // const url =
-      //   "/quotations?customer=" +
-      //   this.form.customer +
-      //   "&service=" +
-      //   this.form.service;
-      // const success = _ => {
-      //   //有客户报价
-      //   if (_.data.data.length > 0) {
-      //     this.form.fees = [];
-      //     const fee = _.data.data[0];
-      //     if (fee.service_fee > 0) {
-      //       this.form.fees.push({
-      //         fee_type: _.data.service_fee_code,
-      //         amount: fee.service_fee,
-      //         currency: fee.service_fee_currency,
-      //         request_timing: 1
-      //       });
-      //     }
-      //     if (fee.official_fee > 0) {
-      //       this.form.fees.push({
-      //         fee_type: _.data.official_fee_code,
-      //         amount: fee.official_fee,
-      //         currency: fee.official_fee_currency,
-      //         request_timing: 1
-      //       });
-      //     }
-      //   } else {
-      //     console.log("load service data");
-      //     this.loadDefaultServiceQuotation();
-      //   }
-      // };
-      // this.$axiosGet({
-      //   url: url,
-      //   success
-      // });
+      const url =
+        "/quotations?customer=" +
+        this.form.customer +
+        "&service=" +
+        this.form.service;
+      const success = _ => {
+        //有客户报价
+        if (_.data.data.length > 0) {
+          this.form.fees = [];
+          const fee = _.data.data[0];
+          if (fee.service_fee > 0) {
+            this.form.fees.push({
+              fee_type: _.data.service_fee_code,
+              amount: fee.service_fee,
+              currency: fee.service_fee_currency,
+              request_timing: 1
+            });
+          }
+          if (fee.official_fee > 0) {
+            this.form.fees.push({
+              fee_type: _.data.official_fee_code,
+              amount: fee.official_fee,
+              currency: fee.official_fee_currency,
+              request_timing: 1
+            });
+          }
+        } else {
+          console.log("load service data");
+          this.loadDefaultServiceQuotation();
+        }
+      };
+      this.$axiosGet({
+        url: url,
+        success
+      });
     },
     loadDefaultServiceQuotation() {
-      // const url = "/services/" + this.form.service;
-      // const success = _ => {
-      //   if (_.status) {
-      //     this.form.fees = [];
-      //     const fee = _.services;
-      //     if (fee.service_fee > 0) {
-      //       this.form.fees.push({
-      //         fee_type: fee.service_fee_code,
-      //         amount: fee.service_fee,
-      //         currency: fee.service_fee_currency,
-      //         request_timing: 1
-      //       });
-      //     }
-      //     if (fee.official_fee > 0) {
-      //       this.form.fees.push({
-      //         fee_type: fee.official_fee_code,
-      //         amount: fee.official_fee,
-      //         currency: fee.official_fee_currency,
-      //         request_timing: 1
-      //       });
-      //     }
-      //   }
-      // };
-      // this.$axiosGet({
-      //   url: url,
-      //   success
-      // });
+      const url = "/services/" + this.form.service;
+      const success = _ => {
+        if (_.status) {
+          this.form.fees = [];
+          const fee = _.services;
+          if (fee.service_fee > 0) {
+            this.form.fees.push({
+              fee_type: fee.service_fee_code,
+              amount: fee.service_fee,
+              currency: fee.service_fee_currency,
+              request_timing: 1
+            });
+          }
+          if (fee.official_fee > 0) {
+            this.form.fees.push({
+              fee_type: fee.official_fee_code,
+              amount: fee.official_fee,
+              currency: fee.official_fee_currency,
+              request_timing: 1
+            });
+          }
+        }
+      };
+      this.$axiosGet({
+        url: url,
+        success
+      });
     }
   },
   watch: {
-    // 'form.customer': {
-    //   handler(val) {
-    //       if(val && val.length != 0) {
-    //         if(val[0].contract_type) {
-    //           this.form.contract_type = val[0].contract_type;
-    //         }
-    //         if(val[0].fee_policy) {
-    //           this.form.fee_policy = val[0].fee_policy;
-    //         }
-    //       }
-    //   },
-    //   deep: true,
-    // },
+    'form.customer': {
+      handler(val) {
+          if(val && val.length != 0) {
+            if(val[0].contract_type) {
+              this.form.contract_type = val[0].contract_type;
+            }
+            if(val[0].fee_policy) {
+              this.form.fee_policy = val[0].fee_policy;
+            }
+          }
+      },
+      deep: true,
+    },
     "form.contract_type": {
       handler(val) {
         const obj = {};
