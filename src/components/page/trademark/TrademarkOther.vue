@@ -19,9 +19,9 @@
         <el-form-item label="案件摘要">
           <el-input v-model="form.abstract" type="textarea" placeholder="请填写案件摘要"></el-input>
         </el-form-item>
-        <el-form-item label="摘要附图">
+        <!-- <el-form-item label="摘要附图">
           <upload v-model="form.figure_file" :limit="1" :fileList="figure_file"></upload>
-        </el-form-item>
+        </el-form-item> -->
   </el-form>
 </template>
 <script>
@@ -54,9 +54,9 @@ export default {
         official_status: '',
         start_year:'',
         abstract: '',
-        figure_file: [],
+        // figure_file: [],
       },
-      figure_file: [],
+      // figure_file: [],
       rules: {},
     }
   },
@@ -66,7 +66,7 @@ export default {
   },
   setForm (form) {
     this.$tool.coverObj(this.form, form);
-     this.figure_file = data.figure_file ? data.figure_file : [];
+    //  this.figure_file = data.figure_file ? data.figure_file : [];
   },
   checkForm(callback) {
       let flag = true;

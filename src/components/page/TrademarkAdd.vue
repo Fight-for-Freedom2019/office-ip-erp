@@ -3,11 +3,11 @@
         <el-tabs type="border-card">
         	<el-tab-pane>
             	<span slot="label"><i class="el-icon-information"></i> 商务信息</span>
-				<trademark-bussiness ref="bussiness" :page-type="pageType"></trademark-bussiness>		            
+				      <trademark-bussiness ref="bussiness" :page-type="pageType"></trademark-bussiness>		            
             </el-tab-pane>
             <el-tab-pane>
            		<span slot="label"><i class="el-icon-information"></i> 基本信息</span>
-				<trademark-base ref="base" :page-type="pageType"></trademark-base>		            
+				      <trademark-base ref="base" :page-type="pageType"></trademark-base>		            
             </el-tab-pane>
             <el-tab-pane>
                 <span slot="label"><i class="el-icon-share"></i> 日期&号码</span>
@@ -17,10 +17,10 @@
                 <span slot="label"><i class="el-icon-share"></i> 人员信息</span>
                 <trademark-person ref="person" :page-type="pageType"></trademark-person>
             </el-tab-pane>
-            <el-tab-pane>
+            <!-- <el-tab-pane>
                 <span slot="label"><i class="el-icon-more"></i> 其他信息</span>
                	<trademark-other ref="other" :page-type="pageType"></trademark-other>
-            </el-tab-pane>
+            </el-tab-pane> -->
             <!-- <el-tab-pane v-if="pageType == 'add'">
                 <span slot="label"><i class="el-icon-document"></i> 任务</span>
                 <task :type="pageType" ref="task" category="2" @isTaskChanged="onIsTaskChanged"></task>
@@ -47,7 +47,7 @@ const messageMap =new Map([
 	['person', '请正确填写人员信息',],
 	['other', '请正确填写其他信息',],
 ]); 
-const getKeys = ['bussiness', 'base', 'date', 'person', 'other']; 
+const getKeys = ['bussiness', 'base', 'date', 'person',]; 
 export default {
     name: 'trademarkAdd',
     props: {
@@ -60,7 +60,7 @@ export default {
         return {
           id: '',
           btn_disabled: false,
-		  isTask:false,
+		      isTask:false,
         }
     },
     computed: {
@@ -159,7 +159,7 @@ export default {
         if (this.pageType == "edit" && this.$tool.getObjLength(val) != 0) {
 	        const copy = this.$tool.deepCopy(val);
 	        this.id = copy.id;
-	        this.title = val.serial + "-" + val.title;
+	        // this.title = val.serial + "-" + val.title;
 	        this.$nextTick(_ => {
 	          getKeys.map(_ => this.$refs[_].setForm(copy));
 	        });

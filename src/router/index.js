@@ -480,7 +480,9 @@ const router = new Router({
           name: "PatentNotice",
           component: NoticeCommon,
           meta: {
-            params: {},
+            params: {
+              project_type: '专利',
+            },
             type: "patent"
           }
         },
@@ -526,7 +528,9 @@ const router = new Router({
           name: "TrademarkNotice",
           component: NoticeCommon,
           meta: {
-            params: {},
+            params: {
+              project_type: '商标',
+            },
             type: "trademark"
           }
         },
@@ -554,7 +558,9 @@ const router = new Router({
           name: "CopyrightNotice",
           component: NoticeCommon,
           meta: {
-            params: {},
+            params: {
+              project_type: '版权',
+            },
             type: "copyright"
           }
         },

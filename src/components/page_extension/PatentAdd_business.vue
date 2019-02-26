@@ -32,7 +32,7 @@
       <el-input v-model="form.customer_serial" placeholder="请填写客户案号"></el-input>
     </el-form-item>
     <el-form-item label="服务类型" prop="service">
-      <static-select type="services" v-model="form.service"></static-select>
+      <static-select type="patent_services" v-model="form.service"></static-select>
     </el-form-item>
     <el-form-item label="合同类型" prop="contract_type">
       <static-select type="contract_mode" v-model="form.contract_type"></static-select>
