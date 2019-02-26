@@ -119,6 +119,7 @@ export default {
       dialogVisible: false,
       loadingVisible: false,
       process_id:null,
+      mail_scene: null,
       loadingText: "邮件内容加载中",
       title: "发送邮件",
       id: 0,
@@ -127,8 +128,8 @@ export default {
         subject: [
           { required: true, message: "请输入邮件标题", trigger: "blur" }
         ],
-        recipient: [{  required: true, trigger: "change", message: '请选择收件人或输入邮箱地址',  },
-          { pattern: /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/, message: '请输入正确的邮箱地址' }
+        recipient: [{  required: true, trigger: "change", message: '请选择收件人或输入邮箱地址', type: 'array'  },
+          { pattern: /^((([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6}\,))*(([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})))$/, message: '请输入正确的邮箱地址' }
         ]
       }
     };
@@ -149,7 +150,6 @@ export default {
       return new Promise(resolve => {
         this.$refs.form.validate(valid => {
           if (valid) {
-            console.log(valid)
             resolve(true);
           } else {
             resolve(false);
@@ -228,7 +228,7 @@ export default {
       const url = `/mails/` + id;
       const success = _ => {
         const mail = _.mail;
-        this.mail_scene = mail.main_scene;
+        this.mail_scene = mail.mail_scene;
         this.attachments = mail.attachments ? mail.attachments : [];
         this.$tool.coverObj(this.form, mail, { obj: ["attachments"] });
         this.loadingVisible = false;
@@ -268,18 +268,18 @@ export default {
       }
     },
     getMailForm() {
-      const mail_arr = ["recipient", "cc"];
+      const mail_arr = ["recipient", "cc", "bcc"];
       const mail_form = {};
 
       mail_arr.forEach(_ => {
         let selected = this.$refs[_].getSelected();
-        // selected = selected.map(d=>{
-        // 	if( !d['value'] ) {
-        // 		return {value: d['id'], label: d['name']};
-        // 	}else {
-        // 		return d;
-        // 	}
-        // })
+        selected = selected.map(d=>{
+        	if( !d['value'] ) {
+        		return {id: d['id'], name: d['name']};
+        	}else {
+        		return d;
+        	}
+        })
 
         mail_form[_] = selected;
       });
@@ -300,10 +300,10 @@ export default {
   watch: {
     data(v) {
       this.$tool.coverObj(this.form, v, {
-        obj: ["cc", "recipient", "attachments"]
+        obj: ["cc", "recipient", "bcc", "attachments"]
       });
       this.attachments = v.attachments ? v.attachments : [];
-    }
+    },
   },
   components: {
     Upload,

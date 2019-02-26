@@ -7,8 +7,8 @@
 	            </el-form-item>
 	        </el-col>
 	        <el-col :span="8">
-	            <el-form-item label="订单号" prop="order">
-	                <el-input v-model="form.order" placeholder="请填写订单号"></el-input>
+				<el-form-item label="标题" prop="title">
+	                <el-input v-model="form.title" placeholder="请输入标题"></el-input>
 	            </el-form-item>
 	        </el-col>
 	        <el-col :span="8">
@@ -17,26 +17,23 @@
 	            </el-form-item>
 	        </el-col>
 	    </el-row>
-		<el-form-item label="案件状态" prop="project_stage">
-	        <static-select type="project_stage" v-model="form.project_stage"></static-select>
-	    </el-form-item>
-	    <el-row>
-	        <el-col :span="8">
+		<el-row>
+			<el-col :span="8">
 	            <el-form-item label="地区" prop="area" :rules="{ type: pageType=='add' ? 'array' : 'string',required: true, message: '地区不能为空', trigger: 'change'}">
 	                <region v-model="form.area" :multiple="pageType == 'add'"></region>
 	            </el-form-item>
 	        </el-col>
-	        <el-col :span="8">
-	            <el-form-item label="标题" prop="title">
-	                <el-input v-model="form.title" placeholder="请输入标题"></el-input>
-	            </el-form-item>
-	        </el-col>
+			<el-col :span="8">
+				<el-form-item label="案件状态" prop="project_stage">
+					<static-select type="project_stage" v-model="form.project_stage"></static-select>
+				</el-form-item>
+			</el-col>
 	        <el-col :span="8">
 	            <el-form-item label="子类型" prop="subtype">
 	                <static-select type="trademark_type" v-model="form.subtype"></static-select>
 	            </el-form-item>
 	        </el-col>
-	    </el-row>
+		</el-row>
 	    <el-form-item label="申请人" prop="applicants">
 	        <remote-select type="applicant" v-model="form.applicants" multiple></remote-select>
 	    </el-form-item>
@@ -88,7 +85,6 @@ export default {
 	    serial: '',
         title: '',
         subtype: '',
-        order: '',
         order_serial: '',
         sub_categories: '',
         applicants: [],
@@ -114,7 +110,8 @@ export default {
           const d = p.data;
              if(p.status) {    
             
-                 this.form.abstract_figure = d.file.id;    
+				 this.form.figure_file = d.file.id;  
+				 console.log(d)  
                  this.figure_src = d.file.viewUrl;    
         }else {
             this.$message({message: p.info, type: 'warning'});
@@ -133,7 +130,7 @@ export default {
 		return this.$tool.shallowCopy(this.form, { date: true });
 	},
 	setForm (form) {
-		this.$tool.coverObj(this.form, form);
+		this.$tool.coverObj(this.form, form, {obj:['area','categories','subtype']});
 	},
 	checkForm(callback) {
       let flag = true;
