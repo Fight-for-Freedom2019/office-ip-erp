@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-shrink :title="title" :visible.sync="visibleAuth">
+    <app-shrink :title="title?title:globalTitle" :visible.sync="visibleAuth">
       <span slot="header" style="float: right">
         <el-button
           size="small"
@@ -262,6 +262,9 @@ export default {
     config() {
       const config = map.get(this.type);
       return config ? config : this.type;
+    },
+    globalTitle () {
+      return this.detailBase.title? this.detailBase.title : '';
     },
     divStyle() {
       let s = "";

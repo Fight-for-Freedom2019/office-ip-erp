@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import $tool from '../const/tool.js'
 //登录
 const Login = () => import("@/components/page/Login");
 // INDEX
@@ -488,7 +489,7 @@ const router = new Router({
         },
         {
           path: "/patent/notice/sending",
-          name: "PatentNotice",
+          name: "PatentNoticeSending",
           component: NoticeCommon,
           meta: {
             params: { is_sent: 0 },
@@ -497,7 +498,7 @@ const router = new Router({
         },
         {
           path: "/patent/notice/sent",
-          name: "PatentNotice",
+          name: "PatentNoticeSent",
           component: NoticeCommon,
           meta: {
             params: { is_sent: 1 },
@@ -623,6 +624,17 @@ const router = new Router({
           path: "/finance/renewal_fees/lists",
           name: "RenewalFees",
           component: RenewalFee
+        },
+        {
+          path: "/finance/renewal_fees/about_to_expire",
+          name: "RenewalFeesExpire",
+          component: RenewalFee,
+          meta: {
+            params: {
+              status: 0,
+              deadline: $tool.getDateRange(0, 90),
+            }
+          }
         },
         {
           path: "/finance/renewal_fees/confirmation_sheets",
