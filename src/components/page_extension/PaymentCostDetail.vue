@@ -208,7 +208,7 @@ export default {
     refreshTableData(option) {},
     handleRowClick(row) {},
     checkProjectDetail(row, e, col) {
-      this.$refs.project.show(row.project.id, "edit");
+      this.$refs.project.show(row.project.id, "patent");
     },
     checkFeeDetail(row, e, col) {
       this.dialogFormVisible = true;

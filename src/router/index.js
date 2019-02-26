@@ -175,16 +175,43 @@ const router = new Router({
   // mode: 'history',
   routes: [
     //###重定向###
-    { path: "/", redirect: "/login" },
-    { path: "/index", redirect: "/task/pending" },
-    { path: "/task", redirect: "/task/pending" },
-    { path: "/patents", redirect: "/patent/list" },
-    { path: "/trademarks", redirect: "/trademark/list" },
-    { path: "/copyrights", redirect: "/copyright/list" },
-    { path: "/crm", redirect: "/crm/customers" },
-    { path: "/setting", redirect: "/setting/my" },
+    {
+      path: "/",
+      redirect: "/login"
+    },
+    {
+      path: "/index",
+      redirect: "/task/pending"
+    },
+    {
+      path: "/task",
+      redirect: "/task/pending"
+    },
+    {
+      path: "/patents",
+      redirect: "/patent/list"
+    },
+    {
+      path: "/trademarks",
+      redirect: "/trademark/list"
+    },
+    {
+      path: "/copyrights",
+      redirect: "/copyright/list"
+    },
+    {
+      path: "/crm",
+      redirect: "/crm/customers"
+    },
+    {
+      path: "/setting",
+      redirect: "/setting/my"
+    },
     // { path: "/finance", redirect: "/finance/points/lists" },
-    { path: "/report", redirect: "/report/task" },
+    {
+      path: "/report",
+      redirect: "/report/task"
+    },
     //###重定向###
     {
       path: "/login",
@@ -195,9 +222,14 @@ const router = new Router({
       path: "/index",
       name: "Index",
       component: Index,
-      meta: { requiresAuth: true }, //进入路由需要登录验证
-      children: [
-        { path: "/statistics", name: "Home", component: Home },
+      meta: {
+        requiresAuth: true
+      }, //进入路由需要登录验证
+      children: [{
+          path: "/statistics",
+          name: "Home",
+          component: Home
+        },
         //################### CRM router begin ################
         {
           path: "/crm/customers",
@@ -464,7 +496,9 @@ const router = new Router({
           name: "PattentList",
           component: PatentList,
           meta: {
-            params: { status: 1 }
+            params: {
+              status: 1
+            }
           }
         },
         {
@@ -472,7 +506,9 @@ const router = new Router({
           name: "PatentDraftbox",
           component: PatentList,
           meta: {
-            params: { status: 0 }
+            params: {
+              status: 0
+            }
           }
         },
         {
@@ -486,19 +522,23 @@ const router = new Router({
         },
         {
           path: "/patent/notice/sending",
-          name: "PatentNotice",
+          name: "PatentNoticeSending",
           component: NoticeCommon,
           meta: {
-            params: { is_sent: 0 },
+            params: {
+              is_sent: 0
+            },
             type: "patent"
           }
         },
         {
           path: "/patent/notice/sent",
-          name: "PatentNotice",
+          name: "PatentNoticeSent",
           component: NoticeCommon,
           meta: {
-            params: { is_sent: 1 },
+            params: {
+              is_sent: 1
+            },
             type: "patent"
           }
         },
@@ -510,7 +550,9 @@ const router = new Router({
           name: "TrademarkList",
           component: TrademarkList,
           meta: {
-            params: { status: 1 }
+            params: {
+              status: 1
+            }
           }
         },
         {
@@ -518,7 +560,9 @@ const router = new Router({
           name: "TrademarkDraftbox",
           component: TrademarkList,
           meta: {
-            params: { status: 0 }
+            params: {
+              status: 0
+            }
           }
         },
         {
@@ -538,7 +582,9 @@ const router = new Router({
           name: "CopyrightList",
           component: CopyrightList,
           meta: {
-            params: { status: 1 }
+            params: {
+              status: 1
+            }
           }
         },
         {
@@ -546,7 +592,9 @@ const router = new Router({
           name: "CopyrightDraftbox",
           component: CopyrightList,
           meta: {
-            params: { status: 0 }
+            params: {
+              status: 0
+            }
           }
         },
         {
@@ -727,13 +775,21 @@ const router = new Router({
           name: "Definitions",
           component: SettingDefinitions
         },
-        { path: "/setting/flow/flows", name: "Flows", component: SettingFlows },
+        {
+          path: "/setting/flow/flows",
+          name: "Flows",
+          component: SettingFlows
+        },
         {
           path: "/setting/flow/actions",
           name: "Actions",
           component: SettingActions
         },
-        { path: "/setting/flow/forms", name: "Forms", component: SettingForm },
+        {
+          path: "/setting/flow/forms",
+          name: "Forms",
+          component: SettingForm
+        },
         {
           path: "/setting/flow/fields",
           name: "Fields",
