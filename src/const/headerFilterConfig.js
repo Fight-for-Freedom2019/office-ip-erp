@@ -980,10 +980,10 @@ const map = new Map([
     "fees",
     [{
         type: "remote_select",
-        id: "user",
+        id: "customer",
         name: "客户",
         data_key: "data",
-        url: "/users"
+        url: "/customers"
       },
       {
         type: "text",
@@ -1045,7 +1045,7 @@ const map = new Map([
       },
       {
         type: "date",
-        id: "project.entrusting_time",
+        id: "entrusting_time",
         name: "委案日"
       },
       {
@@ -1155,8 +1155,8 @@ const map = new Map([
         type: "remote_select",
         id: "serial",
         name: "请款单号",
-        data_key: "data",
-        url: "/invoices"
+        data_key: "invoices",
+        url: "/invoices?listOnly=1&listRows=100"
       },
       {
         type: "remote_select",
@@ -1169,7 +1169,7 @@ const map = new Map([
         id: "user",
         name: "请款对象",
         data_key: "data",
-        url: "/users"
+        url: "/customers"
       },
       {
         type: "date",
