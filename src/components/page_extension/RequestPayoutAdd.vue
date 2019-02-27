@@ -3,9 +3,9 @@
     <el-form label-width="120px" :model="form" :rules="rules" ref="form">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="选择客户" prop="user">
-            <!--<remote-select v-if="fee_type === 'pay'" type="supplier" :pageType="type" v-model="form.user"></remote-select>-->
-            <remote-select type="customer" :pageType="type" v-model="form.user"></remote-select>
+          <el-form-item :label="label" prop="user">
+            <remote-select v-if="fee_type === 'pay'" type="supplier" :pageType="type" v-model="form.user"></remote-select>
+            <remote-select type="customer" v-else :pageType="type" v-model="form.user"></remote-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -147,14 +147,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["detailId"])
-    /*label:function () {
+    ...mapGetters(["detailId"]),
+    label:function () {
         if(this.fee_type === "pay") {
           return "选择供应商"
         }else {
           return "选择客户"
         }
-      }*/
+      }
   },
   methods: {
     save(type, id) {
@@ -204,15 +204,15 @@ export default {
       if (val == "add") {
         this.form.project = this.detailId;
       }
-    }
-    /*fee_type: {
+    },
+    fee_type: {
         handler(val) {
           this.$nextTick(_=>{
             this.form.project = this.detailId;
           })
         },
         immediate: true
-      }*/
+      }
   },
   mounted() {
     this.coverObj(this.rowData);
