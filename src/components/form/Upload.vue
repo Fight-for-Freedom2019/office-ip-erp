@@ -74,9 +74,8 @@
         },
         handleUploadSuccess (p, f, fl) {
           this.$emit("uploadSuccess",p,f,fl);
-          // console.log(fl);
-          let file_ids;
           if(p.status) {
+          let file_ids= [];
             const arr = [];
             const id = p.data.file.id;
             const copy = [...this.value];
@@ -88,6 +87,7 @@
             this.$nextTick(_=>{
               file_ids = this.$tool.splitObj(fl, 'id');
               file_ids.forEach(v=>{
+                if(v == undefined ) return; /* 当遍历到undefined时跳出本次循环 */
                 if(arr[v]) {
                   this.$message({message: '有重复的文件,请核对是否正确', type: 'warning'});
                 }
