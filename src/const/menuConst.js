@@ -359,6 +359,12 @@ const financeMenu = [
       },
       {
         type: "item",
+        text: "即将到期",
+        path: "/finance/renewal_fees/about_to_expire",
+        icon: "iconfont el-icon-my-monitor"
+      },
+      {
+        type: "item",
         text: "年费评估单",
         path: "/finance/renewal_fees/confirmation_sheets",
         icon: "iconfont el-icon-my-renewal-estimate"

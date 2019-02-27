@@ -241,6 +241,38 @@ export default {
 			return result;
 		}
 	},
+	getDateRange (startCount, endCount) {
+		const arr = [];
+		let count = null;
+		if(startCount == undefined && endCount == undefined){
+			return;
+		}else if (startCount && endCount == undefined) {
+			count = [startCount, ""]
+		}else if (startCount == undefined && endCount) {
+			count = [endCount, ""]
+		}else{
+			count = [startCount , endCount].sort();
+		}
+
+		for (let k  of  count) {
+			let dd, y, m, d = "";
+			if(k !== "") {
+				dd = new Date();
+				dd.setDate(dd.getDate() + k);//获取天startCount, endeCount前后的日期
+				y = dd.getFullYear();
+				m = (dd.getMonth() + 1) < 10 ? "0" + (dd.getMonth() + 1) : (dd.getMonth() + 1);//获取当前月份的日期，不足10补0
+				d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();//获取当前几号，不足10补0
+				arr.push(y + "-" + m + "-" + d);
+			}else {
+				if(count[0] && count[0] < 0 ) {
+					arr.push(k);
+				}else{
+					arr.unshift(k);
+				}
+			}
+		}
+		return arr.join(',')
+	},
 	// 数组去重 (普通数组 和对象数组)
  	rmDuplicate (arr) {
 

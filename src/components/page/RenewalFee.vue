@@ -35,6 +35,7 @@
 			<remote-select type="patent" v-model="patent" ref="patent"></remote-select>
 			<el-button type="primary" @click="batchAdd" :loading="loading" style="margin-top: 10px;">{{ loading ? '添加中...' : '确认添加' }}</el-button>
 		</el-dialog>
+		<common-detail ref="detail"></common-detail>
 	</div>
 </template>
 <script>
@@ -42,20 +43,18 @@ import TableComponent from '@/components/common/TableComponent'
 import Pop from '@/components/page_extension/RenewalFee_pop'
 import RemoteSelect from '@/components/form/RemoteSelect'
 import JumpSelect from '@/components/form/JumpSelect'
+import CommonDetail from '@/components/page_extension/Common_detail'
 import {mapActions} from 'vuex'
 
 const URL = '/renewal_fees'
 const URL2 = '/renewal_confirmation_sheets'
+const typeMap = new Map([
+	['专利', 'patent'],
+	['商标', 'trademark'],
+	['版权', 'copyright'],
+])
 export default {
 	name: 'renewalFee',
-	props: {
-		defaultParams: {
-			type: Object,
-			default () {
-				return {};
-			}
-		}
-	},	
 	data () {
 		const statusArr = [ [0, '年费监控中'], [1, '年费评估中'], [2, '年费评估缴纳'], [3, '年费评估放弃'] ];
 		const statusMap = new Map(statusArr);
@@ -120,8 +119,8 @@ export default {
 					{ type: 'selection' },
 					{ type: 'text', label: '案件类型', prop: 'project_type',render_obj:"project", render_simple: 'name', width: '100', render_header:true},
 					{ type: 'text', label: '国家', prop: 'area',render_obj:"project", render_simple: 'name', width: '80', render_header:true},
-					{ type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '185'},
-					{ type: 'text', label: '案件名称', prop: 'title',  render_key: 'project', render_simple: 'title', width: '200'},
+					{ type: 'text-btn', label: '案号', prop: 'serial', render_text_btn: (row)=>{return row.project.serial}, click:this.handleCaseDetail, width: '185'},
+					{ type: 'text-btn', label: '案件名称', prop: 'title', render_text_btn: (row)=>{return row.project.title}, click:this.handleCaseDetail, width: '200'},
 					{ type: 'text', label: '客户', prop: 'customer',  render_obj: 'project', render_simple: 'name', width: '200', render_header:true},
 					{ type: 'text', label: '费用对象', prop: 'user', render_simple: 'name', width: '150'},
 					{ type: 'text', label: '申请号', prop: 'application_number',  render_key: 'project', render_simple: 'application_number', width: '135'},
@@ -166,6 +165,12 @@ export default {
 			tableData: [],
 		};
 	},
+	computed: {
+	  defaultParams() {
+      const params = this.$route.meta.params;
+      return params ? params : {};
+    },
+	},
 	methods: {
     ...mapActions([
       'refreshUser',
@@ -186,11 +191,18 @@ export default {
     		complete: _=>{ this.loading4 = false },
     		
     	}) 
-    },	
+		},	
+		handleCaseDetail (row) {
+			if(row) {
+				const type = typeMap.get(row.project_type);
+				this.$refs.detail.show(row.project.id, type)
+			}
+		}, 
 		addPop () {
 			this.$refs.pop.show();
 		},
-		editPop (row) {
+		editPop (row, event, column) {
+			if(column.property == 'serial'|| column.property == 'title') return false;
 			this.$refs.pop.show('edit',row);
 		},
 		refresh () {
@@ -269,7 +281,7 @@ export default {
 	},
 	mounted () {
 		this.refresh();
-		this.refreshRoeData();
+		// this.refreshRoeData();
 	},
 	watch: {
 		status () {
@@ -277,10 +289,11 @@ export default {
 		}
 	},
 	components: { 
-    	TableComponent, 
+    TableComponent, 
 		Pop,
 		RemoteSelect,
 		JumpSelect,
+		CommonDetail,
 	}
 } 
 </script>

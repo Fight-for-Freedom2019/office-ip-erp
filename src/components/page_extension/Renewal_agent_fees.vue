@@ -28,14 +28,14 @@ export default {
                             prop: 'customer',
                             render_simple: "name",
                             min_width: '150',
-                            render_header: true
+                            
                         },
-                        {type: 'text', label: '标题', prop: 'title', render_key: 'project', render_simple: 'title', width: '100', render_header: true},
-                        {type: 'text', label: '申请号', prop: 'application_number', render_key: 'project', render_simple: 'application_number',width: '100', render_header: true},
-                        {type: 'text', label: '申请日', prop: 'application_date', render_key: 'project', render_simple: 'application_date', width: '100', render_header: true},
-                        {type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '100', render_header: true},
-                        {type: 'text', label: '订单号', prop: 'order.serial', width: '100', render_header: true},
-                        {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '100', render_header: true},
+                        {type: 'text', label: '标题', prop: 'title', render_key: 'project', render_simple: 'title', width: '100',},
+                        {type: 'text', label: '申请号', prop: 'application_number', render_key: 'project', render_simple: 'application_number',width: '100', },
+                        {type: 'text', label: '申请日', prop: 'application_date', render_key: 'project', render_simple: 'application_date', width: '100', },
+                        {type: 'text', label: '案号', prop: 'serial', render_key: 'project', render_simple: 'serial', width: '100', },
+                        {type: 'text', label: '订单号', prop: 'order.serial', width: '100', },
+                        {type: 'text', label: '费用名称', prop: 'fee_code.name', width: '100', },
                         {
                             type: 'text', label: '费用类型', prop: 'fee_code', width: '100', render: (h, item) => {
                                 let name = "";
@@ -46,19 +46,18 @@ export default {
                                 });
                                 return h("span", name);
                             },
-                            render_header: true
+                            
                         },
                         {type: 'text', label: '金额', prop: 'amount', width: '100'},
-                        {type: 'text', label: '币别', prop: 'currency', width: '80', render_header: true},
+                        {type: 'text', label: '币别', prop: 'currency', width: '80', },
                         {type: 'text', label: '汇率', prop: 'roe', width: '80'},
                         {type: 'text', label: '人民币', prop: 'rmb_amount', width: '100'},
-                        {type: 'text', label: '费用期限', prop: 'deadline', width: '100', render_header: true},
+                        {type: 'text', label: '费用期限', prop: 'deadline', width: '100', },
                         {
                             type: 'text',
                             label: '费用策略',
                             prop: 'policy',
                             width: '100',
-                            render_header: true,
                             render: (h, item) => {
                                 let name = "";
                                 config.get("policy").options.map(function (o) {
@@ -79,7 +78,7 @@ export default {
                                 });
                                 return h("span", name);
                             },
-                            render_header: true
+                            
                         },
                         {
                             type: 'text',
@@ -95,9 +94,9 @@ export default {
                                 });
                                 return h("span", name);
                             },
-                            render_header: true
+                            
                         },
-                        {type: 'text', label: '备注', prop: 'remark', width: '100', render_header: true},
+                        {type: 'text', label: '备注', prop: 'remark', width: '100', },
 			]	
 		}
 	},

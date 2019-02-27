@@ -4,66 +4,66 @@
       <branch v-model="form.organization_unit" count-type="trademark"></branch>
       <!-- <span v-else>{{ branchName ? branchName : '暂未归属某个部门' }}</span> -->
     </el-form-item>
-    <el-form-item label="产品分类">
+    <!-- <el-form-item label="产品分类">
       <product v-model="form.products" count-type="patent" multiple></product>
     </el-form-item>
     <el-form-item label="技术分类">
       <classification v-model="form.classification" count-type="patent"></classification>
-    </el-form-item>
+    </el-form-item>-->
     <el-row>
       <el-col :span="8">
         <el-form-item label="代理人">
-          <remote-select type="user" v-model="form.agent" add-type="user"></remote-select>
+          <jump-select type="user" v-model="form.agent" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
-      <el-col :span="8">
-         <el-form-item label="代理人助理">
-          <remote-select type="user" v-model="form.assistant"></remote-select>
+      <!-- <el-col :span="8">
+        <el-form-item label="代理人助理">
+          <jump-select type="user" v-model="form.assistant"></jump-select>
         </el-form-item>
-      </el-col>
+      </el-col>-->
       <el-col :span="8">
         <el-form-item label="对外代理人">
-          <remote-select type="user" v-model="form.representative" add-type="user"></remote-select>
+          <jump-select type="user" v-model="form.representative" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-       <!--  <el-form-item label="派案人">
-          <remote-select type="user" v-model="form.assigner" add-type="user"></remote-select>
-        </el-form-item> -->
+        <el-form-item label="派案人">
+          <jump-select type="user" v-model="form.assigner" add-type="user"></jump-select>
+        </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label="初审人">
-          <remote-select type="user" v-model="form.first_reviewer" add-type="user"></remote-select>
+          <jump-select type="user" v-model="form.first_reviewer" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="复核人">
-          <remote-select type="user" v-model="form.final_reviewer" add-type="user"></remote-select>
+          <jump-select type="user" v-model="form.final_reviewer" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <!-- <el-form-item label="财务">
-          <remote-select type="user" v-model="form.finance" add-type="user"></remote-select>
-        </el-form-item> -->
+        <el-form-item label="财务">
+          <jump-select type="user" v-model="form.finance" add-type="user"></jump-select>
+        </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
         <el-form-item label="顾问">
-          <remote-select type="user" v-model="form.consultant" add-type="user"></remote-select>
+          <jump-select type="user" v-model="form.consultant" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="销售">
-          <remote-select type="user" v-model="form.sales" add-type="user"></remote-select>
+          <jump-select type="user" v-model="form.sales" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <!-- <el-form-item label="流程">
-          <remote-select type="user" v-model="form.flow" add-type="user"></remote-select>
-        </el-form-item> -->
+        <el-form-item label="流程">
+          <jump-select type="user" v-model="form.flow" add-type="user"></jump-select>
+        </el-form-item>
       </el-col>
     </el-row>
   </el-form>
@@ -75,6 +75,7 @@ import Product from "@/components/form/Product";
 import Classification from "@/components/form/Classification";
 import StaticSelect from "@/components/form/StaticSelect";
 import RemoteSelect from "@/components/form/RemoteSelect";
+import JumpSelect from "@/components/form/JumpSelect";
 
 export default {
   name: "trademarkPerson",
@@ -82,15 +83,18 @@ export default {
     return {
       form: {
         organization_unit: "",
-        products: [],
-        classification: "",
+        // products: [],
+        // classification: "",
         agent: "",
-        assistant: "",
+        // assistant: "",
+        representative: "",
+        assigner: "",
         first_reviewer: "",
         final_reviewer: "",
-        representative: "",
+        finance: "",
         consultant: "",
         sales: "",
+        flow: ""
       }
     };
   },
@@ -112,7 +116,8 @@ export default {
     Product,
     Classification,
     StaticSelect,
-    RemoteSelect
+    RemoteSelect,
+    JumpSelect
   }
 };
 </script>

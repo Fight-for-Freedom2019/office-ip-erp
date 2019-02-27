@@ -133,7 +133,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="renderForm">确定</el-button>
+            <el-button type="primary" @click="renderForm('new')">确定</el-button>
             <el-button @click="()=>{showAppendForm = false}">取消</el-button>
           </el-form-item>
         </el-form>
@@ -220,6 +220,7 @@ export default {
       fileListUrl: "",
       fileType: "",
       data: {},
+      defaultData:{},
       save_type: "add",
       task_id: "",
       options_collection: new Map(),
@@ -671,7 +672,7 @@ export default {
       this.$f ? this.$f.submit() : "";
     },
 
-    renderForm() {
+    renderForm(type) {
       this.showAppendForm = false;
       // 直接执行setTimeout中的代码会有阻塞...
       setTimeout(() => {
@@ -695,7 +696,7 @@ export default {
           }
           this.formList.push({ id: item, name: name });
           this.formType = item;
-          this.loadFormData();
+          this.loadFormData(type);
         });
         this.loading = false;
         // console.timeEnd("耗时")
@@ -703,7 +704,7 @@ export default {
     },
 
     // 点击确定时加载表单生成规则
-    loadFormData() {
+    loadFormData(type) {
       let target = null;
       let rule = null;
       if (String(this.formType).length > 6) {
@@ -716,17 +717,21 @@ export default {
 
       this.rules = handlePlaceholder(rule);
       this.saveRules.set(this.formType,this.rules);
-      this.paddingData(this.rules);
+      this.paddingData(this.rules,type);
       this.mergeRule(this.rules);
       this.createForm();
       this.$f.submit();
     },
 
-    // TODO 数据填充可能会有问题
     // 填充数据
-    paddingData(rules) {
-      let data = this.data?this.data[`table${this.formType}`]:null;
-      if (!data) return;
+    paddingData(rules,type) {
+      let data;
+      if(type === 'new') {
+        data = this.defaultData;
+      }else {
+        data = this.data?this.data[`table${this.formType}`]:null;
+        if (!data) return;
+      }
       rules.forEach(rule => {
         //console.log("rule",rule);
         if ((rule.rule && rule.rule._vm) || rule.vm) {
@@ -910,6 +915,33 @@ export default {
       // this.options_collection.clear();
       this.saveRules.clear();
       this.count = 0;
+      this.defaultData = {};
+    },
+    transformOption(a){
+      let result = [];
+      a.forEach((o)=>{
+        result.push({value:o.id,label:o.name})
+      })
+      return result
+    },
+    createNewObj(obj,excludes){
+      let newObj = {};
+      for (let key in obj){
+        if(obj.hasOwnProperty(key)) {
+          if(!excludes.includes(key)) {
+            newObj[key] = obj[key]
+          }
+        }
+      }
+      return newObj
+    },
+    getDefaultData(_){
+      this.defaultData = this.createNewObj(_.data,["task","tables","id"]);
+      let len = this.defaultData.poa.length;
+      if(len > 0) {
+        this.options_collection.set("poa",[...this.transformOption(this.defaultData.poa)]);
+        this.defaultData.poa = [this.defaultData.poa.shift().id];
+      }
     },
     getData() {
       // console.time("耗时")
@@ -917,6 +949,7 @@ export default {
       this.getOptions();
       const success = _ => {
         this.data = JSON.parse(_.data.tables);
+        this.getDefaultData(_);
         console.log("put",this.data);
         if (_.data.id) {
           this.save_type = "edit";

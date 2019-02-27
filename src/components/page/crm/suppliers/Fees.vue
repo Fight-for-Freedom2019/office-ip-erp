@@ -146,7 +146,7 @@ export default {
             label: "收款人",
             prop: "user",
             render_simple: "name",
-            min_width: "100"
+            min_width: "190"
             // render_header: true
           },
 

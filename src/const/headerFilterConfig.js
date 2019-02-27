@@ -1156,7 +1156,7 @@ const map = new Map([
         id: "serial",
         name: "请款单号",
         data_key: "invoices",
-        url: "/invoices&listOnly=1"
+        url: "/invoices?listOnly=1&listRows=100"
       },
       {
         type: "remote_select",

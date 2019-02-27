@@ -130,6 +130,7 @@ const nodePermissionMap = new Map([
   ["/finance/outgo/payments/btn/delete", "Pages.Invoices.Delete"],
   ["/finance/renewal_fees", "Pages.RenewalFees.Index"],
   ["/finance/renewal_fees/lists", "Pages.RenewalFees.Index"],
+  ["/finance/renewal_fees/about_to_expire", "Pages.RenewalFees.Index"],
   ["/finance/renewal_fees/btn/sheet", "Pages.ConfirmationSheets.Save"],
   ["/finance/renewal_fees/btn/sheet/create", "Pages.ConfirmationSheets.Save"],
   [
