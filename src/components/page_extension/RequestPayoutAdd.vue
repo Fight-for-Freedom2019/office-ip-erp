@@ -147,14 +147,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["detailId"]),
+    ...mapGetters(["detailId", "detail_customer"]),
     label:function () {
         if(this.fee_type === "pay") {
           return "选择供应商"
         }else {
           return "选择客户"
         }
-      }
+      },
+    defaultCustomer () {
+      return this.detail_customer && this.detail_customer.length != 0 ? 
+      { "id": this.detail_customer[0].id, "name": this.detail_customer[0].name } : {}
+    },
   },
   methods: {
     save(type, id) {
@@ -203,16 +207,30 @@ export default {
     pageType(val) {
       if (val == "add") {
         this.form.project = this.detailId;
+        this.$nextTick(()=>{
+          this.form.user = this.defaultCustomer;
+        })
       }
     },
     fee_type: {
-        handler(val) {
-          this.$nextTick(_=>{
-            this.form.project = this.detailId;
+      handler(val) {
+        this.$nextTick(_=>{
+          this.form.project = this.detailId;
+          this.$nextTick(()=>{
+            this.form.user = this.defaultCustomer;
           })
-        },
-        immediate: true
-      }
+        })
+      },
+      immediate: true
+    },
+    detailId (val) {
+      this.$nextTick(_=>{
+        this.form.project = val;
+      })
+    },
+    defaultCustomer (val) {
+      this.form.user = val
+    },
   },
   mounted() {
     this.coverObj(this.rowData);
