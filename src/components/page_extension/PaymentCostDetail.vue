@@ -28,7 +28,11 @@
 import CommonDetail from "@/components/page_extension/Common_detail";
 // import TableComponent from '@/components/common/TableComponent'
 import Config from "@/const/selectConfig";
-
+const PROJECT_TYPE = new Map([
+  ["专利","patent"],
+  ["商标","trademark"],
+  ["版权","copyright"],
+])
 const config = new Map(Config);
 export default {
   name: "PaymentCostDetail",
@@ -208,7 +212,7 @@ export default {
     refreshTableData(option) {},
     handleRowClick(row) {},
     checkProjectDetail(row, e, col) {
-      this.$refs.project.show(row.project.id, "edit");
+      this.$refs.project.show(row.project.id, PROJECT_TYPE.get(row.project.project_type.name));
     },
     checkFeeDetail(row, e, col) {
       this.dialogFormVisible = true;
