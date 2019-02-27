@@ -74,20 +74,20 @@ export default {
           type: "text",
           label: "费用名称",
           prop: "name",
-          min_width: "145"
+          min_width: "110"
         },
         {
           type: "text",
           label: "费用对象",
           prop: "user",
           render_simple: "name",
-          width: "120"
+          width: "110"
         },
         {
           type: "text",
           label: "金额",
           prop: "amount",
-          width: "90",
+          width: "120",
           render: (h, item, row) => {
             return h("span", `${item}${row.currency}`);
           }
@@ -102,7 +102,7 @@ export default {
           type: "text",
           label: "人民币",
           prop: "rmb_amount",
-          width: "70"
+          width: "100"
         },
         // { type: "text", label: "付款日期", prop: "payment_time", width: "100" },
         {

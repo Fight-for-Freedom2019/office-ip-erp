@@ -3,7 +3,7 @@
     <el-form label-width="120px" :model="form" :rules="rules" ref="form">
       <el-row>
         <el-col :span="24">
-          <el-form-item :label="label" prop="user">
+          <el-form-item label="费用对象" prop="user">
             <remote-select v-if="fee_type === 'pay'" type="supplier" :pageType="type" v-model="form.user"></remote-select>
             <remote-select type="customer" v-else :pageType="type" v-model="form.user"></remote-select>
           </el-form-item>
@@ -147,14 +147,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["detailId"]),
-    label:function () {
-        if(this.fee_type === "pay") {
-          return "选择供应商"
-        }else {
-          return "选择客户"
-        }
-      }
+    ...mapGetters(["detailId", "detail_customer"]),
+    // label:function () {
+    //     if(this.fee_type === "pay") {
+    //       return "选择供应商"
+    //     }else {
+    //       return "选择客户"
+    //     }
+    //   },
+    defaultCustomer () {
+      return this.detail_customer && this.detail_customer.length != 0 ? 
+      { "id": this.detail_customer[0].id, "name": this.detail_customer[0].name } : {}
+    },
   },
   methods: {
     save(type, id) {
@@ -203,16 +207,30 @@ export default {
     pageType(val) {
       if (val == "add") {
         this.form.project = this.detailId;
+        this.$nextTick(()=>{
+          this.form.user = this.defaultCustomer;
+        })
       }
     },
     fee_type: {
-        handler(val) {
-          this.$nextTick(_=>{
-            this.form.project = this.detailId;
+      handler(val) {
+        this.$nextTick(_=>{
+          this.form.project = this.detailId;
+          this.$nextTick(()=>{
+            this.form.user = this.defaultCustomer;
           })
-        },
-        immediate: true
-      }
+        })
+      },
+      immediate: true
+    },
+    detailId (val) {
+      this.$nextTick(_=>{
+        this.form.project = val;
+      })
+    },
+    defaultCustomer (val) {
+      this.form.user = val
+    },
   },
   mounted() {
     this.coverObj(this.rowData);
