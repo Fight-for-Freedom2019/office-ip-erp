@@ -19,7 +19,7 @@
         add-type="contact"
       ></remote-select>
     </el-form-item>
-    <el-form-item label="技术联系人">
+    <!-- <el-form-item label="技术联系人">
       <remote-select
         type="contacts"
         :page-type="type"
@@ -27,7 +27,7 @@
         :para="customerParam"
         add-type="contact"
       ></remote-select>
-    </el-form-item>
+    </el-form-item>-->
     <el-form-item label="客户案号" prop="customer_serial">
       <el-input v-model="form.customer_serial" placeholder="请填写客户案号"></el-input>
     </el-form-item>
@@ -225,18 +225,18 @@ export default {
     }
   },
   watch: {
-    'form.customer': {
+    "form.customer": {
       handler(val) {
-          if(val && val.length != 0) {
-            if(val[0].contract_type) {
-              this.form.contract_type = val[0].contract_type;
-            }
-            if(val[0].fee_policy) {
-              this.form.fee_policy = val[0].fee_policy;
-            }
+        if (val && val.length != 0) {
+          if (val[0].contract_type) {
+            this.form.contract_type = val[0].contract_type;
           }
+          if (val[0].fee_policy) {
+            this.form.fee_policy = val[0].fee_policy;
+          }
+        }
       },
-      deep: true,
+      deep: true
     },
     "form.contract_type": {
       handler(val) {

@@ -66,8 +66,10 @@ export default {
           {
             type: "text",
             label: "客户",
-            prop: "invoice.customer.name",
+            prop: "user",
             min_width: "178",
+            render_obj: "invoice",
+            render_simple: "name",
             render_header: true
           },
           {

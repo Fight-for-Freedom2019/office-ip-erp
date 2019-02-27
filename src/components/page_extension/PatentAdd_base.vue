@@ -145,7 +145,7 @@
         <span v-else>暂无可选项</span>
     </el-form-item>-->
     <el-form-item label="案件标签">
-      <remote-select type="tags" v-model="form.tags" multiple></remote-select>
+      <jump-select type="tags" v-model="form.tags" multiple></jump-select>
     </el-form-item>
 
     <!-- <el-form-item label="摘要">

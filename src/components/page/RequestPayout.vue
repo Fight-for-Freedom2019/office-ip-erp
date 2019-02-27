@@ -90,10 +90,11 @@ export default {
         merge: [
           { col: 2, key: "user.id", prop: "user" },
           { col: 3, key: "project.id", prop: "project.serial" },
-          { col: 4, key: "project.id", prop: "project.title" },
-          { col: 11, key: "project.id", prop: "official_sum_currency" },
-          { col: 12, key: "project.id", prop: "service_sum_currency" },
-          { col: 13, key: "project.id", prop: "sum_currency" }
+          { col: 4, key: "project.id", prop: "project.subtype.id" },
+          { col: 5, key: "project.id", prop: "project.title" },
+          { col: 12, key: "project.id", prop: "official_sum_currency" },
+          { col: 13, key: "project.id", prop: "service_sum_currency" },
+          { col: 14, key: "project.id", prop: "sum_currency" }
         ],
         search_placeholder: "",
         rowClick: this.handleRowClick,
@@ -137,6 +138,15 @@ export default {
             type: "text",
             label: "案号",
             prop: "project.serial",
+            width: "178"
+            // render_header: true
+          },
+          {
+            type: "text",
+            label: "案件类型",
+            render_simple:"name",
+            prop: "subtype",
+            render_obj:"project",
             width: "178"
             // render_header: true
           },
