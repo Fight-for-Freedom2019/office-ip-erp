@@ -72,8 +72,8 @@
           // content = content.replace(/<font>/g,"");
           // content = content.replace(/<\/font>/g,"");
           // content = content.replace(/<xml>[\s\S]*?<\/xml>/ig, '')
-
-          content = content.replace(/<\/?SPANYES[^>]*>|(face="楷体")/gi, "");
+          console.log(content);
+          /*content = content.replace(/<\/?SPANYES[^>]*>|(face="楷体")/gi, "");
           content = content.replace(/<\/?font[^>]*>/gi, "");
           content = content.replace(/<\/?body[^>]*>/gi, "");
           content = content.replace(/<\/?span[^>]*>/gi, "");
@@ -87,8 +87,15 @@
           content = content.replace(/\s/gi, "");
           content = content.replace(/\n(\n)*( )*(\n)*\n/gi, '\n');
           content = content.replace(/<head>[\s\S]*<\/head>/g, '');
-          content = content.replace(/<html(\S*)"\>/g, '');
-          // console.log(content);
+          content = content.replace(/<html(\S*)"\>/g, '');*/
+          content = content.replace(/<!--(\w|\W)+?-->/gi, "");
+          content = content.replace(/<title>(\w|\W)+?<\/title>/gi, "");
+          content = content.replace(/\s?class=\w+/gi, "");
+          content = content.replace(/\s+style='[^']+'/gi, "");
+          content = content.replace(/<(meta|link|\/?o:|\/?style|\/?font|\/?strong|\/?st\d|\/?head|\/?html|body|\/?body|\/?span|!\[)[^>]*?>/gi, "");
+          content = content.replace(/(<[^>]+>)+ (<\/\w+>)+/gi, "");
+          content = content.replace(/\s+v:\w+=""[^""]+""/gi, "");
+          console.log(content);
 
           return content
         }
