@@ -215,7 +215,8 @@ const panelKeys = [
   "renewal_estimate",
   "renewal_fee",
   "postpone",
-  "bonus_report"
+  "bonus_report",
+  "process_assign",
 ];
 
 export default {
