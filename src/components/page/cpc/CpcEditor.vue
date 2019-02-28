@@ -920,6 +920,8 @@ export default {
       this.saveRules.clear();
       this.count = 0;
       this.defaultData = {};
+      this.attachments = [];
+      this.notices = [];
     },
     transformOption(a){
       let result = [];
