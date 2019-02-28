@@ -19,7 +19,7 @@
         <el-form-item label="或从已上传的文件中选择要转档的文件">
           <el-select v-model="selectFile" placeholder="请选择">
             <el-option
-                v-for="item in amendments"
+                v-for="item in attachments"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id">
@@ -100,7 +100,7 @@
       };
     },
     props: {
-      amendments: {
+      attachments: {
         type: Array,
         default() {
           return [];

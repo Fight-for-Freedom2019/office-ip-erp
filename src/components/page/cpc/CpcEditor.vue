@@ -92,12 +92,12 @@
           >
             <el-tab-pane label="申请文件" name="application_doc">
               <ul class="attachmentsList">
-                <li v-for="item in amendments" @click="({viewUrl})=>{window.open(viewUrl)}">{{item.name}}</li>
+                <li v-for="item in attachments" style="cursor: pointer;margin-top: 5px;" @click="checkFile(item.viewUrl)">{{item.name}}</li>
               </ul>
             </el-tab-pane>
             <el-tab-pane label="官文" name="official_doc">
               <ul class="noticesList">
-                <li v-for="item in notices" @click="({viewUrl})=>{window.open(viewUrl)}">{{item.name}}</li>
+                <li v-for="item in notices" style="cursor: pointer;margin-top: 5px;" @click="checkFile(item.viewUrl)">{{item.name}}</li>
               </ul>
             </el-tab-pane>
             <!-- <el-tab-pane label="邮件" name="mail"></el-tab-pane> -->
@@ -153,7 +153,7 @@
         <turn-archives
           @hide="hideTurnArchives"
           :otherFormMap="otherFormMap"
-          :amendments="amendments"
+          :attachments="attachments"
           @getTurnArchives="getTurnArchives"
           @turnArchivesFile="turnArchivesFile"
         ></turn-archives>
@@ -227,7 +227,7 @@ export default {
       cpc_id: "",
       count: 0,
       form: {},
-      amendments: [], // 右侧申请文件
+      attachments: [], // 右侧申请文件
       notices: [], // 右侧官文
       saveRules:new Map(),  // 将规则保存起来
       copy_form: [
@@ -351,6 +351,10 @@ export default {
   },
   methods: {
     /*****文件相关 start*****/
+    checkFile(viewUrl){
+      // console.log(viewUrl);
+      window.open(viewUrl);
+    },
     getFileList(result) {
       result.forEach(item => {
         this.detectorRepeat(item.target);
@@ -937,6 +941,7 @@ export default {
     },
     getDefaultData(_){
       this.defaultData = this.createNewObj(_.data,["task","tables","id"]);
+      if(!this.defaultData.poa)return
       let len = this.defaultData.poa.length;
       if(len > 0) {
         this.options_collection.set("poa",[...this.transformOption(this.defaultData.poa)]);
@@ -987,7 +992,7 @@ export default {
     getProject() {
       const success = _ => {
         // console.log(_);
-        this.amendments = _.patent.amendments;
+        this.attachments = _.patent.attachments;
         this.notices = _.patent.notices;
       };
       this.$axiosGet({ url: `/patents/${this.process.project.id}`, success });
