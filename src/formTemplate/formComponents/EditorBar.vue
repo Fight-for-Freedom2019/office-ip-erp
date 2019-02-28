@@ -144,7 +144,7 @@
           }
         }
         this.editor.customConfig.onchange = (html) => {
-          html = html.replace(/\"\s/gi, "\\\" ");
+          // html = html.replace(/\"/gi, "\\\" ");
           this.info_ = html // 绑定当前逐渐地值
           this.$emit('change', this.info_) // 将内容同步到父组件中
         }
