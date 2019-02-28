@@ -13,7 +13,7 @@ function vm(field, label, col = {}, formItemLabel = "",obj) {
         methods:{
             change(val){
                 if(obj){
-                    val?this.add():this.remove();
+                    // val?this.add():this.remove();
                 }
             },
             add(){
