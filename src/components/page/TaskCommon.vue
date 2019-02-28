@@ -120,6 +120,7 @@ export default {
       checkedTest: [],
       currentRow: {},
       remark: "",
+      loadingText: "任务数据加载中",
       deleteId: "",
       batchOperationType: "",
       batchOperationIds: [],
@@ -558,7 +559,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["detailBase", "menusMap", "innerHeight", "userid"]),
+    ...mapGetters(["detailBase", "menusMap", "innerHeight", "userid", 'shrinkLoading']),
     model: {
       get() {
         return this.deleteStatus;
@@ -620,7 +621,8 @@ export default {
       "refreshFlows",
       "refreshAction",
       "refreshProcessDetail",
-      "fillListFilter"
+      "fillListFilter",
+      "onShrinkLoading"
     ]),
     getThreeDateLate(onlyTime = false) {
       let time = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 3);
@@ -750,6 +752,8 @@ export default {
     handleRowClick: _.debounce(function (row) {
         // 使用防抖函数，300ms内不多次触发
         this.currentRow = row;
+         this.onShrinkLoading(this.loadingText);
+        this.refreshProcessDetail({id: row.id});
         this.$refs.taskDetail.show(row);
       },300),
     showBatchOperation(type) {

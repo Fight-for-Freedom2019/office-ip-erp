@@ -56,6 +56,7 @@
           <el-table-column
             :label="col.label"
             :prop="col.prop"
+            :key="col.prop"
             :width="col.width ? col.width : ''"
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
@@ -93,6 +94,7 @@
           <el-table-column
             :label="col.label"
             :prop="col.prop"
+            :key="col.prop"
             :width="col.width ? col.width : ''"
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
@@ -128,6 +130,7 @@
           <el-table-column
             :label="col.label"
             :prop="col.prop"
+            :key="col.prop" 
             :width="col.width ? col.width : ''"
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
@@ -163,6 +166,7 @@
           <el-table-column
             :label="col.label"
             :prop="col.prop"
+            :key="col.prop"
             :width="col.width ? col.width : ''"
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
@@ -199,6 +203,7 @@
           <el-table-column
             :label="col.label"
             :prop="col.render ? `${col.prop}__render` : col.prop"
+            :key="col.render ? `${col.prop}__render` : col.prop"
             :width="col.width ? col.width : ''"
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
@@ -276,6 +281,7 @@
           <el-table-column
             :label="col.label"
             :prop="col.render ? `${col.prop}__render` : col.prop"
+            :key="col.render ? `${col.prop}__render` : col.prop"
             :width="col.width ? col.width : ''"
             :min-width="col.min_width ? col.min_width : ''"
             :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
@@ -316,6 +322,7 @@
         <el-table-column
           :label="col.label"
           :prop="col.render ? `${col.prop}__render` : col.prop"
+          :key="col.render ? `${col.prop}__render` : col.prop"
           :width="col.width ? col.width : ''"
           :min-width="col.min_width ? col.min_width : ''"
           :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
