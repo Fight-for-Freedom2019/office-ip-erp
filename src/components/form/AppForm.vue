@@ -157,7 +157,9 @@
     <!-- CPC编辑器 -->
     <postpone ref="postpone" :id="row.model_id" v-if="map['postpone'] != undefined"></postpone>
     <!-- 延期记录 -->
-    <points-monthly-detail ref="bonus_report" v-if="map['bonus_report'] != undefined"></points-monthly-detail> 
+    <points-monthly-detail ref="bonus_report" v-if="map['bonus_report'] != undefined"></points-monthly-detail>
+    <!-- 转案申请 -->
+    <task-common-transfer-case ref="process_assign" v-if="map['process_assign'] != undefined"></task-common-transfer-case>
     <!-- 点数月报详情 -->
     <!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
@@ -199,6 +201,7 @@ import RenewalEstimateDetail from "@/components/page_extension/RenewalEstimate_d
 import RenewalFee from "@/components/page_extension/RenewalFee_pop";
 import Postpone from "@/components/page_extension/TaskCommonPostpone";
 import PointsMonthlyDetail from "@/components/page_extension/PointsMonthlyDetail"
+import TaskCommonTransferCase from "@/components/page_extension/TaskCommonTransferCase";
 
 // 面板的标记（要求ref与配置的type一致）
 const panelKeys = [
@@ -212,7 +215,8 @@ const panelKeys = [
   "renewal_estimate",
   "renewal_fee",
   "postpone",
-  "bonus_report"
+  "bonus_report",
+  "process_assign",
 ];
 
 export default {
@@ -346,6 +350,9 @@ export default {
         case "bonus_report":
           this.$refs.bonus_report.show("edit", this.row.model_id);
           break;
+        case "process_assign":
+          this.$refs.process_assign.show("edit", this.row.id);
+          break;
       }
     },
     closePanel() {
@@ -418,7 +425,8 @@ export default {
     RenewalEstimateDetail,
     RenewalFee,
     Postpone,
-    PointsMonthlyDetail
+    PointsMonthlyDetail,
+    TaskCommonTransferCase,
   }
 };
 </script>

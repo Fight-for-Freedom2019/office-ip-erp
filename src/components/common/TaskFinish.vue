@@ -487,7 +487,8 @@ export default {
         "patent_add",
         "patent",
         "postpone",
-        "bonus_report"
+        "bonus_report",
+        "process_assign"
       ];
       const arr = [];
       const map = {};

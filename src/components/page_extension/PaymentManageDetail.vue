@@ -361,7 +361,7 @@ export default {
       val ? this.$tool.coverObj(this.form, val, { obj: ["status"] }) : "";
     },
     getAllReceived(data) {
-      // this.setPaymentTime(data);
+      this.setPaymentTime(data);
       // 获取回款总额
       let sum = 0;
       data.map(function(item) {

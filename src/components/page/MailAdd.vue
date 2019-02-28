@@ -246,7 +246,7 @@ export default {
       this.id = id;
       this.dialogVisible = true;
       this.process_id = process_id;
-      this.loadTemplateMail({scene,id})
+      this.loadTemplateMail({scene,id,arg:[{process_id:process_id}]})
     },
     showBatch(scene, id, url){
       this.loadingVisible = true;
