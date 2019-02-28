@@ -719,6 +719,9 @@ export default {
       let arr = [];
       this.pointData.filter(v => {
         const d = pointMap.get(v);
+        if (this.data.next[v].action.display_name.length > 0) {
+          d.label = this.data.next[v].action.display_name;
+        }
         arr.push(d);
       });
       return arr;

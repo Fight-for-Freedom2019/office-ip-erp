@@ -3,9 +3,14 @@
     <el-form label-width="120px" :model="form" :rules="rules" ref="form">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="费用对象" prop="user">
-            <remote-select v-if="fee_type === 'pay'" type="supplier" :pageType="type" v-model="form.user"></remote-select>
-            <remote-select type="customer" v-else :pageType="type" v-model="form.user"></remote-select>
+          <el-form-item label="费用对象" prop="user" style="margin-top:10px;">
+            <jump-select
+              v-if="fee_type === 'pay'"
+              type="target"
+              :pageType="type"
+              v-model="form.user"
+            ></jump-select>
+            <jump-select type="customer" v-else :pageType="type" v-model="form.user"></jump-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -69,15 +74,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="请款时机" prop="payment_request_timing">
-            <static-select type="payment_request_timing" v-model="form.payment_request_timing"></static-select>
+          <el-form-item label="费用状态" prop="status">
+            <static-select type="fee_status" v-model="form.status"></static-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="12">
-          <el-form-item label="费用状态" prop="status">
-            <static-select type="fee_status" v-model="form.status"></static-select>
+        <el-col :span="12" v-if="fee_type !== 'pay'">
+          <el-form-item label="请款时机" prop="payment_request_timing">
+            <static-select type="payment_request_timing" v-model="form.payment_request_timing"></static-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -155,10 +160,11 @@ export default {
     //       return "选择客户"
     //     }
     //   },
-    defaultCustomer () {
-      return this.detail_customer && this.detail_customer.length != 0 ? 
-      { "id": this.detail_customer[0].id, "name": this.detail_customer[0].name } : {}
-    },
+    defaultCustomer() {
+      return this.detail_customer && this.detail_customer.length != 0
+        ? { id: this.detail_customer[0].id, name: this.detail_customer[0].name }
+        : {};
+    }
   },
   methods: {
     save(type, id) {
@@ -207,30 +213,30 @@ export default {
     pageType(val) {
       if (val == "add") {
         this.form.project = this.detailId;
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
           this.form.user = this.defaultCustomer;
-        })
+        });
       }
     },
     fee_type: {
       handler(val) {
-        this.$nextTick(_=>{
+        this.$nextTick(_ => {
           this.form.project = this.detailId;
-          this.$nextTick(()=>{
+          this.$nextTick(() => {
             this.form.user = this.defaultCustomer;
-          })
-        })
+          });
+        });
       },
       immediate: true
     },
-    detailId (val) {
-      this.$nextTick(_=>{
+    detailId(val) {
+      this.$nextTick(_ => {
         this.form.project = val;
-      })
+      });
     },
-    defaultCustomer (val) {
-      this.form.user = val
-    },
+    defaultCustomer(val) {
+      this.form.user = val;
+    }
   },
   mounted() {
     this.coverObj(this.rowData);
