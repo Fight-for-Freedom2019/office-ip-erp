@@ -1172,6 +1172,21 @@ const map = new Map([
         url: "/customers"
       },
       {
+        type: "text",
+        id: "amount_currency",
+        name: "金额"
+      },
+      {
+        type: "text",
+        id: "rmb_amount_currency",
+        name: "人民币"
+      },
+      {
+        type: "text",
+        id: "received_amount_currency",
+        name: "实付金额"
+      },
+      {
         type: "date",
         id: "creation_time",
         name: "创建时间"

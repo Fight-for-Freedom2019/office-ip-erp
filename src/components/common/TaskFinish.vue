@@ -444,7 +444,7 @@ export default {
     ...mapActions(["refreshUser", "refreshProcessDetail", "offShrinkLoading"]),
     show() {
       console.log("finish panel shown " + this.row.id);
-      // this.refreshData();
+      this.refreshData();
     },
     doLayout() {
       if (this.$refs && this.$refs.table !== undefined) {
@@ -487,7 +487,8 @@ export default {
         "patent_add",
         "patent",
         "postpone",
-        "bonus_report"
+        "bonus_report",
+        "process_assign"
       ];
       const arr = [];
       const map = {};
@@ -615,15 +616,15 @@ export default {
     userId(val) {
       this.user_id = val;
     },
-    taskId: {
-      handler(val) {
-        // this.loading = true;
-        if (val) {
-          this.refreshData();
-        }
-      }
-      // immediate: true,
-    }
+    // taskId: {
+    //   handler(val) {
+    //     // this.loading = true;
+    //     if (val) {
+    //       this.refreshData();
+    //     }
+    //   }
+    //   // immediate: true,
+    // }
   },
   computed: {
     ...mapGetters(["menusMap"]),

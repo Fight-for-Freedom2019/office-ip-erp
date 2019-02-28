@@ -70,7 +70,8 @@ export default {
             label: "金额",
             prop: "amount_currency",
             width: "100",
-            align: "right"
+            align: "right",
+            render_header: true
           },
           { type: "text", label: "币别", prop: "currency", width: "60" },
           { type: "text", label: "汇率", prop: "roe", width: "70" },
@@ -79,7 +80,8 @@ export default {
             label: "人民币",
             prop: "rmb_amount_currency",
             width: "100",
-            align: "right"
+            align: "right",
+            render_header: true,
           },
           {
             type: "text",
@@ -103,7 +105,8 @@ export default {
             label: "实付金额",
             prop: "received_amount_currency",
             width: "100",
-            align: "right"
+            align: "right",
+            render_header: true
           },
           {
             type: "text",

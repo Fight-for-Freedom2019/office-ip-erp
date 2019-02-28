@@ -7,6 +7,7 @@
         <el-tag v-if="row.serial">{{ row.serial }}</el-tag>
       </span>
       <span slot="header" style="float: right">
+        <el-button icon="el-icon-refresh" size="small" title="刷新" @click="handleRefresh">刷新</el-button>
         <el-dropdown
           @command="handleOperation"
           trigger="click"
@@ -249,13 +250,13 @@ export default {
       mailVisible: false,
       pageType: "",
       loadingVisible: false,
-      loadingText: "任务数据加载中",
       url: URL,
+      loadingText: "任务数据加载中",
       row: {}
     };
   },
   computed: {
-    ...mapGetters(["detailBase", "menusMap", "innerHeight", "userid", "processData", 'shrinkLoading']),
+    ...mapGetters(["detailBase", "menusMap", "innerHeight", "userid", "processData",]),
     model: {
       get() {
         return this.deleteStatus;
@@ -358,10 +359,18 @@ export default {
           this.$refs.finish.$refs.appForm.closePanel();
         }
       })
-      //调用完成任务显示
-      // this.$nextTick(() => {
-      //   this.$refs.finish.show();
-      // });
+      // 调用完成任务显示
+      this.$nextTick(() => {
+        this.$refs.finish.show();
+      });
+    },
+    handleRefresh () {
+      const id = this.row.id
+      this.onShrinkLoading(this.loadingText);
+      this.refreshProcessDetail({id});
+      this.$nextTick(()=>{
+        this.$refs.finish.show();
+      })
     },
     handleOperation(command) {
       switch (command) {
@@ -525,15 +534,15 @@ export default {
     }
   },
   watch: {
-    'row.id':{
-      handler (val) {
-        if(val) {
-          this.onShrinkLoading(this.loadingText);
-          this.refreshProcessDetail({id: val});
-        }
+    // 'row.id':{
+    //   handler (val) {
+    //     if(val) {
+    //       this.onShrinkLoading(this.loadingText);
+    //       this.refreshProcessDetail({id: val});
+    //     }
 
-      }
-    },
+    //   }
+    // },
     deleteStatus(val) {
       if (val) {
         this.$forceUpdate();

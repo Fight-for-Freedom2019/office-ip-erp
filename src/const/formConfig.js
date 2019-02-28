@@ -82,6 +82,13 @@ const map = new Map([
     }
   ],
   [
+    "process_assign",
+    {
+      components: "panel",
+      type: "process_assign"
+    }
+  ],
+  [
     "patent_add",
     {
       components: "panel",
