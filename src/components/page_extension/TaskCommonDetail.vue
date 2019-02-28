@@ -33,6 +33,7 @@
               v-if="menusMap && menusMap.get('/task/btn/reject')"
             >回退任务</el-dropdown-item>
             <el-dropdown-item command="申请延期">申请延期</el-dropdown-item>
+            <el-dropdown-item command="转案申请">转案申请</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
@@ -134,6 +135,9 @@
         <!-- 任务延期记录添加 -->
         <task-postpone ref="postpone" @refresh="refreshPostpone" :row="row"></task-postpone>
 
+        <!-- 转案申请 -->
+        <task-common-transfer-case ref="transfercase" @refresh="refreshTransferCase" transfer_type="add" :row="row"></task-common-transfer-case>
+
         <!-- 任务新增编辑 -->
         <task-common-edit ref="taskEdit" @editSuccess="editSuccess"></task-common-edit>
 
@@ -166,6 +170,7 @@ import AppShrink from "@/components/common/AppShrink";
 import DelayHistory from "@/components/page_extension/TaskCommon_delay";
 import AppointCase from "@/components/page_extension/AppointCase";
 import TaskPostpone from "@/components/page_extension/TaskCommonPostpone";
+import TaskCommonTransferCase from "@/components/page_extension/TaskCommonTransferCase";
 import TaskCommonEdit from "@/components/page_extension/TaskCommon_edit";
 
 import MailAdd from "@/components/page/MailAdd";
@@ -379,12 +384,20 @@ export default {
         case "申请延期":
           this.$refs.postpone.show("add");
           break;
+        case "转案申请":
+          this.$refs.transfercase.show("add");
+          break;
+
       }
     },
     refreshSiblings(data) {
       this.historyTasks = data;
     },
     refreshPostpone() {
+      this.$refs.delay.refreshData();
+      this.close();
+    },
+    refreshTransferCase(){
       this.$refs.delay.refreshData();
       this.close();
     },
@@ -552,7 +565,8 @@ export default {
     MailAdd,
     AppointCase,
     TaskPostpone,
-    TaskCommonEdit
+    TaskCommonEdit,
+    TaskCommonTransferCase,
   }
 };
 </script>
