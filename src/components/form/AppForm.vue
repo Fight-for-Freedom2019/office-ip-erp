@@ -159,7 +159,7 @@
     <!-- 延期记录 -->
     <points-monthly-detail ref="bonus_report" v-if="map['bonus_report'] != undefined"></points-monthly-detail>
     <!-- 转案申请 -->
-    <task-common-transfer-case ref="transfercase" v-if="map['process_assign'] != undefined"></task-common-transfer-case>
+    <task-common-transfer-case ref="process_assign" v-if="map['process_assign'] != undefined"></task-common-transfer-case>
     <!-- 点数月报详情 -->
     <!-- <template v-else-if="this.type == 'cpc_editor'">
 				<cpc-editor type="pay" ref="detail" :id="row.model_id"></cpc-editor>
@@ -351,7 +351,7 @@ export default {
           this.$refs.bonus_report.show("edit", this.row.model_id);
           break;
         case "process_assign":
-          this.$refs.transfercase.show("edit", this.row.id);
+          this.$refs.process_assign.show("edit", this.row.id);
           break;
       }
     },
