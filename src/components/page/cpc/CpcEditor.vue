@@ -154,6 +154,7 @@
           @hide="hideTurnArchives"
           :otherFormMap="otherFormMap"
           :attachments="attachments"
+          ref="turnArchives"
           @getTurnArchives="getTurnArchives"
           @turnArchivesFile="turnArchivesFile"
         ></turn-archives>
@@ -732,6 +733,9 @@ export default {
       let data;
       if(type === 'new') {
         data = this.defaultData;
+        if(this.formType === 100027) { // 不用填充的表单
+          return
+        }
       }else {
         data = this.data?this.data[`table${this.formType}`]:null;
         if (!data) return;
@@ -871,6 +875,7 @@ export default {
     },
     turnArchives() {
       this.showTurnArchives = true;
+      // this.$refs.turnArchives.reset();
     },
     hideTurnArchives() {
       this.showTurnArchives = false;
@@ -955,7 +960,9 @@ export default {
       this.clear();
       this.getOptions();
       const success = _ => {
-        this.data = JSON.parse(_.data.tables);
+        // console.log(_.data.tables);
+        // this.data = JSON.parse(_.data.tables);
+        this.data = _.data.tables;
         this.getDefaultData(_);
         console.log("put",this.data);
         if (_.data.id) {
