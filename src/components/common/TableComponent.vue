@@ -347,7 +347,7 @@
     ></file-upload>
 
     <el-dialog
-      width="600px"
+      width="650px"
       :visible.sync="dialogControl"
       title="字段控制"
       @close="transferValue = control; $refs.transfer.clear();"
@@ -365,7 +365,7 @@
         v-model="transferValue"
         style="text-align: center;"
       ></app-transfer>
-      <div style="margin-top: 20px;margin-left: 45px;">
+      <div style="margin-top: 20px;margin-left: 20px;">
         <el-button type="primary" @click="controlSave">保存</el-button>
         <el-button type="danger" @click="dialogControl = false">取消</el-button>
       </div>
