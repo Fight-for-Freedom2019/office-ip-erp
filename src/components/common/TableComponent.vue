@@ -270,6 +270,8 @@
           :data="tableData"
           v-model="fields"
           :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
+          :expandsCol="tableOption.expandsCol!=undefined?tableOption.expandsCol: 3"
+          :expandsSpan="tableOption.expandsSpan!=undefined?tableOption.expandsSpan: 4"
           :showSummary="tableOption.show_summary!=undefined?tableOption.show_summary: false"
           :sumFunc="sumFunc"
           :filterVisible="filterValueVisible"
@@ -537,6 +539,13 @@ export default {
           {
             key: "certificates",
             title: "导出专利证书"
+          }
+        ],
+        [
+          "fees",
+          {
+            key: "data",
+            title: "导出应收费用"
           }
         ]
       ]);

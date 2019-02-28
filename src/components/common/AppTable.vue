@@ -23,10 +23,16 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline>
-            <template v-for="field in expandFields">
-              <el-form-item :label="field.label">
-                <span>{{ props.row[field.prop] }}</span>
-              </el-form-item>
+            <template v-for="i in computeRow">
+              <el-row>
+                <template v-for="(field,index) in expandFields">
+                  <el-col :span="expandsSpan" v-if="(i-1)*expandsCol<=index && index<i*expandsCol">
+                    <el-form-item :label="field.label">
+                      <span>{{ props.row[field.prop] }}</span>
+                    </el-form-item>
+                  </el-col>
+                </template>
+              </el-row>
             </template>
           </el-form>
         </template>
@@ -560,7 +566,21 @@ export default {
     type: {
       type: String,
       default: ""
-    }
+    },
+    // 展开数据列数
+    expandsCol:{
+      type:Number,
+      default(){
+        return 3
+      },
+    },
+    // 展开数据每一列的宽度(按elementui的row-col布局计算)
+    expandsSpan:{
+      type:Number,
+      default(){
+        return 4
+      },
+    },
   },
   data() {
     return {
@@ -603,6 +623,9 @@ export default {
     },
     expandFields() {
       return this.expands != undefined ? this.expands : [];
+    },
+    computeRow(){
+      return Math.ceil(this.expandFields.length/this.expandsCol)
     },
 
     filterSetting() {
