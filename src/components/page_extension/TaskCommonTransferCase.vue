@@ -81,7 +81,6 @@
           if(valid) {
             if (this.mode === "add") {
               let data = Object.assign({},{process_id:this.row.id},this.form);
-              debugger
               const success = _ => {
                 this.$message({type:"success",message:"转案成功!"})
               }
