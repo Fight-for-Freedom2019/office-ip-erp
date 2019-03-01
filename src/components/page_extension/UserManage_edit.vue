@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-shrink :visible.sync="dialogVisible" :title="title" size="small">
+    <app-shrink :visible.sync="dialogVisible" :title="title" size="small" modal>
       <el-form label-width="100px" :model="form" :rules="rules" ref="form">
         <el-form-item label="用户组" prop="roles">
           <jump-select type="roles" v-model="form.roles" multiple></jump-select>
