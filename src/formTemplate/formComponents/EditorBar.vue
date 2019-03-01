@@ -95,6 +95,7 @@
           content = content.replace(/<(meta|link|\/?o:|\/?style|\/?font|\/?strong|\/?st\d|\/?head|\/?html|body|\/?body|\/?span|!\[)[^>]*?>/gi, "");
           content = content.replace(/(<[^>]+>)+ (<\/\w+>)+/gi, "");
           content = content.replace(/\s+v:\w+=""[^""]+""/gi, "");
+          // content = content.replace(/\"|\\\"/gi, "\"");
           console.log(content);
 
           return content
@@ -143,6 +144,7 @@
           }
         }
         this.editor.customConfig.onchange = (html) => {
+          // html = html.replace(/\"/gi, "\\\" ");
           this.info_ = html // 绑定当前逐渐地值
           this.$emit('change', this.info_) // 将内容同步到父组件中
         }
