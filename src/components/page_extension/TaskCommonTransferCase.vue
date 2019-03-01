@@ -82,6 +82,7 @@
             if (this.mode === "add") {
               let data = Object.assign({},{process_id:this.row.id},this.form);
               const success = _ => {
+                this.isPanelVisible = false;
                 this.$message({type:"success",message:"转案成功!"});
                 this.$emit("refresh");
               }
@@ -89,6 +90,7 @@
             }else {
               let data = Object.assign({},this.form);
               const success = _ => {
+                this.isPanelVisible = false;
                 this.$message({type:"success",message:"转案成功!"});
                 this.$emit("refresh");
               }
