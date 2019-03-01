@@ -875,7 +875,9 @@ export default {
     },
     turnArchives() {
       this.showTurnArchives = true;
-      // this.$refs.turnArchives.reset();
+      this.$nextTick(()=>{
+        this.$refs.turnArchives.reset();
+      })
     },
     hideTurnArchives() {
       this.showTurnArchives = false;
