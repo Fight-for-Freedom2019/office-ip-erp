@@ -2,8 +2,7 @@
 //子路径应包含父路径
 const menu = {};
 
-const taskMenu = [
-  {
+const taskMenu = [{
     type: "item",
     text: "我的待办",
     path: "/task/pending",
@@ -15,8 +14,7 @@ const taskMenu = [
     text: "我的审核",
     path: "/task/review",
     icon: "iconfont el-icon-my-review",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "我发送的",
         path: "/task/review/sent",
@@ -35,8 +33,7 @@ const taskMenu = [
     text: "我的关注",
     path: "/task/monitor",
     icon: "iconfont el-icon-my-star",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "我为派案人",
         path: "/task/monitor/assigner",
@@ -91,8 +88,7 @@ const taskMenu = [
     text: "已完成",
     path: "/task/finished",
     icon: "iconfont el-icon-my-task-finish",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "我的已完成",
         path: "/task/finished/my",
@@ -114,8 +110,7 @@ const taskMenu = [
   }
 ];
 
-const patentMenu = [
-  {
+const patentMenu = [{
     type: "item",
     text: "专利管理",
     path: "/patent/list",
@@ -132,8 +127,7 @@ const patentMenu = [
     text: "通知书管理",
     path: "/patent/notice",
     icon: "iconfont el-icon-my-notice",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "未发送",
         path: "/patent/notice/sending",
@@ -148,8 +142,7 @@ const patentMenu = [
     ]
   }
 ];
-const trademarkMenu = [
-  {
+const trademarkMenu = [{
     type: "item",
     text: "商标管理",
     path: "/trademark/list",
@@ -169,8 +162,7 @@ const trademarkMenu = [
   }
 ];
 
-const copyrightMenu = [
-  {
+const copyrightMenu = [{
     type: "item",
     text: "版权管理",
     path: "/copyright/list",
@@ -190,8 +182,7 @@ const copyrightMenu = [
   }
 ];
 
-const projectMenu = [
-  {
+const projectMenu = [{
     type: "item",
     text: "项目管理",
     path: "/project/list",
@@ -205,8 +196,7 @@ const projectMenu = [
   }
 ];
 
-const crmMenu = [
-  {
+const crmMenu = [{
     type: "item",
     text: "客户管理",
     path: "/crm/customers",
@@ -230,8 +220,7 @@ const crmMenu = [
     text: "客户数据",
     path: "/crm/data",
     icon: "iconfont el-icon-my-data",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "申请人管理",
         path: "/crm/data/applicants",
@@ -281,8 +270,7 @@ const crmMenu = [
     text: "供应商管理",
     path: "/crm/suppliers",
     icon: "iconfont el-icon-my-supplier",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "供应商管理",
         path: "/crm/suppliers/lists",
@@ -298,14 +286,12 @@ const crmMenu = [
   }
 ];
 
-const financeMenu = [
-  {
+const financeMenu = [{
     type: "submenu",
     text: "应收管理",
     path: "/finance/revenue",
     icon: "iconfont el-icon-my-invoice",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "应收明细",
         path: "/finance/revenue/all",
@@ -330,8 +316,7 @@ const financeMenu = [
     text: "应付管理",
     path: "/finance/outgo",
     icon: "iconfont el-icon-my-supplier",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "应付明细",
         path: "/finance/outgo/all",
@@ -350,17 +335,16 @@ const financeMenu = [
     text: "年费管理",
     path: "/finance/renewal_fees",
     icon: "iconfont el-icon-my-renewal-fee",
-    children: [
-      {
+    children: [{
         type: "item",
-        text: "年费监控",
-        path: "/finance/renewal_fees/lists",
+        text: "即将到期",
+        path: "/finance/renewal_fees/about_to_expire",
         icon: "iconfont el-icon-my-monitor"
       },
       {
         type: "item",
-        text: "即将到期",
-        path: "/finance/renewal_fees/about_to_expire",
+        text: "年费监控",
+        path: "/finance/renewal_fees/lists",
         icon: "iconfont el-icon-my-monitor"
       },
       {
@@ -376,8 +360,7 @@ const financeMenu = [
     text: "发票管理",
     path: "/finance/vouchers",
     icon: "iconfont el-icon-my-voucher",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "己方开具",
         path: "/finance/vouchers/lists",
@@ -396,8 +379,7 @@ const financeMenu = [
     text: "点数管理",
     path: "/finance/points",
     icon: "iconfont el-icon-my-award",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "点数清单",
         path: "/finance/points/lists",
@@ -413,8 +395,7 @@ const financeMenu = [
   }
 ];
 
-const reportMenu = [
-  {
+const reportMenu = [{
     type: "item",
     text: "点数报表",
     path: "/report/task",
@@ -428,14 +409,12 @@ const reportMenu = [
   }
 ];
 
-const exchangeMenu = [
-  {
+const exchangeMenu = [{
     type: "submenu",
     text: "客户端同步",
     path: "/exchange/client",
     icon: "iconfont el-icon-my-sync",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "通知书",
         path: "/exchange/client/notices",
@@ -454,8 +433,7 @@ const exchangeMenu = [
     text: "文档交互",
     path: "/exchange/document",
     icon: "iconfont el-icon-my-notice",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "官文通知",
         path: "/exchange/document/oa",
@@ -496,17 +474,14 @@ const exchangeMenu = [
   }
 ];
 
-const dataInsiderMenu = [
-  {
-    type: "item",
-    text: "摘要",
-    path: "/datainsider/summary",
-    icon: "el-icon-my-report"
-  }
-];
+const dataInsiderMenu = [{
+  type: "item",
+  text: "摘要",
+  path: "/datainsider/summary",
+  icon: "el-icon-my-report"
+}];
 
-const settingMenu = [
-  {
+const settingMenu = [{
     type: "item",
     text: "个人设置",
     path: "/setting/my",
@@ -550,8 +525,7 @@ const settingMenu = [
     text: "流程自定义",
     path: "/setting/flow",
     icon: "iconfont el-icon-my-flow",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "管制事项",
         path: "/setting/flow/definitions",
@@ -588,8 +562,7 @@ const settingMenu = [
     text: "基础数据",
     path: "/setting/data",
     icon: "iconfont el-icon-my-data",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "收款账户",
         path: "/setting/data/payment_accounts",
@@ -633,8 +606,7 @@ const settingMenu = [
     text: "点数设定",
     path: "/setting/bonus",
     icon: "iconfont el-icon-my-award",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "代理人系数",
         path: "/setting/bonus/ratio",
@@ -653,8 +625,7 @@ const settingMenu = [
     text: "代理机构",
     path: "/setting/agencies",
     icon: "iconfont el-icon-my-organization",
-    children: [
-      {
+    children: [{
         type: "item",
         text: "代理机构",
         path: "/setting/agencies/lists",
@@ -676,14 +647,12 @@ const settingMenu = [
   }
 ];
 
-const homeMenu = [
-  {
-    type: "item",
-    text: "首页",
-    path: "/home",
-    icon: "iconfont el-icon-my-home"
-  }
-];
+const homeMenu = [{
+  type: "item",
+  text: "首页",
+  path: "/home",
+  icon: "iconfont el-icon-my-home"
+}];
 
 menu.source = [
   // {
@@ -707,11 +676,11 @@ menu.source = [
     menu: patentMenu
   },
   {
-  	text: '商标',
-  	key: 'trademark',
-  	path: '/trademark',
-  	icon: 'iconfont el-icon-my-patent',
-  	menu: trademarkMenu
+    text: '商标',
+    key: 'trademark',
+    path: '/trademark',
+    icon: 'iconfont el-icon-my-patent',
+    menu: trademarkMenu
   },
   // {
   // 	text: '版权',
@@ -779,7 +748,11 @@ menu.source = [
 ];
 
 menu.map = {
-  "/": { text: "主页", icon: "iconfont el-icon-my-home", path: "/" },
+  "/": {
+    text: "主页",
+    icon: "iconfont el-icon-my-home",
+    path: "/"
+  },
   "/task/pending/check": {
     text: "提案审核",
     icon: "iconfont el-icon-my-task-check",
@@ -800,8 +773,16 @@ menu.map = {
     icon: "",
     path: "/copyright/list/detail"
   },
-  "/proposal/edit": { text: "提案编辑", icon: "", path: "/proposal/edit" },
-  "/proposal/detail": { text: "提案详情", icon: "", path: "/proposal/detail" },
+  "/proposal/edit": {
+    text: "提案编辑",
+    icon: "",
+    path: "/proposal/edit"
+  },
+  "/proposal/detail": {
+    text: "提案详情",
+    icon: "",
+    path: "/proposal/detail"
+  },
   "/trademark/list/detail": {
     text: "商标详情",
     icon: "",
@@ -833,12 +814,32 @@ menu.map = {
     path: "/news/systemMessage/detail"
   },
 
-  "/proposal/add": { text: "新建提案", icon: "", path: "/proposal/add" },
-  "/patent/add": { text: "新建专利", icon: "", path: "/patent/add" },
-  "/trademark/add": { text: "新建商标", icon: "", path: "/trademark/add" },
-  "/copyright/add": { text: "新建版权", icon: "", path: "/copyright/add" },
+  "/proposal/add": {
+    text: "新建提案",
+    icon: "",
+    path: "/proposal/add"
+  },
+  "/patent/add": {
+    text: "新建专利",
+    icon: "",
+    path: "/patent/add"
+  },
+  "/trademark/add": {
+    text: "新建商标",
+    icon: "",
+    path: "/trademark/add"
+  },
+  "/copyright/add": {
+    text: "新建版权",
+    icon: "",
+    path: "/copyright/add"
+  },
 
-  "/report/task/add": { text: "新建报表", icon: "", path: "/report/task/add" },
+  "/report/task/add": {
+    text: "新建报表",
+    icon: "",
+    path: "/report/task/add"
+  },
   "/report/proposal/add": {
     text: "新建报表",
     icon: "",
@@ -859,7 +860,11 @@ menu.map = {
     icon: "",
     path: "/report/copyright/add"
   },
-  "/report/fee/add": { text: "新建报表", icon: "", path: "/report/fee/add" },
+  "/report/fee/add": {
+    text: "新建报表",
+    icon: "",
+    path: "/report/fee/add"
+  },
   "/report/invoice/add": {
     text: "新建报表",
     icon: "",
@@ -871,7 +876,11 @@ const tailRecursion = data => {
   for (let x of data) {
     if (!x["path"]) continue;
     const path = x["type"] && x["type"] == "submenu" ? "" : x["path"];
-    menu["map"][x["path"]] = { text: x["text"], icon: x["icon"], path };
+    menu["map"][x["path"]] = {
+      text: x["text"],
+      icon: x["icon"],
+      path
+    };
     if (x.children && x.children.length != 0) {
       tailRecursion(x["children"]);
     }
@@ -884,7 +893,12 @@ for (let k in menu.source) {
   const icon = item["icon"] ? item["icon"] : "";
   const path = item["path"];
   const parent = "/";
-  menu["map"][item["path"]] = { text, icon, path, parent };
+  menu["map"][item["path"]] = {
+    text,
+    icon,
+    path,
+    parent
+  };
   if (item["menu"] && item["menu"]["length"] != 0) {
     tailRecursion(item["menu"]);
   }

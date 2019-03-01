@@ -144,10 +144,10 @@ export default {
           {
             type: "text",
             label: "案件类型",
-            render_simple:"name",
+            render_simple: "name",
             prop: "subtype",
-            render_obj:"project",
-            width: "178"
+            render_obj: "project",
+            width: "80"
             // render_header: true
           },
           {
