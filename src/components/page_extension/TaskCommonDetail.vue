@@ -361,7 +361,9 @@ export default {
       })
       // 调用完成任务显示
       this.$nextTick(() => {
-        this.$refs.finish.show();
+        if(this.$refs && this.$refs.finish) {
+          this.$refs.finish.show();
+        }
       });
     },
     handleRefresh () {
@@ -407,7 +409,7 @@ export default {
       this.close();
     },
     refreshTransferCase(){
-      this.$refs.delay.refreshData();
+      this.$emit("update");
       this.close();
     },
     tabclick(tab) {

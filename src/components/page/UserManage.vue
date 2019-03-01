@@ -32,8 +32,8 @@ export default {
       option: {
         url: URL,
         name: "userManage",
-        height: "userManage",
-        is_pagination: false,
+        height: "default",
+        // is_pagination: false,
         // 'is_search': false,
         rowClick: this.handleRowClick,
         list_type: "user_manage",
@@ -190,7 +190,7 @@ export default {
     },
     refreshTableData(option) {
       const url = URL;
-      const data = Object.assign({}, option, { listRows: 10000 });
+      const data = Object.assign({}, option,);
       // if (this.roleType === "organization") {
       //   data.organization_units = this.nodeData.id;
       // } else if (this.roleType === "rolegroups") {

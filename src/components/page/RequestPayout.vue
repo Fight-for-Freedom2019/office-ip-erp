@@ -147,8 +147,8 @@ export default {
             render_simple: "name",
             prop: "subtype",
             render_obj: "project",
-            width: "80"
-            // render_header: true
+            width: "80",
+            render_header: true
           },
           {
             type: "text",

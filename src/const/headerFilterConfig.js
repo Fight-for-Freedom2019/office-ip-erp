@@ -1009,6 +1009,12 @@ const map = new Map([
         map_type: "area"
       },
       {
+        type: "static_select",
+        id: "subtype",
+        name: "案件类型",
+        map_type: "project_subtype"
+      },
+      {
         type: "text",
         id: "order.serial",
         name: "订单号"

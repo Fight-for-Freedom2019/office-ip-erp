@@ -21,14 +21,39 @@
   >
     <template v-if="expand">
       <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline>
+        <template slot-scope="scope">
+          <el-form label-position="left" inline style="margin-left: 48px" class="table-expand">
             <template v-for="i in computeRow">
               <el-row>
                 <template v-for="(field,index) in expandFields">
                   <el-col :span="expandsSpan" v-if="(i-1)*expandsCol<=index && index<i*expandsCol">
                     <el-form-item :label="field.label">
-                      <span>{{ props.row[field.prop] }}</span>
+                      <!--<span>{{ props.row[field.prop] }}</span>-->
+                      <template v-if="field.type==='array'">
+                        <template v-for="(item, i) in scope.row[field.prop]">
+                          <el-tag
+                              style="margin-left: 5px;"
+                              disable-transitions
+                              size="small"
+                              :key="i"
+                              v-if="typeof(item) === 'string'"
+                          >{{ item }}</el-tag>
+                          <el-tag
+                              style="margin-left: 5px;"
+                              disable-transitions
+                              size="small"
+                              :key="i"
+                              :class="item && item.classname ? item.classname :''"
+                              v-else
+                          >{{ item && item.name ? item.name : '' }}</el-tag>
+                        </template>
+                      </template>
+                      <template v-else-if="field.render&&field.type==='text'">
+                        <table-render :render="field.render" :scope="scope" :prop="field.prop"></table-render>
+                      </template>
+                      <template v-else-if="!field.render&&field.type==='text'">
+                        <span>{{handleExpandFields(scope.row,field,scope)}}</span>
+                      </template>
                     </el-form-item>
                   </el-col>
                 </template>
@@ -795,6 +820,21 @@ export default {
         func(scope.row, event, scope.column);
       }
     },
+    handleExpandFields(row,field){
+      let text = "";
+      if(field.prop.indexOf(".") !== -1){
+        let keys = field.prop.split(".");
+        text = row[keys[0]]?row[keys[0]][keys[1]]:"";
+      }else if (field.render_simple) {
+        text = this.handleSimple(row,field)
+      }else if (field.render){
+        let fun = field.render;
+        // text = fun(this.$createElement,1)
+      }else {
+        text = row[field.prop];
+      }
+      return text
+    },
     getDefaultValue(key) {
       const item = this.filterSettingMap.get(key);
       let val = "";
@@ -1092,5 +1132,16 @@ export default {
 }
 .el-table__expand-column .cell {
   width: 50px;
+}
+.table-expand {
+  font-size: 0;
+}
+.table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
 }
 </style>

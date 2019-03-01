@@ -875,7 +875,9 @@ export default {
     },
     turnArchives() {
       this.showTurnArchives = true;
-      // this.$refs.turnArchives.reset();
+      this.$nextTick(()=>{
+        this.$refs.turnArchives.reset();
+      })
     },
     hideTurnArchives() {
       this.showTurnArchives = false;
@@ -1056,14 +1058,17 @@ export default {
 }
 
 .editor-content {
-  flex: 1;
-  width: 100%;
+  /*flex: 1;*/
+  /*width: 100%;*/
+  width: 1080px;
   overflow-y: auto;
   margin-left: 10px;
 }
 
 .editor-other {
-  width: 360px;
+  flex: 1;
+  /*width: 360px;*/
+  width: 100%;
   margin-left: 10px;
 }
 
