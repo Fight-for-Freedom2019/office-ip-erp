@@ -82,13 +82,15 @@
             if (this.mode === "add") {
               let data = Object.assign({},{process_id:this.row.id},this.form);
               const success = _ => {
-                this.$message({type:"success",message:"转案成功!"})
+                this.$message({type:"success",message:"转案成功!"});
+                this.$emit("refresh");
               }
               this.$axiosPost({url:"/process_assigns",data,success})
             }else {
               let data = Object.assign({},this.form);
               const success = _ => {
-                this.$message({type:"success",message:"转案成功!"})
+                this.$message({type:"success",message:"转案成功!"});
+                this.$emit("refresh");
               }
               this.$axiosPut({url:`/process_assigns/${this.id}`,data,success})
             }
