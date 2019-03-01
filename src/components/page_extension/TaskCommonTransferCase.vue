@@ -101,6 +101,7 @@
       },
       clear(){
         this.$refs.form?this.$refs.form.resetFields():"";
+        this.attachments = [];
       },
       coverObj(val) {
         val ? this.$tool.coverObj(this.form, val, { obj: [] }) : "";
