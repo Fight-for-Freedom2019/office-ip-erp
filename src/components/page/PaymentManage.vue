@@ -114,6 +114,7 @@ export default {
             type: "text",
             label: "回款确认用户",
             prop: "confirmation_user",
+            render_simple:"name",
             width: "150",
             render_header: true
           },
