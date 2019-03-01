@@ -291,7 +291,11 @@ export default {
         this.id = copy.id;
         this.title = val.serial + "-" + val.title;
         this.$nextTick(() => {
-          setKeys.map(_ => this.$refs[_].setForm(copy));
+          setKeys.map(_ => {
+            if(this.$refs[_]) {
+              this.$refs[_].setForm(copy);
+            }
+          });
         });
       }
     },
