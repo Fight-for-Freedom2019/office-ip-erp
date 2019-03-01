@@ -409,7 +409,7 @@ export default {
       this.close();
     },
     refreshTransferCase(){
-      this.$refs.delay.refreshData();
+      this.$emit("update");
       this.close();
     },
     tabclick(tab) {
