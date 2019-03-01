@@ -135,6 +135,7 @@ export default {
         list_type: "task",
         search_placeholder: "搜索案号、标题、申请号、代理人、备注",
         is_filter: false,
+        expandsSpan:2,
         row_class: ({ due_time }, index) => {
           return;
         },
@@ -276,14 +277,16 @@ export default {
             render_simple: "deadline",
             label: "节点期限",
             render_header: true,
-            width: "110"
+            width: "110",
+            expanded: true
           },
           {
             type: "text",
             prop: "legal_deadline",
             label: "官方绝限",
             render_header: true,
-            width: "100"
+            width: "100",
+            expanded: true
           },
           // {
           //   type: "text",
@@ -300,7 +303,8 @@ export default {
             render_obj: "task",
             render_simple: "name",
             render_header: true,
-            width: "110"
+            width: "110",
+            expanded: true
           },
           {
             type: "text",
@@ -308,7 +312,8 @@ export default {
             label: "代理人",
             render_simple: "name",
             render_header: true,
-            width: "110"
+            width: "110",
+            expanded: true
           },
           // {
           //   type: "text",
@@ -324,7 +329,8 @@ export default {
             label: "初审人",
             render_simple: "name",
             render_header: true,
-            width: "110"
+            width: "110",
+            expanded: true
           },
           {
             type: "text",
@@ -332,7 +338,8 @@ export default {
             label: "复核人",
             render_simple: "name",
             render_header: true,
-            width: "110"
+            width: "110",
+            expanded: true
           },
           {
             type: "text",
@@ -340,7 +347,8 @@ export default {
             label: "对外代理人",
             render_simple: "name",
             render_header: true,
-            width: "110"
+            width: "110",
+            expanded: true
           },
           {
             type: "text",
@@ -348,7 +356,8 @@ export default {
             label: "所属部门",
             render_simple: "name",
             render_header: true,
-            width: "110"
+            width: "110",
+            expanded: true
           },
           {
             type: "array",
@@ -356,7 +365,8 @@ export default {
             label: "案件标签",
             render: this.tagRender,
             width: "123",
-            render_header: true
+            render_header: true,
+            expanded: true
           },
           {
             type: "array",
@@ -364,20 +374,23 @@ export default {
             label: "事项标签",
             render: this.tagRender,
             width: "123",
-            render_header: true
+            render_header: true,
+            expanded: true
           },
           {
             type: "text",
             prop: "application_number",
             label: "申请号",
-            width: "120"
+            width: "120",
+            expanded: true
           },
           {
             type: "text",
             prop: "entrusting_time",
             label: "委案日",
             render_header: true,
-            width: "100"
+            width: "100",
+            expanded: true
           },
           {
             type: "text",
@@ -386,14 +399,16 @@ export default {
             render_key: "project",
             render_simple: "creation_time",
             render_header: true,
-            width: "100"
+            width: "100",
+            expanded: true
           },
           {
             type: "text",
             prop: "application_date",
             label: "申请日",
             render_header: true,
-            width: "100"
+            width: "100",
+            expanded: true
           },
           // { type: 'text', prop: 'task', label: '当前节点', render_header: true, width: '110', render: function(h,item){
           //   item = item != null ? item.process_action.name: '';
@@ -406,7 +421,8 @@ export default {
             label: "客户",
             render_simple: "name",
             render_header: true,
-            width: "120"
+            width: "120",
+            expanded: true
           },
           {
             type: "text",
@@ -414,7 +430,8 @@ export default {
             label: "IPR",
             render_simple: "name",
             render_header: true,
-            width: "110"
+            width: "110",
+            expanded: true
           },
           {
             type: "text",
@@ -422,7 +439,8 @@ export default {
             label: "联系人",
             render_simple: "name",
             render_header: true,
-            width: "100"
+            width: "100",
+            expanded: true
           },
           // {
           //   type: "text",

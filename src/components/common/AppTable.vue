@@ -29,10 +29,31 @@
                   <el-col :span="expandsSpan" v-if="(i-1)*expandsCol<=index && index<i*expandsCol">
                     <el-form-item :label="field.label">
                       <!--<span>{{ props.row[field.prop] }}</span>-->
-                      <template v-if="field.render">
+                      <template v-if="field.type==='array'">
+                        <template v-for="(item, i) in scope.row[field.prop]">
+                          <el-tag
+                              style="margin-left: 5px;"
+                              disable-transitions
+                              size="small"
+                              :key="i"
+                              v-if="typeof(item) === 'string'"
+                          >{{ item }}</el-tag>
+                          <el-tag
+                              style="margin-left: 5px;"
+                              disable-transitions
+                              size="small"
+                              :key="i"
+                              :class="item && item.classname ? item.classname :''"
+                              v-else
+                          >{{ item && item.name ? item.name : '' }}</el-tag>
+                        </template>
+                      </template>
+                      <template v-else-if="field.render&&field.type==='text'">
                         <table-render :render="field.render" :scope="scope" :prop="field.prop"></table-render>
                       </template>
-                      <span v-else>{{handleExpandFields(scope.row,field)}}</span>
+                      <template v-else-if="!field.render&&field.type==='text'">
+                        <span>{{handleExpandFields(scope.row,field,scope)}}</span>
+                      </template>
                     </el-form-item>
                   </el-col>
                 </template>
