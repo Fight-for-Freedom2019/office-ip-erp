@@ -88,7 +88,9 @@
           content = content.replace(/\n(\n)*( )*(\n)*\n/gi, '\n');
           content = content.replace(/<head>[\s\S]*<\/head>/g, '');
           content = content.replace(/<html(\S*)"\>/g, '');*/
-          content = content.replace(/<!--(\w|\W)+?-->/gi, "");
+          content = content.replace(/<style>[\s\S]*<\/style>/gi, "");
+          content = content.replace(/<title>[\s\S]*<\/title>/gi, "");
+          content = content.replace(/\<!--(\w|\W)+?-->/gi, "");
           content = content.replace(/<title>(\w|\W)+?<\/title>/gi, "");
           content = content.replace(/\s?class=\w+/gi, "");
           content = content.replace(/\s+style='[^']+'/gi, "");
