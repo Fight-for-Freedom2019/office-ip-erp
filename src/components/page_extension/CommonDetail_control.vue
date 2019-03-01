@@ -266,7 +266,7 @@ export default {
           ) : (
             <i class="el-icon-loading" style="color: #f90;margin-right:10px;" />
           )}
-          <span>{data.process_definition.name}</span>
+          <span>{data.process_definition?data.process_definition.name:""}</span>
         </span>
       );
     }
