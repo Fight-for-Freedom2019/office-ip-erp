@@ -359,7 +359,9 @@ export default {
       const type = this.type;
       if (panelKeys.includes(type)) {
         this.$nextTick(() => {
-          this.$refs[type].close();
+          if(this.$refs[type]) {
+            this.$refs[type].close();
+          }
         });
       } else {
         return false;

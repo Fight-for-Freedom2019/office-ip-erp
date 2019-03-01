@@ -361,7 +361,9 @@ export default {
       })
       // 调用完成任务显示
       this.$nextTick(() => {
-        this.$refs.finish.show();
+        if(this.$refs && this.$refs.finish) {
+          this.$refs.finish.show();
+        }
       });
     },
     handleRefresh () {
