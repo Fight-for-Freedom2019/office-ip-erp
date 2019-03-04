@@ -139,16 +139,22 @@ export default {
 		return result;
 	},
 	getUrlParams (obj) {
-
+		// URI编码，实现url参数序列化
 		const arr = [];
 		for(let k in obj) {
 
 			const d = obj[k];
 			if(d instanceof Array) {
 				if(typeof d[0] == 'object') {
-					d.forEach(_ => { arr.push(`${encodeURIComponent(k)}[]=${_}`) });
+					d.forEach(e => {
+						const arr2 = [];
+						for (let i in e) {
+							arr2.push(`${encodeURIComponent('"' + i + '"')}:${encodeURIComponent('"' + e[i] + '"')}`)  
+						}
+						arr.push(`${ encodeURIComponent(k) }[]=${encodeURIComponent('{'+arr2+'}')}`)
+					});
 				}else{
-					d.forEach(_ => { arr.push(`${encodeURIComponent(k)}[]=${encodeURIComponent(_)}`) });
+					d.forEach(_ => { arr.push(`${encodeURIComponent(k)}[]=${encodeURIComponent(_)}`)});
 				}
 			} else {
 				arr.push(`${encodeURIComponent(k)}=${encodeURIComponent(d)}`)	
