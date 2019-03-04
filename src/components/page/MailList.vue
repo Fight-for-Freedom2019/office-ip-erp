@@ -11,6 +11,7 @@
       </el-select>-->
     </table-component>
     <mail-add @refresh="handleRefresh" ref="mail_add"></mail-add>
+    <email-detail  ref="email_detail"></email-detail>
   </div>
 </template>
 
@@ -18,6 +19,7 @@
 import TableComponent from "@/components/common/TableComponent";
 import Strainer from "@/components/page_extension/MailList_strainer";
 import AxiosMixins from "@/mixins/axios-mixins";
+import EmailDetail from '@/components/page_extension/Email_detail'
 import MailAdd from "@/components/page/MailAdd";
 import AppShrink from "@/components/common/AppShrink";
 
@@ -44,7 +46,7 @@ export default {
         name: "mailList",
         url: URL,
         header_btn: [
-          { type: "custom", label: "写邮件", icon: "edit", click: this.add },
+          // { type: "custom", label: "写邮件", icon: "edit", click: this.add },
           // { type: 'delete' },
           { type: "control" }
         ],
@@ -157,7 +159,8 @@ export default {
         });
     },
     handleRowClick({ id }) {
-      this.$refs.mail_add.show("view", id);
+      // this.$refs.mail_add.show("view", id);
+      this.$refs.email_detail.show(id);
     }
   },
   watch: {
@@ -168,7 +171,7 @@ export default {
   mounted() {
     this.refresh();
   },
-  components: { TableComponent, Strainer, MailAdd, AppShrink }
+  components: { TableComponent, Strainer, MailAdd, AppShrink, EmailDetail }
 };
 </script>
 

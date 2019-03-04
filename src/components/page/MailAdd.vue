@@ -258,6 +258,7 @@ export default {
       this.id = id;
       this.dialogVisible = true;
       if (scene == "add") {
+        this.$refs['form'].resetFields();
         return;
       }
       this.loadingVisible = true;
