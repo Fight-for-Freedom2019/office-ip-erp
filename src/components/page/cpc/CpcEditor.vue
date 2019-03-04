@@ -316,7 +316,7 @@ export default {
     },
     title:function(){
       let title = "";
-      console.log("this.process",this.process)
+      // console.log("this.process",this.process)
       if(this.process.serial) {
         title = this.process.serial;
       }else if(this.process.project.serial){
@@ -475,11 +475,11 @@ export default {
       } else {
         rule = this.saveRules.get(id);  // 从缓存中拿生成规则，这样绑定的数据就不会丢失
         if(id === 100027 || id === 110401) {
-          console.log("!rule是否为true",rule);
+          // console.log("!rule是否为true",rule);
         }
         if(!rule) {   // 100027和110401可以通过点击CheckBox生成，如果缓存中没有的话就要重新获取，并生成规则
           rule = handlePlaceholder(cloneDeep(formConfig.get(id)).obj.rule);
-          console.log("rule是否生成",rule)
+          // console.log("rule是否生成",rule)
           this.mergeRule(rule);
         }
         id === 100104 ? this.triggerEvent(rule) : "";
@@ -827,7 +827,7 @@ export default {
       data.tables = this.handleSubmit(this.submitData);
       Object.assign(data.tables, this.handleSubmitFile());
       data.tables = JSON.stringify(data.tables);
-      console.log("out",JSON.parse(data.tables));
+      // console.log("out",JSON.parse(data.tables));
       this.save_type === "add" ? (data.task_id = this.task_id) : "";
       const success = _ => {
         this.$message({ type: "success", message: "保存成功!" });
@@ -909,7 +909,7 @@ export default {
       this.allData = {};
       this.data = {};
       this.submitData.clear();
-      console.log("clear",this.submitData,this.submitFileList);
+      // console.log("clear",this.submitData,this.submitFileList);
       this.copy_form = [
         100104,
         1001042,
@@ -966,7 +966,7 @@ export default {
         // this.data = JSON.parse(_.data.tables);
         this.data = _.data.tables;
         this.getDefaultData(_);
-        console.log("put",this.data);
+        // console.log("put",this.data);
         if (_.data.id) {
           this.save_type = "edit";
         } else {
