@@ -1,8 +1,8 @@
 <template>
   <div class="app-date-picker" style="display: flex;display: -webkit-flex;flex-wrap: nowrap;">
-        <el-date-picker type="date" placeholder="起始日期" value-format="yyyy-MM-dd" :size=size :style="sizeFormate.get(size)" :value="date[0]" @input="startUpdate" @change="startUpdate" :picker-options="startOption"></el-date-picker>
+        <el-date-picker type="date" placeholder="起始日期" :size=size :style="sizeFormate.get(size)" :value="date[0]" @input="startUpdate" @change="startUpdate" :picker-options="startOption"></el-date-picker>
         <span style="padding: 0 5px;">-</span>
-        <el-date-picker type="date" placeholder="结束日期" value-format="yyyy-MM-dd" :size=size :style="sizeFormate.get(size)" :value="date[1]"  @input="endUpdate" @change="endUpdate" :picker-options="endOption"></el-date-picker>
+        <el-date-picker type="date" placeholder="结束日期" :size=size :style="sizeFormate.get(size)" :value="date[1]"  @input="endUpdate" @change="endUpdate" :picker-options="endOption"></el-date-picker>
   </div>
 </template>
 
