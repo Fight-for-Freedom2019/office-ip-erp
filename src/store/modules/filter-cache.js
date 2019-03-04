@@ -61,10 +61,11 @@ const getters = {
       let form = {};
       let value = item['value'];
       if (Array.isArray(value)) {
+        console.log(typeof(value[0]))
         if (value.length == 2 && (value[0] instanceof Date || value[1] instanceof Date)) {
-          value = value.map(v => rootState.tool.getDate(v)).join(',');
+          value = value.map(v => rootState.tool.getDate(v)).join('|');
         } else {
-          value = value.join('|');
+          value = value.join(',');
         }
       }
       if (item.hasOwnProperty('extraOption')) {

@@ -145,8 +145,12 @@ export default {
 
 			const d = obj[k];
 			if(d instanceof Array) {
-				d.forEach(_=>{arr.push(`${encodeURIComponent(k)}[]=${encodeURIComponent(_)}`)});
-			}else {
+				if(typeof d[0] == 'object') {
+					d.forEach(_ => { arr.push(`${encodeURIComponent(k)}[]=${_}`) });
+				}else{
+					d.forEach(_ => { arr.push(`${encodeURIComponent(k)}[]=${encodeURIComponent(_)}`) });
+				}
+			} else {
 				arr.push(`${encodeURIComponent(k)}=${encodeURIComponent(d)}`)	
 			}			
 		}
