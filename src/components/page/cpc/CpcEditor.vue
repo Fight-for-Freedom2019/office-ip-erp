@@ -929,6 +929,7 @@ export default {
       this.defaultData = {};
       this.attachments = [];
       this.notices = [];
+      this.$f = null;
     },
     transformOption(a){
       let result = [];
