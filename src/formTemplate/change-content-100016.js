@@ -509,7 +509,7 @@ function vm() {
         }
         let obj = arr.filter((item) => {
           let mark = item.id ? item.id : item.value;
-          mark = !mark ? item.zipcode : mark;
+          mark = mark === 0 ? 0 : !mark ? item.zipcode : mark;
           if (code === mark) {
             return true
           }
@@ -544,9 +544,21 @@ function vm() {
           }
         }
       },
+      // 阻止代理机构和代理人默认数据填充
+      preventPaddingData(){
+        let keys = ["agency","agent"];
+        keys.forEach((key)=>{
+          if(this.extendData[key].length > 0) {
+            if(typeof this.extendData[key][0] === 'number') {
+              this.extendData[key] = [];
+            }
+          }
+        })
+      },
       handleCreate() {
-        // console.log("this.extendData", this.extendData);
+        console.log("this.extendData", this.extendData);
         // console.log("this.extendData", this.extendData.applicant);
+        this.preventPaddingData();
         let custom_id = 0;
         for (let key in this.extendData) {
           if (this.extendData.hasOwnProperty(key)) {
