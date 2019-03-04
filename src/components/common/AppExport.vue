@@ -75,41 +75,42 @@ export default {
 		exportClick () {
 			this.$refs.form.validate(_=>{
 				if(_){
-					const data = {
-						...this.filter,
-						...this.filterForm,
-						...this.defaultParams,
-						format: 'excel',
-						documents: this.form.documents,
-						fields: this.form.fields.join(','),
-						token: this.getToken,
-						ids: this.selected.map(_=>_.id),
-					};
-					const url = `${this.url}?${this.$tool.getUrlParams(data)}`;
+					// const data = {
+					// 	...this.filter,
+					// 	...this.filterForm,
+					// 	...this.defaultParams,
+					// 	format: 'excel',
+					// 	documents: this.form.documents,
+					// 	fields: this.form.fields.join(','),
+					// 	token: this.getToken,
+					// 	ids: this.selected.map(_=>_.id),
+					// };
+					// console.log(this.$tool.getUrlParams(data));
+					// const url = `${this.url}?${this.$tool.getUrlParams(data)}`;
 					// 前端通过采用拼接url，window.open直接下载
-					window.open(url);
+					// window.open(url);
 					// 以下为ajax请求等待后端返回downloadUrl再执行下载文件
-					// this.loading = true;
-					// this.$axiosGet({
-					// 	url: this.url,
-					// 	data: {
-					// 		...this.filter,
-					// 		...this.filterForm,
-					// 		...this.defaultParams,
-					// 		format: 'excel',
-					// 		documents: this.form.documents,
-					// 		fields: this.form.fields.join(','),
+					this.loading = true;
+					this.$axiosGet({
+						url: this.url,
+						data: {
+							...this.filter,
+							...this.filterForm,
+							...this.defaultParams,
+							format: 'excel',
+							documents: this.form.documents,
+							fields: this.form.fields.join(','),
 
-					// 		ids: this.selected.map(_=>_.id),
-					// 	},
-					// 	success: d=>{	
-					// 		window.location.href = d[this.responseKey]['downloadUrl'];
-					// 		this.$emit('success', d);
-					// 	},
-					// 	complete: d=>{
-					// 		this.loading = false;
-					// 	}
-					// })		
+							ids: this.selected.map(_=>_.id),
+						},
+						success: d=>{	
+							window.location.href = d[this.responseKey]['downloadUrl'];
+							this.$emit('success', d);
+						},
+						complete: d=>{
+							this.loading = false;
+						}
+					})		
 				}
 			})
 		}
