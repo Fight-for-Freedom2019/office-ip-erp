@@ -556,7 +556,7 @@ function vm() {
         })
       },
       handleCreate() {
-        console.log("this.extendData", this.extendData);
+        // console.log("this.extendData", this.extendData);
         // console.log("this.extendData", this.extendData.applicant);
         this.preventPaddingData();
         let custom_id = 0;
