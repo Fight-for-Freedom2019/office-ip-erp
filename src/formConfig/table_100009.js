@@ -1,5 +1,7 @@
 // 延长期限请求书
 import {vm as request_content} from '../formTemplate/request-content'
+import {vm as date_common_vm} from "../formTemplate/date_common";
+
 let rule = [
     request_content,
     {
@@ -8,12 +10,13 @@ let rule = [
             "type": "text",
         },
     },
-    {
+    date_common_vm({field:"duetime_date",label:"期限截止日期"}),
+    /*{
         type: "DatePicker", title: "期限截止日期", field: "duetime_date", value: "",
         props: {
             "type": "date",
         },
-    },
+    },*/
     {
         type: "input", title: "请求延长的时间(以月计算)", field: "duetime_period", value: "",
         props: {
