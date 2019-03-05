@@ -49,7 +49,7 @@ import table_100011 from './table_100011'
 const config = new Map([
     [100011,{obj:table_100011,name:"意见陈述书（关于费用）"}],
     [130001,{obj:table_130001,name:"外观设计图片或照片"}],
-    [100108,{obj:table_100108,name:"其它证明文件"}],
+    // [100108,{obj:table_100108,name:"其它证明文件"}],
     [100021,{obj:table_100021,name:"专利代理委托书（中英文）"}],
     [100012,{obj:table_100012,name:"意见陈述书"}],
     [100016,{obj:table_100016,name:"著录项目变更申报书"}],
