@@ -1,13 +1,15 @@
 //  撤回专利申请声明
 import {vm as upload_vm} from "../formTemplate/Upload";
+import {vm as date_common_vm} from "../formTemplate/date_common";
 
 let rule = [
     {
         type: "input", title: "申请号", field: "patent_number", value: "",
     },
-    {
+    date_common_vm({field:"patent_apd",label:"申请日"}),
+    /*{
         type: "DatePicker", title: "申请日", field: "patent_apd", value: "",
-    },
+    },*/
     {
         type: "input", title: "发明创造名称", field: "title", value: "",
     },
