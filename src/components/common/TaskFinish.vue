@@ -444,7 +444,9 @@ export default {
     ...mapActions(["refreshUser", "refreshProcessDetail", "offShrinkLoading"]),
     show() {
       console.log("finish panel shown " + this.row.id);
-      this.refreshData();
+      setTimeout(() => {
+        this.refreshData();
+      }, 0);
     },
     doLayout() {
       if (this.$refs && this.$refs.table !== undefined) {
@@ -492,7 +494,7 @@ export default {
       ];
       const arr = [];
       const map = {};
-      const url = `${URL}/${this.taskId}/form`;
+      const url = `${URL}/${this.row.task.id}/form`;
       // this.$refs.appForm.$refs.form.clearValidate();
       const success = d => {
         const response = d.data;
