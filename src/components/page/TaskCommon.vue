@@ -767,12 +767,17 @@ export default {
         : h.header_btn.splice(1, 1, {});
       this.$forceUpdate();
     },
-    handleRowClick: _.debounce(function (row) {
+    handleRowClick: _.debounce(async function (row) {
         // 使用防抖函数，300ms内不多次触发
         this.currentRow = row;
          this.onShrinkLoading(this.loadingText);
-        this.refreshProcessDetail({id: row.id});
-        this.$refs.taskDetail.show(row);
+        await this.refreshProcessDetail({id: row.id})
+        .then(res=>{
+          const len = this.$tool.getObjLength(res);
+          if(typeof res == 'object' && len > 0){
+            this.$refs.taskDetail.show(row,res);
+          }
+        });
       },300),
     showBatchOperation(type) {
       this.batchOperationType = type;
