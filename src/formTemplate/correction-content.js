@@ -1,5 +1,5 @@
 function vm(type, field, label) {
-    const template = `
+  const template = `
         <div>
             <el-button type="text" @click="addLine">增行</el-button>
             <el-button type="text" @click="minusLine">减行</el-button>
@@ -10,7 +10,7 @@ function vm(type, field, label) {
                 <el-col :span="4">更正前</el-col>
                 <el-col :span="4">更正后</el-col>
             </el-row>
-            <el-row v-for="item in amendments">
+            <el-row v-for="(item,index) in extendData.amendments" :key="index">
                 <el-col :span="5"><el-input v-model="item.filename"></el-input></el-col>
                 <el-col :span="5"><el-input v-model="item.item"></el-input></el-col>
                 <el-col :span="6"><el-input v-model="item.position"></el-input></el-col>
@@ -19,49 +19,53 @@ function vm(type, field, label) {
             </el-row>
         </div>
     `;
-    const options = {
-        data: {
-            // extendData: {
-            //     amendments: [],
-            // },
-            amendments: [
-                {
-                    filename: "",
-                    item: "",
-                    position: "",
-                    before: "",
-                    after: "",
-                }
-            ],
-        },
-        computed: {
-            extendData: function () {
-                return {amendments: this.amendments};
-            }
-        },
-        methods: {
-            addLine() {
-                let obj = {
-                    filename: "",
-                    item: "",
-                    position: "",
-                    before: "",
-                    after: "",
-                };
-                this.amendments.push(obj);
-            },
-            minusLine() {
-                this.amendments.length !== 0 ? this.amendments.pop() : "";
-            },
-        },
-    };
-    return {
-        custom: true,
-        vm: options,
-        template: template,
-        label: "更正内容",
-        field: "__cc",
-    };
+  const options = {
+    data: {
+      extendData: {
+          amendments: [],
+      },
+      amendments: [
+        {
+          filename: "",
+          item: "",
+          position: "",
+          before: "",
+          after: "",
+        }
+      ],
+    },
+    /*computed: {
+      extendData: function () {
+        return {amendments: this.amendments};
+      }
+    },*/
+    created(){
+      console.log(this.extendData);
+      // this.amendments = this.extendData.amendments;
+    },
+    methods: {
+      addLine() {
+        let obj = {
+          filename: "",
+          item: "",
+          position: "",
+          before: "",
+          after: "",
+        };
+        this.extendData.amendments.push(obj);
+      },
+      minusLine() {
+        this.extendData.amendments.length !== 0 ? this.extendData.amendments.pop() : "";
+      },
+    },
+  };
+  return {
+    custom: true,
+    vm: options,
+    template: template,
+    label: "更正内容",
+    field: "__cc",
+  };
 }
 
 export {vm}

@@ -21,10 +21,15 @@ const rule = [
         type: "select", title: "代理机构", field: "agency", value: []
     },
     {
-        type: "select", title: "附件", field: "attachments", value: "",
+        type: "select", title: "附件", field: "attachments", value: [],
         options: [
-            {value:1,label:'其它附件'}
+            {value:{id:1,name:"其它附件"},label:'其它附件'},
         ],
+        props:{
+            multiple: true,
+            filterable: true,
+            "value-key":"id",
+        },
     },
 ];
 const content = {
