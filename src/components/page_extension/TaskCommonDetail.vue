@@ -319,13 +319,17 @@ export default {
     },
     selectSibling() {
       const arr = [];
-      if (this.historyTasks && this.historyTasks.length != 0) {
+      const taskId = this.row && this.row.task!=null ?this.row.task.id : undefined;   
+      if (this.historyTasks && this.historyTasks.length != 0 && taskId) {
         this.historyTasks.forEach(v => {
-          if (v["id"] !== this.row.task.id) {
+
+          if (v["id"] !== taskId) {
             arr.push({
               id: v["id"],
               name: `${v["process_action"]["name"]}_${v["user"]["name"]}`
             });
+          }else{
+            return;
           }
         });
         return {

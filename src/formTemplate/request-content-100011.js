@@ -24,7 +24,7 @@ function vm() {
         data: {
             extendData: {
                 fee_invoice: false,
-                fee_invoice_unreceived: true,
+                fee_invoice_unreceived: false,
                 fee_notice: false,
                 notice_date: "",
                 notice_serial: "",

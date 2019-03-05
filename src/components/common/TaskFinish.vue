@@ -256,7 +256,7 @@
           <el-row :gutter="10">
             <el-col :span="12">
               <el-form-item label="备注">
-                <span class="form-item-text">{{ processData.task.remark }}</span>
+                <span class="form-item-text">{{ processData.task?processData.task.remark:"" }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -272,7 +272,7 @@
           </el-row>
           <el-form-item label="附件">
             <app-table
-              v-if="processData.task.attachments.length > 0"
+              v-if="processData.task?processData.task.attachments.length > 0:false"
               :columns="columns"
               border
               ref="table"
@@ -440,11 +440,13 @@ export default {
     ...mapMutations([]),
     ...mapActions(["refreshUser", "refreshProcessDetail", "offShrinkLoading"]),
     show(res) {
-      this.task_id = res.task.id;
+      this.task_id =res.task && res.task.id ? res.task.id : null;
       // const id = res.task.id;
-      setTimeout(() => {
-        this.refreshData();
-      }, 0);
+      if(this.task_id != null) {
+        setTimeout(() => {
+          this.refreshData();
+        }, 0);
+      }
     },
     doLayout() {
       if (this.$refs && this.$refs.table !== undefined) {
@@ -683,7 +685,7 @@ export default {
         : "";
     },
     userName() {
-      return this.processData.task.user != null
+      return this.processData.task && this.processData.task.user != null
         ? this.processData.task.user.name
         : "";
     },
