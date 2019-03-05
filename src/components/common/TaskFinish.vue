@@ -25,163 +25,163 @@
                 <el-form-item label="管制事项">
                   <span
                     class="form-item-text"
-                  >{{ row.process_definition?row.process_definition.name:"" }}</span>
+                  >{{ processData.process_definition?processData.process_definition.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="当前节点">
-                  <span class="form-item-text">{{ row.process_action.name }}</span>
+                  <span class="form-item-text">{{ processData.process_action?processData.process_action.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="案件类型">
-                  <span class="form-item-text">{{ row.project_type?row.project_type.name:"" }}</span>
+                  <span class="form-item-text">{{ processData.project_type?processData.project_type.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="案件子类型">
-                  <span class="form-item-text">{{ row.subtype?row.subtype.name:"" }}</span>
+                  <span class="form-item-text">{{ processData.subtype?processData.subtype.name:"" }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="初审人">
-                  <span class="form-item-text">{{ row.first_reviewer?row.first_reviewer.name:"" }}</span>
+                  <span class="form-item-text">{{ processData.first_reviewer?processData.first_reviewer.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="复核人">
-                  <span class="form-item-text">{{ row.final_reviewer?row.final_reviewer.name:"" }}</span>
+                  <span class="form-item-text">{{ processData.final_reviewer?processData.final_reviewer.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="对外代理人">
-                  <span class="form-item-text">{{ row.representative?row.representative.name:"" }}</span>
+                  <span class="form-item-text">{{ processData.representative?processData.representative.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="所属部门">
                   <span
                     class="form-item-text"
-                  >{{ row.organization_unit?row.organization_unit.name:"" }}</span>
+                  >{{ processData.organization_unit?processData.organization_unit.name:"" }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="委案日">
-                  <span class="form-item-text">{{ row.entrusting_time }}</span>
+                  <span class="form-item-text">{{ processData.entrusting_time }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="立案日">
-                  <span class="form-item-text">{{ row.creation_time }}</span>
+                  <span class="form-item-text">{{ processData.creation_time }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="客户">
-                  <span class="form-item-text">{{ row.customer?row.customer.name:"" }}</span>
+                  <span class="form-item-text">{{ processData.customer?processData.customer.name:"" }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="联系人">
-                  <span class="form-item-text">{{ row.contact?row.contact.name:"" }}</span>
+                  <span class="form-item-text">{{ processData.contact?processData.contact.name:"" }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="初稿日">
-                  <span class="form-item-text">{{ row.first_edition_time }}</span>
+                  <span class="form-item-text">{{ processData.first_edition_time }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="内部定稿日">
-                  <span class="form-item-text">{{ row.internal_final_edition_time }}</span>
+                  <span class="form-item-text">{{ processData.internal_final_edition_time }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="返稿日">
-                  <span class="form-item-text">{{ row.customer_edition_time }}</span>
+                  <span class="form-item-text">{{ processData.customer_edition_time }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="客户定稿日">
-                  <span class="form-item-text">{{ row.customer_final_edition_time }}</span>
+                  <span class="form-item-text">{{ processData.customer_final_edition_time }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="递交日">
-                  <span class="form-item-text">{{ row.filing_time }}</span>
+                  <span class="form-item-text">{{ processData.filing_time }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="内撰时长">
-                  <span class="form-item-text">{{ row.internal_drafting_period }}</span>
+                  <span class="form-item-text">{{ processData.internal_drafting_period }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="内改时长">
-                  <span class="form-item-text">{{ row.internal_amending_period }}</span>
+                  <span class="form-item-text">{{ processData.internal_amending_period }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="内审时长">
-                  <span class="form-item-text">{{ row.internal_reviewing_period }}</span>
+                  <span class="form-item-text">{{ processData.internal_reviewing_period }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="返稿时长">
-                  <span class="form-item-text">{{ row.customer_first_edition_period }}</span>
+                  <span class="form-item-text">{{ processData.customer_first_edition_period }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="客审时长">
-                  <span class="form-item-text">{{ row.customer_reviewing_period }}</span>
+                  <span class="form-item-text">{{ processData.customer_reviewing_period }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="客改时长">
-                  <span class="form-item-text">{{ row.customer_amending_period }}</span>
+                  <span class="form-item-text">{{ processData.customer_amending_period }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="内审次数">
-                  <span class="form-item-text">{{ row.internal_reviewing_times }}</span>
+                  <span class="form-item-text">{{ processData.internal_reviewing_times }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="客审次数">
-                  <span class="form-item-text">{{ row.customer_reviewing_times }}</span>
+                  <span class="form-item-text">{{ processData.customer_reviewing_times }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="技术评分">
-                  <span class="form-item-text">{{ row.technical_rank }}</span>
+                  <span class="form-item-text">{{ processData.technical_rank }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="权要评分">
-                  <span class="form-item-text">{{ row.claims_rank }}</span>
+                  <span class="form-item-text">{{ processData.claims_rank }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="说明书评分">
-                  <span class="form-item-text">{{ row.spec_rank }}</span>
+                  <span class="form-item-text">{{ processData.spec_rank }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
                 <el-form-item label="沟通评分">
-                  <span class="form-item-text">{{ row.communication_rank }}</span>
+                  <span class="form-item-text">{{ processData.communication_rank }}</span>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -207,12 +207,12 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="管控期限">
-                <span class="form-item-text">{{ row.internal_deadline }}</span>
+                <span class="form-item-text">{{ processData.internal_deadline }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="官方绝限">
-                <span class="form-item-text">{{ row.legal_deadline }}</span>
+                <span class="form-item-text">{{ processData.legal_deadline }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -256,17 +256,17 @@
           <el-row :gutter="10">
             <el-col :span="12">
               <el-form-item label="备注">
-                <span class="form-item-text">{{ row.task.remark }}</span>
+                <span class="form-item-text">{{ processData.task.remark }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="申请日">
-                <span class="form-item-text">{{ row.application_date }}</span>
+                <span class="form-item-text">{{ processData.application_date }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="申请号">
-                <span class="form-item-text">{{ row.application_number }}</span>
+                <span class="form-item-text">{{ processData.application_number }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -436,14 +436,12 @@ export default {
       }
     };
   },
-  created() {
-    this.refreshData();
-  },
   methods: {
     ...mapMutations([]),
     ...mapActions(["refreshUser", "refreshProcessDetail", "offShrinkLoading"]),
-    show() {
-      console.log("finish panel shown " + this.row.id);
+    show(res) {
+      this.task_id = res.task.id;
+      // const id = res.task.id;
       setTimeout(() => {
         this.refreshData();
       }, 0);
@@ -451,7 +449,7 @@ export default {
     doLayout() {
       if (this.$refs && this.$refs.table !== undefined) {
         this.$refs.table.$refs.table.doLayout();
-      }
+      } 
     },
     uploadBefore() {
       this.btn_disabled = true;
@@ -494,7 +492,7 @@ export default {
       ];
       const arr = [];
       const map = {};
-      const url = `${URL}/${this.row.task.id}/form`;
+      const url = `${URL}/${this.task_id}/form`;
       // this.$refs.appForm.$refs.form.clearValidate();
       const success = d => {
         const response = d.data;
