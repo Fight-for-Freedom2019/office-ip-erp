@@ -58,7 +58,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      
+
       <!-- <el-form-item label="邮件通知" prop="message_subscribe">
 				<el-checkbox label="是否订阅邮件通知" v-model="form.message_subscribe" :true-label="1" :false-label="0"></el-checkbox>
       </el-form-item>-->
@@ -71,7 +71,12 @@
           @focus="onEditorFocus($event)"
           @ready="onEditorReady($event)"
         ></quill-editor>-->
-          <tinymce-editor :api-key="api_key" v-model="form.signature" :init="editorInit" :height="600"></tinymce-editor>
+        <tinymce-editor
+          :api-key="api_key"
+          v-model="form.signature"
+          :init="editorInit"
+          :height="600"
+        ></tinymce-editor>
       </el-form-item>
       <el-form-item>
         <el-button @click="save" type="primary" :disabled="btn_disabled">保存</el-button>
@@ -85,13 +90,13 @@ import AppTag from "@/components/common/AppTag";
 import RemoteSelect from "@/components/form/RemoteSelect";
 import EditPassword from "@/components/form/EditPassword";
 import AppSwitch from "@/components/form/AppSwitch";
-import TinymceEditor from '@tinymce/tinymce-vue';
-import Tinymce from "@/mixins/tinymce"
+import TinymceEditor from "@tinymce/tinymce-vue";
+import Tinymce from "@/mixins/tinymce";
 const URL = "/users";
 
 export default {
   name: "settingIndividual",
-  mixins:[Tinymce],
+  mixins: [Tinymce],
   data() {
     return {
       form: {
@@ -99,6 +104,7 @@ export default {
         phone_number: "",
         message_subscribe: 0,
         email_address: "",
+        email_password: "",
         pop_server: "",
         pop_port: "",
         smtp_server: "",
@@ -126,6 +132,7 @@ export default {
             const d = _.data[k];
             this.form[k] = d;
           }
+          this.form.is_ssl = _.data["is_ssl"] ? 1 : 0;
         };
         const complete = _ => {
           window.setTimeout(_ => {
