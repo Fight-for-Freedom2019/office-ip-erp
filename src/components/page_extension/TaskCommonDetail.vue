@@ -351,7 +351,7 @@ export default {
       "refreshProcessDetail",
       "onShrinkLoading"
     ]),
-    show(row) {
+    show(row,res) {
       this.isTaskDetailVisible = true;
       this.row = row;
       this.$nextTick(()=>{
@@ -362,16 +362,21 @@ export default {
       // 调用完成任务显示
       this.$nextTick(() => {
         if(this.$refs && this.$refs.finish) {
-          this.$refs.finish.show();
+          this.$refs.finish.show(res);
         }
       });
     },
-    handleRefresh () {
+    async handleRefresh () {
       const id = this.row.id
       this.onShrinkLoading(this.loadingText);
-      this.refreshProcessDetail({id});
-      this.$nextTick(()=>{
-        this.$refs.finish.show();
+      await this.refreshProcessDetail({id})
+      .then(res=>{
+        const len = this.$tool.getObjLength(res);
+        if(typeof res == 'object' && len > 0 ) {
+          this.$nextTick(()=>{
+            this.$refs.finish.show(res);
+          })
+        }
       })
     },
     handleOperation(command) {
