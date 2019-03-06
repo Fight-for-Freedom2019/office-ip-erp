@@ -131,10 +131,7 @@ export default {
       options = options.concat([
         { value: 100108, label: "其他证明文件" },
         { value: 100103, label: "不丧失新颖性证明" },
-        {
-          value: 100104,
-          label: "著录项目变更理由证明"
-        }
+        // {value: 100104, label: "著录项目变更理由证明"}
       ]);
       if (this.patent_type === 1 || this.patent_type === 2) {
         options = options.concat([
