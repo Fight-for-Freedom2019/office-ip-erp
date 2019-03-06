@@ -892,7 +892,6 @@ export default {
       this.showAppendFile = true;
       this.$nextTick(()=>{
         this.$refs.uploadFile.changeStatus(this.hasTable100108);
-        debugger
       })
     },
     closeDialog(){
