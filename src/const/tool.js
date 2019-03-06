@@ -61,11 +61,33 @@ export default {
 		
 	},
 	checkDate(str) {
-		// 检查字符串是否为日期格式 只检验日期如2019-03-06
-		const r = str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
-		if (r == null) return false;
+		// 检查字符串是否为日期格式
+		return strDateTime1(str) || strDateTime2(str) || strDateTime3(str);
+		// 时间 如 15:26:02
+		function strDateTime1(str) {
+			const a = str.match(/^(\d{1,2})(:)?(\d{1,2})\2(\d{1,2})$/);
+			if (a == null) { return false; }
+			if (a[1] > 24 || a[3] > 60 || a[4] > 60) {
+				return false
+			}
+			return true;
+		}
+		// 日期 如 2019-03-06
+		function strDateTime2(str) {
+			const r = str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+			if (r == null) return false;
 			const d = new Date(r[1], r[3] - 1, r[4]);
 			return (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3] && d.getDate() == r[4]);
+		}
+		// 日期 如 2019-03-06 15:28:30
+		function strDateTime3(str) {
+			const reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+			const r = str.match(reg);
+			if (r == null) return false;
+			const d = new Date(r[1], r[3] - 1, r[4], r[5], r[6], r[7]);
+			return (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3] && d.getDate() == r[4] && d.getHours() == r[5]
+			 && d.getMinutes() == r[6] && d.getSeconds() == r[7]);
+		}
 	},
 	coverObj (a1, a2, { obj, skip, date } = {}) {
 		
