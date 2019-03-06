@@ -69,7 +69,7 @@
                 >
                   <span class="form-item-name">{{item.name}}</span>
                   <el-button
-                    @click.stop="removeFile(index,item.fid)"
+                    @click.stop="removeFile(index,item.target)"
                     :class="{'show-remove':isShowFileRemoveBtn && index === isShowFileIndex}"
                     type="text"
                     size="mini"
@@ -141,7 +141,7 @@
       <!-- 添加表格 end -->
       <!-- 添加文件 start -->
       <el-dialog title="CPC电子编辑器上传文件" :visible.sync="showAppendFile" :modal="false">
-        <upload-file @getFileList="getFileList"></upload-file>
+        <upload-file @getFileList="getFileList" ref="uploadFile"></upload-file>
       </el-dialog>
       <!-- 添加文件 end -->
       <!-- 转档 start -->
@@ -176,16 +176,27 @@ import Vue from "vue";
 import { mapGetters } from "vuex";
 
 const otherForm = [
-  ["100000", "说明书全文"],
-  ["100001", "权利要求书"],
-  ["100002", "说明书"],
-  ["100003", "说明书附图"],
-  ["100004", "说明书摘要"],
-  ["100005", "摘要附图"],
-  ["100042", "修改对照页"],
-  ["100108", "其他证明文件"],
-  ["100125", "原文"],
-  ["100118", "原案申请副本"],
+  [100000, "说明书全文"],
+  [100001, "权利要求书"],
+  [100002, "说明书"],
+  [100003, "说明书附图"],
+  [100004, "说明书摘要"],
+  [100005, "摘要附图"],
+  [100042, "修改对照页"],
+  [100108, "其他证明文件"],
+  [100125, "原文"],
+  [100118, "原案申请副本"],
+  [100103, "不丧失新颖性证明"],
+  [100120, "生物材料保藏证明"],
+  [100111, "生物材料存活证明"],
+  [100112, "优先权转让证明"],
+  [100113, "优先权转让证明中文本"],
+  [100114, "经证明的在先申请文件副本"],
+  [100115, "经证明的在先申请文件副本首页译文"],
+  [100117, "核苷酸或氨基酸序列表计算机可读载体"],
+  [100118, "原案申请副本"],
+  [100121, "实质审查参考资料"],
+  [100122, "申请权转让证明"],
 ];
 export default {
   name: "CpcEditor",
@@ -193,6 +204,7 @@ export default {
     return {
       // title: "CPC电子申请编辑器",
       isApplicationEditor: false,
+      hasTable100108:false,
       tabpanel: "application_doc",
       showAppendForm: false,
       showAppendFile: false,
@@ -360,6 +372,9 @@ export default {
       result.forEach(item => {
         this.detectorRepeat(item.target);
         if(item.target) {
+          if(item.target === 100108) {
+            this.hasTable100108 = true;
+          }
           this.submitFileList.push(item);
         }
       });
@@ -407,6 +422,7 @@ export default {
         type: "warning"
       }).then(() => {
         this.submitFileList.splice(index, 1);
+        if(id === 100108) this.hasTable100108 = false;
       });
     },
     /*****文件相关 end*****/
@@ -539,6 +555,7 @@ export default {
 
       this.submitData.delete(id);
       this.formList.splice(index, 1);
+      if(id === 100108) this.hasTable100108 = false;
       this.vm_collection_id.forEach(item => {
         if (String(item).indexOf(id) !== -1) {
           this.vm_collection.delete(item);
@@ -884,6 +901,9 @@ export default {
     },
     Upload() {
       this.showAppendFile = true;
+      this.$nextTick(()=>{
+        this.$refs.uploadFile.changeStatus(this.hasTable100108);
+      })
     },
     closeDialog(){
       let dialog = ["offset_dialog","change_content_dialog","citations_information_dialog"];
@@ -982,12 +1002,16 @@ export default {
               if (index !== -1 && id !== 100104) {
                 this.copy_form.splice(index, 1);
               }
-              if (!this.otherFormMap.get(id + "")) {  //  || id === 100108
+              if (!this.otherFormMap.get(id)) {  //  || id === 100108
                 // 转档返回的code是字符串，所以otherFormMap中的key为字符串
                 this.formTypeCollection.push(id);
               } else {
-                // console.log(this.data[key]);
-                this.submitFileList.push(this.data[key].files[0]);
+                if(id === 100108 && this.data[`table${100108}`].type) {
+                  this.formTypeCollection.push(id);
+                }else {
+                  // console.log(this.data[key]);
+                  this.submitFileList.push(this.data[key].files[0]);
+                }
               }
               /*if(id === 100108) {
                 console.log("this.data",this.data[key]);
@@ -1012,6 +1036,11 @@ export default {
   },
   watch: {
     formList: function(val, oldVal) {
+      val.forEach((i)=>{
+        if(i.id === 100108) {
+          this.hasTable100108 = true;
+        }
+      })
       this.common_use.forEach(item => {
         let arr = val.filter(i => {
           return i.id === item.id;
@@ -1024,6 +1053,13 @@ export default {
         val.project.id ? this.getProject() : "";
       },
       immediate: true
+    },
+    hasTable100108:function (val) {
+      this.selectOptions.forEach((i)=>{
+        if(i.value === 100108) {
+          i.disabled = val;
+        }
+      })
     }
   },
   components: {

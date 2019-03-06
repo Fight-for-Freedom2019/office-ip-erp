@@ -1,5 +1,7 @@
 import {vm as statement_content_vm} from '../formTemplate/statement-content'
 import {vm as upload_vm} from "../formTemplate/Upload";
+import {vm as date_common_vm} from "../formTemplate/date_common";
+
 let rule = [
     {
         type: "input", title: "专利号", field: "patent_number", value: "",
@@ -7,12 +9,7 @@ let rule = [
             "type": "text",
         },
     },
-    {
-        type: "input", title: "申请日", field: "patent_apd", value: "",
-        props: {
-            "type": "text",
-        },
-    },
+    date_common_vm({field: "patent_apd", label: "申请日"}),
     {
         type: "input", title: "发明创造名称", field: "title", value: "",
         props: {
