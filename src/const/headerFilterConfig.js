@@ -1364,6 +1364,13 @@ const map = new Map([
         map_type: "cpc_notice_source"
       },
       {
+        type: "remote_select",
+        id: "customer",
+        name: "客户",
+        data_key: "data",
+        url: "/customers?listOnly=1"
+      },
+      {
         type: "date",
         id: "creation_time",
         name: "上传时间"

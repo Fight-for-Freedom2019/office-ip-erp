@@ -381,16 +381,11 @@ export default {
             type: "text",
             prop: "application_number",
             label: "申请号",
-            width: "120",
+            width: "145",
             expanded: true
           },
           {
-            type: "text",
-            prop: "entrusting_time",
-            label: "委案日",
-            render_header: true,
-            width: "100",
-            expanded: true
+            type: "text", prop: "entrusting_time",label: "委案日",render_header: true,width: "100",expanded: true
           },
           {
             type: "text",

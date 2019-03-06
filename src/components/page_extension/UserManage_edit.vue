@@ -77,74 +77,74 @@ import StaticSelect from "@/components/form/StaticSelect";
 import AppSwitch from "@/components/form/AppSwitch";
 import PopMixins from "@/mixins/pop-mixins";
 export default {
-  URL: "/users",
-  REMINDER_TEXT: "用户",
-  name: "usermanageedit",
-  mixins: [PopMixins],
-  data() {
-    return {
-      form: {
-        roles: [],
-        organization_units: [],
-        user_name: "",
-        password: "",
-        name: "",
-        email_address: "",
-        phone_number: "",
-        pop_server: "",
-        pop_port: "",
-        smtp_server: "",
-        smtp_port: "",
-        is_ssl: false,
-        is_active: false,
-        is_fixed_salary: false,
-        mentor: ""
-      },
-      rules: {
-        roles: {
-          type: "array",
-          required: true,
-          message: "请输入用户组",
-          trigger: "change"
-        },
-        organization_units: {
-          type: "array",
-          required: true,
-          message: "请输入部门",
-          trigger: "change"
-        },
-        password: { required: true, message: '请输入密码', trigger: 'blur' },
-        user_name: [
-          { required: true, message: "请输入用户名称", trigger: "blur" }
-        ],
-        name: [{ required: true, message: "请输入名称", trigger: "blur" }],
-        email_address: [
-          {
-            pattern: /^[A-Za-z0-9]+([._\\-]*[A-Za-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
-            message: "邮件地址格式不正确",
-            trigger: "blur",
-            required: true
-          }
-        ]
-      }
-    };
-  },
-  methods: {
-    setForm(d) {
-      this.$tool.coverObj(this.form, d);
-      if (d.organization_units) {
-        this.form.organization_units = d.organization_units.map(_ => _.id);
-      }
+    URL: "/users",
+    REMINDER_TEXT: "用户",
+    name: "usermanageedit",
+    mixins: [PopMixins],
+    data() {
+        return {
+            form: {
+                roles: [],
+                organization_units: [],
+                user_name: "",
+                password: "",
+                name: "",
+                email_address: "",
+                phone_number: "",
+                pop_server: "",
+                pop_port: "",
+                smtp_server: "",
+                smtp_port: "",
+                is_ssl: false,
+                is_active: false,
+                is_fixed_salary: false,
+                mentor: ""
+            },
+            rules: {
+                roles: {
+                    type: "array",
+                    required: true,
+                    message: "请输入用户组",
+                    trigger: "change"
+                },
+                organization_units: {
+                    type: "array",
+                    required: true,
+                    message: "请输入部门",
+                    trigger: "change"
+                },
+                password: { required: false, message: '请输入密码', trigger: 'blur' },
+                user_name: [
+                    { required: true, message: "请输入用户名称", trigger: "blur" }
+                ],
+                name: [{ required: true, message: "请输入名称", trigger: "blur" }],
+                email_address: [
+                    {
+                        pattern: /^[A-Za-z0-9]+([._\\-]*[A-Za-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
+                        message: "邮件地址格式不正确",
+                        trigger: "blur",
+                        required: true
+                    }
+                ]
+            }
+        };
+    },
+    methods: {
+        setForm(d) {
+            this.$tool.coverObj(this.form, d);
+            if (d.organization_units) {
+                this.form.organization_units = d.organization_units.map(_ => _.id);
+            }
+        }
+    },
+    created() { },
+    components: {
+        AppShrink,
+        RemoteSelect,
+        StaticSelect,
+        JumpSelect,
+        AppSwitch
     }
-  },
-  created() {},
-  components: {
-    AppShrink,
-    RemoteSelect,
-    StaticSelect,
-    JumpSelect,
-    AppSwitch
-  }
 };
 </script>
 <style lang="scss" scoped>
