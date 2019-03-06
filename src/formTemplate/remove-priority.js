@@ -2,8 +2,9 @@
 * 优先权
 * */
 import axios from 'axios'
+
 function vm(isDAS) {
-    const template = `
+  const template = `
     <div>
     <el-button style="margin-bottom: 10px" size="small" type="primary" @click="add" plain>新增</el-button>
 <el-table border :data="extendData.priority">
@@ -74,83 +75,89 @@ function vm(isDAS) {
     </el-dialog>
 </div>
     `;
-    const options = {
-        data: {
-            extendData: {
-                priority: [],
-            },
-            // priority_options: [],
-            options: [],
-            isVisible: false,
-            type: 'add',
-            index: null,
-            isDAS:isDAS,
-            form: {
-                area: '',
-                apd: '',
-                apn: '',
-                code: '',
+  const options = {
+    data: {
+      extendData: {
+        priority: [],
+      },
+      // priority_options: [],
+      options: [],
+      isVisible: false,
+      type: 'add',
+      index: null,
+      isDAS: isDAS,
+      form: {
+        area: '',
+        apd: '',
+        apn: '',
+        code: '',
+      }
+    },
+    computed: {},
+    created(){
+      const url = '/static/js/area.json'
+      axios.get(url).then(response => {
+        this.options = eval(`${response.data}`);
+      })
+    },
+    methods: {
+      add() {
+        this.type = 'add';
+        this.index = null;
+        this.controlDialog('block')
+        /*const url = '/static/js/area.json'
+        axios.get(url).then(response => {
+          this.options = eval(`${response.data}`);
+        })*/
+      },
+      handleDelete(index, rows) {
+        rows.splice(index, 1);
+      },
+      handleEdit(row, index) {
+        this.form = Object.assign({}, row);
+        this.type = 'edit';
+        this.index = index;
+        this.controlDialog("block");
+      },
+      save() {
+        if (this.type === "edit") {
+          for (let key in this.form) {
+            if (this.form.hasOwnProperty(key)) {
+              this.extendData.priority[this.index][key] = this.form[key];
             }
-        },
-        computed: {},
-        methods: {
-            add() {
-                this.type = 'add';
-                this.index = null;
-                this.controlDialog('block')
-                const url = '/static/js/area.json'
-                axios.get(url).then(response => {
-                    this.options = eval(`${response.data}`);
-                })
-            },
-            handleDelete(index, rows) {
-                rows.splice(index, 1);
-            },
-            handleEdit(row, index) {
-                this.form = Object.assign({}, row);
-                this.type = 'edit';
-                this.index = index;
-                this.controlDialog("block");
-            },
-            save() {
-                if (this.type === "edit") {
-                    for (let key in this.form) {
-                        if (this.form.hasOwnProperty(key)) {
-                            this.extendData.priority[this.index][key] = this.form[key];
-                        }
-                    }
-                } else {
-                    this.extendData.priority.push(this.form);
-                }
+          }
+        } else {
+          this.extendData.priority.push(this.form);
+        }
 
-                this.controlDialog('none');
-            },
-            verifyValue(value) {
-                let bool = true
-                this.priority_options.forEach((item) => {
-                    if (item.value === value) {
-                        bool = false
-                    }
-                })
-                return bool
-            },
-            cancel() {
-                this.controlDialog('none')
-            },
-            controlDialog(c) {
-                this.isVisible = c === 'block' ? true : false
-                const parent = document.getElementsByClassName('priority_dialog')[0].parentNode
-                parent.style.display = c
-            },
-        },
-    };
-    return {
-        custom: true,
-        vm: options,
-        template: template,
-        label: '申请人声明撤回下列优先权',
-        field: 'priority_vm',
-    };
+        this.controlDialog('none');
+      },
+      verifyValue(value) {
+        let bool = true
+        this.priority_options.forEach((item) => {
+          if (item.value === value) {
+            bool = false
+          }
+        })
+        return bool
+      },
+      cancel() {
+        this.controlDialog('none')
+      },
+      controlDialog(c) {
+        this.isVisible = c === 'block' ? true : false
+        const parent = document.getElementsByClassName('priority_dialog')[0].parentNode
+        parent.style.display = c
+      },
+    },
+  };
+  return {
+    custom: true,
+    vm: options,
+    template: template,
+    label: '申请人声明撤回下列优先权',
+    field: 'priority_vm',
+  };
 }
 
 export {vm}

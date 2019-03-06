@@ -15,7 +15,7 @@ let rule = [
         type: "input", title: "发明创造名称", field: "title", value: "",
     },
     {
-        type: "input", title: "第一署名申请人或专利权人", field: "first_applicant", value: "",
+        type: "select", title: "第一署名申请人或专利权人", field: "first_applicant", value: [],
     },
     {
         type: "select", title: "请求人", field: "applicants", value: []

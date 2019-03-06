@@ -1,5 +1,4 @@
 // 复审无效宣告程序意见陈述书
-import {checkboxFunc, handleSingle} from "./handle/handle";
 import {vm as state_matters_vm} from '../formTemplate/state-matters'
 import {vm as checkbox_common_vm} from "../formTemplate/checkbox-common";
 const opinionator = {
@@ -17,7 +16,7 @@ let rule = [
     {
         type:"input",title: "复审委案件编号",field: "board_number",value: "",
     },
-    checkbox_common_vm(opinionator,"意见陈述人",checkboxFunc,{labelWidth:"120px"},false),
+    checkbox_common_vm(opinionator,"意见陈述人","",{labelWidth:"120px"}),
     {
         type:"input",title: "",field: "applicant_name",value: "",
         col:{
