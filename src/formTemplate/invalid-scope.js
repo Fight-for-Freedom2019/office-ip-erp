@@ -32,7 +32,7 @@ const template = `
     
     
     <el-dialog title="新增/编辑无效理由" :visible.sync="isVisible" custom-class="priority_dialog" :append-to-body="true" :modal="false">
-        <el-form :model="form" label-position="left" label-width="110px">
+        <el-form :model="form" ref="form" label-position="left" label-width="110px">
             <el-form-item label="理由">
                 <div>专利法第<el-input style="width: auto" v-model="form.patlaw_article"></el-input>条，第<el-input style="width: auto" v-model="form.patlaw_paragraph"></el-input>款;</div>
                 <div>实施细则第<el-input style="width: auto" v-model="form.regulation_article"></el-input>条，第<el-input style="width: auto" v-model="form.regulation_paragraph"></el-input>款;</div>
@@ -53,77 +53,93 @@ const template = `
 `
 
 const options = {
-    data: {
-        extendData: {
-            reasons: [],
-        },
-        reasons_copy: [],
-        options: [],
-        isVisible: false,
-        type: 'add',
-        index: null,
-        form: {
-            patlaw_article: '',
-            patlaw_paragraph: '',
-            regulation_article: '',
-            regulation_paragraph: '',
-            scope: "",
-            evidence: "",
+  data: {
+    extendData: {
+      reasons: [],
+    },
+    reasons_copy: [],
+    options: [],
+    isVisible: false,
+    type: 'add',
+    index: null,
+    form: {
+      patlaw_article: '',
+      patlaw_paragraph: '',
+      regulation_article: '',
+      regulation_paragraph: '',
+      scope: "",
+      evidence: "",
+    }
+  },
+  computed: {},
+  methods: {
+    add() {
+      this.type = 'add';
+      this.index = null;
+      this.controlDialog('block');
+      this.form = {
+        patlaw_article: '',
+        patlaw_paragraph: '',
+        regulation_article: '',
+        regulation_paragraph: '',
+        scope: "",
+        evidence: "",
+      }
+    },
+    handleDelete(index, rows) {
+      rows.splice(index, 1);
+      this.extendData.reasons.splice(index, 1);
+    },
+    handleEdit(row, index) {
+      this.form = Object.assign({}, this.extendData.reasons[index]);
+      this.type = 'edit';
+      this.index = index;
+      this.controlDialog("block");
+    },
+    getObj(source){
+      return {
+        reason: `专利法第${source.patlaw_article}条，第${source.patlaw_paragraph}款;\n实施细则第${source.regulation_article}条，第${source.regulation_paragraph}款;`,
+        scope: source.scope,
+        evidence: source.evidence,
+      }
+    },
+    save() {
+      if (this.type === "edit") {
+        for (let key in this.form) {
+          if (this.form.hasOwnProperty(key)) {
+            this.extendData.reasons[this.index][key] = this.form[key];
+          }
         }
-    },
-    computed: {},
-    methods: {
-        add() {
-            this.type = 'add';
-            this.index = null;
-            this.controlDialog('block')
-        },
-        handleDelete(index, rows) {
-            rows.splice(index, 1);
-            this.extendData.reasons.splice(index, 1);
-        },
-        handleEdit(row, index) {
-            this.form = Object.assign({}, this.extendData.reasons[index]);
-            this.type = 'edit';
-            this.index = index;
-            this.controlDialog("block");
-        },
-        save() {
-            if (this.type === "edit") {
-                for (let key in this.form) {
-                    if (this.form.hasOwnProperty(key)) {
-                        this.extendData.reasons[this.index][key] = this.form[key];
-                    }
-                }
-            } else {
-                this.extendData.reasons.push(this.form);
-                let obj = {
-                    reason: `专利法第${this.form.patlaw_article}条，第${this.form.patlaw_paragraph}款;\n实施细则第${this.form.regulation_article}条，第${this.form.regulation_paragraph}款;`,
-                    scope: this.form.scope,
-                    evidence: this.form.evidence,
-                }
-                this.reasons_copy.push(obj);
-            }
+        this.reasons_copy.splice(this.index,1,this.getObj(this.form));
+      } else {
+        this.extendData.reasons.push(this.form);
+        this.reasons_copy.push(this.getObj(this.form));
+      }
 
-            this.controlDialog('none');
-        },
-        cancel() {
-            this.controlDialog('none')
-        },
-        controlDialog(c) {
-            this.isVisible = c === 'block' ? true : false
-            const parent = document.getElementsByClassName('priority_dialog')[0].parentNode
-            parent.style.display = c
-        },
+      this.controlDialog('none');
     },
+    cancel() {
+      this.controlDialog('none')
+    },
+    controlDialog(c) {
+      this.isVisible = c === 'block' ? true : false
+      const parent = document.getElementsByClassName('priority_dialog')[0].parentNode
+      parent.style.display = c
+    },
+  },
+  created(){
+    this.extendData.reasons.forEach((item)=>{
+      this.reasons_copy.push(this.getObj(item));
+    })
+  },
 }
 
 const vm = {
-    custom: true,
-    vm: options,
-    template: template,
-    label: '无效宣告请求的理由、范围以及所依据的证据',
-    field: '__is',
+  custom: true,
+  vm: options,
+  template: template,
+  label: '无效宣告请求的理由、范围以及所依据的证据',
+  field: '__is',
 }
 
 export {vm}
