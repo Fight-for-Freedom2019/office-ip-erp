@@ -50,6 +50,7 @@
               :value="item.value"
               :label="item.label"
               :key="item.value"
+              :disabled="item.disabled"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -386,6 +387,14 @@ export default {
     }
   },
   methods: {
+    changeStatus(bool){
+      this.fileTypeList.forEach((i)=>{
+        i.disabled = false;
+        if(i.value === 100108) {
+          i.disabled = bool;
+        }
+      })
+    },
     viewFile(item) {
       window.open(item);
     },
