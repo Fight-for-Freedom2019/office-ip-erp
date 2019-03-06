@@ -281,7 +281,7 @@ export default {
         {
           url: "/applicants?listRows=1000000&listOnly=1",
           data_key: "data",
-          map_key: "applicants"
+          map_key: ["applicants","first_applicant"]
         },
         {
           url: "/agents?listRows=1000000&listOnly=1",
@@ -593,7 +593,7 @@ export default {
     },
     setOptions(source) {
       source.forEach(item => {
-        this.verifyValue(item); // 添加验证规则
+        // this.verifyValue(item); // 添加验证规则
         if (item.type && item.type === "select") {
           if (!item.options) {
             let data = this.options_collection.get(item.field);
@@ -982,6 +982,7 @@ export default {
       // console.time("耗时")
       this.clear();
       this.getOptions();
+      this.getProject();
       const success = _ => {
         // console.log(_.data.tables);
         // this.data = JSON.parse(_.data.tables);
@@ -1026,6 +1027,7 @@ export default {
       this.$axiosGet({ url: `/taskCpcs/${this.task_id}`, data: {}, success });
     },
     getProject() {
+      if(!this.process.project)return
       const success = _ => {
         // console.log(_);
         this.attachments = _.patent.attachments;
@@ -1047,12 +1049,6 @@ export default {
         });
         item.showIcon = arr.length !== 0 ? true : false;
       });
-    },
-    process: {
-      handler: function(val) {
-        val.project.id ? this.getProject() : "";
-      },
-      immediate: true
     },
     hasTable100108:function (val) {
       this.selectOptions.forEach((i)=>{
