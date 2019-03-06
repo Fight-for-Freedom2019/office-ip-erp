@@ -18,7 +18,7 @@ let rule = [
         type: "select", title: "代理机构", field: "agency", value: []
     },
     remove_priority_vm(),
-    upload_vm({label:"全体申请人同意撤回优先权的证明",url:"/url",field:"picture",common:true,limit:1}),
+    upload_vm({label:"全体申请人同意撤回优先权的证明",field:"pictures",common:true,limit:1,tip:"点击上传"}),
     // TODO 原form报错
 ]
 
