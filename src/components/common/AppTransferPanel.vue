@@ -140,7 +140,7 @@ export default {
           this.$message({message: '请鼠标点击其中一项', type: 'warning'})
           return false;
         }
-        if(this.checkedIndex == null) {
+        if(this.checkedIndex == null || this.value.length == 0) {
           resolve(info())
         } else{
           resolve(true)

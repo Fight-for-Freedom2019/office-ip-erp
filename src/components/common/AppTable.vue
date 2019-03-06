@@ -781,13 +781,13 @@ export default {
     },
     handleRowClick(row, event, column) {
       event.stopPropagation();
-      if (column.type == "selection" || column.type == "action") return false;
+      if (column.type == "expand" || column.type == "selection" || column.type == "action") return false;
 
       this.$emit("row-click", row, event, column);
     },
     handleCellClick(row, column, cell, event) {
       event.stopPropagation();
-      if (column.type == "selection" || column.type == "action") return false;
+      if (column.type == "expand" || column.type == "selection" || column.type == "action") return false;
       this.$emit("cell-click", row, column, cell, event);
     },
     handleHeaderDragend(nw, ow, column, event) {

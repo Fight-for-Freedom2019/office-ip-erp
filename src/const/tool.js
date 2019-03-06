@@ -60,6 +60,13 @@ export default {
 		}
 		
 	},
+	checkDate(str) {
+		// 检查字符串是否为日期格式 只检验日期如2019-03-06
+		const r = str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+		if (r == null) return false;
+			const d = new Date(r[1], r[3] - 1, r[4]);
+			return (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3] && d.getDate() == r[4]);
+	},
 	coverObj (a1, a2, { obj, skip, date } = {}) {
 		
 		const objMap = new Map();
