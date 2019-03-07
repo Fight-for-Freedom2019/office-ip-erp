@@ -475,7 +475,7 @@ export default {
     ]),
     expands() {
       const expands = [];
-      this.tableOption.columns.forEach(_ => {
+      this.columns.forEach(_ => {
         if (_.expanded != undefined && _.expanded) {
           expands.push(_);
         }

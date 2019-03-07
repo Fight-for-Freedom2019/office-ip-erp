@@ -1567,6 +1567,13 @@ const map = new Map([
         map_type: "project_type"
       },
       {
+        type: "remote_select",
+        id: "customer",
+        name: "客户",
+        data_key: "data",
+        url: "/customers?listOnly=1"
+      },
+      {
         type: "static_select",
         id: "subtype",
         name: "案件子类型",
@@ -1590,6 +1597,11 @@ const map = new Map([
         id: "bonus_type",
         name: "点数类型",
         map_type: "bonus_type"
+      },
+      {
+        type: "date",
+        id: "application_date",
+        name: "申请日"
       },
       {
         type: "static_select",
