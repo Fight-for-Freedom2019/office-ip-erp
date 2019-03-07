@@ -29,7 +29,6 @@
   </div>
 </template>
 <script>
-// import { checkLogin } from '@/const/main'
 import { mapMutations } from "vuex";
 export default {
   name: "login",
@@ -141,7 +140,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang="scss" >
-// @import './static/css/main', './static/css/util';
 .login_page {
   width: 100%;
   height: 100%;
