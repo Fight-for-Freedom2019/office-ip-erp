@@ -44,6 +44,7 @@
       <fee
         :row-data="currentRowFee"
         :fee_type="feeType"
+        :is_debit="isDebit"
         :page-type="pageType"
         ref="fee"
         @update="handleRrefresh"
@@ -135,7 +136,10 @@ export default {
     },
     income() {
       return this.detailRevenue ? this.detailRevenue.sum : "0";
-    }
+    },
+    isDebit() {
+      return this.feeType == 'pay'? 0 : 1 
+    }, 
   },
   methods: {
     ...mapActions(["refreshDetailData"]),
