@@ -20,7 +20,7 @@
             </el-form-item>
 
             <el-form-item label="管制事项" prop="process" v-if="this.mode == 'add'">
-                <el-select v-model="form.process" placeholder="请选择管制事项">
+                <el-select v-model="form.process" placeholder="请选择管制事项" @change="onItemChanged">
                     <el-option
                         v-for="item in processOptions"
                         :key="item.id"
@@ -101,6 +101,7 @@ export default {
                 ],
             },
             flowsData: '',
+            tasksData: '',
             mode: 'edit',
             title: '',
             isPanelVisible: false,
@@ -128,18 +129,7 @@ export default {
             return this.flowsData;
         },
         actionOptions() {
-            let arr = [];
-            const f = this.form.process;
-            if (!this.flowsData && !f) {
-                return [];
-            } else {
-                for (let i = 0; i < this.flowsData.length; i++) {
-                    if (this.flowsData[i].id == f) {
-                        return arr = this.flowsData[i].tasks;
-                        break;
-                    }
-                }
-            }
+            return this.tasksData;
         },
     },
     methods: {
@@ -149,17 +139,38 @@ export default {
         onProjectChange() {
             this.loadFlowData();
         },
+        onItemChanged() {
+            this.loadTaskData(this.form.process);
+        },
         async loadFlowData() {
             if (this.form.project) {
-                const data = { project: this.form.project, listOnly: 1 };
+                const data = { project: this.form.project, scope: 'all' };
                 this.$axiosGet({
                     url: '/processes',
                     data,
                     success: _ => {
-                        this.flowsData = _.processes.data;
+                        this.flowsData = _.processes.data.map(_ => {
+                            return {
+                                id: _.id,
+                                name: _.process_definition.name
+                            }
+                        });
                     }
                 });
             }
+        },
+        async loadTaskData(id) {
+            this.$axiosGet({
+                url: '/tasks?process=' + id,
+                success: _ => {
+                    this.tasksData = _.tasks.data.map(_ => {
+                        return {
+                            id: _.id,
+                            name: _.process_action.name
+                        }
+                    });
+                }
+            });
         },
         show(mode, id) {
             this.mode = mode;
