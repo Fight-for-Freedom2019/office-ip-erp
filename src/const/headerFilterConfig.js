@@ -318,7 +318,7 @@ const map = new Map([
     "cpc_notice",
     [
       { type: 'remote_select', id: 'project', name: '匹配案件', data_key: 'data', url: '/projects?project_type=专利&listOnly=1' },
-      { type: "static_select", id: "cpc_file_type", name: "通知书名称", map_type: "file_type_oa",url:true},
+      { type: "static_select", id: "cpc_file_type", name: "通知书名称", map_type: "file_type_oa", url: true },
       { type: "remote_select", id: "customer", name: "客户", data_key: "data", url: "/customers?listOnly=1" },
       { type: "date", id: "creation_time", name: "上传时间" },
       { type: "date", id: "cpc_deadline", name: "官方绝限" },
@@ -364,13 +364,62 @@ const map = new Map([
   ],
   [
     "points",
-    [{ type: "static_select", id: "project_type", name: "案件类型", map_type: "project_type" },
-    { type: "static_select", id: "subtype", name: "案件子类型", map_type: "subtype" },
-    { type: "static_select", id: "process", name: "管制事项", map_type: "process_definition", url: true },
-    { type: "static_select", id: "area", name: "国家/地区", map_type: "area" },
-    { type: "static_select", id: "bonus_type", name: "点数类型", map_type: "bonus_type" },
-    { type: "static_select", id: "status", name: "状态", map_type: "bonus_status" },
-    { type: "remote_select", id: "user", name: "用户", data_key: "data", url: "/users" }
+    [{
+      type: "static_select",
+      id: "project_type",
+      name: "案件类型",
+      map_type: "project_type"
+    },
+    {
+      type: "remote_select",
+      id: "customer",
+      name: "客户",
+      data_key: "data",
+      url: "/customers?listOnly=1"
+    },
+    {
+      type: "static_select",
+      id: "subtype",
+      name: "案件子类型",
+      map_type: "subtype"
+    },
+    {
+      type: "static_select",
+      id: "process",
+      name: "管制事项",
+      map_type: "process_definition",
+      url: true
+    },
+    {
+      type: "static_select",
+      id: "area",
+      name: "国家/地区",
+      map_type: "area"
+    },
+    {
+      type: "static_select",
+      id: "bonus_type",
+      name: "点数类型",
+      map_type: "bonus_type"
+    },
+    {
+      type: "date",
+      id: "application_date",
+      name: "申请日"
+    },
+    {
+      type: "static_select",
+      id: "status",
+      name: "状态",
+      map_type: "bonus_status"
+    },
+    {
+      type: "remote_select",
+      id: "user",
+      name: "用户",
+      data_key: "data",
+      url: "/users"
+    }
     ]
   ],
   [

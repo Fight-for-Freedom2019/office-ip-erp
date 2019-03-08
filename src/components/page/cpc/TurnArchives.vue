@@ -17,7 +17,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="或从已上传的文件中选择要转档的文件">
-          <el-select v-model="selectFile" placeholder="请选择">
+          <el-select v-model="selectFile" placeholder="请选择需要转档的文件" clearable>
             <el-option
                 v-for="item in attachments"
                 :key="item.id"
@@ -123,7 +123,8 @@
         this.tableData = [];
         this.fileList = [];
         this.activeName = "stepOne";
-        this.disabled = true;
+        // this.disabled = true;
+        this.selectFile = "";
       },
       handleBeforeUpload(){
         this.disabled = true;
@@ -153,7 +154,7 @@
       },
       fileIsView(arr){
         arr.forEach((item)=>{
-          item.filename = this.otherFormMap.get(item.code)?this.otherFormMap.get(item.code):item.name;
+          item.filename = this.otherFormMap.get(parseInt(item.code))?this.otherFormMap.get(parseInt(item.code)):item.name;
           item.isView = false;
         })
       },
@@ -197,7 +198,13 @@
       cancel() {
         this.reset();
         this.$emit("hide")
-      }
+      },
+      turnSelectFile(id){
+        const success = _ =>{
+          console.log("转档",_);
+        }
+        this.$axiosGet({url:`/files/${id}/cpcpdf`,success})
+      },
     },
     computed: {
       auth() {
@@ -207,7 +214,12 @@
     components: {
       TableComponent,
       AppTable
-    }
+    },
+    watch:{
+      selectFile:function (val) {
+        val?this.turnSelectFile(val):"";
+      }
+    },
   };
 </script>
 

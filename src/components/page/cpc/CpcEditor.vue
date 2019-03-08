@@ -176,6 +176,7 @@ import Vue from "vue";
 import { mapGetters } from "vuex";
 
 const otherForm = [
+  // 转档也需要，慎改
   [100000, "说明书全文"],
   [100001, "权利要求书"],
   [100002, "说明书"],
