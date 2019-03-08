@@ -47,41 +47,41 @@
           <static-select :type="config.select_type" v-model="scope.row.file_type" style="width: 100%;" @change="val=>{handleTypeChange(val, scope.$index)}" :ref="`file_type_${scope.$index}`" v-else></static-select>
         </template>
       </el-table-column>
-      <el-table-column label="发文日" prop="mail_date" v-if="config.mail_date || config.is_show">
+      <el-table-column label="发文日" prop="mail_date" min-width="100" v-if="config.mail_date || config.is_show">
         <template slot-scope="scope">
           <span v-if="config.is_show">{{scope.row.mail_date}}</span>
           <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="scope.row.mail_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_mail_date']" v-else></el-date-picker>
         </template>
       </el-table-column>
-      <el-table-column label="官方绝限" prop="legal_deadline" v-if="config.legal_deadline || config.is_show" >
+      <el-table-column label="官方绝限" min-width="100" prop="legal_deadline" v-if="config.legal_deadline || config.is_show" >
         <template slot-scope="scope">
           <span v-if="config.is_show">{{scope.row.legal_deadline}}</span>
           <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="scope.row.legal_deadline" style="width: 100%;" v-show="!!tableData[scope.$index]['show_legal_deadline']" v-else></el-date-picker>
         </template>
       </el-table-column>
-      <el-table-column label="申请日" prop="application_date" v-if="config.application_date || config.is_show">
+      <el-table-column label="申请日" min-width="100" prop="application_date" v-if="config.application_date || config.is_show">
         <template slot-scope="scope">
           <span v-if="config.is_show">{{scope.row.application_date}}</span>
           <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="scope.row.application_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_date']" v-else></el-date-picker>
         </template>
       </el-table-column>      
-      <el-table-column label="申请号" prop="application_number" v-if="config.application_number || config.is_show">
+      <el-table-column label="申请号"  min-width="100" prop="application_number" v-if="config.application_number || config.is_show">
         <template slot-scope="scope">
           <span v-if="config.is_show">{{scope.row.application_number}}</span>
           <el-input v-model="scope.row.application_number" style="width: 100%;" v-show="!!tableData[scope.$index]['show_application_number']" v-else></el-input>
         </template>
       </el-table-column>       
-      <el-table-column label="授权日" prop="issue_date" v-if="config.issue_date">
+      <el-table-column label="授权日" min-width="100" prop="issue_date" v-if="config.issue_date">
         <template slot-scope="scope">
           <el-date-picker type="date" value-format="yyyy-MM-dd" v-model="scope.row.issue_date" style="width: 100%;" v-show="!!tableData[scope.$index]['show_issue_date']"></el-date-picker>
         </template>
       </el-table-column>
-      <el-table-column label="授权号" prop="issue_number" v-if="config.issue_number">
+      <el-table-column label="授权号" min-width="100" prop="issue_number" v-if="config.issue_number">
         <template slot-scope="scope">
           <el-input v-model="scope.row.issue_number" style="width: 100%;" v-show="!!tableData[scope.$index]['show_issue_number']"></el-input>
         </template>
       </el-table-column>
-      <el-table-column label="费用" prop="fees" v-if="config.fees || config.is_show" show-overflow-tooltip>
+      <el-table-column label="费用" min-width="80" prop="fees" v-if="config.fees || config.is_show" show-overflow-tooltip>
         <template slot-scope="scope">
           <el-tag v-for="(item, index ) in scope.row.fees" :key="index">{{ `${item.name}：${item.fee}` }}</el-tag>
         </template>

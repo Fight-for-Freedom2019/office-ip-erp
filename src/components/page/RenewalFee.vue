@@ -88,7 +88,8 @@ export default {
 				rowClick:this.editPop,
 				is_list_filter: true,
         list_type: "renewal_fees",
-        treeFilter: "renewal_fees",
+				treeFilter: "renewal_fees",
+				import_type: 'renewal_fees',
 				header_btn: [
 					// { type: 'add', click: this.addPop },
 					// { type: 'add', label: '批量添加', click: _=>{ this.dialogVisble4 = true; } },
@@ -101,6 +102,7 @@ export default {
 						],
 					},
 					{ type: 'delete' },
+					{ type: 'export2'},
 					{ type: 'control' },
 					// { 
 					// 	type: 'custom', 

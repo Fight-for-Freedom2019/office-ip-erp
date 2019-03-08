@@ -24,7 +24,7 @@
         <template slot-scope="scope">
           <el-form label-position="left" inline style="margin-left: 48px" class="table-expand">
             <template v-for="i in computeRow">
-              <el-row>
+              <el-row :gutter="20">
                 <template v-for="(field,index) in expandFields">
                   <el-col :span="expandsSpan" v-if="(i-1)*expandsCol<=index && index<i*expandsCol">
                     <el-form-item :label="field.label">
