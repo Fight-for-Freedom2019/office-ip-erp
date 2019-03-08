@@ -521,6 +521,8 @@ export default {
 
       const map = new Map([
         ["patent", { key: "patents",  title: "导出专利"}],
+        ["trademark", { key: "trademarks",  title: "导出商标"}],
+        ["copyright", { key: "copyrights",  title: "导出版权"}],
         ["process", { key: "processes", title: "导出工作流"}],
         ["certificate", { key: "certificates", title: "导出专利证书"}],
         ["fees_in", { key: "data", title: "导出应收费用"}],
