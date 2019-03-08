@@ -4,7 +4,7 @@
 	<transition name="slide-fade">
 	<div :style="shirnkStyle" class="app-shrink" v-show="visible">
 		<div class="app-shrink-head">
-			<span style="font-size: 18px; font-weight: bold;float: left;max-width: 300px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="title" class="fs">{{ title }}</span>
+			<span style="font-size: 18px; font-weight: bold;float: left;max-width: 300px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :style="{maxWidth:maxWidth}" :title="title" class="fs">{{ title }}</span>
 			<el-button v-if="isClose" icon="el-icon-close" style="float: right; border: 0; height: 40px;" @click="close" title="关闭"></el-button>
 			<slot name="header"></slot>
 		</div>
@@ -83,6 +83,13 @@ export default {
     		'middle': 'width: 600px;',
     		'small': 'width: 460px;',
     	}[this.size];
+    },
+    maxWidth() {
+		  let def = "300px";
+		  if (this.size === 'full-screen') {
+        def = "500px"
+      }
+      return def
     }
 	},
 	mounted () {
