@@ -44,7 +44,7 @@ export default {
         'header_btn': [
           { type: 'add', click: this.add, map_if: '/copyright/draftbox', btn_if: '/draftbox' },
           { type: 'delete' },
-          { type: 'export' },
+          { type: 'export2' },
           // { type: 'import' },
           // { type: 'batch_upload' },
           { type: 'control', label: '字段' },
