@@ -63,42 +63,42 @@ let rule = [
     class: "label-padding"
   },
   {
-    type: "input", title: "优先权日", field: "pct_priority_date", value: "",
-    col: {
-      span: 12
-    },
-  },
-  {
     type: "input", title: "国际公布号", field: "pct_public_number", value: "",
     col: {
       span: 12
     },
-    class: "label-padding"
   },
   {
     type: "input", title: "国际公布日", field: "pct_public_date", value: "",
     col: {
       span: 12
     },
+    class: "label-padding"
   },
   {
     type: "select", title: "国际公布语言", field: "pct_public_language", value: "",
     col: {
       span: 12
     },
-    class: "label-padding",
     options: language
+  },
+  {
+    type: "input", title: "优先权日", field: "pct_priority_date", value: "",
+    col: {
+      span: 12
+    },
+    class: "label-padding",
   },
   {
     type: "input", title: "发明名称", field: "title", value: "",
   },
   {
-    type: "select", title: "发明人", field: "inventors", value: [],
-  },
-  {
     type: "select", title: "申请人", field: "applicants", value: []
   },
   statement,
+  {
+    type: "select", title: "发明人", field: "inventors", value: [],
+  },
   {
     type: "select", title: "联系人", field: "contact", value: [],
   },
