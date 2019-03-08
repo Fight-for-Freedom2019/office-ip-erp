@@ -520,34 +520,12 @@ export default {
       if (!e) return "";
 
       const map = new Map([
-        [
-          "patent",
-          {
-            key: "patents",
-            title: "导出专利"
-          }
-        ],
-        [
-          "process",
-          {
-            key: "processes",
-            title: "导出工作流"
-          }
-        ],
-        [
-          "certificate",
-          {
-            key: "certificates",
-            title: "导出专利证书"
-          }
-        ],
-        [
-          "fees",
-          {
-            key: "data",
-            title: "导出应收费用"
-          }
-        ]
+        ["patent", { key: "patents",  title: "导出专利"}],
+        ["process", { key: "processes", title: "导出工作流"}],
+        ["certificate", { key: "certificates", title: "导出专利证书"}],
+        ["fees_in", { key: "data", title: "导出应收费用"}],
+        ["fees_out", { key: "data", title: "导出应付费用"}],
+        ["renewal_fees", { key: "data", title: "导出年费"}],
       ]);
 
       const o = map.get(e);

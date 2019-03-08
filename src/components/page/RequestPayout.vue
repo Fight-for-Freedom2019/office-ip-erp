@@ -86,6 +86,7 @@ export default {
                 is_list_filter: true,
                 list_type: "fees",
                 treeFilter: "fees",
+                import_type: 'fees_in',
                 show_summary: true,
                 merge: [
                     { col: 2, key: "user.id", prop: "user" },
@@ -120,7 +121,7 @@ export default {
                         ]
                     },
                     { type: "delete" },
-                    // {type: 'export'},
+                    {type: 'export2'},
                     { type: "control" }
                 ],
                 columns: [
