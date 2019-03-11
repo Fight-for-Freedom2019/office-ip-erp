@@ -464,11 +464,11 @@ nav {
   background: #f3f5f6;
   /*padding: 8px;*/
   margin-bottom: 10px;
-  height: 32px;
+  min-height: 32px;
 }
 .container-nav .el-breadcrumb {
   font-size: 14px;
-  height: 32px;
+  min-height: 32px;
   line-height: 32px;
 }
 .container-nav .iconfont {
