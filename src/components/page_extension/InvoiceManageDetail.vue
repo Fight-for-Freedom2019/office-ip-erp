@@ -141,7 +141,7 @@ export default {
       },
       attachments: [],
       para: {
-        customer: null
+        user: null
       },
       bill: {
         // 账单JumpSelect的type
@@ -459,7 +459,7 @@ export default {
   },
   watch: {
     "form.customer": function(val, oldVal) {
-      this.para.customer = val;
+      this.para.user = val;
     },
     rowData: function(val, oldVal) {
       this.coverObj(val);
