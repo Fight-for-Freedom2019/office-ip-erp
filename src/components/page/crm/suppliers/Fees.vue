@@ -54,6 +54,7 @@
       <jump-select style="margin-bottom: 10px;" type="pay" v-model="bill"></jump-select>
       <el-button type="primary" @click="saveOrder('add')">确认添加</el-button>
     </el-dialog>
+    <common-detail ref="detail"></common-detail>
   </div>
 </template>
 
@@ -64,6 +65,7 @@ import RequestPayoutAdd from "@/components/page_extension/RequestPayoutAdd";
 import JumpSelect from "@/components/form/JumpSelect";
 import Config from "@/const/selectConfig";
 import FeeCommon from "@/mixins/fee-common";
+import CommonDetail from '@/components/page_extension/Common_detail'
 
 const config = new Map(Config);
 
@@ -130,11 +132,14 @@ export default {
             render_header: true
           },
           {
-            type: "text",
+            type: "text-btn",
             label: "案号",
-            prop: "project.serial",
+            prop: "serial",
+            render_text_btn: (row)=>{
+              return row.project !=null ? 
+              row.project.serial: ""},
+            click:this.handleCaseDetail,
             width: "178"
-            // render_header: true
           },
           {
             type: "text",
@@ -372,7 +377,8 @@ export default {
     RequestPayoutAdd,
     TableComponent,
     AppShrink,
-    JumpSelect
+    JumpSelect,
+    CommonDetail,
   }
 };
 </script>
