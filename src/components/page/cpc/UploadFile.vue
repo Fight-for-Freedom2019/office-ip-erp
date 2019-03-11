@@ -17,7 +17,7 @@
           :on-remove="handleRemoveFile"
         >
           <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">{{tip}}</div>
+          <div slot="tip" class="el-upload__tip" :class="{warning_tip:warningTip}">{{tip}}</div>
         </el-upload>
         <div class="viewListWrap">
           <ul>
@@ -381,6 +381,10 @@ export default {
       default() {
         return true;
       }
+    },
+    warningTip:{
+      type:Boolean,
+      default:false
     }
   },
   methods: {
@@ -430,13 +434,29 @@ export default {
         /*this.userDefined
           ? (this.fileTypeForm.fileType = this.fileTypeList[0].value)
           : "";*/
-        !this.common ? (this.showFileTypeList = true) : this.handleCommon();
-        !this.common ? (this.clearFileTypeForm()) : "";
+        // !this.common ? (this.showFileTypeList = true) : this.handleCommon();
+        // !this.common ? (this.clearFileTypeForm()) : "";
         this.fileSuccessCount = 0;
         this.fileCount = 0;
+        this.autoMatchFileType();
       }
       // this.selectFileType(file);
     },
+
+    autoMatchFileType(){
+      this.fileList.forEach((f)=>{
+        this.fileTypeList.forEach((t)=>{
+          if(f.name.indexOf(t.label) !== -1) {
+            f.target = typeof t.value === "number" ? parseInt(t.value) : t.value;
+            f.type = t.label;
+          }
+        })
+      })
+      console.log("fileList",this.fileList);
+      !this.isSave ? this.saveCpcFile() : "";
+    },
+
+
     handleCommon() {
       let temp = [];
       this.fileList.some(item => {
@@ -462,7 +482,7 @@ export default {
           this.fileList.forEach(item => {
             item.type = !item.type ? "" : item.type;
             //console.log("this.file", this.file);
-            if (item.uid === this.file.uid || item.multiple) {
+            if (item.uid === this.file.uid) { //  || item.multiple
               item.target = target[0] ? target[0].value : "";
               let label = target[0] ? target[0].label : "";
               // label = this.userDefined && this.fileTypeForm.fileTypeInput !== "" ? this.fileTypeForm.fileTypeInput : label;
@@ -534,7 +554,7 @@ export default {
       // console.log("fileList", this.fileList);
       this.fileList.some(item => {
         console.log("item", item);
-        if ((item.type === "" || !item.type) && !item.target && !this.common && !isDelete && this.isSave) {
+        if ((item.type === "" || !item.type) && !item.target && !this.common) {  //  && !isDelete && this.isSave
           this.$message({
             type: "warning",
             message: `文件—${item.name}没有选择类型!  请点击文件名添加类型`
@@ -552,7 +572,7 @@ export default {
           fid: item.response.data.file.id,
           url: item.response.data.file.viewUrl,
           viewUrl: item.response.data.file.viewUrl,
-          target: parseInt(item.target)
+          target: typeof item.target === "number" ? parseInt(item.target) : item.target
         });
       });
       if (!bool || !this.isSave) {
@@ -613,5 +633,8 @@ export default {
 }
 .viewListWrap li:not(:first-child) {
   margin-top: 10px;
+}
+.warning_tip {
+  color:red;
 }
 </style>
