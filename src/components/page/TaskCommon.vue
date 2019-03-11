@@ -637,12 +637,12 @@ export default {
       "fillListFilter",
       "onShrinkLoading"
     ]),
-    getThreeDateLate(onlyTime = false) {
+    getThreeDateLate() {
       let time = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 3);
       let year = time.getFullYear();
       let month = time.getMonth() + 1;
       let day = time.getDate();
-      return onlyTime ? time : `${year}-${month}-${day}`;
+      return `${year}-${month}-${day}`;
     },
     instancyHandle() {
       // this.closeAllTag("all");
@@ -650,12 +650,11 @@ export default {
         internal_deadline: {
           extraOption: {
             operation: 1,
-            internal_deadline: `,${this.getThreeDateLate()}`
           },
           key: "internal_deadline",
           label: `日期范围： - ${this.getThreeDateLate()}`,
           name: "管控期限",
-          value: ["", this.getThreeDateLate(true)]
+          value: ["", this.getThreeDateLate()]
         }
       };
       this.fillListFilter(obj);
