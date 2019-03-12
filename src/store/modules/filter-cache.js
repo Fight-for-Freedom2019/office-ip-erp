@@ -1,6 +1,4 @@
-import {
-  map as setting
-} from '@/const/filterConfig'
+import { map as setting} from '@/const/filterConfig'
 
 const state = {
   shortcut: [],
@@ -131,10 +129,7 @@ const mutations = {
       state.custom = [...state.custom, item];
     }
   },
-  editListFilter(state, {
-    index,
-    item
-  }) {
+  editListFilter(state, {index,item}) {
     state.custom.splice(index, 1, item);
   },
   fillListFilter(state, obj) {
@@ -200,18 +195,13 @@ const mutations = {
 }
 
 const actions = {
-  setFilterType({
-    commit
-  }, type = '') {
+  setFilterType({commit}, type = '') {
     if (typeof type != 'string' && !type) return;
     commit('setFilterType', type);
   },
   //清空筛选项
   //flag用于控制清空筛选项时,是否刷新列表(默认不刷新)
-  clearFilter({
-    commit,
-    state
-  }, flag = false) {
+  clearFilter({commit,state}, flag = false) {
     // console.log('---------clearFilter---------');
     if (!flag) {
       commit('setFilterLock', true);
@@ -225,59 +215,42 @@ const actions = {
       }, 0);
     }
   },
-  clearViewFilter({
-    commit
-  }) {
+  clearViewFilter({commit}) {
     commit('clearViewFilter');
   },
   //设置快捷筛选面板是否显示
-  setScreenVisible({
-    commit
-  }, item) {
+  setScreenVisible({commit}, item) {
     if (typeof item != 'boolean') return;
     commit('setScreenVisible', item);
   },
   //添加快捷筛选项
-  addScreen({
-    commit
-  }, item) {
+  addScreen({commit}, item) {
     if (!item) return;
     commit('addScreen', item);
   },
   //移除快捷筛选项
-  removeScreen({
-    commit
-  }, index) {
+  removeScreen({commit}, index) {
     if (typeof index != 'number') return;
     commit('removeScreen', index);
   },
-  removeViewFilter({
-    commit
-  }, index) {
+  removeViewFilter({commit}, index) {
     if (typeof index != 'number') return;
     commit('removeViewFilter', index);
   },
-  setListFilter({
-    commit
-  }, data) {
+  setListFilter({commit}, data) {
     // console.log('--------setListFilter-------')
     if (!Array.isArray(data)) return;
     commit('setListFilter', data);
   },
   // 添加列表筛选项
-  addListFilter({
-    rootState,
-    commit
-  }, item) {
+  addListFilter({rootState, commit}, item) {
     if (!item) return;
     console.log('--------willaddListFilter-------------');
     commit('addListFilter', item);
     // console.log('---------------------------didaddListFilter-------------------');
   },
   // 移除列表筛选项
-  removeListFilter({
-    commit
-  }, key) {
+  removeListFilter({commit}, key) {
     if (key === undefined) return;
     let index = '';
     if (typeof key == 'string') {
@@ -293,24 +266,14 @@ const actions = {
     commit('removeListFilter', index);
   },
   // 填充列表筛选项
-  fillListFilter({
-    commit
-  }, obj) {
+  fillListFilter({commit}, obj) {
     commit('fillListFilter', obj)
   },
-  fillViewFilter({
-    commit
-  }, obj) {
+  fillViewFilter({commit}, obj) {
     commit('fillViewFilter', obj);
   },
   // 编辑列表筛选项
-  editListFilter({
-    state,
-    commit
-  }, {
-    key,
-    item
-  } = {}) {
+  editListFilter({state, commit}, {key,item} = {}) {
     if (!key || !item) return;
 
     let index = '';
@@ -331,11 +294,7 @@ const actions = {
     });
   },
   //关闭筛选标签
-  closeTag({
-    state,
-    commit,
-    dispatch
-  }, item) {
+  closeTag({state, commit, dispatch}, item) {
     if (item.type == 'screen') {
       dispatch('removeScreen', item.index);
     } else if (item.type == 'listFilter') {
