@@ -1056,7 +1056,12 @@ export default {
       this.merge.forEach(_ => {
         const { col, key, prop } = _;
         const keys = key.split(".");
-
+        let index;
+        this.columns.forEach((o,i)=>{
+          if(o.prop === prop) {
+            index = i;
+          }
+        })
         let pos = 0;
         let arr = [];
         for (let i = 0; i < data.length; i++) {
@@ -1076,7 +1081,7 @@ export default {
             }
           }
         }
-        this.spanArr[col] = arr;
+        this.spanArr[index+1] = arr;
       });
       console.log(this.spanArr);
     },
