@@ -1093,7 +1093,11 @@ export default {
       return span;
     }
   },
-  watch: {},
+  watch: {
+    tableHeight(val) {
+      this.$emit('refreshHeight', val);
+    },
+  },
   components: {
     TableRender: {
       render: function(h) {

@@ -283,6 +283,7 @@
           :columns="columns"
           :expands="expands"
           :table-selected.sync="selected"
+          @refreshHeight="_=>{this.tableHeight = _}"
           @sort-change="handleSortChange"
           @update.once="update"
           @row-click="handleRowClick"
