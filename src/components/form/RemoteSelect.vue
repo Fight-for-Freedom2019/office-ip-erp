@@ -149,7 +149,9 @@ export default {
       }
     },
     onItemAdded(item) {
-      this.value2 = item;
+      this.options.push(item);
+      item = item instanceof Array ? item : [item];
+      this.value2 = [...this.value2, ...item.map(v=> v.id)];
     },
     handleInput(val) {
       this.isUserInput = true;
@@ -197,6 +199,7 @@ export default {
       return this.selected;
     },
     refreshSelected(val) {
+      console.log(val)
       val = this.single ? [val] : val;
 
       if (this.staticMap.length > 0) {
