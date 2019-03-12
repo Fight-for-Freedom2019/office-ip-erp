@@ -541,9 +541,7 @@ const config = [
       placeholder: "请选择服务类型",
       url: "/services?project_type=专利&listOnly=1",
       handle(data) {
-        return data.data.map(_ => {
-          return { id: _.id, name: _.name };
-        });
+        return data.data.data;
       }
     }
   ],
@@ -553,9 +551,7 @@ const config = [
       placeholder: "请选择服务类型",
       url: "/services?project_type=商标&listOnly=1",
       handle(data) {
-        return data.data.map(_ => {
-          return { id: _.id, name: _.name };
-        });
+        return data.data.data;
       }
     }
   ],
@@ -565,9 +561,7 @@ const config = [
       placeholder: "请选择服务类型",
       url: "/services?project_type=版权&listOnly=1",
       handle(data) {
-        return data.data.map(_ => {
-          return { id: _.id, name: _.name };
-        });
+        return data.data.data;
       }
     }
   ],
