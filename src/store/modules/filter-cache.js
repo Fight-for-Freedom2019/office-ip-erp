@@ -66,7 +66,8 @@ const getters = {
         // } else {
         //   value = value.join(',');
         // }
-        if (value.length == 2 && (rootState.tool.checkDate(value[0]) || rootState.tool.checkDate(value[1]))) {
+        const checkNumber = value.every(v=> typeof(v) === 'number');//判断是否是number类型
+        if (value.length == 2 && !checkNumber && (rootState.tool.checkDate(value[0]) || rootState.tool.checkDate(value[1]))) {
           value = value.join('|');
         }else {
           value = value.join(',');
