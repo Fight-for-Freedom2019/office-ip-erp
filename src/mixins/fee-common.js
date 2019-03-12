@@ -1,6 +1,10 @@
 import {mapGetters} from 'vuex'
 import TableMixins from '@/mixins/table-mixins'
-
+const typeMap = new Map([
+    ['专利', 'patent'],
+    ['商标', 'trademark'],
+    ['版权', 'copyright'],
+])
 export default (module) => ({
     mixins: [TableMixins],
     data() {
@@ -31,6 +35,12 @@ export default (module) => ({
             this.title = `订单编号: ${row.order?row.order.serial:""}`;
             this.isPanelVisible = true;
         },
+        handleCaseDetail(row) {
+            if (row) {
+                const type = typeMap.get(row.project_type);
+                this.$refs.detail.show(row.project.id, type)
+            }
+        }, 
         createNewOrder() {   // 创建新的请/付款单
             if (this.ids.length !== 0) {
                 console.log("createNewOrder", this.ids);
