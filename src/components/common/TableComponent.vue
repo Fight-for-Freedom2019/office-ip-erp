@@ -152,24 +152,46 @@
             </template>
 
             <template v-else-if="btn.type == 'export'">
-              <el-button
-                class="table-header-btn"
-                size="small"
-                type="primary"
-                icon="el-icon-upload2"
-                :loading="exportLoading"
-                @click="handelExport(btn.click, $event)"
-              >{{ exportLoading ? '导出中...' : '导出' }}</el-button>
+              <el-dropdown
+                trigger="click"
+                placement="bottom-start"
+                @command="handleExportCommand($event, btn.click)"
+              >
+                <el-button
+                  class="table-header-btn"
+                  size="small"
+                  type="primary"
+                  icon="el-icon-upload2"
+                  :loading="exportLoading"
+                >{{ exportLoading ? '导出中...' : '导出' }}
+                <i class="el-icon-caret-bottom el-icon--right"></i>
+                </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="all" style="font-size: 14px; line-height: 28px;"><i class="el-icon-d-arrow-right" style="margin-right: 5px; font-size: 12px; color: #8492A6;"></i>导出全部</el-dropdown-item>
+                <el-dropdown-item command="choose" divided style="font-size: 14px; line-height: 28px;"><i class="el-icon-check" style="margin-right: 5px; font-size: 12px; color: #8492A6;"></i>导出勾选项</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
             </template>
 
             <template v-else-if="btn.type == 'export2'">
-              <el-button
-                class="table-header-btn"
-                size="small"
-                type="primary"
-                icon="el-icon-upload2"
-                @click="dialogExport = true"
-              >导出</el-button>
+              <el-dropdown
+                trigger="click"
+                placement="bottom-start"
+                @command="handleExportCommand1"
+              >
+                <el-button
+                  class="table-header-btn"
+                  size="small"
+                  type="primary"
+                  icon="el-icon-upload2"
+                >导出
+                <i class="el-icon-caret-bottom el-icon--right"></i>
+                </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="all" style="font-size: 14px; line-height: 28px;"><i class="el-icon-d-arrow-right" style="margin-right: 5px; font-size: 12px; color: #8492A6;"></i>导出全部</el-dropdown-item>
+                <el-dropdown-item command="choose" divided style="font-size: 14px; line-height: 28px;"><i class="el-icon-check" style="margin-right: 5px; font-size: 12px; color: #8492A6;"></i>导出勾选项</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
             </template>
 
             <template v-else-if="btn.type == 'import'">
@@ -388,6 +410,7 @@
         @success="dialogExport = false"
         :filter="requesOption"
         :selected="selected"
+        :export-way="exportWay"
       ></app-export>
     </el-dialog>
     <list-filter
@@ -458,6 +481,7 @@ export default {
       fields: "",
       optionColumns: "",
       selected: [],
+      exportWay: '',
       filterVisible: false,
       filterValueVisible: false,
       strainerParams: {},
@@ -702,6 +726,30 @@ export default {
         this.handleSearch();
       });
     },
+    handleExportCommand(e, func) {
+      console.log(e);
+      console.log(func)
+      this.exportWay = e;
+      if(e == 'all') {
+        this.handleExport(func, e);
+      }else{
+       const flag = this.getSelected();
+        if(flag) {
+          this.handleExport(func, e);
+        }
+      }
+    },
+    handleExportCommand1(command) {
+      this.exportWay = command;
+      if(command == 'all') {
+       this.dialogExport = true;
+      }else{
+       const flag = this.getSelected();
+        if(flag) {
+           this.dialogExport = true; 
+        }
+      }
+    },
     handleInput(val) {},
     initOptionColumns() {
       let columns = this.tableOption.columns;
@@ -888,7 +936,7 @@ export default {
       const func = this.tableOption.cellClick;
       if (func) func(row, column, cell, event);
     },
-    handelExport(func, e) {
+    handleExport(func, e) {
       // const fields = this.tableControl.filter(_=>{
       //   if(_.show && _.prop) {
       //     return true;
@@ -899,17 +947,20 @@ export default {
         func(e);
       } else {
         //合并获得导出请求的请求参数
+        const ids = this.exportWay == 'all' ? undefined : this.selected.map(_=>_.id);
         if (this.refreshTableData) {
           this.refreshTableData(
             Object.assign({}, this.getRequestOption(), this.filterForm, {
-              format: "excel"
+              format: "excel",
+              ids,
             })
           );
         }
         this.$emit(
           "refreshTableData",
           Object.assign({}, this.getRequestOption(), this.filterForm, {
-            format: "excel"
+            format: "excel",
+            ids,
           })
         );
         //Vue Api.
