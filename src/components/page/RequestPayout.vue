@@ -59,6 +59,7 @@
       <jump-select style="margin-bottom: 10px;" type="bill" v-model="bill"></jump-select>
       <el-button type="primary" @click="saveOrder('add')">确认添加</el-button>
     </el-dialog>
+    <common-detail ref="detail"></common-detail>
   </div>
 </template>
 
@@ -69,6 +70,7 @@ import RequestPayoutAdd from "@/components/page_extension/RequestPayoutAdd";
 import JumpSelect from "@/components/form/JumpSelect";
 import Config from "@/const/selectConfig";
 import FeeCommon from "@/mixins/fee-common";
+import CommonDetail from '@/components/page_extension/Common_detail'
 
 const config = new Map(Config);
 
@@ -121,13 +123,13 @@ export default {
                         ]
                     },
                     { type: "delete" },
-                    {type: 'export2'},
+                    { type: 'export2' },
                     { type: "control" }
                 ],
                 columns: [
                     { type: "selection" },
                     { type: "text", label: "客户", prop: "customer", render_simple: "name", min_width: "120", render_header: true },
-                    { type: "text", label: "案号", prop: "project.serial", width: "178" },
+                    { type: "text-btn", label: "案号", prop: "serial", render_text_btn: (row) => { return row.project != null ? row.project.serial : "" }, click: this.handleCaseDetail, width: "178" },
                     { type: "text", label: "案件类型", render_simple: "name", prop: "subtype", render_obj: "project", width: "100", render_header: true },
                     { type: "text", label: "标题", prop: "project.title", width: "180" },
                     { type: "text", label: "费用名称", prop: "fee_code", render_simple: "name", width: "130", render_header: true },
@@ -146,17 +148,7 @@ export default {
                     { type: "text", label: "费用期限", prop: "deadline", width: "100", render_header: true, expanded: true },
                     { type: "text", label: "费用策略", prop: "policy", width: "100", render_header: true, render_simple: "name", expanded: true },
                     { type: "text", label: "费用状态", prop: "status", width: "100", render_simple: "name", render_header: true, expanded: true },
-                    {                        type: "text", label: "请款时机", prop: "payment_request_timing", width: "110",
-                        render: (h, item) => {
-                            let name = "";
-                            config.get("payment_request_timing").options.map(function (o) {
-                                if (o.id === item) {
-                                    name = o.name;
-                                }
-                            });
-                            return h("span", name);
-                        }, render_header: true, expanded: true
-                    },
+                    { type: "text", label: "请款时机", prop: "payment_request_timing", width: "110", render_simple: "name", render_header: true, expanded: true },
                     { type: "text", label: "订单号", prop: "order.serial", width: "80", render_header: true, expanded: true },
                     { type: "text", label: "备注", prop: "remark", width: "80", render_header: true, expanded: true }
                 ],
@@ -224,7 +216,8 @@ export default {
         RequestPayoutAdd,
         TableComponent,
         AppShrink,
-        JumpSelect
+        JumpSelect,
+        CommonDetail,
     }
 };
 </script>

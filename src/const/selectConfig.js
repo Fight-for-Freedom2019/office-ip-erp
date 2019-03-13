@@ -541,9 +541,7 @@ const config = [
       placeholder: "请选择服务类型",
       url: "/services?project_type=专利&listOnly=1",
       handle(data) {
-        return data.data.data.map(_ => {
-          return { id: _.id, name: _.name };
-        });
+        return data.data.data;
       }
     }
   ],
@@ -553,9 +551,7 @@ const config = [
       placeholder: "请选择服务类型",
       url: "/services?project_type=商标&listOnly=1",
       handle(data) {
-        return data.data.data.map(_ => {
-          return { id: _.id, name: _.name };
-        });
+        return data.data.data;
       }
     }
   ],
@@ -565,9 +561,7 @@ const config = [
       placeholder: "请选择服务类型",
       url: "/services?project_type=版权&listOnly=1",
       handle(data) {
-        return data.data.data.map(_ => {
-          return { id: _.id, name: _.name };
-        });
+        return data.data.data;
       }
     }
   ],
@@ -917,18 +911,6 @@ const config = [
         { id: 12, name: "付款计划" },
         { id: 15, name: "已付款" },
         { id: 16, name: "已删除" }
-      ]
-    }
-  ],
-  [
-    "payment_request_timing",
-    {
-      placeholder: "请选择请款时机",
-      options: [
-        { id: 0, name: "手动处理" },
-        { id: 1, name: "立即请款" },
-        { id: 2, name: "产出申请号时" },
-        { id: 3, name: "1OA递交时" }
       ]
     }
   ],

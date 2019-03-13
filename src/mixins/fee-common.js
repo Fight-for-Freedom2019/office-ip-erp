@@ -1,6 +1,10 @@
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import TableMixins from '@/mixins/table-mixins'
-
+const typeMap = new Map([
+    ['专利', 'patent'],
+    ['商标', 'trademark'],
+    ['版权', 'copyright'],
+])
 export default (module) => ({
     mixins: [TableMixins],
     data() {
@@ -28,22 +32,28 @@ export default (module) => ({
         handleRowClick(row) {
             this.compileType = "edit";
             this.row = row;
-            this.title = `订单编号: ${row.order?row.order.serial:""}`;
+            this.title = `费用详情`;
             this.isPanelVisible = true;
+        },
+        handleCaseDetail(row) {
+            if (row) {
+                const type = typeMap.get(row.project_type);
+                this.$refs.detail.show(row.project.id, type)
+            }
         },
         createNewOrder() {   // 创建新的请/付款单
             if (this.ids.length !== 0) {
                 console.log("createNewOrder", this.ids);
                 this.dialogCreateNewOrder = true;
             } else {
-                this.$message({type: "warning", message: "请至少选择一项！"});
+                this.$message({ type: "warning", message: "请至少选择一项！" });
             }
         },
         addToOrder() {   //将费用添加至现有的请/付款单内
             if (this.ids.length !== 0) {
                 this.dialogAddToOrder = true;
             } else {
-                this.$message({type: "warning", message: "请至少选择一项！"});
+                this.$message({ type: "warning", message: "请至少选择一项！" });
             }
         },
         getSelected(flag) {      // 获取选中行的id
@@ -93,15 +103,15 @@ export default (module) => ({
                 dialog = "dialogAddToOrder";
             }
             const success = _ => {
-                this.$message({type: "success", message: `${message}成功!`});
+                this.$message({ type: "success", message: `${message}成功!` });
                 this.update();
                 this.closeVisible(dialog);
             };
             const error = _ => {
-                this.$message({type: "warning", message: `${_.info}`});
+                this.$message({ type: "warning", message: `${_.info}` });
                 this.closeVisible(dialog);
             };
-            type === "new" ? this.$axiosPost({url, data, success, error}) : this.$axiosPut({
+            type === "new" ? this.$axiosPost({ url, data, success, error }) : this.$axiosPut({
                 url,
                 data,
                 success,
