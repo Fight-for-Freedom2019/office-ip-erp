@@ -18,13 +18,13 @@ const getters = {
   detailId: state => state.id,
   detail_type: state => state.type,
   detail_customer: state => {
-    const arr = [];
+    const obj = {};
     if(state.data && state.data.customer) {
-      arr.push({id: state.data.customer.id, name: state.data.customer.name});
-      console.log(arr)
-      return arr 
+      obj.id = state.data.customer.id; 
+      obj.name = state.data.customer.name;
+      return obj 
     }else {
-      return arr;
+      return obj;
     }
   },
   detailBase: state => state.data ? state.data : {},

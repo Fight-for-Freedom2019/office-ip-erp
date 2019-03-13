@@ -199,7 +199,6 @@ export default {
       return this.selected;
     },
     refreshSelected(val) {
-      console.log(val)
       val = this.single ? [val] : val;
 
       if (this.staticMap.length > 0) {

@@ -209,15 +209,24 @@
           !this.is_request?this.coverObj(val):"";
         })
       },
-      'detail_customer': {
-        handler(val) {
-          console.log(val)
-          // this.form.customer = val;
-            this.$set(this.form, 'customer', val);
-            console.log(this.form.customer)
+      is_show: {
+        handler(v) {
+          this.$nextTick(_ => {
+            if(!v) return
+            this.clear(); //填充前清空
+            this.$nextTick(_ => {
+              if(this.detail_customer!=undefined) {
+                const len = this.$tool.getObjLength(this.detail_customer);
+                if (len > 0 && !/crm/.test(this.path)) {
+                  //  填充默认客户并且crm模块不用填充
+                  this.$set(this.form, 'customer', this.detail_customer)
+                }
+              }
+            })
+          })
         },
-        immediate: true,
-      },
+        immediate: true
+      }
     },
     components: {
       StaticSelect,
