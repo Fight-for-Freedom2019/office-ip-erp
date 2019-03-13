@@ -5,10 +5,10 @@
         <el-col :span="24">
           <el-form-item label="费用对象" prop="user" style="margin-top:10px;">
             <jump-select
-              v-if="fee_type === 'pay'"
-              type="target"
-              :pageType="type"
-              v-model="form.user"
+                v-if="fee_type === 'pay'"
+                type="target"
+                :pageType="type"
+                v-model="form.user"
             ></jump-select>
             <jump-select type="customer" v-else :pageType="type" v-model="form.user"></jump-select>
           </el-form-item>
@@ -49,20 +49,20 @@
         <el-col :span="12">
           <el-form-item label="费用期限" prop="deadline">
             <el-date-picker
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="请选择时间"
-              v-model="form.deadline"
+                value-format="yyyy-MM-dd"
+                type="date"
+                placeholder="请选择时间"
+                v-model="form.deadline"
             ></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="付款时间" prop="payment_time">
             <el-date-picker
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="请选择时间"
-              v-model="form.payment_time"
+                value-format="yyyy-MM-dd"
+                type="date"
+                placeholder="请选择时间"
+                v-model="form.payment_time"
             ></el-date-picker>
           </el-form-item>
         </el-col>
@@ -75,7 +75,8 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="费用状态" prop="status">
-            <static-select :type="fee_type === 'pay' ? 'fee_status_payment' : 'fee_status_income'" v-model="form.status"></static-select>
+            <static-select :type="fee_type === 'pay' ? 'fee_status_payment' : 'fee_status_income'"
+                           v-model="form.status"></static-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -98,155 +99,165 @@
 </template>
 
 <script>
-import RemoteSelect from "@/components/form/RemoteSelect";
-import JumpSelect from "@/components/form/JumpSelect";
-import StaticSelect from "@/components/form/StaticSelect";
-import { mapGetters } from "vuex";
+  import RemoteSelect from "@/components/form/RemoteSelect";
+  import JumpSelect from "@/components/form/JumpSelect";
+  import StaticSelect from "@/components/form/StaticSelect";
+  import {mapGetters} from "vuex";
 
-export default {
+  export default {
     name: "RequestPayoutAdd",
     data() {
-        return {
-            URL: "/fees",
-            form: {
-                user: {},
-                project: "",
-                currency: "",
-                roe: "",
-                amount: "",
-                payment_time: "",
-                deadline: "",
-                due_time: "",
-                status: "",
-                order_id: "",
-                fee_code: "",
-                remark: "",
-                payment_request_timing: "",
-                policy: ""
-            },
-            rules: {
-                customer: [{ required: true, message: "请选择客户", trigger: "blur" }],
-                roe: [{ required: true, message: "汇率不能为空!", trigger: "blur" }],
-                project: [{ required: true, message: "请选择案件", trigger: "blur" }],
-                amount: [{ required: true, message: "请输入金额", trigger: "blur" }]
-            },
-            type: "add"
-        };
+      return {
+        URL: "/fees",
+        form: {
+          user: "",
+          project: "",
+          currency: "",
+          roe: "",
+          amount: "",
+          payment_time: "",
+          deadline: "",
+          due_time: "",
+          status: "",
+          order_id: "",
+          fee_code: "",
+          remark: "",
+          payment_request_timing: "",
+          policy: ""
+        },
+        rules: {
+          customer: [{required: true, message: "请选择客户", trigger: "blur"}],
+          roe: [{required: true, message: "汇率不能为空!", trigger: "blur"}],
+          project: [{required: true, message: "请选择案件", trigger: "blur"}],
+          amount: [{required: true, message: "请输入金额", trigger: "blur"}]
+        },
+        type: "add"
+      };
     },
     props: {
-        rowData: {
-            type: Object
-        },
-        is_debit: {
-            type: [Number, String]
-        },
-        // fee_type为区分收费和付费的字段，付费(pay)是面向供应商的，收费(fee)为客户
-        fee_type: {
-            type: String,
-            default() {
-                return "fee";
-            }
-        },
-        pageType: {
-            type: String
+      rowData: {
+        type: Object
+      },
+      is_debit: {
+        type: [Number, String]
+      },
+      // fee_type为区分收费和付费的字段，付费(pay)是面向供应商的，收费(fee)为客户
+      fee_type: {
+        type: String,
+        default() {
+          return "fee";
         }
+      },
+      global: {
+        type: Boolean,
+        default:false
+      },
+      pageType: {
+        type: String
+      }
     },
     computed: {
-        ...mapGetters(["detailId", "detail_customer"]),
-        // label:function () {
-        //     if(this.fee_type === "pay") {
-        //       return "选择供应商"
-        //     }else {
-        //       return "选择客户"
-        //     }
-        //   },
-        defaultCustomer() {
-            return this.detail_customer && this.detail_customer.length != 0
-                ? { id: this.detail_customer[0].id, name: this.detail_customer[0].name }
-                : {};
-        }
+      ...mapGetters(["detailId", "detail_customer"]),
+      // label:function () {
+      //     if(this.fee_type === "pay") {
+      //       return "选择供应商"
+      //     }else {
+      //       return "选择客户"
+      //     }
+      //   },
+      defaultCustomer() {
+        return this.detail_customer && this.detail_customer.length != 0
+          ? {id: this.detail_customer[0].id, name: this.detail_customer[0].name}
+          : {};
+      }
     },
     methods: {
-        save(type, id) {
-            this.$refs["form"].validate(valid => {
-                if (valid) {
-                    let url;
-                    let message;
-                    let fun;
-                    let data = Object.assign({}, this.form);
-                    data.is_debit = this.is_debit;
-                    if (type === "add") {
-                        url = this.URL;
-                        message = "创建";
-                        fun = "update";
-                    } else {
-                        url = `${this.URL}/${id}`;
-                        message = "修改";
-                        fun = "refresh";
-                    }
+      save(type, id) {
+        this.$refs["form"].validate(valid => {
+          if (valid) {
+            let url;
+            let message;
+            let fun;
+            let data = Object.assign({}, this.form);
+            data.is_debit = this.is_debit;
+            if (type === "add") {
+              url = this.URL;
+              message = "创建";
+              fun = "update";
+            } else {
+              url = `${this.URL}/${id}`;
+              message = "修改";
+              fun = "refresh";
+            }
 
-                    let success = _ => {
-                        this.$message({ type: "success", message: `${message}费用成功!` });
-                        this.$emit(fun);
-                    };
-                    type === "add"
-                        ? this.$axiosPost({ url, data, success })
-                        : this.$axiosPut({ url, data, success });
-                }
-            });
-        },
-        clear() {
-            this.$refs.form.resetFields();
-        },
-        coverObj(val) {
-            val
-                ? this.$tool.coverObj(this.form, val, {
-                    obj: ["fee_code", "policy", "status", "project"]
-                })
-                : "";
-        }
+            let success = _ => {
+              this.$message({type: "success", message: `${message}费用成功!`});
+              this.$emit(fun);
+            };
+            type === "add"
+              ? this.$axiosPost({url, data, success})
+              : this.$axiosPut({url, data, success});
+          }
+        });
+      },
+      clear() {
+        this.$refs.form.resetFields();
+      },
+      coverObj(val) {
+        val
+          ? this.$tool.coverObj(this.form, val, {
+            obj: ["fee_code", "policy", "status", "project","customer","user"]
+          })
+          : "";
+      }
     },
     watch: {
-        rowData: function (val, oldVal) {
-            this.coverObj(val);
-        },
-        pageType(val) {
-            if (val == "add") {
-                this.form.project = this.detailId;
-                this.$nextTick(() => {
-                    this.form.user = this.defaultCustomer;
-                });
-            }
-        },
-        fee_type: {
-            handler(val) {
-                this.$nextTick(_ => {
-                    this.form.project = this.detailId;
-                    this.$nextTick(() => {
-                        this.form.user = this.defaultCustomer;
-                    });
-                });
-            },
-            immediate: true
-        },
-        detailId(val) {
-            this.$nextTick(_ => {
-                this.form.project = val;
-            });
-        },
-        defaultCustomer(val) {
-            this.form.user = val;
+      rowData: function (val, oldVal) {
+        this.coverObj(val);
+      },
+      pageType(val) {
+        if (val == "add") {
+          this.form.project = this.detailId;
+          this.$nextTick(() => {
+            this.form.user = this.defaultCustomer;
+          });
         }
+      },
+      fee_type: {
+        handler(val) {
+          if (this.global) {
+            this.$nextTick(_ => {
+              this.form.project = this.detailId;
+              this.$nextTick(() => {
+                this.form.user = this.defaultCustomer;
+              });
+            });
+          }
+        },
+        immediate: true
+      },
+      detailId(val) {
+        if (this.global){
+          this.$nextTick(_ => {
+            this.form.project = val;
+          });
+        }
+      },
+      defaultCustomer(val) {
+        if (this.global){
+          this.form.user = val;
+        }
+      }
     },
     mounted() {
-        this.coverObj(this.rowData);
+      this.coverObj(this.rowData);
     },
     components: {
-        RemoteSelect,
-        JumpSelect,
-        StaticSelect
+      RemoteSelect,
+      JumpSelect,
+      StaticSelect
     }
-};
+  };
 </script>
 
 <style scoped>
