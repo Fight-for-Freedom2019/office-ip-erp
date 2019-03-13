@@ -339,7 +339,11 @@ export default {
     },
     invoice: Object
   },
-
+  computed:{
+    extendParam:function () {
+      return this.$route.meta.params
+    }
+  },
   methods: {
     save() {
       // type是父组件传来的,表示是add还是edit,id表示修改的某一行数据的id
@@ -358,6 +362,7 @@ export default {
             fun = "update";
           }
           let data = this.form;
+          Object.assign(data,this.extendParam);
           let fees = [];
           this.fees.forEach(item => {
             item.official_fee.list.forEach(_ => {
