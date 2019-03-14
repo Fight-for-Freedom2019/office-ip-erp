@@ -82,29 +82,29 @@
           <el-row :gutter="10">
             <el-col :span="6">
               <el-form-item label="金额">
-                <span class="form-item-text">{{form.amount}}</span>
+                <el-input class="custom-picker-input" v-model="form.amount"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="币别">
-                <span class="form-item-text">{{form.currency}}</span>
+                <static-select type="currency" size="small" v-model="form.currency"></static-select>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="汇率">
-                <span class="form-item-text">{{form.roe}}</span>
+                <el-input class="custom-picker-input" v-model="form.roe"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="人民币金额">
-                <span class="form-item-text">{{form.rmb_amount}}</span>
+                <el-input class="custom-picker-input" v-model="form.rmb_amount"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col :span="6">
               <el-form-item label="请款时间" v-if="mode!=='pay'">
-                <span class="form-item-text">{{form.request_time}}</span>
+                <el-date-picker placeholder="请选择请款时间" class="custom-picker-input" value-format="yyyy-MM-dd" v-model="form.request_time" ></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -127,13 +127,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="支付时间" v-if="mode==='pay'">
-                <!--<span class="form-item-text">{{form.payment_time}}</span>-->
-                <el-date-picker
-                    placeholder="请选择支付时间"
-                    class="custom-picker-input"
-                    value-format="yyyy-MM-dd"
-                    v-model="form.payment_time"
-                ></el-date-picker>
+                <el-date-picker placeholder="请选择支付时间" class="custom-picker-input" value-format="yyyy-MM-dd" v-model="form.payment_time" ></el-date-picker>
               </el-form-item>
               <el-form-item label="回款时间" v-else>
                 <!--<span class="form-item-text">{{form.payment_time}}</span>-->
@@ -147,10 +141,10 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="支付金额" v-if="mode==='pay'">
-                <span class="form-item-text">{{form.received_amount}}</span>
+                <el-input class="form-item-text" v-model="form.received_amount" ></el-input>
               </el-form-item>
               <el-form-item label="回款金额" v-else>
-                <span class="form-item-text">{{form.received_amount}}</span>
+                <el-input class="custom-picker-input" v-model="form.received_amount" ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -170,7 +164,7 @@
               <payment-cost-detail-order :data="costDetail" :id="id"></payment-cost-detail-order>
             </el-tab-pane>
             <el-tab-pane label="费用清单" name="first" v-if="!order">
-              <payment-cost-detail :data="costDetail" :id="id"></payment-cost-detail>
+              <payment-cost-detail :data="costDetail" :id="id" @reload="reload"></payment-cost-detail>
             </el-tab-pane>
             <el-tab-pane label="跟催记录" name="reminders">
               <reminders-record ref="reminders" :data="remindersData" :invoice="invoice" :id="id"></reminders-record>
@@ -229,229 +223,233 @@ const status = [[0, "audit"], [8, "remind"], [11, "upload"], [12, "confirm"]];
 const statusMap = new Map(status);
 
 export default {
-  name: "PaymentRequestDetail",
-  data() {
-    return {
-      activeName: "first",
-      form: {
-        creator_user: {
-          name: ""
-        },
-        pic: {
-          name: ""
-        },
-        user: {
-          name: ""
-        },
-        creation_time: "",
-        status: "",
-        amount: "",
-        currency: "",
-        roe: "",
-        rmb_amount: "",
-        request_time: "",
-        deadline: "",
-        payment_time: "",
-        received_amount: "",
-        remark: "",
-        express: [],
-        attachments: []
-      },
-      attachments: [],
-      express: [],
-      costDetail: [],
-      remindersData: [],
-      receivedData: [],
-      vouchers: [],
-      mails: [],
-      loadingVisible: false,
-      loadingText: "加载账单详情中...",
-      id: 0,
-      mode: "request",
-      title: "",
-      status: "",
-      dialogVisible: false,
-      paymentDialog: false,
-      rowData: {},
-      rules: {
-        date: [{ required: true, message: "请选择付款时间", trigger: "blur" }]
-      },
-      showSendMailBtn: true,
-      invoice: {}
-    };
-  },
-  props: {
-    type: {
-      // 是付款还是请款
-      type: String
-    }
-  },
-  computed: {
-    order() {
-      let order = false;
-      this.costDetail.forEach(_ => {
-        if (_.order != undefined && _.order.id) {
-          order = true;
-        }
-      });
-      return order;
-    }
-  },
-  methods: {
-    refreshMail() {
-      this.$refs.mails.refreshTableData();
-    },
-    submitCommon(suffix, hint) {
-      this.$confirm(`是否${hint}`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        const id = this.id;
-        let url = `/invoices/${id}${suffix}`;
-        const success = _ => {
-          this.$emit("update");
-          this.$message({ type: "success", message: "操作成功" });
-          this.getDetail(id);
+    name: "PaymentRequestDetail",
+    data() {
+        return {
+            activeName: "first",
+            form: {
+                creator_user: {
+                    name: ""
+                },
+                pic: {
+                    name: ""
+                },
+                user: {
+                    name: ""
+                },
+                creation_time: "",
+                status: "",
+                amount: "",
+                currency: "",
+                roe: "",
+                rmb_amount: "",
+                request_time: "",
+                deadline: "",
+                payment_time: "",
+                received_amount: "",
+                remark: "",
+                express: [],
+                attachments: []
+            },
+            attachments: [],
+            express: [],
+            costDetail: [],
+            remindersData: [],
+            receivedData: [],
+            vouchers: [],
+            mails: [],
+            loadingVisible: false,
+            loadingText: "加载账单详情中...",
+            id: 0,
+            mode: "request",
+            title: "",
+            status: "",
+            dialogVisible: false,
+            paymentDialog: false,
+            rowData: {},
+            rules: {
+                date: [{ required: true, message: "请选择付款时间", trigger: "blur" }]
+            },
+            showSendMailBtn: true,
+            invoice: {}
         };
-        const error = _ => {
-          this.$message({ type: "warning", message: _.info });
-        };
-        this.$axiosPost({ url, success, error });
-      });
     },
-    save() {
-      let data = {
-        remark: this.form.remark,
-        status: this.form.status,
-        deadline: this.form.deadline,
-        payment_time: this.form.payment_time,
-        attachments: this.form.attachments
-      }; // TODO 参数为form表单中的快递信息、备注、附件
-      let url = `/invoices/${this.id}`;
-      const success = _ => {
-        this.$message({ type: "success", message: "操作成功!" });
-        this.$emit("update");
-      };
-      this.$axiosPut({ url, data, success });
-    },
-    getDetail(id) {
-      const url = `/invoices/${id}`;
-      this.openLoading();
-      this.attachments = [];
-      const success = _ => {
-        const d = _.data;
-        this.receivedData = d.received_payments;
-        this.remindersData = d.reminders;
-        this.costDetail = d.fees ? d.fees : [];
-        this.vouchers = d.vouchers ? d.vouchers : [];
-        this.mails = d.mails ? d.mails : [];
-        this.rowData = d;
-        this.form.received_amount = this.getAllReceived(this.receivedData);
-        this.attachments = d.attachments;
-        this.title =
-          (this.mode === "pay" ? "付款单" : "请款单") + "详情>" + d.serial;
-        this.status = statusMap.get(d.status); // 之前status是个Object，现在变成了一个Number类型
-        this.invoice = d;
-      };
-      const complete = () => {
-        this.closeLoading();
-      };
-      this.$axiosGet({ url, success, complete });
-    },
-    changeState() {
-      // 改变状态的方法，有点繁琐
-      this.form.status = 10;
-    },
-    coverObj(val) {
-      val ? this.$tool.coverObj(this.form, val, { obj: ["status"] }) : "";
-    },
-    getAllReceived(data) {
-      this.setPaymentTime(data);
-      // 获取回款总额
-      let sum = 0;
-      data.map(function(item) {
-        sum += item.amount ? item.amount : 0;
-      });
-      return sum;
-    },
-    // 将回款记录中的第一条的回款时间设置为上面的回款时间
-    setPaymentTime(data) {
-      this.$nextTick(() => {
-        data.length !== 0
-          ? (this.form.payment_time = data[0].received_date)
-          : "";
-      });
-    },
-    openLoading() {
-      this.loadingVisible = true;
-    },
-    closeLoading() {
-      this.loadingVisible = false;
-    },
-    show(id, mode, data) {
-      this.dialogVisible = true;
-      this.mode = mode;
-      if (data != undefined) {
-        this.rowData = data;
-        this.id = data.id;
-      }
-      this.id = id;
-      this.getDetail(id);
-    },
-    close() {
-      this.dialogVisible = false;
-    },
-    deleteInvoice() {
-      return;
-    },
-    received() {
-      this.getDetail(this.id);
-    },
-    sendmail(fee_policy) {
-      this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
-    },
-    uploadFile(type) {
-      const token = window.localStorage.getItem("token");
-      console.log(token);
-      window.open(`invoices/${this.id}?format=${type}&token=${token}`);
-    },
-    confirm() {
-      this.paymentDialog = true;
-    },
-    confirmPayment() {
-      this.$refs.form.validate(valid => {
-        if (valid) {
+    props: {
+        type: {
+            // 是付款还是请款
+            type: String
         }
-      });
+    },
+    computed: {
+        order() {
+            let order = false;
+            this.costDetail.forEach(_ => {
+                if (_.order != undefined && _.order.id) {
+                    order = true;
+                }
+            });
+            return order;
+        }
+    },
+    methods: {
+        refreshMail() {
+            this.$refs.mails.refreshTableData();
+        },
+        reload() {
+            this.getDetail(this.id);
+            this.$emit('update');
+        },
+        submitCommon(suffix, hint) {
+            this.$confirm(`是否${hint}`, "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+            }).then(() => {
+                const id = this.id;
+                let url = `/invoices/${id}${suffix}`;
+                const success = _ => {
+                    this.$emit("update");
+                    this.$message({ type: "success", message: "操作成功" });
+                    this.getDetail(id);
+                };
+                const error = _ => {
+                    this.$message({ type: "warning", message: _.info });
+                };
+                this.$axiosPost({ url, success, error });
+            });
+        },
+        save() {
+            let data = {
+                remark: this.form.remark,
+                status: this.form.status,
+                deadline: this.form.deadline,
+                payment_time: this.form.payment_time,
+                attachments: this.form.attachments
+            }; // TODO 参数为form表单中的快递信息、备注、附件
+            let url = `/invoices/${this.id}`;
+            const success = _ => {
+                this.$message({ type: "success", message: "操作成功!" });
+                this.$emit("update");
+            };
+            this.$axiosPut({ url, data, success });
+        },
+        getDetail(id) {
+            const url = `/invoices/${id}`;
+            this.openLoading();
+            this.attachments = [];
+            const success = _ => {
+                const d = _.data;
+                this.receivedData = d.received_payments;
+                this.remindersData = d.reminders;
+                this.costDetail = d.fees ? d.fees : [];
+                this.vouchers = d.vouchers ? d.vouchers : [];
+                this.mails = d.mails ? d.mails : [];
+                this.rowData = d;
+                this.form.received_amount = this.getAllReceived(this.receivedData);
+                this.attachments = d.attachments;
+                this.title =
+                    (this.mode === "pay" ? "付款单" : "请款单") + "详情>" + d.serial;
+                this.status = statusMap.get(d.status); // 之前status是个Object，现在变成了一个Number类型
+                this.invoice = d;
+            };
+            const complete = () => {
+                this.closeLoading();
+            };
+            this.$axiosGet({ url, success, complete });
+        },
+        changeState() {
+            // 改变状态的方法，有点繁琐
+            this.form.status = 10;
+        },
+        coverObj(val) {
+            val ? this.$tool.coverObj(this.form, val, { obj: ["status"] }) : "";
+        },
+        getAllReceived(data) {
+            this.setPaymentTime(data);
+            // 获取回款总额
+            let sum = 0;
+            data.map(function (item) {
+                sum += item.amount ? item.amount : 0;
+            });
+            return sum;
+        },
+        // 将回款记录中的第一条的回款时间设置为上面的回款时间
+        setPaymentTime(data) {
+            this.$nextTick(() => {
+                data.length !== 0
+                    ? (this.form.payment_time = data[0].received_date)
+                    : "";
+            });
+        },
+        openLoading() {
+            this.loadingVisible = true;
+        },
+        closeLoading() {
+            this.loadingVisible = false;
+        },
+        show(id, mode, data) {
+            this.dialogVisible = true;
+            this.mode = mode;
+            if (data != undefined) {
+                this.rowData = data;
+                this.id = data.id;
+            }
+            this.id = id;
+            this.getDetail(id);
+        },
+        close() {
+            this.dialogVisible = false;
+        },
+        deleteInvoice() {
+            return;
+        },
+        received() {
+            this.getDetail(this.id);
+        },
+        sendmail(fee_policy) {
+            this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
+        },
+        uploadFile(type) {
+            const token = window.localStorage.getItem("token");
+            console.log(token);
+            window.open(`invoices/${this.id}?format=${type}&token=${token}`);
+        },
+        confirm() {
+            this.paymentDialog = true;
+        },
+        confirmPayment() {
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                }
+            });
+        }
+    },
+    created() { },
+    mounted() { },
+    watch: {
+        rowData: function (val, oldVal) {
+            this.coverObj(val);
+            if (this.form.express || this.form.express.length !== 0) {
+                this.form.express.map(_ => {
+                    _.name = _.serial;
+                });
+                this.express = [...this.form.express];
+            }
+        }
+    },
+    components: {
+        RemoteSelect,
+        UpLoad,
+        PaymentCostDetail,
+        PaymentCostDetailOrder,
+        RemindersRecord,
+        ReceivedRecord,
+        StaticSelect,
+        AppShrink,
+        MailAdd,
+        InvoiceMails,
+        InvoiceVouchers
     }
-  },
-  created() {},
-  mounted() {},
-  watch: {
-    rowData: function(val, oldVal) {
-      this.coverObj(val);
-      if (this.form.express || this.form.express.length !== 0) {
-        this.form.express.map(_ => {
-          _.name = _.serial;
-        });
-        this.express = [...this.form.express];
-      }
-    }
-  },
-  components: {
-    RemoteSelect,
-    UpLoad,
-    PaymentCostDetail,
-    PaymentCostDetailOrder,
-    RemindersRecord,
-    ReceivedRecord,
-    StaticSelect,
-    AppShrink,
-    MailAdd,
-    InvoiceMails,
-    InvoiceVouchers
-  }
 };
 </script>
 <style>

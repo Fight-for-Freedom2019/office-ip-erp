@@ -124,6 +124,23 @@ const config = [
         { label: "邮箱", key: "email_address" }
       ]
     }
-  ]
+  ],
+  [
+    "invoice_target",
+    {
+      URL: "/invoice_targets",
+      DATA_KEY: "data",
+      ARRAY: false,
+      PARAMS: {},
+      FIELDS: [
+        { label: "抬头", key: "name" },
+        { label: "纳税人识别号", key: "identity" },
+        { label: "开户行", key: "bank" },
+        { label: "银行账号", key: "account" },
+        { label: "地址", key: "address" },
+        { label: "电话", key: "phone_number" }
+      ]
+    }
+  ],
 ];
 export default config;

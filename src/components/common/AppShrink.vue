@@ -1,119 +1,122 @@
 <template>
-	<div>
-	<div class="app-shrink-modal" v-if="modal" v-show="visible"></div>
-	<transition name="slide-fade">
-	<div :style="shirnkStyle" class="app-shrink" v-show="visible">
-		<div class="app-shrink-head">
-			<span style="font-size: 18px; font-weight: bold;float: left;max-width: 300px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :style="{maxWidth:maxWidth}" :title="title" class="fs">{{ title }}</span>
-			<el-button v-if="isClose" icon="el-icon-close" style="float: right; border: 0; height: 40px;" @click="close" title="关闭"></el-button>
-			<slot name="header"></slot>
-		</div>
-		<div v-loading="shrinkLoading" :element-loading-text="shrinkLoadingText">
-			<div class="app-shrink-body" :style="`height: ${shrinkHeight}px;overflow-y: auto;overflow-x:hidden`" v-if="rendered">
-				<slot></slot>
+	<div @click="click">
+		<div class="app-shrink-modal" v-if="modal" v-show="visible"></div>
+		<transition name="slide-fade">
+			<div :style="shirnkStyle" class="app-shrink" v-show="visible">
+				<div class="app-shrink-head">
+					<span style="font-size: 18px; font-weight: bold;float: left;max-width: 300px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :style="{maxWidth:maxWidth}" :title="title" class="fs">{{ title }}</span>
+					<el-button v-if="isClose" icon="el-icon-close" style="float: right; border: 0; height: 40px;" @click="close" title="关闭"></el-button>
+					<slot name="header"></slot>
+				</div>
+				<div v-loading="shrinkLoading" :element-loading-text="shrinkLoadingText">
+					<div class="app-shrink-body" :style="`height: ${shrinkHeight}px;overflow-y: auto;overflow-x:hidden`" v-if="rendered">
+						<slot></slot>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-	</transition>
+		</transition>
 	</div>
 
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
-	name: 'appShrink',
-	props: {
-		visible: {
-			type: Boolean,
-			default: false,
-		},
-		modal: {
-			type: Boolean,
-			default: false,
-		},
-		title: {
-			type: String,
-			default: '标题',
-		},
-		size: {
-			type: String,
-			default: 'large',
-		},
-		modalClick: {
-			type: Boolean,
-			default: true,
-		},
-		isClose: {
-			type: Boolean,
-			default: true,
-		}
-	},
-	data () {
-		return {
-			rendered: false,  
-		}
-	},
-	methods: {
-		close () {
-			if(this.modalClick) {
-				this.$emit('update:visible', false);
-				this.$emit('close');
-			}
-		},
-		// fire (e) {
-		// 	const _con = $('.app-shrink');   // 设置目标区域
-		//   if(!_con.is(e.target) && _con.has(e.target).length === 0){ // Mark 1
-		//     this.close();
-		//   }
-		// }
-	}, 
-	computed: {
-		...mapGetters([
-      'shrinkHeight',
-      'shrinkLoading',
-      'shrinkLoadingText',
-      'innerWidth'
-    ]),
-    shirnkStyle () {
-    	return {
-            'full-screen':`width: ${this.innerWidth-20}px`, // 减掉20的padding
-    		'large': 'width: 926px;',
-    		'middle': 'width: 600px;',
-    		'small': 'width: 460px;',
-    	}[this.size];
+    name: 'appShrink',
+    props: {
+        visible: {
+            type: Boolean,
+            default: false,
+        },
+        modal: {
+            type: Boolean,
+            default: false,
+        },
+        title: {
+            type: String,
+            default: '标题',
+        },
+        size: {
+            type: String,
+            default: 'large',
+        },
+        modalClick: {
+            type: Boolean,
+            default: true,
+        },
+        isClose: {
+            type: Boolean,
+            default: true,
+        }
     },
-    maxWidth() {
-		  let def = "300px";
-		  if (this.size === 'full-screen') {
-        def = "500px"
-      }
-      return def
-    }
-	},
-	mounted () {
-		if (this.visible) {
-      this.rendered = true;
-      // this.$root.$el.addEventListener('click', this.fire);
-    }
-	},
-	watch: {
-		visible (val) {
-			
-			if( !this.rendered && val) {
-				this.rendered = true;
-			}
+    data() {
+        return {
+            rendered: false,
+        }
+    },
+    methods: {
+        click() {
+            this.$store.commit("setActiveCardId", 0);
+        },
+        close() {
+            if (this.modalClick) {
+                this.$emit('update:visible', false);
+                this.$emit('close');
+            }
+        },
+        // fire (e) {
+        // 	const _con = $('.app-shrink');   // 设置目标区域
+        //   if(!_con.is(e.target) && _con.has(e.target).length === 0){ // Mark 1
+        //     this.close();
+        //   }
+        // }
+    },
+    computed: {
+        ...mapGetters([
+            'shrinkHeight',
+            'shrinkLoading',
+            'shrinkLoadingText',
+            'innerWidth'
+        ]),
+        shirnkStyle() {
+            return {
+                'full-screen': `width: ${this.innerWidth - 20}px`, // 减掉20的padding
+                'large': 'width: 926px;',
+                'middle': 'width: 600px;',
+                'small': 'width: 460px;',
+            }[this.size];
+        },
+        maxWidth() {
+            let def = "300px";
+            if (this.size === 'full-screen') {
+                def = "500px"
+            }
+            return def
+        }
+    },
+    mounted() {
+        if (this.visible) {
+            this.rendered = true;
+            // this.$root.$el.addEventListener('click', this.fire);
+        }
+    },
+    watch: {
+        visible(val) {
 
-			// window.setTimeout(_=>{
-			// 	if(val) {
-			// 		this.$root.$el.addEventListener('click', this.fire);
-			// 	}else {
-			// 		this.$root.$el.removeEventListener('click', this.fire);
-			// 	}	
-			// }, 0);
-		}
-	}
+            if (!this.rendered && val) {
+                this.rendered = true;
+            }
+
+            // window.setTimeout(_=>{
+            // 	if(val) {
+            // 		this.$root.$el.addEventListener('click', this.fire);
+            // 	}else {
+            // 		this.$root.$el.removeEventListener('click', this.fire);
+            // 	}	
+            // }, 0);
+        }
+    }
 }
 </script>
 <style>

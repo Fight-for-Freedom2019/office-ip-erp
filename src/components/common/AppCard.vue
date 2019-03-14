@@ -63,108 +63,109 @@ import { mapActions } from "vuex";
 import { mapMutations } from "vuex";
 
 export default {
-  name: "appCard",
-  props: {
-    value: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    type: String
-  },
-  data() {
-    return {
-      cardForm: {},
-      saveIndentity: ""
-    };
-  },
-  computed: {
-    ...mapGetters(["cardCache", "cardMap"]),
-    staticCardData() {
-      const val = this.type ? this.cardMap.get(this.type) : {};
-      return val;
-    },
-    cardFields() {
-      const fields =
-        this.staticCardData != undefined ? this.staticCardData["FIELDS"] : [];
-      return fields;
-    }
-  },
-  created() {
-    this.handleDynamicForm();
-  },
-  watch: {
-    "$store.state.activeCardId"(val) {
-      for (let k in this.$refs) {
-        let c =
-          this.$refs[k] instanceof Array ? this.$refs[k][0] : this.$refs[k];
-        if (c != undefined && c._uid !== val) {
-          c.doClose();
-        }
-      }
-    }
-  },
-  methods: {
-    ...mapActions(["initializeCardCache"]),
-    handleCloseTag(tag) {
-      //标签关闭，对应的card也需要关闭
-      for (let k in this.$refs) {
-        if (k === `popover_${tag.id}` && this.$refs[k][0] != undefined) {
-          this.$refs[k][0].doClose();
-        }
-      }
-      this.$emit("handleCloseTag", tag);
-    },
-    handleCardVisible(tag, e) {
-      if (this.cardFields.length == 0) {
-        return false;
-      }
-      //切换用户选择的标签对应的卡片
-      const card = this.$refs[`popover_${tag.id}`][0];
-      //如果card可见，发送卡片显示事件，使所有其他卡片被隐藏
-      if (!card.value) {
-        this.$store.commit("setActiveCardId", card._uid);
-      }
-      card.doToggle();
-    },
-    setForm(data) {
-      for (let k in this.cardForm) {
-        if (k == "province_city") {
-          this.cardForm[k] = `${data["province_name"]}/${data["city_name"]}`;
-        } else {
-          this.cardForm[k] = data[k];
-        }
-      }
-    },
-    async handleCardDetails({ id }) {
-      let d = await this.initializeCardCache({ type: this.type, id: id });
-      console.log(d);
-      this.setForm(d[this.type]);
-    },
-    handleDynamicForm() {
-      if (this.cardFields && this.cardFields.length != 0) {
-        this.cardFields.forEach(_ => {
-          this.$set(this.cardForm, _.key, "");
-        });
-      }
-    }
-  },
-  components: {
-    CardRender: {
-      render: function(h) {
-        return this.render(h, this.scopeForm[this.fieldKey]);
-      },
-      props: {
-        render: null,
-        fieldKey: {
-          type: String,
-          default: ""
+    name: "appCard",
+    props: {
+        value: {
+            type: Array,
+            default() {
+                return [];
+            }
         },
-        scopeForm: null
-      }
+        type: String
+    },
+    data() {
+        return {
+            cardForm: {},
+            saveIndentity: ""
+        };
+    },
+    computed: {
+        ...mapGetters(["cardCache", "cardMap"]),
+        staticCardData() {
+            const val = this.type ? this.cardMap.get(this.type) : {};
+            return val;
+        },
+        cardFields() {
+            const fields =
+                this.staticCardData != undefined ? this.staticCardData["FIELDS"] : [];
+            return fields;
+        },
+    },
+    created() {
+        this.handleDynamicForm();
+    },
+    watch: {
+        "$store.state.activeCardId"(val) {
+            console.log(val);
+            for (let k in this.$refs) {
+                let c =
+                    this.$refs[k] instanceof Array ? this.$refs[k][0] : this.$refs[k];
+                if (c != undefined && c._uid !== val) {
+                    c.doClose();
+                }
+            }
+        }
+    },
+    methods: {
+        ...mapActions(["initializeCardCache"]),
+        handleCloseTag(tag) {
+            //标签关闭，对应的card也需要关闭
+            for (let k in this.$refs) {
+                if (k === `popover_${tag.id}` && this.$refs[k][0] != undefined) {
+                    this.$refs[k][0].doClose();
+                }
+            }
+            this.$emit("handleCloseTag", tag);
+        },
+        handleCardVisible(tag, e) {
+            if (this.cardFields.length == 0) {
+                return false;
+            }
+            //切换用户选择的标签对应的卡片
+            const card = this.$refs[`popover_${tag.id}`][0];
+            //如果card可见，发送卡片显示事件，使所有其他卡片被隐藏
+            if (!card.value) {
+                this.$store.commit("setActiveCardId", card._uid);
+            }
+            card.doToggle();
+            e.stopPropagation();
+        },
+        setForm(data) {
+            for (let k in this.cardForm) {
+                if (k == "province_city") {
+                    this.cardForm[k] = `${data["province_name"]}/${data["city_name"]}`;
+                } else {
+                    this.cardForm[k] = data[k];
+                }
+            }
+        },
+        async handleCardDetails({ id }) {
+            let d = await this.initializeCardCache({ type: this.type, id: id });
+            this.setForm(d[this.type]);
+        },
+        handleDynamicForm() {
+            if (this.cardFields && this.cardFields.length != 0) {
+                this.cardFields.forEach(_ => {
+                    this.$set(this.cardForm, _.key, "");
+                });
+            }
+        }
+    },
+    components: {
+        CardRender: {
+            render: function (h) {
+                return this.render(h, this.scopeForm[this.fieldKey]);
+            },
+            props: {
+                render: null,
+                fieldKey: {
+                    type: String,
+                    default: ""
+                },
+                scopeForm: null
+            }
+        }
     }
-  }
 };
 </script>
 <style lang="scss" scoped>

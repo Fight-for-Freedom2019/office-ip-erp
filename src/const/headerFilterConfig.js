@@ -309,6 +309,7 @@ const map = new Map([
     { type: "remote_select", id: "invoice", name: "账单编号", data_key: "data", url: "/invoices" },
     { type: "remote_select", id: "invoice_target", name: "开票主体", data_key: "data", url: "/invoice_targets" },
     { type: "static_select", id: "status", name: "申请国家", map_type: "area" },
+    { type: "static_select", id: "voucher_type", name: "发票类型", map_type: "voucher_type" },
     { type: "text", id: "remark", name: "备注" },
     { type: "text", id: "amount", name: "金额" }
     ]
