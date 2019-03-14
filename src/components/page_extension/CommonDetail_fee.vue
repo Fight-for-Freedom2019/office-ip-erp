@@ -205,7 +205,14 @@ export default {
       this.$nextTick(() => {
         this.$refs.fee.clear();
       });
-    }
+    },
+    activeName(val) {
+      if(val === "first") {
+        this.feeType = "fee";
+      }else if(val === "second"){
+        this.feeType = "pay";
+      }
+    },
   },
   components: {
     AppCollapse,

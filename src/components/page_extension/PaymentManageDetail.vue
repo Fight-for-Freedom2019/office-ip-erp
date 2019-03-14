@@ -127,7 +127,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="支付时间" v-if="mode==='pay'">
-                <el-date-picker placeholder="请选择请款时间" class="custom-picker-input" value-format="yyyy-MM-dd" v-model="form.payment_time" ></el-date-picker>
+                <el-date-picker placeholder="请选择支付时间" class="custom-picker-input" value-format="yyyy-MM-dd" v-model="form.payment_time" ></el-date-picker>
               </el-form-item>
               <el-form-item label="回款时间" v-else>
                 <!--<span class="form-item-text">{{form.payment_time}}</span>-->
