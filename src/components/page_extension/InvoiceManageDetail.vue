@@ -24,16 +24,16 @@
           </el-form-item>
         </el-col> -->
       </el-row>
-      <el-row>
+      <el-row >
         <el-col :span="24">
-          <el-form-item label="抬头" prop="invoice_target">
+          <el-form-item label="抬头" prop="invoice_target" v-if="this.mode === 'add'">
             <jump-select
               type="invoice_target"
               v-model="form.invoice_target"
-              :disabled="this.mode === 'edit'"
               :para="para"
             ></jump-select>
           </el-form-item>
+          
         </el-col>
         <!-- <el-form-item label="税务票号" prop="tax_no">
           <el-input type="text" v-model="form.tax_no" placeholder="请输入税务票号"></el-input>
@@ -68,14 +68,33 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="12">
-          <el-form-item label="费用" prop="fee" v-if="this.mode === 'add'">
-            <el-button type="text" @click="selectFee">选择费用</el-button>
+        <el-form-item label="开票信息" v-if="this.mode === 'edit'">
+            <el-table
+              :data="tableData"
+              :show-header="false"
+              style="width: 100%">
+              <el-table-column
+                prop="field"
+                label="字段"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="value"
+                label="值"
+                min_width="180">
+              </el-table-column>
+            </el-table>
           </el-form-item>
-        </el-col>
       </el-row>
-      <table-component :tableOption="tableOption" :data="fees" ref="table" v-if="this.mode === 'add'" ></table-component>
-      <table-component :tableOption="tableOptionEdit" :data="fees" ref="table" v-else></table-component>
+      <el-row>
+          <el-form-item label="费用明细" prop="fee">
+            <el-button type="text" @click="selectFee">选择费用</el-button>
+            <table-component :tableOption="tableOption" :data="fees" ref="table" v-if="this.mode === 'add'" ></table-component>
+            <table-component :tableOption="tableOptionEdit" :data="fees" ref="table" v-else></table-component>
+          </el-form-item>
+      </el-row>
+      
+      
       <voucher-fee-select :tableOption="invoiceFeeListOption" @onFeesSelected="onFeesSelected" ref="select" ></voucher-fee-select>
       <common-detail ref="project"></common-detail>
       <order-detail ref="order"></order-detail>
@@ -129,6 +148,7 @@ export default {
             para: {
                 user: null
             },
+            target: '',
             bill: {
                 // 账单JumpSelect的type
                 URL: "/invoices",
@@ -149,6 +169,7 @@ export default {
                 is_pagination: false,
                 highlightCurrentRow: true,
                 is_search: false,
+                show_summary: true,
                 // 'rowClick': this.handleRowClick,
                 header_btn: [
                     // {type: 'add'},
@@ -169,7 +190,7 @@ export default {
                     },
                     { type: "text", label: "标题", prop: "project.title", min_width: "150" },
                     {
-                        type: "text",
+                        type: "text-btn",
                         label: "订单号",
                         prop: "order.serial",
                         width: "120",
@@ -186,7 +207,8 @@ export default {
                     // {type: 'array', label: '官费票据', prop: 'official_voucher', width: '150'},
                     // {type: 'array', label: '代理费票据', prop: 'service_voucher', width: '150'},
                     { type: "action", width: "50", align: "center", btns: [{ type: "delete", click: this.removeFee }] }
-                ]
+                ],
+                sumFunc: this.sumFunc
             },
             tableOptionEdit: {
                 name: "PaymentCostDetailList",
@@ -195,6 +217,7 @@ export default {
                 is_pagination: false,
                 highlightCurrentRow: true,
                 is_search: false,
+                show_summary: true,
                 // 'rowClick': this.handleRowClick,
                 header_btn: [
                     // {type: 'add'},
@@ -203,16 +226,36 @@ export default {
                     // {type: 'text', label: '客户', prop: 'customer.name', min_width: '178'},
                     { type: "text", label: "费用名称", prop: "feecode", render_simple: 'name', width: "100" },
                     { type: "text", label: "金额", prop: "rmb_amount_currency", width: "100" },
-                    { type: "text", label: "订单号", prop: "order.serial", width: "120" },
-                    { type: "text", label: "案号", prop: "serial", width: "120" },
-                    { type: "text", label: "标题", prop: "title", min_width: "150" },
+
+                    {
+                        type: "text-btn",
+                        label: "案号",
+                        prop: "project.serial",
+                        width: "178",
+                        click: this.showDetail,
+                        render_text_btn: row => {
+                            return row.project ? row.project.serial : "";
+                        }
+                    },
+                    { type: "text", label: "标题", prop: "project.title", min_width: "150" },
+                    {
+                        type: "text-btn",
+                        label: "订单号",
+                        prop: "order.serial",
+                        width: "120",
+                        click: this.showDetail,
+                        render_text_btn: row => {
+                            return row.order ? row.order.serial : "";
+                        }
+                    },
                     // {type: 'text', label: '申请国家', prop: 'area', width: '180'},
                     // { type: "text", label: "申请号", prop: "application_number", width: "120" },
                     // { type: "text", label: "申请日", prop: "application_date", width: "100" }
                     // {type: 'text', label: '费用策略', prop: 'policy', width: '150'},
                     // {type: 'array', label: '官费票据', prop: 'official_voucher', width: '150'},
                     // {type: 'array', label: '代理费票据', prop: 'service_voucher', width: '150'},
-                ]
+                ],
+                sumFunc: this.sumFunc
             },
             invoiceFeeListOption: {
                 name: "PaymentCostDetailList",
@@ -270,9 +313,66 @@ export default {
     computed: {
         extendParam: function () {
             return this.$route.meta.params
+        },
+        tableData: function () {
+            return [
+                { field: '抬头', value: this.target.name },
+                { field: '纳税人识别号', value: this.target.identity },
+                { field: '开户行', value: this.target.bank },
+                { field: '银行账号', value: this.target.account },
+                { field: '联系电话', value: this.target.phone_number },
+            ]
         }
     },
     methods: {
+        sumFunc: param => {
+            const { columns, data } = param;
+            const sums = [];
+            const fields = [
+                "rmb_amount_currency",
+            ];
+            columns.forEach((column, index) => {
+                if (index === 0) {
+                    sums[index] = "总计";
+                    return;
+                }
+                if (fields.indexOf(column.property) >= 0) {
+                    const values = data.map(item =>
+                        Number(item[column.property].replace(/,/g, ""))
+                    );
+                    if (!values.every(value => isNaN(value))) {
+                        sums[index] = values.reduce((prev, curr) => {
+                            const value = Number(curr);
+                            if (!isNaN(value)) {
+                                return prev + curr;
+                            } else {
+                                return prev;
+                            }
+                        }, 0);
+                        //将结果拆分为小数与整数
+                        const digits = sums[index]
+                            .toFixed(2)
+                            .toString()
+                            .split(".");
+                        let number;
+                        let decimal;
+                        if (digits.length > 1) {
+                            number = digits[0].toString();
+                            decimal = digits[1];
+                        } else {
+                            number = sums[index].toString();
+                            decimal = "00";
+                        }
+                        sums[index] =
+                            number.replace(/\B(?=(\d{3})+$)/g, ",") + "." + decimal;
+                    }
+                } else {
+                    sums[index] = "";
+                }
+            });
+
+            return sums;
+        },
         save() {
             // type是父组件传来的,表示是add还是edit,id表示修改的某一行数据的id
             this.$refs["form"].validate(valid => {
@@ -388,6 +488,7 @@ export default {
                 this.fees = d.fees;
                 this.attachments = d.attachments;
                 this.title = this.mode === "add" ? "开票申请" : "发票详情>" + d.serial;
+                this.target = d.invoice_target;
             };
             const complete = () => {
                 this.loadingVisible = false;
