@@ -11,6 +11,14 @@ const map = new Map([
     }
   ],
   [
+    "estimate",
+    {
+      URL: "/renewal_confirmation_sheets?listOnly=1",
+      DATA_KEY: "data",
+      PLACEHOLDER: "请输入评估单关键词"
+    }
+  ],
+  [
     "member",
     {
       URL: "/members?listOnly=1",
