@@ -29,6 +29,7 @@
               :para="para"
               v-model="form.invoice"
               :disabled="this.mode === 'edit'"
+              multiple
             ></jump-select>
           </el-form-item>
         </el-col>
@@ -53,6 +54,10 @@
                         </el-form-item>
         </el-col>-->
       </el-row>
+      
+      <el-form-item label="发票类型" prop="voucher_type">
+        <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
+      </el-form-item>
       <el-form-item label="状态" prop="status" v-if="this.mode === 'edit'">
         <static-select type="voucher_status" v-model="form.status"></static-select>
       </el-form-item>
@@ -70,7 +75,7 @@
         <el-input type="text" v-model="form.remark" placeholder="请输入备注"></el-input>
       </el-form-item>
       <el-row>
-        <el-col :span="12" v-if="mode === 'edit'">
+        <el-col :span="12">
           <el-form-item label="附件" prop>
             <up-load v-model="form.attachments" :fileList="attachments"></up-load>
           </el-form-item>
@@ -136,6 +141,7 @@ export default {
         received_date: "",
         amount: "",
         status: "",
+        voucher_type: "",
         attachments: [],
         tax_no: ""
       },

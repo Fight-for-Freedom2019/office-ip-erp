@@ -43,6 +43,7 @@
                         {type: 'text', label: '关联账单', prop: 'invoice',render_simple:"serial", width: '120',render_header:true},
                         {type: 'text', label: '发票抬头', prop: 'invoice_target',render_simple:"name", min_width: '150',render_header:true},
                         {type: 'text', label: '税务票号', prop: 'tax_no', min_width: '120',render_header:true},
+                        {type: 'text', label: '发票类型', prop: 'voucher_type', render_simple: 'name', min_width: '120',render_header:true},
                         {type: 'text', label: '状态', prop: 'status',render_simple:"name", min_width: '120',render_header:true},
                         {type: 'text-btn', label: '金额', prop: 'amount', width: '100', click: this.checkFeeDetail,render_header:true},
                         // {type: 'text', label: '申请国家', prop: 'status', width: '120',render_header:true},
