@@ -335,12 +335,12 @@ export default {
         },
         tableData: function () {
             return [
-                { field: '抬头', value: this.target.name },
-                { field: '纳税人识别号', value: this.target.identity },
-                { field: '开户行', value: this.target.bank },
-                { field: '银行账号', value: this.target.account },
-                { field: '地址', value: this.target.address },
-                { field: '联系电话', value: this.target.phone_number },
+                { field: '抬头', value: this.target ? this.target.name : '' },
+                { field: '纳税人识别号', value: this.target ? this.target.identity : '' },
+                { field: '开户行', value: this.target ? this.target.bank : '' },
+                { field: '银行账号', value: this.target ? this.target.account : '' },
+                { field: '地址', value: this.target ? this.target.address : '' },
+                { field: '联系电话', value: this.target ? this.target.phone_number : '' },
             ]
         }
     },
