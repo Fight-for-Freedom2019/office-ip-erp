@@ -20,6 +20,7 @@
               :para="para"
               v-model="form.invoice"
               :disabled="this.mode === 'edit'"
+              multiple
             ></jump-select>
           </el-form-item>
         </el-col> -->
@@ -27,11 +28,12 @@
       <el-row >
         <el-col :span="24">
           <el-form-item label="抬头" prop="invoice_target" v-if="this.mode === 'add'">
-            <jump-select
+            <remote-select
               type="invoice_target"
               v-model="form.invoice_target"
               :para="para"
-            ></jump-select>
+              addType="invoice_target"
+            ></remote-select>
           </el-form-item>
           
         </el-col>
@@ -44,9 +46,22 @@
                         </el-form-item>
         </el-col>-->
       </el-row>
-      <el-form-item label="状态" prop="status" v-if="this.mode === 'edit'">
-        <static-select type="voucher_status" v-model="form.status"></static-select>
+      
+      <el-form-item label="发票类型" prop="voucher_type">
+        <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
       </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="状态" prop="status" v-if="this.mode === 'edit'">
+            <static-select type="voucher_status" v-model="form.status"></static-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="开票日期" prop="date" v-if="this.mode === 'edit'">
+            <el-date-picker type="date" v-model="form.date"></el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <!-- <el-row>
                     <el-col :span="12">
 
@@ -61,7 +76,7 @@
         <el-input type="text" v-model="form.remark" placeholder="请输入备注"></el-input>
       </el-form-item>
       <el-row>
-        <el-col :span="12" v-if="mode === 'edit'">
+        <el-col :span="24">
           <el-form-item label="附件" prop>
             <up-load v-model="form.attachments" :fileList="attachments"></up-load>
           </el-form-item>
@@ -89,8 +104,8 @@
       <el-row>
           <el-form-item label="费用明细" prop="fee">
             <el-button type="text" @click="selectFee">选择费用</el-button>
-            <table-component :tableOption="tableOption" :data="fees" ref="table" v-if="this.mode === 'add'" ></table-component>
-            <table-component :tableOption="tableOptionEdit" :data="fees" ref="table" v-else></table-component>
+            <table-component key="table-add" :tableOption="tableOption" :data="fees" ref="table" v-if="this.mode === 'add'" ></table-component>
+            <table-component key="table-edit" :tableOption="tableOptionEdit" :data="fees" ref="table" v-else></table-component>
           </el-form-item>
       </el-row>
       
@@ -134,19 +149,23 @@ export default {
             },
             form: {
                 customer: "",
-                customer_name: "",
+                // customer_name: "",
                 invoice_target: "",
                 // invoice: "",
-                title: "",
-                received_date: "",
-                amount: "",
+                // title: "",
+                // received_date: "",
+                // amount: "",
                 status: "",
                 attachments: [],
                 // tax_no: ""
+                voucher_type: 1,
+                remark: '',
+                date: '',
             },
             attachments: [],
             para: {
-                user: null
+                user: null,
+                customer: null,
             },
             target: '',
             bill: {
@@ -182,7 +201,7 @@ export default {
                         type: "text-btn",
                         label: "案号",
                         prop: "project.serial",
-                        width: "178",
+                        width: "160",
                         click: this.showDetail,
                         render_text_btn: row => {
                             return row.project ? row.project.serial : "";
@@ -206,7 +225,7 @@ export default {
                     // {type: 'text', label: '费用策略', prop: 'policy', width: '150'},
                     // {type: 'array', label: '官费票据', prop: 'official_voucher', width: '150'},
                     // {type: 'array', label: '代理费票据', prop: 'service_voucher', width: '150'},
-                    { type: "action", width: "50", align: "center", btns: [{ type: "delete", click: this.removeFee }] }
+                    { type: "action", width: "60", align: "center", btns: [{ type: "delete", click: this.removeFee }] }
                 ],
                 sumFunc: this.sumFunc
             },
@@ -320,6 +339,7 @@ export default {
                 { field: '纳税人识别号', value: this.target.identity },
                 { field: '开户行', value: this.target.bank },
                 { field: '银行账号', value: this.target.account },
+                { field: '地址', value: this.target.address },
                 { field: '联系电话', value: this.target.phone_number },
             ]
         }
@@ -393,12 +413,7 @@ export default {
                     Object.assign(data, this.extendParam);
                     let fees = [];
                     this.fees.forEach(item => {
-                        item.official_fee.list.forEach(_ => {
-                            fees.push(_.id);
-                        });
-                        item.service_fee.list.forEach(_ => {
-                            fees.push(_.id);
-                        });
+                        fees.push(item.id);
                     });
                     data.fees = fees;
                     const success = _ => {
@@ -520,6 +535,7 @@ export default {
     watch: {
         "form.customer": function (val, oldVal) {
             this.para.user = val;
+            this.para.customer = val;
         },
         rowData: function (val, oldVal) {
             this.coverObj(val);

@@ -227,652 +227,652 @@ const router = new Router({
         requiresAuth: true
       }, //进入路由需要登录验证
       children: [{
-          path: "/statistics",
-          name: "Home",
-          component: Home
-        },
-        //################### CRM router begin ################
-        {
-          path: "/crm/customers",
-          name: "CustomerList",
-          component: CustomerList
-        },
-        {
-          path: "/crm/orders",
-          name: "Orders",
-          component: Orders
-        },
-        {
-          path: "/crm/expresses",
-          name: "ExpressManage",
-          component: ExpressManage
-        },
-        {
-          path: "/crm/data/applicants",
-          name: "ApplicantLists",
-          component: ApplicantList
-        },
-        {
-          path: "/crm/data/inventors",
-          name: "InventorList",
-          component: InventorList
-        },
-        {
-          path: "/crm/data/remarks",
-          name: "CustomerRemarks",
-          component: CustomerRemarks
-        },
-        {
-          path: "/crm/data/contacts",
-          name: "ContactsList",
-          component: ContactsList
-        },
-        {
-          path: "/crm/data/invoice_targets",
-          name: "InvoiceTargets",
-          component: InvoiceTargets
-        },
-        {
-          path: "/crm/data/quotations",
-          name: "CustomerQuotation",
-          component: CustomerQuotation
-        },
+        path: "/statistics",
+        name: "Home",
+        component: Home
+      },
+      //################### CRM router begin ################
+      {
+        path: "/crm/customers",
+        name: "CustomerList",
+        component: CustomerList
+      },
+      {
+        path: "/crm/orders",
+        name: "Orders",
+        component: Orders
+      },
+      {
+        path: "/crm/expresses",
+        name: "ExpressManage",
+        component: ExpressManage
+      },
+      {
+        path: "/crm/data/applicants",
+        name: "ApplicantLists",
+        component: ApplicantList
+      },
+      {
+        path: "/crm/data/inventors",
+        name: "InventorList",
+        component: InventorList
+      },
+      {
+        path: "/crm/data/remarks",
+        name: "CustomerRemarks",
+        component: CustomerRemarks
+      },
+      {
+        path: "/crm/data/contacts",
+        name: "ContactsList",
+        component: ContactsList
+      },
+      {
+        path: "/crm/data/invoice_targets",
+        name: "InvoiceTargets",
+        component: InvoiceTargets
+      },
+      {
+        path: "/crm/data/quotations",
+        name: "CustomerQuotation",
+        component: CustomerQuotation
+      },
 
-        {
-          path: "/crm/contracts",
-          name: "ContractsList",
-          component: ContractsList
-        },
-        {
-          path: "/crm/notice/notices",
-          name: "CustomerNotices",
-          component: CustomerNotices
-        },
-        {
-          path: "/crm/notice/reports",
-          name: "CustomerReports",
-          component: CustomerReports
-        },
-        {
-          path: "/crm/notice/renewals",
-          name: "CustomersRenewals",
-          component: CustomersRenewals
-        },
+      {
+        path: "/crm/contracts",
+        name: "ContractsList",
+        component: ContractsList
+      },
+      {
+        path: "/crm/notice/notices",
+        name: "CustomerNotices",
+        component: CustomerNotices
+      },
+      {
+        path: "/crm/notice/reports",
+        name: "CustomerReports",
+        component: CustomerReports
+      },
+      {
+        path: "/crm/notice/renewals",
+        name: "CustomersRenewals",
+        component: CustomersRenewals
+      },
 
-        {
-          path: "/crm/suppliers/lists",
-          name: "Suppliers",
-          component: Suppliers
-        },
+      {
+        path: "/crm/suppliers/lists",
+        name: "Suppliers",
+        component: Suppliers
+      },
 
-        {
-          path: "/crm/suppliers/quotations",
-          name: "SuppliersQuotation",
-          component: SuppliersQuotation
-        },
+      {
+        path: "/crm/suppliers/quotations",
+        name: "SuppliersQuotation",
+        component: SuppliersQuotation
+      },
 
-        //################### CRM router end ##################
+      //################### CRM router end ##################
 
-        //################### Exchange router begin ##################
-        {
-          path: "/exchange/client/notices",
-          name: "ExchangeNotices",
-          component: ExchangeNotices
-        },
-        {
-          path: "/exchange/client/archives",
-          name: "ExchangeArchives",
-          component: ExchangeArchives
-        },
-        {
-          path: "/exchange/mails",
-          name: "ExchangeMails",
-          component: ExchangeMails
-        },
+      //################### Exchange router begin ##################
+      {
+        path: "/exchange/client/notices",
+        name: "ExchangeNotices",
+        component: ExchangeNotices
+      },
+      {
+        path: "/exchange/client/archives",
+        name: "ExchangeArchives",
+        component: ExchangeArchives
+      },
+      {
+        path: "/exchange/mails",
+        name: "ExchangeMails",
+        component: ExchangeMails
+      },
 
-        //################### Exchange router end ##################
+      //################### Exchange router end ##################
 
-        //################### 任务路由 begin ###################
-        {
-          path: "/task/pending",
-          name: "TaskPending",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_review_action: 0,
-              is_completed: 0
-            }
+      //################### 任务路由 begin ###################
+      {
+        path: "/task/pending",
+        name: "TaskPending",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_review_action: 0,
+            is_completed: 0
           }
-        },
-        {
-          path: "/task/review/sent",
-          name: "TaskReviewSend",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_review_action: 1,
-              is_sender: 1,
-              is_completed: 0
-            }
-          }
-        },
-        {
-          path: "/task/review/my",
-          name: "TaskReviewCheck",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_review_action: 1,
-              is_sender: 0,
-              is_completed: 0
-            }
-          }
-        },
-        {
-          path: "/task/monitor/assigner",
-          name: "TaskMonitorAssigner",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 0,
-              relevance: "assigner"
-            }
-          }
-        },
-        {
-          path: "/task/monitor/agent",
-          name: "TaskMonitorAgent",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 0,
-              relevance: "agent"
-            }
-          }
-        },
-        {
-          path: "/task/monitor/assistant",
-          name: "TaskMonitorAssistant",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 0,
-              relevance: "assistant"
-            }
-          }
-        },
-        {
-          path: "/task/monitor/first_reviewer",
-          name: "TaskMonitorFirstReviewer",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 0,
-              relevance: "first_reviewer"
-            }
-          }
-        },
-        {
-          path: "/task/monitor/final_reviewer",
-          name: "TaskMonitorFinalReviewer",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 0,
-              relevance: "final_reviewer"
-            }
-          }
-        },
-        {
-          path: "/task/monitor/representative",
-          name: "TaskMonitorRepresentative",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 0,
-              relevance: "representative"
-            }
-          }
-        },
-        {
-          path: "/task/monitor/mentor",
-          name: "TaskMonitorMentor",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 0,
-              relevance: "mentor"
-            }
-          }
-        },
-        {
-          path: "/task/monitor/supervisor",
-          name: "TaskMonitorSupervisor",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 0,
-              relevance: "supervisor"
-            }
-          }
-        },
-        {
-          path: "/task/all",
-          name: "TaskPendingAll",
-          component: TaskCommon,
-          meta: {
-            params: {
-              scope: "all",
-              is_completed: 0
-            }
-          }
-        },
-        {
-          path: "/task/finished/my",
-          name: "TasksFinishedMy",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 1
-            }
-          }
-        },
-        {
-          path: "/task/finished/team",
-          name: "TasksFinishedTeam",
-          component: TaskCommon,
-          meta: {
-            params: {
-              is_completed: 1,
-              scope: "all"
-            }
-          }
-        },
-
-        //################### 任务路由 end #####################
-
-        //################### 专利路由 start #####################
-        {
-          path: "/patent/list",
-          name: "PattentList",
-          component: PatentList,
-          meta: {
-            params: {
-              status: 1
-            }
-          }
-        },
-        {
-          path: "/patent/draftbox",
-          name: "PatentDraftbox",
-          component: PatentList,
-          meta: {
-            params: {
-              status: 0
-            }
-          }
-        },
-        {
-          path: "/patent/notice",
-          name: "PatentNotice",
-          component: NoticeCommon,
-          meta: {
-            params: {
-              project_type: '专利',
-            },
-            type: "patent"
-          }
-        },
-        {
-          path: "/patent/notice/sending",
-          name: "PatentNoticeSending",
-          component: NoticeCommon,
-          meta: {
-            params: {
-              is_sent: 0
-            },
-            type: "patent"
-          }
-        },
-        {
-          path: "/patent/notice/sent",
-          name: "PatentNoticeSent",
-          component: NoticeCommon,
-          meta: {
-            params: {
-              is_sent: 1
-            },
-            type: "patent"
-          }
-        },
-        //################### 专利路由 end #####################
-
-        //################### 商标路由 start #####################
-        {
-          path: "/trademark/list",
-          name: "TrademarkList",
-          component: TrademarkList,
-          meta: {
-            params: {
-              status: 1
-            }
-          }
-        },
-        {
-          path: "/trademark/draftbox",
-          name: "TrademarkDraftbox",
-          component: TrademarkList,
-          meta: {
-            params: {
-              status: 0
-            }
-          }
-        },
-        {
-          path: "/trademark/notice",
-          name: "TrademarkNotice",
-          component: NoticeCommon,
-          meta: {
-            params: {
-              project_type: '商标',
-            },
-            type: "trademark"
-          }
-        },
-        //################### 商标路由 end #####################
-
-        //################### 版权路由 begin ###################
-        {
-          path: "/copyright/list",
-          name: "CopyrightList",
-          component: CopyrightList,
-          meta: {
-            params: {
-              status: 1
-            }
-          }
-        },
-        {
-          path: "/copyright/draftbox",
-          name: "CopyrightDraftbox",
-          component: CopyrightList,
-          meta: {
-            params: {
-              status: 0
-            }
-          }
-        },
-        {
-          path: "/copyright/notice",
-          name: "CopyrightNotice",
-          component: NoticeCommon,
-          meta: {
-            params: {
-              project_type: '版权',
-            },
-            type: "copyright"
-          }
-        },
-        //################### 版权路由 end #####################
-        //################### 财务路由 begin ###################
-
-        {
-          path: "/finance/revenue/all",
-          name: "RequestPayoutAll",
-          component: RequestPayout,
-          meta: {
-            params: {
-              is_debit: 1
-            }
-          }
-        },
-        {
-          path: "/finance/revenue/payment_requests",
-          name: "PaymentManage",
-          component: PaymentManage,
-          meta: {
-            params: {
-              is_debit: 1
-            }
-          }
-        },
-        {
-          path: "/finance/revenue/received_payments",
-          name: "PaymentRecevied",
-          component: PaymentRecevied,
-          meta: {
-            params: {
-              is_debit: 1
-            }
-          }
-        },
-
-        {
-          path: "/finance/outgo/all",
-          name: "SuppliersFeeAll",
-          component: SuppliersFee,
-          meta: {
-            params: {
-              is_debit: 0
-            }
-          }
-        },
-        {
-          path: "/finance/outgo/payments",
-          name: "SuppliersPayment",
-          component: SuppliersPayment,
-          meta: {
-            params: {
-              is_debit: 0
-            }
-          }
-        },
-
-        {
-          path: "/finance/renewal_fees/lists",
-          name: "RenewalFees",
-          component: RenewalFee
-        },
-        {
-          path: "/finance/renewal_fees/about_to_expire",
-          name: "RenewalFeesExpire",
-          component: RenewalFee,
-          meta: {
-            params: {
-              status: 0,
-              deadline: $tool.getDateRange(0, 90),
-            }
-          }
-        },
-        {
-          path: "/finance/renewal_fees/confirmation_sheets",
-          name: "RenewalFeesConfirmationSheets",
-          component: RenewalEstimate
-        },
-        {
-          path: "/finance/vouchers/lists",
-          name: "VouchersLists",
-          component: CrmVouchers,
-          meta: {
-            params: {
-              voucher_type: 1
-            }
-          }
-        },
-        {
-          path: "/finance/vouchers/received",
-          name: "VouchersReceived",
-          component: CrmVouchers,
-          meta: {
-            params: {
-              voucher_type: 2
-            }
-          }
-        },
-        {
-          path: "/finance/points/lists",
-          name: "Points",
-          component: Points
-        },
-        {
-          path: "/finance/points/settled",
-          name: "PointsMonthly",
-          component: PointsMonthly
-        },
-        //################### 费用路由 end #####################
-        //################### 报表路由 begin ###################
-        // {
-        //   path: '/report/task',
-        //   name: 'TaskReport',
-        //   component: Report,
-        //   meta: { 'type': 'task' },
-        // },
-        //################### 报表路由 end #####################
-
-        //################### 交互模块 start ###################
-        {
-          path: "/exchange/document/oa",
-          name: "ExchangeDocumentOa",
-          component: ExchangeDocumentOa
-        },
-        {
-          path: "/exchange/document/voucher",
-          name: "ExchangeDocumentVoucher",
-          component: ExchangeDocumentVoucher
-        },
-        {
-          path: "/exchange/document/other",
-          name: "ExchangeDocumentOther",
-          component: ExchangeDocumentOther
-        },
-        {
-          path: "/exchange/document/cpc",
-          name: "ExchangeDocumentCpc",
-          component: ExchangeDocumentCpc
-        },
-        {
-          path: "/exchange/document/excel",
-          name: "Excels",
-          component: Excels
-        },
-        //################### 交互模块 End ###################
-
-        //################### 设置模块 start ###################
-        {
-          path: "/setting/my",
-          name: "SettingIndividual",
-          component: SettingIndividual
-        },
-        {
-          path: "/setting/users",
-          name: "UserManage",
-          component: UserManage
-        },
-        {
-          path: "/setting/classifications",
-          name: "Clssification",
-          component: TechProClassification
-        },
-        {
-          path: "/setting/products",
-          name: "Product",
-          component: TechProClassification
-        },
-        {
-          path: "/setting/field",
-          name: "SettingField",
-          component: SettingField
-        },
-        {
-          path: "/setting/mail_templates",
-          name: "MailTemplates",
-          component: SettingMailTemplate
-        },
-        {
-          path: "/setting/flow/definitions",
-          name: "Definitions",
-          component: SettingDefinitions
-        },
-        {
-          path: "/setting/flow/flows",
-          name: "Flows",
-          component: SettingFlows
-        },
-        {
-          path: "/setting/flow/actions",
-          name: "Actions",
-          component: SettingActions
-        },
-        {
-          path: "/setting/flow/forms",
-          name: "Forms",
-          component: SettingForm
-        },
-        {
-          path: "/setting/flow/fields",
-          name: "Fields",
-          component: SettingFields
-        },
-        {
-          path: "/setting/data/payment_accounts",
-          name: "PaymentAccount",
-          component: PaymentAccount
-        },
-        {
-          path: "/setting/data/fee_codes",
-          name: "FeeCode",
-          component: SettingFeeCode
-        },
-        {
-          path: "/setting/data/file_types",
-          name: "FileType",
-          component: SettingFileType
-        },
-        {
-          path: "/setting/data/stages",
-          name: "ProjectStage",
-          component: SettingProjectStage
-        },
-        {
-          path: "/setting/data/entity_changes",
-          name: "EntityChange",
-          component: SettingEntityChange
-        },
-        {
-          path: "/setting/data/services",
-          name: "ServiceProject",
-          component: SettingService
-        },
-        {
-          path: "/setting/data/tags",
-          name: "SettingTags",
-          component: SettingTags
-        },
-        {
-          path: "/setting/bonus/ratio",
-          name: "SettingUserRatio",
-          component: SettingUserRatio
-        },
-        {
-          path: "/setting/bonus/rules",
-          name: "SettingBonusRule",
-          component: SettingBonusRule
-        },
-        {
-          path: "/setting/agencies/lists",
-          name: "SettingAgencies",
-          component: SettingAgencies
-        },
-        {
-          path: "/setting/agencies/agents",
-          name: "SettingAgents",
-          component: SettingAgents
-        },
-        {
-          path: "/setting/system",
-          name: "SettingSystem",
-          component: SettingSystem
         }
+      },
+      {
+        path: "/task/review/sent",
+        name: "TaskReviewSend",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_review_action: 1,
+            is_sender: 1,
+            is_completed: 0
+          }
+        }
+      },
+      {
+        path: "/task/review/my",
+        name: "TaskReviewCheck",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_review_action: 1,
+            is_sender: 0,
+            is_completed: 0
+          }
+        }
+      },
+      {
+        path: "/task/monitor/assigner",
+        name: "TaskMonitorAssigner",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 0,
+            relevance: "assigner"
+          }
+        }
+      },
+      {
+        path: "/task/monitor/agent",
+        name: "TaskMonitorAgent",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 0,
+            relevance: "agent"
+          }
+        }
+      },
+      {
+        path: "/task/monitor/assistant",
+        name: "TaskMonitorAssistant",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 0,
+            relevance: "assistant"
+          }
+        }
+      },
+      {
+        path: "/task/monitor/first_reviewer",
+        name: "TaskMonitorFirstReviewer",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 0,
+            relevance: "first_reviewer"
+          }
+        }
+      },
+      {
+        path: "/task/monitor/final_reviewer",
+        name: "TaskMonitorFinalReviewer",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 0,
+            relevance: "final_reviewer"
+          }
+        }
+      },
+      {
+        path: "/task/monitor/representative",
+        name: "TaskMonitorRepresentative",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 0,
+            relevance: "representative"
+          }
+        }
+      },
+      {
+        path: "/task/monitor/mentor",
+        name: "TaskMonitorMentor",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 0,
+            relevance: "mentor"
+          }
+        }
+      },
+      {
+        path: "/task/monitor/supervisor",
+        name: "TaskMonitorSupervisor",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 0,
+            relevance: "supervisor"
+          }
+        }
+      },
+      {
+        path: "/task/all",
+        name: "TaskPendingAll",
+        component: TaskCommon,
+        meta: {
+          params: {
+            scope: "all",
+            is_completed: 0
+          }
+        }
+      },
+      {
+        path: "/task/finished/my",
+        name: "TasksFinishedMy",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 1
+          }
+        }
+      },
+      {
+        path: "/task/finished/team",
+        name: "TasksFinishedTeam",
+        component: TaskCommon,
+        meta: {
+          params: {
+            is_completed: 1,
+            scope: "all"
+          }
+        }
+      },
+
+      //################### 任务路由 end #####################
+
+      //################### 专利路由 start #####################
+      {
+        path: "/patent/list",
+        name: "PattentList",
+        component: PatentList,
+        meta: {
+          params: {
+            status: 1
+          }
+        }
+      },
+      {
+        path: "/patent/draftbox",
+        name: "PatentDraftbox",
+        component: PatentList,
+        meta: {
+          params: {
+            status: 0
+          }
+        }
+      },
+      {
+        path: "/patent/notice",
+        name: "PatentNotice",
+        component: NoticeCommon,
+        meta: {
+          params: {
+            project_type: '专利',
+          },
+          type: "patent"
+        }
+      },
+      {
+        path: "/patent/notice/sending",
+        name: "PatentNoticeSending",
+        component: NoticeCommon,
+        meta: {
+          params: {
+            is_sent: 0
+          },
+          type: "patent"
+        }
+      },
+      {
+        path: "/patent/notice/sent",
+        name: "PatentNoticeSent",
+        component: NoticeCommon,
+        meta: {
+          params: {
+            is_sent: 1
+          },
+          type: "patent"
+        }
+      },
+      //################### 专利路由 end #####################
+
+      //################### 商标路由 start #####################
+      {
+        path: "/trademark/list",
+        name: "TrademarkList",
+        component: TrademarkList,
+        meta: {
+          params: {
+            status: 1
+          }
+        }
+      },
+      {
+        path: "/trademark/draftbox",
+        name: "TrademarkDraftbox",
+        component: TrademarkList,
+        meta: {
+          params: {
+            status: 0
+          }
+        }
+      },
+      {
+        path: "/trademark/notice",
+        name: "TrademarkNotice",
+        component: NoticeCommon,
+        meta: {
+          params: {
+            project_type: '商标',
+          },
+          type: "trademark"
+        }
+      },
+      //################### 商标路由 end #####################
+
+      //################### 版权路由 begin ###################
+      {
+        path: "/copyright/list",
+        name: "CopyrightList",
+        component: CopyrightList,
+        meta: {
+          params: {
+            status: 1
+          }
+        }
+      },
+      {
+        path: "/copyright/draftbox",
+        name: "CopyrightDraftbox",
+        component: CopyrightList,
+        meta: {
+          params: {
+            status: 0
+          }
+        }
+      },
+      {
+        path: "/copyright/notice",
+        name: "CopyrightNotice",
+        component: NoticeCommon,
+        meta: {
+          params: {
+            project_type: '版权',
+          },
+          type: "copyright"
+        }
+      },
+      //################### 版权路由 end #####################
+      //################### 财务路由 begin ###################
+
+      {
+        path: "/finance/revenue/all",
+        name: "RequestPayoutAll",
+        component: RequestPayout,
+        meta: {
+          params: {
+            is_debit: 1
+          }
+        }
+      },
+      {
+        path: "/finance/revenue/payment_requests",
+        name: "PaymentManage",
+        component: PaymentManage,
+        meta: {
+          params: {
+            is_debit: 1
+          }
+        }
+      },
+      {
+        path: "/finance/revenue/received_payments",
+        name: "PaymentRecevied",
+        component: PaymentRecevied,
+        meta: {
+          params: {
+            is_debit: 1
+          }
+        }
+      },
+
+      {
+        path: "/finance/outgo/all",
+        name: "SuppliersFeeAll",
+        component: SuppliersFee,
+        meta: {
+          params: {
+            is_debit: 0
+          }
+        }
+      },
+      {
+        path: "/finance/outgo/payments",
+        name: "SuppliersPayment",
+        component: SuppliersPayment,
+        meta: {
+          params: {
+            is_debit: 0
+          }
+        }
+      },
+
+      {
+        path: "/finance/renewal_fees/lists",
+        name: "RenewalFees",
+        component: RenewalFee
+      },
+      {
+        path: "/finance/renewal_fees/about_to_expire",
+        name: "RenewalFeesExpire",
+        component: RenewalFee,
+        meta: {
+          params: {
+            status: 0,
+            deadline: $tool.getDateRange(0, 90),
+          }
+        }
+      },
+      {
+        path: "/finance/renewal_fees/confirmation_sheets",
+        name: "RenewalFeesConfirmationSheets",
+        component: RenewalEstimate
+      },
+      {
+        path: "/finance/vouchers/lists",
+        name: "VouchersLists",
+        component: CrmVouchers,
+        meta: {
+          params: {
+            flag: 1
+          }
+        }
+      },
+      {
+        path: "/finance/vouchers/received",
+        name: "VouchersReceived",
+        component: CrmVouchers,
+        meta: {
+          params: {
+            flag: 2
+          }
+        }
+      },
+      {
+        path: "/finance/points/lists",
+        name: "Points",
+        component: Points
+      },
+      {
+        path: "/finance/points/settled",
+        name: "PointsMonthly",
+        component: PointsMonthly
+      },
+      //################### 费用路由 end #####################
+      //################### 报表路由 begin ###################
+      // {
+      //   path: '/report/task',
+      //   name: 'TaskReport',
+      //   component: Report,
+      //   meta: { 'type': 'task' },
+      // },
+      //################### 报表路由 end #####################
+
+      //################### 交互模块 start ###################
+      {
+        path: "/exchange/document/oa",
+        name: "ExchangeDocumentOa",
+        component: ExchangeDocumentOa
+      },
+      {
+        path: "/exchange/document/voucher",
+        name: "ExchangeDocumentVoucher",
+        component: ExchangeDocumentVoucher
+      },
+      {
+        path: "/exchange/document/other",
+        name: "ExchangeDocumentOther",
+        component: ExchangeDocumentOther
+      },
+      {
+        path: "/exchange/document/cpc",
+        name: "ExchangeDocumentCpc",
+        component: ExchangeDocumentCpc
+      },
+      {
+        path: "/exchange/document/excel",
+        name: "Excels",
+        component: Excels
+      },
+      //################### 交互模块 End ###################
+
+      //################### 设置模块 start ###################
+      {
+        path: "/setting/my",
+        name: "SettingIndividual",
+        component: SettingIndividual
+      },
+      {
+        path: "/setting/users",
+        name: "UserManage",
+        component: UserManage
+      },
+      {
+        path: "/setting/classifications",
+        name: "Clssification",
+        component: TechProClassification
+      },
+      {
+        path: "/setting/products",
+        name: "Product",
+        component: TechProClassification
+      },
+      {
+        path: "/setting/field",
+        name: "SettingField",
+        component: SettingField
+      },
+      {
+        path: "/setting/mail_templates",
+        name: "MailTemplates",
+        component: SettingMailTemplate
+      },
+      {
+        path: "/setting/flow/definitions",
+        name: "Definitions",
+        component: SettingDefinitions
+      },
+      {
+        path: "/setting/flow/flows",
+        name: "Flows",
+        component: SettingFlows
+      },
+      {
+        path: "/setting/flow/actions",
+        name: "Actions",
+        component: SettingActions
+      },
+      {
+        path: "/setting/flow/forms",
+        name: "Forms",
+        component: SettingForm
+      },
+      {
+        path: "/setting/flow/fields",
+        name: "Fields",
+        component: SettingFields
+      },
+      {
+        path: "/setting/data/payment_accounts",
+        name: "PaymentAccount",
+        component: PaymentAccount
+      },
+      {
+        path: "/setting/data/fee_codes",
+        name: "FeeCode",
+        component: SettingFeeCode
+      },
+      {
+        path: "/setting/data/file_types",
+        name: "FileType",
+        component: SettingFileType
+      },
+      {
+        path: "/setting/data/stages",
+        name: "ProjectStage",
+        component: SettingProjectStage
+      },
+      {
+        path: "/setting/data/entity_changes",
+        name: "EntityChange",
+        component: SettingEntityChange
+      },
+      {
+        path: "/setting/data/services",
+        name: "ServiceProject",
+        component: SettingService
+      },
+      {
+        path: "/setting/data/tags",
+        name: "SettingTags",
+        component: SettingTags
+      },
+      {
+        path: "/setting/bonus/ratio",
+        name: "SettingUserRatio",
+        component: SettingUserRatio
+      },
+      {
+        path: "/setting/bonus/rules",
+        name: "SettingBonusRule",
+        component: SettingBonusRule
+      },
+      {
+        path: "/setting/agencies/lists",
+        name: "SettingAgencies",
+        component: SettingAgencies
+      },
+      {
+        path: "/setting/agencies/agents",
+        name: "SettingAgents",
+        component: SettingAgents
+      },
+      {
+        path: "/setting/system",
+        name: "SettingSystem",
+        component: SettingSystem
+      }
 
         // {
         //   path: '/patent/list/detail__/:id',

@@ -121,13 +121,15 @@ export default {
             this.para = { customer }
         },
         loadFees() {
-            this.loadingVisible = true;
-            let url = `/invoices/${this.form.invoice}`;
-            let success = _ => {
-                this.fees = _.data.fee_list;
-                this.loadingVisible = false;
-            };
-            this.$axiosGet({ url, success });
+            if (this.form.invoice - 0 > 0) {
+                this.loadingVisible = true;
+                let url = `/invoices/${this.form.invoice}`;
+                let success = _ => {
+                    this.fees = _.data.fee_list;
+                    this.loadingVisible = false;
+                };
+                this.$axiosGet({ url, success });
+            }
         },
     },
     components: {

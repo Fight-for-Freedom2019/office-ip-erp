@@ -753,7 +753,7 @@ export default {
                     height = this.innerHeight - 180;
                     height = height < 300 ? 300 : height;
                 } else if (hk === "voucher_edit") {
-                    height = this.innerHeight - 350;
+                    height = this.innerHeight - 490;
                     height = height < 300 ? 300 : height;
                 } else {
                     height = hk;
