@@ -63,220 +63,219 @@ import InvoiceTargetAdd from '@/components/page_extension/BillingInfoAdd'
 import map from "@/const/remoteConfig";
 
 export default {
-    name: "remoteSelect",
-    mixins: [AxiosMixins],
-    props: {
-        value: [Number, String, Array, Object],
-        disabled: {
-            type: Boolean,
-            default: false
-        },
-        multiple: {
-            type: Boolean,
-            default: false
-        },
-        type: [String, Object],
-        para: {
-            type: Object,
-            default() {
-                return {};
+  name: "remoteSelect",
+  mixins: [AxiosMixins],
+  props: {
+    value: [Number, String, Array, Object],
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    multiple: {
+      type: Boolean,
+      default: false
+    },
+    type: [String, Object],
+    para: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    single: {
+      type: Boolean,
+      default: false
+    },
+    staticMap: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    pageType: String,
+    addType: {
+      type: String,
+      default() {
+        return "";
+      }
+    }
+  },
+  data() {
+    return {
+      options: [],
+      loading: false,
+      keyword: "",
+      selectVisible: false,
+      isUserInput: false,
+      initialized: false,
+      selected: [],
+      selectedValue: [],
+      selectedItems: [],
+      static_map: [],
+      numberHandle: [
+        "member",
+        "applicant",
+        "inventor",
+        "agent",
+        "agency",
+        "project",
+        "proposal",
+        "patent",
+        "copyright",
+        "bill",
+        "pay"
+      ] //需要做number类型处理的数据集合
+    };
+  },
+  methods: {
+    add() {
+      switch (this.addType) {
+        case "patent_family":
+          this.$refs.family.show(0, "add");
+          break;
+        case "inventor":
+          this.$refs.inventor.show();
+          break;
+        case "contact":
+          this.$refs.contact.show();
+          break;
+        case "applicant":
+          this.$refs.applicant.show();
+          break;
+        case "customer":
+          this.$refs.customer.show();
+          break;
+        case "user":
+          this.$refs.user.show();
+          break;
+      }
+    },
+    onItemAdded(item) {
+      this.options.push(item);
+      item = item instanceof Array ? item : [item];
+      this.value2 = [...this.value2, ...item.map(v=> v.id)];
+    },
+    handleInput(val) {
+        this.isUserInput = true;
+        if (!this.multiple && !this.single) {
+            let v = "";
+            if (val[0] && val[1]) {
+                v = val[1];
             }
-        },
-        single: {
-            type: Boolean,
-            default: false
-        },
-        staticMap: {
-            type: Array,
-            default() {
-                return [];
+            if (val[0] && !val[1]) {
+                v = val[0];
             }
-        },
-        pageType: String,
-        addType: {
-            type: String,
-            default() {
-                return "";
-            }
+            this.$emit("input", v);
+        } else {
+            this.$emit("input", val);
         }
     },
-    data() {
-        return {
-            options: [],
-            loading: false,
-            keyword: "",
-            selectVisible: false,
-            isUserInput: false,
-            initialized: false,
-            selected: [],
-            selectedValue: [],
-            selectedItems: [],
-            static_map: [],
-            numberHandle: [
-                "member",
-                "applicant",
-                "inventor",
-                "agent",
-                "agency",
-                "project",
-                "proposal",
-                "patent",
-                "copyright",
-                "bill",
-                "pay"
-            ] //需要做number类型处理的数据集合
-        };
+    handleChange(val) {
+        this.$emit("change", this.map.get(val));
     },
-    methods: {
-        add() {
-            switch (this.addType) {
-                case "patent_family":
-                    this.$refs.family.show(0, "add");
-                    break;
-                case "inventor":
-                    this.$refs.inventor.show();
-                    break;
-                case "contact":
-                    this.$refs.contact.show();
-                    break;
-                case "applicant":
-                    this.$refs.applicant.show();
-                    break;
-                case "customer":
-                    this.$refs.customer.show();
-                    break;
-                case "user":
-                    this.$refs.user.show();
-                    break;
-                case "invoice_target":
-                    this.$refs.target.show('add');
-                    break;
-            }
-        },
-        onItemAdded(item) {
-            this.value2 = item;
-        },
-        handleInput(val) {
-            this.isUserInput = true;
-            if (!this.multiple && !this.single) {
-                let v = "";
-                if (val[0] && val[1]) {
-                    v = val[1];
-                }
-                if (val[0] && !val[1]) {
-                    v = val[0];
-                }
-                this.$emit("input", v);
-            } else {
-                this.$emit("input", val);
-            }
-        },
-        handleChange(val) {
-            this.$emit("change", this.map.get(val));
-        },
-        handleAddTag() {
-            this.selectedItems = this.$tool.deepCopy(this.selected);
-            this.selectVisible = false;
-        },
-        handleCloseTag(index) {
-            if (this.value instanceof Array && this.value.length != 0) {
-                this.value.splice(index, 1);
+    handleAddTag() {
+        this.selectedItems = this.$tool.deepCopy(this.selected);
+        this.selectVisible = false;
+    },
+    handleCloseTag(index) {
+        if (this.value instanceof Array && this.value.length != 0) {
+            this.value.splice(index, 1);
+            this.selectedItems.splice(index, 1);
+        } else {
+            if (this.multiple) {
+                let arr = [];
+                arr.push(this.value);
+                arr.splice(index, 1);
                 this.selectedItems.splice(index, 1);
+                return (this.value2 = arr);
             } else {
-                if (this.multiple) {
-                    let arr = [];
-                    arr.push(this.value);
-                    arr.splice(index, 1);
-                    this.selectedItems.splice(index, 1);
-                    return (this.value2 = arr);
-                } else {
-                    this.selectedItems.splice(index, 1);
-                    return (this.value2 = "");
-                }
-            }
-        },
-        initialization() {
-            this.remoteMethod("");
-        },
-        getSelected() {
-            return this.selected;
-        },
-        refreshSelected(val) {
-            val = this.single ? [val] : val;
-
-            if (this.staticMap.length > 0) {
-                this.static_map = this.staticMap;
-            }
-            if (val[0] && val[0] instanceof Object) {
-                this.static_map = val;
-                const arr = val.map(_ => _.id);
-                if (this.multiple) {
-                    this.$emit("input", arr);
-                } else {
-                    this.$emit("input", arr[0]);
-                }
-            } else {
-                //selected通过map映射
-                const arr = [];
-                val.forEach(_ => {
-                    //在map中搜索, 若不存在，则自定义
-                    const v = this.map.get(_);
-
-                    if (v) {
-                        arr.push(v);
-                    } else {
-                        arr.push({ id: _, name: _ });
-                    }
-                });
-
-                this.selected = arr;
-            }
-        },
-        remoteMethod(keyword) {
-            this.keyword = keyword;
-            const s = { keyword, listOnly: "1" };
-            const os = this.PARAMS;
-            const key = this.DATA_KEY;
-            const url = this.URL;
-            const data = os ? Object.assign({}, s, os) : s;
-            const success = d => {
-                let list = null;
-                if (d[key] instanceof Array) {
-                    list = d[key];
-                } else {
-                    list = d[key]["data"];
-                }
-                if (!list) return (this.options = []);
-                if (list[0] && list[0]["label"] && list[0]["value"]) {
-                    list.forEach(_ => {
-                        _.name = _.label;
-                        _.id = _.value;
-                    });
-                }
-
-                if (this.digitalHandle) {
-                    list.forEach(_ => {
-                        _.id = _.id - 0;
-                    });
-                }
-
-                this.options = list;
-            };
-            const complete = _ => {
-                this.loading = false;
-            };
-
-            this.loading = true;
-            this.$axiosGet({ url, data, success, complete });
-        },
-        clear(flag = true) {
-            this.selected = [];
-            this.static_map = [];
-            this.multiple ? this.$emit("input", []) : this.$emit("input", "");
-            if (flag) {
-                this.remoteMethod("");
+                this.selectedItems.splice(index, 1);
+                return (this.value2 = "");
             }
         }
+    },
+    initialization() {
+        this.remoteMethod("");
+    },
+    getSelected() {
+        return this.selected;
+    },
+    refreshSelected(val) {
+        val = this.single ? [val] : val;
+
+        if (this.staticMap.length > 0) {
+            this.static_map = this.staticMap;
+        }
+        if (val[0] && val[0] instanceof Object) {
+            this.static_map = val;
+            const arr = val.map(_ => _.id);
+            if (this.multiple) {
+                this.$emit("input", arr);
+            } else {
+                this.$emit("input", arr[0]);
+            }
+        } else {
+            //selected通过map映射
+            const arr = [];
+            val.forEach(_ => {
+                //在map中搜索, 若不存在，则自定义
+                const v = this.map.get(_);
+
+                if (v) {
+                    arr.push(v);
+                } else {
+                    arr.push({ id: _, name: _ });
+                }
+            });
+
+            this.selected = arr;
+        }
+    },
+    remoteMethod(keyword) {
+        this.keyword = keyword;
+        const s = { keyword, listOnly: "1" };
+        const os = this.PARAMS;
+        const key = this.DATA_KEY;
+        const url = this.URL;
+        const data = os ? Object.assign({}, s, os) : s;
+        const success = d => {
+            let list = null;
+            if (d[key] instanceof Array) {
+                list = d[key];
+            } else {
+                list = d[key]["data"];
+            }
+            if (!list) return (this.options = []);
+            if (list[0] && list[0]["label"] && list[0]["value"]) {
+                list.forEach(_ => {
+                    _.name = _.label;
+                    _.id = _.value;
+                });
+            }
+
+            if (this.digitalHandle) {
+                list.forEach(_ => {
+                    _.id = _.id - 0;
+                });
+            }
+
+            this.options = list;
+        };
+        const complete = _ => {
+            this.loading = false;
+        };
+
+        this.loading = true;
+        this.$axiosGet({ url, data, success, complete });
+    },
+    clear(flag = true) {
+        this.selected = [];
+        this.static_map = [];
+        this.multiple ? this.$emit("input", []) : this.$emit("input", "");
+        if (flag) {
+            this.remoteMethod("");
+        }
+    }
     },
     computed: {
         //是否数字化处理

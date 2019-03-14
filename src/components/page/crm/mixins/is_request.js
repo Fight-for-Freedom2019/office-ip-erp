@@ -18,6 +18,11 @@ export default (url) => ({
       is_show: false,
     }
   },
+  computed: {
+    path() {
+      return this.$route.path;
+    },
+  },
   methods:{
     getRequestData(){
       const success = _ =>{
@@ -27,9 +32,6 @@ export default (url) => ({
     },
     show(){
       this.is_show = true;
-      this.$nextTick(()=>{
-        this.clear();
-      })
     },
     close() {
       this.is_show = false;
