@@ -843,17 +843,20 @@ const config = [
     {
       placeholder: "请款单状态",
       options: [
-        { id: 0, name: "待审核" },
-        { id: 1, name: "流程主管审核中" },
-        { id: 2, name: "根据流程主管意见修改" },
-        { id: 3, name: "财务主管审核中" },
-        { id: 4, name: "根据财务主管意见修改" },
-        { id: 5, name: "待发文" },
+        { id: 0, name: "待对账" },
+        { id: 3, name: "流程主管审核中" },
+        { id: 4, name: "流程主管审核不通过" },
+        { id: 5, name: "待请款" },
         { id: 6, name: "待客户确认" },
         { id: 7, name: "待寄送票据" },
         { id: 8, name: "待回款" },
         { id: 9, name: "已回款" },
-        { id: 10, name: "已删除" }
+        { id: 10, name: "已删除" },
+        { id: 11, name: "待上传票据" },
+        { id: 12, name: "待付款" },
+        { id: 13, name: "已付款" },
+        { id: 14, name: "总经理审核中" },
+        { id: 15, name: "总经理审核不通过" },
       ]
     }
   ],
