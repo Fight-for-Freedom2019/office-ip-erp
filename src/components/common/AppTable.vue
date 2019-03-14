@@ -524,612 +524,618 @@ import { map as filterConfig } from "@/const/headerFilterConfig";
 import { mapActions } from "vuex";
 const labelMap = new Map();
 export default {
-  name: "appTable",
-  props: {
-    listType: {
-      type: String,
-      default: ""
-    },
-    filterVisible: {
-      type: Boolean,
-      default: false
-    },
-    value: {
-      type: [String, Number, Boolean, Array]
-      // required: true,
-    },
-    border: {
-      type: Boolean,
-      default: false
-    },
-    rowKey: {
-      type: null,
-      default: "id"
-    },
-    merge: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    defaultSort: {
-      type: Object,
-      default() {
-        return {};
-      }
-    },
-    highlightCurrentRow: {
-      type: Boolean,
-      default: false
-    },
-    height: {
-      type: [String, Number]
-    },
-    columns: {
-      type: Array,
-      required: true
-    },
-    expands: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    data: {
-      type: Array,
-      required: true
-    },
-    showSummary: {
-      type: Boolean,
-      default: false
-    },
-    sumFunc: {
-      type: Function
-    },
-    tableSelected: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    maxHeight: {
-      type: [String, Number]
-    },
-    type: {
-      type: String,
-      default: ""
-    },
-    // 展开数据列数
-    expandsCol:{
-      type:Number,
-      default(){
-        return 3
-      },
-    },
-    // 展开数据每一列的宽度(按elementui的row-col布局计算)
-    expandsSpan:{
-      type:Number,
-      default(){
-        return 4
-      },
-    },
-  },
-  data() {
-    return {
-      filterComponent: {},
-      filterComponentPopover: {},
-      showFilterPopover: false,
-      initPop: true,
-      activePop: "",
-      selected: [],
-      filters: {},
-      headerClass: "header_wrap",
-      filterComponentVisible: false,
-      spanArr: [], // 合并行策略数组
-      unknownData: [],
-      saveLabel: "",
-      viewVisible: false
-      // re_render: true,
-    };
-  },
-  computed: {
-    ...mapGetters(["innerHeight", "breadHeaderHeight"]),
-    fields: {
-      set(val) {
-        let v = this.$tool.deepCopy(this.value);
-        v = val;
-        this.$emit("input", v);
-      },
-      get() {
-        if (this.value && this.value instanceof Array) {
-          return this.value;
-        } else {
-          return [];
-        }
-      }
-    },
-    expand() {
-      return this.expands != undefined && this.expands.length > 0
-        ? true
-        : false;
-    },
-    expandFields() {
-      return this.expands != undefined ? this.expands : [];
-    },
-    computeRow(){
-      return Math.ceil(this.expandFields.length/this.expandsCol)
-    },
-
-    filterSetting() {
-      //自定义筛选配置项
-      const data = filterConfig.get(this.type);
-      return data ? data : [];
-    },
-    filterSettingMap() {
-      //自定义筛选配置项映射
-      const map = new Map();
-      this.filterSetting.forEach(v => {
-        map.set(v.id, v);
-      });
-      return map;
-    },
-    source() {
-      //  其中一个配置项的值
-      const val = this.filterSettingMap.get();
-      return val ? val : null;
-    },
-    tableData() {
-      //这里对得到的数据进行一些额外的处理,element-ui中难以操控:
-      const r = this.data;
-      //  .暂时将array类型的render处理放到这里,因为如果放到v-for里面会被多次重复执行
-      this.columns.forEach(_ => {
-        if (_.prop) {
-          this.initPop ? this.$set(this.filterComponent, _.prop, false) : "";
-          this.initPop
-            ? this.$set(this.filterComponentPopover, _.prop, false)
-            : "";
-        }
-        if (_.type == "array" && _.render) {
-          r.forEach(d_c => {
-            const p = _.prop;
-            d_c[`${p}__render`] = _.render(d_c[p]);
-          });
-        }
-      });
-      this.initPop = false;
-      if (Object.keys(this.merge).length !== 0) {
-        this.getSpanArr(r);
-      }
-      return r;
-    },
-    tableHeight() {
-      let height = "";
-      const hk = this.height;
-      if (hk !== undefined) {
-        if (hk == "default") {
-          height = this.innerHeight - 150;
-          height = height < 300 ? 300 : height;
-        } else if (hk == "default2") {
-          height = this.innerHeight - 180;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "default3") {
-          height = this.innerHeight - 100;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "default4") {
-          height = this.innerHeight - 55;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "default5") {
-          height = this.innerHeight - 120;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "default6") {
-          height = (this.innerHeight - 285) / 2;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "default7") {
-          height = (this.innerHeight - 256) / 2;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "default8") {
-          height = (this.innerHeight - 100) / 2;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "customerList") {
-          // 客户管理详情模块
-          height = this.innerHeight - 232;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "userList") {
-          height = this.innerHeight - 200;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "noPagination") {
-          height = this.innerHeight - this.breadHeaderHeight;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "flowActions") {
-          height = this.innerHeight - 280;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "userManage") {
-          height = this.innerHeight - 110;
-          height = height < 300 ? 300 : height;
-        } else if (hk === "payment_detail") {
-          height = this.innerHeight - 350;
-          height = height < 300 ? 300 : height;
-        } else {
-          height = hk;
-        }
-      } else {
-        height = "auto";
-      }
-      return height;
-    }
-  },
-  mounted() {
-    // if(this.filterVisible) {
-    //   this.handleDynamicData();
-    // }
-    // this.$nextTick(_=>{
-    // console.log('挂载数据完成')
-    // })
-  },
-
-  methods: {
-    ...mapActions(["fillListFilter", "addListFilter", "clearFilter"]),
-    // handleDynamicData () {
-    //   this.filterSetting.forEach(_=>{
-    //     // const item = this.getDefaultValue(_.id);
-    //     this.$set(this.filters,_.id,false);
-    //   });
-    //   return this.filters;
-    // },
-    toggle() {
-      this.filterComponentVisible = !this.filterComponentVisible;
-    },
-    handleRowClick(row, event, column) {
-      event.stopPropagation();
-      if (column.type == "expand" || column.type == "selection" || column.type == "action") return false;
-
-      this.$emit("row-click", row, event, column);
-    },
-    handleCellClick(row, column, cell, event) {
-      event.stopPropagation();
-      if (column.type == "expand" || column.type == "selection" || column.type == "action") return false;
-      this.$emit("cell-click", row, column, cell, event);
-    },
-    handleHeaderDragend(nw, ow, column, event) {
-      this.$emit("header-dragend", nw, ow, column, event);
-    },
-    handleMouseEnter(row, column, cell, event) {
-      this.$emit("cell-mouse-enter", row, column, cell, event);
-    },
-    handleSelectionChange(s) {
-      this.selected = s;
-      this.$emit("update:tableSelected", s);
-    },
-    getSelected(flag = false) {
-      const s = this.selected;
-      if (!flag) {
-        if (s.length == 0) {
-          this.$message({ message: "请至少选择一项！", type: "warning" });
-          return false;
-        }
-      }
-
-      return s;
-    },
-    setCurrentRow(row) {
-      this.$refs.table.setCurrentRow(row);
-    },
-    handleActionCommand(func, scope, event) {
-      event.stopPropagation();
-      if (func) {
-        func(scope.row, event, scope.column);
-      }
-    },
-    handleExpandFields(row,field){
-      let text = "";
-      if(field.prop.indexOf(".") !== -1){
-        let keys = field.prop.split(".");
-        text = row[keys[0]]?row[keys[0]][keys[1]]:"";
-      }else if (field.render_simple) {
-        text = this.handleSimple(row,field)
-      }else if (field.render){
-        let fun = field.render;
-        // text = fun(this.$createElement,1)
-      }else {
-        text = row[field.prop];
-      }
-      return text
-    },
-    getDefaultValue(key) {
-      const item = this.filterSettingMap.get(key);
-      let val = "";
-      const multiple = item.multiple !== undefined ? item.multiple : true;
-      if (
-        item.components == "static_select" ||
-        item.components == "remote_select" ||
-        item.components == "jump_select"
-      ) {
-        val = multiple ? [] : "";
-      } else if (item.components == "date") {
-        val = ["", ""];
-      } else if (item.components == "input") {
-        val = "";
-      }
-      return val;
-    },
-    clearRenderHeaderField(key) {
-      this.filters[key] = this.getDefaultValue(key);
-    },
-    handleSimple(row, col) {
-      const key = col.render_key
-        ? col.render_key
-        : col.render_obj
-        ? col.render_obj
-        : col.prop;
-      if (row[key]) {
-        if (!col.render_obj) {
-          return row[key][col.render_simple];
-        } else {
-          if (col.prop && row[key][col.prop]) {
-            return row[key][col.prop][col.render_simple];
-          } else {
-            return "";
-          }
-        }
-      } else {
-        return "";
-      }
-    },
-    showPopover(property) {
-      // console.log("property",property);
-      // this.showFilterPopover = true;
-      this.filterComponent[property] = true;
-      this.activePop = property;
-      this.filterComponentPopover[property] = true;
-    },
-    order(val) {
-      this.$emit("order", val);
-    },
-    hidePopover(property) {
-      this.filterComponentPopover[property] = false;
-    },
-    handleHeaderClose(key) {
-      /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
-      this.$refs.table.$refs.tableHeader.$refs[`popover-${key}`].doClose();
-    },
-    handleBtnBoolean(btn, row, key) {
-      return btn[key] ? btn[key](row) : false;
-    },
-    handleRenderHeader(h, { column, $index }, func) {
-      let self = this;
-      let item = column.label;
-      let property = "";
-      let sindex = "";
-      if (column.property) {
-        sindex = column.property.indexOf("__");
-        if (sindex !== -1) {
-          property = column.property.substring(0, sindex);
-        } else {
-          property = column.property;
-        }
-      }
-
-      if (func) {
-        func();
-      } else if (column.type == "action") {
-        // return h('el-dropdown',{
-        //     style: {
-        //     paddingLeft: '0',
-        //     paddingRight: '0',
-        //     },
-        //     attrs: {
-        //       trigger: 'click',
-        //     },
-        //     on: {
-        //       command(command) {
-        //         if(command == 'view') {
-        //           self.viewVisible = true;
-        //         }
-        //       },
-        //     },
-        //   },[h('el-button',{
-        //   style: {
-        //     float: 'left',
-        //     height: '14px',
-        //     lineHeight: '14px',
-        //     paddingTop: '0',
-        //     paddingBottom: '0',
-        //   },
-        //   attrs: {
-        //     type: 'text',
-        //     icon: 'el-icon-more'
-        //   },
-        // },''),h('el-dropdown-menu',{
-        //   style: {
-        //     paddingLeft: '0',
-        //     paddingRight: '0',
-        //   },
-        //   slot: 'dropdown',
-        // },[h('el-dropdown-item',{
-        //   attrs: {
-        //     command: 'view',
-        //   },
-        // },'新增视图')])])
-      } else {
-        const source =
-          this.filterSettingMap.get(property) !== undefined
-            ? this.filterSettingMap.get(property)
-            : null;
-        const data = {
-          props: {
-            field: property,
-            labelMap,
-            listType: self.listType,
-            filterConditionVisible: self.filterConditionVisible
-          },
-          on: {
-            popover(val) {
-              // self.filterConditionVisible = false;
-              labelMap.clear();
-              self.handleHeaderClose(property);
-            },
-            order(val) {
-              self.$emit("order", val);
-            }
-          },
-          nativeOn: {
-            click(e) {
-              // 阻止表头默认点击事件
-              e.stopPropagation();
-            }
-          }
-        };
-        const btnClick = {
-          nativeOn: {
-            click(e) {
-              // 用一个全局变量存储当前点击的位置作为标志，区分出不同点击的位置，判断出popover的显隐状态
-              labelMap.clear();
-              const propertyFlag = e.target.className.split(" ")[1];
-              if (self.saveLabel != propertyFlag) {
-                self.saveLabel = propertyFlag;
-                // self.filterConditionVisible = true;
-              } else {
-                // self.filterConditionVisible = false;
-              }
-
-              // 阻止表头默认点击事件
-              e.stopPropagation();
-              /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
-              const refObj = self.$refs.table.$refs.tableHeader.$refs;
-              for (let k in refObj) {
-                if (k !== `popover-${property}`) {
-                  self.$refs.table.$refs.tableHeader.$refs[k].doClose();
-                } else {
-                  labelMap.set(property, true);
-                }
-              }
-              self.$refs.table.$refs.tableHeader.$refs[
-                `popover-${property}`
-              ].doToggle();
-            }
-          }
-        };
-        return source != null ? (
-          <span style={{ width: "100%", display: "inline-block" }}>
-            <span>{item}</span>
-            <el-popover
-              width="100%"
-              placement="bottom-end"
-              trigger="manual"
-              ref={`popover-${property}`}
-            >
-              <div style={{ width: "100%" }}>
-                <ListsFilter {...data} />
-              </div>
-              <el-button
-                style={{
-                  float: "right",
-                  paddingTop: "0",
-                  paddingBottom: "0",
-                  lineHeight: "23px",
-                  height: "23px"
-                }}
-                type="text"
-                icon={"el-icon-my-filter-btn " + property}
-                slot="reference"
-                {...btnClick}
-              />
-            </el-popover>
-          </span>
-        ) : (
-          <span>{item}</span>
-        );
-      }
-    },
-    getDescendantantProp(obj, desc) {
-      // 深层遍历对象属性获取属性值
-      let arr = desc.split(".");
-      let copy = this.$tool.deepCopy(arr);
-      while (arr.length && obj[copy.shift()]) {
-        obj = obj[arr.shift()];
-      }
-      return typeof obj === "number" ? obj : 0;
-    },
-    getSpanArr(data) {
-      // 根据merge.KEY获取spanArr
-      let fun = this.getDescendantantProp;
-      this.merge.forEach(_ => {
-        const { col, key, prop } = _;
-        const keys = key.split(".");
-        let index;
-        this.columns.forEach((o,i)=>{
-          if(o.prop === prop) {
-            index = i;
-          }
-        })
-        let pos = 0;
-        let arr = [];
-        for (let i = 0; i < data.length; i++) {
-          if (i === 0) {
-            arr.push(1);
-            pos = 0;
-          } else {
-            if (
-              fun(data[i], key) === fun(data[i - 1], key) &&
-              fun(data[i], key) !== 0
-            ) {
-              arr[pos] += 1;
-              arr.push(0);
-            } else {
-              arr.push(1);
-              pos = i;
-            }
-          }
-        }
-        this.spanArr[index+1] = arr;
-      });
-      console.log(this.spanArr);
-    },
-    spanMethod({ row, column, rowIndex, columnIndex }) {
-      let span = {
-        rowspan: 1,
-        colspan: 1
-      };
-      // 官方合并方法稍加改造
-      if (Object.keys(this.merge).length === 0) return span;
-      if (this.spanArr[columnIndex] != undefined) {
-        span.rowspan = this.spanArr[columnIndex][rowIndex];
-      }
-      return span;
-    }
-  },
-  watch: {
-    tableHeight(val) {
-      this.$emit('refreshHeight', val);
-    },
-  },
-  components: {
-    TableRender: {
-      render: function(h) {
-        return this.render(
-          h,
-          this.scope.row[this.prop],
-          this.scope.row,
-          this.prop
-        );
-      },
-      props: {
-        render: null,
-        scope: null,
-        simple: {
-          type: Boolean,
-          default: false
+    name: "appTable",
+    props: {
+        listType: {
+            type: String,
+            default: ""
         },
-        prop: {
-          type: String,
-          default: ""
-        }
-      }
+        filterVisible: {
+            type: Boolean,
+            default: false
+        },
+        value: {
+            type: [String, Number, Boolean, Array]
+            // required: true,
+        },
+        border: {
+            type: Boolean,
+            default: false
+        },
+        rowKey: {
+            type: null,
+            default: "id"
+        },
+        merge: {
+            type: Array,
+            default() {
+                return [];
+            }
+        },
+        defaultSort: {
+            type: Object,
+            default() {
+                return {};
+            }
+        },
+        highlightCurrentRow: {
+            type: Boolean,
+            default: false
+        },
+        height: {
+            type: [String, Number]
+        },
+        columns: {
+            type: Array,
+            required: true
+        },
+        expands: {
+            type: Array,
+            default() {
+                return [];
+            }
+        },
+        data: {
+            type: Array,
+            required: true
+        },
+        showSummary: {
+            type: Boolean,
+            default: false
+        },
+        sumFunc: {
+            type: Function
+        },
+        tableSelected: {
+            type: Array,
+            default() {
+                return [];
+            }
+        },
+        maxHeight: {
+            type: [String, Number]
+        },
+        type: {
+            type: String,
+            default: ""
+        },
+        // 展开数据列数
+        expandsCol: {
+            type: Number,
+            default() {
+                return 3
+            },
+        },
+        // 展开数据每一列的宽度(按elementui的row-col布局计算)
+        expandsSpan: {
+            type: Number,
+            default() {
+                return 4
+            },
+        },
     },
-    FilterValue,
-    ListsFilter,
-    ViewPop
-  }
+    data() {
+        return {
+            filterComponent: {},
+            filterComponentPopover: {},
+            showFilterPopover: false,
+            initPop: true,
+            activePop: "",
+            selected: [],
+            filters: {},
+            headerClass: "header_wrap",
+            filterComponentVisible: false,
+            spanArr: [], // 合并行策略数组
+            unknownData: [],
+            saveLabel: "",
+            viewVisible: false
+            // re_render: true,
+        };
+    },
+    computed: {
+        ...mapGetters(["innerHeight", "breadHeaderHeight"]),
+        fields: {
+            set(val) {
+                let v = this.$tool.deepCopy(this.value);
+                v = val;
+                this.$emit("input", v);
+            },
+            get() {
+                if (this.value && this.value instanceof Array) {
+                    return this.value;
+                } else {
+                    return [];
+                }
+            }
+        },
+        expand() {
+            return this.expands != undefined && this.expands.length > 0
+                ? true
+                : false;
+        },
+        expandFields() {
+            return this.expands != undefined ? this.expands : [];
+        },
+        computeRow() {
+            return Math.ceil(this.expandFields.length / this.expandsCol)
+        },
+
+        filterSetting() {
+            //自定义筛选配置项
+            const data = filterConfig.get(this.type);
+            return data ? data : [];
+        },
+        filterSettingMap() {
+            //自定义筛选配置项映射
+            const map = new Map();
+            this.filterSetting.forEach(v => {
+                map.set(v.id, v);
+            });
+            return map;
+        },
+        source() {
+            //  其中一个配置项的值
+            const val = this.filterSettingMap.get();
+            return val ? val : null;
+        },
+        tableData() {
+            //这里对得到的数据进行一些额外的处理,element-ui中难以操控:
+            const r = this.data;
+            //  .暂时将array类型的render处理放到这里,因为如果放到v-for里面会被多次重复执行
+            this.columns.forEach(_ => {
+                if (_.prop) {
+                    this.initPop ? this.$set(this.filterComponent, _.prop, false) : "";
+                    this.initPop
+                        ? this.$set(this.filterComponentPopover, _.prop, false)
+                        : "";
+                }
+                if (_.type == "array" && _.render) {
+                    r.forEach(d_c => {
+                        const p = _.prop;
+                        d_c[`${p}__render`] = _.render(d_c[p]);
+                    });
+                }
+            });
+            this.initPop = false;
+            if (Object.keys(this.merge).length !== 0) {
+                this.getSpanArr(r);
+            }
+            return r;
+        },
+        tableHeight() {
+            let height = "";
+            const hk = this.height;
+            if (hk !== undefined) {
+                if (hk == "default") {
+                    height = this.innerHeight - 150;
+                    height = height < 300 ? 300 : height;
+                } else if (hk == "default2") {
+                    height = this.innerHeight - 180;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "default3") {
+                    height = this.innerHeight - 100;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "default4") {
+                    height = this.innerHeight - 55;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "default5") {
+                    height = this.innerHeight - 120;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "default6") {
+                    height = (this.innerHeight - 285) / 2;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "default7") {
+                    height = (this.innerHeight - 256) / 2;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "default8") {
+                    height = (this.innerHeight - 100) / 2;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "customerList") {
+                    // 客户管理详情模块
+                    height = this.innerHeight - 232;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "userList") {
+                    height = this.innerHeight - 200;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "noPagination") {
+                    height = this.innerHeight - this.breadHeaderHeight;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "flowActions") {
+                    height = this.innerHeight - 280;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "userManage") {
+                    height = this.innerHeight - 110;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "payment_detail") {
+                    height = this.innerHeight - 350;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "voucher_fee_select") {
+                    height = this.innerHeight - 180;
+                    height = height < 300 ? 300 : height;
+                } else if (hk === "voucher_edit") {
+                    height = this.innerHeight - 350;
+                    height = height < 300 ? 300 : height;
+                } else {
+                    height = hk;
+                }
+            } else {
+                height = "auto";
+            }
+            return height;
+        }
+    },
+    mounted() {
+        // if(this.filterVisible) {
+        //   this.handleDynamicData();
+        // }
+        // this.$nextTick(_=>{
+        // console.log('挂载数据完成')
+        // })
+    },
+
+    methods: {
+        ...mapActions(["fillListFilter", "addListFilter", "clearFilter"]),
+        // handleDynamicData () {
+        //   this.filterSetting.forEach(_=>{
+        //     // const item = this.getDefaultValue(_.id);
+        //     this.$set(this.filters,_.id,false);
+        //   });
+        //   return this.filters;
+        // },
+        toggle() {
+            this.filterComponentVisible = !this.filterComponentVisible;
+        },
+        handleRowClick(row, event, column) {
+            event.stopPropagation();
+            if (column.type == "expand" || column.type == "selection" || column.type == "action") return false;
+
+            this.$emit("row-click", row, event, column);
+        },
+        handleCellClick(row, column, cell, event) {
+            event.stopPropagation();
+            if (column.type == "expand" || column.type == "selection" || column.type == "action") return false;
+            this.$emit("cell-click", row, column, cell, event);
+        },
+        handleHeaderDragend(nw, ow, column, event) {
+            this.$emit("header-dragend", nw, ow, column, event);
+        },
+        handleMouseEnter(row, column, cell, event) {
+            this.$emit("cell-mouse-enter", row, column, cell, event);
+        },
+        handleSelectionChange(s) {
+            this.selected = s;
+            this.$emit("update:tableSelected", s);
+        },
+        getSelected(flag = false) {
+            const s = this.selected;
+            if (!flag) {
+                if (s.length == 0) {
+                    this.$message({ message: "请至少选择一项！", type: "warning" });
+                    return false;
+                }
+            }
+
+            return s;
+        },
+        setCurrentRow(row) {
+            this.$refs.table.setCurrentRow(row);
+        },
+        handleActionCommand(func, scope, event) {
+            event.stopPropagation();
+            if (func) {
+                func(scope.row, event, scope.column);
+            }
+        },
+        handleExpandFields(row, field) {
+            let text = "";
+            if (field.prop.indexOf(".") !== -1) {
+                let keys = field.prop.split(".");
+                text = row[keys[0]] ? row[keys[0]][keys[1]] : "";
+            } else if (field.render_simple) {
+                text = this.handleSimple(row, field)
+            } else if (field.render) {
+                let fun = field.render;
+                // text = fun(this.$createElement,1)
+            } else {
+                text = row[field.prop];
+            }
+            return text
+        },
+        getDefaultValue(key) {
+            const item = this.filterSettingMap.get(key);
+            let val = "";
+            const multiple = item.multiple !== undefined ? item.multiple : true;
+            if (
+                item.components == "static_select" ||
+                item.components == "remote_select" ||
+                item.components == "jump_select"
+            ) {
+                val = multiple ? [] : "";
+            } else if (item.components == "date") {
+                val = ["", ""];
+            } else if (item.components == "input") {
+                val = "";
+            }
+            return val;
+        },
+        clearRenderHeaderField(key) {
+            this.filters[key] = this.getDefaultValue(key);
+        },
+        handleSimple(row, col) {
+            const key = col.render_key
+                ? col.render_key
+                : col.render_obj
+                    ? col.render_obj
+                    : col.prop;
+            if (row[key]) {
+                if (!col.render_obj) {
+                    return row[key][col.render_simple];
+                } else {
+                    if (col.prop && row[key][col.prop]) {
+                        return row[key][col.prop][col.render_simple];
+                    } else {
+                        return "";
+                    }
+                }
+            } else {
+                return "";
+            }
+        },
+        showPopover(property) {
+            // console.log("property",property);
+            // this.showFilterPopover = true;
+            this.filterComponent[property] = true;
+            this.activePop = property;
+            this.filterComponentPopover[property] = true;
+        },
+        order(val) {
+            this.$emit("order", val);
+        },
+        hidePopover(property) {
+            this.filterComponentPopover[property] = false;
+        },
+        handleHeaderClose(key) {
+            /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
+            this.$refs.table.$refs.tableHeader.$refs[`popover-${key}`].doClose();
+        },
+        handleBtnBoolean(btn, row, key) {
+            return btn[key] ? btn[key](row) : false;
+        },
+        handleRenderHeader(h, { column, $index }, func) {
+            let self = this;
+            let item = column.label;
+            let property = "";
+            let sindex = "";
+            if (column.property) {
+                sindex = column.property.indexOf("__");
+                if (sindex !== -1) {
+                    property = column.property.substring(0, sindex);
+                } else {
+                    property = column.property;
+                }
+            }
+
+            if (func) {
+                func();
+            } else if (column.type == "action") {
+                // return h('el-dropdown',{
+                //     style: {
+                //     paddingLeft: '0',
+                //     paddingRight: '0',
+                //     },
+                //     attrs: {
+                //       trigger: 'click',
+                //     },
+                //     on: {
+                //       command(command) {
+                //         if(command == 'view') {
+                //           self.viewVisible = true;
+                //         }
+                //       },
+                //     },
+                //   },[h('el-button',{
+                //   style: {
+                //     float: 'left',
+                //     height: '14px',
+                //     lineHeight: '14px',
+                //     paddingTop: '0',
+                //     paddingBottom: '0',
+                //   },
+                //   attrs: {
+                //     type: 'text',
+                //     icon: 'el-icon-more'
+                //   },
+                // },''),h('el-dropdown-menu',{
+                //   style: {
+                //     paddingLeft: '0',
+                //     paddingRight: '0',
+                //   },
+                //   slot: 'dropdown',
+                // },[h('el-dropdown-item',{
+                //   attrs: {
+                //     command: 'view',
+                //   },
+                // },'新增视图')])])
+            } else {
+                const source =
+                    this.filterSettingMap.get(property) !== undefined
+                        ? this.filterSettingMap.get(property)
+                        : null;
+                const data = {
+                    props: {
+                        field: property,
+                        labelMap,
+                        listType: self.listType,
+                        filterConditionVisible: self.filterConditionVisible
+                    },
+                    on: {
+                        popover(val) {
+                            // self.filterConditionVisible = false;
+                            labelMap.clear();
+                            self.handleHeaderClose(property);
+                        },
+                        order(val) {
+                            self.$emit("order", val);
+                        }
+                    },
+                    nativeOn: {
+                        click(e) {
+                            // 阻止表头默认点击事件
+                            e.stopPropagation();
+                        }
+                    }
+                };
+                const btnClick = {
+                    nativeOn: {
+                        click(e) {
+                            // 用一个全局变量存储当前点击的位置作为标志，区分出不同点击的位置，判断出popover的显隐状态
+                            labelMap.clear();
+                            const propertyFlag = e.target.className.split(" ")[1];
+                            if (self.saveLabel != propertyFlag) {
+                                self.saveLabel = propertyFlag;
+                                // self.filterConditionVisible = true;
+                            } else {
+                                // self.filterConditionVisible = false;
+                            }
+
+                            // 阻止表头默认点击事件
+                            e.stopPropagation();
+                            /*（hack）调用element-ui底层的方法来关闭poper,因为通过v-model绑值处理会出现生成两个一样的*/
+                            const refObj = self.$refs.table.$refs.tableHeader.$refs;
+                            for (let k in refObj) {
+                                if (k !== `popover-${property}`) {
+                                    self.$refs.table.$refs.tableHeader.$refs[k].doClose();
+                                } else {
+                                    labelMap.set(property, true);
+                                }
+                            }
+                            self.$refs.table.$refs.tableHeader.$refs[
+                                `popover-${property}`
+                            ].doToggle();
+                        }
+                    }
+                };
+                return source != null ? (
+                    <span style={{ width: "100%", display: "inline-block" }}>
+                        <span>{item}</span>
+                        <el-popover
+                            width="100%"
+                            placement="bottom-end"
+                            trigger="manual"
+                            ref={`popover-${property}`}
+                        >
+                            <div style={{ width: "100%" }}>
+                                <ListsFilter {...data} />
+                            </div>
+                            <el-button
+                                style={{
+                                    float: "right",
+                                    paddingTop: "0",
+                                    paddingBottom: "0",
+                                    lineHeight: "23px",
+                                    height: "23px"
+                                }}
+                                type="text"
+                                icon={"el-icon-my-filter-btn " + property}
+                                slot="reference"
+                                {...btnClick}
+                            />
+                        </el-popover>
+                    </span>
+                ) : (
+                        <span>{item}</span>
+                    );
+            }
+        },
+        getDescendantantProp(obj, desc) {
+            // 深层遍历对象属性获取属性值
+            let arr = desc.split(".");
+            let copy = this.$tool.deepCopy(arr);
+            while (arr.length && obj[copy.shift()]) {
+                obj = obj[arr.shift()];
+            }
+            return typeof obj === "number" ? obj : 0;
+        },
+        getSpanArr(data) {
+            // 根据merge.KEY获取spanArr
+            let fun = this.getDescendantantProp;
+            this.merge.forEach(_ => {
+                const { col, key, prop } = _;
+                const keys = key.split(".");
+                let index;
+                this.columns.forEach((o, i) => {
+                    if (o.prop === prop) {
+                        index = i;
+                    }
+                })
+                let pos = 0;
+                let arr = [];
+                for (let i = 0; i < data.length; i++) {
+                    if (i === 0) {
+                        arr.push(1);
+                        pos = 0;
+                    } else {
+                        if (
+                            fun(data[i], key) === fun(data[i - 1], key) &&
+                            fun(data[i], key) !== 0
+                        ) {
+                            arr[pos] += 1;
+                            arr.push(0);
+                        } else {
+                            arr.push(1);
+                            pos = i;
+                        }
+                    }
+                }
+                this.spanArr[index + 1] = arr;
+            });
+            console.log(this.spanArr);
+        },
+        spanMethod({ row, column, rowIndex, columnIndex }) {
+            let span = {
+                rowspan: 1,
+                colspan: 1
+            };
+            // 官方合并方法稍加改造
+            if (Object.keys(this.merge).length === 0) return span;
+            if (this.spanArr[columnIndex] != undefined) {
+                span.rowspan = this.spanArr[columnIndex][rowIndex];
+            }
+            return span;
+        }
+    },
+    watch: {
+        tableHeight(val) {
+            this.$emit('refreshHeight', val);
+        },
+    },
+    components: {
+        TableRender: {
+            render: function (h) {
+                return this.render(
+                    h,
+                    this.scope.row[this.prop],
+                    this.scope.row,
+                    this.prop
+                );
+            },
+            props: {
+                render: null,
+                scope: null,
+                simple: {
+                    type: Boolean,
+                    default: false
+                },
+                prop: {
+                    type: String,
+                    default: ""
+                }
+            }
+        },
+        FilterValue,
+        ListsFilter,
+        ViewPop
+    }
 };
 </script>
 <style lang="scss">

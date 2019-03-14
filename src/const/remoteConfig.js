@@ -144,7 +144,7 @@ const map = new Map([
     {
       URL: "/invoice_targets?listOnly=1",
       DATA_KEY: "data",
-      PLACEHOLDER: "请输入开票主体"
+      PLACEHOLDER: "请选择发票抬头"
     }
   ],
   [

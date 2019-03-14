@@ -103,6 +103,8 @@ export default {
                 rowClick: this.handleRowClick,
                 header_btn: [
                     { type: "add", click: this.add },
+                    { type: "delete" },
+                    { type: 'export2' },
                     {
                         type: "dropdown",
                         label: "请款单",
@@ -122,8 +124,26 @@ export default {
                             }
                         ]
                     },
-                    { type: "delete" },
-                    { type: 'export2' },
+                    {
+                        type: "dropdown",
+                        label: "操作",
+                        click: this.getSelected,
+                        items: [
+                            {
+                                text: "删除",
+                                click: this.deleteFees,
+                                divided: false,
+                                icon: "delete"
+                            },
+                            {
+                                text: "将费用添加至现有的请款单内",
+                                click: this.addToOrder,
+                                divided: true,
+                                icon: "d-arrow-right"
+                            }
+                        ]
+                    },
+                    
                     { type: "control" }
                 ],
                 columns: [
@@ -144,7 +164,7 @@ export default {
                     { type: "text", label: "小计", prop: "sum_currency", width: "100", align: "right" },
                     { type: "text", label: "申请号", prop: "project.application_number", width: "165", render_header: true, expanded: true },
                     { type: "text", label: "申请日", prop: "project.application_date", width: "100", render_header: true, expanded: true },
-                    { type: "text", label: "委案日", prop: "entrusting_time", width: "100", render_header: true, expanded: true },
+                    { type: "text", label: "委案日", prop: "entrusting_time", render_obj: "project", width: "100", render_header: true, expanded: true },
                     { type: "text", label: "费用期限", prop: "deadline", width: "100", render_header: true, expanded: true },
                     { type: "text", label: "费用策略", prop: "policy", width: "100", render_header: true, render_simple: "name", expanded: true },
                     { type: "text", label: "费用状态", prop: "status", width: "100", render_simple: "name", render_header: true, expanded: true },
