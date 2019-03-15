@@ -49,7 +49,7 @@ export default {
                     type: "text-btn",
                     label: "案号",
                     prop: "project.serial",
-                    width: "178",
+                    width: "160",
                     click: this.checkProjectDetail,
                     render_text_btn: row => {
                         return row.project.serial;
@@ -59,9 +59,35 @@ export default {
                     type: "text",
                     label: "标题",
                     prop: "project.title",
-                    min_width: "200"
+                    min_width: "180"
                 },
-
+                {
+                    type: "text",
+                    label: "费用期限",
+                    align: "right",
+                    header_align: "right",
+                    prop: "deadline",
+                    width: "100"
+                },
+                {
+                    type: "text",
+                    label: "客户案号",
+                    align: "right",
+                    header_align: "right",
+                    prop: "customer_serial",
+                    render_obj:"project",
+                    width: "100"
+                },
+                {
+                    type: "text",
+                    label: "专利类型",
+                    align: "right",
+                    header_align: "right",
+                    prop: "project",
+                    render_obj: "project_type",
+                    render_simple: "name",
+                    width: "100"
+                },
                 {
                     type: "text-btn",
                     label: "代理费",

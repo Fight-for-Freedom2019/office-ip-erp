@@ -319,13 +319,7 @@ export default {
             });
         },
         save() {
-            let data = {
-                remark: this.form.remark,
-                status: this.form.status,
-                deadline: this.form.deadline,
-                payment_time: this.form.payment_time,
-                attachments: this.form.attachments
-            }; // TODO 参数为form表单中的快递信息、备注、附件
+            let data = Object.assign({},this.form);
             let url = `/invoices/${this.id}`;
             const success = _ => {
                 this.$message({ type: "success", message: "操作成功!" });
