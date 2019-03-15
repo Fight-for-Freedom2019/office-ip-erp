@@ -47,6 +47,7 @@
         :is_debit="isDebit"
         :page-type="pageType"
         ref="fee"
+        :global="global"
         @update="handleRrefresh"
         @refresh="handleRrefresh"
       ></fee>
@@ -126,7 +127,8 @@ export default {
           ]
         }
       ],
-      activeName: "first"
+      activeName: "first",
+      global:true,  // 是否取全局的detailId或detail_customer
     };
   },
   computed: {
