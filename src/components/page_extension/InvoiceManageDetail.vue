@@ -430,7 +430,12 @@ export default {
             });
         },
         selectFee() {
-            this.$refs.select.show(this.form.customer);
+            const l = this.form.customer - 0;
+            if (l > 0) {
+                this.$refs.select.show(this.form.customer);
+            } else {
+                this.$message({ 'message': '请先选择客户！', type: 'warning' });
+            }
         },
         onFeesSelected(data) {
             const _this = this;

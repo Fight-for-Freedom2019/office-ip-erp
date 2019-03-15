@@ -306,10 +306,11 @@ const map = new Map([
   [
     "invoice_request",
     [{ type: "remote_select", id: "customer", name: "客户", data_key: "data", url: "/customers" },
-    { type: "remote_select", id: "invoice", name: "账单编号", data_key: "data", url: "/invoices" },
-    { type: "remote_select", id: "invoice_target", name: "开票主体", data_key: "data", url: "/invoice_targets" },
-    { type: "static_select", id: "status", name: "申请国家", map_type: "area" },
+    // { type: "remote_select", id: "invoice", name: "账单编号", data_key: "data", url: "/invoices" },
+    { type: "remote_select", id: "invoice_target", name: "抬头", data_key: "data", url: "/invoice_targets" },
+    // { type: "static_select", id: "status", name: "申请国家", map_type: "area" },
     { type: "static_select", id: "voucher_type", name: "发票类型", map_type: "voucher_type" },
+    { type: "date", id: "date", name: "开票日期" },
     { type: "text", id: "remark", name: "备注" },
     { type: "text", id: "amount", name: "金额" }
     ]
