@@ -141,7 +141,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="支付金额" v-if="mode==='pay'">
-                <el-input class="form-item-text" v-model="form.received_amount" ></el-input>
+                <el-input class="custom-picker-input" v-model="form.received_amount" ></el-input>
               </el-form-item>
               <el-form-item label="回款金额" v-else>
                 <el-input class="custom-picker-input" v-model="form.received_amount" ></el-input>
