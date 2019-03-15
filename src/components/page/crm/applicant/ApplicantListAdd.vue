@@ -257,7 +257,7 @@ export default {
         },
         coverObj(val) {
             if (val) {
-                this.$tool.coverObj(this.form, val);
+                this.$tool.coverObj(this.form, val, { obj: ['type'] });
             }
         },
     },
@@ -271,7 +271,7 @@ export default {
         is_show: {
             handler(v) {
                 this.$nextTick(_ => {
-                    if (!v) return
+                    if (!v || this.type == 'edit') return
                     this.clear(); //填充前清空
                     this.$nextTick(_ => {
                         if (this.detail_customer != undefined) {

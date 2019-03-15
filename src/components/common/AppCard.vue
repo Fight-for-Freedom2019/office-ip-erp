@@ -7,7 +7,6 @@
       placement="right"
       trigger="manual"
       :ref="`popover_${tag.id}`"
-      v-model="tag.visible"
       @show="handleCardDetails(tag)"
     >
       <el-row>
@@ -96,11 +95,11 @@ export default {
     },
     watch: {
         "$store.state.activeCardId"(val) {
-            console.log(val);
             for (let k in this.$refs) {
                 let c =
                     this.$refs[k] instanceof Array ? this.$refs[k][0] : this.$refs[k];
                 if (c != undefined && c._uid !== val) {
+                  //通过监听当前popper _uid实现点击非名片区域关闭
                     c.doClose();
                 }
             }
@@ -121,13 +120,14 @@ export default {
             if (this.cardFields.length == 0) {
                 return false;
             }
-            //切换用户选择的标签对应的卡片
             const card = this.$refs[`popover_${tag.id}`][0];
-            //如果card可见，发送卡片显示事件，使所有其他卡片被隐藏
-            if (!card.value) {
+            //toggle控制用户选择的标签对应的卡片显隐
+            card.doToggle();
+            //存储当前popperid
+            if (card.showPopper) {
                 this.$store.commit("setActiveCardId", card._uid);
             }
-            card.doToggle();
+            // 阻止事件冒泡
             e.stopPropagation();
         },
         setForm(data) {

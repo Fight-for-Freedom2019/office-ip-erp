@@ -129,17 +129,10 @@ export default {
                         type: "text",
                         label: "请款单状态",
                         prop: "status",
+                        render_simple:"name",
                         width: "150",
                         render_header: true,
-                        render: (h, item) => {
-                            let name = "";
-                            config.get("invoice_status").options.map(function (o) {
-                                if (o.id === item) {
-                                    name = o.name;
-                                }
-                            });
-                            return h("span", name);
-                        }
+
                     },
                     {
                         type: "text",
