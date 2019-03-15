@@ -349,7 +349,7 @@ export default {
                 this.attachments = d.attachments;
                 this.title =
                     (this.mode === "pay" ? "付款单" : "请款单") + "详情>" + d.serial;
-                this.status = statusMap.get(d.status); // 之前status是个Object，现在变成了一个Number类型
+                this.status = statusMap.get(d.status.id); // 之前status是个Object，现在变成了一个Number类型
                 this.invoice = d;
             };
             const complete = () => {
