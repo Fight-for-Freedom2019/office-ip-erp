@@ -86,7 +86,7 @@ export default {
                 import_type: 'fees_out',
                 show_summary: true,
                 merge: [
-                    { col: 2, key: "customer.id", prop: "customer" },
+                    // { col: 2, key: "customer.id", prop: "customer" },
                     { col: 3, key: "project.id", prop: "project.serial" },
                     { col: 4, key: "project.id", prop: "project.title" },
                     { col: 12, key: "project.id", prop: "official_sum_currency" },
