@@ -2,8 +2,8 @@
 const map = new Map([
   // 工作流
   [
-    "task",
-    [{ type: "text", id: "model", name: "模块" },
+    "task",[
+    { type: "text", id: "model", name: "模块" },
     { type: "text", id: "serial", name: "案号" },
     { type: "text", id: "customer_serial", name: "客户案号" },
     { type: "text", id: "title", name: "标题" },
