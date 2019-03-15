@@ -1,4 +1,4 @@
-<!-- 回款记录 -->
+<!-- 回款记录 + 支付记录 -->
 <template>
   <div class="ReceivedRecord">
     <table-component
@@ -18,10 +18,10 @@
         <!--<el-form-item label="回款确认用户" prop="creator">-->
         <!--<jump-select type="user" v-model="form.creator"></jump-select>-->
         <!--</el-form-item>-->
-        <el-form-item label="回款账户" prop="payment_account">
+        <el-form-item :label="mode === 'pay'? '支付账户':'回款账户'" prop="payment_account">
           <jump-select type="payment_accounts" v-model="form.payment_account"></jump-select>
         </el-form-item>
-        <el-form-item label="回款时间" prop="received_date">
+        <el-form-item :label="mode === 'pay'? '支付时间':'回款时间'" prop="received_date">
           <el-date-picker
             type="date"
             value-format="yyyy-MM-dd"
@@ -29,8 +29,8 @@
             v-model="form.received_date"
           ></el-date-picker>
         </el-form-item>
-        <el-form-item label="回款金额" prop="amount">
-          <el-input type="number" v-model="form.amount" placeholder="请输入汇款金额"></el-input>
+        <el-form-item :label="mode === 'pay'? '支付金额':'回款金额'" prop="amount">
+          <el-input type="number" v-model="form.amount" placeholder="请输入金额"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input type="textarea" v-model="form.remark"></el-input>
@@ -51,7 +51,11 @@ import JumpSelect from "@/components/form/JumpSelect";
 export default {
   name: "ReceivedRecord",
   data() {
-    return {
+    let type = "回款";
+    if(this.mode === "pay") {
+      type = "支付";
+    }
+    let data = {
       tableOption: {
         name: "ReceivedRecordList",
         url: "",
@@ -65,20 +69,20 @@ export default {
           // {type: 'selection'},
           {
             type: "text",
-            label: "回款账户",
+            label: `${type}账户`,
             prop: "payment_account.abbr",
             width: "120"
           },
-          { type: "text", label: "回款金额", prop: "amount", width: "120" },
+          { type: "text", label: `${type}金额`, prop: "amount", width: "120" },
           {
             type: "text",
-            label: "回款时间",
+            label: `${type}时间`,
             prop: "received_date",
             width: "120"
           },
           {
             type: "text",
-            label: "回款确认用户",
+            label: `${type}确认用户`,
             prop: "creator_user.name",
             width: "150"
           },
@@ -93,19 +97,23 @@ export default {
         remark: ""
       },
       rules: {
-        payment_account: [{ required: true, message: "请选择回款账户" }],
+        payment_account: [{ required: true, message: `请选择${type}账户` }],
         amount: [
-          { required: true, message: "请输入回款金额", trigger: "blur" }
+          { required: true, message: `请输入${type}金额`, trigger: "blur" }
         ],
         received_date: [
-          { required: true, message: "请选择回款日期", trigger: "blur" }
+          { required: true, message: `请选择${type}日期`, trigger: "blur" }
         ]
       },
       tableData: [],
-      title: "新增回款记录", // 弹窗title
+      title: `新增${type}记录`, // 弹窗title
       dialogFormVisible: false
+    }
+    return {
+      ...data
     };
   },
+
   props: {
     data: Array,
     id: {
@@ -113,7 +121,10 @@ export default {
       default() {
         return "";
       }
-    }
+    },
+    mode:{
+      type:String,
+    },
   },
   methods: {
     refreshTableData(option) {
@@ -140,7 +151,7 @@ export default {
           let data = Object.assign({}, this.form);
           data.invoice = this.id;
           const success = _ => {
-            this.$message({ type: "success", message: "添加回款记录成功" });
+            this.$message({ type: "success", message: "添加成功" });
             this.dialogFormVisible = false;
             this.refreshTableData();
             this.clear();
