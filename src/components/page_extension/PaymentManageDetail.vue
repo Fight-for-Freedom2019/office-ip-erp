@@ -141,7 +141,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="支付金额" v-if="mode==='pay'">
-                <el-input class="form-item-text" v-model="form.received_amount" ></el-input>
+                <el-input class="custom-picker-input" v-model="form.received_amount" ></el-input>
               </el-form-item>
               <el-form-item label="回款金额" v-else>
                 <el-input class="custom-picker-input" v-model="form.received_amount" ></el-input>
@@ -237,7 +237,6 @@ export default {
                 user: {
                     name: ""
                 },
-                creation_time: "",
                 status: "",
                 amount: "",
                 currency: "",
@@ -320,11 +319,17 @@ export default {
         },
         save() {
             let data = {
-                remark: this.form.remark,
                 status: this.form.status,
-                deadline: this.form.deadline,
+                amount: this.form.amount,
+                currency: this.form.currency,
+                roe: this.form.roe,
+                rmb_amount: this.form.rmb_amount,
+                request_time: this.form.request_time,
                 payment_time: this.form.payment_time,
-                attachments: this.form.attachments
+                deadline: this.form.deadline,
+                received_amount: this.form.received_amount,
+                remark: this.form.remark,
+                attachments: this.form.attachments,
             }; // TODO 参数为form表单中的快递信息、备注、附件
             let url = `/invoices/${this.id}`;
             const success = _ => {
