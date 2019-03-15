@@ -152,7 +152,7 @@ const map = new Map([
     {
       URL: "/payment_accounts?listOnly=1",
       DATA_KEY: "data",
-      PLACEHOLDER: "请选择回款账户"
+      PLACEHOLDER: "请选择账户"
     }
   ],
   [
