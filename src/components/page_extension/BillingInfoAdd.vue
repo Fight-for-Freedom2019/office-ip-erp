@@ -63,6 +63,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+        <el-col :span="24">
+          <el-form-item label="附件" prop>
+            <up-load v-model="form.attachments" :fileList="attachments" :limit="1"></up-load>
+          </el-form-item>
+        </el-col>
+      </el-row>
       </el-form>
     </div>
   </app-shrink>
@@ -72,6 +79,7 @@
 import RemoteSelect from "@/components/form/RemoteSelect";
 import JumpSelect from "@/components/form/JumpSelect";
 import StaticSelect from "@/components/form/StaticSelect";
+import UpLoad from "@/components/form/Upload";
 
 export default {
     name: "BillingInfoAdd",
@@ -93,8 +101,10 @@ export default {
                 phone_number: "",
                 bank: "",
                 account: "",
-                remark: ""
+                remark: "",
+                attachments: [],
             },
+            attachments: [],
             title: '',
             isPanelVisible: false,
             mode: 'add',
@@ -126,16 +136,24 @@ export default {
         type: String
     },
     created() {
-        if (Object.keys(this.data).length !== 0) {
-            this.$tool.coverObj(this.form, this.data);
+        if (this.data && Object.keys(this.data).length !== 0) {
+            this.coverObj(this.data);
         }
     },
     watch: {
         data: function (val, oldVal) {
-            this.$tool.coverObj(this.form, val);
+            this.coverObj(val);
         }
     },
     methods: {
+        coverObj(val) {
+            this.$tool.coverObj(this.form, val);
+            if (val.file) {
+                this.form.attachments = this.attachments = [val.file];
+            } else {
+                this.form.attachments = this.attachments = [];
+            }
+        },
         show(mode) {
             this.mode = mode;
             this.isPanelVisible = true;
@@ -152,17 +170,20 @@ export default {
             this.$refs["form"].validate(valid => {
                 if (valid) {
                     let url;
-                    let data;
+                    let data = this.form;
+                    if (this.form.attachments.length > 0) {
+                        data.file_id = this.form.attachments[0];
+                    } else {
+                        data.file_id = 0;
+                    }
                     let msg;
                     let fun;
                     if (type === "add") {
                         url = this.URL;
-                        data = this.form;
                         msg = "创建";
                         fun = "refresh";
                     } else {
                         url = `${this.URL}/${id}`;
-                        data = this.form;
                         msg = "修改";
                         fun = "update";
                     }
@@ -187,7 +208,8 @@ export default {
     components: {
         RemoteSelect,
         JumpSelect,
-        StaticSelect
+        StaticSelect,
+        UpLoad
     }
 };
 </script>
