@@ -104,8 +104,8 @@ export default {
                 }
             ],
             merge: [
-                { col: 0, key: "customer.id", prop: "user" },
-                { col: 6, key: "customer.id", prop: "project.serial" }
+                { key: "customer.id", prop: "customer.name" },
+                { key: "project.id", prop: "project.serial" },
             ],
 
             feeDetailOption: {

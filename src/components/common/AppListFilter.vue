@@ -414,7 +414,7 @@ export default {
 						const value = form[key]
 
 						if (value === '' || value.length === 0 || (value.length === 2 && value[0] === '' && value[1] === '')) {
-							obj[key] = false
+							continue
 						}else {
 							const name = map['name']
 							const str = 'usedForm_' + key
@@ -439,7 +439,7 @@ export default {
 					obj[item.id] = val;
 				}
 			})
-			this.usedForm = obj	   
+			this.usedForm = obj	 
 		}
 			
 	},

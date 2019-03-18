@@ -157,7 +157,7 @@ const mutations = {
   fillViewFilter(state, obj) {
     let arr = [...state.view]
     // 尝试删除空项
-    arr = arr.filter(item => obj[item.key] !== false)
+    // arr = arr.filter(item => obj[item.key] !== false)
     // 对于添加编辑分类处理
     const map = new Map()
     arr.forEach((item, index) => {
@@ -298,18 +298,20 @@ const actions = {
     if (item.type == 'screen') {
       dispatch('removeScreen', item.index);
     } else if (item.type == 'listFilter') {
-      // console.log('____closetag')
-      // console.log(item);
-      // console.log(window.listHeaderFilter )
-      let fun = window.listHeaderFilter.get(item.key);
-      fun ? fun.clearRenderHeaderField(item['key']) : ""
-      // if(window.listHeaderFilter !== null && window.listHeaderFilter.clearRenderHeaderField(item['key'])) {
-      // 	console.log('清除表头')
-      // 	window.listHeaderFilter.clearRenderHeaderField(item['key']);
-      // }
-      if (window.listFilter != null && window.listFilter.usedFlag && window.listFilter.usedForm[item['key']]) {
-        window.listFilter.clearUsedFormField(item['key'])
+      // 下面的逻辑为了解决高级筛选和表头及快速筛选出现关闭冲突
+      const usedFormKey = window.listFilter.usedForm[item['key']];
+      if (window.listFilter != null && window.listFilter.usedFlag && usedFormKey) {
+        if (usedFormKey instanceof Array) {
+          if (usedFormKey.length != 0 || usedFormKey[0] || usedFormKey[1]) {
+            window.listFilter.clearUsedFormField(item['key'])
+          }
+        }else{
+          window.listFilter.clearUsedFormField(item['key'])
+        } 
+        
       }
+      let fun = window.listHeaderFilter.get(item.key);
+      fun ? fun.clearRenderHeaderField(item['key']) : "";
       dispatch('removeListFilter', item.index);
     } else if (item === "all") {
       if (state.custom.length !== 0) {
