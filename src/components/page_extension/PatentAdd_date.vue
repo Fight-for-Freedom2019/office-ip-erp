@@ -48,11 +48,11 @@
         </el-form-item>
       </el-col> -->
       <el-col :span="8">
-        <el-form-item label="官方绝限/递交绝限">
+        <el-form-item label="官方/递交绝限">
           <el-date-picker
             size="small"
             v-model="form.legal_deadline"
-            placeholder="官方绝限"
+            placeholder="官方/递交绝限"
             class="input-min-width"
           ></el-date-picker>
         </el-form-item>
@@ -304,105 +304,105 @@ import AppSwitch from "@/components/form/AppSwitch";
 import { checkInventors } from "@/const/validator.js";
 
 export default {
-  name: "patentAddPerson",
-  props: ["type"],
-  data() {
-    return {
-      form: {
-        first_edition_deadline: "",
-        filing_deadline: "",
-        legal_deadline: "",
-        creation_time: "",
-        entrusting_time: "",
-        das: "",
-        application_number: "",
-        application_date: "",
-        pre_exam_ok_date: "",
-        publication_date: "",
-        publication_number: "",
-        pct_application_date: "",
-        sub_exam_start_date: "",
-        issue_date: "",
-        issue_number: "",
-        pct_application_number: "",
-        pct_apd: "",
-        pct_priority_date: "",
-        pct_publication_number: "",
-        pct_publication_date: "",
-        pct_publication_language: "",
-        pct19_expire_date: "",
-        pct_national_stage_expire_date: "",
-        active_supplement_expire_date: "",
-        first_edition_to_ipr_time: "",
-        pct_pre_exam_expire_date: "",
-        ipr_final_edition_time: "",
-        priority_expire_date: "",
-        inventor_review_times: "",
-        pct_search_date: ""
-      },
-      ipr_name: "",
-      branchName: "",
-      options: {
-        language: [
-          { name: "中文-Chinese", id: "CN" },
-          { name: "英文-English", id: "EN" },
-          { name: "法文-Franch", id: "FR" },
-          { name: "德文-Germany", id: "GE" },
-          { name: "日文-Japanese", id: "JP" },
-          { name: "俄文-Russian", id: "RU" },
-          { name: "西班牙-Spanish", id: "ES" }
-        ]
-      }
-    };
-  },
-  methods: {
-    handleInventor(val) {
-      this.form.inventors = val;
-      this.$refs.form.validateField("inventors");
+    name: "patentAddPerson",
+    props: ["type"],
+    data() {
+        return {
+            form: {
+                first_edition_deadline: "",
+                filing_deadline: "",
+                legal_deadline: "",
+                creation_time: "",
+                entrusting_time: "",
+                das: "",
+                application_number: "",
+                application_date: "",
+                pre_exam_ok_date: "",
+                publication_date: "",
+                publication_number: "",
+                pct_application_date: "",
+                sub_exam_start_date: "",
+                issue_date: "",
+                issue_number: "",
+                pct_application_number: "",
+                pct_apd: "",
+                pct_priority_date: "",
+                pct_publication_number: "",
+                pct_publication_date: "",
+                pct_publication_language: "",
+                pct19_expire_date: "",
+                pct_national_stage_expire_date: "",
+                active_supplement_expire_date: "",
+                first_edition_to_ipr_time: "",
+                pct_pre_exam_expire_date: "",
+                ipr_final_edition_time: "",
+                priority_expire_date: "",
+                inventor_review_times: "",
+                pct_search_date: ""
+            },
+            ipr_name: "",
+            branchName: "",
+            options: {
+                language: [
+                    { name: "中文-Chinese", id: "CN" },
+                    { name: "英文-English", id: "EN" },
+                    { name: "法文-Franch", id: "FR" },
+                    { name: "德文-Germany", id: "GE" },
+                    { name: "日文-Japanese", id: "JP" },
+                    { name: "俄文-Russian", id: "RU" },
+                    { name: "西班牙-Spanish", id: "ES" }
+                ]
+            }
+        };
     },
-    setForm(data) {
-      for (let k in this.form) {
-        if (data[k] == undefined) continue;
-        if (k == "branch") {
-          if (data[k]) {
-            this.form[k] = data[k]["id"];
-            this.branchName = data[k]["name"];
-          } else {
-            this.form[k] = "";
-            this.branchName = "";
-          }
-        } else if (k == "ipr") {
-          this.ipr_name = data[k]["name"];
-        } else {
-          this.form[k] = data[k];
+    methods: {
+        handleInventor(val) {
+            this.form.inventors = val;
+            this.$refs.form.validateField("inventors");
+        },
+        setForm(data) {
+            for (let k in this.form) {
+                if (data[k] == undefined) continue;
+                if (k == "branch") {
+                    if (data[k]) {
+                        this.form[k] = data[k]["id"];
+                        this.branchName = data[k]["name"];
+                    } else {
+                        this.form[k] = "";
+                        this.branchName = "";
+                    }
+                } else if (k == "ipr") {
+                    this.ipr_name = data[k]["name"];
+                } else {
+                    this.form[k] = data[k];
+                }
+            }
+        },
+        submitForm() {
+            // console.log(this.form);
+            // if(this.type == 'add') this.form.ipr = this.user.id;
+            return this.$tool.shallowCopy(this.form, { date: true });
+        },
+        checkForm(callback) {
+            let flag = true;
+            this.$refs.form.validate(_ => {
+                flag = _;
+                callback(flag);
+            });
         }
-      }
     },
-    submitForm() {
-      // console.log(this.form);
-      // if(this.type == 'add') this.form.ipr = this.user.id;
-      return this.$tool.shallowCopy(this.form, { date: true });
+    computed: {
+        user() {
+            return this.$store.getters.getUser;
+        }
     },
-    checkForm(callback) {
-      let flag = true;
-      this.$refs.form.validate(_ => {
-        flag = _;
-        callback(flag);
-      });
+    components: {
+        AppCollapse,
+        Branch,
+        StaticSelect,
+        RemoteSelect,
+        AppSwitch
     }
-  },
-  computed: {
-    user() {
-      return this.$store.getters.getUser;
-    }
-  },
-  components: {
-    AppCollapse,
-    Branch,
-    StaticSelect,
-    RemoteSelect,
-    AppSwitch
-  }
 };
 </script>
 

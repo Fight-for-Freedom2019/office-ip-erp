@@ -84,22 +84,16 @@
       </el-row>
       <el-row>
         <el-form-item label="开票信息" v-if="this.mode === 'edit'">
-            <el-table
-              :data="tableData"
-              :show-header="false"
-              style="width: 100%">
-              <el-table-column
-                prop="field"
-                label="字段"
-                width="180">
-              </el-table-column>
-              <el-table-column
-                prop="value"
-                label="值"
-                min_width="180">
-              </el-table-column>
-            </el-table>
-          </el-form-item>
+           <app-table :columns="columns" :data="tableData" :show-header="false"></app-table>
+        </el-form-item>
+        <el-form-item label="原始凭证" v-if="this.mode === 'edit'">
+           <template v-if="this.target != null && this.target.file != null">
+             <el-button type="text" @click="showFile" style="padding:0px">{{this.target.file.name}}</el-button>
+           </template>
+           <template v-else>
+             <span>暂未上传</span>
+           </template>
+        </el-form-item>
       </el-row>
       <el-row>
           <el-form-item label="费用明细" prop="fee">
@@ -129,6 +123,7 @@ import StaticSelect from "@/components/form/StaticSelect";
 import VoucherFeeSelect from "@/components/page_extension/VoucherFeeSelect";
 import TableComponent from "@/components/common/TableComponent";
 import AppShrink from "@/components/common/AppShrink";
+import AppTable from "@/components/common/AppTable";
 import OrderDetail from "@/components/page/crm/orders/OrderDetail";
 import CommonDetail from "@/components/page_extension/Common_detail";
 
@@ -315,6 +310,10 @@ export default {
                     { type: "text", label: "小计", prop: "roe", width: "130" }
                 ]
             },
+            columns: [
+                { type: 'text', label: '字段', prop: 'field', width: '180' },
+                { type: 'text-copy', label: '值', prop: 'value', min_width: '180' },
+            ],
             fees: [],
             feesDetail: [], //费用明细
             invoiceFees: []
@@ -392,6 +391,9 @@ export default {
             });
 
             return sums;
+        },
+        showFile() {
+            window.location.href = this.target.file.viewUrl;
         },
         save() {
             // type是父组件传来的,表示是add还是edit,id表示修改的某一行数据的id
@@ -562,6 +564,7 @@ export default {
         AppShrink,
         OrderDetail,
         CommonDetail,
+        AppTable,
     }
 };
 </script>

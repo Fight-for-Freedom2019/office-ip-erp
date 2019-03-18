@@ -5,6 +5,7 @@ import router from "./router";
 import store from "./store";
 import ElementUI from "element-ui";
 import formCreate from "form-create";
+import clipboard from "vue-clipboard2";
 // import VueQuillEditor from "vue-quill-editor";
 import axios from "@/const/axios";
 import MyAxios from "@/const/myAxios";
@@ -24,6 +25,7 @@ Vue.use(ElementUI);
 // Vue.use(VueQuillEditor);
 Vue.use(MyAxios);
 Vue.use(formCreate);
+Vue.use(clipboard);
 
 const isDebug_mode = process.env.NODE_ENV !== "production";
 Vue.config.debug = isDebug_mode;
