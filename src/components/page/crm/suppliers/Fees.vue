@@ -234,7 +234,8 @@ export default {
                     {
                         type: "text",
                         label: "申请日",
-                        prop: "project.application_date",
+                        prop: "application_date",
+                        render_obj:"project",
                         width: "100",
                         render_header: true,
                         expanded: true
@@ -242,7 +243,8 @@ export default {
                     {
                         type: "text",
                         label: "申请号",
-                        prop: "project.application_number",
+                        prop: "application_number",
+                        render_obj:"project",
                         width: "178",
                         expanded: true
                     },
@@ -257,7 +259,8 @@ export default {
                     {
                         type: "text",
                         label: "委案日",
-                        prop: "project.entrusting_time",
+                        prop: "entrusting_time",
+                        render_obj:"project",
                         width: "100",
                         render_header: true,
                         expanded: true
@@ -267,7 +270,7 @@ export default {
                         label: "付款日",
                         prop: "payment_time",
                         width: "100",
-                        render_header: true,
+                        // render_header: true,
                         expanded: true
                     },
                     {
@@ -291,9 +294,10 @@ export default {
                     {
                         type: "text",
                         label: "订单号",
-                        prop: "order.serial",
-                        width: "120"
-                        // render_header: true
+                        prop: "order",
+                        render_simple: "serial",
+                        width: "120",
+                        render_header: true
                     },
                     {
                         type: "text",
