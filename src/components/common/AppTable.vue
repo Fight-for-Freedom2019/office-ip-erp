@@ -1087,7 +1087,8 @@ export default {
                         }
                     }
                 }
-                this.spanArr[index + 1] = arr;
+                index = this.expand?index + 1:index;
+                this.spanArr[index] = arr;
             });
             console.log(this.spanArr);
         },
