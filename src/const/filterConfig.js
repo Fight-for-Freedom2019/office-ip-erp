@@ -23,6 +23,12 @@ const map = new Map([
       },
       {
         components: "static_select",
+        id: "project_state",
+        name: "案件状态",
+        type: "project_stage"
+      },
+      {
+        components: "static_select",
         id: "process_definition",
         name: "管制事项",
         type: "process_definition",
@@ -327,7 +333,7 @@ const map = new Map([
         components: "static_select",
         id: "project_state",
         name: "案件状态",
-        type: "project_type"
+        type: "project_stage"
       },
       // { components: 'remote_select', id: 'agency',                         name: '代理机构', type: 'agency', used: true}, //代理机构
       {

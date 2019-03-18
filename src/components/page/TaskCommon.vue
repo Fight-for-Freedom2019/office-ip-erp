@@ -245,7 +245,14 @@ export default {
             render_header: true,
             width: "110"
           },
-
+          {
+            type: "text",
+            label: "案件状态",
+            width: "130",
+            prop: "project_stage",
+            render_simple: "name",
+            render_header: true
+          },
           {
             type: "text",
             prop: "process_definition",
