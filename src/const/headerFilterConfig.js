@@ -236,7 +236,7 @@ const map = new Map([
     },*/
     { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
     { type: "static_select", id: "subtype", name: "案件类型", map_type: "project_subtype" },
-    { type: "text", id: "order.serial", name: "订单号" },
+    { type: "text", id: "order", name: "订单号" },
     { type: "static_select", id: "fee_code", name: "费用名称", map_type: "fee_code", url: "/feecode" },
     { type: "static_select", id: "fee_type", name: "费用类型", map_type: "fee_type" },
     { type: "static_select", id: "policy", name: "费用策略", map_type: "policy" },

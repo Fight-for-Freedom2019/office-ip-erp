@@ -291,9 +291,10 @@ export default {
                     {
                         type: "text",
                         label: "订单号",
-                        prop: "order.serial",
-                        width: "120"
-                        // render_header: true
+                        prop: "order",
+                        render_simple: "serial",
+                        width: "120",
+                        render_header: true
                     },
                     {
                         type: "text",

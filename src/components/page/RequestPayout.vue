@@ -169,7 +169,7 @@ export default {
                     { type: "text", label: "费用策略", prop: "policy", width: "100", render_header: true, render_simple: "name", expanded: true },
                     { type: "text", label: "费用状态", prop: "status", width: "100", render_simple: "name", render_header: true, expanded: true },
                     { type: "text", label: "请款时机", prop: "payment_request_timing", width: "110", render_simple: "name", render_header: true, expanded: true },
-                    { type: "text", label: "订单号", prop: "order.serial", width: "80", render_header: true, expanded: true },
+                    { type: "text", label: "订单号", prop: "order", render_simple: "serial",width: "80", render_header: true, expanded: true },
                     { type: "text", label: "备注", prop: "remark", width: "80", render_header: true, expanded: true }
                 ],
                 sumFunc: param => {
