@@ -86,7 +86,22 @@ export default {
             prop: "creator_user.name",
             width: "150"
           },
-          { type: "text", label: "备注", prop: "remark", min_width: "180" }
+          { type: "text", label: "备注", prop: "remark", min_width: "180" },
+          {
+            type: "action",
+            fixed: false,
+            width: "178",
+            btns: [
+              {
+                type: "edit",
+                click: this.handleEdit,
+              },
+              {
+                type: "delete",
+                click: this.handleDelete,
+              },
+            ]
+          },
         ]
       },
       URL: "/received_payments",
@@ -107,7 +122,9 @@ export default {
       },
       tableData: [],
       title: `新增${type}记录`, // 弹窗title
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      reqType:"add",
+      rowId:"",
     }
     return {
       ...data
@@ -135,6 +152,7 @@ export default {
       this.$axiosGet({ url, data: option, success });
     },
     addRecord() {
+      this.reqType = "add";
       this.dialogFormVisible = true;
     },
     closeDialog() {
@@ -157,7 +175,7 @@ export default {
             this.clear();
             this.$emit("received");
           };
-          this.$axiosPost({ url, data, success });
+          this.reqType === "add" ? this.$axiosPost({ url, data, success }):this.$axiosPut({ url:`${url}/${this.rowId}`, data, success });
         } else {
           this.$message({ type: "warning", message: "请正确填写" });
         }
@@ -165,7 +183,31 @@ export default {
     },
     clear() {
       this.$refs.form.resetFields();
-    }
+    },
+    handleEdit(row){
+      this.reqType = "edit";
+      this.rowId = row.id;
+      this.dialogFormVisible = true;
+      this.$tool.coverObj(this.form,row);
+    },
+    handleDelete(row){
+      const url = `${this.URL}?id[]=${row.id}`;
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const success = ()=>{
+          this.refreshTableData();
+          this.$emit("received");
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }
+        this.$axiosDelete({url,success})
+      })
+    },
   },
   watch: {
     data: function(val, oldVal) {
