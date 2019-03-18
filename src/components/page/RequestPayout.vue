@@ -94,7 +94,7 @@ export default {
                     { col: 2, key: "user.id", prop: "user" },
                     { col: 3, key: "project.id", prop: "project.serial" },
                     { col: 4, key: "project.id", prop: "project.subtype.id" },
-                    { col: 5, key: "project.id", prop: "project.title" },
+                    { col: 5, key: "project.id", prop: "title" },
                     { col: 12, key: "project.id", prop: "official_sum_currency" },
                     { col: 13, key: "project.id", prop: "service_sum_currency" },
                     { col: 14, key: "project.id", prop: "sum_currency" }
@@ -151,7 +151,7 @@ export default {
                     { type: "text", label: "客户", prop: "customer", render_simple: "name", min_width: "120", render_header: true },
                     { type: "text-btn", label: "案号", prop: "serial", render_text_btn: (row) => { return row.project != null ? row.project.serial : "" }, click: this.handleCaseDetail, width: "178" },
                     { type: "text", label: "案件类型", render_simple: "name", prop: "subtype", render_obj: "project", width: "100", render_header: true },
-                    { type: "text", label: "标题", prop: "project.title", width: "180" },
+                    { type: "text", label: "标题", prop: "title",render_obj:"project", width: "180" },
                     { type: "text", label: "费用名称", prop: "fee_code", render_simple: "name", width: "130", render_header: true },
                     { type: "text", label: "类型", prop: "fee_type", render_simple: "name", width: "80", render_header: true },
                     // TODO 接口有字段缺失
@@ -162,14 +162,14 @@ export default {
                     { type: "text", label: "官费小计", prop: "official_sum_currency", width: "100", align: "right" },
                     { type: "text", label: "代理费小计", prop: "service_sum_currency", width: "100", align: "right" },
                     { type: "text", label: "小计", prop: "sum_currency", width: "100", align: "right" },
-                    { type: "text", label: "申请号", prop: "project.application_number", width: "165", render_header: true, expanded: true },
-                    { type: "text", label: "申请日", prop: "project.application_date", width: "100", render_header: true, expanded: true },
-                    { type: "text", label: "委案日", prop: "entrusting_time", render_obj: "project", width: "100", render_header: true, expanded: true },
+                    { type: "text", label: "申请号", prop: "application_number",render_obj:"project", width: "165", render_header: true, expanded: true },
+                    { type: "text", label: "申请日", prop: "application_date",render_obj:"project", width: "100", render_header: true, expanded: true },
+                    { type: "text", label: "委案日", prop: "entrusting_time", width: "100", render_header: true, expanded: true },
                     { type: "text", label: "费用期限", prop: "deadline", width: "100", render_header: true, expanded: true },
                     { type: "text", label: "费用策略", prop: "policy", width: "100", render_header: true, render_simple: "name", expanded: true },
                     { type: "text", label: "费用状态", prop: "status", width: "100", render_simple: "name", render_header: true, expanded: true },
                     { type: "text", label: "请款时机", prop: "payment_request_timing", width: "110", render_simple: "name", render_header: true, expanded: true },
-                    { type: "text", label: "订单号", prop: "order", render_simple: "serial",width: "80", render_header: true, expanded: true },
+                    { type: "text", label: "订单号", prop: "order",render_simple:"serial", width: "80", expanded: true },
                     { type: "text", label: "备注", prop: "remark", width: "80", render_header: true, expanded: true }
                 ],
                 sumFunc: param => {
