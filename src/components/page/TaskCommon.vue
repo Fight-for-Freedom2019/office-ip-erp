@@ -275,7 +275,8 @@ export default {
             prop: "internal_deadline",
             label: "管控期限",
             render_header: true,
-            width: "100"
+            width: "100",
+            expanded: true,
           },
           {
             type: "text",
