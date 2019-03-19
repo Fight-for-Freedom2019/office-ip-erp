@@ -443,21 +443,30 @@ const config = [
     "file_type_trademark_notice",
     {
       placeholder: "请选择商标通知书文件类型",
-      url: "/file_types?project_type=商标&listRows=10000"
+      url: "/file_types?project_type=商标&listRows=10000",
+      handle(data) {
+        return data.data.data;
+      }
     }
   ],
   [
     "file_type_copyright",
     {
       placeholder: "请选择版权文件类型",
-      url: "/file_types?project_type=版权&listRows=10000"
+      url: "/file_types?project_type=版权&listRows=10000",
+      handle(data) {
+        return data.data.data;
+      }
     }
   ],
   [
     "file_type_copyright_notice",
     {
       placeholder: "请选择版权通知书文件类型",
-      url: "/file_types?project_type=版权&listRows=10000"
+      url: "/file_types?project_type=版权&listRows=10000",
+      handle(data) {
+        return data.data.data;
+      }
     }
   ],
 

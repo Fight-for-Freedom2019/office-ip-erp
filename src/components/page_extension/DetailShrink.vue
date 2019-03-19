@@ -42,7 +42,9 @@ export default {
        this.showType = type;
        this.shrinkVisible = true;
       if (this.pageType == 'add') {
-       this.$refs[`${type}Add`].clear(); 
+        this.$nextTick(_=>{
+          this.$refs[`${type}Add`].clear(); 
+        })
       }else {
         this.refreshDetailData({id, type});
       }
