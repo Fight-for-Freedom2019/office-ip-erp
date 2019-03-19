@@ -91,7 +91,7 @@ export default {
                 import_type: 'fees_in',
                 show_summary: true,
                 merge: [
-                    { col: 2, key: "user.id", prop: "user" },
+                    // { col: 2, key: "user.id", prop: "user" },
                     { col: 3, key: "project.id", prop: "project.serial" },
                     { col: 4, key: "project.id", prop: "project.subtype.id" },
                     { col: 5, key: "project.id", prop: "title" },
