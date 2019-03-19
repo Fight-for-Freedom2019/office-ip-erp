@@ -108,12 +108,7 @@
 
                 if(item.length == 0) {
                     body = '';
-                }else if(item.length == 1) {
-                    const obj = {
-                        attrs: { href: item[0]['downloadUrl'] },
-                    };
-                    body = [h('a', obj, item[0].name )];
-                }else if(item.length > 1) {
+                }else if(item.length >= 1) {
                     body = [];
                     const obj = {
                         attrs: { href: item[0]['downloadUrl'] },
