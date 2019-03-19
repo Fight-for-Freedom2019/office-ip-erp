@@ -11,6 +11,7 @@ const map = new Map([
     { type: "static_select", id: "process_tags", name: "事项标签", map_type: "tags", url: "/tags?listOnly=1", sortable: false },
     { type: "static_select", id: "subtype", name: "案件子类型", map_type: "subtype" },
     { type: "static_select", id: "project_type", name: "案件类型", map_type: "project_type" },
+    { type: "static_select", id: "project_stage", name: "案件状态", map_type: "project_stage", url: true },
     { type: "static_select", id: "process_definition", name: "管制事项", map_type: "process_definition", url: true },
     { type: "static_select", id: "process_stage", name: "当前阶段", map_type: "process_stage", url: true },
     { type: "static_select", id: "process_action", name: "当前节点", map_type: "actions", sortable: false },
