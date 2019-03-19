@@ -6,7 +6,7 @@ const typeMap = new Map([
   ['商标', 'trademark'],
   ['版权', 'copyright'],
 ])
-export default (module) => ({
+export default (module,mode) => ({  // module=>组件的$refs, mode=>'request' or 'pay'
   mixins: [TableMixins],
   data() {
     return {
@@ -44,7 +44,7 @@ export default (module) => ({
     },
     // 在应收/应付明细中查看账单详情
     handleInvoiceDetail(row) {
-      this.$refs.invoiceDetail.show(row.invoice.id, "request", row);
+      this.$refs.invoiceDetail.show(row.invoice.id, mode, row);
     },
     createNewOrder() {   // 创建新的请/付款单
       if (this.ids.length !== 0) {
