@@ -2,7 +2,7 @@
 <template>
   <app-shrink :visible.sync="isPanelVisible" :modal='false' :title="title">
     <span slot="header" style="float: right;">
-        <app-button-loading :func="save" ref="loadingBtn"></app-button-loading>
+        <app-button-loading :func="save" ref="loadingBtn" v-if="mode === 'add'"></app-button-loading>
         <el-button type="primary" size="small" v-if="mode === 'edit'"
                     @click="save('edit')">保存</el-button>
     </span>
@@ -154,11 +154,12 @@ export default {
                 this.form.attachments = this.attachments = [];
             }
         },
-        show(mode) {
+        show(mode, row) {
             this.mode = mode;
             this.isPanelVisible = true;
             if (mode == 'edit') {
-                this.title = `开票信息>${this.data.customer.name}`
+                this.title = `开票信息>${row.customer.name}`
+                this.coverObj(row);
             } else {
                 this.title = "新增开票信息>";
             }
@@ -172,7 +173,8 @@ export default {
                     let url;
                     let data = this.form;
                     if (this.form.attachments.length > 0) {
-                        data.file_id = this.form.attachments[0];
+                        let f = this.form.attachments[0];
+                        data.file_id = f instanceof Object ? f.id : f;
                     } else {
                         data.file_id = 0;
                     }

@@ -152,6 +152,42 @@
           </el-table-column>
         </template>
 
+        <template v-else-if="col.map_key ? true : false ">
+          <el-table-column
+            :label="col.label"
+            :prop="col.prop"
+            :key="col.prop"
+            :width="col.width ? col.width : ''"
+            :min-width="col.min_width ? col.min_width : ''"
+            :show-overflow-tooltip="col.overflow !== undefined ? col.overflow : true"
+            :class-name="col.className? col.className : ''"
+          >
+            <!--:render-header="col.render_header ? handleRenderHeader : null"-->
+            <template slot="header" slot-scope="scope">
+              <span>{{col.label}}</span>
+              <el-popover
+                placement="bottom"
+                v-model="filterComponentPopover[scope.column.property]"
+                @show="showPopover(scope.column.property)"
+                v-if="col.render_header !== undefined"
+              >
+                <lists-filter
+                  @order="order"
+                  v-if="filterComponent[scope.column.property]"
+                  :activePop="activePop"
+                  :field="col.prop"
+                  :listType="listType"
+                  @hide="hidePopover"
+                ></lists-filter>
+                <el-button slot="reference" type="text" icon="el-icon-my-filter-btn"></el-button>
+              </el-popover>
+            </template>
+            <template slot-scope="scope">
+              <span class="table-column-render">{{ mapRender(scope,col) }}</span>
+            </template>
+          </el-table-column>
+        </template>
+
         <template v-else-if="col.render_simple ? true : false ">
           <el-table-column
             :label="col.label"
@@ -804,7 +840,8 @@ export default {
                 height = "auto";
             }
             return height;
-        }
+        },
+        ...mapGetters(['getHashMaps']),
     },
     mounted() {
         // if(this.filterVisible) {
@@ -867,6 +904,17 @@ export default {
             if (func) {
                 func(scope.row, event, scope.column);
             }
+        },
+        mapRender(scope, col) {
+            const map = this.getHashMaps.get(col.map_key);
+            let v = '';
+            const item = scope.row[col.prop];
+            map.options.map(function (o) {
+                if (item && o.id === item) {
+                    v = o.name;
+                }
+            });
+            return v;
         },
         copyText(scope, event) {
             event.stopPropagation();
@@ -1138,7 +1186,7 @@ export default {
                         }
                     }
                 }
-                index = this.expand?index + 1:index;
+                index = this.expand ? index + 1 : index;
                 this.spanArr[index] = arr;
             });
             console.log(this.spanArr);

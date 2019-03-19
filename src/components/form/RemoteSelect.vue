@@ -39,7 +39,7 @@
         <applicant-add @onItemAdded="onItemAdded" ref="applicant" v-if="addType == 'applicant'"></applicant-add>
         <customer-add @onItemAdded="onItemAdded" ref="customer" v-if="addType == 'customer'"></customer-add>
         <user-add @onItemAdded="onItemAdded" ref="user"></user-add>
-        <invoice-target-add @onItemAdded="onItemAdded" ref="target"></invoice-target-add>
+        <invoice-target-add @onItemAdded="onItemAdded" ref="invoice_target"></invoice-target-add>
       </el-form>
       <el-row style="margin-top: 20px;">
         <el-button type="primary" @click="handleAddTag">确认</el-button>
@@ -147,6 +147,9 @@ export default {
           break;
         case "user":
           this.$refs.user.show();
+          break;
+        case "invoice_target":
+          this.$refs.invoice_target.show();
           break;
       }
     },

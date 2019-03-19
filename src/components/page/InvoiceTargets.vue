@@ -89,7 +89,7 @@ export default {
             this.rowData = row;
             this.rowID = row.id;
             this.compileType = "edit";
-            this.$refs.BillInfoAdd.show('edit');
+            this.$refs.BillInfoAdd.show('edit', row);
         },
         add() {
             this.compileType = "add";

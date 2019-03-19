@@ -102,18 +102,26 @@
       </el-col>
     </el-row>
 
-    <el-form-item label="发明人" prop="inventors">
-      <!-- <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors> -->
-      <remote-select
-        type="inventor"
-        :page-type="type"
-        add-type="inventor"
-        v-model="form.inventors"
-        :para="customerParam"
-        multiple
-      ></remote-select>
-    </el-form-item>
-
+    <el-row>
+      <el-col :span="16">
+        <el-form-item label="发明人" prop="inventors">
+          <!-- <inventors :page-type="type"  v-model="form.inventors" ref="inventors" @addInventor="$refs.form.validateField('inventors')" @deleteInventor="$refs.form.validateField('inventors')"></inventors> -->
+          <remote-select
+            type="inventor"
+            :page-type="type"
+            add-type="inventor"
+            v-model="form.inventors"
+            :para="customerParam"
+            multiple
+          ></remote-select>
+        </el-form-item>
+    </el-col>
+      <el-col :span="8">
+        <el-form-item label="申请方式" prop="application_manner">
+          <static-select type="application_manner" v-model="form.application_manner"></static-select>
+        </el-form-item>
+      </el-col>
+    </el-row>
     <!--       <el-form-item label="送件发明人">
         <remote-select type="inventor" :page-type="type" v-model="form.alias_inventors" multiple></remote-select>
     </el-form-item>-->
@@ -181,229 +189,230 @@ import { mapGetters, mapActions } from "vuex";
 import { checkInventors } from "@/const/validator.js";
 
 const extensionHash = [
-  {
-    text: "是否同时提出实审请求",
-    label: "is_exam_request",
-    area: "CN",
-    type: 1
-  },
-  { text: "是否请求提前公开", label: "is_pre_public", area: "", type: 1 },
-  { text: "是否保密审查", label: "is_secure_check", area: "", type: [1, 2] },
-  {
-    text: "是否同日申请了同样的实用新型/发明",
-    label: "is_utility",
-    area: "",
-    type: [1, 2]
-  },
-  { text: "是否是分案申请", label: "is_division", area: "", type: [] },
-  { text: "是否与生物相关", label: "is_biological", area: "", type: 1 },
-  { text: "是否有序列表", label: "is_sequence", area: "", type: 1 },
-  { text: "是否依赖于遗传资源", label: "is_genetic", area: "CN", type: [] },
-  { text: "是否不丧失新颖性公开", label: "is_leakage", area: "CN", type: [] },
-  { text: "是否要求优先权", label: "is_priority", area: "", type: [] },
-  { text: "是否有变更", label: "is_amended", area: "", type: [] },
-  { text: "是否有许可备案", label: "is_licensed", area: "", type: [] }
+    {
+        text: "是否同时提出实审请求",
+        label: "is_exam_request",
+        area: "CN",
+        type: 1
+    },
+    { text: "是否请求提前公开", label: "is_pre_public", area: "", type: 1 },
+    { text: "是否保密审查", label: "is_secure_check", area: "", type: [1, 2] },
+    {
+        text: "是否同日申请了同样的实用新型/发明",
+        label: "is_utility",
+        area: "",
+        type: [1, 2]
+    },
+    { text: "是否是分案申请", label: "is_division", area: "", type: [] },
+    { text: "是否与生物相关", label: "is_biological", area: "", type: 1 },
+    { text: "是否有序列表", label: "is_sequence", area: "", type: 1 },
+    { text: "是否依赖于遗传资源", label: "is_genetic", area: "CN", type: [] },
+    { text: "是否不丧失新颖性公开", label: "is_leakage", area: "CN", type: [] },
+    { text: "是否要求优先权", label: "is_priority", area: "", type: [] },
+    { text: "是否有变更", label: "is_amended", area: "", type: [] },
+    { text: "是否有许可备案", label: "is_licensed", area: "", type: [] }
 ];
 
 export default {
-  name: "patentAddBase",
-  props: {
-    type: String,
-    customer: Number
-  },
-  data() {
-    return {
-      form: {
-        serial: "",
-        title: "",
-        english_title: "",
-        area: this.type == "add" ? ["CN"] : "",
-        subtype: 1,
-        // ipr: '',
-        project_stage: "",
-        process_stage: "",
-        level: "",
-        applicants: [],
-        inventors: [],
-        // alias_inventors: [],
-        priorities: [],
-        extension: [],
-        attachments: [],
-        // contact:[],
-        // group_number:'',
-        // family_number:'',
-        remark: "",
-        // abstract:'',
-        // flownode:'',
-        // official_status: '',
-        references: [],
-        families: [],
-        tags: [],
-        renewal_fee_monitor_status: "",
-        fee_ratio: 3,
-        project_serial: ""
-      },
-      titleLock: false, //标题锁 当评审表被上传且标题自动填充后 不再自动填充
-      attachments: [],
-      rules: {
-        title: { required: true, message: "标题不能为空", trigger: "blur" },
-        subtype: {
-          type: "number",
-          required: true,
-          message: "专利类型不能为空",
-          trigger: "change"
-        },
-        english_title: {
-          message: "请输入英文标题",
-          trigger: "blur",
-          pattern: /^[^\u4e00-\u9fa5]*$/
-        }
-        // 'inventors': {
-        //   type: 'array',
-        //   trigger: 'change',
-        //   validator: (a,b,c)=>{
-        //     this.$nextTick(_=>{
-        //       checkInventors(a, this.form.inventors, c, false);
-        //     })
-        //   },
-        // },
-      }
-    };
-  },
-  computed: {
-    ...mapGetters(["userid", "userrole", "menusMap"]),
-    extensionSet() {
-      let area = this.form.area;
-      const type = this.form.type;
-      if (!area || !type) return [];
-      area = typeof area == "string" ? area : area.join(",");
-      const arr = [];
-      extensionHash.forEach(d => {
-        const areaReg = new RegExp(d.area);
-        const typeArr = d.type instanceof Array ? d.type : [d.type];
-        if (areaReg.test(area)) {
-          if (typeArr.length == 0) {
-            arr.push({ text: d.text, label: d.label });
-          } else {
-            for (let t of typeArr) {
-              if (t == type) {
-                arr.push({ text: d.text, label: d.label });
-                break;
-              }
+    name: "patentAddBase",
+    props: {
+        type: String,
+        customer: Number
+    },
+    data() {
+        return {
+            form: {
+                serial: "",
+                title: "",
+                english_title: "",
+                area: this.type == "add" ? ["CN"] : "",
+                subtype: 1,
+                // ipr: '',
+                project_stage: "",
+                process_stage: "",
+                level: "",
+                applicants: [],
+                inventors: [],
+                // alias_inventors: [],
+                priorities: [],
+                extension: [],
+                attachments: [],
+                // contact:[],
+                // group_number:'',
+                // family_number:'',
+                remark: "",
+                // abstract:'',
+                // flownode:'',
+                // official_status: '',
+                references: [],
+                families: [],
+                tags: [],
+                renewal_fee_monitor_status: "",
+                fee_ratio: 3,
+                project_serial: "",
+                application_manner: 1,
+            },
+            titleLock: false, //标题锁 当评审表被上传且标题自动填充后 不再自动填充
+            attachments: [],
+            rules: {
+                title: { required: true, message: "标题不能为空", trigger: "blur" },
+                subtype: {
+                    type: "number",
+                    required: true,
+                    message: "专利类型不能为空",
+                    trigger: "change"
+                },
+                english_title: {
+                    message: "请输入英文标题",
+                    trigger: "blur",
+                    pattern: /^[^\u4e00-\u9fa5]*$/
+                }
+                // 'inventors': {
+                //   type: 'array',
+                //   trigger: 'change',
+                //   validator: (a,b,c)=>{
+                //     this.$nextTick(_=>{
+                //       checkInventors(a, this.form.inventors, c, false);
+                //     })
+                //   },
+                // },
             }
-          }
+        };
+    },
+    computed: {
+        ...mapGetters(["userid", "userrole", "menusMap"]),
+        extensionSet() {
+            let area = this.form.area;
+            const type = this.form.type;
+            if (!area || !type) return [];
+            area = typeof area == "string" ? area : area.join(",");
+            const arr = [];
+            extensionHash.forEach(d => {
+                const areaReg = new RegExp(d.area);
+                const typeArr = d.type instanceof Array ? d.type : [d.type];
+                if (areaReg.test(area)) {
+                    if (typeArr.length == 0) {
+                        arr.push({ text: d.text, label: d.label });
+                    } else {
+                        for (let t of typeArr) {
+                            if (t == type) {
+                                arr.push({ text: d.text, label: d.label });
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+            return arr;
+        },
+        serial() {
+            return this.form.serial ? this.form.serial : "暂无案号信息";
+        },
+        uploadPara() {
+            const obj = {};
+            if (this.type == "add") {
+                obj.action = "parseDisclosure";
+            }
+            return obj;
+        },
+        customerParam() {
+            return this.customer ? { customer: this.customer } : null;
         }
-      });
-      return arr;
     },
-    serial() {
-      return this.form.serial ? this.form.serial : "暂无案号信息";
-    },
-    uploadPara() {
-      const obj = {};
-      if (this.type == "add") {
-        obj.action = "parseDisclosure";
-      }
-      return obj;
-    },
-    customerParam() {
-      return this.customer ? { customer: this.customer } : null;
-    }
-  },
-  methods: {
-    ...mapActions(["initializeSelectorCache"]),
-    checkForm(callback) {
-      let flag = true;
-      this.$refs.form.validate(_ => {
-        flag = _;
-        callback(flag);
-      });
-    },
-    //setForm 的Type用于区分正常填充 或者 是文件解析后的填充
-    setForm(form, upload = false, disclosureType = "") {
-      const t = this.type;
-      this.$tool.coverObj(this.form, form, {
-        obj: [
-          "attachments",
-          "area",
-          "subtype",
-          "level",
-          "agency_type",
-          "renewal_fee_monitor_status"
-        ],
-        skip: ["extension", "title"]
-      });
+    methods: {
+        ...mapActions(["initializeSelectorCache"]),
+        checkForm(callback) {
+            let flag = true;
+            this.$refs.form.validate(_ => {
+                flag = _;
+                callback(flag);
+            });
+        },
+        //setForm 的Type用于区分正常填充 或者 是文件解析后的填充
+        setForm(form, upload = false, disclosureType = "") {
+            const t = this.type;
+            this.$tool.coverObj(this.form, form, {
+                obj: [
+                    "attachments",
+                    "area",
+                    "subtype",
+                    "level",
+                    "agency_type",
+                    "renewal_fee_monitor_status"
+                ],
+                skip: ["extension", "title"]
+            });
 
-      if (form["title"] != undefined && !this.titleLock) {
-        this.form.title = form["title"];
-      }
-      if (form["area"] != undefined && t == "add") {
-        this.form.area = form["area"] ? [form["area"]] : [];
-      }
-      if (form["area"] != undefined && t == "edit") {
-        this.form.area = form["area"]["id"];
-      }
-      if (form["extension"]) {
-        const arr = [];
-        for (let d of form["extension"]) {
-          if (d["value"]) arr.push(d["label"]);
-        }
-        this.form.extension = arr;
-      }
-      if (form["references"]) {
-        this.form.references = form["references"].map(_ => {
-          return {
-            id: { id: _.id, name: _.name },
-            reference_type: _.reference_type
-          };
-        });
-      }
+            if (form["title"] != undefined && !this.titleLock) {
+                this.form.title = form["title"];
+            }
+            if (form["area"] != undefined && t == "add") {
+                this.form.area = form["area"] ? [form["area"]] : [];
+            }
+            if (form["area"] != undefined && t == "edit") {
+                this.form.area = form["area"]["id"];
+            }
+            if (form["extension"]) {
+                const arr = [];
+                for (let d of form["extension"]) {
+                    if (d["value"]) arr.push(d["label"]);
+                }
+                this.form.extension = arr;
+            }
+            if (form["references"]) {
+                this.form.references = form["references"].map(_ => {
+                    return {
+                        id: { id: _.id, name: _.name },
+                        reference_type: _.reference_type
+                    };
+                });
+            }
 
-      if (upload) {
-        if (this.form.inventors && this.form.inventors.length != 0) {
-          //复用组件内置的方法...
-          this.$refs.inventors.handleShare(this.form.inventors);
+            if (upload) {
+                if (this.form.inventors && this.form.inventors.length != 0) {
+                    //复用组件内置的方法...
+                    this.$refs.inventors.handleShare(this.form.inventors);
+                }
+                if (disclosureType == 2) {
+                    this.titleLock = true;
+                }
+            } else {
+                this.attachments = form.attachments ? form.attachments : [];
+            }
+        },
+        submitForm() {
+            if (this.form.references && this.form.references.length != 0) {
+                this.form.references.map(_ => {
+                    _.id = _.id.id;
+                    _.reference_type = _.reference_type;
+                });
+            }
+            return this.$tool.shallowCopy(this.form, { date: true });
+        },
+        handleUploadSuccess(a, b, c) {
+            this.$emit("uploadSuccess", a, b, c);
+        },
+        handleVisibleChange(val) {
+            // console.log(val);
+            if (val[0]) {
+                this.initializeSelectorCache({ type: val[1], flag: true });
+            }
         }
-        if (disclosureType == 2) {
-          this.titleLock = true;
-        }
-      } else {
-        this.attachments = form.attachments ? form.attachments : [];
-      }
     },
-    submitForm() {
-      if (this.form.references && this.form.references.length != 0) {
-        this.form.references.map(_ => {
-          _.id = _.id.id;
-          _.reference_type = _.reference_type;
-        });
-      }
-      return this.$tool.shallowCopy(this.form, { date: true });
-    },
-    handleUploadSuccess(a, b, c) {
-      this.$emit("uploadSuccess", a, b, c);
-    },
-    handleVisibleChange(val) {
-      // console.log(val);
-      if (val[0]) {
-        this.initializeSelectorCache({ type: val[1], flag: true });
-      }
+    created() { },
+    components: {
+        AppCollapse,
+        Region,
+        Proposal,
+        PatentType,
+        StaticSelect,
+        RemoteSelect,
+        Priorities,
+        Inventors,
+        Upload,
+        RelativeProjects,
+        JumpSelect
     }
-  },
-  created() {},
-  components: {
-    AppCollapse,
-    Region,
-    Proposal,
-    PatentType,
-    StaticSelect,
-    RemoteSelect,
-    Priorities,
-    Inventors,
-    Upload,
-    RelativeProjects,
-    JumpSelect
-  }
 };
 </script>
 
