@@ -81,6 +81,7 @@ export default {
                 const copy = [...this.value];
                 f.id = id;
                 f.downloadUrl = p.data.file.downloadUrl;
+                f.viewUrl = p.data.file.viewUrl;
                 copy.push(id);
                 this.uploadList = fl;
                 this.$emit('input', copy);
@@ -102,7 +103,7 @@ export default {
             }
         },
         onPreview(file) {
-            window.location.href = file.viewUrl;
+            window.open(file.viewUrl);
         },
         onProgress(e, f, fl) {
         },

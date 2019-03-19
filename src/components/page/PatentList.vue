@@ -218,7 +218,14 @@ export default {
                         render_header: true,
                         width: "110"
                     },
-
+                    {
+                        type: "text",
+                        label: "申请方式",
+                        prop: "application_manner",
+                        map_key: "application_manner",
+                        render_header: true,
+                        width: "100"
+                    },
                     {
                         type: "text",
                         label: "申请号",
@@ -232,7 +239,7 @@ export default {
                         label: "申请日",
                         prop: "application_date",
                         is_import: true,
-                        width: "123",
+                        width: "100",
                         is_agency: true,
                         render_header: true
                     },
@@ -532,7 +539,7 @@ export default {
                         prop: "entrusting_time",
                         render_header: true,
                         is_import: true,
-                        width: "90",
+                        width: "100",
                         render: (h, item) => {
                             let t = item;
                             if (t) {

@@ -82,6 +82,7 @@ const map = new Map([
     { type: "static_select", id: "level", name: "案件等级", map_type: "case_level" },
     { type: "static_select", id: "project_stage", name: "案件状态", map_type: "project_stage", url: true },
     { type: "static_select", id: "ipr", name: "负责IPR", map_type: "ipr_para", url: true },
+    { type: "static_select", id: "application_manner", name: "申请方式", map_type: "application_manner"},
     { type: "text", id: "priorities", name: "优先权" },
     { type: "text", id: "references", name: "案件引用" },
     { type: "text", id: "das", name: "DAS码" },
