@@ -315,8 +315,8 @@ export default {
     }
   },
   mounted() {
-    this.refresh();
     this.initializeSelectorCache({ type: "file_type_trademark_notice" });
+    this.refresh();
   },
   components: {
     TableComponent,
