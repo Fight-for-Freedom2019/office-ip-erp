@@ -148,13 +148,12 @@ export default {
                 ],
                 columns: [
                     { type: "selection" },
-                    { type: "text", label: "客户", prop: "customer", render_simple: "name", min_width: "120", render_header: true },
+                    { type: "text", label: "客户", prop: "user", render_simple: "name", min_width: "120", render_header: true },
                     { type: "text-btn", label: "案号", prop: "serial", render_text_btn: (row) => { return row.project != null ? row.project.serial : "" }, click: this.handleCaseDetail, width: "178" },
                     { type: "text", label: "案件类型", render_simple: "name", prop: "subtype", render_obj: "project", width: "100", render_header: true },
                     { type: "text", label: "标题", prop: "title",render_obj:"project", width: "180" },
                     { type: "text", label: "费用名称", prop: "fee_code", render_simple: "name", width: "130", render_header: true },
                     { type: "text", label: "类型", prop: "fee_type", render_simple: "name", width: "80", render_header: true },
-                    // TODO 接口有字段缺失
                     { type: "text", label: "金额", prop: "amount_currency", width: "100", align: "right" },
                     { type: "text", label: "币别", prop: "currency", width: "55" },
                     { type: "text", label: "汇率", prop: "roe", width: "68", align: "right" },
