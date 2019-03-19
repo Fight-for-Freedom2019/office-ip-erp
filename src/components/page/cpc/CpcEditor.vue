@@ -985,8 +985,6 @@ export default {
       this.getOptions();
       this.getProject();
       const success = _ => {
-        // console.log(_.data.tables);
-        // this.data = JSON.parse(_.data.tables);
         this.data = _.data.tables;
         this.getDefaultData(_);
         // console.log("put",this.data);
