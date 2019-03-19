@@ -67,7 +67,7 @@ const map = new Map([
     { type: "date", id: "application_date", name: "申请日" },
     { type: "date", id: "entrusting_time", name: "委案日" },
     { type: "static_select", id: "subtype", name: "案件类型", map_type: "patent_type_strainer" },
-    { type: "static_select", id: "area", name: "申请地区", map_type: "area" },
+    { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
     { type: "text", id: "title", name: "标题" },
     { type: "text", id: "abstract", name: "摘要" },
     { type: "date", id: "publication_date", name: "公开日" },
