@@ -199,6 +199,7 @@
       show(type = 'add', data) {
         this.dialogVisible = true;
         this.$refs.form ? this.$refs.form.resetFields() : "";
+        this.attachments = data.attachments;
         this.coverObj(data);
 
       },
@@ -220,6 +221,7 @@
     // },
     watch: {
       contracts: function (val, oldVal) {
+        this.attachments = val.attachments;
         this.coverObj(this.form, val);
         // console.log("form",this.form)
       },
