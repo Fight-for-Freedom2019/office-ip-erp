@@ -5,11 +5,16 @@
   "author": "Leo",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
     "dll": "webpack --config ./build/webpack.dll.config.js",
-    "analyz": "set NODE_ENV=production && set npm_config_report=true && npm run build"
+    "analyz": "set NODE_ENV=production && set npm_config_report=true && npm run build",
+    "test_server": "set npm_config_report=test && npm run CHANGE",
+    "pro_server": "set npm_config_report=line && npm run CHANGE",
+    "------------const------------": "",
+    "CHANGE": "npm run KILL && node changefile.js && npm run DEV",
+    "KILL": "node kill.js",
+    "DEV": "npm run KILL && node build/dev-server.js"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^1.1.1",
