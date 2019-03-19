@@ -126,7 +126,7 @@ export default {
                     {
                         type: "text",
                         label: "客户",
-                        prop: "user",
+                        prop: "customer",
                         render_simple: "name",
                         min_width: "120",
                         render_header: true
