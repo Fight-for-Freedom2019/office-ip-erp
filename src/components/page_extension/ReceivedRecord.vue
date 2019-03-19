@@ -30,7 +30,7 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item :label="mode === 'pay'? '支付金额':'回款金额'" prop="amount">
-          <el-input type="number" v-model="form.amount" placeholder="请输入金额"></el-input>
+          <el-input number v-model="form.amount" placeholder="请输入金额"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input type="textarea" v-model="form.remark"></el-input>
