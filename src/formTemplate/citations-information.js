@@ -107,7 +107,7 @@ function vm() {
                 this.reset();
                 let info = window.$fc_citations_info;
                 if (!info) {
-                    this.$message({type: "warning", message: "请先选中变更项目"})
+                    this.$message({type: "warning", message: "请先选择证明文件种类"})
                     return
                 }
                 this.type = info.id.toString().substr(0,1);
