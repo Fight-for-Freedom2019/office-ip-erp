@@ -227,6 +227,9 @@ const map = new Map([
       // if: "this.opinion == 'pass' && this.form.assign_type === 1",
       vkey: "points"
     }
-  ]
+  ],
+  ["app_radio",{
+    components: "app_radio",
+  }]
 ]);
 export { map };

@@ -74,6 +74,19 @@
             ></app-switch>
           </el-form-item>
         </template>
+        <template v-else-if="item.components == 'app_radio'">
+          <el-form-item :label="item.name" :prop="item.key" :key="index">
+            <app-radio
+              ref="app-radio"
+              v-model="form[item.key]"
+              v-for="item in radioOptions"
+              :value="item.value"
+              :label="item.label"
+              :key="item.value"
+              @input="handleInput"
+            >{{ item.label }}</app-radio>
+          </el-form-item>
+        </template>
         <template v-else-if="item.components == 'slider'">
           <el-form-item :label="item.name" :prop="item.key" :key="index">
             <el-slider ref="slider" v-model="form[item.key]" @input="handleInput" show-input></el-slider>
@@ -204,7 +217,11 @@ import RenewalFee from "@/components/page_extension/RenewalFee_pop";
 import Postpone from "@/components/page_extension/TaskCommonPostpone";
 import PointsMonthlyDetail from "@/components/page_extension/PointsMonthlyDetail"
 import TaskCommonTransferCase from "@/components/page_extension/TaskCommonTransferCase";
-
+import AppRadio from "@/components/form/AppRadio"
+const radioOptions = [
+  {label: '是', value: 1},
+  {label: '否', value: 0},
+];
 // 面板的标记（要求ref与配置的type一致）
 const panelKeys = [
   "patent",
@@ -449,7 +466,8 @@ export default {
     Postpone,
     PointsMonthlyDetail,
     TaskCommonTransferCase,
-    DetailShrink
+    DetailShrink,
+    AppRadio
   }
 };
 </script>
