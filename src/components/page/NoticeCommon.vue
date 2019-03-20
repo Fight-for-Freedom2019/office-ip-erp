@@ -135,8 +135,13 @@ export default {
             type: "text",
             label: "申请人",
             prop: "applicants",
-            render_obj: "project",
-            render_simple: "name",
+            render: (h, data, row)=>{
+              return h('span',
+                row.project.applicants.map(_=>{
+                  return h('el-tag', _.name)
+                })
+              )
+            },
             width: "160",
           },
           {
