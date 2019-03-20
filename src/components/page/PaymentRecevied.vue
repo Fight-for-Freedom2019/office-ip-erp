@@ -100,7 +100,8 @@ export default {
             label: "回款金额",
             prop: "amount",
             min_width: "120",
-            align: "right"
+            align: "right",
+            render_header: true
           },
           { type: "text", label: "备注", prop: "remark", min_width: "180" }
         ]
