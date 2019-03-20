@@ -38,6 +38,9 @@ export default {
     save() {
       this.$refs[`${this.showType}Add`].edit();
     },
+    close() {
+      this.shrinkVisible = false;
+    },
     show(id, type='patent') { 
        this.showType = type;
        this.shrinkVisible = true;
