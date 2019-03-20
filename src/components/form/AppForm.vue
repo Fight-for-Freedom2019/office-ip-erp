@@ -444,6 +444,7 @@ export default {
     Postpone,
     PointsMonthlyDetail,
     TaskCommonTransferCase,
+    DetailShrink
   }
 };
 </script>
