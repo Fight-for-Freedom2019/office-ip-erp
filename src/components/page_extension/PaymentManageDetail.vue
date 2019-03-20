@@ -170,7 +170,7 @@
               <reminders-record ref="reminders" :data="remindersData" :invoice="invoice" :id="id"></reminders-record>
             </el-tab-pane>
             <el-tab-pane label="支付记录" name="payments" v-if="mode==='pay'">
-              <received-record ref="payments" :mode="mode" :id="id" :invoice="invoice" :data="receivedData" @update="update"></received-record>
+              <received-record ref="payments" :mode="mode" :id="id" :invoice="invoice" @received="received" :data="receivedData" @update="update"></received-record>
             </el-tab-pane>
             <el-tab-pane label="回款记录" :mode="mode" name="received_payments" v-else>
               <received-record
