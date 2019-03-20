@@ -21,6 +21,13 @@ const map = new Map([
     }
   ],
   [
+    "date",
+    {
+      components: "date",
+      type: "date"
+    }
+  ],
+  [
     "multiple_attachments",
     {
       components: "upload",
