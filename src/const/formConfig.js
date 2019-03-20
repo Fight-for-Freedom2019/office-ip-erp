@@ -99,14 +99,14 @@ const map = new Map([
     "trademark_add",
     {
       components: "panel",
-      type: "detail_shrink"
+      type: "trademark_add"
     }
   ],
   [
     "copyright_add",
     {
       components: "panel",
-      type: "detail_shrink"
+      type: "copyright_add"
     }
   ],
   [

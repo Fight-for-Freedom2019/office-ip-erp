@@ -144,7 +144,7 @@
       pageType="edit"
       v-if="map['patent_add'] != undefined"
     ></patent-add>
-    <detail-shrink page-type="edit" ref="detail_shrink"></detail-shrink>
+    <detail-shrink page-type="edit" :ref="type" v-if="type === 'trademaek_add'||type === 'copyright_add'"></detail-shrink>
     <!-- 专利基本信息 -->
     <common-detail ref="detail" :title="row.title"></common-detail>
     <!-- 专利、商标、版权详情 -->
@@ -208,8 +208,11 @@ import TaskCommonTransferCase from "@/components/page_extension/TaskCommonTransf
 // 面板的标记（要求ref与配置的type一致）
 const panelKeys = [
   "patent",
+  "trademark",
+  "copyright",
   "patent_add",
-  "detail_shrink",
+  "trademark_add",
+  "copyright_add",
   "order",
   "contract",
   "payment_request",
@@ -339,10 +342,10 @@ export default {
           this.$refs.patent_add.show(this.row.model_id);
           break;
         case "trademark_add":
-          this.$refs.detail_shrink.show(this.row.model_id, 'trademark');
+          this.$refs.trademark_add.show(this.row.model_id, 'trademark');
           break;
         case "copyright_add":
-          this.$refs.detail_shrink.show(this.row.model_id, 'copyright');
+          this.$refs.copyright_add.show(this.row.model_id, 'copyright');
           break;
         case "patent":
           this.$refs.detail.show(this.row.model_id, type);
