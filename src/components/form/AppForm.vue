@@ -144,9 +144,9 @@
       pageType="edit"
       v-if="map['patent_add'] != undefined"
     ></patent-add>
-    <detail-shrink page-type="edit" :ref="type" v-if="type === 'trademark_add'||type === 'copyright_add'"></detail-shrink>
+    <detail-shrink page-type="edit" :ref="type" v-if="type === 'trademark_add' || type === 'copyright_add'"></detail-shrink>
     <!-- 专利基本信息 -->
-    <common-detail ref="detail" :title="row.title"></common-detail>
+    <common-detail :ref="type" v-if="type ==='patent' || type ==='trademark' || type ==='copyright'" :title="row.title"></common-detail>
     <!-- 专利、商标、版权详情 -->
     <cpc-editor
       ref="cpc_editor"
@@ -349,13 +349,13 @@ export default {
             this.$refs.copyright_add.show(this.row.model_id, 'copyright');
             break;
           case "patent":
-            this.$refs.detail.show(this.row.model_id, type);
+            this.$refs.patent.show(this.row.model_id, type);
             break;
           case "trademark":
-            this.$refs.detail.show(this.row.model_id, type);
+            this.$refs.trademark.show(this.row.model_id, type);
             break;
           case "copyright":
-            this.$refs.detail.show(this.row.model_id, type);
+            this.$refs.copyright.show(this.row.model_id, type);
             break;
           case "renewal_estimate":
             this.$refs.renewal_estimate.show(this.row.model_id);
