@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "build": "node build/build.js && npm run COPY",
     "dll": "webpack --config ./build/webpack.dll.config.js",
     "analyz": "set NODE_ENV=production && set npm_config_report=true && npm run build",
     "test_server": "set npm_config_report=test && npm run CHANGE",
@@ -14,7 +14,8 @@
     "------------const------------": "",
     "CHANGE": "npm run KILL && node tools/server/changefile.js && npm run DEV",
     "KILL": "node tools/server/kill.js",
-    "DEV": "npm run KILL && node build/dev-server.js"
+    "DEV": "npm run KILL && node build/dev-server.js",
+    "COPY": "node tools/file/copyfiles.js"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^1.1.1",
