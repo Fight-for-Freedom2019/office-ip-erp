@@ -144,8 +144,9 @@
       pageType="edit"
       v-if="map['patent_add'] != undefined"
     ></patent-add>
+    <detail-shrink page-type="edit" ref="detail_shrink"></detail-shrink>
     <!-- 专利基本信息 -->
-    <common-detail ref="patent" :title="row.title" v-if="map['patent'] != undefined"></common-detail>
+    <common-detail ref="detail" :title="row.title"></common-detail>
     <!-- 专利、商标、版权详情 -->
     <cpc-editor
       ref="cpc_editor"
@@ -196,6 +197,7 @@ import ContractDetail from "@/components/page/crm/contracts/ContractsListAdd";
 import SensitiveOperation from "@/components/page/common/SensitiveOperation";
 import CpcEditor from "@/components/page/cpc/CpcEditor";
 import PatentAdd from "@/components/page/PatentAdd";
+import DetailShrink from "@/components/page_extension/DetailShrink";
 import CommonDetail from "@/components/page_extension/Common_detail";
 import RenewalEstimateDetail from "@/components/page_extension/RenewalEstimate_detail";
 import RenewalFee from "@/components/page_extension/RenewalFee_pop";
@@ -207,6 +209,7 @@ import TaskCommonTransferCase from "@/components/page_extension/TaskCommonTransf
 const panelKeys = [
   "patent",
   "patent_add",
+  "detail_shrink",
   "order",
   "contract",
   "payment_request",
@@ -335,8 +338,20 @@ export default {
         case "patent_add":
           this.$refs.patent_add.show(this.row.model_id);
           break;
+        case "trademark_add":
+          this.$refs.detail_shrink.show(this.row.model_id, 'trademark');
+          break;
+        case "copyright_add":
+          this.$refs.detail_shrink.show(this.row.model_id, 'copyright');
+          break;
         case "patent":
-          this.$refs.patent.show(this.row.model_id, type);
+          this.$refs.detail.show(this.row.model_id, type);
+          break;
+        case "trademark":
+          this.$refs.detail.show(this.row.model_id, type);
+          break;
+        case "copyright":
+          this.$refs.detail.show(this.row.model_id, type);
           break;
         case "renewal_estimate":
           this.$refs.renewal_estimate.show(this.row.model_id);

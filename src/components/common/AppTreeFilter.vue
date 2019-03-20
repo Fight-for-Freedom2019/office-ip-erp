@@ -105,7 +105,6 @@ export default {
             const value = data.query[key];
             const extraOption = { operation: 1 };
             obj[key] = { label, name, key, value, extraOption };
-            console.log(obj);
             this.fillListFilter(obj);
             // this.$emit('refresh',data.query);
         }

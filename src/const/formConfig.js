@@ -96,6 +96,20 @@ const map = new Map([
     }
   ],
   [
+    "trademark_add",
+    {
+      components: "panel",
+      type: "detail_shrink"
+    }
+  ],
+  [
+    "copyright_add",
+    {
+      components: "panel",
+      type: "detail_shrink"
+    }
+  ],
+  [
     "patent",
     {
       components: "panel",
