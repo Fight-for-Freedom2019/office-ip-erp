@@ -74,9 +74,9 @@
         },
         file:[],
         'rules': {
-          number:[
+          /*number:[
             {required:true,message:"请输入总委托书编号",target:"blur"}
-          ],
+          ],*/
           file:[
             {required:true,message:"请上传附件",target:"blur",type:"array"}
           ]

@@ -263,7 +263,7 @@ export default {
         ],
         email_address: [
           {
-            pattern: /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
+            pattern: /^[A-Za-z0-9]+([._\\-]*[A-Za-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
             message: "邮件地址格式不正确",
             trigger: "blur"
           }
