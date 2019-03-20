@@ -46,7 +46,8 @@ export default {
 			default () {
 				return [];
 			}
-		}
+		},
+		'exportWay': String,
 	},
 	data () {
 		const fields = this.default;
@@ -91,6 +92,7 @@ export default {
 					// window.open(url);
 					// 以下为ajax请求等待后端返回downloadUrl再执行下载文件
 					this.loading = true;
+					const ids = this.exportWay == 'all' ? undefined : this.selected.map(_=>_.id);
 					this.$axiosGet({
 						url: this.url,
 						data: {
@@ -100,8 +102,7 @@ export default {
 							format: 'excel',
 							documents: this.form.documents,
 							fields: this.form.fields.join(','),
-
-							ids: this.selected.map(_=>_.id),
+							ids,
 						},
 						success: d=>{	
 							window.location.href = d[this.responseKey]['downloadUrl'];
