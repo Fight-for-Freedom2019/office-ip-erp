@@ -144,7 +144,7 @@
       pageType="edit"
       v-if="map['patent_add'] != undefined"
     ></patent-add>
-    <detail-shrink page-type="edit" :ref="type" v-if="type === 'trademaek_add'||type === 'copyright_add'"></detail-shrink>
+    <detail-shrink page-type="edit" :ref="type" v-if="type === 'trademark_add'||type === 'copyright_add'"></detail-shrink>
     <!-- 专利基本信息 -->
     <common-detail ref="detail" :title="row.title"></common-detail>
     <!-- 专利、商标、版权详情 -->
