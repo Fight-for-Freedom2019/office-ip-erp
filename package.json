@@ -12,8 +12,8 @@
     "test_server": "set npm_config_report=test && npm run CHANGE",
     "pro_server": "set npm_config_report=line && npm run CHANGE",
     "------------const------------": "",
-    "CHANGE": "npm run KILL && node changefile.js && npm run DEV",
-    "KILL": "node kill.js",
+    "CHANGE": "npm run KILL && node tools/server/changefile.js && npm run DEV",
+    "KILL": "node tools/server/kill.js",
     "DEV": "npm run KILL && node build/dev-server.js"
   },
   "dependencies": {
