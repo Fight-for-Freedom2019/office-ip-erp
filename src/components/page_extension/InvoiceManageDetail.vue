@@ -46,10 +46,30 @@
                         </el-form-item>
         </el-col>-->
       </el-row>
-      
-      <el-form-item label="发票类型" prop="voucher_type">
-        <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
-      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="发票类型" prop="voucher_type">
+            <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="开票内容" prop="voucher_content">
+            <static-select type="voucher_content" v-model="form.voucher_content"></static-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="开票公司" prop="payment_account_id">
+            <static-select type="payment_account" v-model="form.payment_account_id"></static-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="开票金额" prop="amount">
+            <el-input type="text" v-model="form.amount"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="状态" prop="status" v-if="this.mode === 'edit'">
@@ -156,6 +176,9 @@ export default {
                 attachments: [],
                 // tax_no: ""
                 voucher_type: 1,
+                voucher_content: 1,
+                payment_account_id: 1,
+                amount: '',
                 remark: '',
                 date: '',
             },
@@ -254,8 +277,8 @@ export default {
                         }
                     },
                     { type: "text", label: "标题", prop: "project.title", min_width: "150" },
-                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail},
-                  {
+                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "serial", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
+                    {
                         type: "text-btn",
                         label: "订单号",
                         prop: "order.serial",
@@ -541,10 +564,10 @@ export default {
         close() {
             this.dialogVisible = false;
         },
-        handleInvoiceDetail(row){
+        handleInvoiceDetail(row) {
             this.$refs.invoiceDetail.show(row.invoice.id, "request", row);
         },
-        update(){
+        update() {
             this.$emit("update");
         },
     },
