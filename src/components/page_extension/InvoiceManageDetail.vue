@@ -13,11 +13,6 @@
             <jump-select type="customer" v-model="form.customer" :disabled="this.mode === 'edit'"></jump-select>
           </el-form-item>
         </el-col>
-        <el-col :span="24">
-          <el-form-item label="收款账户" prop="payment_account">
-            <jump-select type="payment_account" v-model="form.payment_account"></jump-select>
-          </el-form-item>
-        </el-col>
         <!-- <el-col :span="24">
           <el-form-item label="账单" prop="invoice">
             <jump-select
@@ -37,6 +32,7 @@
               type="invoice_target"
               v-model="form.invoice_target"
               :para="para"
+              :pageType="mode"
               addType="invoice_target"
             ></remote-select>
           </el-form-item>
@@ -51,6 +47,11 @@
                         </el-form-item>
         </el-col>-->
       </el-row>
+      <el-col :span="24">
+        <el-form-item label="收款账户" prop="payment_account">
+          <jump-select type="payment_account" v-model="form.payment_account"></jump-select>
+        </el-form-item>
+      </el-col>
       
       <el-form-item label="发票类型" prop="voucher_type">
         <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
@@ -159,7 +160,7 @@ export default {
                 status: "",
                 attachments: [],
                 // tax_no: ""
-                voucher_type: 1,
+                voucher_type: "",
                 remark: '',
                 date: '',
             },
@@ -531,6 +532,7 @@ export default {
             this.dialogVisible = true;
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
+                if(mode === "add") this.form.invoice_target = "";
                 this.id = id;
 
                 this.title = this.mode === "add" ? "开票申请" : "";
