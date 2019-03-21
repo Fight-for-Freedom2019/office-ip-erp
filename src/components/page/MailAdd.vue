@@ -79,6 +79,8 @@ const sceneMap = new Map([
   ["复审", 15],
   ["办理登记", 16],
   ["权利要求确认", 22],
+  ["复审评估", 23],
+  ["委外代理", 24],
 ]);
 export default {
   name: "mailAdd",
@@ -241,12 +243,12 @@ export default {
       this.dialogVisible = true;
       this.loadTemplateMail({scene,id,arg:[{[field]:value}]})
     },
-    showByProcess(scene,id,process_id){
+    showByProcess(scene, id, process_id, type){
       this.loadingVisible = true;
       this.id = id;
       this.dialogVisible = true;
       this.process_id = process_id;
-      this.loadTemplateMail({scene,id,arg:[{process_id:process_id}]})
+      this.loadTemplateMail({scene,id,arg:[{process_id:process_id}, {type}]})
     },
     showBatch(scene, id, url){
       this.loadingVisible = true;

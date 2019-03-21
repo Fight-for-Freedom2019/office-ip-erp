@@ -28,6 +28,14 @@ const map = new Map([
     }
   ],
   [
+    "review_posting_date",
+    {
+      components: "date",
+      type: "date",
+      if: "this.form.is_add_comments === 1"
+    }
+  ],
+  [
     "multiple_attachments",
     {
       components: "upload",
