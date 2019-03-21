@@ -12,18 +12,18 @@
     "analyz": "set NODE_ENV=production && set npm_config_report=true && npm run build"
   },
   "dependencies": {
-    "@tinymce/tinymce-vue": "^1.1.1",
-    "axios": "^0.17.1",
-    "echarts": "^3.8.5",
-    "element-ui": "^2.4.11",
+    "@tinymce/tinymce-vue": "1.1.1",
+    "axios": "0.17.1",
+    "echarts": "3.8.5",
+    "element-ui": "2.4.11",
     "event-source-polyfill": "0.0.16",
-    "form-create": "^1.5.3",
-    "vue": "^2.5.22",
-    "vue-clipboard2": "^0.3.0",
-    "vue-resource": "^1.5.1",
-    "vue-router": "^3.0.2",
-    "vuex": "^3.0.0",
-    "wangeditor": "^3.1.1"
+    "form-create": "1.5.3",
+    "vue": "2.5.22",
+    "vue-clipboard2": "0.3.0",
+    "vue-resource": "1.5.1",
+    "vue-router": "3.0.2",
+    "vuex": "3.0.0",
+    "wangeditor": "3.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.6",
