@@ -127,7 +127,6 @@ import AppShrink from "@/components/common/AppShrink";
 import AppTable from "@/components/common/AppTable";
 import OrderDetail from "@/components/page/crm/orders/OrderDetail";
 import CommonDetail from "@/components/page_extension/Common_detail";
-import PaymentManageDetail from "@/components/page_extension/PaymentManageDetail";
 
 export default {
     name: "InvoiceManageDetail",
@@ -254,7 +253,7 @@ export default {
                         }
                     },
                     { type: "text", label: "标题", prop: "project.title", min_width: "150" },
-                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail},
+                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "serial", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.serial : "" }, click: this.handleInvoiceDetail},
                   {
                         type: "text-btn",
                         label: "订单号",
@@ -396,7 +395,7 @@ export default {
             return sums;
         },
         showFile() {
-            window.location.href = this.target.file.viewUrl;
+            window.open(this.target.file.viewUrl);
         },
         save() {
             // type是父组件传来的,表示是add还是edit,id表示修改的某一行数据的id
@@ -574,7 +573,7 @@ export default {
         OrderDetail,
         CommonDetail,
         AppTable,
-        PaymentManageDetail,
+        PaymentManageDetail: () => import("@/components/page_extension/PaymentManageDetail"),
     }
 };
 </script>
