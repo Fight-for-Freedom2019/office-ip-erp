@@ -52,7 +52,7 @@ export default {
                     width: "178",
                     click: this.checkProjectDetail,
                     render_text_btn: row => {
-                        return row.project.serial;
+                        return row.project?row.project.serial:"";
                     }
                 },
                 {
