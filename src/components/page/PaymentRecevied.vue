@@ -40,110 +40,110 @@ import TableMixins from "@/mixins/table-mixins";
 const URL = "/received_payments";
 
 export default {
-  name: "PaymentRecevied",
-  mixins: [TableMixins],
-  data() {
-    return {
-      tableData: [],
-      tableOption: {
-        name: "PaymentReceviedList",
-        url: "/received_payments",
-        height: "default",
-        highlightCurrentRow: true,
-        is_search: true,
-        is_list_filter: true,
-        list_type: "received_payments",
-        treeFilter: "received_payments",
-        search_placeholder: "",
-        rowClick: this.handleRowClick,
-        header_btn: [
-          { type: "add", click: this.add },
-          { type: "delete" },
-          { type: "control" }
-        ],
-        columns: [
-          { type: "selection" },
-          {
-            type: "text",
-            label: "客户",
-            prop: "user",
-            min_width: "178",
-            render_obj: "invoice",
-            render_simple: "name",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "请款单号",
-            prop: "invoice",
-            render_simple: "serial",
-            min_width: "150",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "回款账户",
-            prop: "payment_account",
-            min_width: "150",
-            render_simple: "abbr",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "回款时间",
-            prop: "received_date",
-            min_width: "120",
-            render_header: true
-          },
-          {
-            type: "text",
-            label: "回款金额",
-            prop: "amount",
-            min_width: "120",
-            align: "right",
-            render_header: true
-          },
-          { type: "text", label: "备注", prop: "remark", min_width: "180" }
-        ]
-      },
-      isPanelVisible: false,
-      title: "新增",
-      compileType: "add",
-      rowData: {},
-      rowID: null
-    };
-  },
-  methods: {
-    refreshTableData(option) {
-      const url = URL;
-      const success = _ => {
-        this.tableData = _.data;
-      };
-      this.$axiosGet({ url, data: option, success });
+    name: "PaymentRecevied",
+    mixins: [TableMixins],
+    data() {
+        return {
+            tableData: [],
+            tableOption: {
+                name: "PaymentReceviedList",
+                url: "/received_payments",
+                height: "default",
+                highlightCurrentRow: true,
+                is_search: true,
+                is_list_filter: true,
+                list_type: "received_payments",
+                treeFilter: "received_payments",
+                search_placeholder: "",
+                rowClick: this.handleRowClick,
+                header_btn: [
+                    { type: "add", click: this.add },
+                    { type: "delete" },
+                    { type: "control" }
+                ],
+                columns: [
+                    { type: "selection" },
+                    {
+                        type: "text",
+                        label: "客户",
+                        prop: "user",
+                        min_width: "178",
+                        render_obj: "invoice",
+                        render_simple: "name",
+                        render_header: true
+                    },
+                    {
+                        type: "text",
+                        label: "请款单号",
+                        prop: "invoice",
+                        render_simple: "serial",
+                        min_width: "150",
+                        render_header: true
+                    },
+                    {
+                        type: "text",
+                        label: "回款账户",
+                        prop: "payment_account",
+                        min_width: "150",
+                        render_simple: "abbr",
+                        render_header: true
+                    },
+                    {
+                        type: "text",
+                        label: "回款时间",
+                        prop: "received_date",
+                        min_width: "120",
+                        render_header: true
+                    },
+                    {
+                        type: "text",
+                        label: "回款金额",
+                        prop: "amount",
+                        min_width: "120",
+                        align: "right",
+                        render_header: true
+                    },
+                    { type: "text", label: "备注", prop: "remark", min_width: "180", render_header: true }
+                ]
+            },
+            isPanelVisible: false,
+            title: "新增",
+            compileType: "add",
+            rowData: {},
+            rowID: null
+        };
     },
-    handleRowClick(row) {
-      this.openVisible("isPanelVisible");
-      this.rowData = row;
-      this.compileType = "edit";
-      this.rowID = row.id;
-      this.title = "修改";
+    methods: {
+        refreshTableData(option) {
+            const url = URL;
+            const success = _ => {
+                this.tableData = _.data;
+            };
+            this.$axiosGet({ url, data: option, success });
+        },
+        handleRowClick(row) {
+            this.openVisible("isPanelVisible");
+            this.rowData = row;
+            this.compileType = "edit";
+            this.rowID = row.id;
+            this.title = "修改";
+        },
+        add() {
+            this.openVisible("isPanelVisible");
+            this.compileType = "add";
+            this.title = "新增";
+            this.rowData = {};
+            this.$refs.detail ? this.$refs.detail.clear() : "";
+        },
+        save(type) {
+            this.$refs.detail.submitForm(type, this.rowID);
+        }
     },
-    add() {
-      this.openVisible("isPanelVisible");
-      this.compileType = "add";
-      this.title = "新增";
-      this.rowData = {};
-      this.$refs.detail ? this.$refs.detail.clear() : "";
-    },
-    save(type) {
-      this.$refs.detail.submitForm(type, this.rowID);
+    components: {
+        TableComponent,
+        AppShrink,
+        PaymentReceviedDetail
     }
-  },
-  components: {
-    TableComponent,
-    AppShrink,
-    PaymentReceviedDetail
-  }
 };
 </script>
 

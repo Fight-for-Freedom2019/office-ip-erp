@@ -46,10 +46,30 @@
                         </el-form-item>
         </el-col>-->
       </el-row>
-      
-      <el-form-item label="发票类型" prop="voucher_type">
-        <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
-      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="发票类型" prop="voucher_type">
+            <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="开票内容" prop="voucher_content">
+            <static-select type="voucher_content" v-model="form.voucher_content"></static-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="开票公司" prop="payment_account_id">
+            <jump-select type="payment_accounts" v-model="form.payment_account_id"></jump-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="开票金额" prop="amount">
+            <el-input type="text" v-model="form.amount"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="状态" prop="status" v-if="this.mode === 'edit'">
@@ -107,6 +127,7 @@
       <voucher-fee-select :tableOption="invoiceFeeListOption" @onFeesSelected="onFeesSelected" ref="select" ></voucher-fee-select>
       <common-detail ref="project"></common-detail>
       <order-detail ref="order"></order-detail>
+      <payment-manage-detail ref="invoiceDetail" @update="update"></payment-manage-detail>
     </el-form>
 
     <!-- <el-dialog title="发票明细" :visible.sync="dialogFormVisible" :modal="false">
@@ -154,6 +175,9 @@ export default {
                 attachments: [],
                 // tax_no: ""
                 voucher_type: 1,
+                voucher_content: 1,
+                payment_account_id: '',
+                amount: '',
                 remark: '',
                 date: '',
             },
@@ -252,6 +276,7 @@ export default {
                         }
                     },
                     { type: "text", label: "标题", prop: "project.title", min_width: "150" },
+                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "serial", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.serial : "" }, click: this.handleInvoiceDetail },
                     {
                         type: "text-btn",
                         label: "订单号",
@@ -393,7 +418,7 @@ export default {
             return sums;
         },
         showFile() {
-            window.location.href = this.target.file.viewUrl;
+            window.open(this.target.file.viewUrl);
         },
         save() {
             // type是父组件传来的,表示是add还是edit,id表示修改的某一行数据的id
@@ -465,6 +490,14 @@ export default {
                     return;
                 }
             }
+            this.calAmount();
+        },
+        calAmount() {
+            let amount = 0;
+            this.fees.forEach(item => {
+                amount += (item.rmb_amount - 0);
+            })
+            this.form.amount = amount;
         },
         showDetail(row) {
             if (row.order) {
@@ -495,6 +528,7 @@ export default {
                     _this.fees.splice(index, 1);
                 }
             });
+            this.calAmount();
         },
 
         coverObj(val) {
@@ -538,6 +572,12 @@ export default {
         close() {
             this.dialogVisible = false;
         },
+        handleInvoiceDetail(row) {
+            this.$refs.invoiceDetail.show(row.invoice.id, "request", row);
+        },
+        update() {
+            this.$emit("update");
+        },
     },
     watch: {
         "form.customer": function (val, oldVal) {
@@ -565,6 +605,7 @@ export default {
         OrderDetail,
         CommonDetail,
         AppTable,
+        PaymentManageDetail: () => import("@/components/page_extension/PaymentManageDetail"),
     }
 };
 </script>

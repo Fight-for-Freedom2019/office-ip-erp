@@ -187,8 +187,9 @@ export default {
     },
     setForm(form) {
       this.$tool.coverObj(this.form, form, {
-        obj: ["area", "categories", "subtype"]
+        obj: ["area", "categories", "subtype","attachments"]
       });
+      this.attachments = form.attachments && form.attachments.length ? form.attachments : [];  
     },
     checkForm(callback) {
       let flag = true;
