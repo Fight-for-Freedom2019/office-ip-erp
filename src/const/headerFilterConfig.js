@@ -295,7 +295,7 @@ const map = new Map([
   /* 回款管理 */
   [
     "received_payments",
-    [{ type: "remote_select", id: "invoice.customer.name", name: "客户", data_key: "data", url: "/customers" },
+    [{ type: "remote_select", id: "user", name: "客户", data_key: "data", url: "/customers" },
     { type: "remote_select", id: "invoice", name: "请款单号", data_key: "data", url: "/invoices" },
     { type: "remote_select", id: "payment_account", name: "回款账户", data_key: "data", url: "/payment_accounts" },
     { type: "date", id: "received_date", name: "回款时间" },

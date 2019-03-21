@@ -107,6 +107,7 @@
       <voucher-fee-select :tableOption="invoiceFeeListOption" @onFeesSelected="onFeesSelected" ref="select" ></voucher-fee-select>
       <common-detail ref="project"></common-detail>
       <order-detail ref="order"></order-detail>
+      <payment-manage-detail ref="invoiceDetail" @update="update"></payment-manage-detail>
     </el-form>
 
     <!-- <el-dialog title="发票明细" :visible.sync="dialogFormVisible" :modal="false">
@@ -126,6 +127,7 @@ import AppShrink from "@/components/common/AppShrink";
 import AppTable from "@/components/common/AppTable";
 import OrderDetail from "@/components/page/crm/orders/OrderDetail";
 import CommonDetail from "@/components/page_extension/Common_detail";
+import PaymentManageDetail from "@/components/page_extension/PaymentManageDetail";
 
 export default {
     name: "InvoiceManageDetail",
@@ -252,7 +254,8 @@ export default {
                         }
                     },
                     { type: "text", label: "标题", prop: "project.title", min_width: "150" },
-                    {
+                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail},
+                  {
                         type: "text-btn",
                         label: "订单号",
                         prop: "order.serial",
@@ -538,6 +541,12 @@ export default {
         close() {
             this.dialogVisible = false;
         },
+        handleInvoiceDetail(row){
+            this.$refs.invoiceDetail.show(row.invoice.id, "request", row);
+        },
+        update(){
+            this.$emit("update");
+        },
     },
     watch: {
         "form.customer": function (val, oldVal) {
@@ -565,6 +574,7 @@ export default {
         OrderDetail,
         CommonDetail,
         AppTable,
+        PaymentManageDetail,
     }
 };
 </script>

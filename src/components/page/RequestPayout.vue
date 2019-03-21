@@ -60,6 +60,7 @@
       <el-button type="primary" @click="saveOrder('add')">确认添加</el-button>
     </el-dialog>
     <common-detail ref="detail"></common-detail>
+    <payment-manage-detail ref="invoiceDetail" @update="update"></payment-manage-detail>
   </div>
 </template>
 
@@ -71,12 +72,13 @@ import JumpSelect from "@/components/form/JumpSelect";
 import Config from "@/const/selectConfig";
 import FeeCommon from "@/mixins/fee-common";
 import CommonDetail from '@/components/page_extension/Common_detail'
+import PaymentManageDetail from "@/components/page_extension/PaymentManageDetail";
 
 const config = new Map(Config);
 
 export default {
     name: "RequestPayout",
-    mixins: [FeeCommon("requestPayout")],
+    mixins: [FeeCommon("requestPayout","request")],
     data() {
         return {
             tableOption: {
@@ -153,6 +155,7 @@ export default {
                     { type: "text", label: "案件类型", render_simple: "name", prop: "subtype", render_obj: "project", width: "100", render_header: true },
                     { type: "text", label: "标题", prop: "title",render_obj:"project", width: "180" },
                     { type: "text", label: "费用名称", prop: "fee_code", render_simple: "name", width: "130", render_header: true },
+                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
                     { type: "text", label: "类型", prop: "fee_type", render_simple: "name", width: "80", render_header: true },
                     { type: "text", label: "金额", prop: "amount_currency", width: "100", align: "right" },
                     { type: "text", label: "币别", prop: "currency", width: "55" },
@@ -161,9 +164,21 @@ export default {
                     { type: "text", label: "官费小计", prop: "official_sum_currency", width: "100", align: "right" },
                     { type: "text", label: "代理费小计", prop: "service_sum_currency", width: "100", align: "right" },
                     { type: "text", label: "小计", prop: "sum_currency", width: "100", align: "right" },
-                    { type: "text", label: "申请号", prop: "application_number",render_obj:"project", width: "165", render_header: true, expanded: true },
-                    { type: "text", label: "申请日", prop: "application_date",render_obj:"project", width: "100", render_header: true, expanded: true },
-                    { type: "text", label: "委案日", prop: "entrusting_time", width: "100", render_header: true, expanded: true },
+                    { type: "text", label: "申请号", prop: "application_number", width: "165", render_header: true, expanded: true,
+                      render:(h,item,row)=>{
+                        return h('span',row.project?row.project.application_number:"");
+                      }
+                    },
+                    { type: "text", label: "申请日", prop: "application_date",render_obj:"project", width: "100", render_header: true, expanded: true,
+                      render:(h,item,row)=>{
+                        return h('span',row.project?row.project.application_date:"");
+                      }
+                    },
+                    { type: "text", label: "委案日", prop: "entrusting_time", width: "100", render_header: true, expanded: true,
+                      render:(h,item,row)=>{
+                        return h('span',row.project?row.project.entrusting_time:"");
+                      }
+                    },
                     { type: "text", label: "费用期限", prop: "deadline", width: "100", render_header: true, expanded: true },
                     { type: "text", label: "费用策略", prop: "policy", width: "100", render_header: true, render_simple: "name", expanded: true },
                     { type: "text", label: "费用状态", prop: "status", width: "100", render_simple: "name", render_header: true, expanded: true },
@@ -237,6 +252,7 @@ export default {
         AppShrink,
         JumpSelect,
         CommonDetail,
+      PaymentManageDetail,
     }
 };
 </script>
