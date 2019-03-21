@@ -39,6 +39,11 @@
       <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
         <span>从选取的费用创建一个新的付款单，用于批量追踪付款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
       </div>
+      <el-form label-width="75px" style="margin-top: 10px;">
+          <el-form-item label="账单货币类型" prop="currency">
+            <jump-select type="currency" v-model="currency"></jump-select>
+          </el-form-item>
+      </el-form>
       <el-button type="primary" @click="saveOrder('new')">确认新建</el-button>
     </el-dialog>
     <el-dialog
@@ -73,7 +78,7 @@ const config = new Map(Config);
 
 export default {
     name: "SuppliersFee",
-    mixins: [FeeCommon("requestPayout","pay")],
+    mixins: [FeeCommon("requestPayout", "pay")],
     data() {
         return {
             tableOption: {
@@ -166,8 +171,8 @@ export default {
                         width: "130",
                         render_header: true
                     },
-                  { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
-                  {
+                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
+                    {
                         type: "text",
                         label: "类型",
                         prop: "fee_type",
@@ -238,7 +243,7 @@ export default {
                         type: "text",
                         label: "申请日",
                         prop: "application_date",
-                        render_obj:"project",
+                        render_obj: "project",
                         width: "100",
                         render_header: true,
                         expanded: true
@@ -247,7 +252,7 @@ export default {
                         type: "text",
                         label: "申请号",
                         prop: "application_number",
-                        render_obj:"project",
+                        render_obj: "project",
                         width: "178",
                         expanded: true
                     },
@@ -263,7 +268,7 @@ export default {
                         type: "text",
                         label: "委案日",
                         prop: "entrusting_time",
-                        render_obj:"project",
+                        render_obj: "project",
                         width: "100",
                         render_header: true,
                         expanded: true
@@ -369,7 +374,8 @@ export default {
             },
             is_debit: 0,
             URL: "/fees",
-            fee_type: "pay" // 付费
+            fee_type: "pay", // 付费
+            currency: 'CNY',
         };
     },
     components: {
@@ -378,7 +384,7 @@ export default {
         AppShrink,
         JumpSelect,
         CommonDetail,
-      PaymentManageDetail
+        PaymentManageDetail
     }
 };
 </script>
