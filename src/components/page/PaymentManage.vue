@@ -105,7 +105,8 @@ export default {
                         width: "110",
                         align: "right"
                     },
-                    // {
+                    { type: "text", label: "收款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header: true  },
+                  // {
                     //   type: "text",
                     //   label: "回款时间",
                     //   prop: "payment_time",

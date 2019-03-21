@@ -81,7 +81,7 @@ export default {
                 highlightCurrentRow: true,
                 is_search: true,
                 is_list_filter: true,
-                list_type: "fees",
+                list_type: "fees_out",
                 treeFilter: "fees",
                 import_type: 'fees_out',
                 show_summary: true,
@@ -155,7 +155,7 @@ export default {
                         min_width: "190"
                         // render_header: true
                     },
-
+                  { type: "text", label: "付款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header:true },
                     {
                         type: "text",
                         label: "费用名称",
@@ -172,7 +172,6 @@ export default {
                         width: "80",
                         render_header: true
                     },
-                    // TODO 接口有字段缺失
                     {
                         type: "text",
                         label: "金额",

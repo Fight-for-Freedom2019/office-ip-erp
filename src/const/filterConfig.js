@@ -949,6 +949,29 @@ const map = new Map([
       { components: "date", id: "entrusting_time", name: "委案日" }
     ]
   ],
+  /* 待付费用 */
+  [
+    "fees_out",
+    [
+      {
+        components: "remote_select",
+        id: "customer",
+        name: "客户",
+        type: "customer",
+        used: true
+      },
+      { components: "date", id: "deadline", name: "费用期限" },
+      {
+        components: "static_select",
+        id: "status",
+        name: "费用状态",
+        type: "fee_status",
+        used: true
+      },
+      { components: "date", id: "payment_time", name: "请款时间" },
+      { components: "date", id: "entrusting_time", name: "委案日" }
+    ]
+  ],
   /* 请款管理 */
   [
     "invoices",
