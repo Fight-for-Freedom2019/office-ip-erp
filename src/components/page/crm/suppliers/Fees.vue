@@ -384,6 +384,7 @@ export default {
             URL: "/fees",
             fee_type: "pay", // 付费
             currency: 'CNY',
+          
         };
     },
     components: {
