@@ -238,10 +238,12 @@ export default {
                         type: "text",
                         label: "申请日",
                         prop: "application_date",
-                        render_obj:"project",
                         width: "100",
                         render_header: true,
-                        expanded: true
+                        expanded: true,
+                        render:(h,item,row)=>{
+                          return h('span',row.project?row.project.application_date:"");
+                        }
                     },
                     {
                         type: "text",
@@ -249,7 +251,10 @@ export default {
                         prop: "application_number",
                         render_obj:"project",
                         width: "178",
-                        expanded: true
+                        expanded: true,
+                        render:(h,item,row)=>{
+                          return h('span',row.project?row.project.application_number:"");
+                        }
                     },
                     {
                         type: "text",
@@ -263,10 +268,12 @@ export default {
                         type: "text",
                         label: "委案日",
                         prop: "entrusting_time",
-                        render_obj:"project",
                         width: "100",
                         render_header: true,
-                        expanded: true
+                        expanded: true,
+                        render:(h,item,row)=>{
+                          return h('span',row.project?row.project.entrusting_time:"");
+                        }
                     },
                     {
                         type: "text",
