@@ -13,6 +13,11 @@
             <jump-select type="customer" v-model="form.customer" :disabled="this.mode === 'edit'"></jump-select>
           </el-form-item>
         </el-col>
+        <el-col :span="24">
+          <el-form-item label="收款账户" prop="payment_account">
+            <jump-select type="payment_account" v-model="form.payment_account"></jump-select>
+          </el-form-item>
+        </el-col>
         <!-- <el-col :span="24">
           <el-form-item label="账单" prop="invoice">
             <jump-select
@@ -146,6 +151,7 @@ export default {
                 customer: "",
                 // customer_name: "",
                 invoice_target: "",
+                payment_account:"",
                 // invoice: "",
                 // title: "",
                 // received_date: "",
