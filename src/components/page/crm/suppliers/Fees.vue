@@ -39,9 +39,9 @@
       <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
         <span>从选取的费用创建一个新的付款单，用于批量追踪付款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
       </div>
-      <el-form label-width="75px" style="margin-top: 10px;">
+      <el-form label-width="100px" style="margin-top: 10px;">
           <el-form-item label="账单货币类型" prop="currency">
-            <jump-select type="currency" v-model="currency"></jump-select>
+            <static-select type="currency" v-model="currency"></static-select>
           </el-form-item>
       </el-form>
       <el-button type="primary" @click="saveOrder('new')">确认新建</el-button>
@@ -69,6 +69,7 @@ import TableComponent from "@/components/common/TableComponent";
 import AppShrink from "@/components/common/AppShrink";
 import RequestPayoutAdd from "@/components/page_extension/RequestPayoutAdd";
 import JumpSelect from "@/components/form/JumpSelect";
+import StaticSelect from "@/components/form/StaticSelect";
 import Config from "@/const/selectConfig";
 import FeeCommon from "@/mixins/fee-common";
 import CommonDetail from '@/components/page_extension/Common_detail'
@@ -243,10 +244,12 @@ export default {
                         type: "text",
                         label: "申请日",
                         prop: "application_date",
-                        render_obj: "project",
                         width: "100",
                         render_header: true,
-                        expanded: true
+                        expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.application_date : "");
+                        }
                     },
                     {
                         type: "text",
@@ -254,7 +257,10 @@ export default {
                         prop: "application_number",
                         render_obj: "project",
                         width: "178",
-                        expanded: true
+                        expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.application_number : "");
+                        }
                     },
                     {
                         type: "text",
@@ -268,10 +274,12 @@ export default {
                         type: "text",
                         label: "委案日",
                         prop: "entrusting_time",
-                        render_obj: "project",
                         width: "100",
                         render_header: true,
-                        expanded: true
+                        expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.entrusting_time : "");
+                        }
                     },
                     {
                         type: "text",
@@ -384,7 +392,8 @@ export default {
         AppShrink,
         JumpSelect,
         CommonDetail,
-        PaymentManageDetail
+        PaymentManageDetail,
+        StaticSelect
     }
 };
 </script>
