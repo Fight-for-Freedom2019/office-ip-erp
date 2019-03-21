@@ -55,6 +55,7 @@
       <el-button type="primary" @click="saveOrder('add')">确认添加</el-button>
     </el-dialog>
     <common-detail ref="detail"></common-detail>
+    <payment-manage-detail ref="invoiceDetail" @update="update"></payment-manage-detail>
   </div>
 </template>
 
@@ -66,12 +67,13 @@ import JumpSelect from "@/components/form/JumpSelect";
 import Config from "@/const/selectConfig";
 import FeeCommon from "@/mixins/fee-common";
 import CommonDetail from '@/components/page_extension/Common_detail'
+import PaymentManageDetail from "@/components/page_extension/PaymentManageDetail";
 
 const config = new Map(Config);
 
 export default {
     name: "SuppliersFee",
-    mixins: [FeeCommon("requestPayout")],
+    mixins: [FeeCommon("requestPayout","pay")],
     data() {
         return {
             tableOption: {
@@ -164,7 +166,8 @@ export default {
                         width: "130",
                         render_header: true
                     },
-                    {
+                  { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
+                  {
                         type: "text",
                         label: "类型",
                         prop: "fee_type",
@@ -375,6 +378,7 @@ export default {
         AppShrink,
         JumpSelect,
         CommonDetail,
+      PaymentManageDetail
     }
 };
 </script>
