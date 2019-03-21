@@ -636,6 +636,7 @@ const router = new Router({
           }
         }
       },
+        // 回款管理
       {
         path: "/finance/revenue/received_payments",
         name: "PaymentRecevied",
@@ -646,7 +647,17 @@ const router = new Router({
           }
         }
       },
-
+        // 付款管理
+        {
+          path: "/finance/revenue/payments",
+          name: "PayManage",
+          component: PaymentRecevied,
+          meta: {
+            params: {
+              is_debit: 0
+            }
+          }
+        },
       {
         path: "/finance/outgo/all",
         name: "SuppliersFeeAll",
