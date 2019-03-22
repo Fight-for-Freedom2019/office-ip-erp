@@ -7,14 +7,14 @@
 		</template>
 	</el-submenu>
 
-	<el-menu-item v-else-if="dd.type == 'item' && menusMap.get(dd.path) ? true : false" :index="dd.path"><i :class="dd.icon"></i>{{ dd.text }}</el-menu-item>
+	<el-menu-item @click="handleClear" v-else-if="dd.type == 'item' && menusMap.get(dd.path) ? true : false" :index="dd.path"><i :class="dd.icon"></i>{{ dd.text }}</el-menu-item>
 	<!-- <el-menu-item v-else-if="dd.type == 'item' && menusMap.get(dd.path) ? true : false" :index="dd.path"><i :class="dd.icon"></i>{{ dd.text }}<span v-if="map[dd.path] != undefined">({{ getCount(dd.path) }})</span></el-menu-item> -->
 
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'appMenuItem',
@@ -53,6 +53,9 @@ export default {
     ...mapMutations([
       'clearScreen',
     ]),
+    ...mapActions([
+      'clearFilter',
+    ]),
   	forChildren(item) {
   		if(item.children && item.children.length != 0) {
   			return true;
@@ -62,7 +65,10 @@ export default {
   	},
     getCount (key) {
       return this[this.map[this.dd.path]];
-    }
+    },
+    handleClear () {
+      this.clearFilter(true);
+    },
   },
   computed: {
     ...mapGetters([
