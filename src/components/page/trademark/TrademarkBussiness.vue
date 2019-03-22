@@ -128,7 +128,7 @@ export default {
   },
   computed: {
     customerParam() {
-      return this.customer ? { customer: this.customer } : null;
+      return this.form.customer ? { customer: this.form.customer } : null;
     }
   },
   methods: {

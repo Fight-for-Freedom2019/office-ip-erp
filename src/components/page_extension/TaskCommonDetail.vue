@@ -199,13 +199,13 @@ const mailMap = new Map([
   ['patent',[
   { id: "inentor_supplement", name: "发明人补充材料"},
   { id: "claim_affirm", name: "权利要求确认"},
-  { id: "inventor_review", name: "发明人看稿"},
+  { id: "inventor_review", name: "传客户看稿确认"},
   { id: "search_report", name: "检索报告"},
   { id: "ipr_review", name: "IPR审核"},
   ]],
   ['trademark',[
-  { id: "filing_notice", name: "立案通知"},
-  { id: "review_commissioned", name: "复审委托"},
+  { id: "send_to_client_for_confirmation", name: "传客户看稿确认"},
+  { id: "outsourcing_agent", name: "委外处理"},
   ]],
   
 ]);

@@ -62,7 +62,7 @@ import Tinymce from "@/mixins/tinymce";
 const URL = "/mails";
 const sceneMap = new Map([
   ["立案通知", 1],
-  ["发明人看稿", 2],
+  ["传客户看稿确认", 2],
   ["IPR审核", 3],
   ["递交文件", 4],
   ["官文", 5],
@@ -80,7 +80,7 @@ const sceneMap = new Map([
   ["办理登记", 16],
   ["权利要求确认", 22],
   ["复审评估", 23],
-  ["委外代理", 24],
+  ["委外处理", 25],
 ]);
 export default {
   name: "mailAdd",
