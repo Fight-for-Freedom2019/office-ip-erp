@@ -136,21 +136,23 @@
           this.label = `第二步，耐心等待服务器完成转档操作，平均用时约20秒，已用时${time++}秒`;
         }, 1000);
       },
-      handleSuccess(r, f, fl) {
-        console.log("成功")
+      successFun(data){
         this.disabled = false;
-        if(f.response.data.list){
+        if(data.data.list){
           this.handleTurnArchives();
-          this.title = f.response.data.list.title;
+          this.title = data.data.list.title;
           // this.tableData = f.response.data.list;
-          this.fileIsView(f.response.data.list.files);
-          this.tableData = this.tableData.concat(f.response.data.list.files);
+          this.fileIsView(data.data.list.files);
+          this.tableData = this.tableData.concat(data.data.list.files);
         }else {
           this.handleDefeat();
           this.tip = "转档失败，一般是由于系统无法识别说明书的章节，请使用系统推荐模板撰写说明书";
         }
-        this.$emit("turnArchivesFile",f.response.data.file);
+        this.$emit("turnArchivesFile",data.data.file);
         clearInterval(this.keepTime);
+      },
+      handleSuccess(r, f, fl) {
+        this.successFun(f.response);
       },
       fileIsView(arr){
         arr.forEach((item)=>{
@@ -201,9 +203,14 @@
       },
       turnSelectFile(id){
         const success = _ =>{
-          console.log("转档",_);
+          this.successFun(_)
         }
-        this.$axiosGet({url:`/files/${id}/cpcpdf`,success})
+        const error = _ => {
+          this.$message({type:"warning",message:"转档失败，请检查文件是否正确"});
+          this.reset();
+        }
+        this.handleBeforeUpload();
+        this.$axiosGet({url:`/files/${id}/cpcpdf`,success,error})
       },
     },
     computed: {
