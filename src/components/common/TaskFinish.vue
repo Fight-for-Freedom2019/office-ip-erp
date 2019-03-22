@@ -521,8 +521,10 @@ export default {
                 break;
               case "trademark_mail":
                 mailscene = "trademark";
+                break;
               case "copyright_mail":
                 mailscene = "copyright";
+                break;
             }  
             arr.push(obj);
             if (list.indexOf(_.field_type.id) != -1) {

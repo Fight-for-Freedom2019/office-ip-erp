@@ -32,7 +32,8 @@ const map = new Map([
     {
       components: "date",
       type: "date",
-      if: "this.form.is_add_comments === 1"
+      if: "this.form.is_add_comments === 1",
+      default: 1,
     }
   ],
   [
