@@ -57,7 +57,7 @@ export default {
           { type: 'text', label: '代理人', width: '90', prop: 'agent', render_simple: 'name', is_import: true, render_header: true},
           // { type: 'text', label: '代理人助理', width: '130', prop: 'assistant', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '联系人', width: '90', prop: 'contact', render_simple: 'name', is_import: true, render_header: true},
-          { type: 'text', label: '初审人', width: '90', prop: 'first_reviewer', render_simple: 'name', is_import: true, render_header: true},
+          { type: 'text', label: '初核人', width: '90', prop: 'first_reviewer', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '复核人', width: '90', prop: 'final_reviewer', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '代表人', width: '90', prop: 'representative', render_simple: 'name', is_import: true, render_header: true},
           { type: 'text', label: '顾问', width: '90', prop: 'consultant', render_simple: 'name', is_import: true, render_header: true},

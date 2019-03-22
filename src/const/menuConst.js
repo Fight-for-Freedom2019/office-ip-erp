@@ -53,7 +53,7 @@ const taskMenu = [{
       // },
       {
         type: "item",
-        text: "我为初审人",
+        text: "我为初核人",
         path: "/task/monitor/first_reviewer",
         icon: "iconfont el-icon-my-due"
       },

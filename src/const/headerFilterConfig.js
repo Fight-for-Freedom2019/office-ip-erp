@@ -26,7 +26,7 @@ const map = new Map([
     //   data_key: "data",
     //   url: "/users"
     // },
-    { type: "remote_select", id: "first_reviewer", name: "初审人", data_key: "data", url: "/users" },
+    { type: "remote_select", id: "first_reviewer", name: "初核人", data_key: "data", url: "/users" },
     { type: "remote_select", id: "final_reviewer", name: "复核人", data_key: "data", url: "/users" },
     { type: "remote_select", id: "ipr", name: "IPR", data_key: "data", url: "/contacts" },
     { type: "remote_select", id: "customer", name: "客户", data_key: "data", url: "/customers" },
@@ -96,7 +96,7 @@ const map = new Map([
     //   data_key: "data"
     // },
     { type: "remote_select", id: "contact", name: "联系人", url: "/contacts", data_key: "data" },
-    { type: "remote_select", id: "first_reviewer", name: "初审人", url: "/users", data_key: "data" },
+    { type: "remote_select", id: "first_reviewer", name: "初核人", url: "/users", data_key: "data" },
     { type: "remote_select", id: "final_reviewer", name: "复核人", url: "/users", data_key: "data" },
     { type: "remote_select", id: "representative", name: "代表人", url: "/users", data_key: "data" },
     { type: "remote_select", id: "consultant", name: "顾问", url: "/users", data_key: "data" },

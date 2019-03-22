@@ -58,7 +58,7 @@ const map = new Map([
       {
         components: "remote_select",
         id: "first_reviewer",
-        name: "初审人",
+        name: "初核人",
         type: "user"
       },
       {
@@ -352,7 +352,7 @@ const map = new Map([
       {
         components: "remote_select",
         id: "first_reviewer",
-        name: "初审人",
+        name: "初核人",
         type: "user"
       }, //代理人
       {

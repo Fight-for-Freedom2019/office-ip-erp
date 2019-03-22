@@ -34,7 +34,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="初审人">
+        <el-form-item label="初核人">
           <jump-select type="user" v-model="form.first_reviewer" add-type="user"></jump-select>
         </el-form-item>
       </el-col>

@@ -46,7 +46,7 @@
             </el-row>
             <el-row :gutter="10">
               <el-col :span="6">
-                <el-form-item label="初审人">
+                <el-form-item label="初核人">
                   <span class="form-item-text">{{ processData.first_reviewer?processData.first_reviewer.name:"" }}</span>
                 </el-form-item>
               </el-col>

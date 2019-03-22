@@ -199,7 +199,7 @@ export default {
           },
           {
             type: "text",
-            label: "初审人",
+            label: "初核人",
             prop: "first_reviewer",
             render_simple: "name",
             width: "100",
