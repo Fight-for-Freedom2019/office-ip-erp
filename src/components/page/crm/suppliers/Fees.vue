@@ -89,7 +89,7 @@ export default {
                 highlightCurrentRow: true,
                 is_search: true,
                 is_list_filter: true,
-                list_type: "fees",
+                list_type: "fees_out",
                 treeFilter: "fees",
                 import_type: 'fees_out',
                 show_summary: true,
@@ -149,39 +149,12 @@ export default {
                         click: this.handleCaseDetail,
                         width: "178"
                     },
-                    {
-                        type: "text",
-                        label: "标题",
-                        prop: "project.title",
-                        width: "180"
-                    },
-                    {
-                        type: "text",
-                        label: "收款人",
-                        prop: "user",
-                        render_simple: "name",
-                        min_width: "190"
-                        // render_header: true
-                    },
-
-                    {
-                        type: "text",
-                        label: "费用名称",
-                        prop: "fee_code",
-                        render_simple: "name",
-                        width: "130",
-                        render_header: true
-                    },
+                    { type: "text", label: "标题", prop: "project.title", width: "180" },
+                    { type: "text", label: "收款人", prop: "user", render_simple: "name", min_width: "190" },
+                    { type: "text", label: "付款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header: true },
+                    { type: "text", label: "费用名称", prop: "fee_code", render_simple: "name", width: "130", render_header: true },
                     { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
-                    {
-                        type: "text",
-                        label: "类型",
-                        prop: "fee_type",
-                        render_simple: "name",
-                        width: "80",
-                        render_header: true
-                    },
-                    // TODO 接口有字段缺失
+                    { type: "text", label: "类型", prop: "fee_type", render_simple: "name", width: "80", render_header: true },
                     {
                         type: "text",
                         label: "金额",
@@ -384,7 +357,7 @@ export default {
             URL: "/fees",
             fee_type: "pay", // 付费
             currency: 'CNY',
-          
+
         };
     },
     components: {

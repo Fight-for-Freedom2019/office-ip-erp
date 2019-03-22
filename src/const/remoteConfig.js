@@ -334,5 +334,13 @@ const map = new Map([
       PLACEHOLDER: "请输入评估单关键词"
     }
   ],
+  [
+    "payment_account",
+    {
+      URL: "/payment_accounts",
+      DATA_KEY: "data",
+      PLACEHOLDER: "请输入收款账户关键字"
+    }
+  ],
 ]);
 export default map;

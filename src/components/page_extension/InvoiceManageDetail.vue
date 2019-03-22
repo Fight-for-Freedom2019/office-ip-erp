@@ -32,6 +32,7 @@
               type="invoice_target"
               v-model="form.invoice_target"
               :para="para"
+              :pageType="mode"
               addType="invoice_target"
             ></remote-select>
           </el-form-item>
@@ -167,6 +168,7 @@ export default {
                 customer: "",
                 // customer_name: "",
                 invoice_target: "",
+                payment_account: "",
                 // invoice: "",
                 // title: "",
                 // received_date: "",
@@ -559,6 +561,7 @@ export default {
             this.dialogVisible = true;
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
+                if (mode === "add") this.form.invoice_target = "";
                 this.id = id;
 
                 this.title = this.mode === "add" ? "开票申请" : "";
