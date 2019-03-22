@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node build/dev-server.js",
     "dev": "node build/dev-server.js",
-    "build": "node build/build.js && npm run COPY",
+    "build": "node build/build.js",
     "dll": "webpack --config ./build/webpack.dll.config.js",
     "analyz": "set NODE_ENV=production && set npm_config_report=true && npm run build"
   },
