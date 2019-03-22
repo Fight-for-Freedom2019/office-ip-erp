@@ -1,4 +1,4 @@
-<!-- 回款管理 -->
+<!-- 回款管理和付款管理使用同一个组件用路由的is_debit区分其类型，0为付款，1为回款 -->
 <template>
   <div class="PaymentRecevied">
     <table-component
