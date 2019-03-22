@@ -131,6 +131,7 @@
     methods: {
       refreshTableData(option) {
         const url = URL;
+        Object.assign(option,this.para);
         const success = _ => {
           this.tableData = _.data;
         };

@@ -93,8 +93,9 @@
           if (valid) {
             let url;
             let message = "";
+            let type = this.is_debit ? "回款":"付款";
             let fun = "";
-            let data = this.form;
+            let data = Object.assign({},this.form,{is_debit:this.is_debit});
             if (type === "add") {
               url = this.URL;
               message = "添加";
@@ -105,7 +106,7 @@
               fun = "update";
             }
             const success = _ => {
-              this.$message({type: "success", message: `${message}回款记录成功`});
+              this.$message({type: "success", message: `${message}${type}记录成功`});
               this.$emit(fun);
               type === "add" ? this.$emit("closeVisible") : "";
             };
