@@ -21,6 +21,13 @@ const map = new Map([
     }
   ],
   [
+    "switch",
+    {
+      components: "switch",
+      type: "is",
+    }
+  ],
+  [
     "date",
     {
       components: "date",
@@ -32,7 +39,7 @@ const map = new Map([
     {
       components: "date",
       type: "date",
-      if: "this.form.is_add_comments === 1"
+      if: "this.form.is_add_comments == 1"
     }
   ],
   [

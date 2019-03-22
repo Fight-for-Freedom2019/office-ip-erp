@@ -75,6 +75,7 @@
           </el-form-item>
         </template>
         <template v-else-if="item.components == 'app_radio'">
+          <!-- 此组件在绑值时有问题，v-model时无法找到对应的字段 -->
           <el-form-item :label="item.name" :prop="item.key" :key="index">
             <app-radio
               ref="app-radio" 
@@ -416,7 +417,7 @@ export default {
           val = [];
         } else if (this.process[_.key] !== undefined && _.key != "remark") {
           val = this.process[_.key];
-        } else {
+        } else { 
           val = "";
         }
         this.$set(this.form, _.key, val);
