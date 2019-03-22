@@ -77,7 +77,7 @@
         <template v-else-if="item.components == 'app_radio'">
           <el-form-item :label="item.name" :prop="item.key" :key="index">
             <app-radio
-              ref="app-radio"
+              ref="app-radio" 
               v-model="form[item.key]"
               v-for="item in radioOptions"
               :value="item.value"
@@ -218,10 +218,6 @@ import Postpone from "@/components/page_extension/TaskCommonPostpone";
 import PointsMonthlyDetail from "@/components/page_extension/PointsMonthlyDetail"
 import TaskCommonTransferCase from "@/components/page_extension/TaskCommonTransferCase";
 import AppRadio from "@/components/form/AppRadio"
-const radioOptions = [
-  {label: '是', value: 1},
-  {label: '否', value: 0},
-];
 // 面板的标记（要求ref与配置的type一致）
 const panelKeys = [
   "patent",
@@ -296,6 +292,10 @@ export default {
       id: 0,
       // isDetailEnabled: true,
       type: "",
+      radioOptions: [
+        {label: '是', value: 1},
+        {label: '否', value: 0},
+      ],  
       conditions: {},
       attachment: {
         attachments: []
