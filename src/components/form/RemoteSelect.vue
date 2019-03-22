@@ -149,7 +149,7 @@ export default {
           this.$refs.user.show();
           break;
         case "invoice_target":
-          this.$refs.invoice_target.show();
+          this.$refs.invoice_target.show("add");
           break;
       }
     },
