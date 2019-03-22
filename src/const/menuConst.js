@@ -327,6 +327,12 @@ const financeMenu = [{
         text: "付款单",
         path: "/finance/outgo/payments",
         icon: "iconfont el-icon-my-order"
+      },
+      {
+        type: "item",
+        text: "付款管理",
+        path: "/finance/revenue/payments",
+        icon: "iconfont el-icon-my-received-payment"
       }
     ]
   },

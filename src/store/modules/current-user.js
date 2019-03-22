@@ -108,6 +108,7 @@ const nodePermissionMap = new Map([
   ["/finance/revenue/all", "Pages.Fees.Index"],
   ["/finance/revenue/payment_requests", "Pages.Invoices.Index"],
   ["/finance/revenue/received_payments", "Pages.Invoices.Index"],
+  ["/finance/revenue/payments", "Pages.Invoices.Index"],
   ["/finance/revenue/payment_requests/btn/delete", "Pages.Invoices.Save"],
   ["/finance/revenue/payments_recevied", "Pages.ReceivedPayments.Index"],
   [
