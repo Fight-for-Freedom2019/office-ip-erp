@@ -195,6 +195,17 @@ export default {
                     },
                     {
                         type: "text",
+                        label: "客户案号",
+                        prop: "customer_serial",
+                        render_obj: "project",
+                        width: "178",
+                        expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.customer_serial : "");
+                        }
+                    },
+                    {
+                        type: "text",
                         label: "官方绝限",
                         prop: "deadline",
                         width: "100",

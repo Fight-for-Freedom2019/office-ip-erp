@@ -162,7 +162,7 @@ export default {
                     { type: "text", label: "费用名称", prop: "fee_code", render_simple: "name", width: "130", render_header: true },
                     { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
                     { type: "text", label: "类型", prop: "fee_type", render_simple: "name", width: "80", render_header: true },
-                    { type: "text", label: "收款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header: true  },
+                    { type: "text", label: "收款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header: true },
                     { type: "text", label: "金额", prop: "amount_currency", width: "100", align: "right" },
                     { type: "text", label: "币别", prop: "currency", width: "55" },
                     { type: "text", label: "汇率", prop: "roe", width: "68", align: "right" },
@@ -173,6 +173,11 @@ export default {
                     {                        type: "text", label: "申请号", prop: "application_number", width: "165", render_header: true, expanded: true,
                         render: (h, item, row) => {
                             return h('span', row.project ? row.project.application_number : "");
+                        }
+                    },
+                    {                        type: "text", label: "客户案号", prop: "customer_serial", width: "165", render_header: true, expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.customer_serial : "");
                         }
                     },
                     {                        type: "text", label: "申请日", prop: "application_date", render_obj: "project", width: "100", render_header: true, expanded: true,

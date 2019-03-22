@@ -234,6 +234,7 @@ const map = new Map([
     [{ type: "remote_select", id: "user", name: "客户", data_key: "data", url: "/customers" },
     { type: "remote_select", id: "payment_account", name: "回款/付款账户", data_key: "data", url: "/payment_accounts" },
     { type: "text", id: "application_number", name: "申请号" },
+    { type: "text", id: "customer_serial", name: "客户案号" },
     { type: "date", id: "application_date", name: "申请日" },
     /*{ type: "remote_select", id: "project.serial", name: "案号", data_key: "projects", url: "/projects"
     },*/
@@ -258,6 +259,7 @@ const map = new Map([
     "fees_out",
     [{ type: "remote_select", id: "customer", name: "客户", data_key: "data", url: "/customers" },
       { type: "remote_select", id: "payment_account", name: "回款/付款账户", data_key: "data", url: "/payment_accounts" },
+      { type: "text", id: "customer_serial", name: "客户案号" },
       { type: "text", id: "application_number", name: "申请号" },
       { type: "date", id: "application_date", name: "申请日" },
       /*{ type: "remote_select", id: "project.serial", name: "案号", data_key: "projects", url: "/projects"
