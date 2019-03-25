@@ -41,7 +41,7 @@
     <el-row>
       <el-col :span="16">
         <el-form-item label="申请人" prop="applicants">
-          <remote-select type="applicant" v-model="form.applicants" multiple></remote-select>
+          <remote-select type="applicant" v-model="form.applicants" multiple :para="customerParam"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -98,11 +98,15 @@ export default {
     pageType: {
       type: String,
       default: ""
-    }
+    },
+    customer: [Number, String]
   },
   computed: {
     auth() {
       return { Authorization: window.localStorage.getItem("token") };
+    },
+    customerParam() {
+      return this.customer ? { customer: this.customer } : null;
     }
   },
   data() {

@@ -62,7 +62,7 @@ export default {
   name: "patentAddBusiness",
   props: {
     type: String,
-    customer: Number
+    customer: [Number,String]
   },
   data() {
     return {
@@ -128,7 +128,7 @@ export default {
   },
   computed: {
     customerParam() {
-      return this.form.customer ? { customer: this.form.customer } : null;
+      return this.customer ? { customer: this.customer } : null;
     }
   },
   methods: {
