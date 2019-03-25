@@ -515,9 +515,17 @@ export default {
             }
             const obj = Object.assign({}, staticConfig, _);
             //发送邮件
-            if (_.key == "patent_mail") {
-              mailscene = "patent";
-            }
+            switch (_.key) {
+              case "patent_mail":
+                mailscene = "patent";
+                break;
+              case "trademark_mail":
+                mailscene = "trademark";
+                break;
+              case "copyright_mail":
+                mailscene = "copyright";
+                break;
+            }  
             arr.push(obj);
             if (list.indexOf(_.field_type.id) != -1) {
               map[_.field_type.id] = true;

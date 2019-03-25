@@ -21,6 +21,28 @@ const map = new Map([
     }
   ],
   [
+    "switch",
+    {
+      components: "switch",
+      type: "is",
+    }
+  ],
+  [
+    "date",
+    {
+      components: "date",
+      type: "date"
+    }
+  ],
+  [
+    "review_posting_date",
+    {
+      components: "date",
+      type: "date",
+      if: "this.form.is_add_comments == 1"
+    }
+  ],
+  [
     "multiple_attachments",
     {
       components: "upload",
@@ -93,6 +115,20 @@ const map = new Map([
     {
       components: "panel",
       type: "patent_add"
+    }
+  ],
+  [
+    "trademark_add",
+    {
+      components: "panel",
+      type: "trademark_add"
+    }
+  ],
+  [
+    "copyright_add",
+    {
+      components: "panel",
+      type: "copyright_add"
     }
   ],
   [
@@ -206,6 +242,9 @@ const map = new Map([
       // if: "this.opinion == 'pass' && this.form.assign_type === 1",
       vkey: "points"
     }
-  ]
+  ],
+  ["app_radio",{
+    components: "app_radio",
+  }]
 ]);
 export { map };

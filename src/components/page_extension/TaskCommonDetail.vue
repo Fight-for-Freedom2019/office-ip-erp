@@ -43,18 +43,14 @@
           trigger="click"
           style="margin-left: 5px;"
           size="small"
-          v-if="mailbtn == 'patent'"
+          v-if="mailbtn == 'patent' || mailbtn == 'trademark' || mailbtn == 'copyright'"
         >
           <el-button size="small">
             发送邮件
             <i class="el-icon-caret-bottom el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown" class="app-dropdown-menu">
-            <el-dropdown-item command="inventor_supplement">发明人补充材料</el-dropdown-item>
-            <el-dropdown-item command="claim_affirm">权利要求确认</el-dropdown-item>
-            <el-dropdown-item command="inventor_review">发明人看稿</el-dropdown-item>
-            <el-dropdown-item command="search_report">检索报告</el-dropdown-item>
-            <el-dropdown-item command="ipr_review">IPR看稿</el-dropdown-item>
+            <el-dropdown-item v-for="(item, index) in mailSceneData" :key="index" :command="item.id">{{ item.name }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </span>
@@ -200,11 +196,18 @@ const typeMap = new Map([
   [6, "发文"]
 ]);
 const mailMap = new Map([
-  ["inventor_supplement", "发明人补充材料"],
-  ["claim_affirm", "权利要求确认"],
-  ["inventor_review", "发明人看稿"],
-  ["search_report", "检索报告"],
-  ["ipr_review", "IPR审核"]
+  ['patent',[
+  { id: "inentor_supplement", name: "发明人补充材料"},
+  { id: "claim_affirm", name: "权利要求确认"},
+  { id: "inventor_review", name: "传客户看稿确认"},
+  { id: "search_report", name: "检索报告"},
+  { id: "ipr_review", name: "IPR审核"},
+  ]],
+  ['trademark',[
+  { id: "send_to_client_for_confirmation", name: "传客户看稿确认"},
+  { id: "outsourcing_agent", name: "委外处理"},
+  ]],
+  
 ]);
 export default {
   name: "TaskCommonDetail",
@@ -252,7 +255,8 @@ export default {
       loadingVisible: false,
       url: URL,
       loadingText: "任务数据加载中",
-      row: {}
+      row: {},
+      mailSceneData: [],
     };
   },
   computed: {
@@ -436,10 +440,20 @@ export default {
     },
     showmailbtn(scene) {
       this.mailbtn = scene;
+      this.mailSceneData = mailMap.get(scene);
     },
     handleCommandSendMail(command) {
-      const scene = mailMap.get(command);
-      this.$refs.mailEdit.showByProcess(scene, this.row.model_id,this.row.id);
+      const sceneArr = mailMap.get(this.mailbtn);
+      // console.log(sceneArr)
+      console.log(command)
+      let scene= null;
+      for (let k of sceneArr) {
+        if(k['id'] === command) {
+           scene = k['name']
+           break
+        }
+      }
+      this.$refs.mailEdit.showByProcess(scene, this.row.model_id,this.row.id, this.mailbtn);
     },
     mailCallBack() {
       this.mailVisible = false;

@@ -74,6 +74,20 @@
             ></app-switch>
           </el-form-item>
         </template>
+        <template v-else-if="item.components == 'app_radio'">
+          <!-- 此组件在绑值时有问题，v-model时无法找到对应的字段 -->
+          <el-form-item :label="item.name" :prop="item.key" :key="index">
+            <app-radio
+              ref="app-radio" 
+              v-model="form[item.key]"
+              v-for="item in radioOptions"
+              :value="item.value"
+              :label="item.label"
+              :key="item.value"
+              @input="handleInput"
+            >{{ item.label }}</app-radio>
+          </el-form-item>
+        </template>
         <template v-else-if="item.components == 'slider'">
           <el-form-item :label="item.name" :prop="item.key" :key="index">
             <el-slider ref="slider" v-model="form[item.key]" @input="handleInput" show-input></el-slider>
@@ -144,8 +158,9 @@
       pageType="edit"
       v-if="map['patent_add'] != undefined"
     ></patent-add>
+    <detail-shrink page-type="edit" :ref="type" v-if="type === 'trademark_add' || type === 'copyright_add'"></detail-shrink>
     <!-- 专利基本信息 -->
-    <common-detail ref="patent" :title="row.title" v-if="map['patent'] != undefined"></common-detail>
+    <common-detail :ref="type" v-if="type ==='patent' || type ==='trademark' || type ==='copyright'" :title="row.title"></common-detail>
     <!-- 专利、商标、版权详情 -->
     <cpc-editor
       ref="cpc_editor"
@@ -196,17 +211,22 @@ import ContractDetail from "@/components/page/crm/contracts/ContractsListAdd";
 import SensitiveOperation from "@/components/page/common/SensitiveOperation";
 import CpcEditor from "@/components/page/cpc/CpcEditor";
 import PatentAdd from "@/components/page/PatentAdd";
+import DetailShrink from "@/components/page_extension/DetailShrink";
 import CommonDetail from "@/components/page_extension/Common_detail";
 import RenewalEstimateDetail from "@/components/page_extension/RenewalEstimate_detail";
 import RenewalFee from "@/components/page_extension/RenewalFee_pop";
 import Postpone from "@/components/page_extension/TaskCommonPostpone";
 import PointsMonthlyDetail from "@/components/page_extension/PointsMonthlyDetail"
 import TaskCommonTransferCase from "@/components/page_extension/TaskCommonTransferCase";
-
+import AppRadio from "@/components/form/AppRadio"
 // 面板的标记（要求ref与配置的type一致）
 const panelKeys = [
   "patent",
+  "trademark",
+  "copyright",
   "patent_add",
+  "trademark_add",
+  "copyright_add",
   "order",
   "contract",
   "payment_request",
@@ -273,6 +293,10 @@ export default {
       id: 0,
       // isDetailEnabled: true,
       type: "",
+      radioOptions: [
+        {label: '是', value: 1},
+        {label: '否', value: 0},
+      ],  
       conditions: {},
       attachment: {
         attachments: []
@@ -313,47 +337,61 @@ export default {
       // this.isDetailEnabled = false;
       this.type = type;
       console.log(type);
-      switch (type) {
-        case "order":
-          this.$refs.order.show(this.row.model_id, "edit");
-          break;
-        case "contract":
-          this.$refs.contract.show(this.row.model_id, "edit");
-          break;
-        case "payment_request":
-          this.$refs.payment_request.show(this.row.model_id, "request");
-          break;
-        case "outgo_payment":
-          this.$refs.payment_request.show(this.row.model_id, "pay");
-          break;
-        case "voucher":
-          this.$refs.voucher.show(this.row.model_id, "edit");
-          break;
-        case "cpc_editor":
-          this.$refs.cpc_editor.showApplicationEditor(this.row.task.id);
-          break;
-        case "patent_add":
-          this.$refs.patent_add.show(this.row.model_id);
-          break;
-        case "patent":
-          this.$refs.patent.show(this.row.model_id, type);
-          break;
-        case "renewal_estimate":
-          this.$refs.renewal_estimate.show(this.row.model_id);
-          break;
-        case "renewal_fee":
-          this.$refs.renewal_fee.show("edit", this.row);
-          break;
-        case "postpone":
-          this.$refs.postpone.show("edit", this.row.id);
-          break;
-        case "bonus_report":
-          this.$refs.bonus_report.show("edit", this.row.model_id);
-          break;
-        case "process_assign":
-          this.$refs.process_assign.show("edit", this.row.id);
-          break;
-      }
+      this.$nextTick(_=>{
+        switch (type) {
+          case "order":
+            this.$refs.order.show(this.row.model_id, "edit");
+            break;
+          case "contract":
+            this.$refs.contract.show(this.row.model_id, "edit");
+            break;
+          case "payment_request":
+            this.$refs.payment_request.show(this.row.model_id, "request");
+            break;
+          case "outgo_payment":
+            this.$refs.payment_request.show(this.row.model_id, "pay");
+            break;
+          case "voucher":
+            this.$refs.voucher.show(this.row.model_id, "edit");
+            break;
+          case "cpc_editor":
+            this.$refs.cpc_editor.showApplicationEditor(this.row.task.id);
+            break;
+          case "patent_add":
+            this.$refs.patent_add.show(this.row.model_id);
+            break;
+          case "trademark_add":
+            this.$refs.trademark_add.show(this.row.model_id, 'trademark');
+            break;
+          case "copyright_add":
+            this.$refs.copyright_add.show(this.row.model_id, 'copyright');
+            break;
+          case "patent":
+            this.$refs.patent.show(this.row.model_id, type);
+            break;
+          case "trademark":
+            this.$refs.trademark.show(this.row.model_id, type);
+            break;
+          case "copyright":
+            this.$refs.copyright.show(this.row.model_id, type);
+            break;
+          case "renewal_estimate":
+            this.$refs.renewal_estimate.show(this.row.model_id);
+            break;
+          case "renewal_fee":
+            this.$refs.renewal_fee.show("edit", this.row);
+            break;
+          case "postpone":
+            this.$refs.postpone.show("edit", this.row.id);
+            break;
+          case "bonus_report":
+            this.$refs.bonus_report.show("edit", this.row.model_id);
+            break;
+          case "process_assign":
+            this.$refs.process_assign.show("edit", this.row.id);
+            break;
+        }
+      })
     },
     closePanel() {
       const type = this.type;
@@ -379,7 +417,7 @@ export default {
           val = [];
         } else if (this.process[_.key] !== undefined && _.key != "remark") {
           val = this.process[_.key];
-        } else {
+        } else { 
           val = "";
         }
         this.$set(this.form, _.key, val);
@@ -429,6 +467,8 @@ export default {
     Postpone,
     PointsMonthlyDetail,
     TaskCommonTransferCase,
+    DetailShrink,
+    AppRadio
   }
 };
 </script>

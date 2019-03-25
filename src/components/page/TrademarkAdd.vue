@@ -3,11 +3,11 @@
         <el-tabs type="border-card">
         	<el-tab-pane>
             	<span slot="label"><i class="el-icon-information"></i> 商务信息</span>
-				      <trademark-bussiness ref="bussiness" :page-type="pageType"></trademark-bussiness>		            
+				      <trademark-bussiness ref="bussiness"  :customer="customer" @customerChanged="customerChanged" :page-type="pageType"></trademark-bussiness>		            
             </el-tab-pane>
             <el-tab-pane>
            		<span slot="label"><i class="el-icon-information"></i> 基本信息</span>
-				      <trademark-base ref="base" :page-type="pageType"></trademark-base>		            
+				      <trademark-base ref="base" :page-type="pageType" :customer="customer"></trademark-base>		            
             </el-tab-pane>
             <el-tab-pane>
                 <span slot="label"><i class="el-icon-share"></i> 日期&号码</span>
@@ -60,7 +60,8 @@ export default {
         return {
           id: '',
           btn_disabled: false,
-		      isTask:false,
+          isTask:false,
+          customer: 0,
         }
     },
     computed: {
@@ -79,10 +80,13 @@ export default {
         ...mapActions([
             'refreshUser',
         ]),
-		onIsTaskChanged(val) {
-			this.isTask = val;
-			console.log(val);
-		},
+        onIsTaskChanged(val) {
+          this.isTask = val;
+          console.log(val);
+        },
+        customerChanged(val) {
+          this.customer = val;
+        },
       	async add(form) {
 	      const flag = await this.checkForm();
 	      if (flag) {
