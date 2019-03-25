@@ -864,7 +864,8 @@ export default {
         toggle() {
             this.filterComponentVisible = !this.filterComponentVisible;
         },
-        handleRowClick(row, event, column) {
+        handleRowClick(row, event, column) { 
+            console.log(event);
             event.stopPropagation();
             if (column.type == "expand" || column.type == "selection" || column.type == "action") return false;
 

@@ -109,7 +109,7 @@ const strainerConfig = [
       { name: "承办人", id: "user" },
       { name: "代理人", id: "agent" },
       // { name: "代理人助理", id: "assistant" },
-      { name: "初审人", id: "first_reviewer" },
+      { name: "初核人", id: "first_reviewer" },
       { name: "复核人", id: "final_reviewer" },
       { name: "所属部门", id: "organization_unit" },
       { name: "客户", id: "customer" },

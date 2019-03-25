@@ -1,6 +1,7 @@
 // 著录项目变更理由证明
 import reasons from '../formTemplate/reasons'
 import {vm as checkbox_common_vm} from "../formTemplate/checkbox-common";
+import {vm as table100104_vm} from "../formTemplate/table100104";
 import {vm as citations_information_vm} from "../formTemplate/citations-information";
 import {vm as upload_vm} from "../formTemplate/Upload";
 import lodash from 'lodash'
@@ -35,7 +36,8 @@ let rule = [
     {
         type:"select",title:"申请人",field:"applicants",value:[],
     },
-    {
+  table100104_vm(),
+    /*{
         type:"select",title:"变更项目",field:"type",value:"",
         options:change_project,
         props:{
@@ -61,7 +63,7 @@ let rule = [
             "value-key":"id",
         },
         event:{}
-    },
+    },*/
     // TODO 这个CheckBox的逻辑要改 select框填充逻辑要改
     checkbox_common_vm(statement,"声明",()=>{},{labelWidth:"120px"},false),
     citations_information_vm(),
@@ -75,7 +77,7 @@ function copy(r) {
     let change_documents = [];
     let obj = lodash.cloneDeep(r);
     let rule = obj;
-    rule[3].event.change = (val)=>{
+    /*rule[3].event.change = (val)=>{
         change_project_id = val.id;
         rule[4].options.length = 0;
         rule[5].options.length = 0;
@@ -120,7 +122,7 @@ function copy(r) {
                 return true
             }
         })[0];
-    }
+    }*/
     return obj
 }
 

@@ -94,6 +94,7 @@ export default (module,mode) => ({  // module=>组件的$refs, mode=>'request' o
         url = "/invoices";
         data = {
           is_debit: this.is_debit,
+          currency: this.currency,
           fees: this.ids
         };
         message = "创建";

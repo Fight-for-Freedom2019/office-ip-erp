@@ -137,6 +137,7 @@ export default {
             width: "100",
             render_header: true
           },
+          { type: "text", label: "付款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header: true  },
           {
             type: "text",
             label: "确费用户",

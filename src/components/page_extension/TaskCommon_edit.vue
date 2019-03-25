@@ -93,7 +93,7 @@
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="初审人" prop="first_reviewer">
+          <el-form-item label="初核人" prop="first_reviewer">
             <jump-select type="user" v-model="form.first_reviewer"></jump-select>
           </el-form-item>
         </el-col>

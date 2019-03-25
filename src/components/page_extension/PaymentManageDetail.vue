@@ -170,7 +170,7 @@
               <reminders-record ref="reminders" :data="remindersData" :invoice="invoice" :id="id"></reminders-record>
             </el-tab-pane>
             <el-tab-pane label="支付记录" name="payments" v-if="mode==='pay'">
-              <received-record ref="payments" :mode="mode" :id="id" :invoice="invoice" @received="received" :data="receivedData"></received-record>
+              <received-record ref="payments" :mode="mode" :id="id" :invoice="invoice" @received="received" :data="receivedData" @update="update"></received-record>
             </el-tab-pane>
             <el-tab-pane label="回款记录" :mode="mode" name="received_payments" v-else>
               <received-record
@@ -179,6 +179,7 @@
                 :data="receivedData"
                 :invoice="invoice"
                 @received="received"
+                @update="update"
               ></received-record>
             </el-tab-pane>
             <el-tab-pane label="发票" name="vouchers">
@@ -294,9 +295,12 @@ export default {
         refreshMail() {
             this.$refs.mails.refreshTableData();
         },
+        update() {
+            this.$emit("update");
+        },
         reload() {
             this.getDetail(this.id);
-            this.$emit('update');
+            this.update();
         },
         submitCommon(suffix, hint) {
             this.$confirm(`是否${hint}`, "提示", {
@@ -307,7 +311,7 @@ export default {
                 const id = this.id;
                 let url = `/invoices/${id}${suffix}`;
                 const success = _ => {
-                    this.$emit("update");
+                    this.update();
                     this.$message({ type: "success", message: "操作成功" });
                     this.getDetail(id);
                 };
@@ -330,11 +334,11 @@ export default {
                 received_amount: this.form.received_amount,
                 remark: this.form.remark,
                 attachments: this.form.attachments,
-            }; // TODO 参数为form表单中的快递信息、备注、附件
+            };
             let url = `/invoices/${this.id}`;
             const success = _ => {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$emit("update");
+                this.update();
             };
             this.$axiosPut({ url, data, success });
         },
@@ -416,7 +420,7 @@ export default {
         },
         uploadFile(type) {
             const token = window.localStorage.getItem("token");
-            console.log(token);
+            // console.log(token);
             window.open(`invoices/${this.id}?format=${type}&token=${token}`);
         },
         confirm() {

@@ -334,7 +334,7 @@ export default {
           {
             type: "text",
             prop: "first_reviewer",
-            label: "初审人",
+            label: "初核人",
             render_simple: "name",
             render_header: true,
             width: "110",

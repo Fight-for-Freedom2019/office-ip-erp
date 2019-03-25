@@ -53,7 +53,7 @@ const taskMenu = [{
       // },
       {
         type: "item",
-        text: "我为初审人",
+        text: "我为初核人",
         path: "/task/monitor/first_reviewer",
         icon: "iconfont el-icon-my-due"
       },
@@ -327,6 +327,12 @@ const financeMenu = [{
         text: "付款单",
         path: "/finance/outgo/payments",
         icon: "iconfont el-icon-my-order"
+      },
+      {
+        type: "item",
+        text: "付款管理",
+        path: "/finance/revenue/payments",
+        icon: "iconfont el-icon-my-received-payment"
       }
     ]
   },

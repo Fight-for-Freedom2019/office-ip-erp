@@ -4,7 +4,7 @@
     <el-form-item label="代理人" prop="agent">
       <remote-select type="agent" v-model="form.agent" pageType="add"></remote-select>
     </el-form-item>
-    <el-form-item label="初审人" prop="first_reviewer">
+    <el-form-item label="初核人" prop="first_reviewer">
       <remote-select type="user" v-model="form.first_reviewer" pageType="add"></remote-select>
     </el-form-item>
     <el-form-item label="复核人" prop="final_reviewer">

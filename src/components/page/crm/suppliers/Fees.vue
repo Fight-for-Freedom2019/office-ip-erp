@@ -39,6 +39,11 @@
       <div style="margin-bottom: 10px; color: rgb(132, 146, 166); font-size: 14px;">
         <span>从选取的费用创建一个新的付款单，用于批量追踪付款费用，如果需要跨页选取费用，请在窗口左下角将分页数量调整为一个较大的值。</span>
       </div>
+      <el-form label-width="100px" style="margin-top: 10px;">
+          <el-form-item label="账单货币类型" prop="currency">
+            <static-select type="currency" v-model="currency"></static-select>
+          </el-form-item>
+      </el-form>
       <el-button type="primary" @click="saveOrder('new')">确认新建</el-button>
     </el-dialog>
     <el-dialog
@@ -64,6 +69,7 @@ import TableComponent from "@/components/common/TableComponent";
 import AppShrink from "@/components/common/AppShrink";
 import RequestPayoutAdd from "@/components/page_extension/RequestPayoutAdd";
 import JumpSelect from "@/components/form/JumpSelect";
+import StaticSelect from "@/components/form/StaticSelect";
 import Config from "@/const/selectConfig";
 import FeeCommon from "@/mixins/fee-common";
 import CommonDetail from '@/components/page_extension/Common_detail'
@@ -73,7 +79,7 @@ const config = new Map(Config);
 
 export default {
     name: "SuppliersFee",
-    mixins: [FeeCommon("requestPayout","pay")],
+    mixins: [FeeCommon("requestPayout", "pay")],
     data() {
         return {
             tableOption: {
@@ -83,7 +89,7 @@ export default {
                 highlightCurrentRow: true,
                 is_search: true,
                 is_list_filter: true,
-                list_type: "fees",
+                list_type: "fees_out",
                 treeFilter: "fees",
                 import_type: 'fees_out',
                 show_summary: true,
@@ -143,88 +149,19 @@ export default {
                         click: this.handleCaseDetail,
                         width: "178"
                     },
-                    {
-                        type: "text",
-                        label: "标题",
-                        prop: "project.title",
-                        width: "180"
-                    },
-                    {
-                        type: "text",
-                        label: "收款人",
-                        prop: "user",
-                        render_simple: "name",
-                        min_width: "190"
-                        // render_header: true
-                    },
-
-                    {
-                        type: "text",
-                        label: "费用名称",
-                        prop: "fee_code",
-                        render_simple: "name",
-                        width: "130",
-                        render_header: true
-                    },
-                  { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
-                  {
-                        type: "text",
-                        label: "类型",
-                        prop: "fee_type",
-                        render_simple: "name",
-                        width: "80",
-                        render_header: true
-                    },
-                    // TODO 接口有字段缺失
-                    {
-                        type: "text",
-                        label: "金额",
-                        prop: "amount_currency",
-                        width: "90",
-                        align: "right"
-                    },
-                    {
-                        type: "text",
-                        label: "币别",
-                        prop: "currency",
-                        width: "55"
-                        // render_header: true
-                    },
-                    {
-                        type: "text",
-                        label: "汇率",
-                        prop: "roe",
-                        width: "68",
-                        align: "right"
-                    },
-                    {
-                        type: "text",
-                        label: "人民币",
-                        prop: "rmb_amount_currency",
-                        width: "90",
-                        align: "right"
-                    },
-                    {
-                        type: "text",
-                        label: "官费小计",
-                        prop: "official_sum_currency",
-                        width: "90",
-                        align: "right"
-                    },
-                    {
-                        type: "text",
-                        label: "代理费小计",
-                        prop: "service_sum_currency",
-                        width: "90",
-                        align: "right"
-                    },
-                    {
-                        type: "text",
-                        label: "小计",
-                        prop: "sum_currency",
-                        width: "90",
-                        align: "right"
-                    },
+                    { type: "text", label: "标题", prop: "project.title", width: "180" },
+                    { type: "text", label: "收款人", prop: "user", render_simple: "name", min_width: "190" },
+                    { type: "text", label: "付款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header: true },
+                    { type: "text", label: "费用名称", prop: "fee_code", render_simple: "name", width: "130", render_header: true },
+                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
+                    { type: "text", label: "类型", prop: "fee_type", render_simple: "name", width: "80", render_header: true },
+                    { type: "text", label: "金额", prop: "amount_currency", width: "90", align: "right" },
+                    { type: "text", label: "币别", prop: "currency", width: "55" },
+                    { type: "text", label: "汇率", prop: "roe", width: "68", align: "right" },
+                    { type: "text", label: "人民币", prop: "rmb_amount_currency", width: "90", align: "right" },
+                    { type: "text", label: "官费小计", prop: "official_sum_currency", width: "90", align: "right" },
+                    { type: "text", label: "代理费小计", prop: "service_sum_currency", width: "90", align: "right" },
+                    { type: "text", label: "小计", prop: "sum_currency", width: "90", align: "right" },
                     {
                         type: "text",
                         label: "状态",
@@ -238,18 +175,34 @@ export default {
                         type: "text",
                         label: "申请日",
                         prop: "application_date",
-                        render_obj:"project",
                         width: "100",
                         render_header: true,
-                        expanded: true
+                        expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.application_date : "");
+                        }
                     },
                     {
                         type: "text",
                         label: "申请号",
                         prop: "application_number",
-                        render_obj:"project",
+                        render_obj: "project",
                         width: "178",
-                        expanded: true
+                        expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.application_number : "");
+                        }
+                    },
+                    {
+                        type: "text",
+                        label: "客户案号",
+                        prop: "customer_serial",
+                        render_obj: "project",
+                        width: "178",
+                        expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.customer_serial : "");
+                        }
                     },
                     {
                         type: "text",
@@ -263,10 +216,12 @@ export default {
                         type: "text",
                         label: "委案日",
                         prop: "entrusting_time",
-                        render_obj:"project",
                         width: "100",
                         render_header: true,
-                        expanded: true
+                        expanded: true,
+                        render: (h, item, row) => {
+                            return h('span', row.project ? row.project.entrusting_time : "");
+                        }
                     },
                     {
                         type: "text",
@@ -369,7 +324,9 @@ export default {
             },
             is_debit: 0,
             URL: "/fees",
-            fee_type: "pay" // 付费
+            fee_type: "pay", // 付费
+            currency: 'CNY',
+
         };
     },
     components: {
@@ -378,7 +335,8 @@ export default {
         AppShrink,
         JumpSelect,
         CommonDetail,
-      PaymentManageDetail
+        PaymentManageDetail,
+        StaticSelect
     }
 };
 </script>

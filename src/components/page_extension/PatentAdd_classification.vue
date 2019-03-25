@@ -35,7 +35,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="初审人">
+        <el-form-item label="初核人">
           <remote-select type="user" v-model="form.first_reviewer" add-type="user"></remote-select>
         </el-form-item>
       </el-col>

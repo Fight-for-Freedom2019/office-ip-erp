@@ -26,7 +26,7 @@ const map = new Map([
     //   data_key: "data",
     //   url: "/users"
     // },
-    { type: "remote_select", id: "first_reviewer", name: "初审人", data_key: "data", url: "/users" },
+    { type: "remote_select", id: "first_reviewer", name: "初核人", data_key: "data", url: "/users" },
     { type: "remote_select", id: "final_reviewer", name: "复核人", data_key: "data", url: "/users" },
     { type: "remote_select", id: "ipr", name: "IPR", data_key: "data", url: "/contacts" },
     { type: "remote_select", id: "customer", name: "客户", data_key: "data", url: "/customers" },
@@ -96,7 +96,7 @@ const map = new Map([
     //   data_key: "data"
     // },
     { type: "remote_select", id: "contact", name: "联系人", url: "/contacts", data_key: "data" },
-    { type: "remote_select", id: "first_reviewer", name: "初审人", url: "/users", data_key: "data" },
+    { type: "remote_select", id: "first_reviewer", name: "初核人", url: "/users", data_key: "data" },
     { type: "remote_select", id: "final_reviewer", name: "复核人", url: "/users", data_key: "data" },
     { type: "remote_select", id: "representative", name: "代表人", url: "/users", data_key: "data" },
     { type: "remote_select", id: "consultant", name: "顾问", url: "/users", data_key: "data" },
@@ -232,7 +232,9 @@ const map = new Map([
   [
     "fees",
     [{ type: "remote_select", id: "user", name: "客户", data_key: "data", url: "/customers" },
+    { type: "remote_select", id: "payment_account", name: "回款/付款账户", data_key: "data", url: "/payment_accounts" },
     { type: "text", id: "application_number", name: "申请号" },
+    { type: "text", id: "customer_serial", name: "客户案号" },
     { type: "date", id: "application_date", name: "申请日" },
     /*{ type: "remote_select", id: "project.serial", name: "案号", data_key: "projects", url: "/projects"
     },*/
@@ -251,6 +253,32 @@ const map = new Map([
     { type: "static_select", id: "status", name: "费用状态", map_type: "fee_status" },
     { type: "static_select", id: "payment_request_timing", name: "请款时机", map_type: "payment_request_timing" },
     { type: "text", id: "remark", name: "备注" }
+    ]
+  ],
+  [
+    "fees_out",
+    [{ type: "remote_select", id: "customer", name: "客户", data_key: "data", url: "/customers" },
+      { type: "remote_select", id: "payment_account", name: "回款/付款账户", data_key: "data", url: "/payment_accounts" },
+      { type: "text", id: "customer_serial", name: "客户案号" },
+      { type: "text", id: "application_number", name: "申请号" },
+      { type: "date", id: "application_date", name: "申请日" },
+      /*{ type: "remote_select", id: "project.serial", name: "案号", data_key: "projects", url: "/projects"
+      },*/
+      { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
+      { type: "static_select", id: "subtype", name: "案件类型", map_type: "project_subtype" },
+      { type: "text", id: "order", name: "订单号" },
+      { type: "static_select", id: "fee_code", name: "费用名称", map_type: "fee_code", url: "/feecode" },
+      { type: "static_select", id: "fee_type", name: "费用类型", map_type: "fee_type" },
+      { type: "static_select", id: "policy", name: "费用策略", map_type: "policy" },
+      { type: "static_select", id: "currency", name: "币别", map_type: "currency" },
+      { type: "date", id: "deadline", name: "官方绝限" },
+      { type: "date", id: "entrusting_time", name: "委案日" },
+      { type: "date", id: "invoice.payment_time", name: "实际付款时间" },
+      { type: "date", id: "mail_date", name: "通知书发文日" },
+      { type: "static_select", id: "is_opposite_fee_payed", name: "客户已付款", map_type: "bool" },
+      { type: "static_select", id: "status", name: "费用状态", map_type: "fee_status" },
+      { type: "static_select", id: "payment_request_timing", name: "请款时机", map_type: "payment_request_timing" },
+      { type: "text", id: "remark", name: "备注" }
     ]
   ],
   /* 年费监控 */
@@ -274,6 +302,7 @@ const map = new Map([
     [{ type: "remote_select", id: "serial", name: "请款单号", data_key: "invoices", url: "/invoices?listOnly=1&listRows=100" },
     { type: "remote_select", id: "creator_user", name: "创建人", data_key: "data" },
     { type: "remote_select", id: "user", name: "请款对象", data_key: "data", url: "/customers" },
+    { type: "remote_select", id: "payment_account", name: "回款/付款账户", data_key: "data", url: "/payment_accounts" },
     { type: "text", id: "amount_currency", name: "金额" },
     { type: "text", id: "rmb_amount_currency", name: "人民币" },
     { type: "text", id: "received_amount_currency", name: "实付金额" },

@@ -148,6 +148,7 @@ export default {
       const url = `/invoices/${this.id}/received_payments`;
       const success = _ => {
         this.tableData = _.data;
+        this.$emit("update");
       };
       this.$axiosGet({ url, data: option, success });
     },

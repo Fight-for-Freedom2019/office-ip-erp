@@ -32,6 +32,7 @@
               type="invoice_target"
               v-model="form.invoice_target"
               :para="para"
+              :pageType="mode"
               addType="invoice_target"
             ></remote-select>
           </el-form-item>
@@ -46,10 +47,30 @@
                         </el-form-item>
         </el-col>-->
       </el-row>
-      
-      <el-form-item label="发票类型" prop="voucher_type">
-        <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
-      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="发票类型" prop="voucher_type">
+            <static-select type="voucher_type" v-model="form.voucher_type"></static-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="开票内容" prop="voucher_content">
+            <static-select type="voucher_content" v-model="form.voucher_content"></static-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="开票公司" prop="payment_account_id">
+            <jump-select type="payment_accounts" v-model="form.payment_account_id"></jump-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="开票金额" prop="amount">
+            <el-input type="text" v-model="form.amount"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="状态" prop="status" v-if="this.mode === 'edit'">
@@ -127,7 +148,6 @@ import AppShrink from "@/components/common/AppShrink";
 import AppTable from "@/components/common/AppTable";
 import OrderDetail from "@/components/page/crm/orders/OrderDetail";
 import CommonDetail from "@/components/page_extension/Common_detail";
-import PaymentManageDetail from "@/components/page_extension/PaymentManageDetail";
 
 export default {
     name: "InvoiceManageDetail",
@@ -148,6 +168,7 @@ export default {
                 customer: "",
                 // customer_name: "",
                 invoice_target: "",
+                payment_account: "",
                 // invoice: "",
                 // title: "",
                 // received_date: "",
@@ -156,6 +177,9 @@ export default {
                 attachments: [],
                 // tax_no: ""
                 voucher_type: 1,
+                voucher_content: 1,
+                payment_account_id: '',
+                amount: '',
                 remark: '',
                 date: '',
             },
@@ -254,8 +278,8 @@ export default {
                         }
                     },
                     { type: "text", label: "标题", prop: "project.title", min_width: "150" },
-                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail},
-                  {
+                    { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "serial", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.serial : "" }, click: this.handleInvoiceDetail },
+                    {
                         type: "text-btn",
                         label: "订单号",
                         prop: "order.serial",
@@ -396,7 +420,7 @@ export default {
             return sums;
         },
         showFile() {
-            window.location.href = this.target.file.viewUrl;
+            window.open(this.target.file.viewUrl);
         },
         save() {
             // type是父组件传来的,表示是add还是edit,id表示修改的某一行数据的id
@@ -468,6 +492,14 @@ export default {
                     return;
                 }
             }
+            this.calAmount();
+        },
+        calAmount() {
+            let amount = 0;
+            this.fees.forEach(item => {
+                amount += (item.rmb_amount - 0);
+            })
+            this.form.amount = amount;
         },
         showDetail(row) {
             if (row.order) {
@@ -498,6 +530,7 @@ export default {
                     _this.fees.splice(index, 1);
                 }
             });
+            this.calAmount();
         },
 
         coverObj(val) {
@@ -528,6 +561,7 @@ export default {
             this.dialogVisible = true;
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
+                if (mode === "add") this.form.invoice_target = "";
                 this.id = id;
 
                 this.title = this.mode === "add" ? "开票申请" : "";
@@ -541,10 +575,10 @@ export default {
         close() {
             this.dialogVisible = false;
         },
-        handleInvoiceDetail(row){
+        handleInvoiceDetail(row) {
             this.$refs.invoiceDetail.show(row.invoice.id, "request", row);
         },
-        update(){
+        update() {
             this.$emit("update");
         },
     },
@@ -574,7 +608,7 @@ export default {
         OrderDetail,
         CommonDetail,
         AppTable,
-        PaymentManageDetail,
+        PaymentManageDetail: () => import("@/components/page_extension/PaymentManageDetail"),
     }
 };
 </script>
