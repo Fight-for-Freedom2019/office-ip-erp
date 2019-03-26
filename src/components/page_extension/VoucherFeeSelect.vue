@@ -53,7 +53,7 @@ export default {
                         width: "140",
                         click: this.showDetail,
                         render_text_btn: row => {
-                            return row.order ? row.order.serial : row.project.serial;
+                            return row.order ? row.order.serial : row.project?row.project.serial:"";
                         }
                     },
                     { type: "text", label: "标题", prop: "project.title", min_width: "120" },
