@@ -533,6 +533,24 @@ export default {
           },
           {
             type: "text",
+            prop: "postpones_previous_deadline",
+            label: "延期前时间",
+            width: '110'
+          },
+          {
+            type: "text",
+            prop: "postpones_times",
+            label: "延期次数",
+            width: '100'
+          },
+          {
+            type: "text",
+            prop: "postpones_remark",
+            label: "延期备注",
+            width: '145'
+          },
+          {
+            type: "text",
             prop: "internal_reviewing_times",
             label: "内审次数",
             width: "100"
