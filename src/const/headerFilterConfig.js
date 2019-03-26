@@ -9,7 +9,7 @@ const map = new Map([
     { type: "text", id: "title", name: "标题" },
     { type: "static_select", id: "project_tags", name: "案件标签", map_type: "tags", url: "/tags?listOnly=1", sortable: false },
     { type: "static_select", id: "process_tags", name: "事项标签", map_type: "tags", url: "/tags?listOnly=1", sortable: false },
-    { type: "static_select", id: "subtype", name: "案件子类型", map_type: "subtype" },
+    { type: "static_select", id: "subtype", name: "案件子类型", map_type: "project_subtype" },
     { type: "static_select", id: "project_type", name: "案件类型", map_type: "project_type" },
     { type: "static_select", id: "project_stage", name: "案件状态", map_type: "project_stage", url: true },
     { type: "static_select", id: "process_definition", name: "管制事项", map_type: "process_definition", url: true },

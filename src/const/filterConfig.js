@@ -18,7 +18,7 @@ const map = new Map([
         components: "static_select",
         id: "subtype",
         name: "案件子类型",
-        type: "subtype",
+        type: "project_subtype",
         used: true
       },
       {
