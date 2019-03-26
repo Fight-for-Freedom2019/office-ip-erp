@@ -256,7 +256,7 @@
           <el-row :gutter="10">
             <el-col :span="12">
               <el-form-item label="备注">
-                <span class="form-item-text">{{ processData.task?processData.task.remark:"" }}</span>
+                <span class="form-item-text" style="word-break: break-all;white-space: normal;">{{ processData.task?processData.task.remark:"" }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
