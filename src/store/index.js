@@ -50,7 +50,8 @@ const store = new Vuex.Store({
     bread_header_height: "",
     token: null,
     trigger: "",
-    activeCardId: 0
+    activeCardId: 0,
+    customers: [],
   },
   modules: {
     action,
@@ -102,9 +103,13 @@ const store = new Vuex.Store({
     getHashMaps: state => state.hashMaps,
     breadHeaderHeight: state => state.bread_header_height,
     getToken: state => state.token,
-    getTrigger: state => state.trigger
+    getTrigger: state => state.trigger,
+    getCustomers: state => state.customers,
   },
   mutations: {
+    setCustomers (state, d) {
+      state.customers = d;
+    },
     setDragId(state, id) {
       state.dragId = id;
     },

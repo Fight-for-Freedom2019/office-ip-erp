@@ -1,5 +1,5 @@
 <template>
-  <el-select :value="value" @input="handleInput" :multiple="multiple" :disabled="disabled" placeholder="请选择地区" value-key="id" ref="select">
+  <el-select :value="value" @input="handleInput" :multiple="multiple" :clearable="clearable" filterable :disabled="disabled" placeholder="请选择地区" value-key="id" ref="select">
   	<el-option
 			v-for="item in areaData"
 			:key="item.id"
@@ -17,7 +17,11 @@ export default {
   	'multiple': {
   		type: Boolean,
   		default: false,
-  	},
+		},
+		'clearable': {
+			type: Boolean,
+			default: false
+		},
   	'disabled': {
   		type: Boolean,
   		default: false,

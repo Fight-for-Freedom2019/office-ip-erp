@@ -8,6 +8,7 @@
         :para="customerParam"
         @input="customerChanged"
         add-type="customer"
+        ref="customer"
       ></remote-select>
     </el-form-item>
     <el-form-item label="IPR" prop="ipr">
@@ -87,12 +88,12 @@ export default {
           message: "客户不能为空",
           trigger: "change"
         },
-        ipr: {
-          type: "number",
-          required: true,
-          message: "IPR不能为空",
-          trigger: "change"
-        },
+        // ipr: {
+        //   type: "number",
+        //   required: true,
+        //   message: "IPR不能为空",
+        //   trigger: "change"
+        // },
         contact: {
           type: "number",
           required: true,
@@ -252,7 +253,12 @@ export default {
     "form.customer": {
       handler(val) {
         this.loadDefaultFees();
-      }
+        this.$nextTick(_=>{
+          const selected = this.$refs.customer.getSelected();
+          this.$store.commit('setCustomers', selected);
+        })
+      },
+      immediate: true,
     }
   },
   components: {
