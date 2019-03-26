@@ -1092,7 +1092,7 @@ export default {
     handleSearch() {
       const func = this.tableOption.handleSearch;
 
-      if (func && this.search_value) {
+      if (func) {
         func(this.search_value);
       } else {
         this.reset();
