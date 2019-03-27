@@ -249,15 +249,20 @@
         </template>
       </div>
       <div class="table-header-right">
-        <search-input
-          v-model="search_value"
-          :placeholder="tableOption.search_placeholder == undefined ? '搜索...' : tableOption.search_placeholder"
-          class="table-search"
-          @enter="handleSearch"
-          @clear="handleClearInput"
-          clearable
-          v-if="tableOption.is_search == undefined ? true : tableOption.is_search"
-        ></search-input>
+        <template v-if="tableOption.filterFields !== undefined">
+          <static-search-input :tableData="data" @input="handleStaticFilterInput" :fields="tableOption.filterFields" @filterTableData="filterTableData" :placeholder="tableOption.search_placeholder == undefined ? '搜索...' : tableOption.search_placeholder"></static-search-input>
+        </template>
+        <template v-else>
+          <search-input
+              v-model="search_value"
+              :placeholder="tableOption.search_placeholder == undefined ? '搜索...' : tableOption.search_placeholder"
+              class="table-search"
+              @enter="handleSearch"
+              @clear="handleClearInput"
+              clearable
+              v-if="tableOption.is_search == undefined ? true : tableOption.is_search"
+          ></search-input>
+        </template>
       </div>
     </div>
     <div class="table-body">
@@ -289,7 +294,7 @@
           :class="tableOption.empty_text_position == 'topLeft' ? 'empty-top-left' : ''"
           :style="tableStyle"
           :merge="tableOption.merge === undefined?[]:tableOption.merge"
-          :data="tableData"
+          :data="!static_search_input?tableData:filter_data"
           v-model="fields"
           :listType="tableOption.list_type!=undefined?tableOption.list_type: ''"
           :expandsCol="tableOption.expandsCol!=undefined?tableOption.expandsCol: 3"
@@ -485,7 +490,9 @@ export default {
       filterVisible: false,
       filterValueVisible: false,
       strainerParams: {},
-      tableHeight: ""
+      tableHeight: "",
+      static_search_input:"",
+      filter_data:[],
     };
 
     return data;
@@ -1097,6 +1104,12 @@ export default {
       } else {
         this.reset();
       }
+    },
+    filterTableData(val){
+      this.filter_data = val;
+    },
+    handleStaticFilterInput(val){
+      this.static_search_input = val;
     },
     timeSearch({ search }) {
       if (search) {

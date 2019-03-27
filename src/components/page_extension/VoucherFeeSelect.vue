@@ -36,13 +36,20 @@
           url: "",
           height: "voucher_fee_select",
           highlightCurrentRow: true,
-          is_search: true,
-          staticFilterFiled:["feecode.name","is_voucher","project.title"],
+          is_search: false,
           is_pagination: false,
           handleSearch:this.handleSearch,
           // 'rowClick': this.handleRowClick,
           header_btn: [
             // {type: 'add'},
+          ],
+          filterFields:[
+            {field: "feecode.name", value: "代理费"},
+            {field: "feecode.name", value: "官费"},
+            {field: "project.serial"},
+            {field: "rmb_amount"},
+            {field: "is_voucher", value: "是"},
+            {field: "is_voucher", value: "否"},
           ],
           columns: [
             {type: "selection"},
@@ -107,30 +114,6 @@
               break;
           }
         }
-      },
-      handleSearch(val){
-        const field = ["feecode.name","is_voucher","project.title","rmb_amount","project.serial"];
-        this.fees = val === "" ? this.fees_copy : this.filterData(val,this.fees_copy,field);
-        // console.log(this.filterData(val,this.fees_copy,field));
-      },
-      getObjValue(obj, desc){
-        let arr = desc.split(".");
-        let o = obj;
-        while (arr.length && o) {
-          o = o[arr.shift()];
-        }
-        return o;
-      },
-      filterData(val, data, field){
-        let _this = this;
-        return data.filter((o)=>{
-          let bool = false;
-          field.some((i)=>{
-            bool = _this.getObjValue(o,i)?_this.getObjValue(o,i).toString().indexOf(val) !== -1 : false;
-            return bool;
-          })
-          return bool;
-        })
       },
       save() {
         let selected = this.$refs.table.getSelection();
