@@ -110,7 +110,7 @@ export default {
         remark: '',
       },
       rules: {
-        serial: { required: true, message: '请填写案号', trigger: 'blur'},
+        // serial: { required: true, message: '请填写案号', trigger: 'blur'},
         title: { required: true, message: '请填写标题', trigger: 'blur' },
         subtype: { type: 'number', required: true, message: '请填写版权类型', trigger: 'change' },
       },
@@ -122,7 +122,10 @@ export default {
     return this.$tool.shallowCopy(this.form, { date: true });
   },
   setForm (form) {
-    this.$tool.coverObj(this.form, form);
+    this.$tool.coverObj(this.form, form, {
+      obj: ['attachments'],
+    });
+    this.attachments = form.attachments && form.attachments.length ? form.attachments : [];  
   },
   checkForm(callback) {
       let flag = true;

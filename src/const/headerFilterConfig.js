@@ -7,8 +7,8 @@ const map = new Map([
     { type: "text", id: "serial", name: "案号" },
     { type: "text", id: "customer_serial", name: "客户案号" },
     { type: "text", id: "title", name: "标题" },
-    { type: "static_select", id: "project_tags", name: "案件标签", map_type: "tags", url: "/tags?listOnly=1", sortable: false },
-    { type: "static_select", id: "process_tags", name: "事项标签", map_type: "tags", url: "/tags?listOnly=1", sortable: false },
+    { type: "static_select", id: "project_tags", name: "案件标签", map_type: "tags", url: true, sortable: false },
+    { type: "static_select", id: "process_tags", name: "事项标签", map_type: "tags", url: true, sortable: false },
     { type: "static_select", id: "subtype", name: "案件子类型", map_type: "project_subtype" },
     { type: "static_select", id: "project_type", name: "案件类型", map_type: "project_type" },
     { type: "static_select", id: "project_stage", name: "案件状态", map_type: "project_stage", url: true },
@@ -62,7 +62,7 @@ const map = new Map([
     { type: "text", id: "words_count", name: "说明书字数" },
     { type: "text", id: "claims_count", name: "权利要求项数" },
     { type: "text", id: "start_year", name: "首次年费年度" },
-    { type: "remote_select", id: "applicants", name: "申请人", url: "applicants", data_key: "data" },
+    { type: "remote_select", id: "applicants", name: "申请人", url: "/applicants", data_key: "data" },
     { type: "text", id: "application_number", name: "申请号" },
     { type: "date", id: "application_date", name: "申请日" },
     { type: "date", id: "entrusting_time", name: "委案日" },
@@ -132,6 +132,25 @@ const map = new Map([
     { type: "text", id: "remark", name: "备注" }
     ]
   ],
+  // 版权
+  ["copyright", [
+    { type: "text", id: "serial", name: "案号"},
+    { type: "text", id: "title", name: "标题"},
+    { type: "static_select", id: "subtype", name: "版权类型", map_type: "copyright_type" },
+    { type: "text", id: "application_number", name: "受理号"},
+    { type: "date", id: "application_date", name: "受理日" },
+    { type: "date", id: "issue_date", name: "下证日" },
+    { type: "text", id: "issue_number", name: "证书号" },
+    { type: "remote_select", id: "customer", name: "客户", url: "/customers", data_key: "data" },
+    { type: "text", id: "customer_serial", name: "客户案号" },
+    { type: "remote_select", id: "applicants", name: "申请人", url: "/applicants", data_key: "data" },
+    { type: "remote_select", id: "contact", name: "联系人", url: "/contacts", data_key: "data" },
+    { type: "static_select", id: "project_stage", name: "案件状态", map_type: "project_stage", url: true },
+    { type: "static_select", id: "organization_unit", name: "部门", map_type: "branch" },
+    { type: "remote_select", id: "agent", name: "代理人", data_key: "data", url: "/users" },
+    { type: "remote_select", id: "sales", name: "销售", url: "/users", data_key: "data" },
+    { type: "text", id: "remark", name: "备注" },
+  ]],
   ["notices", [{
     type: "text", id: "project.serial", name: "案号"
   }]],
