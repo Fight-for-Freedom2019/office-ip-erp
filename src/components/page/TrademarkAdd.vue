@@ -2,19 +2,19 @@
     <div class="main" id="trademarkAdd">
         <el-tabs type="border-card">
         	<el-tab-pane>
-            	<span slot="label"><i class="el-icon-information"></i> 商务信息</span>
+            	<span slot="label"><i class="el-icon-my-users"></i> 商务信息</span>
 				      <trademark-bussiness ref="bussiness"  :customer="customer" @customerChanged="customerChanged" :page-type="pageType"></trademark-bussiness>		            
             </el-tab-pane>
             <el-tab-pane>
-           		<span slot="label"><i class="el-icon-information"></i> 基本信息</span>
+           		<span slot="label"><i class="el-icon-info"></i> 基本信息</span>
 				      <trademark-base ref="base" :page-type="pageType" :customer="customer"></trademark-base>		            
             </el-tab-pane>
             <el-tab-pane>
-                <span slot="label"><i class="el-icon-share"></i> 日期&号码</span>
+                <span slot="label"><i class="el-icon-date"></i> 日期&号码</span>
                 <trademark-date ref="date" :page-type="pageType"></trademark-date>
             </el-tab-pane>
             <el-tab-pane>
-                <span slot="label"><i class="el-icon-share"></i> 人员信息</span>
+                <span slot="label"><i class="el-icon-menu"></i> 人员信息</span>
                 <trademark-person ref="person" :page-type="pageType"></trademark-person>
             </el-tab-pane>
             <!-- <el-tab-pane>
