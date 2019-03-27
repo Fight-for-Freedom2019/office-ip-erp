@@ -1,9 +1,9 @@
 <template>
   <!-- <app-collapse col-title="扩展信息"> -->
-  <el-form label-width="100px" :model="form" ref="form">
+  <el-form label-width="110px" :model="form" ref="form">
     <el-row>
       <el-col :span="8">
-        <el-form-item label="委案日">
+        <el-form-item label="委案日" prop="entrusting_time">
           <el-date-picker
             size="small"
             v-model="form.entrusting_time"
@@ -14,7 +14,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="立案日">
+        <el-form-item label="立案日" prop="creation_time">
           <el-date-picker
             size="small"
             v-model="form.creation_time"
@@ -27,7 +27,7 @@
     </el-row>
     <el-row v-if="type == 'add'">
       <el-col :span="8">
-        <el-form-item label="管控期限">
+        <el-form-item label="管控期限" prop="internal_deadline">
           <el-date-picker
             size="small"
             v-model="form.internal_deadline"
@@ -37,7 +37,7 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
-      <!-- <el-col :span="8">
+      <!-- <el-col :span="8" prop="filing_deadline">
         <el-form-item label="递交期限">
           <el-date-picker
             size="small"
@@ -48,7 +48,7 @@
         </el-form-item>
       </el-col> -->
       <el-col :span="8">
-        <el-form-item label="官方/递交绝限">
+        <el-form-item label="官方/递交绝限" prop="legal_deadline">
           <el-date-picker
             size="small"
             v-model="form.legal_deadline"
@@ -60,7 +60,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="申请号">
+        <el-form-item label="申请号" prop="application_number">
           <el-input
             size="small"
             v-model="form.application_number"
@@ -70,7 +70,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="申请日">
+        <el-form-item label="申请日" prop="application_date">
           <el-date-picker
             size="small"
             v-model="form.application_date"
@@ -81,7 +81,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="主动修改期限">
+        <el-form-item label="主动修改期限" prop="active_supplement_expire_date">
           <el-date-picker
             size="small"
             v-model="form.active_supplement_expire_date"
@@ -94,7 +94,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="公开号">
+        <el-form-item label="公开号" prop="publication_number">
           <el-input
             size="small"
             v-model="form.publication_number"
@@ -104,7 +104,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="公开日">
+        <el-form-item label="公开日" prop="publication_date">
           <el-date-picker
             size="small"
             v-model="form.publication_date"
@@ -115,7 +115,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="初审合格日">
+        <el-form-item label="初审合格日" prop="pre_exam_ok_date">
           <el-date-picker
             size="small"
             v-model="form.pre_exam_ok_date"
@@ -128,7 +128,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="公告号">
+        <el-form-item label="公告号" prop="issue_number">
           <el-input
             size="small"
             v-model="form.issue_number"
@@ -138,7 +138,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="公告日">
+        <el-form-item label="公告日" prop="issue_date">
           <el-date-picker
             size="small"
             v-model="form.issue_date"
@@ -149,7 +149,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="进入实审日">
+        <el-form-item label="进入实审日" prop="sub_exam_start_date">
           <el-date-picker
             size="small"
             v-model="form.sub_exam_start_date"
@@ -162,7 +162,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="国际申请号">
+        <el-form-item label="国际申请号" prop="pct_application_number">
           <el-input
             size="small"
             v-model="form.pct_application_number"
@@ -172,7 +172,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="国际申请日">
+        <el-form-item label="国际申请日" prop="pct_application_date">
           <el-date-picker
             size="small"
             v-model="form.pct_application_date"
@@ -184,7 +184,7 @@
       </el-col>
 
       <el-col :span="8">
-        <el-form-item label="PCT优先权日">
+        <el-form-item label="PCT优先权日" prop="pct_priority_date">
           <el-date-picker
             size="small"
             v-model="form.pct_priority_date"
@@ -197,7 +197,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="国际公开号">
+        <el-form-item label="国际公开号" prop="pct_publication_number">
           <el-input
             size="small"
             v-model="form.pct_publication_number"
@@ -207,7 +207,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="国际公开日">
+        <el-form-item label="国际公开日" prop="pct_publication_date">
           <el-date-picker
             size="small"
             v-model="form.pct_publication_date"
@@ -218,7 +218,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="国际公开语言">
+        <el-form-item label="国际公开语言" prop="pct_publication_language">
           <static-select
             size="small"
             type="language"
@@ -230,7 +230,7 @@
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="PCT检索日">
+        <el-form-item label="PCT检索日" prop="pct_search_date">
           <el-date-picker
             size="small"
             v-model="form.pct_search_date"
@@ -240,7 +240,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="PCT国家阶段">
+        <el-form-item label="PCT国家阶段" prop="pct_national_stage_expire_date">
           <el-date-picker
             size="small"
             v-model="form.pct_national_stage_expire_date"
@@ -251,7 +251,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="PCT19条期限">
+        <el-form-item label="PCT19条期限" prop="pct19_expire_date">
           <el-date-picker
             size="small"
             v-model="form.pct19_expire_date"
@@ -262,7 +262,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="PCT初审期限">
+        <el-form-item label="PCT初审期限" prop="pct_pre_exam_expire_date">
           <el-date-picker
             size="small"
             v-model="form.pct_pre_exam_expire_date"
@@ -273,7 +273,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="优先权期限">
+        <el-form-item label="优先权期限" prop="priority_expire_date">
           <el-date-picker
             size="small"
             v-model="form.priority_expire_date"
@@ -284,7 +284,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="DAS码">
+        <el-form-item label="DAS码" prop="das">
           <el-input size="small" v-model="form.das" placeholder="DAS码" class="input-min-width"></el-input>
         </el-form-item>
       </el-col>
@@ -311,6 +311,7 @@ export default {
             form: {
                 first_edition_deadline: "",
                 filing_deadline: "",
+                internal_deadline: "",
                 legal_deadline: "",
                 creation_time: "",
                 entrusting_time: "",

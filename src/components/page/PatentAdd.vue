@@ -258,6 +258,9 @@ export default {
         this.$refs[_] !== undefined
           ? this.$refs[_].$refs.form.resetFields()
           : false;
+        if(this.$refs[_] !== undefined && ( _ == 'base' || _ == 'other')) {
+          this.$refs[_].$refs.upload.clearFiles();
+        }
       });
     },
     formCheck() {

@@ -1,3 +1,6 @@
+<!-- 
+  注： 加表单项时记得加上prop属性 为了清空字段； v-model绑值记得先声明变量 
+-->
 <template>
   <!-- <app-collapse col-title="基本信息"> -->
   <el-form label-width="100px" :model="form" :rules="rules" ref="form">
@@ -34,14 +37,14 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="案件等级">
+        <el-form-item label="案件等级" prop="level">
           <static-select type="project_level" v-model="form.level"></static-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="案件状态">
+        <el-form-item label="案件状态" prop="project_stage">
           <jump-select type="project_stage" v-model="form.project_stage"></jump-select>
         </el-form-item>
       </el-col>
@@ -51,7 +54,7 @@
         </el-form-item>
       </el-col>-->
       <el-col :span="8">
-        <el-form-item label="年费监控">
+        <el-form-item label="年费监控" prop="renewal_fee_monitor_status">
           <static-select
             type="renewal_fee_monitor_status"
             v-model="form.renewal_fee_monitor_status"
@@ -59,7 +62,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="费减标记">
+        <el-form-item label="费减标记" prop="fee_ratio">
           <static-select type="fee_ratio" v-model="form.fee_ratio"></static-select>
         </el-form-item>
       </el-col>
@@ -84,7 +87,7 @@
     </el-row>
     <el-row>
       <el-col :span="16">
-        <el-form-item label="申请人">
+        <el-form-item label="申请人" prop="applicants">
           <remote-select
             type="applicant"
             :page-type="type"
@@ -125,13 +128,13 @@
     <!--       <el-form-item label="送件发明人">
         <remote-select type="inventor" :page-type="type" v-model="form.alias_inventors" multiple></remote-select>
     </el-form-item>-->
-    <el-form-item label="优先权">
+    <el-form-item label="优先权" prop="priorities">
       <priorities v-model="form.priorities"></priorities>
     </el-form-item>
-    <el-form-item label="案件引用">
+    <el-form-item label="案件引用" prop="references">
       <relative-projects v-model="form.references" :customer="customerParam" :page-type="type"></relative-projects>
     </el-form-item>
-    <el-form-item label="专利族">
+    <el-form-item label="专利族" prop="families">
       <remote-select
         v-model="form.families"
         :para="customerParam"
@@ -152,7 +155,7 @@
         </el-checkbox-group>
         <span v-else>暂无可选项</span>
     </el-form-item>-->
-    <el-form-item label="案件标签">
+    <el-form-item label="案件标签" prop="tags">
       <jump-select type="tags" v-model="form.tags" multiple></jump-select>
     </el-form-item>
 
@@ -164,9 +167,10 @@
         @uploadSuccess="handleUploadSuccess"
         v-model="form.attachments"
         :file-list="attachments"
+        ref="upload"
       ></upload>
     </el-form-item>
-    <el-form-item label="备注">
+    <el-form-item label="备注" prop="remark">
       <el-input v-model="form.remark" type="textarea" placeholder="请填写备注信息"></el-input>
     </el-form-item>
   </el-form>
@@ -399,7 +403,7 @@ export default {
             }
         }
     },
-    created() { },
+    created() {},
     components: {
         AppCollapse,
         Region,
