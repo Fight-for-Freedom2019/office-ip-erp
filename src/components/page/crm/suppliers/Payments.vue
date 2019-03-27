@@ -100,13 +100,13 @@ export default {
             align: "right",
             render_header: true
           },
-          {
+          /*{
             type: "text",
             label: "请款时间",
             prop: "request_time",
             width: "100",
             render_header: true
-          },
+          },*/
           {
             type: "text",
             label: "付款期限",
