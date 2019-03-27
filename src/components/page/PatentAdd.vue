@@ -113,14 +113,14 @@
 
 <script>
 const map = new Map([
-  ["business", "请正确填写商务信息"],
-  ["base", "请正确填写基本信息"],
-  ["date", "请正确填写扩展信息"],
-  ["classification", "请正确填写分类信息"],
-  ["agent", "请正确填写委案信息"],
-  ["case", "请正确填写案件引用信息"],
-  ["other", "请正确填写其他信息"],
-  ["task", "请正确填写任务信息"]
+    ["business", "请正确填写商务信息"],
+    ["base", "请正确填写基本信息"],
+    ["date", "请正确填写扩展信息"],
+    ["classification", "请正确填写分类信息"],
+    ["agent", "请正确填写委案信息"],
+    ["case", "请正确填写案件引用信息"],
+    ["other", "请正确填写其他信息"],
+    ["task", "请正确填写任务信息"]
 ]);
 
 const getKeys = ["business", "base", "date", "other", "classification"];
@@ -143,301 +143,301 @@ import AppShrink from "@/components/common/AppShrink";
 import { mapActions } from "vuex";
 
 export default {
-  name: "patentAdd",
-  props: {
-    pageType: String,
-    isChild: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      id: "",
-      pop_type: "",
-      btn_disabled: false,
-      list: [],
-      mode: "edit",
-      dialogVisible: false,
-      title: "",
-      loadingVisible: false,
-      loadingText: "专利数据加载中...",
-      customer: 0
-    };
-  },
-  methods: {
-    ...mapActions(["refreshUser"]),
-    customerChanged(val) {
-      this.customer = val;
-    },
-    void() {
-      console.log(this.$refs);
-    },
-    click() {
-      this.$store.commit("setActiveCardId", 0);
-    },
-    async add(form) {
-      const flag = await this.formCheck();
-      if (flag) {
-        const url = URL;
-        const data = Object.assign(
-          ...getKeys.map(_ =>
-            this.$refs[_] !== undefined ? this.$refs[_].submitForm() : false
-          ),
-          { list: this.list }
-        );
-
-        const success = _ => {
-          this.$message({ message: "新建专利成功", type: "success" });
-          this.refreshUser();
-          this.dialogVisible = false;
-          this.$router.push("/patent/draftbox");
-          this.$emit("addSuccess");
-        };
-        const complete = _ => {
-          this.btn_disabled = false;
-        };
-
-        this.$axiosPost({ url, data, success });
-      }
-    },
-    async edit() {
-      const flag = await this.formCheck();
-      if (flag) {
-        const url = `${URL}/${this.id}`;
-        const data = Object.assign(
-          ...setKeys.map(d =>
-            typeof this.$refs[d] !== "undefined"
-              ? this.$refs[d].submitForm()
-              : this.void
-          )
-        );
-        console.log(data);
-        const success = _ => {
-          this.$message({
-            message: _.info,
-            type: "success"
-          });
-          this.$emit("editSuccess");
-          // this.$router.push('/patent/list');
-        };
-        const complete = _ => {
-          this.btn_disabled = false;
-        };
-
-        this.btn_disabled = true;
-        return this.$axiosPut({ url, data, success, complete });
-      }
-    },
-    show(id, data) {
-      this.dialogVisible = true;
-      if (id == "add") {
-        this.title = "新专利立案";
-        this.clear();
-        return;
-      }
-      if (data === undefined) {
-        this.loadingVisible = true;
-        const url = `${URL}/${id}`;
-        const success = _ => {
-          const patent = _.patent;
-          this.refreshForm(patent);
-          this.loadingVisible = false;
-        };
-        this.$axiosGet({ url, success });
-      } else {
-        this.refreshForm(data);
-      }
-    },
-    close() {
-      this.dialogVisible = false;
-    },
-    clear() {
-      getKeys.map(_ => {
-        console.log(this.$refs[_]);
-        this.$refs[_] !== undefined
-          ? this.$refs[_].$refs.form.resetFields()
-          : false;
-      });
-    },
-    formCheck() {
-      return new Promise(resolve => {
-        //递归检测
-        const check = index => {
-          const key = getKeys[index];
-          if (key && typeof this.$refs[key] !== "undefined") {
-            this.$refs[key].checkForm(_ => {
-              if (_) {
-                check(index + 1);
-              } else {
-                this.$message({ message: map.get(key), type: "warning" });
-                resolve(false);
-              }
-            });
-          } else {
-            resolve(true);
-          }
-        };
-
-        check(0);
-      });
-    },
-    cancel() {
-      this.$router.push("/patent/list");
-    },
-    refreshForm(val) {
-      if (this.pageType == "edit" && this.$tool.getObjLength(val) != 0) {
-        const copy = this.$tool.deepCopy(val);
-        this.id = copy.id;
-        this.title = val.serial + "-" + val.title;
-        this.$nextTick(() => {
-          setKeys.map(_ => {
-            if(this.$refs[_]) {
-              this.$refs[_].setForm(copy);
-            }
-          });
-        });
-      }
-    },
-    fillForm([val, type]) {
-      if (val instanceof Array && val.length != 0) {
-        const copy = this.$tool.deepCopy(val);
-        // this.id = copy[0].id;
-        const relates = [];
-        if (type) {
-          val.map(_ => {
-            relates.push({ id: _.id, name: _.title, type: type });
-          });
+    name: "patentAdd",
+    props: {
+        pageType: String,
+        isChild: {
+            type: Boolean,
+            default: false
         }
-        const form = {};
-        const data = this.$tool.normalFilter(copy[0], {
-          stay: [
-            "serial",
-            "title",
-            "area",
-            "type",
-            "ipr",
-            "level",
-            "applicants",
-            "inventors",
-            "priorities",
-            "extension",
-            "attachments",
-            "proposer",
-            "group_number",
-            "family_number",
-            "legal_status",
-            "branch",
-            "products",
-            "classification",
-            "tags",
-            "main_ipc",
-            "project_name",
-            "project_serial",
-            "product_relevance"
-          ]
-        });
-        Object.assign(form, data, { relates });
-        setKeys.map(_ => {
-          if (this.$refs[_]) {
-            this.$refs[_].setForm(form);
-          }
-        });
-      }
     },
-    proposalFill(v) {
-      if (v instanceof Array && v.length != 0) {
-        const copy = this.$tool.deepCopy(v);
-        const proposals = [];
-        v.map(_ => {
-          proposals.push({ id: _.id, name: _.title });
-        });
-        const form = {};
-        Object.assign(form, copy[0], { proposals });
-        setKeys.map(_ => {
-          if (this.$refs[_]) {
-            this.$refs[_].setForm(form);
-          }
-        });
-      }
+    data() {
+        return {
+            id: "",
+            pop_type: "",
+            btn_disabled: false,
+            list: [],
+            mode: "edit",
+            dialogVisible: false,
+            title: "",
+            loadingVisible: false,
+            loadingText: "专利数据加载中...",
+            customer: 0
+        };
     },
-    handleUploadSuccess(d) {
-      if (!d.data || !d.data.list) {
-        return;
-      }
-      //2锁定title disclosure_type
-      if (d.data.list.is_disclosure == 1) {
-        this.list.push(d.data.list);
+    methods: {
+        ...mapActions(["refreshUser"]),
+        customerChanged(val) {
+            this.customer = val;
+        },
+        void() {
+            console.log(this.$refs);
+        },
+        click() {
+            this.$store.commit("setActiveCardId", 0);
+        },
+        async add(form) {
+            const flag = await this.formCheck();
+            if (flag) {
+                const url = URL;
+                const data = Object.assign(
+                    ...getKeys.map(_ =>
+                        this.$refs[_] !== undefined ? this.$refs[_].submitForm() : false
+                    ),
+                    { list: this.list }
+                );
 
-        let disclosure_type = d.data.list.disclosure_type;
-        disclosure_type = disclosure_type !== undefined ? disclosure_type : "";
+                const success = _ => {
+                    this.$message({ message: "新建专利成功", type: "success" });
+                    this.refreshUser();
+                    this.dialogVisible = false;
+                    this.$router.push("/patent/draftbox");
+                    this.$emit("addSuccess");
+                };
+                const complete = _ => {
+                    this.btn_disabled = false;
+                };
 
-        getKeys.forEach(_ => {
-          this.$refs[_].setForm(d.data.list, true, disclosure_type);
+                this.$axiosPost({ url, data, success });
+            }
+        },
+        async edit() {
+            const flag = await this.formCheck();
+            if (flag) {
+                const url = `${URL}/${this.id}`;
+                const data = Object.assign(
+                    ...setKeys.map(d =>
+                        typeof this.$refs[d] !== "undefined"
+                            ? this.$refs[d].submitForm()
+                            : this.void
+                    )
+                );
+                console.log(data);
+                const success = _ => {
+                    this.$message({
+                        message: _.info,
+                        type: "success"
+                    });
+                    this.$emit("editSuccess");
+                    // this.$router.push('/patent/list');
+                };
+                const complete = _ => {
+                    this.btn_disabled = false;
+                };
+
+                this.btn_disabled = true;
+                return this.$axiosPut({ url, data, success, complete });
+            }
+        },
+        show(id, data) {
+            this.dialogVisible = true;
+            if (id == "add") {
+                this.title = "新专利立案";
+                this.clear();
+                return;
+            }
+            if (data === undefined) {
+                this.loadingVisible = true;
+                const url = `${URL}/${id}`;
+                const success = _ => {
+                    const patent = _.patent;
+                    this.refreshForm(patent);
+                    this.loadingVisible = false;
+                };
+                this.$axiosGet({ url, success });
+            } else {
+                this.refreshForm(data);
+            }
+        },
+        close() {
+            this.dialogVisible = false;
+        },
+        clear() {
+            getKeys.map(_ => {
+                console.log(this.$refs[_]);
+                this.$refs[_] !== undefined
+                    ? this.$refs[_].$refs.form.resetFields()
+                    : false;
+            });
+        },
+        formCheck() {
+            return new Promise(resolve => {
+                //递归检测
+                const check = index => {
+                    const key = getKeys[index];
+                    if (key && typeof this.$refs[key] !== "undefined") {
+                        this.$refs[key].checkForm(_ => {
+                            if (_) {
+                                check(index + 1);
+                            } else {
+                                this.$message({ message: map.get(key), type: "warning" });
+                                resolve(false);
+                            }
+                        });
+                    } else {
+                        resolve(true);
+                    }
+                };
+
+                check(0);
+            });
+        },
+        cancel() {
+            this.$router.push("/patent/list");
+        },
+        refreshForm(val) {
+            if (this.pageType == "edit" && this.$tool.getObjLength(val) != 0) {
+                const copy = this.$tool.deepCopy(val);
+                this.id = copy.id;
+                this.title = val.serial + "-" + val.title;
+                this.$nextTick(() => {
+                    setKeys.map(_ => {
+                        if (this.$refs[_]) {
+                            this.$refs[_].setForm(copy);
+                        }
+                    });
+                });
+            }
+        },
+        fillForm([val, type]) {
+            if (val instanceof Array && val.length != 0) {
+                const copy = this.$tool.deepCopy(val);
+                // this.id = copy[0].id;
+                const relates = [];
+                if (type) {
+                    val.map(_ => {
+                        relates.push({ id: _.id, name: _.title, type: type });
+                    });
+                }
+                const form = {};
+                const data = this.$tool.normalFilter(copy[0], {
+                    stay: [
+                        "serial",
+                        "title",
+                        "area",
+                        "type",
+                        "ipr",
+                        "level",
+                        "applicants",
+                        "inventors",
+                        "priorities",
+                        "extension",
+                        "attachments",
+                        "proposer",
+                        "group_number",
+                        "family_number",
+                        "legal_status",
+                        "branch",
+                        "products",
+                        "classification",
+                        "tags",
+                        "main_ipc",
+                        "project_name",
+                        "project_serial",
+                        "product_relevance"
+                    ]
+                });
+                Object.assign(form, data, { relates });
+                setKeys.map(_ => {
+                    if (this.$refs[_]) {
+                        this.$refs[_].setForm(form);
+                    }
+                });
+            }
+        },
+        proposalFill(v) {
+            if (v instanceof Array && v.length != 0) {
+                const copy = this.$tool.deepCopy(v);
+                const proposals = [];
+                v.map(_ => {
+                    proposals.push({ id: _.id, name: _.title });
+                });
+                const form = {};
+                Object.assign(form, copy[0], { proposals });
+                setKeys.map(_ => {
+                    if (this.$refs[_]) {
+                        this.$refs[_].setForm(form);
+                    }
+                });
+            }
+        },
+        handleUploadSuccess(d) {
+            if (!d.data || !d.data.list) {
+                return;
+            }
+            //2锁定title disclosure_type
+            if (d.data.list.is_disclosure == 1) {
+                this.list.push(d.data.list);
+
+                let disclosure_type = d.data.list.disclosure_type;
+                disclosure_type = disclosure_type !== undefined ? disclosure_type : "";
+
+                getKeys.forEach(_ => {
+                    this.$refs[_].setForm(d.data.list, true, disclosure_type);
+                });
+            } else if (d.data.list.is_disclosure == 2) {
+                this.$message({ type: "warning", message: "文件识别失败" });
+            }
+        }
+    },
+    computed: {
+        detail() {
+            return this.$store.getters.detailBase;
+        },
+        getQuery() {
+            const s = this.$route.query.s;
+            const t = this.$route.query.t;
+            return [s, t];
+        },
+        getParams() {
+            const d = this.$route.params.dataobj;
+            return d;
+        }
+    },
+    watch: {
+        detail: {
+            handler: function (val) {
+                this.refreshForm(val);
+            }
+        },
+        getQuery: {
+            handler: function (val) {
+                this.fillForm(val);
+            }
+        },
+        getParams: {
+            handler: function (val) {
+                this.proposalFill(val);
+            }
+        },
+        dialogVisible(val) {
+            if (!val) {
+                //详情页面关闭所有remote-select卡片需要同时关闭
+                this.$store.commit("setActiveCardId", 0);
+            }
+        }
+    },
+    mounted() {
+        this.refreshForm(this.detail);
+        this.$nextTick(_ => {
+            this.fillForm(this.getQuery);
         });
-      } else if (d.data.list.is_disclosure == 2) {
-        this.$message({ type: "warning", message: "文件识别失败" });
-      }
+        this.$nextTick(_ => {
+            this.proposalFill(this.getParams);
+        });
+    },
+    components: {
+        PaBase,
+        Date,
+        Classification,
+        Agent,
+        Case,
+        Other,
+        AppCollapse,
+        Task,
+        Business,
+        AppShrink
     }
-  },
-  computed: {
-    detail() {
-      return this.$store.getters.detailBase;
-    },
-    getQuery() {
-      const s = this.$route.query.s;
-      const t = this.$route.query.t;
-      return [s, t];
-    },
-    getParams() {
-      const d = this.$route.params.dataobj;
-      return d;
-    }
-  },
-  watch: {
-    detail: {
-      handler: function(val) {
-        this.refreshForm(val);
-      }
-    },
-    getQuery: {
-      handler: function(val) {
-        this.fillForm(val);
-      }
-    },
-    getParams: {
-      handler: function(val) {
-        this.proposalFill(val);
-      }
-    },
-    dialogVisible(val) {
-      if (!val) {
-        //详情页面关闭所有remote-select卡片需要同时关闭
-        this.$store.commit("setActiveCardId", 0);
-      }
-    }
-  },
-  mounted() {
-    this.refreshForm(this.detail);
-    this.$nextTick(_ => {
-      this.fillForm(this.getQuery);
-    });
-    this.$nextTick(_ => {
-      this.proposalFill(this.getParams);
-    });
-  },
-  components: {
-    PaBase,
-    Date,
-    Classification,
-    Agent,
-    Case,
-    Other,
-    AppCollapse,
-    Task,
-    Business,
-    AppShrink
-  }
 };
 </script>
 

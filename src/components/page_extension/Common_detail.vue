@@ -1,6 +1,9 @@
 <template>
   <div>
     <app-shrink :title="title?title:globalTitle" :visible.sync="visibleAuth">
+      <span slot="info" style="float:left">
+        <el-tag>{{ this.detailBase.serial }}</el-tag>
+      </span>
       <span slot="header" style="float: right">
         <el-button
           size="small"
@@ -105,9 +108,9 @@
           <!--         <el-tab-pane label="文档" name="documents">
           <detail-documents></detail-documents>
           </el-tab-pane>-->
-          <el-tab-pane label="群组/专利族" name="group_family" v-if="type == 'patent'">
+          <el-tab-pane label="同族专利" name="group_family" v-if="type == 'patent'">
             <div :style="`height: ${innerHeight - 150}px; overflow: auto;`">
-              <group-family></group-family>
+              <group-family ref="family" @toggle="toggle"></group-family>
             </div>
           </el-tab-pane>
           <!-- <el-tab-pane label="引用" name="quote" v-if="menusMap.get('/iprs')">
@@ -194,291 +197,298 @@ import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 
 const config = [
-  [
-    "patent",
-    {
-      loadingText: "加载专利信息中...",
-      auth: "/patent/read"
-    }
-  ],
-  [
-    "copyright",
-    {
-      loadingText: "加载版权信息中...",
-      auth: "/copyright/read"
-    }
-  ],
-  [
-    "trademark",
-    {
-      loadingText: "加载商标信息中...",
-      auth: "/trademark/read"
-    }
-  ]
+    [
+        "patent",
+        {
+            loadingText: "加载专利信息中...",
+            auth: "/patent/read"
+        }
+    ],
+    [
+        "copyright",
+        {
+            loadingText: "加载版权信息中...",
+            auth: "/copyright/read"
+        }
+    ],
+    [
+        "trademark",
+        {
+            loadingText: "加载商标信息中...",
+            auth: "/trademark/read"
+        }
+    ]
 ];
 const map = new Map(config);
 
 export default {
-  name: "commonDetailShrink",
-  props: {
-    // 'type': String,
-    // 'id': Number,
-    // 'visible': {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    title: String,
-    refreshSwitch: {
-      //是否开启自动刷新
-      type: Boolean,
-      default: true
+    name: "commonDetailShrink",
+    props: {
+        // 'type': String,
+        // 'id': Number,
+        // 'visible': {
+        //   type: Boolean,
+        //   default: false,
+        // },
+        title: String,
+        refreshSwitch: {
+            //是否开启自动刷新
+            type: Boolean,
+            default: true
+        },
+        status: [Number, Boolean]
     },
-    status: [Number, Boolean]
-  },
-  data() {
-    return {
-      id: "",
-      type: "",
-      activeName: "base",
-      rendered: false,
-      dialogClosed: false,
-      btnDisabled: false,
-      dialogChange: false,
-      dialogDivide: false,
-      dialogTask: false,
-      saveLoading: false,
-      visible: false,
-      dialogAppointVisible: false
-    };
-  },
-  computed: {
-    ...mapGetters([
-      "shrinkHeight",
-      "detailLoading",
-      "menusMap",
-      "innerHeight",
-      "detailBase"
-    ]),
-    config() {
-      const config = map.get(this.type);
-      return config ? config : this.type;
+    data() {
+        return {
+            id: "",
+            type: "",
+            activeName: "base",
+            rendered: false,
+            dialogClosed: false,
+            btnDisabled: false,
+            dialogChange: false,
+            dialogDivide: false,
+            dialogTask: false,
+            saveLoading: false,
+            visible: false,
+            dialogAppointVisible: false
+        };
     },
-    globalTitle () {
-      return this.detailBase.title? this.detailBase.title : '';
-    },
-    divStyle() {
-      let s = "";
-      if (this.detailLoading) {
-        s = `height: ${this.shrinkHeight}px; overflow: hidden;`;
-      }
-
-      return s;
-    },
-    visibleAuth: {
-      get() {
-        if (this.menusMap && this.menusMap.get(this.config.auth)) {
-          return this.visible;
-        }
-        return false;
-      },
-      set(val) {
-        this.visible = val;
-      }
-    }
-  },
-  methods: {
-    ...mapActions(["refreshDetailData"]),
-    show(id, type = "patent") {
-      this.type = type;
-      this.visible = true;
-      this.id = id;
-    },
-    close() {
-      this.visible = false;
-    },
-    tabClick({name}) {
-      if(name == 'notice') {
-        this.$nextTick(_=>{
-          this.$refs.notice.doLayout();
-        })
-      }
-    },
-    handleSendEmail(id) {
-      this.$emit("sendEmail", id);
-    },
-    refreshDetail() {
-      if (!this.type) return;
-      if (!this.refreshSwitch) return;
-
-      const type = this.type;
-      const id = this.id;
-
-      this.refreshDetailData({ id, type });
-    },
-    async edit() {
-      this.saveLoading = true;
-      try {
-        if (this.type == "patent" && this.$refs.patent) {
-          await this.$refs.patent.edit();
-        } else if (this.type == "copyright" && this.$refs.copyright) {
-          await this.$refs.copyright.edit();
-        } else if (this.type == "trademark" && this.$refs.trademark) {
-          await this.$refs.trademark.edit();
-        }
-      } catch (e) {}
-      this.saveLoading = false;
-    },
-    editSuccess() {
-      this.refreshDetailData();
-      // this.$emit('update:visible', false);
-      this.$emit("editSuccess");
-    },
-    // handleVisible (val) {
-    //   this.$emit('update:visible', val);
-    // },
-    closeSuccess() {
-      this.dialogClosed = false;
-      this.refreshDetailData();
-    },
-    handleCommand(command) {
-      if (command == "appiontCase") {
-        this.dialogAppointVisible = true;
-      }
-      if (command == "cancel") {
-        this.commisionCancle(); //委案撤回
-      }
-      if (command == "change") {
-        const d = this.detailBase;
-        //委案变更检测
-        if (d.agency && d.agency.name) {
-          this.dialogChange = true;
-          this.$nextTick(_ => {
-            this.$refs.changeForm.fill({ agency: d.agency, agent: d.agent });
-          });
-        } else {
-          return this.$message({
-            message: "当前案件没有委案，不可变更",
-            type: "warning"
-          });
-        }
-      }
-    },
-    handleCommandSend(command) {
-      if (command == "revision") {
-        this.dialogTask = true;
-        this.$nextTick(_ => {
-          this.$refs.taskEdit.fill(
-            { id: this.id, name: this.title, category: 1 },
-            7,
-            "23"
-          );
-        });
-      }
-      if (command == "articleChange") {
-        this.dialogTask = true;
-        this.$nextTick(_ => {
-          this.$refs.taskEdit.fill(
-            { id: this.id, name: this.title, category: 1 },
-            16,
-            "90"
-          );
-        });
-      }
-      if (command == "divide") {
-        this.divideSubmit();
-      }
-    },
-    addSuccess(val) {
-      this.dialogTask = false;
-      this.refreshDetail();
-    },
-    appiontCase(val) {
-      this.dialogAppointVisible = false;
-      this.refreshDetailData();
-    },
-    commisionCancle() {
-      this.$confirm("此操作将对当前专利进行撤回委托的操作, 是否继续?", "提示", {
-        type: "warning"
-      })
-        .then(_ => {
-          this.btnDisabled = true;
-          this.$axiosPut({
-            url: `/projects/${this.id}/withdraw`,
-            success: _ => {
-              this.$message({ type: "success", message: "撤回委托成功" });
-              this.refreshDetail();
-            },
-            complete: _ => {
-              this.btnDisabled = false;
+    computed: {
+        ...mapGetters([
+            "shrinkHeight",
+            "detailLoading",
+            "menusMap",
+            "innerHeight",
+            "detailBase"
+        ]),
+        config() {
+            const config = map.get(this.type);
+            return config ? config : this.type;
+        },
+        globalTitle() {
+            return this.detailBase.title ? this.detailBase.title : '';
+        },
+        divStyle() {
+            let s = "";
+            if (this.detailLoading) {
+                s = `height: ${this.shrinkHeight}px; overflow: hidden;`;
             }
-          });
-        })
-        .catch(_ => {});
-    },
-    divideSubmit() {
-      this.$confirm("此操作将对当前专利进行分案操作, 是否继续?", "提示", {
-        type: "warning"
-      })
-        .then(_ => {
-          this.$axiosPost({
-            url: `/patents/${this.id}/divide`,
-            data: {},
-            success: _ => {
-              this.$message({ type: "success", message: _.info });
-              this.$emit("success", _);
+
+            return s;
+        },
+        visibleAuth: {
+            get() {
+                if (this.menusMap && this.menusMap.get(this.config.auth)) {
+                    return this.visible;
+                }
+                return false;
             },
-            complete: _ => {}
-          });
-        })
-        .catch(_ => {});
-    }
-  },
-  watch: {
-    id() {
-      if (this.type) {
-        this.refreshDetail();
-      } else {
-        this.$emit("update:visibleAuth", false);
-      }
+            set(val) {
+                this.visible = val;
+            }
+        }
     },
-    visibleAuth(val) {
-      if (!val) {
-        //详情页面关闭所有remote-select卡片需要同时关闭
-        this.$store.commit("setActiveCardId", 0);
-      }
+    methods: {
+        ...mapActions(["refreshDetailData"]),
+        show(id, type = "patent") {
+            this.type = type;
+            this.visible = true;
+            this.id = id;
+        },
+        toggle(id) {
+            this.show(id, 'patent');
+        },
+        close() {
+            this.visible = false;
+        },
+        tabClick({ name }) {
+            if (name == 'notice') {
+                this.$nextTick(_ => {
+                    this.$refs.notice.doLayout();
+                })
+            } else if (name == 'group_family') {
+                this.$nextTick(_ => {
+                    this.$refs.family.reload();
+                })
+            }
+        },
+        handleSendEmail(id) {
+            this.$emit("sendEmail", id);
+        },
+        refreshDetail() {
+            if (!this.type) return;
+            if (!this.refreshSwitch) return;
+
+            const type = this.type;
+            const id = this.id;
+
+            this.refreshDetailData({ id, type });
+        },
+        async edit() {
+            this.saveLoading = true;
+            try {
+                if (this.type == "patent" && this.$refs.patent) {
+                    await this.$refs.patent.edit();
+                } else if (this.type == "copyright" && this.$refs.copyright) {
+                    await this.$refs.copyright.edit();
+                } else if (this.type == "trademark" && this.$refs.trademark) {
+                    await this.$refs.trademark.edit();
+                }
+            } catch (e) { }
+            this.saveLoading = false;
+        },
+        editSuccess() {
+            this.refreshDetailData();
+            // this.$emit('update:visible', false);
+            this.$emit("editSuccess");
+        },
+        // handleVisible (val) {
+        //   this.$emit('update:visible', val);
+        // },
+        closeSuccess() {
+            this.dialogClosed = false;
+            this.refreshDetailData();
+        },
+        handleCommand(command) {
+            if (command == "appiontCase") {
+                this.dialogAppointVisible = true;
+            }
+            if (command == "cancel") {
+                this.commisionCancle(); //委案撤回
+            }
+            if (command == "change") {
+                const d = this.detailBase;
+                //委案变更检测
+                if (d.agency && d.agency.name) {
+                    this.dialogChange = true;
+                    this.$nextTick(_ => {
+                        this.$refs.changeForm.fill({ agency: d.agency, agent: d.agent });
+                    });
+                } else {
+                    return this.$message({
+                        message: "当前案件没有委案，不可变更",
+                        type: "warning"
+                    });
+                }
+            }
+        },
+        handleCommandSend(command) {
+            if (command == "revision") {
+                this.dialogTask = true;
+                this.$nextTick(_ => {
+                    this.$refs.taskEdit.fill(
+                        { id: this.id, name: this.title, category: 1 },
+                        7,
+                        "23"
+                    );
+                });
+            }
+            if (command == "articleChange") {
+                this.dialogTask = true;
+                this.$nextTick(_ => {
+                    this.$refs.taskEdit.fill(
+                        { id: this.id, name: this.title, category: 1 },
+                        16,
+                        "90"
+                    );
+                });
+            }
+            if (command == "divide") {
+                this.divideSubmit();
+            }
+        },
+        addSuccess(val) {
+            this.dialogTask = false;
+            this.refreshDetail();
+        },
+        appiontCase(val) {
+            this.dialogAppointVisible = false;
+            this.refreshDetailData();
+        },
+        commisionCancle() {
+            this.$confirm("此操作将对当前专利进行撤回委托的操作, 是否继续?", "提示", {
+                type: "warning"
+            })
+                .then(_ => {
+                    this.btnDisabled = true;
+                    this.$axiosPut({
+                        url: `/projects/${this.id}/withdraw`,
+                        success: _ => {
+                            this.$message({ type: "success", message: "撤回委托成功" });
+                            this.refreshDetail();
+                        },
+                        complete: _ => {
+                            this.btnDisabled = false;
+                        }
+                    });
+                })
+                .catch(_ => { });
+        },
+        divideSubmit() {
+            this.$confirm("此操作将对当前专利进行分案操作, 是否继续?", "提示", {
+                type: "warning"
+            })
+                .then(_ => {
+                    this.$axiosPost({
+                        url: `/patents/${this.id}/divide`,
+                        data: {},
+                        success: _ => {
+                            this.$message({ type: "success", message: _.info });
+                            this.$emit("success", _);
+                        },
+                        complete: _ => { }
+                    });
+                })
+                .catch(_ => { });
+        }
+    },
+    watch: {
+        id() {
+            if (this.type) {
+                this.refreshDetail();
+            } else {
+                this.$emit("update:visibleAuth", false);
+            }
+        },
+        visibleAuth(val) {
+            if (!val) {
+                //详情页面关闭所有remote-select卡片需要同时关闭
+                this.$store.commit("setActiveCardId", 0);
+            }
+        }
+        // detailBase() {
+        //   const ref = this.$refs[this.type];
+        //   console.log(ref)
+        //   if (ref !== undefined) {
+        //     ref.show(this.id, this.detailBase);
+        //   }
+        // }
+    },
+    components: {
+        AppShrink,
+        DetailPatent,
+        DetailCopyright,
+        DetailTrademark,
+        DetailControl,
+        DetailNotice,
+        DetailFee,
+        DetailEmail,
+        DetailDocuments,
+        GroupFamily,
+        Defence,
+        Quote,
+        Review,
+        CloseForm,
+        ChangeForm,
+        DetailAmendments,
+        DivideForm,
+        TaskEdit,
+        Remind,
+        Judge,
+        Agencies,
+        AppointCase
     }
-    // detailBase() {
-    //   const ref = this.$refs[this.type];
-    //   console.log(ref)
-    //   if (ref !== undefined) {
-    //     ref.show(this.id, this.detailBase);
-    //   }
-    // }
-  },
-  components: {
-    AppShrink,
-    DetailPatent,
-    DetailCopyright,
-    DetailTrademark,
-    DetailControl,
-    DetailNotice,
-    DetailFee,
-    DetailEmail,
-    DetailDocuments,
-    GroupFamily,
-    Defence,
-    Quote,
-    Review,
-    CloseForm,
-    ChangeForm,
-    DetailAmendments,
-    DivideForm,
-    TaskEdit,
-    Remind,
-    Judge,
-    Agencies,
-    AppointCase
-  }
 };
 </script>
 

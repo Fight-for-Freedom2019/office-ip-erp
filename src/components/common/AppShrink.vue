@@ -6,6 +6,7 @@
 				<div class="app-shrink-head">
 					<span style="font-size: 18px; font-weight: bold;float: left;max-width: 300px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :style="{maxWidth:maxWidth}" :title="title" class="fs">{{ title }}</span>
 					<el-button v-if="isClose" icon="el-icon-close" style="float: right; border: 0; height: 40px;" @click="close" title="关闭"></el-button>
+					<slot name="info"></slot>
 					<slot name="header"></slot>
 				</div>
 				<div v-loading="shrinkLoading" :element-loading-text="shrinkLoadingText">
