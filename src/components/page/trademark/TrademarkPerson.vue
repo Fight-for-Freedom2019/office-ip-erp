@@ -1,5 +1,5 @@
 <template>
-  <el-form label-width="120px" ref="form">
+  <el-form label-width="120px" :model="form" ref="form">
     <el-form-item label="部门" prop="organization_unit">
       <branch v-model="form.organization_unit" count-type="trademark"></branch>
       <!-- <span v-else>{{ branchName ? branchName : '暂未归属某个部门' }}</span> -->

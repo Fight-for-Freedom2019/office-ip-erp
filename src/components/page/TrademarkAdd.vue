@@ -170,11 +170,14 @@ export default {
       	}
       },
       clear() {
-      	getKeys.map(d =>
-	        typeof this.$refs[d] !== "undefined"
+      	getKeys.map(d =>{
+	        typeof this.$refs[d] !== undefined
 	        ? this.$refs[d].$refs.form.resetFields()
-	        : ''
-	    )
+          : '';
+          if(typeof this.$refs[d] !== undefined && d == 'base') {
+            this.$refs[d].$refs.upload.clearFiles();
+          } 
+        })
       },
     },
     mounted () {
