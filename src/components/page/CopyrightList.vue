@@ -38,7 +38,9 @@ export default {
         'rowClick': this.handleRowClick,
         // 'is_filter': true,
         'is_list_filter': true,
+        'is_view': true,
         'list_type': 'copyright',
+        'treeFilter': 'copyright',
         'import_type': 'copyright',
         // 'upload_type': 'copyright',
         'header_btn': [

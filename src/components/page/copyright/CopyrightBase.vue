@@ -74,7 +74,7 @@
           <!-- <span v-else>{{ branchName ? branchName : '暂未归属某个部门' }}</span> -->
         </el-form-item>
       <el-form-item label="附件" prop="attachments">
-        <upload v-model="form.attachments" :file-list="attachments"></upload>
+        <upload v-model="form.attachments" :file-list="attachments" ref="upload"></upload>
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input type="textarea" v-model="form.remark" placeholder="请填写备注"></el-input>

@@ -45,7 +45,9 @@ const urlMap = new Map([
     ["notices", { URL: "/notices/filters" }],
     ["points", { URL: "/bonuses/filters" }],
     ["bonus_report", { URL: "/bonus_reports/filters" }],
-    ["renewal_fees", { URL: "/renewal_fees/filters" }]
+    ["renewal_fees", { URL: "/renewal_fees/filters" }],
+    ["trademark", { URL: "/trademark/filters" }],
+    ["copyright", { URL: "/copyright/filters" }],
 ]);
 export default {
     name: "filterTree",

@@ -34,7 +34,9 @@ export default {
         name: "trademark",
         url: URL,
         is_list_filter: true,
+        is_view: true,
         list_type: "trademark",
+        treeFilter: 'trademark',
         header_btn: [
           {
             type: "add",
@@ -59,22 +61,24 @@ export default {
             show: true,
             type: "selection"
           },
-          { type: "text", label: "案号", prop: "serial", width: "150" },
+          { type: "text", label: "案号", prop: "serial", width: "150", render_header:true, },
           {
             type: "text",
             label: "客户",
             prop: "customer",
             render_simple: "name",
             width: "120",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
-          { type: "text", label: "商标名称", prop: "title", width: "110" },
+          { type: "text", label: "商标名称", prop: "title", width: "110", render_header:true,},
           {
             type: "text",
             label: "商标类型",
             prop: "subtype",
             render_simple: "name",
-            width: "100"
+            width: "100",
+            render_header:true,
           },
           // { type: 'text', label: '商标图样', prop: 'figure_file', align: 'center', header_align: 'left', width: '200',
           //   render:(h,item)=>{
@@ -95,59 +99,68 @@ export default {
             prop: "area",
             is_import: true,
             render_simple: "name",
-            width: "100"
+            width: "100",
+            render_header:true,
           },
           {
             type: "array",
             label: "商标类别",
             prop: "categories",
             render: _ => _.map(_ => _.name),
-            width: "150"
+            width: "150",
+            render_header:true,
           },
           {
             type: "text",
             label: "委案日",
             prop: "entrusting_time",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
             label: "申请号",
             prop: "application_number",
-            width: "100"
+            width: "100",
+            render_header:true,
           },
           {
             type: "text",
             label: "申请日",
             prop: "application_date",
-            width: "100"
+            width: "100",
+            render_header:true,
           },
           {
             type: "text",
             label: "初审公告号",
-            prop: "public_number",
-            width: "110"
+            prop: "publication_number",
+            width: "110",
+            render_header:true,
           },
           {
             type: "text",
             label: "初审公告日",
-            prop: "public_date",
-            width: "100"
+            prop: "publication_date",
+            width: "145",
+            render_header:true,
           },
           {
             type: "text",
             label: "公告号",
             prop: "issue_number",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
             label: "公告日",
             prop: "issue_date",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
 
           {
@@ -155,7 +168,8 @@ export default {
             label: "客户案号",
             prop: "customer_serial",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
@@ -163,7 +177,8 @@ export default {
             prop: "ipr",
             render_simple: "name",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "array",
@@ -171,7 +186,8 @@ export default {
             prop: "applicants",
             is_import: true,
             width: "150",
-            render: _ => _.map(_ => _.name)
+            render: _ => _.map(_ => _.name),
+            render_header:true,
           },
           {
             type: "text",
@@ -179,7 +195,8 @@ export default {
             prop: "project_stage",
             render_simple: "name",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
@@ -187,7 +204,8 @@ export default {
             prop: "organization_unit",
             render_simple: "name",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
@@ -195,7 +213,8 @@ export default {
             prop: "agent",
             render_simple: "name",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
@@ -203,7 +222,8 @@ export default {
             prop: "first_reviewer",
             render_simple: "name",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
@@ -211,7 +231,8 @@ export default {
             prop: "final_reviewer",
             render_simple: "name",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
@@ -219,7 +240,8 @@ export default {
             prop: "consultant",
             render_simple: "name",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
@@ -227,7 +249,8 @@ export default {
             prop: "sales",
             render_simple: "name",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
@@ -235,21 +258,24 @@ export default {
             prop: "order",
             render_simple: "serial",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
             label: "第三方订单号",
             prop: "order_serial",
-            width: "100",
-            is_import: true
+            width: "160",
+            is_import: true,
+            render_header:true,
           },
           {
             type: "text",
             label: "备注",
             prop: "remark",
             width: "100",
-            is_import: true
+            is_import: true,
+            render_header:true,
           }
         ]
       },

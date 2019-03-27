@@ -132,6 +132,36 @@ const map = new Map([
     { type: "text", id: "remark", name: "备注" }
     ]
   ],
+  // 商标
+  ["trademark",[
+    { type: "text", id: "serial", name: "案号" },
+    { type: "text", id: "title", name: "标题" },
+    { type: "static_select", id: "subtype", name: "商标类型", map_type: "trademark_type" },
+    { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
+    { type: "static_select", id: "categories", name: "商标大类", map_type: "categories" },
+    { type: "text", id: "application_number", name: "申请号" },
+    { type: "date", id: "application_date", name: "申请日" },
+    { type: "date", id: "publication_date", name: "公开日" },
+    { type: "text", id: "publication_number", name: "公开号" },
+    { type: "date", id: "issue_date", name: "公告日" },
+    { type: "text", id: "issue_number", name: "公告号" },
+    { type: "remote_select", id: "customer", name: "客户", url: "/customers", data_key: "data" },
+    { type: "text", id: "customer_serial", name: "客户案号" },
+    { type: "static_select", id: "ipr", name: "负责IPR", map_type: "ipr_para", url: true },
+    { type: "remote_select", id: "applicants", name: "申请人", url: "/applicants", data_key: "data" },
+    { type: "remote_select", id: "contact", name: "联系人", url: "/contacts", data_key: "data" },
+    { type: "static_select", id: "project_stage", name: "案件状态", map_type: "project_stage", url: true },
+    { type: "static_select", id: "organization_unit", name: "部门", map_type: "branch" },
+    { type: "remote_select", id: "sales", name: "销售", url: "/users", data_key: "data" },
+    { type: "remote_select", id: "first_reviewer", name: "初审人", url: "/users", data_key: "data" },
+    { type: "remote_select", id: "final_reviewer", name: "复审人", url: "/users", data_key: "data" },
+    { type: "remote_select", id: "agent", name: "代理人", url: "/users", data_key: "data" },
+    { type: "remote_select", id: "consultant", name: "顾问", url: "/users", data_key: "data" },
+    { type: "text", id: "order", name: "订单号" },
+    { type: "text", id: "order_serial", name: "第三方订单号" },
+    { type: "date", id: "entrusting_time", name: "委案日" },
+    { type: "text", id: "remark", name: "备注" },
+  ]],
   // 版权
   ["copyright", [
     { type: "text", id: "serial", name: "案号"},

@@ -563,7 +563,7 @@ const map = new Map([
         used: true
       },
       { components: "date", id: "application_date", name: "申请日", used: true, },
-      { components: "date", id: "public_date", name: "初审公告日", used: true, },
+      { components: "date", id: "publication_date", name: "初审公告日", used: true, },
       { components: "date", id: "issue_date", name: "公告日", used: true, },
     ]
   ],
