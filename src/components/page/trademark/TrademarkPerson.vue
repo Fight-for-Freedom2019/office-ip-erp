@@ -1,18 +1,18 @@
 <template>
-  <el-form label-width="120px" ref="form">
-    <el-form-item label="部门">
+  <el-form label-width="120px" :model="form" ref="form">
+    <el-form-item label="部门" prop="organization_unit">
       <branch v-model="form.organization_unit" count-type="trademark"></branch>
       <!-- <span v-else>{{ branchName ? branchName : '暂未归属某个部门' }}</span> -->
     </el-form-item>
-    <!-- <el-form-item label="产品分类">
+    <!-- <el-form-item label="产品分类" prop="products">
       <product v-model="form.products" count-type="patent" multiple></product>
     </el-form-item>
-    <el-form-item label="技术分类">
+    <el-form-item label="技术分类" prop="classification">
       <classification v-model="form.classification" count-type="patent"></classification>
     </el-form-item>-->
     <el-row>
       <el-col :span="8">
-        <el-form-item label="代理人">
+        <el-form-item label="代理人" prop="agent">
           <jump-select type="user" v-model="form.agent" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
@@ -22,46 +22,46 @@
         </el-form-item>
       </el-col>-->
       <el-col :span="8">
-        <el-form-item label="对外代理人">
+        <el-form-item label="对外代理人" prop="representative">
           <jump-select type="user" v-model="form.representative" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="派案人">
+        <el-form-item label="派案人" prop="assigner">
           <jump-select type="user" v-model="form.assigner" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="初核人">
+        <el-form-item label="初核人" prop="first_reviewer">
           <jump-select type="user" v-model="form.first_reviewer" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="复核人">
+        <el-form-item label="复核人" prop="final_reviewer">
           <jump-select type="user" v-model="form.final_reviewer" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="财务">
+        <el-form-item label="财务" prop="finance">
           <jump-select type="user" v-model="form.finance" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="顾问">
+        <el-form-item label="顾问" prop="consultant">
           <jump-select type="user" v-model="form.consultant" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="销售">
+        <el-form-item label="销售" prop="sales">
           <jump-select type="user" v-model="form.sales" add-type="user"></jump-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="流程">
+        <el-form-item label="流程" prop="flow">
           <jump-select type="user" v-model="form.flow" add-type="user"></jump-select>
         </el-form-item>
       </el-col>

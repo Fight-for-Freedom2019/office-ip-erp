@@ -319,7 +319,6 @@ export default {
         notice_upload_url() {
             this.noticeType = this.type;
             this.noticeType += "_notice";
-            console.log(this.noticeType);
             const config = map.get(this.noticeType);
             const action = config.action;
             let url = "/api/files";

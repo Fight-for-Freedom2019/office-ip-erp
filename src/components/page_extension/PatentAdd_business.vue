@@ -19,7 +19,7 @@
         add-type="contact"
       ></remote-select>
     </el-form-item>
-    <el-form-item label="技术联系人">
+    <el-form-item label="技术联系人" prop="contact">
       <remote-select
         type="contacts"
         :page-type="type"

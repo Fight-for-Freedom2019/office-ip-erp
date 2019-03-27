@@ -83,6 +83,7 @@
         @uploadSuccess="handleUploadSuccess"
         v-model="form.attachments"
         :file-list="attachments"
+        ref="upload"
       ></upload>
     </el-form-item>
     <el-form-item label="备注" prop="remark">

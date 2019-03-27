@@ -254,10 +254,13 @@ export default {
         },
         clear() {
             getKeys.map(_ => {
-                console.log(this.$refs[_]);
-                this.$refs[_] !== undefined
-                    ? this.$refs[_].$refs.form.resetFields()
-                    : false;
+                const d = this.$refs[_];
+                if (d !== undefined) {
+                    d.$refs.form.resetFields();
+                    if (_ == 'base' || _ == 'other') {
+                        d.$refs.upload.clearFiles();
+                    }
+                }
             });
         },
         formCheck() {

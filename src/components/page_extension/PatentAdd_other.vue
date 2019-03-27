@@ -1,12 +1,12 @@
 <template>
-      <el-form label-width="120px" ref="form">
-        <el-form-item label="权利要求项数">
+      <el-form label-width="120px" ref="form" :model="form">
+        <el-form-item label="权利要求项数" prop="claims_count">
           <el-input v-model="form.claims_count" placeholder="请填写权利要求项数"></el-input>
         </el-form-item>
-        <el-form-item label="说明书字数">
+        <el-form-item label="说明书字数" prop="words_count">
           <el-input v-model="form.words_count" placeholder="请填写说明书字数"></el-input>
         </el-form-item>
-        <el-form-item label="首次年费年度">
+        <el-form-item label="首次年费年度" prop="start_year">
           <el-select v-model="form.start_year" placeholder="请选择首次年费年度">
             <el-option
               v-for="item in yearOptions"
@@ -16,11 +16,11 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="案件摘要">
+        <el-form-item label="案件摘要" prop="abstract">
           <el-input v-model="form.abstract" type="textarea" placeholder="请填写案件摘要"></el-input>
         </el-form-item>
-        <el-form-item label="摘要附图">
-          <upload v-model="form.figure_file" :limit="1" :fileList="figure_file"></upload>
+        <el-form-item label="摘要附图" prop="figure_file">
+          <upload v-model="form.figure_file" :limit="1" :fileList="figure_file" ref="upload"></upload>
         </el-form-item>
       </el-form>
 </template>
