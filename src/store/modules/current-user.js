@@ -162,6 +162,7 @@ const nodePermissionMap = new Map([
   ["/exchange/document/voucher", "Pages.Files.SaveVoucher"],
   ["/exchange/document/other", "Pages.Files.SaveOther"],
   ["/exchange/document/cpc", "Pages.Files.SaveCpc"],
+  ["/exchange/document/scan", "Pages.Files.SaveOa"],
   ["/exchange/document/excel", "Pages.Excels.Index"],
   ["/exchange/client", "Pages.CpcNotices.Index"],
   ["/exchange/client/notices", "Pages.CpcNotices.Index"],
@@ -212,7 +213,7 @@ const getters = {
     });
 
     let menuMap = new Map();
-    nodePermissionMap.forEach(function(value, key) {
+    nodePermissionMap.forEach(function (value, key) {
       const n = map.get(value);
       if (n != undefined) {
         menuMap.set(key, true);
