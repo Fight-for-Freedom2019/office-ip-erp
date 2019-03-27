@@ -5,7 +5,7 @@ import {vm as table100104_vm} from "../formTemplate/table100104";
 import {vm as citations_information_vm} from "../formTemplate/citations-information";
 import {vm as upload_vm} from "../formTemplate/Upload";
 import lodash from 'lodash'
-let change_project = [];
+/*let change_project = [];
 let change_reasons = [];
 let change_evidence = [];
 let change_project_id = null;
@@ -20,7 +20,7 @@ reasons.forEach((item)=>{
             change_evidence.push({value:{id:evidence.id,name:evidence.name},label:evidence.name})
         })
     })
-})
+})*/
 const statement = {
     sign:"声明上述当事人已经全部签字或者盖章",
     sign_agency:"声明出具部门已经签字或者盖章",
@@ -64,7 +64,6 @@ let rule = [
         },
         event:{}
     },*/
-    // TODO 这个CheckBox的逻辑要改 select框填充逻辑要改
     checkbox_common_vm(statement,"声明",()=>{},{labelWidth:"120px"},false),
     citations_information_vm(),
     upload_vm({label:"附件",url:"",tip:"Note:附件支持PDF格式以及JPG格式，但两种格式只能二选一",type:"custom",field:"pictures"}),

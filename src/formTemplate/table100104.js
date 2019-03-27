@@ -79,8 +79,12 @@ function vm() {
         })
       },
       changeEvidence(val){
+        this.changeE(val);
+      },
+      changeE(val,noSave = true){
         let arr = this.evidence.filter((item)=>item.id === val.id);
         window.$fc_citations_info = arr[0];
+        noSave?this.saveData():"";
       },
       paddingData(){
         for (let key in this.extendData){
@@ -88,7 +92,13 @@ function vm() {
             this.form[key] = this.extendData[key];
           }
         }
-        console.log(this.form);
+      },
+      saveData(){
+        for (let key in this.form){
+          if(this.form.hasOwnProperty(key)) {
+            this.extendData[key] = this.form[key];
+          }
+        }
       },
     },
     created(){
@@ -96,9 +106,9 @@ function vm() {
         let obj = {value:{id:item.id,name:item.name},label:item.name};
         this.change_project.push(obj);
       })
-      this.changeProject(this.extendData.type);
-      this.changeReasons(this.extendData.reason)
-      this.changeEvidence(this.extendData.evidence);
+      this.extendData.type?this.changeProject(this.extendData.type):"";
+      this.extendData.reason?this.changeReasons(this.extendData.reason):""
+      this.extendData.evidence?this.changeE(this.extendData.evidence,false):"";
       this.paddingData();
     },
   };
