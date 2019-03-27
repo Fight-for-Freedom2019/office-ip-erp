@@ -270,7 +270,7 @@ export default {
             rules: {
                 date: [{ required: true, message: "请选择付款时间", trigger: "blur" }]
             },
-            showSendMailBtn: true,
+            // showSendMailBtn: true,
             invoice: {}
         };
     },
@@ -289,7 +289,10 @@ export default {
                 }
             });
             return order;
-        }
+        },
+        showSendMailBtn(){
+            return this.type !== "pay"
+        },
     },
     methods: {
         refreshMail() {
