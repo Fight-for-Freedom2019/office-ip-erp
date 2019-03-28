@@ -659,20 +659,20 @@ const settingMenu = [{
 }
 ];
 
-const homeMenu = [{
+const Dashboard = [{
   type: "item",
   text: "首页",
-  path: "/home",
+  path: "/dashboard",
   icon: "iconfont el-icon-my-home"
 }];
 
 menu.source = [
-  // {
-  //   text: "首页",
-  //   key: "home",
-  //   path: "/home",
-  //   menu: homeMenu
-  // },
+  {
+    text: "首页",
+    key: "dashboard",
+    path: "/dashboard",
+    menu: Dashboard
+  },
   {
     text: "工作流",
     key: "task",

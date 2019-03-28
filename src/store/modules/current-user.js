@@ -8,6 +8,7 @@ const state = {
 };
 
 const nodePermissionMap = new Map([
+  ["/dashboard", "Pages.Tasks.Index"],
   ["/task", "Pages.Tasks.Index"],
   ["/task/pending", "Pages.Tasks.Index"],
   ["/task/all", "Pages.Patents.Save"],
@@ -221,6 +222,16 @@ const getters = {
     });
     console.log(menuMap);
     return menuMap;
+  },
+  permissions: state => {
+    let map = new Map();
+    if (state.data == null) return map;
+
+    const permissions = state.data.permissions ? state.data.permissions : [];
+    permissions.forEach(_ => {
+      map.set(_, true);
+    });
+    return map;
   },
   currentUser: state => state.data,
   username: state => {

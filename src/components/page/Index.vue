@@ -70,8 +70,8 @@
       </div>
     </nav>
 
-    <div class="nav-left" :style="`height: ${innerHeight}px; left: ${navLeft}`" v-if="!noMenu">
-      <span class="nav-left-btn" :style="`left: ${navLeftBtn};`" @click="navToggle" v-if="!noMenu">
+    <div class="nav-left" :style="`height: ${innerHeight}px; left: ${navLeft}`" v-if="showNav">
+      <span class="nav-left-btn" :style="`left: ${navLeftBtn};`" @click="navToggle" v-if="showNav">
         <span :class="navLeftBtnClass"></span>
       </span>
       <el-menu
@@ -91,7 +91,7 @@
       <div :style="`height: ${innerHeight-10}px; padding: 10px 15px 0; background-color: #F9FAFC;`">
         <div class="container">
           <!-- <h1 class="container-menu"><i :class="select.icon"></i><span>{{ select.text }}</span></h1> -->
-          <div class="container-nav" v-if="!noMenu">
+          <div class="container-nav" v-if="showNav">
             <el-breadcrumb separator=">">
               <el-breadcrumb-item v-for="item in select_arr" :to="item.path" :key="item.path">
                 <i :class="item.icon"></i>
@@ -132,242 +132,249 @@ import { mapMutations } from "vuex";
 import { mapActions } from "vuex";
 
 export default {
-  name: "index",
-  provide() {
-    return {
-      reload: this.reload,
-      closeAllTag: this.handleClose,
-    };
-  },
-  computed: {
-    ...mapGetters([
-      "navLabel",
-      "innerHeight",
-      "loading",
-      "loadingText",
-      "viewLoading",
-      "viewLoadingText",
-      "username",
-      "leftVisible",
-      "agencyLoadVisible",
-      "menusMap",
-      "pendingTaskCount",
-      "menuData",
-      "menuDataMap",
-      "menuType",
-      "noMenu",
-      "isAdmin"
-    ]),
-    path() {
-      let path = this.$route.path;
-      path = path.split("__")[0];
-      return path;
+    name: "index",
+    provide() {
+        return {
+            reload: this.reload,
+            closeAllTag: this.handleClose,
+        };
     },
-    select_arr() {
-      const d = this;
-      const arr = [];
-      const path = this.path;
-      const params = d.$route.params;
+    computed: {
+        ...mapGetters([
+            "navLabel",
+            "innerHeight",
+            "loading",
+            "loadingText",
+            "viewLoading",
+            "viewLoadingText",
+            "username",
+            "leftVisible",
+            "agencyLoadVisible",
+            "menusMap",
+            "pendingTaskCount",
+            "menuData",
+            "menuDataMap",
+            "menuType",
+            "noMenu",
+            "isAdmin"
+        ]),
+        path() {
+            let path = this.$route.path;
+            path = path.split("__")[0];
+            return path;
+        },
+        select_arr() {
+            const d = this;
+            const arr = [];
+            const path = this.path;
+            const params = d.$route.params;
 
-      const arr2 = path.split("/");
+            const arr2 = path.split("/");
 
-      for (let i = 0; i < arr2.length; i++) {
-        const str = i == 0 ? "/" : arr2.slice(0, i + 1).join("/");
-        const item = this.menuDataMap[str];
-        if (item) {
-          arr.push(item);
+            for (let i = 0; i < arr2.length; i++) {
+                const str = i == 0 ? "/" : arr2.slice(0, i + 1).join("/");
+                const item = this.menuDataMap[str];
+                if (item) {
+                    arr.push(item);
+                }
+            }
+            return arr;
+        },
+        sysmesg() {
+            let s = this.$store.getters.sysmesg;
+            if (s === undefined) {
+                s = [];
+                this.$store.dispatch("refreshMesg");
+            }
+            if (s.length > 3) s = s.slice(0, 3);
+            return s;
+        },
+        appPaddingLef() {
+            if (!this.showNav) return "0px";
+            return this.leftVisible ? "200px" : "0px";
+        },
+        navLeft() {
+            return this.leftVisible ? "0px" : "-200px";
+        },
+        navLeftBtn() {
+            return this.leftVisible ? "200px" : "0px";
+        },
+        navLeftBtnClass() {
+            const arr = ["nav-left-btn-arrow", "el-icon-arrow-left"];
+            this.leftVisible
+                ? arr.push("el-icon-arrow-left")
+                : arr.push("el-icon-arrow-right");
+            return arr.join(" ");
+        },
+        showNav() {
+            if (this.$route.meta.hideMenu === true) {
+                return false;
+            }
+            return !this.noMenu;
         }
-      }
-      return arr;
     },
-    sysmesg() {
-      let s = this.$store.getters.sysmesg;
-      if (s === undefined) {
-        s = [];
-        this.$store.dispatch("refreshMesg");
-      }
-      if (s.length > 3) s = s.slice(0, 3);
-      return s;
+    data() {
+        return {
+            menu_data: menu.data,
+            resize_lock: false,
+            sysPopVisible: false,
+            windowLock: false,
+            userinfoLoading: true,
+            isCollapse: false,
+            leftMenuActive: "",
+            isRouterAlive: true,
+            dialogVisible: false,
+            form: {
+                user: ""
+            }
+        };
     },
-    appPaddingLef() {
-      if (this.noMenu) return "0px";
-      return this.leftVisible ? "200px" : "0px";
-    },
-    navLeft() {
-      return this.leftVisible ? "0px" : "-200px";
-    },
-    navLeftBtn() {
-      return this.leftVisible ? "200px" : "0px";
-    },
-    navLeftBtnClass() {
-      const arr = ["nav-left-btn-arrow", "el-icon-arrow-left"];
-      this.leftVisible
-        ? arr.push("el-icon-arrow-left")
-        : arr.push("el-icon-arrow-right");
-      return arr.join(" ");
-    }
-  },
-  data() {
-    return {
-      menu_data: menu.data,
-      resize_lock: false,
-      sysPopVisible: false,
-      windowLock: false,
-      userinfoLoading: true,
-      isCollapse: false,
-      leftMenuActive: "",
-      isRouterAlive: true,
-      dialogVisible: false,
-      form: {
-        user: ""
-      }
-    };
-  },
-  methods: {
-    ...mapActions([
-      // 'refreshExtends', //extend-field
-      "refreshProduct", //product
-      "refreshClassification", //classification
-      "refreshBranch", //branch
-      "refreshArea", //area
-      "refreshCity", //city
-      "refreshGroup",
-      "refreshUser",
-      "closeTag", //filter-cache
-      "initializeHashMapsCache" //index
-    ]),
-    ...mapMutations([
-      "toggleLeftVisible", //index
-      "setInnerHeight", //index
-      "setInnerWidth", //index
-      "setUser" //current-user
-    ]),
-    refreshPage () {
-        this.reload();
-    },
-    loginas() {
-      const url = "/loginas/" + this.form.user;
-      const success = _ => {
-        this.dialogVisible = false;
-        this.$message({ message: "切换登陆成功,正在跳转...", type: "success" });
-        this.$store.commit("LOGOUT");
-        this.$store.commit("LOGIN", _.data.token);
-        this.$axios.defaults.headers.common["Authorization"] = _.data.token;
-        this.refreshUser();
-        setTimeout(()=>{
-          this.reload();
-        },1000)
+    methods: {
+        ...mapActions([
+            // 'refreshExtends', //extend-field
+            "refreshProduct", //product
+            "refreshClassification", //classification
+            "refreshBranch", //branch
+            "refreshArea", //area
+            "refreshCity", //city
+            "refreshGroup",
+            "refreshUser",
+            "closeTag", //filter-cache
+            "initializeHashMapsCache" //index
+        ]),
+        ...mapMutations([
+            "toggleLeftVisible", //index
+            "setInnerHeight", //index
+            "setInnerWidth", //index
+            "setUser" //current-user
+        ]),
+        refreshPage() {
+            this.reload();
+        },
+        loginas() {
+            const url = "/loginas/" + this.form.user;
+            const success = _ => {
+                this.dialogVisible = false;
+                this.$message({ message: "切换登陆成功,正在跳转...", type: "success" });
+                this.$store.commit("LOGOUT");
+                this.$store.commit("LOGIN", _.data.token);
+                this.$axios.defaults.headers.common["Authorization"] = _.data.token;
+                this.refreshUser();
+                setTimeout(() => {
+                    this.reload();
+                }, 1000)
 
-      };
-      this.$axiosPost({ url, success });
+            };
+            this.$axiosPost({ url, success });
+        },
+        reload() {
+            this.isRouterAlive = false;
+            this.$nextTick(() => {
+                this.isRouterAlive = true;
+            });
+        },
+        handleClose(item) {
+            this.closeTag(item);
+        },
+        handleCommond(command) {
+            if (command == "login_out") {
+                const url = "/logout";
+                const success = _ => {
+                    this.$message({ message: "登出成功,2秒后跳转...", type: "success" });
+                    this.$store.commit("LOGOUT");
+                    window.localStorage.removeItem("userinfo");
+                    setTimeout(() => {
+                        window.location.href = "/";
+                        // this.$router.push( {path: '/login'})
+                    }, 2000)
+                };
+
+                this.$axiosGet({ url, success });
+            }
+            if (command == "login_as") {
+                this.dialogVisible = true;
+            }
+        },
+        navToggle() {
+            this.toggleLeftVisible();
+
+            // let i = 32;
+            // let n = this.leftVisible ? 160 : 0;
+            // i = this.leftVisible ? -i : i;
+            // animation();
+
+            //滑动效果
+            // function animation () {
+            //   n += i;
+            //   left.css('width', n);
+            //   app.css('padding-left', n);
+            //   btn.css('left', n);
+
+            //   if(n == 0) {
+            //     btn.find('.nav-left-btn-arrow').removeClass('el-icon-arrow-left').addClass('el-icon-arrow-right');
+            //   }else if( n== 160) {
+            //     btn.find('.nav-left-btn-arrow').removeClass('el-icon-arrow-right').addClass('el-icon-arrow-left');
+            //   }else {
+            //     window.requestAnimationFrame(animation);
+            //   }
+            // }
+        }
     },
-    reload() {
-      this.isRouterAlive = false;
-      this.$nextTick(() => {
-        this.isRouterAlive = true;
-      });
-    },
-    handleClose(item) {
-      this.closeTag(item);
-    },
-    handleCommond(command) {
-      if (command == "login_out") {
-        const url = "/logout";
-        const success = _ => {
-          this.$message({ message: "登出成功,2秒后跳转...", type: "success" });
-          this.$store.commit("LOGOUT");
-          window.localStorage.removeItem("userinfo");
-          setTimeout(()=>{
-            window.location.href = "/";
-          // this.$router.push( {path: '/login'})
-          },2000)
+    created() {
+        // this.leftMenuActive = this.path;
+        const refreshWindow = _ => {
+            this.setInnerHeight(window.innerHeight);
+            this.setInnerWidth(window.innerWidth);
         };
 
-        this.$axiosGet({ url, success });
-      }
-      if (command == "login_as") {
-        this.dialogVisible = true;
-      }
+        refreshWindow();
+        window.onresize = _ => {
+            if (!this.windowLock) {
+                this.windowLock = true;
+
+                window.setTimeout(_ => {
+                    refreshWindow();
+                    this.windowLock = false;
+                }, 100);
+            }
+        };
+
+        const success = _ => {
+            this.userinfoLoading = false;
+            //设置个人信息
+            this.initializeHashMapsCache();
+            this.refreshArea();
+            this.refreshCity();
+            this.refreshProduct();
+            this.refreshBranch();
+            this.refreshGroup();
+            this.refreshClassification();
+            if (window.localStorage.getItem("userinfo")) {
+                this.setUser(JSON.parse(window.localStorage.getItem("userinfo")));
+            }
+        };
+        success();
+        console.log(this.$route);
     },
-    navToggle() {
-      this.toggleLeftVisible();
-
-      // let i = 32;
-      // let n = this.leftVisible ? 160 : 0;
-      // i = this.leftVisible ? -i : i;
-      // animation();
-
-      //滑动效果
-      // function animation () {
-      //   n += i;
-      //   left.css('width', n);
-      //   app.css('padding-left', n);
-      //   btn.css('left', n);
-
-      //   if(n == 0) {
-      //     btn.find('.nav-left-btn-arrow').removeClass('el-icon-arrow-left').addClass('el-icon-arrow-right');
-      //   }else if( n== 160) {
-      //     btn.find('.nav-left-btn-arrow').removeClass('el-icon-arrow-right').addClass('el-icon-arrow-left');
-      //   }else {
-      //     window.requestAnimationFrame(animation);
-      //   }
-      // }
-    }
-  },
-  created() {
-    // this.leftMenuActive = this.path;
-    const refreshWindow = _ => {
-      this.setInnerHeight(window.innerHeight);
-      this.setInnerWidth(window.innerWidth);
-    };
-
-    refreshWindow();
-    window.onresize = _ => {
-      if (!this.windowLock) {
-        this.windowLock = true;
-
-        window.setTimeout(_ => {
-          refreshWindow();
-          this.windowLock = false;
-        }, 100);
-      }
-    };
-
-    const success = _ => {
-      this.userinfoLoading = false;
-      //设置个人信息
-      this.initializeHashMapsCache();
-      this.refreshArea();
-      this.refreshCity();
-      this.refreshProduct();
-       this.refreshBranch();
-       this.refreshGroup();
-       this.refreshClassification();
-      if (window.localStorage.getItem("userinfo")) {
-        this.setUser(JSON.parse(window.localStorage.getItem("userinfo")));
-      }
-    };
-    success();
-  },
-  components: {
-    AppMenuItem,
-    AgencyLoad,
-    AppNav,
-    JumpSelect
-  },
-  watch: {
-    //路径更改 左侧菜单自东变更active项
-    path(val) {
-      this.leftMenuActive = val;
+    components: {
+        AppMenuItem,
+        AgencyLoad,
+        AppNav,
+        JumpSelect
     },
-    //解决菜单切换时 左侧菜单的active项为空
-    menuType() {
-      this.leftMenuActive = "";
-      this.$nextTick(() => {
-        this.leftMenuActive = this.path;
-      });
+    watch: {
+        //路径更改 左侧菜单自东变更active项
+        path(val) {
+            this.leftMenuActive = val;
+        },
+        //解决菜单切换时 左侧菜单的active项为空
+        menuType() {
+            this.leftMenuActive = "";
+            this.$nextTick(() => {
+                this.leftMenuActive = this.path;
+            });
+        }
     }
-  }
 };
 </script>
 <style lang="scss">

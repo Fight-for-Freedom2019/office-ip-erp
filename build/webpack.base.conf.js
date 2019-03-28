@@ -9,23 +9,23 @@ const HappyPack = require('happypack')
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-function createHappyPlugin (id, loaders) {
-    return new HappyPack({
-        id: id,
-        loaders: loaders,
-        threadPool: happyThreadPool,
-        // make happy more verbose with HAPPY_VERBOSE=1
-        verbose: process.env.HAPPY_VERBOSE === '1'
-    })
+function createHappyPlugin(id, loaders) {
+  return new HappyPack({
+    id: id,
+    loaders: loaders,
+    threadPool: happyThreadPool,
+    // make happy more verbose with HAPPY_VERBOSE=1
+    verbose: process.env.HAPPY_VERBOSE === '1'
+  })
 }
 
 module.exports = {
   entry: {
-    app: ['babel-polyfill','./src/main.js']
+    app: ['babel-polyfill', './src/main.js']
   },
   output: {
     path: config.build.assetsRoot,
@@ -51,18 +51,18 @@ module.exports = {
     createHappyPlugin('happy-babel-vue', ['babel-loader?cacheDirectory=true']),
     createHappyPlugin('happy-css', ['css-loader', 'vue-style-loader']),
     new HappyPack({
-        loaders: [{
-            path: 'vue-loader',
-            query: {
-                loaders: {
-                    scss: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
-                }
-            }
-        }]
+      loaders: [{
+        path: 'vue-loader',
+        query: {
+          loaders: {
+            scss: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
+          }
+        }
+      }]
     }),
-        // new HardSourceWebpackPlugin(),
-        new webpack.LoaderOptionsPlugin({ options: {} })
-    ],
+    // new HardSourceWebpackPlugin(),
+    new webpack.LoaderOptionsPlugin({ options: {} })
+  ],
   module: {
     noParse: /node_modules\/(element-ui\.js)/,
     rules: [
