@@ -332,5 +332,13 @@ export default {
 		   return arr;
 		}
 	},
+  getObjValue(obj, desc) {
+    let arr = desc.split(".");
+    let o = obj;
+    while (arr.length && o) {
+      o = o[arr.shift()];
+    }
+    return o;
+  },
 
 }
