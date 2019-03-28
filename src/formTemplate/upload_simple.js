@@ -24,6 +24,8 @@ function vm() {
           </ul>
         </div>
         <el-dialog
+      custom-class="upload_simple"
+      :append-to-body="true"
       :visible.sync="renameDialog"
       title="修改文件名"
       :modal="false"
@@ -57,6 +59,11 @@ function vm() {
       this.fileList = this.extendData.pictures;
     },
     methods:{
+      controlDialog(c) {
+        this.renameDialog = c === 'block' ? true : false
+        const parent = document.getElementsByClassName('upload_simple')[0].parentNode
+        parent.style.display = c
+      },
       saveFileName(){
         if(this.renameForm.name !== "") {
           if(this.renameFile.response) {
@@ -87,7 +94,8 @@ function vm() {
           }
           this.saveData();
         }
-        this.renameDialog = false;
+        // this.renameDialog = false;
+        this.controlDialog("none");
         // this.extendData.pictures = this.fileList;
       },
       handleFileUploadSuccess(r, f, fl){
@@ -120,7 +128,8 @@ function vm() {
         this.$axiosDelete({ url: `/files/${id}`, data: {}, success });
       },
       handlePreview(file) {
-        this.renameDialog = true;
+        // this.renameDialog = true;
+        this.controlDialog("block");
         this.renameFile = file;
       },
       viewFile(url){
