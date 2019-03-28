@@ -38,14 +38,13 @@
           highlightCurrentRow: true,
           is_search: false,
           is_pagination: false,
-          handleSearch:this.handleSearch,
+          search_placeholder:"输入金额、费用类型、是否已开票筛选",
           // 'rowClick': this.handleRowClick,
           header_btn: [
             // {type: 'add'},
           ],
           filterFields:[
             {field: "feecode.name", value: "代理费"},
-            {field: "feecode.name", value: "官费"},
             {field: "project.serial"},
             {field: "rmb_amount"},
             {field: "is_voucher", value: "是"},

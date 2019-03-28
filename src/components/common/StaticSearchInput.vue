@@ -1,5 +1,10 @@
 <!--
+单独使用当前组件时
 父组件通过@filterData获取过滤后的tableData
+如果是在TableComponent中使用则无需做任何改动
+TableComponent中需配置filterFields
+与当前组件props中的fields配置相同
+使用filterFields后，动态搜索则失效
 -->
 
 <template>
@@ -18,6 +23,11 @@
 
 <script>
   const filterRule = [
+    /*
+    * 如果要过滤0或1这类的数据需要在此定义搜索字段代表的值
+    * 需要完整的关键字才能匹配,比如:已开票，要输入已开票才能检索出数据
+    * 建议在搜索建议中直接写下完整的关键字，
+    * */
     ["是", 1],
     ["否", 0],
   ];
@@ -31,7 +41,7 @@
     }
     },
     props: {
-      // 过滤用的数据，不能为原始数据，需copy一份
+      // 过滤用的数据，单独使用组件时不能为原始数据，需copy一份
       tableData: {
         type: Array,
         default() {
@@ -45,7 +55,7 @@
       *   {field:"is_voucher"},
       * ]
       * field:过滤的table字段
-      * value:快捷输入过滤的关键字,可省略
+      * value:快捷输入过滤的关键字(搜索建议),可省略
       * */
       fields: {
         type: Array,
@@ -85,14 +95,6 @@
       handleSelect(val) {
         this.handleSearch(val.value);
       },
-      getObjValue(obj, desc) {
-        let arr = desc.split(".");
-        let o = obj;
-        while (arr.length && o) {
-          o = o[arr.shift()];
-        }
-        return o;
-      },
       filterData(val, data, fields) {
         let _this = this;
         if(this.rule.get(val) !== undefined) {
@@ -102,7 +104,7 @@
         return data.filter((o) => {
           let bool = false;
           fields.some((i) => {
-            let keyword = _this.getObjValue(o, i.field);
+            let keyword = _this.$tool.getObjValue(o, i.field);
             if(keyword || keyword === 0 || keyword === false) {
               bool = keyword.toString().indexOf(val) !== -1;
             }else {
