@@ -144,7 +144,7 @@ const strainerConfig = [
       { name: "客户", id: "customer" },
       { name: "申请国家", id: "area" },
       { name: "商标大类", id: "categories" },
-      { name: "申请日", id: "applicatiion_date" },
+      { name: "申请日", id: "application_date" },
       { name: "初审公告日", id: "publication_date" },
       { name: "公告日", id: "issue_date" },
       { name: "委案日", id: "entrusting_time" },
@@ -162,7 +162,7 @@ const strainerConfig = [
     [
       { name: "子类型", id: "subtype", default: true },
       { name: "客户", id: "customer" },
-      { name: "受理日", id: "applicatiion_date" },
+      { name: "受理日", id: "application_date" },
       { name: "下证日", id: "issue_date" },
       { name: "证书号", id: "issue_number" },
       { name: "销售", id: "sales" },
