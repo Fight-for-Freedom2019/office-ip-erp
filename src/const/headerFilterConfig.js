@@ -66,7 +66,7 @@ const map = new Map([
     { type: "text", id: "application_number", name: "申请号" },
     { type: "date", id: "application_date", name: "申请日" },
     { type: "date", id: "entrusting_time", name: "委案日" },
-    { type: "static_select", id: "subtype", name: "案件类型", map_type: "patent_type_strainer" },
+    { type: "static_select", id: "subtype", name: "案件类型", map_type: "patent_subtype" },
     { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
     { type: "text", id: "title", name: "标题" },
     { type: "text", id: "abstract", name: "摘要" },
@@ -136,7 +136,7 @@ const map = new Map([
   ["trademark",[
     { type: "text", id: "serial", name: "案号" },
     { type: "text", id: "title", name: "标题" },
-    { type: "static_select", id: "subtype", name: "商标类型", map_type: "trademark_type" },
+    { type: "static_select", id: "subtype", name: "商标类型", map_type: "trademark_subtype" },
     { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
     { type: "static_select", id: "categories", name: "商标大类", map_type: "categories" },
     { type: "text", id: "application_number", name: "申请号" },
@@ -166,7 +166,7 @@ const map = new Map([
   ["copyright", [
     { type: "text", id: "serial", name: "案号"},
     { type: "text", id: "title", name: "标题"},
-    { type: "static_select", id: "subtype", name: "版权类型", map_type: "project_subtype" },
+    { type: "static_select", id: "subtype", name: "版权类型", map_type: "copyright_subtype" },
     { type: "text", id: "application_number", name: "受理号"},
     { type: "date", id: "application_date", name: "受理日" },
     { type: "date", id: "issue_date", name: "下证日" },

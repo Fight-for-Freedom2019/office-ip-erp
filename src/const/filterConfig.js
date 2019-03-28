@@ -241,7 +241,7 @@ const map = new Map([
         components: "static_select",
         id: "subtype",
         name: "案件类型",
-        type: "patent_type_strainer",
+        type: "patent_subtype",
         used: true
       },
       {
@@ -537,7 +537,7 @@ const map = new Map([
         components: "static_select",
         id: "subtype",
         name: "商标类型",
-        type: "trademark_type",
+        type: "trademark_subtype",
         used: true,
       },
       { components: "static_select", id: "area", name: "地区", type: "area", used: true, },
@@ -574,7 +574,7 @@ const map = new Map([
         components: "static_select",
         id: "subtype",
         name: "版权类型",
-        type: "project_subtype",
+        type: "copyright_subtype",
         used: true,
       },
       {

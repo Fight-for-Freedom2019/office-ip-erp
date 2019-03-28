@@ -13,7 +13,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="版权类型" prop="subtype">
-          <static-select type="project_subtype" v-model="form.subtype"></static-select>
+          <static-select type="copyright_subtype" v-model="form.subtype"></static-select>
         </el-form-item>
       </el-col>
       </el-row>

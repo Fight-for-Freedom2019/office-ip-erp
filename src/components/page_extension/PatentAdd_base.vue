@@ -33,7 +33,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="专利类型" prop="subtype">
-          <static-select type="patent_type" v-model="form.subtype"></static-select>
+          <static-select type="patent_subtype" v-model="form.subtype"></static-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
