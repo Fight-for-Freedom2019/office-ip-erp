@@ -1,35 +1,19 @@
 <template>
-  <el-col :span="12" style="padding:0px 2px 2px 0px;">
-    <el-card style="position: relative;" :style="{height:height}">
-      <p slot="header" style="color: #888; margin: 0px;">{{ option.title }}</p>
-      <div :id="option.id"  ref="chart">
-        
-      </div>
-    </el-card>
-  </el-col>
+    <my-task v-if="option.id == 'MyTask'" :id="option.title" :option="option" ></my-task>
+    <my-points v-else-if="option.id == 'MyPoints'" :id="option.title" :option="option" ></my-points>
+    <points-report v-else-if="option.id == 'PointsReport'" :option="option" ></points-report>
+    <kpi v-else-if="option.id == 'KPI'" :option="option" ></kpi>
+    <memo v-else-if="option.id == 'Memo'" :option="option" ></memo>
 </template>
 <script>
 
-const config = {
-    '待办提醒': {
-        title: '待办提醒',
-        name: 'MyTask'
-    },
-    '本月点数': {
-        title: '本月点数',
-        name: 'MyPoints'
-    },
-    '点数统计': {
-        title: '点数统计',
-        name: 'PointsReport'
-    },
-    '案件指标': {
-        title: '案件指标',
-        name: 'KPI'
-    },
-}
 
 import { mapGetters } from 'vuex'
+import MyTask from '@/components/page/dashboard/ChartMyTask'
+import MyPoints from '@/components/page/dashboard/ChartMyPoints'
+import PointsReport from '@/components/page/dashboard/ChartPointsReport'
+import kpi from '@/components/page/dashboard/ChartKPI'
+import memo from '@/components/page/dashboard/Memo'
 
 var echarts = require('echarts/lib/echarts')
 require('echarts/lib/chart/bar')  //柱状图
@@ -40,51 +24,26 @@ export default {
     name: 'Chart',
     data() {
         return {
-            config: '',
-            chart: null
         }
     },
     props: {
         option: Object
     },
     computed: {
-        ...mapGetters([
-            'innerHeight',
-        ]),
-        height() {
-            return ((this.innerHeight - 30) / 2) + 'px';
-        },
-        title() {
-            return this.config.title;
-        }
+
     },
     mounted() {
-        this.config = config[this.type];
-        this.initChart();
-        console.log('here')
+
     },
     methods: {
-        initChart() {
-            var option = {
-                title: {
-                    text: 'ECharts 入门示例'
-                },
-                tooltip: {},
-                xAxis: {
-                    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-            };
-            this.chart = echarts.init(document.getElementById(this.option.id));
-            this.chart.setOption(option);
-        }
+
     },
     components: {
+        MyTask,
+        MyPoints,
+        PointsReport,
+        kpi,
+        memo
     },
 }
 </script>

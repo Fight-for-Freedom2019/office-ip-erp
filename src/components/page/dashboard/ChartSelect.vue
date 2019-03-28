@@ -5,7 +5,7 @@
       <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
     </span>
     <div style="margin-top: 20px" class="root">
-      <span>已显示图表</span>
+      <span>已选择图表（可以拖动排序）</span>
       <draggable class="list-group" tag="ul" v-model="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
         <transition-group type="transition" :name="'flip-list'">
           <li class="list-group-item" v-for="element in list" :key="element.name">
@@ -15,7 +15,7 @@
           </li>
         </transition-group>
       </draggable>
-    <el-button type="primary" size="small" @click="dialogVisible = true" style="margin-top:10px;">添加图表</el-button>
+    <el-button type="primary" size="small" @click="dialogVisible = true" style="margin-top:10px;">选择/取消选择图表</el-button>
     </div>
     <el-dialog
       title="请选择图表"
@@ -96,22 +96,23 @@ export default {
     },
     methods: {
         save() {
-            if (this.list.length == 0) {
-                this.$message({ message: "请选择至少一个图表", type: "warning" });
-                return;
-            }
+            // if (this.list.length == 0) {
+            //     this.$message({ message: "请选择至少一个图表", type: "warning" });
+            //     return;
+            // }
             const url = '/charts';
             const data = {
-                charts: this.checkList.map((name, index) => {
+                charts: this.list.map((chart, index) => {
                     let o = false;
                     this.options.forEach(option => {
-                        if (option.title == name) {
-                            o = option.name;
+                        if (option.title == chart.title) {
+                            o = option.id;
                         }
                     })
                     return o;
                 })
             }
+            console.log(data);
             const success = _ => {
                 this.$emit("selected", this.list);
                 this.visible = false;
