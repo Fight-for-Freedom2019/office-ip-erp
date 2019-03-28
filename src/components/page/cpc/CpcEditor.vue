@@ -88,7 +88,7 @@
           <el-tabs
             v-model="tabpanel"
             @tab-click="handleTab"
-            :style="`height:${innerHeight/2-123}px`"
+            :style="`height:${innerHeight-123}px;overflow-y: scroll`"
           >
             <el-tab-pane label="申请文件" name="application_doc">
               <ul class="attachmentsList">
@@ -102,9 +102,9 @@
             </el-tab-pane>
             <!-- <el-tab-pane label="邮件" name="mail"></el-tab-pane> -->
           </el-tabs>
-          <div class="task-content" :style="`height:${innerHeight/2}px`">
-            <!-- 文件内容 -->
-          </div>
+          <!--<div class="task-content" :style="`height:${innerHeight/2}px`">
+            &lt;!&ndash; 文件内容 &ndash;&gt;
+          </div>-->
         </div>
       </div>
       <!-- 添加表格 start -->
@@ -1029,7 +1029,7 @@ export default {
       if(!this.process.project)return
       const success = _ => {
         // console.log(_);
-        this.attachments = _.patent.attachments;
+        this.attachments = _.patent.projectFiles;
         this.notices = _.patent.notices;
       };
       this.$axiosGet({ url: `/patents/${this.process.project.id}`, success });
