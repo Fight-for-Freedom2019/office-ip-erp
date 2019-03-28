@@ -93,14 +93,17 @@
         }
         return o;
       },
-      filterData(val, data, field) {
+      filterData(val, data, fields) {
         let _this = this;
+        // val = '是or否'
         /*if(this.rule.get(val) !== undefined) {
+          fields = fields.filter((f)=>f.value === val);
+          debugger
           val = this.rule.get(val);
         }*/
         return data.filter((o) => {
           let bool = false;
-          field.some((i) => {
+          fields.some((i) => {
             bool = _this.getObjValue(o, i.field)?_this.getObjValue(o, i.field).toString().indexOf(val) !== -1 : false;
             return bool;
           })
