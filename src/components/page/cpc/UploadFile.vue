@@ -596,22 +596,22 @@ export default {
 };
 </script>
 
-<style scoped>
-.viewFileList {
+<style>
+.CpcEditor .viewFileList {
   position: relative;
 }
 
-.viewListWrap {
+.CpcEditor .viewListWrap {
   position: absolute;
   left: 80%;
   top: 97px;
 }
 
-.viewListWrap li {
+.CpcEditor .viewListWrap li {
   height: 92px;
   line-height: 92px;
 }
-.viewListWrap li:not(:first-child) {
+.CpcEditor .viewListWrap li:not(:first-child) {
   margin-top: 10px;
 }
 </style>
