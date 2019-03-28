@@ -166,7 +166,7 @@ const map = new Map([
   ["copyright", [
     { type: "text", id: "serial", name: "案号"},
     { type: "text", id: "title", name: "标题"},
-    { type: "static_select", id: "subtype", name: "版权类型", map_type: "copyright_type" },
+    { type: "static_select", id: "subtype", name: "版权类型", map_type: "project_subtype" },
     { type: "text", id: "application_number", name: "受理号"},
     { type: "date", id: "application_date", name: "受理日" },
     { type: "date", id: "issue_date", name: "下证日" },

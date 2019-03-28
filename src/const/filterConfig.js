@@ -574,7 +574,7 @@ const map = new Map([
         components: "static_select",
         id: "subtype",
         name: "版权类型",
-        type: "copyright_type",
+        type: "project_subtype",
         used: true,
       },
       {
