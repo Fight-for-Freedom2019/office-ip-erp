@@ -345,10 +345,21 @@ export default {
             };
             this.$axiosPut({ url, data, success });
         },
+        reset(){
+            this.receivedData = [];
+            this.remindersData = [];
+            this.costDetail = [];
+            this.vouchers = [];
+            this.mails = [];
+            this.attachments = [];
+            this.rowData = {};
+            this.invoice = {};
+            this.form.received_amount = "";
+        },
         getDetail(id) {
             const url = `/invoices/${id}`;
             this.openLoading();
-            this.attachments = [];
+            this.reset();
             const success = _ => {
                 const d = _.data;
                 this.receivedData = d.received_payments;
