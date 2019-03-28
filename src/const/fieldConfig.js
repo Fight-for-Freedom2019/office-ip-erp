@@ -94,7 +94,7 @@ const fieldExceptMap = new Map([
   ["patent", "userPatentFieldExcept"],
   ["patentList", "userPatentFieldExcept"]
 ]);
-// 过滤器字段配置项
+// 快速筛选字段配置项
 const strainerConfig = [
   [
     "process",

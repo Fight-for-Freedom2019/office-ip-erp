@@ -23,7 +23,7 @@ import StaticSelect from "@/components/form/StaticSelect";
 import { strainerConfig } from "@/const/fieldConfig";
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
-// 过滤器后台路由配置
+// 快速筛选后台路由配置
 const urlMap = new Map([
     ["process", { URL: "/processes/filters" }],
     ["patent", { URL: "/patents/filters" }],
@@ -60,7 +60,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["filterForm"]),
+        ...mapGetters(["filterForm", "navLabel"]),
         strainerMap() {
             const map = new Map(strainerConfig);
             return map;
@@ -82,8 +82,12 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["fillListFilter"]),
+        ...mapActions([
+            "fillListFilter",
+            "closeTag",
+        ]),
         refreshTreeData() {
+
             const url = this.config.URL;
             const data = Object.assign(
                 {},
@@ -97,6 +101,10 @@ export default {
             this.$axiosGet({ url, data, success });
         },
         refreshTable(data, node) {
+            // console.log(this.navLabel)
+            // 此方法用来实现点击树筛选以及再次点击去掉对应的筛选条件
+            const labelKeys = this.$tool.splitObj(this.navLabel, ['key','cnLabel', 'value'])  
+            // console.log(labelKeys) 
             const obj = {};
             const s = this.$refs.strainerTree.getSelected();
             const label = data.name;
@@ -104,10 +112,28 @@ export default {
             const key = s[0].id;
             const value = data.query[key];
             const extraOption = { operation: 1 };
+
             obj[key] = { label, name, key, value, extraOption };
-            this.fillListFilter(obj);
-            // this.$emit('refresh',data.query);
-        }
+            if(labelKeys['key'].includes(key)) {
+                const index = labelKeys['key'].indexOf(key)
+                Array.isArray(labelKeys['cnLabel'][index]) ? false : labelKeys['cnLabel'][index] = labelKeys['cnLabel'][index].split('，');
+                if(Array.isArray(labelKeys['cnLabel'][index]) && labelKeys['cnLabel'][index].length > 1 ) {
+                    // 分别过滤出不包含当前点击值得label value
+                    const value2 = labelKeys['value'][index].filter(item => item !== value)
+                    const label2 = labelKeys['cnLabel'][index].filter(item => item !== label)
+                    const obj2 = {}
+
+                    obj2[key] = {label: label2, name, key, value: value2, extraOption}
+                    this.fillListFilter(obj2)
+                }else {
+                    const closeItem = this.navLabel.filter(_=> _.key == key)
+                    this.closeTag(closeItem[0])
+                }
+            }else{
+                this.fillListFilter(obj);
+                // this.$emit('refresh',data.query);
+            }
+        },
     },
     data() {
         return {
