@@ -9,7 +9,7 @@
         :id="currentRow.id"
         @editSuccess="refresh">
       </common-detail>
-      <detail-shrink ref="copyrightAdd" page-type="add"></detail-shrink>
+      <detail-shrink ref="copyrightAdd" page-type="add" @addSuccess="refresh()"></detail-shrink>
   </div>
 </template>
 

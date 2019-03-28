@@ -4,9 +4,9 @@
       <el-button type="primary" v-if="pageType == 'edit'" @click="save" size="small">保存</el-button>
       <app-button-loading :func="add" v-if="pageType == 'add'" ref="loadingBtn"></app-button-loading>
     </span>
-    <patent-add :page-type="pageType" v-if="showType == 'patent'" ref="patentAdd" @addSuccess="$emit('addSuccess')"></patent-add>
+    <patent-add :page-type="pageType" v-if="showType == 'patent'" ref="patentAdd" @addSuccess="_=>{shrinkVisible = false;$emit('addSuccess')}"></patent-add>
     <trademark-add :page-type="pageType" v-if="showType == 'trademark'" ref="trademarkAdd" @addSuccess="_=>{shrinkVisible = false;$emit('addSuccess')}"></trademark-add>
-    <copyright-add :page-type="pageType" v-if="showType =='copyright'" ref="copyrightAdd" @addSuccess="$emit('addSuccess')"></copyright-add>
+    <copyright-add :page-type="pageType" v-if="showType =='copyright'" ref="copyrightAdd" @addSuccess="_=>{shrinkVisible = false;$emit('addSuccess')}"></copyright-add>
   </app-shrink>
 </template>
 
