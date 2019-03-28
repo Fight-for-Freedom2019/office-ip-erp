@@ -47,6 +47,8 @@ const getters = {
     const data = state.custom.map((v, i) => ({
       type: 'listFilter',
       label: `${v['name']}：${v['label']}`,
+      cnLabel: v['label'],
+      value: v['value'],
       key: v['key'],
       index: i,
     }));

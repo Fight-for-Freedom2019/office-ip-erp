@@ -101,7 +101,10 @@ export default {
             this.$axiosGet({ url, data, success });
         },
         refreshTable(data, node) {
-            const labelKeys = this.$tool.splitObj(this.navLabel, 'key')    
+            // console.log(this.navLabel)
+            // 此方法用来实现点击树筛选以及再次点击去掉对应的筛选条件
+            const labelKeys = this.$tool.splitObj(this.navLabel, ['key','cnLabel', 'value'])  
+            // console.log(labelKeys) 
             const obj = {};
             const s = this.$refs.strainerTree.getSelected();
             const label = data.name;
@@ -109,10 +112,23 @@ export default {
             const key = s[0].id;
             const value = data.query[key];
             const extraOption = { operation: 1 };
+
             obj[key] = { label, name, key, value, extraOption };
-            if(labelKeys.includes(key)) {
-               const closeItem = this.navLabel.filter(_=> _.key == key)
-                this.closeTag(closeItem[0])
+            if(labelKeys['key'].includes(key)) {
+                const index = labelKeys['key'].indexOf(key)
+                Array.isArray(labelKeys['cnLabel'][index]) ? false : labelKeys['cnLabel'][index] = labelKeys['cnLabel'][index].split('，');
+                if(Array.isArray(labelKeys['cnLabel'][index]) && labelKeys['cnLabel'][index].length > 1 ) {
+                    // 分别过滤出不包含当前点击值得label value
+                    const value2 = labelKeys['value'][index].filter(item => item !== value)
+                    const label2 = labelKeys['cnLabel'][index].filter(item => item !== label)
+                    const obj2 = {}
+
+                    obj2[key] = {label: label2, name, key, value: value2, extraOption}
+                    this.fillListFilter(obj2)
+                }else {
+                    const closeItem = this.navLabel.filter(_=> _.key == key)
+                    this.closeTag(closeItem[0])
+                }
             }else{
                 this.fillListFilter(obj);
                 // this.$emit('refresh',data.query);
@@ -123,7 +139,6 @@ export default {
         return {
             field_key: "",
             data: [],
-            lastIndex: '',
             defaultProps: {
                 children: "children",
                 label(d) {
