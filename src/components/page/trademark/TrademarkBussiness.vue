@@ -87,12 +87,12 @@ export default {
           message: "客户不能为空",
           trigger: "change"
         },
-        ipr: {
-          type: "number",
-          required: true,
-          message: "IPR不能为空",
-          trigger: "change"
-        },
+        // ipr: {
+        //   type: "number",
+        //   required: true,
+        //   message: "IPR不能为空",
+        //   trigger: "change"
+        // },
         contact: {
           type: "number",
           required: true,

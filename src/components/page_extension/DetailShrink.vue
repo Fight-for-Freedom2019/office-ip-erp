@@ -1,5 +1,5 @@
 <template>
-  <app-shrink :visible.sync="shrinkVisible" :modal='true' :title="pageType =='add'? '新增': '编辑'">
+  <app-shrink :visible.sync="shrinkVisible" :modal='true' :title="pageType =='add'? `${typeName}立案`: title">
     <span slot="header" style="float: right;">
       <el-button type="primary" v-if="pageType == 'edit'" @click="save" size="small">保存</el-button>
       <app-button-loading :func="add" v-if="pageType == 'add'" ref="loadingBtn"></app-button-loading>
@@ -15,8 +15,12 @@ import AppShrink from '@/components/common/AppShrink'
 import PatentAdd from '@/components/page/PatentAdd'
 import TrademarkAdd from '@/components/page/TrademarkAdd'
 import CopyrightAdd from '@/components/page/CopyrightAdd'
-import { mapActions } from 'vuex'
-
+import { mapGetters, mapActions } from 'vuex'
+const typeMap = new Map([
+  ['patent', '专利'],
+  ['trademark', '商标'],
+  ['copyright', '版权'],
+])
 export default {
   name: 'detailShrink',
   props: {
@@ -27,6 +31,12 @@ export default {
       shrinkVisible: false,
       showType: '',
     }
+  },
+  computed: {
+    ...mapGetters(['title']),
+    typeName () {
+      return typeMap.get(this.showType);
+    },
   },
   methods: {
     ...mapActions([

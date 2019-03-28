@@ -54,7 +54,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="申请人" prop="applicants">
-            <remote-select type="applicant" v-model="form.applicants" multiple></remote-select>
+            <remote-select type="applicant" v-model="form.applicants" multiple :para="customerParam"></remote-select>
           </el-form-item>
         </el-col>
             <el-col :span="8">
@@ -88,7 +88,8 @@ export default {
     pageType:{
       type: String,
       default: '',
-    }
+    },
+    customer: [Number, String]
   },
   data () {
     return {
@@ -117,13 +118,18 @@ export default {
       attachments: [],
     }
   },
+  computed: {
+    customerParam() {
+      return this.customer ? { customer: this.customer } : null;
+    }
+  },
   methods: {
   submitForm () {
     return this.$tool.shallowCopy(this.form, { date: true });
   },
   setForm (form) {
     this.$tool.coverObj(this.form, form, {
-      obj: ['attachments'],
+      obj: ['attachments', 'subtype', 'project_stage'],
     });
     this.attachments = form.attachments && form.attachments.length ? form.attachments : [];  
   },

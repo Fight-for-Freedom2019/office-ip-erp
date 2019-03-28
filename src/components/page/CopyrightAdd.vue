@@ -3,11 +3,11 @@
      <el-tabs type="border-card">
     <el-tab-pane>
           <span slot="label"><i class="el-icon-my-users"></i> 商务信息</span>     
-          <copyright-business ref="business" :page-type="pageType"></copyright-business>
+          <copyright-business ref="business" :page-type="pageType" :customer="customer" @customerChanged="customerChanged"></copyright-business>
     </el-tab-pane>
       <el-tab-pane>
         <span slot="label"><i class="el-icon-info"></i> 案件信息</span>  
-        <copyright-base ref="base" :page-type="pageType"></copyright-base>
+        <copyright-base ref="base" :page-type="pageType" :customer="customer"></copyright-base>
     </el-tab-pane>
   </el-tabs>
   </div>
@@ -39,6 +39,7 @@ export default {
     return {
       id: '',
       btn_disabled: false,
+      customer: '',
     }
   },
   computed: {
@@ -56,6 +57,9 @@ export default {
     ...mapActions([
       'refreshUser',
     ]),
+        customerChanged(val) {
+          this.customer = val;
+        },
         async add(form) {
         const flag = await this.checkForm();
         if (flag) {
