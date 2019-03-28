@@ -1,5 +1,5 @@
 import menu from '@/const/menuConst'
-import {customPathMap} from '@/const/filterConfig'
+import { customPathMap } from '@/const/filterConfig'
 
 const sources = menu.source;
 const sourceMap = menu.map;
@@ -22,7 +22,7 @@ const state = {
 
 const getters = {
 	noMenu: state => !state.source || state.source.length == 0,
-	menuType: state => state.type ? state.type  : '',
+	menuType: state => state.type ? state.type : '',
 	menuSource: state => state.source,
 	customFilterData: state => {
 		// console.log('----------customFilterData-------');
@@ -34,11 +34,11 @@ const getters = {
 		const path = customPathMap.get(state.type);
 		// console.log('----------menuData--------------');
 		//'我的搜索项'菜单数据
-		if(path) {
+		if (path) {
 			let obj = source.filter(v => v.path === path)[0];
-			if(obj) {
+			if (obj) {
 				obj = Object.assign({}, obj);
-				const children = getters.customFilterData.map(v => ({type: 'item', path: `${path}/${v.id}`, text: v.name, icon: ''}));
+				const children = getters.customFilterData.map(v => ({ type: 'item', path: `${path}/${v.id}`, text: v.name, icon: '' }));
 				obj.children = children;
 				source.pop();
 				source.push(obj);
@@ -52,73 +52,73 @@ const getters = {
 		const path = customPathMap.get(state.type);
 		// console.log('----------menuDataMap--------------');
 		//'我的搜索项'面包屑索引
-		if(path) {
+		if (path) {
 			let obj = state.source.filter(v => v.path === path)[0];
-			if(obj) {
+			if (obj) {
 				const customObj = {};
 				getters.customFilterData.forEach(v => {
-					customObj[`${path}/${v.id}`] = {type: 'item', path: `${path}/${v.id}`, text: v.name, icon: ''}; 
+					customObj[`${path}/${v.id}`] = { type: 'item', path: `${path}/${v.id}`, text: v.name, icon: '' };
 				});
 				map = Object.assign({}, map, customObj);
 			}
 		}
-		
-		return map;		
+
+		return map;
 	}
 }
 
 const mutations = {
-	setMenuType (state, type) {
+	setMenuType(state, type) {
 		// console.log('----------setMenuType-------------');
-		const arr = sources.filter(v => type === v.key );
+		const arr = sources.filter(v => type === v.key);
 		const source = !arr[0] ? [] : arr[0]['menu'] ? arr[0]['menu'] : [];
 		state.source = source;
 		state.type = type;
 	},
-	setCustomCache (state, {type, data}) {
+	setCustomCache(state, { type, data }) {
 		// console.log('-----------setCustomCache----------');
 		const cache = state.customCache;
-		if(cache[type]) {
+		if (cache[type]) {
 			cache[type] = data;
-		}else {
+		} else {
 			state.customCache = { ...cache, [type]: data };
 		}
 	},
 
-}	
+}
 
 const actions = {
-	getCustomFilter ({state, rootState}, {id}) {
+	getCustomFilter({ state, rootState }, { id }) {
 		console.log('-----------getCustomFilter----------')
 		const url = `/defineget?id=${id}`;
 
 		const promise = rootState.axios.post(url);
 		return promise;
 	},
-	getCustomData ({state, commit, rootState}, {type, flag}={}) {
+	getCustomData({ state, commit, rootState }, { type, flag } = {}) {
 		console.log('-----------getCustomData------------')
-		if(!customModelMap.get(type)) return;
-		if(state.customCache[type] && !flag) return;
+		if (!customModelMap.get(type)) return;
+		if (state.customCache[type] && !flag) return;
 		const url = `/defineget?model=${type}`;
-	
+
 		const promise = rootState.axios.post(url);
 		promise
 			.then(response => {
 				const data = response.data;
-				if(data.status) {
-					commit('setCustomCache', {type, data: data.data});
+				if (data.status) {
+					commit('setCustomCache', { type, data: data.data });
 				}
 			})
 			.catch(() => {
 
 			})
 	},
-	changeMenuType ({commit, dispatch}, type = '') {
-		if(types.indexOf(type) < 0) return;
+	changeMenuType({ commit, dispatch }, type = '') {
+		if (types.indexOf(type) < 0) return;
 		commit('setMenuType', type);
 		// dispatch('getCustomData', {type});
 	},
-	refreshCustomData ({dispatch, state}) {
+	refreshCustomData({ dispatch, state }) {
 		// dispatch('getCustomData', {type: state.type, flag: true});
 	}
 }
