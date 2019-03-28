@@ -452,7 +452,7 @@ export default {
           }
         })
       })
-      console.log("fileList",this.fileList);
+      // console.log("fileList",this.fileList);
       !this.isSave ? this.saveCpcFile() : "";
     },
 
