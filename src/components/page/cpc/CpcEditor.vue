@@ -907,7 +907,7 @@ export default {
       })
     },
     closeDialog(){
-      let dialog = ["offset_dialog","change_content_dialog","citations_information_dialog","priority_dialog"];
+      let dialog = ["offset_dialog","change_content_dialog","citations_information_dialog","priority_dialog","upload_simple"];
       dialog.forEach((i)=>{
         let self = document.getElementsByClassName(i)[0];
         if(self){
