@@ -18,8 +18,8 @@
 
 <script>
   const filterRule = [
-    ["是", "1"],
-    ["否", "0"],
+    ["是", 1],
+    ["否", 0],
   ];
   export default {
     name: "StaticSearchInput",
@@ -95,16 +95,19 @@
       },
       filterData(val, data, fields) {
         let _this = this;
-        // val = '是or否'
-        /*if(this.rule.get(val) !== undefined) {
+        if(this.rule.get(val) !== undefined) {
           fields = fields.filter((f)=>f.value === val);
-          debugger
           val = this.rule.get(val);
-        }*/
+        }
         return data.filter((o) => {
           let bool = false;
           fields.some((i) => {
-            bool = _this.getObjValue(o, i.field)?_this.getObjValue(o, i.field).toString().indexOf(val) !== -1 : false;
+            let keyword = _this.getObjValue(o, i.field);
+            if(keyword || keyword === 0 || keyword === false) {
+              bool = keyword.toString().indexOf(val) !== -1;
+            }else {
+              bool = false
+            }
             return bool;
           })
           return bool;
