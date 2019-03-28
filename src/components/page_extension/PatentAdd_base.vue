@@ -140,7 +140,7 @@
         :para="customerParam"
         type="patent_family"
         :page-type="type"
-        add-type="patent_family"
+        add-type="family"
         multiple
       ></remote-select>
     </el-form-item>
@@ -370,6 +370,8 @@ export default {
                         reference_type: _.reference_type
                     };
                 });
+            } else {
+                this.form.references = [];
             }
 
             if (upload) {
@@ -391,6 +393,7 @@ export default {
                     _.reference_type = _.reference_type;
                 });
             }
+            console.log(this.form.references);
             return this.$tool.shallowCopy(this.form, { date: true });
         },
         handleUploadSuccess(a, b, c) {

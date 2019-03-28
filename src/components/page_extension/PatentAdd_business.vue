@@ -87,18 +87,6 @@ export default {
                     message: "客户不能为空",
                     trigger: "change"
                 },
-                ipr: {
-                    type: "number",
-                    required: false,
-                    message: "IPR不能为空",
-                    trigger: "change"
-                },
-                contact: {
-                    type: "number",
-                    required: true,
-                    message: "技术联系人不能为空",
-                    trigger: "change"
-                },
                 service: {
                     type: "number",
                     required: true,
@@ -117,12 +105,6 @@ export default {
                     message: "费用策略不能为空",
                     trigger: "change"
                 },
-                fees: {
-                    type: "array",
-                    required: true,
-                    message: "费用清单不能为空",
-                    trigger: "change"
-                }
             }
         };
     },

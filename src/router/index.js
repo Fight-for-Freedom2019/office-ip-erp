@@ -118,14 +118,11 @@ const CopyrightList = () => import("@/components/page/CopyrightList");
 //#################
 
 //交互模块
-const ExchangeDocumentOa = () =>
-  import("@/components/page/exchange/document/Oa");
-const ExchangeDocumentVoucher = () =>
-  import("@/components/page/exchange/document/Voucher");
-const ExchangeDocumentOther = () =>
-  import("@/components/page/exchange/document/Other");
-const ExchangeDocumentCpc = () =>
-  import("@/components/page/exchange/document/Cpc");
+const ExchangeDocumentOa = () => import("@/components/page/exchange/document/Oa");
+const ExchangeDocumentVoucher = () => import("@/components/page/exchange/document/Voucher");
+const ExchangeDocumentOther = () => import("@/components/page/exchange/document/Other");
+const ExchangeDocumentCpc = () => import("@/components/page/exchange/document/Cpc");
+const ExchangeDocumentScan = () => import("@/components/page/exchange/document/Scan"); //文档扫描
 const Excels = () => import("@/components/page/exchange/client/Excels"); //EXCEL文件
 
 //-------------------设置 begin-----------------
@@ -636,7 +633,7 @@ const router = new Router({
           }
         }
       },
-        // 回款管理
+      // 回款管理
       {
         path: "/finance/revenue/received_payments",
         name: "PaymentRecevied",
@@ -647,17 +644,17 @@ const router = new Router({
           }
         }
       },
-        // 付款管理
-        {
-          path: "/finance/revenue/payments",
-          name: "PayManage",
-          component: PaymentRecevied,
-          meta: {
-            params: {
-              is_debit: 0
-            }
+      // 付款管理
+      {
+        path: "/finance/revenue/payments",
+        name: "PayManage",
+        component: PaymentRecevied,
+        meta: {
+          params: {
+            is_debit: 0
           }
-        },
+        }
+      },
       {
         path: "/finance/outgo/all",
         name: "SuppliersFeeAll",
@@ -760,6 +757,11 @@ const router = new Router({
         path: "/exchange/document/cpc",
         name: "ExchangeDocumentCpc",
         component: ExchangeDocumentCpc
+      },
+      {
+        path: "/exchange/document/scan",
+        name: "ExchangeDocumentScan",
+        component: ExchangeDocumentScan
       },
       {
         path: "/exchange/document/excel",
