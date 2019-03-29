@@ -17,7 +17,7 @@
           :on-remove="handleRemoveFile"
         >
           <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip" :class="{warning_tip:warningTip}">{{tip}}</div>
+          <div slot="tip" :title="tip" style="white-space: nowrap;text-overflow:ellipsis;overflow:hidden;" class="el-upload__tip" :class="{warning_tip:warningTip}">{{tip}}</div>
         </el-upload>
         <div class="viewListWrap">
           <ul>
@@ -34,7 +34,7 @@
       </template>
     </el-form>
     <el-dialog
-      :visible="showFileTypeList"
+      :visible.sync="showFileTypeList"
       title="选择文件类型"
       :modal="false"
       width="40%"
@@ -61,6 +61,7 @@
         </template>-->
         <el-form-item>
           <el-button type="primary" size="small" @click="selectFileType">保存</el-button>
+          <el-button size="small" @click="hideSelectFileType">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -84,7 +85,7 @@ export default {
         fileTypeInput: ""
       },
       rule: {
-        fileType: [{ required: true, message: "请选择类型", trigger: "blur" }]
+        // fileType: [{ required: true, message: "请选择类型", trigger: "blur" }]
       },
       revampType: "add",
       submitFileList: [],
@@ -470,6 +471,9 @@ export default {
       if(!bool) {
         this.fileTypeList.push({value:type,label:type});
       }
+    },
+    hideSelectFileType(){
+      this.showFileTypeList = false;
     },
     selectFileType() {
       this.$refs.fileTypeForm.validate(valid => {
