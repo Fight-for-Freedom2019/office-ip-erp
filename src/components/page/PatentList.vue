@@ -210,14 +210,14 @@ export default {
                         is_import: true,
                         render_header: true
                     },
-                    {
-                        type: "text",
-                        label: "任务阶段",
-                        prop: "process_stage",
-                        render_simple: "name",
-                        render_header: true,
-                        width: "110"
-                    },
+                    // {
+                    //     type: "text",
+                    //     label: "任务阶段",
+                    //     prop: "process_stage",
+                    //     render_simple: "name",
+                    //     render_header: true,
+                    //     width: "110"
+                    // },
                     {
                         type: "text",
                         label: "申请方式",
