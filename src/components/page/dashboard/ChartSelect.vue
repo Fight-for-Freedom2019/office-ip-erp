@@ -17,7 +17,8 @@
           </li>
         </transition-group>
       </draggable>
-    <el-button type="primary" size="small" @click="dialogVisible = true" style="margin-top:10px;">添加图表</el-button>
+      <el-button type="primary" size="small" @click="dialogVisible = true" style="margin-top:10px;">添加图表</el-button>
+      <p style="margin-top:20px;">首页图表的设计目的是将用户最关心的数据直观的方式展示出来，目前支持的几种图表仅为示例，请积极反馈希望显示在首页上的信息！</p>
     </div>
     <el-dialog
       title="请选择图表"

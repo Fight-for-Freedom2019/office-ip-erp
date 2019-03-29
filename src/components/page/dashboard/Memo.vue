@@ -2,11 +2,11 @@
   <el-col :span="12" style="padding:0px 2px 2px 0px;">
     <el-card style="position: relative;" :style="{height:height}">
         <p slot="header" style="color: #888; margin: 0px;">{{ option.title }} 
-            <el-button icon="el-icon-plus" circle @click="addMemo" size="mini"></el-button>
+            <el-button icon="el-icon-plus" type="text" @click="addMemo" size="mini" style="font-size:14px;"></el-button>
         </p>
         <ul :id="option.id"  ref="chart" :style="{width:'100%',height:height2}">
             <li v-for="item in data" :key="item.id" class="memo-item" style="margin-bottom:5px;line-height:24px;">
-                <span>{{ item.creation_time + ':' + item.content }}</span>
+                <span>{{ item.content }}</span>
                 <span style="float:right;" class="close">
                     <el-button icon="el-icon-edit" type="primary" circle @click="editMemo(item)" size="mini"></el-button>
                     <el-button icon="el-icon-close" type="danger" circle @click="deleteMemo(item)" size="mini"></el-button>

@@ -31,7 +31,8 @@ export default {
                 },
                 { type: 'text', label: '标题', prop: 'title', min_width: '145' },
                 { type: 'text', label: '管制事项', prop: 'process_definition.name', min_width: '145' },
-                { type: 'text', label: '管控期限', prop: 'internal_deadline', min_width: '145' },
+                { type: 'text', label: '管控期限', prop: 'internal_deadline', min_width: '100' },
+                { type: 'text', label: '官方绝限', prop: 'deadline', min_width: '100' },
             ],
             data: [],
             loading: false,
@@ -50,6 +51,18 @@ export default {
         height2() {
             return (((this.innerHeight - 30) / 2) - 70) + 'px';
         },
+        mode() {
+            return this.option.id.indexOf('Deadline') >= 0 ? 'deadline' : 'internal_deadline';
+        },
+        scope() {
+            if (this.option.id.indexOf('All') >= 0) {
+                return 'all';
+            } else if (this.option.id.indexOf('Dept') >= 0) {
+                return 'dept';
+            } else {
+                return 'my';
+            }
+        },
     },
     mounted() {
         this.load();
@@ -57,8 +70,7 @@ export default {
     methods: {
         load() {
             var date = moment().add(3, 'days').format('YYYY-MM-DD');
-            const url = '/processes?scope=my&internal_deadline=,' + date;
-
+            const url = '/processes?scope=' + this.scope + '&' + this.mode + '=,' + date;
             const success = _ => {
                 this.data = _.processes.data;
             };
