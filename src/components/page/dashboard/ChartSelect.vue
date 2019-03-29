@@ -152,9 +152,15 @@ export default {
             this.list = l;
         },
         deleteChart(chart) {
+            const l = [];
             this.list = this.list.filter(item => {
-                return item.title != chart.title ? true : false;
+                if (item.title != chart.title) {
+                    l.push(chart.title);
+                    return true;
+                }
+                return false;
             })
+            this.checkList = l;
         }
     },
     components: {
