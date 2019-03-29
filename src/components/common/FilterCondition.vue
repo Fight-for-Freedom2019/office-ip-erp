@@ -249,11 +249,11 @@ export default {
    watch: {
     filterText(val) {
       if(this.source.type === 'remote_select') {
-        // 搜索时清空选择的选项
-        this.setCheckedKeys([]); 
-        this.indeterminate = [];
         this.refreshFilterData({key: this.source.id, keyword: val});
       }
+      // 搜索时清空选择的选项
+      this.setCheckedKeys([]); 
+      this.indeterminate = [];
       this.$refs.tree.filter(val);
     },
     value(val) {
