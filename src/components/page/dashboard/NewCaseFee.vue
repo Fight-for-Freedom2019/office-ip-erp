@@ -50,7 +50,7 @@ export default {
         initChart() {
             var option = {
                 title: {
-                    text: '立案代理费'
+                    text: this.option.id == 'ReceivedPayments' ? '回款统计' : '立案代理费'
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -81,7 +81,7 @@ export default {
             };
             this.chart = echarts.init(document.getElementById(this.option.id));
             this.chart.showLoading();
-            const url = '/charts/newCaseFee';
+            const url = '/charts/newCaseFee?type=' + this.option.id;
             const success = _ => {
                 const d = _.data;
                 option.legend = d.legend;
