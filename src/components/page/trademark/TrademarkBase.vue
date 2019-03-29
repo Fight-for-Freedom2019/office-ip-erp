@@ -41,7 +41,7 @@
     <el-row>
       <el-col :span="16">
         <el-form-item label="申请人" prop="applicants">
-          <remote-select type="applicant" v-model="form.applicants" multiple :para="customerParam"></remote-select>
+          <remote-select type="applicant" v-model="form.applicants" multiple :para="customerParam" add-type="applicant"></remote-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
