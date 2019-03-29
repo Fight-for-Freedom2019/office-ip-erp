@@ -156,7 +156,7 @@
       };
     },
     computed: {
-      ...mapGetters(['detail_customer']),
+      ...mapGetters(['getCustomers']),
     },
     methods: {
       save(type) {
@@ -215,12 +215,10 @@
             if(!v || this.type =='edit') return
             this.clear(); //填充前清空
             this.$nextTick(_ => {
-              if(this.detail_customer!=undefined) {
-                const len = this.$tool.getObjLength(this.detail_customer);
-                if (len > 0 && !/crm/.test(this.path)) {
-                  //  填充默认客户并且crm模块不用填充
-                  this.$set(this.form, 'customer', this.detail_customer)
-                }
+              if(this.getCustomers!=undefined && this.getCustomers.length && !/crm/.test(this.path)) {
+                const obj = {id: this.getCustomers[0].id, name: this.getCustomers[0].name}
+                //  填充默认客户并且crm模块不用填充
+                this.$set(this.form, 'customer', obj)
               }
             })
           })

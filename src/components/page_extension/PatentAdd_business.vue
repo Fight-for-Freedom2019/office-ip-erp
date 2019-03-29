@@ -8,6 +8,7 @@
         :para="customerParam"
         @input="customerChanged"
         add-type="customer"
+        ref="customer"
       ></remote-select>
     </el-form-item>
     <el-form-item label="IPR" prop="ipr">
@@ -234,7 +235,12 @@ export default {
         "form.customer": {
             handler(val) {
                 this.loadDefaultFees();
-            }
+                this.$nextTick(_=>{
+                const selected = this.$refs.customer.getSelected();
+                this.$store.commit('setCustomers', selected);
+                })
+            },
+            immediate: true,
         }
     },
     components: {
@@ -243,7 +249,7 @@ export default {
         JumpSelect,
         FeeList
     }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
