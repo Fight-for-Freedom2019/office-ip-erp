@@ -87,7 +87,7 @@ const config = new Map([
     [100013,{obj:table_100013,name:"撤回专利申请声明"}],
     [100017,{obj:table_100017,name:"中止程序请求书"}],
     [100027,{obj:table_100027,name:"向外国申请专利保密审查请求书"}],
-    [100040,{obj:table_100040,name:"优先权文件数字接入服务（DAS）请求书"}],
+    [100040,{obj:handleLayout(table_100040,{labelWidth:"130px"}),name:"优先权文件数字接入服务（DAS）请求书"}],
 ]);
 
 

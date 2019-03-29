@@ -845,11 +845,12 @@ export default {
       data.tables = this.handleSubmit(this.submitData);
       Object.assign(data.tables, this.handleSubmitFile());
       data.tables = JSON.stringify(data.tables);
-      // console.log("out",JSON.parse(data.tables));
+      console.log("out",JSON.parse(data.tables));
       this.save_type === "add" ? (data.task_id = this.task_id) : "";
       const success = _ => {
         this.$message({ type: "success", message: "保存成功!" });
       };
+      // return
       this.save_type === "add"
         ? this.$axiosPost({
             url: "/taskCpcs",
