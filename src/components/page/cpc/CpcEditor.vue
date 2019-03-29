@@ -88,7 +88,7 @@
           <el-tabs
             v-model="tabpanel"
             @tab-click="handleTab"
-            :style="`height:${innerHeight/2-123}px`"
+            :style="`height:${innerHeight-123}px;overflow-y: scroll`"
           >
             <el-tab-pane label="申请文件" name="application_doc">
               <ul class="attachmentsList">
@@ -102,9 +102,9 @@
             </el-tab-pane>
             <!-- <el-tab-pane label="邮件" name="mail"></el-tab-pane> -->
           </el-tabs>
-          <div class="task-content" :style="`height:${innerHeight/2}px`">
-            <!-- 文件内容 -->
-          </div>
+          <!--<div class="task-content" :style="`height:${innerHeight/2}px`">
+            &lt;!&ndash; 文件内容 &ndash;&gt;
+          </div>-->
         </div>
       </div>
       <!-- 添加表格 start -->
@@ -845,11 +845,12 @@ export default {
       data.tables = this.handleSubmit(this.submitData);
       Object.assign(data.tables, this.handleSubmitFile());
       data.tables = JSON.stringify(data.tables);
-      // console.log("out",JSON.parse(data.tables));
+      console.log("out",JSON.parse(data.tables));
       this.save_type === "add" ? (data.task_id = this.task_id) : "";
       const success = _ => {
         this.$message({ type: "success", message: "保存成功!" });
       };
+      // return
       this.save_type === "add"
         ? this.$axiosPost({
             url: "/taskCpcs",
@@ -907,7 +908,7 @@ export default {
       })
     },
     closeDialog(){
-      let dialog = ["offset_dialog","change_content_dialog","citations_information_dialog","priority_dialog"];
+      let dialog = ["offset_dialog","change_content_dialog","citations_information_dialog","priority_dialog","upload_simple"];
       dialog.forEach((i)=>{
         let self = document.getElementsByClassName(i)[0];
         if(self){
@@ -1029,7 +1030,7 @@ export default {
       if(!this.process.project)return
       const success = _ => {
         // console.log(_);
-        this.attachments = _.patent.attachments;
+        this.attachments = _.patent.projectFiles;
         this.notices = _.patent.notices;
       };
       this.$axiosGet({ url: `/patents/${this.process.project.id}`, success });

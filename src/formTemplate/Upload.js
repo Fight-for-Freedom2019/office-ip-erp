@@ -11,7 +11,7 @@ const defaultProps = {
   },
 };
 
-function vm({label, url, props = {}, tip = "", type = "custom", field = "attachments", common = false, accept = "", limit = 1000, optionType = ""}) {    // common:不出现选择类型弹窗
+function vm({label, url, props = {}, tip = "", type = "custom", field = "attachments", common = false, accept = "", limit = 1000, optionType = "",warningTip}) {    // common:不出现选择类型弹窗
   const template = `
 <div>
     <template v-if="type === 'file'">
@@ -42,7 +42,7 @@ function vm({label, url, props = {}, tip = "", type = "custom", field = "attachm
         </el-dialog>
     </template>
     <template v-if="type === 'custom'">
-        <upload-file :tip="tip" :customAccept="accept" :type="optionType" :isSave="isSave" :userDefined="userDefined" :customLimit="limit" :common="common" :fileListProp="fileList" @getFileList="getFileList"></upload-file>
+        <upload-file :tip="tip" :customAccept="accept" :type="optionType" :isSave="isSave" :warning-tip="warningTip" :userDefined="userDefined" :customLimit="limit" :common="common" :fileListProp="fileList" @getFileList="getFileList"></upload-file>
     </template>
 </div>
 `;
@@ -64,6 +64,7 @@ function vm({label, url, props = {}, tip = "", type = "custom", field = "attachm
       isSave: false,
       getValue:false,
       optionType,
+      warningTip
     },
     created() {
       // this.extendData[field] = [];

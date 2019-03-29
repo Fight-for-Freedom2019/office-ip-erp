@@ -5,8 +5,8 @@ import $tool from '../const/tool.js'
 const Login = () => import("@/components/page/Login");
 // INDEX
 const Index = () => import("@/components/page/Index");
-//首页
-const Home = () => import("@/components/page/Home");
+//仪表盘
+const Dashboard = () => import("@/components/page/dashboard/Dashboard");
 
 //工作流
 const TaskCommon = () => import("@/components/page/TaskCommon");
@@ -179,7 +179,7 @@ const router = new Router({
     },
     {
       path: "/index",
-      redirect: "/task/pending"
+      redirect: "/dashboard"
     },
     {
       path: "/task",
@@ -224,9 +224,12 @@ const router = new Router({
         requiresAuth: true
       }, //进入路由需要登录验证
       children: [{
-        path: "/statistics",
-        name: "Home",
-        component: Home
+        path: "/dashboard",
+        name: "Dashboard",
+        component: Dashboard,
+        meta: {
+          hideMenu: true,
+        },
       },
       //################### CRM router begin ################
       {

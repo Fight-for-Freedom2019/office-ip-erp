@@ -46,6 +46,7 @@ export default {
                 remark: '',
             },
             columns: [
+                { type: "text", label: "客户", prop: "customer", render_simple:"name",min_width: "200" },
                 { type: "text", label: "案号", prop: "serial", min_width: "150" },
                 { type: "text", label: "标题", prop: "title", min_width: "200" },
                 { type: "text", label: "案件类型", prop: "project_type", render_simple: "name", width: "90", },

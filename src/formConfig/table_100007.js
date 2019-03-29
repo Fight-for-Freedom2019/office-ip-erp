@@ -1,7 +1,7 @@
 // 专利代理委托书
 import {vm as checkbox_common_vm} from "../formTemplate/checkbox-common";
 import {vm as checkbox_vm} from "../formTemplate/checkbox";
-import {vm as upload_vm} from "../formTemplate/Upload";
+import {vm as upload_vm} from "../formTemplate/upload_simple";
 
 let rule = [
     checkbox_vm("poa_declaration","声明填写的专利代理委托信息与专利代理委托书扫描件是一致的",{labelWidth:"120px"},"声明"),
@@ -32,7 +32,7 @@ let rule = [
             "multiple-limit":2,
         },
     },
-    upload_vm({type:"custom",tip:"上传委托书扫描件",label:"委托书扫描件",field:"pictures",common:true})
+    upload_vm()
 ]
 const content = {
     rule
