@@ -5,17 +5,19 @@
       <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
     </span>
     <div style="margin-top: 20px" class="root">
-      <span>已选择图表（可以拖动排序）</span>
+      <span>{{ tips }}</span>
       <draggable class="list-group" tag="ul" v-model="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
         <transition-group type="transition" :name="'flip-list'">
-          <li class="list-group-item" v-for="element in list" :key="element.name">
+          <li class="list-group-item chart-item" v-for="element in list" :key="element.name" style="position:relative;">
             <!-- <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'" @click=" element.fixed=! element.fixed" aria-hidden="true"></i> -->
             {{element.title}}
-            <!-- <span class="badge">{{element.order}}</span> -->
+            <span class="remove" style="position:absolute;right:5px;">
+              <el-button icon="el-icon-close" type="text" circle @click="deleteChart(element)" size="mini" style="font-size:16px;color:brown;"></el-button>
+            </span>
           </li>
         </transition-group>
       </draggable>
-    <el-button type="primary" size="small" @click="dialogVisible = true" style="margin-top:10px;">选择/取消选择图表</el-button>
+    <el-button type="primary" size="small" @click="dialogVisible = true" style="margin-top:10px;">添加图表</el-button>
     </div>
     <el-dialog
       title="请选择图表"
@@ -74,7 +76,9 @@ export default {
                 ghostClass: "ghost"
             };
         },
-
+        tips() {
+            return this.list.length == 0 ? '请点击下方按钮添加图表：' : '已选择以下图表，拖动图表可以排序：';
+        }
     },
     watch: {
         isDragging(newValue) {
@@ -145,6 +149,11 @@ export default {
                 return o;
             });
             this.list = l;
+        },
+        deleteChart(chart) {
+            this.list = this.list.filter(item => {
+                return item.title != chart.title ? true : false;
+            })
         }
     },
     components: {
@@ -181,5 +190,11 @@ export default {
 }
 .list-group-item i {
   cursor: pointer;
+}
+.chart-item .remove {
+  display:none;
+}
+.chart-item:hover .remove {
+  display:inline-block;
 }
 </style>

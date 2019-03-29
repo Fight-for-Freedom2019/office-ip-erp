@@ -58,7 +58,7 @@ export default {
             'innerHeight',
         ]),
         height() {
-            return (((this.innerHeight - 30) / 2) - 30) + 'px';
+            return ((this.innerHeight - 30) / 2) + 'px';
         },
         height2() {
             return (((this.innerHeight - 30) / 2) - 70) + 'px';
