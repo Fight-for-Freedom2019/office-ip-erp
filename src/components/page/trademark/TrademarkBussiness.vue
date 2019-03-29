@@ -7,6 +7,7 @@
         v-model="form.customer"
         :para="customerParam"
         @input="customerChanged"
+        ref="customer"
         add-type="customer"
       ></remote-select>
     </el-form-item>
@@ -252,8 +253,13 @@ export default {
     },
     "form.customer": {
       handler(val) {
-        this.loadDefaultFees();
-      }
+          this.loadDefaultFees();
+          this.$nextTick(_=>{
+          const selected = this.$refs.customer.getSelected();
+          this.$store.commit('setCustomers', selected);
+          })
+      },
+      immediate: true,
     }
   },
   components: {

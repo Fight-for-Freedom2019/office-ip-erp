@@ -28,7 +28,7 @@
           prop="area"
           :rules="{ type: type=='add' ? 'array' : 'string',required: true, message: '地区不能为空', trigger: 'change' }"
         >
-          <region v-model="form.area" :multiple="type == 'add'"></region>
+          <region v-model="form.area" :multiple="type == 'add'" :clearable="type == 'edit'"></region>
         </el-form-item>
       </el-col>
       <el-col :span="8">
