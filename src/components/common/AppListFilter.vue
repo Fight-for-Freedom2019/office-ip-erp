@@ -414,7 +414,11 @@ export default {
 						const value = form[key]
 
 						if (value === '' || value.length === 0 || (value.length === 2 && value[0] === '' && value[1] === '')) {
+							// 目前采取的是为空的值直接跳过，已解决打开高级筛选时对现有筛选的影响，
+							// （原因是表头或者快速筛选选了高级筛选面板显示的选项采取obj[key]=false会关闭掉）
+							// 但用continue可以不关闭之前的，但高级筛选面板显示选项无法清除掉筛选
 							continue
+							// obj[key] = false
 						}else {
 							const name = map['name']
 							const str = 'usedForm_' + key
