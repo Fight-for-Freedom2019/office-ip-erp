@@ -5,7 +5,7 @@
       <span slot="header" style="float: right;">
         <app-button-loading :func="save" ref="loadingBtn" text="保存"></app-button-loading>
         <!-- <el-button type="danger" size="small" @click="deleteInvoice">删除</el-button> -->
-        <!--<el-button type="primary" size="small" v-if="showSendMailBtn" @click="sendmail">发送邮件</el-button>-->
+        <el-button size="small" v-if="status === 'spend' && !showSendMailBtn" @click="sendmailPay">发送邮件</el-button>
         <el-dropdown
           style="margin-left: 10px"
           size="small"
@@ -220,7 +220,7 @@ import InvoiceVouchers from "@/components/page_extension/InvoiceVouchers";
 import AppShrink from "@/components/common/AppShrink";
 import MailAdd from "@/components/page/MailAdd";
 
-const status = [[0, "audit"], [8, "remind"], [11, "upload"], [12, "confirm"]];
+const status = [[0, "audit"], [8, "remind"], [11, "upload"], [12, "confirm"],[13, "spend"]];
 const statusMap = new Map(status);
 
 export default {
@@ -416,6 +416,7 @@ export default {
             if (data != undefined) {
                 this.rowData = data;
                 this.id = data.id;
+                this.status = statusMap.get(data.status.id);
             }
             this.id = id;
             this.getDetail(id);
@@ -432,6 +433,9 @@ export default {
         sendmail(fee_policy) {
             this.$refs.mail.showCommon("账单", this.id, "fee_policy", fee_policy);
         },
+      sendmailPay(){
+        this.$refs.mail.show("账单", this.id);
+      },
         uploadFile(type) {
             const token = window.localStorage.getItem("token");
             // console.log(token);
