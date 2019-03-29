@@ -249,6 +249,9 @@ export default {
    watch: {
     filterText(val) {
       if(this.source.type === 'remote_select') {
+        // 搜索时清空选择的选项
+        this.setCheckedKeys([]); 
+        this.indeterminate = [];
         this.refreshFilterData({key: this.source.id, keyword: val});
       }
       this.$refs.tree.filter(val);
@@ -256,7 +259,7 @@ export default {
     value(val) {
       if(val.length == 0) {
         this.checkedAll = false;
-        this.indeterminate = false;
+        this.indeterminate = [];
       }
     },
      "source.id":{
