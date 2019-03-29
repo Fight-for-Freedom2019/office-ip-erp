@@ -166,9 +166,7 @@
       //     }
       //   },
       defaultCustomer() {
-        return this.detail_customer && this.detail_customer.length != 0
-          ? {id: this.detail_customer[0].id, name: this.detail_customer[0].name}
-          : {};
+        return this.detail_customer;
       }
     },
     methods: {

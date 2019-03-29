@@ -251,12 +251,15 @@ export default {
       if(this.source.type === 'remote_select') {
         this.refreshFilterData({key: this.source.id, keyword: val});
       }
+      // 搜索时清空选择的选项
+      this.setCheckedKeys([]); 
+      this.indeterminate = [];
       this.$refs.tree.filter(val);
     },
     value(val) {
       if(val.length == 0) {
         this.checkedAll = false;
-        this.indeterminate = false;
+        this.indeterminate = [];
       }
     },
      "source.id":{
