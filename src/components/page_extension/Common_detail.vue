@@ -92,7 +92,7 @@
           </el-tab-pane>
           <el-tab-pane label="官文&附件" name="notice">
             <div :style="`height: ${innerHeight - 142}px; overflow: auto;`">
-              <detail-notice type="patent" @uploadSuccess="edit" ref="notice"></detail-notice>
+              <detail-notice :type="type" @uploadSuccess="edit" ref="notice"></detail-notice>
             </div>
           </el-tab-pane>
           <el-tab-pane label="费用" name="fourth" v-if="menusMap.get('/role/flow')">
