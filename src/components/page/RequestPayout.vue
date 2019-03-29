@@ -162,6 +162,7 @@ export default {
                     { type: "text", label: "费用名称", prop: "fee_code", render_simple: "name", width: "130", render_header: true },
                     { type: "text-btn", label: "账单号", prop: "invoice", render_simple: "name", width: "130", render_text_btn: (row) => { return row.invoice != null ? row.invoice.name : "" }, click: this.handleInvoiceDetail },
                     { type: "text", label: "类型", prop: "fee_type", render_simple: "name", width: "80", render_header: true },
+                    { type: "array", label: "申请人", prop: "applicants",render: _ => _.map(_ => _.name),  min_width: "240",},
                     { type: "text", label: "收款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header: true },
                     { type: "text", label: "金额", prop: "amount_currency", width: "100", align: "right" },
                     { type: "text", label: "币别", prop: "currency", width: "55" },
