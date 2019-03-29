@@ -38,7 +38,7 @@ export default (module,mode) => ({  // module=>组件的$refs, mode=>'request' o
     },
     handleCaseDetail(row) {
       if (row) {
-        const type = typeMap.get(row.project_type);
+        const type = typeMap.get(row.project.project_type['id']);
         this.$refs.detail.show(row.project.id, type)
       }
     },
