@@ -24,7 +24,7 @@ require('echarts/lib/component/grid'); //时间线
 
 
 export default {
-    name: 'NewCase',
+    name: 'PointsStat',
     data() {
         return {
             chart: null
@@ -56,8 +56,8 @@ export default {
                         axisType: 'category',
                         // realtime: false,
                         // loop: false,
-                        autoPlay: true,
-                        // currentIndex: 2,
+                        autoPlay: false,
+                        currentIndex: 12,
                         playInterval: 1000,
                         // controlStyle: {
                         //     position: 'left'
@@ -72,7 +72,7 @@ export default {
                         }
                     },
                     title: {
-                        subtext: '数据由经坚果统计'
+                        subtext: '数据由红坚果统计'
                     },
                     tooltip: {
                     },
@@ -105,7 +105,7 @@ export default {
                     yAxis: [
                         {
                             type: 'value',
-                            name: '立案量（件）'
+                            name: '点数'
                         }
                     ],
                     series: []
@@ -114,12 +114,14 @@ export default {
             };
             this.chart = echarts.init(document.getElementById(this.option.id));
             this.chart.showLoading();
-            const url = '/charts/newCase';
+            const url = '/charts/pointsStat';
             const success = _ => {
                 const d = _.data;
                 option.baseOption.timeline.data = d.timeline;
                 option.baseOption.legend = d.legend;
-                option.baseOption.xAxis[0].data = d.xAxis;
+                option.baseOption.xAxis[0].data = d.xAxis.map((item, index) => {
+                    return index % 2 == 1 ? "\n" + item : item;
+                });
                 option.baseOption.series = d.series;
                 option.options = d.options;
                 this.chart.setOption(option);

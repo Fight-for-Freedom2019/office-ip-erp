@@ -33,6 +33,7 @@ export default {
                 { type: 'text', label: '管制事项', prop: 'process_definition.name', min_width: '145' },
                 { type: 'text', label: '管控期限', prop: 'internal_deadline', min_width: '100' },
                 { type: 'text', label: '官方绝限', prop: 'deadline', min_width: '100' },
+                { type: 'text', label: '代理人', prop: 'agent', render_simple: 'name', min_width: '100' },
             ],
             data: [],
             loading: false,
