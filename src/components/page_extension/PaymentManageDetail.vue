@@ -416,7 +416,7 @@ export default {
             if (data != undefined) {
                 this.rowData = data;
                 this.id = data.id;
-                this.status = statusMap.get(data.status.id);
+                // this.status = statusMap.get(data.status.id);
             }
             this.id = id;
             this.getDetail(id);
