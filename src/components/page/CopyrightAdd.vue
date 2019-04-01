@@ -1,29 +1,13 @@
 <template>
   <div class="main">
      <el-tabs type="border-card">
+    <el-tab-pane>
+          <span slot="label"><i class="el-icon-my-users"></i> 商务信息</span>     
+          <copyright-business ref="business" :page-type="pageType" :customer="customer" @customerChanged="customerChanged"></copyright-business>
+    </el-tab-pane>
       <el-tab-pane>
-        <span slot="label"><i class="el-icon-information"></i> 基本信息</span>  
-        <copyright-base ref="base" :page-type="pageType"></copyright-base>
-    </el-tab-pane>
-     <el-tab-pane>
-          <span slot="label"><i class="el-icon-menu"></i> 著作权信息</span> 
-           <copyright-work ref="work" :page-type="pageType"></copyright-work> 
-    </el-tab-pane>
-    <el-tab-pane>
-          <span slot="label"><i class="el-icon-setting"></i> 软件功能和技术特点</span>  
-          <copyright-func ref="func" :page-type="pageType"></copyright-func>
-    </el-tab-pane>
-    <el-tab-pane>
-          <span slot="label"><i class="el-icon-menu"></i> 分类信息</span>     
-          <copyright-classify ref="classify" :page-type="pageType"></copyright-classify>
-    </el-tab-pane>
-    <el-tab-pane>
-      <span slot="label"><i class="el-icon-share"></i> 委案信息</span>  
-      <copyright-case ref="case" :page-type="pageType"></copyright-case>
-    </el-tab-pane>
-    <el-tab-pane v-if="pageType == 'add'">
-      <span slot="label"><i class="el-icon-document"></i> 任务</span>  
-      <task :type="type" ref="task" category="3"></task>
+        <span slot="label"><i class="el-icon-info"></i> 案件信息</span>  
+        <copyright-base ref="base" :page-type="pageType" :customer="customer"></copyright-base>
     </el-tab-pane>
   </el-tabs>
   </div>
@@ -33,19 +17,19 @@
 import Task from '@/components/page_extension/PatentAdd_task'
 import CopyrightBase from '@/components/page/copyright/CopyrightBase'
 import CopyrightCase from '@/components/page/copyright/CopyrightCase'
-import CopyrightClassify from '@/components/page/copyright/CopyrightClassify'
+import CopyrightBusiness from '@/components/page/copyright/CopyrightBusiness'
 import CopyrightFunc from '@/components/page/copyright/CopyrightFunc'
 import CopyrightWork from '@/components/page/copyright/CopyrightWork'
 
 import {mapActions} from 'vuex'
 const messageMap =new Map([
+  ['business', '请正确填写商务信息',],
   ['base', '请正确填写基本信息',],
   ['case', '请正确填写委案信息',],
-  ['classify', '请正确填写分类信息',],
   ['func', '请正确填写软件功能与技术特点信息',],
   ['work', '请正确填写著作权信息',],
 ]); 
-const getKeys = ['base', 'case', 'classify', 'func', 'work']; 
+const getKeys = ['base', 'business',]; 
 const URL = '/copyrights'
 
 export default {
@@ -55,6 +39,7 @@ export default {
     return {
       id: '',
       btn_disabled: false,
+      customer: '',
     }
   },
   computed: {
@@ -72,6 +57,9 @@ export default {
     ...mapActions([
       'refreshUser',
     ]),
+        customerChanged(val) {
+          this.customer = val;
+        },
         async add(form) {
         const flag = await this.checkForm();
         if (flag) {
@@ -155,11 +143,14 @@ export default {
         }
       },
       clear() {
-        getKeys.map(d =>
-          typeof this.$refs[d] !== "undefined"
+        getKeys.map(d =>{
+          typeof this.$refs[d] !== undefined
           ? this.$refs[d].$refs.form.resetFields()
           : ''
-      )
+          if(typeof this.$refs[d] !== undefined && d == 'base') {
+            this.$refs[d].$refs.upload.clearFiles();
+          }
+        })
       },
   },
   created () {
@@ -170,7 +161,7 @@ export default {
       this.refreshForm(val);
     }
   },
-  components: { CopyrightClassify, CopyrightBase, CopyrightCase, CopyrightFunc, CopyrightWork, Task}
+  components: { CopyrightBusiness, CopyrightBase, CopyrightCase, CopyrightFunc, CopyrightWork, Task}
 }
 </script>
 

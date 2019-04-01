@@ -142,11 +142,11 @@ export default {
                 highlightCurrentRow: true,
                 rowClick: this.handleRowClick,
                 // 'is_filter': true,
-                is_view: true,
-                is_list_filter: true,
-                treeFilter: "patent",
-                list_type: "patent",
-                import_type: "patent",
+                is_view: true, //视图
+                is_list_filter: true,// 高级筛选
+                treeFilter: "patent",//快速筛选
+                list_type: "patent",// 表头筛选
+                import_type: "patent", // 导出
                 // 'upload_type': 'patent',
                 header_btn: [
                     {

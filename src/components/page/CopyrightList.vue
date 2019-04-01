@@ -9,7 +9,7 @@
         :id="currentRow.id"
         @editSuccess="refresh">
       </common-detail>
-      <detail-shrink ref="copyrightAdd" page-type="add"></detail-shrink>
+      <detail-shrink ref="copyrightAdd" page-type="add" @addSuccess="refresh()"></detail-shrink>
   </div>
 </template>
 
@@ -38,7 +38,9 @@ export default {
         'rowClick': this.handleRowClick,
         // 'is_filter': true,
         'is_list_filter': true,
+        'is_view': true,
         'list_type': 'copyright',
+        'treeFilter': 'copyright',
         'import_type': 'copyright',
         // 'upload_type': 'copyright',
         'header_btn': [
@@ -51,33 +53,22 @@ export default {
         ],
         'columns': [
           { type: 'selection' },
-          { type: 'text', label: '案号', prop: 'serial', width: '200', sortable: true },
-          { type: 'text', label: '事务所案号', prop: 'agency_serial', width: '200', sortable: true },
-          { type: 'text', label: '版权类型', prop: 'type', is_import: true, render_simple: 'name', width: '160', sortable: true },
-          { type: 'text', label: '案件状态', prop: 'progress', is_import: true, render_simple: 'name', width: '198', sortable: true},
-          { type: 'text', label: '标题', prop: 'title', is_import: true, width: '160'},
-          { type: 'text', label: '摘要', prop: 'abstract', width: '280' },
-          { type: 'text', label: '完成时间', prop: 'create_time', width: '173', sortable: true },
-          { type: 'text', label: '申请日', prop: 'apd', sortable: true, is_import: true, width: '173', sortable: true },
-          { type: 'text', label: '申请号', prop: 'apn', width: '263', sortable: true },
-          { type: 'text', label: '公告日', prop: 'issue_date', is_import: true, width: '183', sortable: true },
-          { type: 'text', label: '公告号', prop: 'issue_number', is_import: true, width: '263', sortable: true },
-          { type: 'text', label: '代理人', prop: 'agent', render_simple: 'name', is_import: true, width: '140' },
-          { type: 'text', label: '代理机构名称', prop: 'agency', render_simple: 'name', width: '143' },
-          { type: 'text', label: '代理机构案号', prop: 'agency_serial', width: '263', sortable: true },
-          { type: 'text', label: '备注', prop: 'remark', is_import: true, width: '285' },
-          { type: 'array', label: '申请人', prop: 'applicants', is_import: true, render: _=>_.map(_=>_.name), width: '220' },
-          { type: 'text', label: '技术联系人', prop: 'proposer', is_import: true, render_simple: 'name', width: '145' },
-          { type: 'array', label: '标签', prop: 'tags', is_import: true, width: '200' },
-          { type: 'array', label: '产品名称', prop: 'products', is_import: true, render: _=>_.map(_=>_.name), width: '150' },
-          // {
-          //   type: 'action',
-          //   width: '150',
-          //   btns: [
-          //     // { type: 'detail', click: this.detail },
-          //     { type: 'delete', click: this.deleteSingle },
-          //   ], 
-          // },
+          { type: 'text', label: '案号', prop: 'serial', width: '200', render_header: true,  },
+          { type: 'text', label: '标题', prop: 'title', width: '160', render_header: true,},
+          { type: 'text', label: '版权类型', prop: 'subtype', render_simple: 'name', width: '160', render_header: true, },
+          { type: 'text', label: '受理号', prop: 'application_number', width: '160', render_header: true, },
+          { type: 'text', label: '受理日', prop: 'application_date', width: '100', render_header: true, },
+          { type: 'text', label: '下证日', prop: 'issue_date', width: '100', render_header: true, },
+          { type: 'text', label: '客户', prop: 'customer', render_simple: 'name', width: '178', render_header: true, },
+          { type: 'text', label: '客户案号', prop: 'customer_serial', width: '198', render_header: true, },
+          { type: 'array', label: '申请人', prop: 'applicants', render: _=>_.map(_=>_.name), width: '198' },
+          { type: 'text', label: '联系人', prop: 'contact', render_simple: 'name', width: '145', render_header: true, },
+          { type: 'text', label: '案件状态', prop: 'project_stage', render_simple: 'name', width: '145', render_header: true,},
+          { type: 'text', label: '承办部门', prop: 'organization_unit', render_simple: 'name', width: '145', render_header:true,},
+          { type: 'text', label: '代理人', prop: 'agent', render_simple: 'name', width: '140', render_header: true, },
+          { type: 'text', label: '销售', prop: 'sales', render_simple: 'name', width: '140', render_header: true, },
+          { type: 'text', label: '订单号', prop: 'order', render_simple: 'serial',  width: '160', render_header:true, },
+          { type: 'text', label: '备注', prop: 'remark', width: '178', render_header: true,},
         ] 
       },
       tableData: [],
@@ -141,10 +132,7 @@ export default {
     }
   },
   mounted () {
-    if(!this.custom) {
       this.refresh();
-    }
-    this.$refs.table.refresh();
   },
   components: { 
     TableComponent, 

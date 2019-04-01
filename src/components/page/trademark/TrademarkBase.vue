@@ -34,7 +34,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="子类型" prop="subtype">
-          <static-select type="trademark_type" v-model="form.subtype"></static-select>
+          <static-select type="trademark_subtype" v-model="form.subtype"></static-select>
         </el-form-item>
       </el-col>
     </el-row>
@@ -192,7 +192,7 @@ export default {
     },
     setForm(form) {
       this.$tool.coverObj(this.form, form, {
-        obj: ["area", "categories", "subtype","attachments"]
+        obj: ["area", "categories", "subtype","attachments", "project_stage"]
       });
       this.attachments = form.attachments && form.attachments.length ? form.attachments : [];  
     },
