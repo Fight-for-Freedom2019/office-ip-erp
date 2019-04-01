@@ -302,9 +302,9 @@ const actions = {
       dispatch('removeScreen', item.index);
     } else if (item.type == 'listFilter') {
       // 下面的逻辑为了解决高级筛选和表头及快速筛选出现关闭冲突
-      const usedFormKey = window.listFilter.usedForm[item['key']];
-      if (window.listFilter != null && window.listFilter.usedFlag && usedFormKey) {
-        if (usedFormKey instanceof Array) {
+      if (window.listFilter != null && window.listFilter.usedFlag) {
+        const usedFormKey = window.listFilter.usedForm[item['key']];
+        if (usedFormKey && usedFormKey instanceof Array) {
           if (usedFormKey.length != 0 || usedFormKey[0] || usedFormKey[1]) {
             window.listFilter.clearUsedFormField(item['key'])
           }
