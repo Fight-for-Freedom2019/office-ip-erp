@@ -75,3 +75,21 @@ export function checkMoney (a, b, c) {
     c();
   } 
 }
+
+export function  checkNumber(a, b, c,) {
+    let msg = '';
+    const reg = /^\d+$/; 
+
+    for (let d of b) {
+      if(!reg.test(d.amount)){
+        msg = '请填写数字';
+        break;
+      }
+    } 
+  if (msg && msg != 'success') {
+    c(msg);
+  } else {
+    c();
+  } 
+
+}
