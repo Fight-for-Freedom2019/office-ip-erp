@@ -228,7 +228,7 @@ export default {
                         label: "付款日",
                         prop: "payment_time",
                         width: "100",
-                        // render_header: true,
+                        render_header: true,
                         expanded: true
                     },
                     {

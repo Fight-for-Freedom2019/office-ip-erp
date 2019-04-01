@@ -311,6 +311,7 @@ const map = new Map([
       { type: "text", id: "customer_serial", name: "客户案号" },
       { type: "text", id: "application_number", name: "申请号" },
       { type: "date", id: "application_date", name: "申请日" },
+      { type: "date", id: "payment_time", name: "付款日" },
       /*{ type: "remote_select", id: "project.serial", name: "案号", data_key: "projects", url: "/projects"
       },*/
       { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
