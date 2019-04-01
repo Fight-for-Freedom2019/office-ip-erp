@@ -330,7 +330,7 @@ export default {
           if (v["id"] !== taskId) {
             arr.push({
               id: v["id"],
-              name: `${v["process_action"]["name"]}_${v["user"]["name"]}`
+              name: v["process_action"]!=null?`${v["process_action"]["name"]}_${v["user"]["name"]}`:''
             });
           }else{
             return;
