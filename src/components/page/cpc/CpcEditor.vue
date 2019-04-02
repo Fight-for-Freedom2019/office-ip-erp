@@ -952,6 +952,8 @@ export default {
       this.attachments = [];
       this.notices = [];
       this.$f = null;
+      this.$refs.uploadFile?this.$refs.uploadFile.changeStatus(false):"";
+      this.hasTable100108 = false;
     },
     transformOption(a){
       let result = [];

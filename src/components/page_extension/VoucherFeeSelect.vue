@@ -135,7 +135,13 @@
       show(customer) {
         this.dialogVisible = true;
         this.loadingVisible = false;
-        this.para = {customer}
+        this.para = {customer};
+        this.reset();
+      },
+      reset(){
+        this.fees = [];
+        this.fees_copy = [];
+        this.form.invoice = "";
       },
       loadFees() {
         if (this.form.invoice - 0 > 0) {

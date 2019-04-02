@@ -12,6 +12,7 @@
     <memo v-else-if="option.id == 'Memo'" :option="option" ></memo>
     <new-case v-else-if="option.id == 'NewCase'" :option="option" ></new-case>
     <new-case-fee v-else-if="option.id == 'NewCaseFee'" :option="option" ></new-case-fee>
+    <new-case-fee v-else-if="option.id == 'ReceivedPayments'" :option="option" ></new-case-fee>
 </template>
 <script>
 
