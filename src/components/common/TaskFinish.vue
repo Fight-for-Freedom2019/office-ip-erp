@@ -500,7 +500,7 @@ export default {
         const response = d.data;
         this.data = response;
         if (response.review_opinion && response.review_opinion.length != 0) {
-          this.review_opinion = response.review_opinion[0];
+          this.review_opinion = response.review_opinion[1];
         }
         //提示信息
         this.next = response.next;
