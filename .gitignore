@@ -17,7 +17,7 @@ yarn-error.log*
 *.sln
 package-lock.json
 package.json
-config/index.js
+#config/index.js
 static/js/vendor.dll.js
 build/vendor-manifest.json
 dist.rar
