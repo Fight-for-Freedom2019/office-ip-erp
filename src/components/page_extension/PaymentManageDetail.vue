@@ -161,10 +161,10 @@
         <div class="PaymentRequestDetail">
           <el-tabs v-model="activeName">
             <el-tab-pane label="费用清单" name="first" v-if="order">
-              <payment-cost-detail-order :data="costDetail" :id="id"></payment-cost-detail-order>
+              <payment-cost-detail-order :type="mode" :data="costDetail" :id="id"></payment-cost-detail-order>
             </el-tab-pane>
             <el-tab-pane label="费用清单" name="first" v-if="!order">
-              <payment-cost-detail :data="costDetail" :id="id" @reload="reload"></payment-cost-detail>
+              <payment-cost-detail :type="mode" :data="costDetail" :id="id" @reload="reload"></payment-cost-detail>
             </el-tab-pane>
             <el-tab-pane label="跟催记录" name="reminders">
               <reminders-record ref="reminders" :data="remindersData" :invoice="invoice" :id="id"></reminders-record>
@@ -416,7 +416,7 @@ export default {
             if (data != undefined) {
                 this.rowData = data;
                 this.id = data.id;
-                this.status = statusMap.get(data.status.id);
+                // this.status = statusMap.get(data.status.id);
             }
             this.id = id;
             this.getDetail(id);

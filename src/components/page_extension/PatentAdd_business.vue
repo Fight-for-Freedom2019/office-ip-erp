@@ -58,6 +58,7 @@ import StaticSelect from "@/components/form/StaticSelect";
 import RemoteSelect from "@/components/form/RemoteSelect";
 import JumpSelect from "@/components/form/JumpSelect";
 import FeeList from "@/components/form/FeeList";
+import { checkNumber } from "@/const/validator";
 
 export default {
     name: "patentAddBusiness",
@@ -106,6 +107,8 @@ export default {
                     message: "费用策略不能为空",
                     trigger: "change"
                 },
+                fees: {type: 'number', validator: (rule, value, callback)=>{checkNumber(rule, value, callback)}, trigger: 'blur' },
+
             }
         };
     },

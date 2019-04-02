@@ -33,7 +33,7 @@ export default {
   name: "PaymentCostDetail",
   data() {
     return {
-      columns: [
+      columns_copy: [
         {
           type: "text-btn",
           label: "订单号",
@@ -185,7 +185,14 @@ export default {
         }
       });
       return order;
-    }
+    },
+    columns(){
+      if(this.type === "pay") {
+        return this.columns_copy.filter((i)=>i.prop !== "service_fee.sum_currency")
+      }else {
+        return this.columns_copy
+      }
+    },
   },
   methods: {
     refreshTableData(option) {},

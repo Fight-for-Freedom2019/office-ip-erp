@@ -241,7 +241,7 @@ const map = new Map([
         components: "static_select",
         id: "subtype",
         name: "案件类型",
-        type: "patent_type_strainer",
+        type: "patent_subtype",
         used: true
       },
       {
@@ -537,23 +537,34 @@ const map = new Map([
         components: "static_select",
         id: "subtype",
         name: "商标类型",
-        type: "trademark_type"
+        type: "trademark_subtype",
+        used: true,
       },
-      { components: "static_select", id: "area", name: "地区", type: "area" },
+      { components: "static_select", id: "area", name: "地区", type: "area", used: true, },
       {
         components: "static_select",
         id: "categories",
         name: "商标类别",
-        type: "categories"
+        type: "categories",
+        used: true,
       },
       {
         components: "remote_select",
         id: "applicants",
         name: "申请人",
-        type: "applicant"
+        type: "applicant",
+        used: true,
       },
-      { components: "date", id: "application_date", name: "申请日" },
-      { components: "date", id: "publication_date", name: "初审公告日" },
+      {
+        components: "remote_select",
+        id: "customer",
+        name: "客户",
+        type: "customer",
+        used: true
+      },
+      { components: "date", id: "application_date", name: "申请日", used: true, },
+      { components: "date", id: "publication_date", name: "初审公告日", used: true, },
+      { components: "date", id: "issue_date", name: "公告日", used: true, },
     ]
   ],
   [
@@ -561,43 +572,21 @@ const map = new Map([
     [
       {
         components: "static_select",
-        id: "type",
+        id: "subtype",
         name: "版权类型",
-        type: "copyright_type"
+        type: "copyright_subtype",
+        used: true,
       },
       {
         components: "remote_select",
-        id: "proposer",
-        name: "技术联系人",
-        type: "member"
+        id: "customer",
+        name: "客户",
+        type: "customer",
+        used: true
       },
-      {
-        components: "remote_select",
-        id: "applicant",
-        name: "申请人",
-        type: "applicant"
-      },
-      {
-        components: "remote_select",
-        id: "agent",
-        name: "代理人",
-        type: "agent"
-      },
-      {
-        components: "remote_select",
-        id: "agency",
-        name: "代理机构",
-        type: "agency"
-      },
-      {
-        components: "static_select",
-        id: "product",
-        name: "产品分类",
-        type: "product"
-      },
-      { components: "static_select", id: "tag", name: "标签", type: "tag" },
-      { components: "date", id: "apd", name: "申请日" },
-      { components: "date", id: "issue_date", name: "公告日" }
+      { components: "date", id: "application_date", name: "受理日", used: true, },
+      { components: "date", id: "issue_date", name: "下证日" , used: true,},
+      { components: "input", id: "issue_number", name: "证书号", used: true, },
     ]
   ],
   [

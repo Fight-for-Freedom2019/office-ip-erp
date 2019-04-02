@@ -7,7 +7,6 @@
         v-model="form.customer"
         :para="customerParam"
         @input="customerChanged"
-        ref="customer"
         add-type="customer"
       ></remote-select>
     </el-form-item>
@@ -20,7 +19,7 @@
         add-type="contact"
       ></remote-select>
     </el-form-item>
-    <!-- <el-form-item label="技术联系人">
+    <el-form-item label="联系人">
       <remote-select
         type="contacts"
         :page-type="type"
@@ -28,12 +27,12 @@
         :para="customerParam"
         add-type="contact"
       ></remote-select>
-    </el-form-item>-->
+    </el-form-item>
     <el-form-item label="客户案号" prop="customer_serial">
       <el-input v-model="form.customer_serial" placeholder="请填写客户案号"></el-input>
     </el-form-item>
     <el-form-item label="服务类型" prop="service">
-      <static-select type="trademark_services" v-model="form.service"></static-select>
+      <static-select type="copyright_services" v-model="form.service"></static-select>
     </el-form-item>
     <el-form-item label="合同类型" prop="contract_type">
       <static-select type="contract_mode" v-model="form.contract_type"></static-select>
@@ -253,13 +252,8 @@ export default {
     },
     "form.customer": {
       handler(val) {
-          this.loadDefaultFees();
-          this.$nextTick(_=>{
-          const selected = this.$refs.customer.getSelected();
-          this.$store.commit('setCustomers', selected);
-          })
-      },
-      immediate: true,
+        this.loadDefaultFees();
+      }
     }
   },
   components: {
