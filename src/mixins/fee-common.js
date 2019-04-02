@@ -30,6 +30,22 @@ export default (module,mode) => ({  // module=>组件的$refs, mode=>'request' o
     }
   },
   methods: {
+    formatMoney(h, item, row){
+      const digits = Number(item)
+        .toFixed(2)
+        .toString()
+        .split(".");
+      let number;
+      let decimal;
+      if (digits.length > 1) {
+        number = digits[0].toString();
+        decimal = digits[1];
+      } else {
+        number = digits.toString();
+        decimal = "00";
+      }
+      return h('span',number.replace(/\B(?=(\d{3})+$)/g, ",") + "." + decimal);
+    },
     handleRowClick(row) {
       this.compileType = "edit";
       this.row = row;
