@@ -243,6 +243,14 @@ export default {
                         is_agency: true,
                         render_header: true
                     },
+                    {
+                        type: "text",
+                        label: "立案日",
+                        prop: "creation_time",
+                        is_import: true,
+                        width: "100",
+                        render_header: true
+                    },
 
                     {
                         type: "text",

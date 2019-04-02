@@ -103,6 +103,8 @@ export default {
   computed: {
     ...mapGetters([
       'roeData',
+      'detailId',
+      'title'
     ]),
     areaFilter () {
       const value = this.form.area;
@@ -135,6 +137,9 @@ export default {
       }
       if(d.currency) {
         this.form.money.currency = d.currency;
+      }
+      if(!d.project) {
+        this.form.project = {id: this.detailId, name: this.title};
       }
     },
     close () {

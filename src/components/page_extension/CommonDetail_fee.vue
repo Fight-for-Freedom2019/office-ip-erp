@@ -52,7 +52,7 @@
         @refresh="handleRrefresh"
       ></fee>
     </app-shrink>
-    <renewal-fee @refresh="refresh"></renewal-fee>
+    <renewal-fee  @refresh="refresh"  ref="renewal"></renewal-fee>
   </div>
 </template>
 
@@ -129,6 +129,7 @@ export default {
       ],
       activeName: "first",
       global:true,  // 是否取全局的detailId或detail_customer
+      is_renewal: false,
     };
   },
   computed: {
@@ -156,10 +157,18 @@ export default {
         this.feeType = "pay";
       }
     },
-    editFee({ id, is_renewal }) {
-      this.visible = true;
+    editFee(row) {
+      if(row.is_renewal) {
+        if( this.$refs !=undefined) {
+         return this.$refs.renewal.show('edit', row)
+        }
+      }else {
+        this.visible = true;
+
+      }
       this.pageType = "edit";
-      const url = is_renewal ? `/renewal_fees/${id}` : `/fees/${id}`;
+      this.is_renewal = row.is_renewal;
+      const url =`/fees/${row.id}`;
       const success = _ => {
         this.currentRowFee = _.data;
       };

@@ -236,6 +236,12 @@ const map = new Map([
         name: "申请日",
         used: true
       },
+      {
+        components: "date",
+        id: "creation_time",
+        name: "立案日",
+        used: true
+      },
       { components: "date", id: "entrusting_time", name: "委案时间" },
       {
         components: "static_select",

@@ -65,6 +65,7 @@ const map = new Map([
     { type: "remote_select", id: "applicants", name: "申请人", url: "/applicants", data_key: "data" },
     { type: "text", id: "application_number", name: "申请号" },
     { type: "date", id: "application_date", name: "申请日" },
+    { type: "date", id: "creation_time", name: "立案日" },
     { type: "date", id: "entrusting_time", name: "委案日" },
     { type: "static_select", id: "subtype", name: "案件类型", map_type: "patent_subtype" },
     { type: "static_select", id: "area", name: "申请国家", map_type: "area" },
