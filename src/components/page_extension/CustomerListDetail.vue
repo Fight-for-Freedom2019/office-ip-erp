@@ -20,6 +20,7 @@
             :URL="URL"
             popType="edit"
             :customer="row"
+            :is_suppliers="is_suppliers"
             @refresh="handleRefresh"
             @saved="saved"
           ></customer-add>

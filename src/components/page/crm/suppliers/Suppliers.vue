@@ -9,20 +9,7 @@
     ></table-component>
 
     <!-- 新建客户 -->
-    <app-shrink :visible.sync="isCustomerAddPanelVisible" :modal="true" title="新建客户">
-      <span slot="header" style="float: right;">
-        <!--<el-button type="primary" @click="saveAdd" size="small">新建</el-button>-->
-          <app-button-loading :func="saveAdd" ref="loadingBtn"></app-button-loading>
-      </span>
-      <customer-list-add
-        ref="customerAdd"
-        :is_suppliers="is_suppliers"
-        :URL="URL"
-        @refresh="addSuccess"
-        popType="add"
-      ></customer-list-add>
-    </app-shrink>
-
+    <customer-list-add ref="customerAdd" :is_suppliers="is_suppliers" :URL="URL" @refresh="addSuccess" popType="add"></customer-list-add>
     <!-- 供应商详情面板 -->
     <customer-list-detail
       :title="currentRow.name"
