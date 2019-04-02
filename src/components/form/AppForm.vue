@@ -208,7 +208,7 @@ import InvoiceDetail from "@/components/page_extension/PaymentManageDetail";
 import CustomerPaymentDetail from "@/components/page/crm/suppliers/Payments";
 import VoucherDetail from "@/components/page_extension/InvoiceManageDetail";
 import ContractDetail from "@/components/page/crm/contracts/ContractsListAdd";
-import SensitiveOperation from "@/components/page/common/SensitiveOperation";
+import SensitiveOperation from "@/components/page/SensitiveOperation";
 import CpcEditor from "@/components/page/cpc/CpcEditor";
 import PatentAdd from "@/components/page/PatentAdd";
 import DetailShrink from "@/components/page_extension/DetailShrink";
