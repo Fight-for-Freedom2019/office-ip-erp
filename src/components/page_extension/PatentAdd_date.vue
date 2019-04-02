@@ -37,22 +37,22 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
-      <!-- <el-col :span="8" prop="filing_deadline">
-        <el-form-item label="递交期限">
-          <el-date-picker
-            size="small"
-            v-model="form.filing_deadline"
-            placeholder="递交期限"
-            class="input-min-width"
-          ></el-date-picker>
-        </el-form-item>
-      </el-col> -->
       <el-col :span="8">
-        <el-form-item label="官方/递交绝限" prop="legal_deadline">
+        <el-form-item label="官方绝限" prop="legal_deadline">
           <el-date-picker
             size="small"
             v-model="form.legal_deadline"
-            placeholder="官方/递交绝限"
+            placeholder="官方绝限"
+            class="input-min-width"
+          ></el-date-picker>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item prop="first_edition_deadline" label="客户期限">
+          <el-date-picker
+            size="small"
+            v-model="form.first_edition_deadline"
+            placeholder="客户期限"
             class="input-min-width"
           ></el-date-picker>
         </el-form-item>
@@ -318,6 +318,7 @@ export default {
                 das: "",
                 application_number: "",
                 application_date: "",
+                first_edition_deadline: "",
                 pre_exam_ok_date: "",
                 publication_date: "",
                 publication_number: "",

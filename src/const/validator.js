@@ -78,7 +78,7 @@ export function checkMoney (a, b, c) {
 
 export function  checkNumber(a, b, c,) {
     let msg = '';
-    const reg = /^\d+$/; 
+    const reg = /^[0-9][0-9.]*$/; 
 
     for (let d of b) {
       if(!reg.test(d.amount)){
