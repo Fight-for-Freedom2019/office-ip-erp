@@ -116,16 +116,20 @@ export default {
             const extraOption = { operation: 1 };
 
             obj[key] = { label, name, key, value, extraOption };
-            if(labelKeys['key'].includes(key)) {
-                const index = labelKeys['key'].indexOf(key)
+            const index = labelKeys['key'].indexOf(key)
+            if(labelKeys['key'].includes(key) && labelKeys['cnLabel'][index].includes(label)) {
                 Array.isArray(labelKeys['cnLabel'][index]) ? false : labelKeys['cnLabel'][index] = labelKeys['cnLabel'][index].split('，');
-                if(Array.isArray(labelKeys['cnLabel'][index]) && labelKeys['cnLabel'][index].length > 1 ) {
+                if(Array.isArray(labelKeys['cnLabel'][index]) && labelKeys['cnLabel'][index].length > 0 ) {
                     // 分别过滤出不包含当前点击值得label value
-                    const value2 = labelKeys['value'][index].filter(item => item !== value)
+                    let value2 = []
+                    if(Array.isArray(labelKeys['value'][index])) {
+                       value2 = labelKeys['value'][index].filter(item => item !== value)
+                    }
                     const label2 = labelKeys['cnLabel'][index].filter(item => item !== label)
                     const obj2 = {}
-
-                    obj2[key] = {label: label2, name, key, value: value2, extraOption}
+                    label2 && label2.length != 0 ?  
+                    obj2[key] = {label: label2, name, key, value: value2, extraOption}:
+                    obj2[key] = false;
                     this.fillListFilter(obj2)
                 }else {
                     const closeItem = this.navLabel.filter(_=> _.key == key)
