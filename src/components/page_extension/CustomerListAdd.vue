@@ -1,7 +1,7 @@
 <template>
   <div class="main" style="margin-top:10px;">
     <template v-if="popType == 'add'">
-      <app-shrink :visible.sync="isCustomerAddPanelVisible" :modal="true" title="新建客户">
+      <app-shrink :visible.sync="isCustomerAddPanelVisible" :modal="true" :title="title">
         <span slot="header" style="float: right;">
           <!--<el-button type="primary" @click="add" size="small" ref="btn">新建</el-button>-->
           <app-button-loading :func="add" ref="loadingBtn"></app-button-loading>
@@ -13,7 +13,7 @@
           :rules="rules"
           style="margin-top:10px;"
         >
-          <el-form-item label="客户名称" prop="name">
+          <el-form-item :label="label" prop="name">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
           <!-- <el-form-item label="客户代码" prop="code">
@@ -92,7 +92,7 @@
     <template v-else>
       <div style="margin-top:10px;">
         <el-form label-width="120px" ref="form" :model="form" :rules="rules">
-          <el-form-item label="客户名称" prop="name">
+          <el-form-item :label="label" prop="name">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
           <!-- <el-form-item label="客户代码" prop="code">
@@ -315,6 +315,12 @@ export default {
       this.cityInfo.city && names.push(this.cityInfo.city.name + " ");
       this.cityInfo.block && names.push(this.cityInfo.block.name + " ");
       return names.join("");
+    },
+    title() {
+      return this.is_suppliers?"新建供应商":"新建客户"
+    },
+    label() {
+      return this.is_suppliers?"供应商名称":"客户名称"
     },
     ...mapGetters(["areaMap", "cityMap", "provinceMap"])
   },
