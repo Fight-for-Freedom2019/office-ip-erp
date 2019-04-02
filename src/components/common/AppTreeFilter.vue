@@ -23,32 +23,7 @@ import StaticSelect from "@/components/form/StaticSelect";
 import { strainerConfig } from "@/const/fieldConfig";
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
-// 快速筛选后台路由配置
-const urlMap = new Map([
-    ["process", { URL: "/processes/filters" }],
-    ["patent", { URL: "/patents/filters" }],
-    ["applicants", { URL: "/applicants/filters" }],
-    ["inventors", { URL: "/inventors/filters" }],
-    ["contacts", { URL: "/contacts/filters" }],
-    ["remarks", { URL: "/remarks/filters" }],
-    ["contracts", { URL: "/contracts/filters" }],
-    ["invoice_targets", { URL: "/invoice_targets/filters" }],
-    ["fees", { URL: "/fees/filters" }],
-    ["invoices", { URL: "/invoices/filters" }],
-    ["invoices_payment", { URL: "/invoices/filters" }],
-    ["received_payments", { URL: "/received_payments/filters" }],
-    ["invoice_request", { URL: "/vouchers/filters" }],
-    ["cpc_notice", { URL: "/cpc_notices/filters" }],
-    ["cpc_archive", { URL: "/cpc_archives/filters" }],
-    ["orders", { URL: "/orders/filters" }],
-    ["quotations", { URL: "/quotations/filters" }],
-    ["notices", { URL: "/notices/filters" }],
-    ["points", { URL: "/bonuses/filters" }],
-    ["bonus_report", { URL: "/bonus_reports/filters" }],
-    ["renewal_fees", { URL: "/renewal_fees/filters" }],
-    ["trademark", { URL: "/trademarks/filters" }],
-    ["copyright", { URL: "/copyrights/filters" }],
-]);
+
 export default {
     name: "filterTree",
     props: {
@@ -68,14 +43,14 @@ export default {
             return map;
         },
         selectedType() {
-            const singleStrainer = this.type ? this.strainerMap.get(this.type) : [];
+            const singleStrainer = this.type ? this.strainerMap.get(this.type)['DATA'] : [];
             return {
                 placeholder: "请选择过滤属性",
                 options: singleStrainer
             };
         },
-        config() {
-            const val = this.type ? urlMap.get(this.type) : undefined;
+        configUrl() {
+            const val = this.type ? this.strainerMap.get(this.type)['URL'] : undefined;
             return val;
         },
         defaultParams() {
@@ -90,7 +65,7 @@ export default {
         ]),
         refreshTreeData() {
 
-            const url = this.config.URL;
+            const url = this.configUrl;
             const data = Object.assign(
                 {},
                 { filter_key: this.field_key },
@@ -154,7 +129,7 @@ export default {
         };
     },
     created() {
-        this.strainerMap.get(this.type).filter((v, i, arr) => {
+        this.strainerMap.get(this.type)['DATA'].filter((v, i, arr) => {
             if (v["default"]) this.field_key = v.id;
         });
     },

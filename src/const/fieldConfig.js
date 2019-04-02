@@ -1,3 +1,239 @@
+
+// 快速筛选字段配置项
+const strainerConfig = [
+  ["process", {
+    URL: "/processes/filters",  //后台路由配置
+    DATA: [                     //字段配置项
+        { name: "模块", id: "model" },
+        { name: "案件类型", id: "project_type" },
+        { name: "案件子类型", id: "subtype" },
+        { name: "案件标签", id: "project_tags" },
+        { name: "事项标签", id: "process_tags" },
+        { name: "管制事项", id: "process_definition", default: true },
+        { name: "当前节点", id: "process_action" },
+        { name: "承办人", id: "user" },
+        { name: "代理人", id: "agent" },
+        // { name: "代理人助理", id: "assistant" },
+        { name: "初核人", id: "first_reviewer" },
+        { name: "复核人", id: "final_reviewer" },
+        { name: "所属部门", id: "organization_unit" },
+        { name: "客户", id: "customer" },
+        { name: "IPR", id: "ipr" },
+        { name: "联系人", id: "contact" },
+        // { name: "初稿期限", id: "first_edition_deadline" },
+        // { name: "递交期限", id: "filing_deadline" },
+        { name: "官方绝限", id: "legal_deadline" },
+        { name: "初稿日", id: "first_edition_time" },
+        { name: "内部定稿日", id: "internal_final_edition_time" },
+        { name: "返稿日", id: "customer_edition_time" },
+        { name: "客户定稿日", id: "customer_final_edition_time" },
+        { name: "递交日", id: "filing_time" },
+        { name: "申请日", id: "application_date" }
+      ]}
+  ],
+  ["patent", {
+    URL: "/patents/filters",
+    DATA: [
+      { name: "案件类型", id: "subtype", default: true },
+      { name: "客户", id: "customer" },
+      { name: "申请国家", id: "area" },
+      { name: "代理人", id: "agent" },
+      { name: "案件状态", id: "project_stage" },
+      { name: "承办部门", id: "organization_unit" }
+    ]}
+  ],
+  [
+    "trademark", {
+      URL: "/trademarks/filters",
+      DATA: [
+        { name: "子类型", id: "subtype", default: true },
+        { name: "客户", id: "customer" },
+        { name: "申请国家", id: "area" },
+        { name: "商标大类", id: "categories" },
+        { name: "申请日", id: "application_date" },
+        { name: "初审公告日", id: "publication_date" },
+        { name: "公告日", id: "issue_date" },
+        { name: "委案日", id: "entrusting_time" },
+        { name: "代理人", id: "agent" },
+        { name: "案件状态", id: "project_stage" },
+        { name: "承办部门", id: "organization_unit" },
+        { name: "初审人", id: "first_reviewer" },
+        { name: "复审人", id: "final_reviewer" },
+        { name: "顾问", id: "consultant" },
+        { name: "销售", id: "sales" },
+      ]}
+  ],
+  [
+    "copyright", {
+      URL: "/trademarks/filters",
+      DATA: [
+        { name: "子类型", id: "subtype", default: true },
+        { name: "客户", id: "customer" },
+        { name: "受理日", id: "application_date" },
+        { name: "下证日", id: "issue_date" },
+        { name: "证书号", id: "issue_number" },
+        { name: "销售", id: "sales" },
+        { name: "代理人", id: "agent" },
+        { name: "案件状态", id: "project_stage" },
+        { name: "承办部门", id: "organization_unit" },
+      ]}
+  ],
+  ["applicants", {
+    URL: "/applicants/filters",
+    DATA: [
+      { name: "客户", id: "customer", default: true }
+    ]}
+  ],
+  ["inventors", {
+    URL: "/inventors/filters",
+    DATA: [
+      { name: "客户", id: "customer", default: true }
+    ]} 
+  ],
+  ["contacts", {
+    URL: "/contacts/filters",
+    DATA: [
+      { name: "客户", id: "customer", default: true }
+    ]} 
+  ],
+  ["remarks", {
+    URL: "/remarks/filters",
+    DATA: [
+      { name: "客户", id: "customer", default: true }
+    ]}
+  ],
+  ["contracts", {
+    URL: "/contracts/filters",
+    DATA: [
+      { name: "客户", id: "customer", default: true }
+    ]} 
+  ],
+  ["invoice_targets", {
+    URL: "/invoice_targets/filters",
+    DATA: [
+      { name: "客户", id: "customer", default: true }
+    ]} 
+  ],
+  /* 待请费用 */
+  [
+    "fees", {
+      URL: "/fees/filters",
+      DATA: [
+        { name: "费用状态", id: "status", default: true },
+        { name: "客户", id: "user" },
+        { name: "费用期限", id: "deadline" },
+        { name: "请款时机", id: "payment_request_timing" }
+      ]}
+  ],
+  [
+    "invoices", {
+      URL: "/invoices/filters",
+      DATA: [
+        { name: "请款对象", id: "user" },
+        { name: "请款单状态", id: "status", default: true },
+        { name: "请款时间", id: "request_time" },
+        { name: "回款期限", id: "deadline" },
+        { name: "回款时间", id: "payment_time" }
+      ]}
+  ],
+  [ "invoices_payment", {
+    URL: "/invoices/filters",
+    DATA: [
+      { name: "付款单状态", id: "status", default: true },
+      { name: "付款对象", id: "user" },
+      { name: "请款时间", id: "request_time" },
+      { name: "付款期限", id: "deadline" },
+      { name: "付款时间", id: "payment_time" }
+    ]}
+  ],
+  ["received_payments", {
+    URL: "/received_payments/filters",
+    DATA: [
+      { name: "客户", id: "user", default: true }
+    ]}
+  ],
+  [
+    "invoice_request", {
+      URL: "/vouchers/filters",
+      DATA: [
+        { name: "客户/供应商", id: "customer", default: true },
+        { name: "状态", id: "status" }
+      ]}
+  ],
+  [
+    "cpc_notice", {
+      URL: "/cpc_notices/filters",
+      DATA: [
+        { name: "导入状态", id: "is_imported", default: true },
+        { name: "上传时间", id: "import_date" },
+        { name: "发文日", id: "cpc_mail_date" },
+        { name: "官方绝限", id: "cpc_legal_deadline" }
+      ]}
+  ],
+  [
+    "cpc_archive", {
+      URL: "/cpc_archives/filters",
+      DATA: [
+        { name: "送件状态", id: "filing_status", default: true },
+        { name: "送件时间", id: "filed_time" },
+        { name: "管制事项", id: "process_definition" },
+        { name: "递交期限", id: "filing_deadline" },
+        { name: "官方绝限", id: "legal_deadline" }
+      ]}
+  ],
+  ["orders", {
+    URL: "/orders/filters",
+    DATA: [
+      { name: "订单状态", id: "status", default: true }
+    ]} 
+  ],
+  [
+    "quotations", {
+      URL: "/quotations/filters",
+      DATA: [
+        { name: "客户", id: "customer", default: true },
+        { name: "服务项目", id: "service" }
+      ]}
+  ],
+  [
+    "notices", {
+      URL: "/notices/filters",
+      DATA: [
+        { name: "发文日", id: "mail_date", default: true },
+        { name: "上传日", id: "creation_time" },
+        { name: "通知书名称", id: "file_type" },
+        { name: "客户", id: "customer" },
+        { name: "是否发送", id: "is_sent" }
+      ]}
+  ],
+  [
+    "points", {
+      URL: "/bonuses/filters",
+      DATA: [
+        { name: "点数状态", id: "status", default: true },
+        { name: "点数类型", id: "bonus_type" },
+        { name: "发放时间", id: "issue_date" },
+        { name: "结算时间", id: "settlement_date" }
+      ]}
+  ],
+  [
+    "bonus_report", {
+      URL: "/bonus_reports/filters",
+      DATA:  [
+        { name: "月份", id: "month", default: true }, { name: "用户", id: "user" }
+      ]}
+  ],
+  [
+    "renewal_fees", {
+      URL: "/renewal_fees/filters",
+      DATA: [
+        { name: "到期天数", id: "expire_days", default: true },
+        { name: "申请月份", id: "month" }
+        // { name: "客户", id: "customer" },
+        // { name: "年费类型", id: "fee_code" }
+      ]}
+  ],
+];
 const config = [
   [
     "patent",
@@ -94,185 +330,4 @@ const fieldExceptMap = new Map([
   ["patent", "userPatentFieldExcept"],
   ["patentList", "userPatentFieldExcept"]
 ]);
-// 快速筛选字段配置项
-const strainerConfig = [
-  [
-    "process",
-    [
-      { name: "模块", id: "model" },
-      { name: "案件类型", id: "project_type" },
-      { name: "案件子类型", id: "subtype" },
-      { name: "案件标签", id: "project_tags" },
-      { name: "事项标签", id: "process_tags" },
-      { name: "管制事项", id: "process_definition", default: true },
-      { name: "当前节点", id: "process_action" },
-      { name: "承办人", id: "user" },
-      { name: "代理人", id: "agent" },
-      // { name: "代理人助理", id: "assistant" },
-      { name: "初核人", id: "first_reviewer" },
-      { name: "复核人", id: "final_reviewer" },
-      { name: "所属部门", id: "organization_unit" },
-      { name: "客户", id: "customer" },
-      { name: "IPR", id: "ipr" },
-      { name: "联系人", id: "contact" },
-      // { name: "初稿期限", id: "first_edition_deadline" },
-      // { name: "递交期限", id: "filing_deadline" },
-      { name: "官方绝限", id: "legal_deadline" },
-      { name: "初稿日", id: "first_edition_time" },
-      { name: "内部定稿日", id: "internal_final_edition_time" },
-      { name: "返稿日", id: "customer_edition_time" },
-      { name: "客户定稿日", id: "customer_final_edition_time" },
-      { name: "递交日", id: "filing_time" },
-      { name: "申请日", id: "application_date" }
-    ]
-  ],
-  [
-    "patent",
-    [
-      { name: "案件类型", id: "subtype", default: true },
-      { name: "客户", id: "customer" },
-      { name: "申请国家", id: "area" },
-      { name: "代理人", id: "agent" },
-      { name: "案件状态", id: "project_stage" },
-      { name: "承办部门", id: "organization_unit" }
-    ]
-  ],
-  [
-    "trademark",
-    [
-      { name: "子类型", id: "subtype", default: true },
-      { name: "客户", id: "customer" },
-      { name: "申请国家", id: "area" },
-      { name: "商标大类", id: "categories" },
-      { name: "申请日", id: "application_date" },
-      { name: "初审公告日", id: "publication_date" },
-      { name: "公告日", id: "issue_date" },
-      { name: "委案日", id: "entrusting_time" },
-      { name: "代理人", id: "agent" },
-      { name: "案件状态", id: "project_stage" },
-      { name: "承办部门", id: "organization_unit" },
-      { name: "初审人", id: "first_reviewer" },
-      { name: "复审人", id: "final_reviewer" },
-      { name: "顾问", id: "consultant" },
-      { name: "销售", id: "sales" },
-    ]
-  ],
-  [
-    "copyright",
-    [
-      { name: "子类型", id: "subtype", default: true },
-      { name: "客户", id: "customer" },
-      { name: "受理日", id: "application_date" },
-      { name: "下证日", id: "issue_date" },
-      { name: "证书号", id: "issue_number" },
-      { name: "销售", id: "sales" },
-      { name: "代理人", id: "agent" },
-      { name: "案件状态", id: "project_stage" },
-      { name: "承办部门", id: "organization_unit" },
-    ]
-  ],
-  ["applicants", [{ name: "客户", id: "customer", default: true }]],
-  ["inventors", [{ name: "客户", id: "customer", default: true }]],
-  ["contacts", [{ name: "客户", id: "customer", default: true }]],
-  ["remarks", [{ name: "客户", id: "customer", default: true }]],
-  ["contracts", [{ name: "客户", id: "customer", default: true }]],
-  ["invoice_targets", [{ name: "客户", id: "customer", default: true }]],
-  /* 待请费用 */
-  [
-    "fees",
-    [
-      { name: "费用状态", id: "status", default: true },
-      { name: "客户", id: "user" },
-      { name: "费用期限", id: "deadline" },
-      { name: "请款时机", id: "payment_request_timing" }
-    ]
-  ],
-  [
-    "invoices",
-    [
-      { name: "请款对象", id: "user" },
-      { name: "请款单状态", id: "status", default: true },
-      { name: "请款时间", id: "request_time" },
-      { name: "回款期限", id: "deadline" },
-      { name: "回款时间", id: "payment_time" }
-    ]
-  ],
-  [
-    "invoices_payment",
-    [
-      { name: "付款单状态", id: "status", default: true },
-      { name: "付款对象", id: "user" },
-      { name: "请款时间", id: "request_time" },
-      { name: "付款期限", id: "deadline" },
-      { name: "付款时间", id: "payment_time" }
-    ]
-  ],
-  ["received_payments", [{ name: "客户", id: "user", default: true }]],
-  [
-    "invoice_request",
-    [
-      { name: "客户/供应商", id: "customer", default: true },
-      { name: "状态", id: "status" }
-    ]
-  ],
-  [
-    "cpc_notice",
-    [
-      { name: "导入状态", id: "is_imported", default: true },
-      { name: "上传时间", id: "import_date" },
-      { name: "发文日", id: "cpc_mail_date" },
-      { name: "官方绝限", id: "cpc_legal_deadline" }
-    ]
-  ],
-  [
-    "cpc_archive",
-    [
-      { name: "送件状态", id: "filing_status", default: true },
-      { name: "送件时间", id: "filed_time" },
-      { name: "管制事项", id: "process_definition" },
-      { name: "递交期限", id: "filing_deadline" },
-      { name: "官方绝限", id: "legal_deadline" }
-    ]
-  ],
-  ["orders", [{ name: "订单状态", id: "status", default: true }]],
-  [
-    "quotations",
-    [
-      { name: "客户", id: "customer", default: true },
-      { name: "服务项目", id: "service" }
-    ]
-  ],
-  [
-    "notices",
-    [
-      { name: "发文日", id: "mail_date", default: true },
-      { name: "上传日", id: "creation_time" },
-      { name: "通知书名称", id: "file_type" },
-      { name: "客户", id: "customer" },
-      { name: "是否发送", id: "is_sent" }
-    ]
-  ],
-  [
-    "points",
-    [
-      { name: "点数状态", id: "status", default: true },
-      { name: "点数类型", id: "bonus_type" },
-      { name: "发放时间", id: "issue_date" },
-      { name: "结算时间", id: "settlement_date" }
-    ]
-  ],
-  [
-    "bonus_report",
-    [{ name: "月份", id: "month", default: true }, { name: "用户", id: "user" }]
-  ],
-  [
-    "renewal_fees",
-    [
-      { name: "到期天数", id: "expire_days", default: true },
-      { name: "申请月份", id: "month" }
-      // { name: "客户", id: "customer" },
-      // { name: "年费类型", id: "fee_code" }
-    ]
-  ]
-];
 export { config, fieldExceptMap, strainerConfig };
