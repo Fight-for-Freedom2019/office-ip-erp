@@ -61,8 +61,8 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="开票公司" prop="payment_account_id">
-            <jump-select type="payment_accounts" v-model="form.payment_account_id"></jump-select>
+          <el-form-item label="开票公司" prop="payment_account">
+            <jump-select type="payment_accounts" v-model="form.payment_account"></jump-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -534,7 +534,7 @@ export default {
         },
 
         coverObj(val) {
-            val ? this.$tool.coverObj(this.form, val, { obj: ["status"] }) : "";
+            val ? this.$tool.coverObj(this.form, val, { obj: ["status","payment_account"] }) : "";
         },
         load() {
             if (this.id === 0) return;
