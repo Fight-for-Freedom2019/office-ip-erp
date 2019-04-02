@@ -102,6 +102,11 @@
             <jump-select type="user" v-model="form.final_reviewer"></jump-select>
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item label="客户期限" prop="first_edition_deadline">
+            <el-date-picker type="date" v-model="form.first_edition_deadline" placeholder="请选择客户期限"></el-date-picker>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
@@ -448,6 +453,7 @@ export default {
         internal_final_edition_time: "",
         customer_edition_time: "",
         customer_final_edition_time: "",
+        first_edition_deadline: "",
         filing_time: "",
         internal_drafting_period: "",
         internal_amending_period: "",

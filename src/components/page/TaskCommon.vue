@@ -483,6 +483,13 @@ export default {
           },
           {
             type: "text",
+            prop: "first_edition_deadline",
+            label: "客户期限",
+            render_header: true,
+            width: "110"
+          },
+          {
+            type: "text",
             prop: "customer_final_edition_time",
             label: "客户定稿日",
             render_header: true,

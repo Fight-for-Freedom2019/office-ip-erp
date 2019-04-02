@@ -38,6 +38,7 @@ const map = new Map([
     // { type: "date", id: "first_edition_deadline", name: "初稿期限" },
     // { type: "date", id: "filing_deadline", name: "递交期限" },
     { type: "date", id: "legal_deadline", name: "官方绝限" },
+    { type: "date", id: "first_edition_deadline", name: "客户期限" },
     { type: "date", id: "first_edition_time", name: "初稿日" },
     { type: "date", id: "internal_final_edition_time", name: "内部定稿日" },
     { type: "date", id: "customer_edition_time", name: "返稿日" },

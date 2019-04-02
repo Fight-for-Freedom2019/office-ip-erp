@@ -111,6 +111,7 @@ const map = new Map([
       { components: "date", id: "deadline", name: "节点期限" },
       { components: "date", id: "internal_deadline", name: "管控期限" },
       { components: "date", id: "legal_deadline", name: "官方绝限" },
+      { components: "date", id: "first_edition_deadline", name: "客户期限" },
       { components: "date", id: "first_edition_time", name: "初稿日" },
       {
         components: "date",
