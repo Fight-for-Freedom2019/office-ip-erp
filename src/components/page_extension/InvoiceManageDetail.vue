@@ -178,7 +178,6 @@ export default {
                 // tax_no: ""
                 voucher_type: 1,
                 voucher_content: 1,
-                payment_account_id: '',
                 amount: '',
                 remark: '',
                 date: '',
