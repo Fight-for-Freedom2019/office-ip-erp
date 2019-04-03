@@ -166,6 +166,7 @@ export default {
                     { type: "text", label: "收款账户", prop: "payment_account", render_simple: "abbr", width: "120", render_header: true },
                     { type: "text", label: "金额", prop: "amount", width: "100", align: "right" , render: this.formatMoney},
                     { type: "text", label: "币别", prop: "currency", width: "55" },
+                    { type: "text", label: "国家", prop: "area", render_obj: "project", render_simple: "name",width: "180" ,expanded: true,},
                     { type: "text", label: "汇率", prop: "roe", width: "68", align: "right" },
                     { type: "text", label: "人民币", prop: "rmb_amount", width: "100", align: "right", render: this.formatMoney},
                     { type: "text", label: "官费小计", prop: "official_sum_currency", width: "100", align: "right" },
