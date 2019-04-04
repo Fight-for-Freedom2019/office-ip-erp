@@ -30,8 +30,8 @@ module.exports = {
     proxyTable: { 
         '/api': { 
             // target: 'http://zhiquan.hjgv2.com', 
-            // target: 'http://hjg.com', 
-            target: 'https://zhiquan.hongjianguo.com',
+            target: 'http://hjg.com', 
+            // target: 'https://zhiquan.hongjianguo.com',
             changeOrigin: true, 
             pathRewrite: { 
                 '^/api': '/',

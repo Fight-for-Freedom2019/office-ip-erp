@@ -454,10 +454,10 @@ export default {
     "data",
     "tableStyle",
     "refreshProxy",
-    "filter",
+    // "filter",  //没用到
     "refreshTableData",
-    "feeBonus",
-    "filterVisibles"
+    // "feeBonus",
+    // "filterVisibles"
   ],
   data() {
     const data = {

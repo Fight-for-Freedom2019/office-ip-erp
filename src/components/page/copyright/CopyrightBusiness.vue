@@ -3,7 +3,7 @@
     <el-form-item label="客户" prop="customer">
       <remote-select
         type="customer"
-        :page-type="type"
+        :page-type="pageType"
         v-model="form.customer"
         :para="customerParam"
         @input="customerChanged"
@@ -13,7 +13,7 @@
     <el-form-item label="IPR" prop="ipr">
       <remote-select
         type="ipr_para"
-        :page-type="type"
+        :page-type="pageType"
         v-model="form.ipr"
         :para="customerParam"
         add-type="contact"
@@ -22,7 +22,7 @@
     <el-form-item label="联系人">
       <remote-select
         type="contacts"
-        :page-type="type"
+        :page-type="pageType"
         v-model="form.contact"
         :para="customerParam"
         add-type="contact"
@@ -43,7 +43,7 @@
     <el-form-item label="费用策略" prop="fee_policy">
       <static-select type="fee_mode" v-model="form.fee_policy"></static-select>
     </el-form-item>
-    <el-form-item label="费用清单" prop="fees" v-if="form.fee_policy == 1 && type == 'add'">
+    <el-form-item label="费用清单" prop="fees" v-if="form.fee_policy == 1 && pageType == 'add'">
       <fee-list v-model="form.fees"></fee-list>
     </el-form-item>
     <el-form-item label="关联订单" prop="order" v-if="form.fee_policy == 2">
@@ -61,7 +61,7 @@ import FeeList from "@/components/form/FeeList";
 export default {
   name: "patentAddBusiness",
   props: {
-    type: String,
+    pageType: String,
     customer: [Number,String]
   },
   data() {
