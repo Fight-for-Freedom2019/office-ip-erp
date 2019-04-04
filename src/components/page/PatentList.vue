@@ -169,7 +169,7 @@ export default {
                         type: "text",
                         label: "案号",
                         prop: "serial",
-                        is_agency: true,
+                        
                         width: "160",
                         render: this.serialRender
                     },
@@ -179,13 +179,12 @@ export default {
                         prop: "title",
                         is_import: true,
                         width: "200",
-                        is_agency: true
                     },
                     {
                         type: "text",
                         label: "案件类型",
                         prop: "subtype",
-                        is_agency: true,
+                        
                         render_simple: "name",
                         is_import: true,
                         width: "120",
@@ -198,7 +197,7 @@ export default {
                         is_import: true,
                         width: "120",
                         render_simple: "name",
-                        is_agency: true,
+                        
                         render_header: true
                     },
                     {
@@ -232,7 +231,6 @@ export default {
                         prop: "application_number",
                         is_import: true,
                         width: "140",
-                        is_agency: true
                     },
                     {
                         type: "text",
@@ -240,7 +238,7 @@ export default {
                         prop: "application_date",
                         is_import: true,
                         width: "100",
-                        is_agency: true,
+                        
                         render_header: true
                     },
                     {
@@ -259,7 +257,7 @@ export default {
                         render_simple: "name",
                         is_import: true,
                         width: "90",
-                        is_agency: true,
+                        
                         render_header: true
                     },
                     {
@@ -269,7 +267,7 @@ export default {
                         render_simple: "name",
                         is_import: true,
                         width: "90",
-                        is_agency: true,
+                        
                         render_header: true
                     },
                     {
@@ -300,7 +298,7 @@ export default {
                         width: "198",
                         prop: "inventors",
                         is_import: true,
-                        is_agency: true,
+                        
                         render: _ => {
                             return _.map(_ => _.name);
                         }
@@ -588,7 +586,7 @@ export default {
                     // { type: 'text', label: '发明人审核耗时', prop: 'inventor_review_period', is_import: true, width: '160', show: false , render_header: true},
                     // { type: 'text', label: 'IPR审核耗时', prop: 'ipr_review_period', is_import: true, width: '160', show: false , render_header: true},
                     // { type: 'text', label: '代理人修改耗时', prop: 'amending_period', is_import: true, width: '170', show: false , render_header: true},
-                    // { type: 'text', label: '详细状态', prop: 'flownode',  width: '180', is_agency: true, render_simple: 'name' , render_header: true},
+                    // { type: 'text', label: '详细状态', prop: 'flownode',  width: '180',  render_simple: 'name' , render_header: true},
                     {
                         type: "text",
                         label: "备注",

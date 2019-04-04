@@ -262,6 +262,7 @@ export default {
                     }
                 }
             });
+            this.customer = 0;
         },
         formCheck() {
             return new Promise(resolve => {

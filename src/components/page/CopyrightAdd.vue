@@ -151,6 +151,7 @@ export default {
             this.$refs[d].$refs.upload.clearFiles();
           }
         })
+        this.customer = "";
       },
   },
   created () {
