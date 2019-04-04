@@ -23,7 +23,7 @@
           <jump-select type="email" v-model="form.bcc" ref="bcc" multiple></jump-select>
         </el-form-item>
         <el-form-item label="附件" prop="attachments">
-          <upload v-model="form.attachments" :file-list="attachments"></upload>
+          <upload v-model="form.attachments" :file-list="attachments" @uploadBefore="uploadBefore" @uploadSuccess="uploadSuccess"></upload>
         </el-form-item>
         <el-form-item label="正文" prop="body">
           <tinymce-editor :api-key="api_key" v-model="form.body" :init="editorInit"></tinymce-editor>
@@ -137,6 +137,12 @@ export default {
     };
   },
   methods: {
+    uploadSuccess(){
+      this.btn_disabled = false;
+    },
+    uploadBefore(){
+      this.btn_disabled = true;
+    },
     setForm({ id }) {
       const url = `${URL}/${id}`;
       const success = _ => {

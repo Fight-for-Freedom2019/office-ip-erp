@@ -3,7 +3,7 @@
   <div class="main">
     <app-shrink :visible.sync="isPanelVisible" :modal="false" :title="title">
       <span slot="header" style="float: right;">
-        <app-button-loading :func="submitForm" ref="loadingBtn" text="保存" v-if="this.mode == 'add'"></app-button-loading>
+        <app-button-loading :func="submitForm" ref="loadingBtn" text="提交" v-if="this.mode == 'add'"></app-button-loading>
       </span>
       <el-form
         label-width="160px"
